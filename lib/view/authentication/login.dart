@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gitapp/controller/button/button_controller.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
+import 'package:gitapp/models/authentication/device_code_model.dart';
+import 'package:gitapp/providers/authentication/auth_provider.dart';
+import 'package:gitapp/view/authentication/widgets/enter_code_box.dart';
+import 'package:gitapp/view/authentication/widgets/login_prompt.dart';
+import 'package:gitapp/view/authentication/widgets/successful_box.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool loading = false;
+  bool loggingIn = false;
   @override
   void initState() {
     ButtonController.buttonStream.listen((onData) {
@@ -25,26 +31,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-      ),
-      body: Center(
-        child: MaterialButton(
-          color: Colors.green,
-          onPressed: !loading
-              ? () async {
-                  await AuthService.getDeviceToken();
-                }
-              : null,
-          child: !loading
-              ? Text(
-                  "Login",
-                  style: TextStyle(color: Colors.white),
-                )
-              : CircularProgressIndicator(),
+    return ChangeNotifierProvider(
+      create: (_) => AuthProvider(),
+      child: Scaffold(
+        body: Center(
+          child: Consumer<AuthProvider>(builder: (_, auth, __) {
+            DeviceCodeModel deviceCode = auth.deviceCode;
+            return AnimatedSwitcher(
+              switchInCurve: Curves.easeIn,
+              switchOutCurve: Curves.easeIn,
+              duration: Duration(milliseconds: 250),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return ScaleTransition(child: child, scale: animation);
+              },
+              child: getWidget(auth.authStatus,
+                  deviceCode: deviceCode, loading: loading),
+            );
+          }),
         ),
       ),
     );
+  }
+}
+
+Widget getWidget(AuthStatus status,
+    {bool loading, DeviceCodeModel deviceCode}) {
+  switch (status) {
+    case AuthStatus.unauthenticated:
+      return LoginPromptBox(loading);
+      break;
+    case AuthStatus.authenticating:
+      return EnterCodeBox(deviceCode);
+      break;
+    case AuthStatus.authenticated:
+      return SuccessfulBox();
+      break;
   }
 }

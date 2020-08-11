@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/app/global.dart';
+import 'package:gitapp/services/authentication/auth_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: MaterialButton(
           color: Colors.redAccent,
           onPressed: () {
-            Global.logOut();
+            AuthService.logOut();
           },
           child: Text(
             "Log Out",

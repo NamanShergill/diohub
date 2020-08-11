@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:gitapp/app/global.dart';
+import 'package:gitapp/app/Dio/response_handler.dart';
 import 'package:gitapp/controller/button/button_controller.dart';
+import 'package:gitapp/services/authentication/auth_service.dart';
 
 class GetDio {
   static Dio getDio(
@@ -18,8 +19,8 @@ class GetDio {
       } else {
         dio.interceptors.requestLock.lock();
         try {
-          Global.getAccessToken().then((token) async {
-            options.headers["Authorization"] = token;
+          AuthService.getAccessTokenFromDevice().then((token) async {
+            options.headers["Authorization"] = "token $token";
           }).whenComplete(() {
             dio.interceptors.requestLock.unlock();
             return options;
@@ -31,9 +32,20 @@ class GetDio {
       }
     }, onResponse: (Response response) async {
       ButtonController.setButtonValue(false);
+      if (response.data.runtimeType.toString().contains('Map')) {
+        Map result = response.data;
+
+        if (result.containsKey("message")) {
+          ResponseHandler.setSuccessMessage(result["message"]);
+        }
+      }
       return response;
     }, onError: (DioError error) async {
       ButtonController.setButtonValue(false);
+      if (error.response.data.runtimeType.toString() == "String") {
+        ResponseHandler.setErrorMessage(error.response.data);
+        return error.response;
+      }
       return error.response;
     }));
     return dio;
