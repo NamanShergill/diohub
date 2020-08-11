@@ -4,10 +4,11 @@ import 'package:gitapp/view/authentication/login.dart';
 import 'package:gitapp/view/dashboard/dashboard.dart';
 
 @CustomAutoRouter(
-  transitionsBuilder: TransitionsBuilders.fadeIn,
+  transitionsBuilder: TransitionsBuilders.slideLeft,
   durationInMilliseconds: 350,
   routes: <AutoRoute>[
-    AutoRoute(page: LoginScreen),
+    CustomRoute(
+        page: LoginScreen, transitionsBuilder: TransitionsBuilders.slideRight),
     AutoRoute(page: DashboardScreen),
   ],
 )

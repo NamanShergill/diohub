@@ -30,6 +30,7 @@ class AuthProvider extends BaseProvider {
       if (value.data['device_code'] != null) {
         _deviceCode = DeviceCodeModel.fromJson(value.data);
         _authStatus = AuthStatus.authenticating;
+        notifyListeners();
         return true;
       }
       return false;

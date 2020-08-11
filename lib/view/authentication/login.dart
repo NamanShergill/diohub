@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/controller/button/button_controller.dart';
 import 'package:gitapp/models/authentication/device_code_model.dart';
 import 'package:gitapp/providers/authentication/auth_provider.dart';
+import 'package:gitapp/style/colors.dart';
 import 'package:gitapp/view/authentication/widgets/enter_code_box.dart';
-import 'package:gitapp/view/authentication/widgets/login_prompt.dart';
+import 'package:gitapp/view/authentication/widgets/login_prompt_box.dart';
 import 'package:gitapp/view/authentication/widgets/successful_box.dart';
 import 'package:provider/provider.dart';
 
@@ -13,52 +13,61 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool loading = false;
-  bool loggingIn = false;
-  @override
-  void initState() {
-    ButtonController.buttonStream.listen((onData) {
-      setState(() {
-        if (onData != null) {
-          loading = onData;
-        } else {
-          loading = false;
-        }
-      });
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final _media = MediaQuery.of(context).size;
     return ChangeNotifierProvider(
       create: (_) => AuthProvider(),
       child: Scaffold(
+        backgroundColor: AppColor.background,
         body: Center(
-          child: Consumer<AuthProvider>(builder: (_, auth, __) {
-            DeviceCodeModel deviceCode = auth.deviceCode;
-            return AnimatedSwitcher(
-              switchInCurve: Curves.easeIn,
-              switchOutCurve: Curves.easeIn,
-              duration: Duration(milliseconds: 250),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return ScaleTransition(child: child, scale: animation);
-              },
-              child: getWidget(auth.authStatus,
-                  deviceCode: deviceCode, loading: loading),
-            );
-          }),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5.0),
+                      child: Image.asset(
+                        'assets/githubIcon.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )),
+              Container(
+                width: _media.width * 0.7,
+                height: _media.height * 0.4,
+                child: Consumer<AuthProvider>(builder: (_, auth, __) {
+                  DeviceCodeModel deviceCode = auth.deviceCode;
+                  return AnimatedSwitcher(
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeIn,
+                    duration: Duration(milliseconds: 250),
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return ScaleTransition(child: child, scale: animation);
+                    },
+                    child: getWidget(auth.authStatus, deviceCode: deviceCode),
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-Widget getWidget(AuthStatus status,
-    {bool loading, DeviceCodeModel deviceCode}) {
+Widget getWidget(AuthStatus status, {DeviceCodeModel deviceCode}) {
   switch (status) {
     case AuthStatus.unauthenticated:
-      return LoginPromptBox(loading);
+      return LoginPromptBox();
       break;
     case AuthStatus.authenticating:
       return EnterCodeBox(deviceCode);
@@ -67,4 +76,5 @@ Widget getWidget(AuthStatus status,
       return SuccessfulBox();
       break;
   }
+  return null;
 }

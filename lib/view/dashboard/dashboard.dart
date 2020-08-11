@@ -14,15 +14,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: Text("Dashboard"),
       ),
       body: Center(
-        child: MaterialButton(
-          color: Colors.redAccent,
-          onPressed: () {
-            AuthService.logOut();
-          },
-          child: Text(
-            "Log Out",
-            style: TextStyle(color: Colors.white),
-          ),
+        child: Column(
+          children: [
+            MaterialButton(
+              color: Colors.redAccent,
+              onPressed: () {
+                AuthService.logOut();
+              },
+              child: Text(
+                "Get Events",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            MaterialButton(
+              color: Colors.redAccent,
+              onPressed: () {
+                AuthService.logOut();
+              },
+              child: Text(
+                "Log Out",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

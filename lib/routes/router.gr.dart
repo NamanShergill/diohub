@@ -35,8 +35,7 @@ class Router extends RouterBase {
       return PageRouteBuilder<dynamic>(
         pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-        transitionDuration: const Duration(milliseconds: 350),
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     DashboardScreen: (data) {
@@ -44,7 +43,7 @@ class Router extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             DashboardScreen(),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         transitionDuration: const Duration(milliseconds: 350),
       );
     },

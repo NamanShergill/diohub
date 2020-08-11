@@ -7,7 +7,7 @@ class AppColor {
   static Color accent = Color(0xff0079FD);
   static Color surface = Color(0xffF0f0f0);
   static Color surfaceDark = Color(0xffBEC8D2);
-  static Color background = Color(0xffffffff);
+  static Color background = Color(0xff17181C);
   static Color onPrimary = Color(0xffFFFFFF);
   static Color onBackground = Color(0xff000000);
   static Color error = Color(0xffF44E3B);

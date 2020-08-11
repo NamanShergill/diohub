@@ -78,7 +78,7 @@ class _EnterCodeBoxState extends State<EnterCodeBox> {
     if (pop) {
       Navigator.pop(context);
     } else {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 250));
     }
     ResponseHandler.setSuccessMessage(
         AppPopupData(title: 'Copied Code ${widget.deviceCode.userCode}'));
