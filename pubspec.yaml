@@ -40,6 +40,9 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   custom_navigation_bar:
     path: modifiedPackages/custom_navigation_bar-0.2.7
+  dio_http_cache: ^0.2.8
+  cached_network_image: ^2.2.0+1
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3

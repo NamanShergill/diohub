@@ -10,9 +10,14 @@ class NavigationProvider extends BaseProvider {
   int get currentIndex => _currentIndex;
   PageController get controller => _controller;
 
-  void setCurrentIndex(int index) {
-    _controller.animateToPage(index,
+  void animateToPage(int index) async {
+    await _controller.animateToPage(index,
         duration: Duration(milliseconds: 250), curve: Curves.decelerate);
+    _currentIndex = index;
+    notifyListeners();
+  }
+
+  void setCurrentIndex(int index) async {
     _currentIndex = index;
     notifyListeners();
   }

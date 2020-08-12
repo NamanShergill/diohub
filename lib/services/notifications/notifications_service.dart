@@ -1,14 +1,16 @@
+import 'package:gitapp/app/Dio/cache.dart';
 import 'package:gitapp/app/Dio/dio.dart';
 import 'package:gitapp/models/notiifications/notifications_model.dart';
 
 class NotificationsService {
   static String _url = '/notifications';
 
-  static Future<List<NotificationModel>> getAllNotifications() async {
-    List<NotificationModel> notifications =
-        await GetDio.getDio().get(_url, queryParameters: {
-      'all': true,
-    }).then((value) {
+  static Future<List<NotificationModel>> getAllNotifications(
+      {bool refresh = false}) async {
+    List<NotificationModel> notifications = await GetDio.getDio()
+        .get(_url, options: CacheManager.notifications())
+        .then((value) {
+      print(value.extra);
       List<NotificationModel> parsedNotifications = [];
       List unParsedNotifications = value.data;
       for (var notification in unParsedNotifications) {

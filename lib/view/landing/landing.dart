@@ -1,7 +1,6 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gitapp/common/loading_indicator.dart';
-import 'package:gitapp/models/users/current_user_info_model.dart';
 import 'package:gitapp/providers/landing_navigation_provider.dart';
 import 'package:gitapp/providers/users/current_user_provider.dart';
 import 'package:gitapp/style/colors.dart';
@@ -18,28 +17,17 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final _currentUser = Provider.of<CurrentUserProvider>(context);
     final _navProvider = Provider.of<NavigationProvider>(context);
     return SafeArea(
-      child: FutureBuilder(
-        future: _currentUser.getUserInfo(),
-        builder: (BuildContext context,
-            AsyncSnapshot<CurrentUserInfoModel> snapshot) {
-          if (snapshot.hasData) {
-            return Scaffold(
+      child: _currentUser != null
+          ? Scaffold(
               backgroundColor: AppColor.background,
               body: PageView(
                 controller: _navProvider.controller,
                 onPageChanged: (index) {
-                  setState(() {
-                    _navProvider.setCurrentIndex(index);
-                  });
+                  _navProvider.setCurrentIndex(index);
                 },
                 children: [
                   HomeScreen(),
@@ -51,9 +39,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 backgroundColor: AppColor.background,
                 currentIndex: _navProvider.currentIndex,
                 onTap: (index) {
-                  setState(() {
-                    _navProvider.setCurrentIndex(index);
-                  });
+                  _navProvider.animateToPage(index);
                 },
                 padding: 16,
                 unSelectedColor: AppColor.grey,
@@ -67,16 +53,13 @@ class _LandingScreenState extends State<LandingScreen> {
                       icon: LineIcons.bell, heroTag: 'notificationNavButton'),
                 ],
               ),
-            );
-          }
-          return Scaffold(
-            backgroundColor: AppColor.background,
-            body: Center(
-              child: LoadingIndicator(),
+            )
+          : Scaffold(
+              backgroundColor: AppColor.background,
+              body: Center(
+                child: LoadingIndicator(),
+              ),
             ),
-          );
-        },
-      ),
     );
   }
 }

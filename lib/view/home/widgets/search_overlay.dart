@@ -79,7 +79,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         onPressed: () {
-                          _navProvider.setCurrentIndex(1);
+                          _navProvider.animateToPage(1);
                           Navigator.pop(context);
                         },
                         child: Text(
