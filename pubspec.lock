@@ -183,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
+  custom_navigation_bar:
+    dependency: "direct main"
+    description:
+      path: "modifiedPackages/custom_navigation_bar-0.2.7"
+      relative: true
+    source: path
+    version: "0.2.7"
   dart_style:
     dependency: transitive
     description:
@@ -244,13 +251,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.1"
-  flutter_icons:
-    dependency: "direct main"
-    description:
-      name: flutter_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   flutter_markdown:
     dependency: "direct main"
     description:
@@ -359,6 +359,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  line_icons:
+    dependency: "direct main"
+    description:
+      name: line_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   logging:
     dependency: transitive
     description:

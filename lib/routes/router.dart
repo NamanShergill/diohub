@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:gitapp/view/authentication/login.dart';
-import 'package:gitapp/view/dashboard/dashboard.dart';
+import 'package:gitapp/view/home/widgets/search_overlay.dart';
+import 'package:gitapp/view/landing/landing.dart';
 
 @CustomAutoRouter(
   transitionsBuilder: TransitionsBuilders.slideLeft,
@@ -9,7 +10,10 @@ import 'package:gitapp/view/dashboard/dashboard.dart';
   routes: <AutoRoute>[
     CustomRoute(
         page: LoginScreen, transitionsBuilder: TransitionsBuilders.slideRight),
-    AutoRoute(page: DashboardScreen),
+    AutoRoute(page: LandingScreen),
+    CustomRoute(
+        page: SearchOverlayScreen,
+        transitionsBuilder: TransitionsBuilders.fadeIn)
   ],
 )
 class $Router {}

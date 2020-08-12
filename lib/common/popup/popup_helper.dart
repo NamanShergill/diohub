@@ -1,9 +1,9 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gitapp/common/popup/exit_confirm.dart';
 import 'package:gitapp/models/popup/popup_type.dart';
 import 'package:gitapp/style/colors.dart';
+import 'package:line_icons/line_icons.dart';
 
 class DialogHelper {
   static exit(context) => showDialog(
@@ -44,10 +44,10 @@ class DialogHelper {
         icon: Icon(
           appPopup.icon ??
               (appPopup.popupType == PopupType.failed
-                  ? Feather.alert_circle
-                  : Feather.check_circle),
+                  ? LineIcons.exclamation_circle
+                  : LineIcons.check_circle),
           color: Colors.white,
-          size: 25,
+          size: 30,
         ),
         messageText: Text(
           appPopup.title,

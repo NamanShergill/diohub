@@ -14,7 +14,7 @@ class SuccessfulBox extends StatelessWidget {
         ),
         MaterialButton(
           onPressed: () {
-            ExtendedNavigator.named('rootNav').replace(Routes.dashboardScreen);
+            ExtendedNavigator.named('rootNav').replace(Routes.landingScreen);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

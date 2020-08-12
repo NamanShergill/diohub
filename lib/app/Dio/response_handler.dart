@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:gitapp/app/global.dart';
 import 'package:gitapp/common/popup/popup_helper.dart';
-import 'package:gitapp/main.dart';
 import 'package:gitapp/models/popup/popup_type.dart';
 
 class ResponseHandler {
@@ -33,7 +33,7 @@ class ResponseHandler {
       if (error != null) {
         error.popupType = PopupType.failed;
         DialogHelper.appPopup(
-          navKey.currentContext,
+          Global.navKey.currentContext,
           error,
         );
       }
@@ -45,7 +45,7 @@ class ResponseHandler {
       if (success != null) {
         success.popupType = PopupType.success;
         DialogHelper.appPopup(
-          navKey.currentContext,
+          Global.navKey.currentContext,
           success,
         );
       }

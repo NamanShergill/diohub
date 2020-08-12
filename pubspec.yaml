@@ -34,11 +34,12 @@ dependencies:
   url_launcher: ^5.5.0
   flushbar: ^1.10.4
   flutter_markdown: ^0.4.3
-  flutter_icons: ^1.1.0
+  line_icons: ^0.2.0
   page_transition: ^1.1.6
   dotted_border: ^1.0.6
   flutter_spinkit: ^4.1.2+1
-
+  custom_navigation_bar:
+    path: modifiedPackages/custom_navigation_bar-0.2.7
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3

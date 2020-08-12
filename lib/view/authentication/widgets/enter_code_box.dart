@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gitapp/app/Dio/response_handler.dart';
 import 'package:gitapp/common/bottom_sheet.dart';
 import 'package:gitapp/models/authentication/device_code_model.dart';
 import 'package:gitapp/models/popup/popup_type.dart';
 import 'package:gitapp/providers/authentication/auth_provider.dart';
 import 'package:gitapp/services/authentication/auth_service.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -111,7 +111,7 @@ class _EnterCodeBoxState extends State<EnterCodeBox> {
                               copyCode(pop: true);
                             },
                             title: Text("Copy"),
-                            trailing: Icon(FontAwesome.copy),
+                            trailing: Icon(LineIcons.copy),
                           ),
                         ));
                   },
@@ -145,7 +145,7 @@ class _EnterCodeBoxState extends State<EnterCodeBox> {
                               });
                             },
                             title: Text("Open"),
-                            trailing: Icon(FontAwesome.external_link),
+                            trailing: Icon(LineIcons.external_link),
                           ),
                         ));
                   },

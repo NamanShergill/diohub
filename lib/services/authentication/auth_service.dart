@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gitapp/app/Dio/dio.dart';
 import 'package:gitapp/app/keys.dart';
@@ -7,12 +8,14 @@ import 'package:gitapp/models/authentication/access_token_model.dart';
 import 'package:gitapp/routes/router.gr.dart';
 
 class AuthService {
-  static final String url = '/login/';
+  static final String _url = '/login/';
   static final storage = new FlutterSecureStorage();
 
   static Future<bool> isAuthenticated() async {
-    var res = await storage.read(key: "isAuthenticated");
-    print("Auth Status $res");
+    var res = await storage.read(key: 'isAuthenticated');
+    var token = await storage.read(key: 'accessToken');
+    print('Auth Status $res');
+    print('Auth token $token');
     if (res != null) {
       return true;
     }
@@ -42,7 +45,7 @@ class AuthService {
     });
     var response =
         await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
-            .post("${url}device/code", data: formData);
+            .post("${_url}device/code", data: formData);
     print(response.toString());
     return response;
   }
@@ -63,7 +66,7 @@ class AuthService {
     });
     var response =
         await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
-            .post("${url}oauth/access_token", data: formData);
+            .post("${_url}oauth/access_token", data: formData);
     print(response.data);
     if (response.data['access_token'] != null) {
       storeAccessToken(AccessTokenModel.fromJson(response.data));
@@ -74,6 +77,7 @@ class AuthService {
 
   static void logOut() async {
     await storage.deleteAll();
-    ExtendedNavigator.named('rootNav').replace(Routes.loginScreen);
+    ExtendedNavigator.named('rootNav').pushAndRemoveUntil(
+        Routes.loginScreen, (Route<dynamic> route) => false);
   }
 }

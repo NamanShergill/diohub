@@ -15,49 +15,44 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<AuthProvider>(context);
     final _media = MediaQuery.of(context).size;
-    return ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
-      child: Scaffold(
-        backgroundColor: AppColor.background,
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
+    return Scaffold(
+      backgroundColor: AppColor.background,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+                height: 150,
+                width: 150,
+                decoration:
+                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
-                      child: Image.asset(
-                        'assets/githubIcon.png',
-                        fit: BoxFit.cover,
-                      ),
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child: Image.asset(
+                      'assets/githubIcon.png',
+                      fit: BoxFit.cover,
                     ),
-                  )),
-              Container(
-                width: _media.width * 0.7,
-                height: _media.height * 0.4,
-                child: Consumer<AuthProvider>(builder: (_, auth, __) {
-                  DeviceCodeModel deviceCode = auth.deviceCode;
-                  return AnimatedSwitcher(
-                    switchInCurve: Curves.easeIn,
-                    switchOutCurve: Curves.easeIn,
-                    duration: Duration(milliseconds: 250),
-                    transitionBuilder:
-                        (Widget child, Animation<double> animation) {
-                      return ScaleTransition(child: child, scale: animation);
-                    },
-                    child: getWidget(auth.authStatus, deviceCode: deviceCode),
-                  );
-                }),
+                  ),
+                )),
+            Container(
+              width: _media.width * 0.7,
+              height: _media.height * 0.4,
+              child: AnimatedSwitcher(
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeIn,
+                duration: Duration(milliseconds: 250),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return ScaleTransition(child: child, scale: animation);
+                },
+                child:
+                    getWidget(_auth.authStatus, deviceCode: _auth.deviceCode),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
