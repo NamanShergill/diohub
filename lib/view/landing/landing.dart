@@ -1,6 +1,7 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gitapp/common/loading_indicator.dart';
+import 'package:gitapp/models/users/current_user_info_model.dart';
 import 'package:gitapp/providers/landing_navigation_provider.dart';
 import 'package:gitapp/providers/users/current_user_provider.dart';
 import 'package:gitapp/style/colors.dart';
@@ -16,9 +17,20 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  CurrentUserInfoModel _currentUser;
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  Future<void> getUserInfo() async {
+    _currentUser = await context.read<CurrentUserProvider>().getUserInfo();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _currentUser = Provider.of<CurrentUserProvider>(context);
     final _navProvider = Provider.of<NavigationProvider>(context);
     return SafeArea(
       child: _currentUser != null

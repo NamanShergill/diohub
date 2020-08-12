@@ -12,8 +12,6 @@ class GetDio {
     ButtonController.setButtonValue(true);
     Dio dio = Dio();
     dio.interceptors
-      ..add(DioCacheManager(CacheConfig(baseUrl: 'https://api.github.com'))
-          .interceptor)
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
         options.baseUrl = baseURL;
         options.headers["Accept"] = "application/json";
@@ -34,6 +32,7 @@ class GetDio {
           return options;
         }
       }, onResponse: (Response response) async {
+        print(response.extra);
         ButtonController.setButtonValue(false);
         if (response.data.runtimeType.toString().contains('Map')) {
           Map result = response.data;
@@ -44,13 +43,16 @@ class GetDio {
         }
         return response;
       }, onError: (DioError error) async {
+        print(error);
         ButtonController.setButtonValue(false);
         if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
           return error.response;
         }
         return error.response;
-      }));
+      }))
+      ..add(DioCacheManager(CacheConfig(baseUrl: 'https://api.github.com'))
+          .interceptor);
     return dio;
   }
 }

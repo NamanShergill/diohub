@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gitapp/models/users/current_user_info_model.dart';
 import 'package:gitapp/providers/landing_navigation_provider.dart';
+import 'package:gitapp/providers/users/current_user_provider.dart';
 import 'package:gitapp/routes/router.gr.dart';
 import 'package:gitapp/style/colors.dart';
 import 'package:line_icons/line_icons.dart';
@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    final _currentUser = Provider.of<CurrentUserInfoModel>(context);
+    final _currentUser = Provider.of<CurrentUserProvider>(context);
     final _navigation = Provider.of<NavigationProvider>(context);
     return Center(
       child: Padding(
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 60,
                   child: ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: _currentUser.avatarUrl,
+                      imageUrl: _currentUser.currentUserInfo.avatarUrl,
                     ),
                   ),
                 ),
