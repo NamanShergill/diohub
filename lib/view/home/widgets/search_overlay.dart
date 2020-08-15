@@ -20,7 +20,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
 
   void getFocus() async {
     await Future.delayed(Duration(milliseconds: 500));
-    searchNode.requestFocus();
+    setState(() {
+      searchNode.requestFocus();
+    });
   }
 
   @override
@@ -42,6 +44,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         child: Material(
                           color: Colors.transparent,
                           child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             focusNode: searchNode,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(16),
@@ -51,7 +54,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: Icon(
                                   LineIcons.search,
-                                  color: AppColor.grey3,
+                                  color: searchNode.hasFocus
+                                      ? AppColor.grey3
+                                      : AppColor.grey3.withOpacity(0.7),
                                 ),
                               ),
                               filled: true,
@@ -60,11 +65,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       BorderSide(color: Colors.transparent),
                                   borderRadius: BorderRadius.circular(75)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppColor.grey3.withOpacity(0.7)),
+                                  borderSide: BorderSide(color: AppColor.grey3),
                                   borderRadius: BorderRadius.circular(75)),
-                              labelStyle: TextStyle(
-                                  color: AppColor.grey3.withOpacity(0.7)),
+                              labelStyle: TextStyle(color: AppColor.grey3),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(75.0),
                               ),
