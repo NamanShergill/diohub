@@ -8,6 +8,7 @@ import 'package:gitapp/style/colors.dart';
 import 'package:gitapp/view/home/home.dart';
 import 'package:gitapp/view/notifications/notifications.dart';
 import 'package:gitapp/view/search/search.dart';
+import 'package:gitapp/view/settings/settings.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   HomeScreen(),
                   SearchScreen(),
                   NotificationsScreen(),
+                  SettingsScreen(),
                 ],
               ),
               bottomNavigationBar: CustomNavigationBar(
@@ -63,6 +65,8 @@ class _LandingScreenState extends State<LandingScreen> {
                       icon: LineIcons.search, heroTag: 'searchNavButton'),
                   CustomNavigationBarItem(
                       icon: LineIcons.bell, heroTag: 'notificationNavButton'),
+                  CustomNavigationBarItem(
+                      icon: LineIcons.cog, heroTag: 'settingsNavButton'),
                 ],
               ),
             )

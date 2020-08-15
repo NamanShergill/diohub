@@ -230,44 +230,42 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             for (var i = 0; i < widget.items.length; i++)
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    widget.onTap(i);
-                  },
-                  child: Container(
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.all(widget.padding),
-                            child: CustomPaint(
-                              painter: BeaconPainter(
-                                color: widget.strokeColor,
-                                beaconRadius: _radiuses[i],
-                                maxRadius: _maxRadius,
-                              ),
+              GestureDetector(
+                onTap: () {
+                  widget.onTap(i);
+                },
+                child: Container(
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.all(widget.padding),
+                          child: CustomPaint(
+                            painter: BeaconPainter(
+                              color: widget.strokeColor,
+                              beaconRadius: _radiuses[i],
+                              maxRadius: _maxRadius,
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: _CustomNavigationBarTile(
-                            iconSize: widget.iconSize,
-                            padding: widget.padding,
-                            scale: _sizes[i],
-                            selected: i == widget.currentIndex,
-                            item: widget.items[i],
-                            selectedColor: widget.selectedColor ??
-                                DefaultCustomNavigationBarStyle.defaultColor,
-                            unSelectedColor: widget.unSelectedColor ??
-                                DefaultCustomNavigationBarStyle
-                                    .defaultUnselectedColor,
-                          ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: _CustomNavigationBarTile(
+                          iconSize: widget.iconSize,
+                          padding: widget.padding,
+                          scale: _sizes[i],
+                          selected: i == widget.currentIndex,
+                          item: widget.items[i],
+                          selectedColor: widget.selectedColor ??
+                              DefaultCustomNavigationBarStyle.defaultColor,
+                          unSelectedColor: widget.unSelectedColor ??
+                              DefaultCustomNavigationBarStyle
+                                  .defaultUnselectedColor,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

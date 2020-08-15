@@ -10,16 +10,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Hero(
-          tag: 'test',
-          child: Container(
-            color: Colors.grey,
-            width: 400,
-            height: 200,
-          ),
-        ),
-      ],
+      children: [],
     );
   }
 }

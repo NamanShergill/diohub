@@ -32,7 +32,6 @@ class GetDio {
           return options;
         }
       }, onResponse: (Response response) async {
-        print(response.extra);
         ButtonController.setButtonValue(false);
         if (response.data.runtimeType.toString().contains('Map')) {
           Map result = response.data;
@@ -43,7 +42,6 @@ class GetDio {
         }
         return response;
       }, onError: (DioError error) async {
-        print(error);
         ButtonController.setButtonValue(false);
         if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
