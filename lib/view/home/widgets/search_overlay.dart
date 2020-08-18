@@ -43,36 +43,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         tag: 'test',
                         child: Material(
                           color: Colors.transparent,
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            focusNode: searchNode,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(16),
-                              labelText: 'Searching for',
-                              fillColor: AppColor.onBackground,
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Icon(
-                                  LineIcons.search,
-                                  color: searchNode.hasFocus
-                                      ? AppColor.grey3
-                                      : AppColor.grey3.withOpacity(0.7),
-                                ),
-                              ),
-                              filled: true,
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                  borderRadius: BorderRadius.circular(75)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: AppColor.grey3),
-                                  borderRadius: BorderRadius.circular(75)),
-                              labelStyle: TextStyle(color: AppColor.grey3),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(75.0),
-                              ),
-                            ),
-                          ),
+                          child: searchBar(),
                         ),
                       ),
                       SizedBox(
@@ -118,6 +89,38 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget searchBar() {
+    return TextFormField(
+      style: TextStyle(color: Colors.white),
+      focusNode: searchNode,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(16),
+        labelText: 'Searching for',
+        fillColor: AppColor.onBackground,
+        suffixIcon: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Icon(
+            LineIcons.search,
+            color: searchNode.hasFocus
+                ? AppColor.grey3
+                : AppColor.grey3.withOpacity(0.7),
+          ),
+        ),
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.circular(75)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColor.grey3),
+            borderRadius: BorderRadius.circular(75)),
+        labelStyle: TextStyle(color: AppColor.grey3),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(75.0),
         ),
       ),
     );
