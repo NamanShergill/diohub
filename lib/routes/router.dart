@@ -4,6 +4,8 @@ import 'package:gitapp/view/authentication/login.dart';
 import 'package:gitapp/view/home/widgets/search_overlay.dart';
 import 'package:gitapp/view/landing/landing.dart';
 
+// flutter packages pub run build_runner watch --delete-conflicting-outputs
+
 @CustomAutoRouter(
   transitionsBuilder: TransitionsBuilders.slideLeft,
   durationInMilliseconds: 350,
@@ -16,4 +18,4 @@ import 'package:gitapp/view/landing/landing.dart';
         transitionsBuilder: TransitionsBuilders.fadeIn)
   ],
 )
-class $Router {}
+class $AutoRouter {}
