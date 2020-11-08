@@ -23,25 +23,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  github: ^7.0.1
-  provider: ^4.3.2
-  auto_route: ^0.6.7
-  dio: ^3.0.10
-  flutter_cache_manager: ^1.4.1
-  path_provider: ^1.6.11
-  path: ^1.7.0
-  flutter_secure_storage: ^3.3.3
-  url_launcher: ^5.5.0
-  flushbar: ^1.10.4
-  flutter_markdown: ^0.4.3
-  line_icons: ^0.2.0
-  page_transition: ^1.1.6
-  dotted_border: ^1.0.6
-  flutter_spinkit: ^4.1.2+1
+  auto_route: ^0.6.9
+  cached_network_image: ^2.2.0+1
   custom_navigation_bar:
     path: modifiedPackages/custom_navigation_bar-0.2.7
   dio_http_cache: ^0.2.8
-  cached_network_image: ^2.2.0+1
+  dio: ^3.0.10
+  dotted_border: ^1.0.6
+  equatable: ^1.2.5
+  flushbar: ^1.10.4
+  flutter_bloc: ^6.0.6
+  flutter_cache_manager: ^1.4.1
+  flutter_icons: ^1.1.0
+  flutter_markdown: ^0.4.3
+  flutter_secure_storage: ^3.3.3
+  flutter_spinkit: ^4.1.2+1
+  intl: ^0.16.1
+  line_icons: ^0.2.0
+  page_transition: ^1.1.6
+  path: ^1.7.0
+  path_provider: ^1.6.11
+  provider: ^4.3.2
+  url_launcher: ^5.5.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -50,8 +53,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^0.6.8
-  build_runner: ^1.10.1
+  auto_route_generator: ^0.6.10
+  build_runner: ^1.10.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

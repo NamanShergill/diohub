@@ -14,8 +14,8 @@ class AuthService {
   static Future<bool> isAuthenticated() async {
     var res = await storage.read(key: 'isAuthenticated');
     var token = await storage.read(key: 'accessToken');
-    print('Auth Status $res');
-    print('Auth token $token');
+    debugPrint('Auth Status $res');
+    debugPrint('Auth token $token');
     if (res != null) {
       return true;
     }
@@ -46,7 +46,7 @@ class AuthService {
     var response =
         await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
             .post("${_url}device/code", data: formData);
-    print(response.toString());
+    debugPrint(response.toString());
     return response;
   }
 
@@ -54,7 +54,7 @@ class AuthService {
       'repo repo:status repo_deployment public_repo repo:invite '
       'security_events admin:repo_hook write:repo_hook read:repo_hook admin:org'
       ' write:org read:org admin:public_key write:public_key read:public_key '
-      'admin:org_hook gist notifications user read:user user:email user:follow '
+      'admin:org_hook gist events user read:user user:email user:follow '
       'delete_repo write:discussion read:discussion write:packages read:packages'
       ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
 
@@ -67,7 +67,7 @@ class AuthService {
     var response =
         await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
             .post("${_url}oauth/access_token", data: formData);
-    print(response.data);
+    debugPrint(response.data);
     if (response.data['access_token'] != null) {
       storeAccessToken(AccessTokenModel.fromJson(response.data));
       return true;

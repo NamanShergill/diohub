@@ -24,7 +24,7 @@ class Routes {
   };
 }
 
-class Router extends RouterBase {
+class AutoRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
@@ -47,6 +47,8 @@ class Router extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             LandingScreen(),
         settings: data,
+        opaque: false,
+        barrierDismissible: false,
         transitionsBuilder: TransitionsBuilders.slideLeft,
         transitionDuration: const Duration(milliseconds: 350),
       );

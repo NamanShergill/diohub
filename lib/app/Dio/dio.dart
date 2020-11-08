@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:flutter/material.dart';
 import 'package:gitapp/app/Dio/response_handler.dart';
 import 'package:gitapp/controller/button/button_controller.dart';
 import 'package:gitapp/services/authentication/auth_service.dart';
@@ -27,7 +28,7 @@ class GetDio {
               return options;
             });
           } catch (error) {
-            print(error);
+            debugPrint(error);
           }
           return options;
         }

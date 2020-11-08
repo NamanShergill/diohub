@@ -7,7 +7,7 @@ class CacheManager {
           maxStale: Duration(days: 7), forceRefresh: refresh);
 
   static Options currentUserProfileInfo({bool refresh = false}) =>
-      buildCacheOptions(Duration(seconds: 5),
+      buildCacheOptions(Duration(minutes: 15),
           maxStale: Duration(days: 7), forceRefresh: refresh);
 
   static Options userProfileInfo({bool refresh = false}) =>

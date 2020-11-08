@@ -1,6 +1,7 @@
 import 'package:gitapp/models/notiifications/notifications_model.dart';
 import 'package:gitapp/providers/base_provider.dart';
-import 'package:gitapp/services/notifications/notifications_service.dart';
+
+import 'file:///D:/Programming/Flutter/gitApp/lib/services/activity/notifications_service.dart';
 
 class NotificationsProvider extends BaseProvider {
   List<NotificationModel> _notifications;
