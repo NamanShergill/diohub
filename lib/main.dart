@@ -66,12 +66,12 @@ class MyApp extends StatelessWidget {
             ),
             primaryColor: AppColor.accent,
             fontFamily: 'Montserrat'),
-        builder: ExtendedNavigator.builder(
-            router: AutoRouter(),
-            name: 'rootNav',
-            navigatorKey: Global.navKey,
-            initialRoute: initialRoute,
-            builder: (context, extendedNav) => extendedNav),
+        builder: ExtendedNavigator<AutoRouter>(
+          router: AutoRouter(),
+          name: 'rootNav',
+          navigatorKey: Global.navKey,
+          initialRoute: initialRoute,
+        ),
       ),
     );
   }

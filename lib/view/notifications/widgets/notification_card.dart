@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:gitapp/models/notiifications/notifications_model.dart';
@@ -60,11 +59,7 @@ class NotificationCard extends StatelessWidget {
                       ),
                     ),
                     Row(
-                    children: [
-                      CachedNetworkImage(
-                      imageUrl: notification.,
-                      )
-                    ],
+                      children: [],
                     ),
                   ],
                 ),

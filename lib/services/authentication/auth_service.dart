@@ -54,7 +54,7 @@ class AuthService {
       'repo repo:status repo_deployment public_repo repo:invite '
       'security_events admin:repo_hook write:repo_hook read:repo_hook admin:org'
       ' write:org read:org admin:public_key write:public_key read:public_key '
-      'admin:org_hook gist events user read:user user:email user:follow '
+      'admin:org_hook gist user read:user user:email user:follow '
       'delete_repo write:discussion read:discussion write:packages read:packages'
       ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
 
@@ -67,7 +67,6 @@ class AuthService {
     var response =
         await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
             .post("${_url}oauth/access_token", data: formData);
-    debugPrint(response.data);
     if (response.data['access_token'] != null) {
       storeAccessToken(AccessTokenModel.fromJson(response.data));
       return true;

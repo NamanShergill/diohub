@@ -145,7 +145,7 @@ class _EnterCodeBoxState extends State<EnterCodeBox> {
                               });
                             },
                             title: Text("Open"),
-                            trailing: Icon(LineIcons.external_link),
+                            trailing: Icon(LineIcons.alternateFontAwesome),
                           ),
                         ));
                   },

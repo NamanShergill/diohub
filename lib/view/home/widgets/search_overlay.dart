@@ -82,7 +82,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         Navigator.pop(context);
                       },
                       icon: Icon(LineIcons.times),
-                      color: AppColor.accent,
+                      color: Colors.white,
                     ),
                   ),
                 ),

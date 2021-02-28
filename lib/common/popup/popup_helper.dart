@@ -44,8 +44,8 @@ class DialogHelper {
         icon: Icon(
           appPopup.icon ??
               (appPopup.popupType == PopupType.failed
-                  ? LineIcons.exclamation_circle
-                  : LineIcons.check_circle),
+                  ? LineIcons.exclamationCircle
+                  : LineIcons.checkCircle),
           color: Colors.white,
           size: 30,
         ),

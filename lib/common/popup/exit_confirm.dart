@@ -84,7 +84,7 @@ class ExitConfirmationDialog extends StatelessWidget {
                           child: Text('Yes'),
                           color: Colors.white,
                           textColor: Colors.redAccent,
-                        )
+                        ),
                       ],
                     )
                   ],
