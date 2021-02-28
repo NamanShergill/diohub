@@ -1,4 +1,4 @@
-name: gitapp
+name: onehub
 description: A Github mobile client
 
 # The following line prevents the package from being accidentally published to
@@ -58,6 +58,7 @@ dev_dependencies:
     sdk: flutter
   auto_route_generator: ^0.6.10
   build_runner: ^1.10.4
+  change_app_package_name: ^0.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
