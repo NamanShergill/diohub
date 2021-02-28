@@ -36,6 +36,7 @@ dependencies:
   flushbar: ^1.10.4
   flutter_bloc: ^6.1.2
   flutter_cache_manager: ^2.1.1
+  flutter_countdown_timer: ^3.0.1
   flutter_icons: ^1.1.0
   flutter_secure_storage: ^4.0.0
   flutter_spinkit: ^4.1.2+1
