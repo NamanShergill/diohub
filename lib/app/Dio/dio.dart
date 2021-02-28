@@ -10,8 +10,10 @@ class GetDio {
   static Dio getDio(
       {loggedIn = true,
       checkCache = true,
-      baseURL = "https://api.github.com"}) {
-    ButtonController.setButtonValue(true);
+      baseURL = "https://api.github.com",
+      bool debugLog = true,
+      bool buttonLock = true}) {
+    if (buttonLock) ButtonController.setButtonValue(true);
     Dio dio = Dio();
     dio.interceptors
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
@@ -34,7 +36,7 @@ class GetDio {
           return options;
         }
       }, onResponse: (Response response) async {
-        ButtonController.setButtonValue(false);
+        if (buttonLock) ButtonController.setButtonValue(false);
         if (response.data.runtimeType.toString().contains('Map')) {
           Map result = response.data;
 
@@ -44,7 +46,7 @@ class GetDio {
         }
         return response;
       }, onError: (DioError error) async {
-        ButtonController.setButtonValue(false);
+        if (buttonLock) ButtonController.setButtonValue(false);
         if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
           return error.response;
@@ -53,8 +55,9 @@ class GetDio {
       }))
       ..add(DioCacheManager(CacheConfig(baseUrl: 'https://api.github.com'))
           .interceptor);
-    dio.interceptors
-        .add(PrettyDioLogger(requestHeader: true, requestBody: true));
+    if (debugLog)
+      dio.interceptors
+          .add(PrettyDioLogger(requestHeader: true, requestBody: true));
     return dio;
   }
 }

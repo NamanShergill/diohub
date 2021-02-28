@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:onehub/models/notiifications/notifications_model.dart';
+import 'package:onehub/models/notifications/notifications_model.dart';
 import 'package:onehub/style/colors.dart';
 
 class NotificationCard extends StatelessWidget {

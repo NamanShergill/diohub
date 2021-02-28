@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_route/auto_route_annotations.dart';
-import 'package:onehub/view/authentication/login.dart';
 import 'package:onehub/view/home/widgets/search_overlay.dart';
 import 'package:onehub/view/landing/landing.dart';
 
@@ -10,12 +8,10 @@ import 'package:onehub/view/landing/landing.dart';
   transitionsBuilder: TransitionsBuilders.slideLeft,
   durationInMilliseconds: 350,
   routes: <AutoRoute>[
-    CustomRoute(
-        page: LoginScreen, transitionsBuilder: TransitionsBuilders.slideRight),
-    AutoRoute(page: LandingScreen),
+    AutoRoute(page: LandingScreen, initial: true),
     CustomRoute(
         page: SearchOverlayScreen,
         transitionsBuilder: TransitionsBuilders.fadeIn)
   ],
 )
-class $AutoRouter {}
+class $AppRouter {}

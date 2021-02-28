@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/app/global.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    final _currentUser = Provider.of<CurrentUserProvider>(context);
     final _navigation = Provider.of<NavigationProvider>(context);
     return Center(
       child: Padding(
@@ -39,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 60,
                   width: 60,
                   child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: _currentUser.currentUserInfo.avatarUrl,
-                    ),
-                  ),
+                      // child: CachedNetworkImage(
+                      //   // imageUrl: _currentUser.currentUserInfo.avatarUrl,
+                      // ),
+                      ),
                 ),
               ],
             ),
@@ -57,8 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(75),
                   onTap: () {
-                    ExtendedNavigator.of(context)
-                        .push(Routes.searchOverlayScreen);
+                    Global.customRouter.push(SearchOverlayScreenRoute());
                   },
                   child: Container(
                     child: Padding(

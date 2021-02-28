@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/models/notiifications/notifications_model.dart';
+import 'package:onehub/models/notifications/notifications_model.dart';
 import 'package:onehub/providers/notifications/notifications_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/notifications/widgets/notification_card.dart';

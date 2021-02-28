@@ -1,7 +1,6 @@
-import 'package:onehub/models/notiifications/notifications_model.dart';
+import 'package:onehub/models/notifications/notifications_model.dart';
 import 'package:onehub/providers/base_provider.dart';
-
-import 'file:///D:/Programming/Flutter/onehub/lib/services/activity/notifications_service.dart';
+import 'package:onehub/services/activity/notifications_service.dart';
 
 class NotificationsProvider extends BaseProvider {
   List<NotificationModel> _notifications;

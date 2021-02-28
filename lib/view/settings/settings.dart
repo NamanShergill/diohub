@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/button.dart';
-import 'package:onehub/services/authentication/auth_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Button(
         listenToLoadingController: false,
         onTap: () {
-          AuthService.logOut();
+          BlocProvider.of<AuthenticationBloc>(context).add(LogOut());
         },
         title: 'Log Out',
       ),

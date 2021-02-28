@@ -1,6 +1,4 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/routes/router.gr.dart';
 
 class SuccessfulBox extends StatelessWidget {
   @override
@@ -14,7 +12,9 @@ class SuccessfulBox extends StatelessWidget {
         ),
         MaterialButton(
           onPressed: () {
-            ExtendedNavigator.named('rootNav').replace(Routes.landingScreen);
+            //Todo: Router
+
+            // ExtendedNavigator.named('rootNav').replace(Routes.landingScreen);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

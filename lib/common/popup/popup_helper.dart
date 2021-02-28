@@ -1,4 +1,4 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/popup/exit_confirm.dart';
@@ -22,7 +22,7 @@ class DialogHelper {
           BoxShadow(
               color: appPopup.popupType == PopupType.failed
                   ? Colors.redAccent
-                  : AppColor.sucsses,
+                  : AppColor.success,
               offset: Offset(0.0, 2.0),
               blurRadius: 3.0)
         ],

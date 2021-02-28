@@ -33,7 +33,7 @@ class ResponseHandler {
       if (error != null) {
         error.popupType = PopupType.failed;
         DialogHelper.appPopup(
-          Global.navKey.currentContext,
+          Global.customRouter.navigatorKey.currentContext,
           error,
         );
       }
@@ -45,7 +45,7 @@ class ResponseHandler {
       if (success != null) {
         success.popupType = PopupType.success;
         DialogHelper.appPopup(
-          Global.navKey.currentContext,
+          Global.customRouter.navigatorKey.currentContext,
           success,
         );
       }

@@ -14,7 +14,6 @@ class AuthProvider extends BaseProvider {
 
   DeviceCodeModel get deviceCode => _deviceCode;
   AuthStatus get authStatus => _authStatus;
-
   void setStatusAuthenticated() {
     _authStatus = AuthStatus.authenticated;
     notifyListeners();

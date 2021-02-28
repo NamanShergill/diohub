@@ -23,7 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  auto_route: ^0.6.9
+  auto_route: ^1.0.0-beta.10
+  another_flushbar: ^1.10.11
   cached_network_image: ^2.5.0
   google_nav_bar:
     git:
@@ -33,7 +34,6 @@ dependencies:
   dio: ^3.0.10
   dotted_border: ^1.0.7
   equatable: ^1.2.6
-  flushbar: ^1.10.4
   flutter_bloc: ^6.1.2
   flutter_cache_manager: ^2.1.1
   flutter_countdown_timer: ^3.0.1
@@ -57,8 +57,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^0.6.10
-  build_runner: ^1.10.4
+  auto_route_generator: ^1.0.0-beta.10
+  build_runner: ^1.11.5
   change_app_package_name: ^0.1.2
 
 # For information on the generic Dart part of this file, see the

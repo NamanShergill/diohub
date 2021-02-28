@@ -4,62 +4,56 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-// ignore_for_file: public_member_api_docs
+import 'package:auto_route/auto_route.dart' as _i1;
 
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+import '../view/home/widgets/search_overlay.dart' as _i3;
+import '../view/landing/landing.dart' as _i2;
 
-import '../view/authentication/login.dart';
-import '../view/home/widgets/search_overlay.dart';
-import '../view/landing/landing.dart';
+class AppRouter extends _i1.RootStackRouter {
+  AppRouter();
 
-class Routes {
-  static const String loginScreen = '/login-screen';
-  static const String landingScreen = '/landing-screen';
-  static const String searchOverlayScreen = '/search-overlay-screen';
-  static const all = <String>{
-    loginScreen,
-    landingScreen,
-    searchOverlayScreen,
+  @override
+  final Map<String, _i1.PageFactory> pagesMap = {
+    LandingScreenRoute.name: (entry) {
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i2.LandingScreen(),
+          transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
+          durationInMilliseconds: 350);
+    },
+    SearchOverlayScreenRoute.name: (entry) {
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i3.SearchOverlayScreen(),
+          transitionsBuilder: _i1.TransitionsBuilders.fadeIn);
+    }
   };
+
+  @override
+  List<_i1.RouteConfig> get routes => [
+        _i1.RouteConfig<LandingScreenRoute>(LandingScreenRoute.name,
+            path: '/',
+            routeBuilder: (match) => LandingScreenRoute.fromMatch(match)),
+        _i1.RouteConfig<SearchOverlayScreenRoute>(SearchOverlayScreenRoute.name,
+            path: '/search-overlay-screen',
+            routeBuilder: (match) => SearchOverlayScreenRoute.fromMatch(match))
+      ];
 }
 
-class AutoRouter extends RouterBase {
-  @override
-  List<RouteDef> get routes => _routes;
-  final _routes = <RouteDef>[
-    RouteDef(Routes.loginScreen, page: LoginScreen),
-    RouteDef(Routes.landingScreen, page: LandingScreen),
-    RouteDef(Routes.searchOverlayScreen, page: SearchOverlayScreen),
-  ];
-  @override
-  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
-  final _pagesMap = <Type, AutoRouteFactory>{
-    LoginScreen: (data) {
-      return PageRouteBuilder<dynamic>(
-        pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
-        settings: data,
-        transitionsBuilder: TransitionsBuilders.slideRight,
-      );
-    },
-    LandingScreen: (data) {
-      return PageRouteBuilder<dynamic>(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            LandingScreen(),
-        settings: data,
-        opaque: false,
-        barrierDismissible: false,
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        transitionDuration: const Duration(milliseconds: 350),
-      );
-    },
-    SearchOverlayScreen: (data) {
-      return PageRouteBuilder<dynamic>(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            SearchOverlayScreen(),
-        settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-      );
-    },
-  };
+class LandingScreenRoute extends _i1.PageRouteInfo {
+  const LandingScreenRoute() : super(name, path: '/');
+
+  LandingScreenRoute.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
+
+  static const String name = 'LandingScreenRoute';
+}
+
+class SearchOverlayScreenRoute extends _i1.PageRouteInfo {
+  const SearchOverlayScreenRoute()
+      : super(name, path: '/search-overlay-screen');
+
+  SearchOverlayScreenRoute.fromMatch(_i1.RouteMatch match)
+      : super.fromMatch(match);
+
+  static const String name = 'SearchOverlayScreenRoute';
 }

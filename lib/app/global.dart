@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:onehub/routes/router.gr.dart';
 
 class Global {
-  static GlobalKey navKey = GlobalKey<NavigatorState>();
+  static final AppRouter customRouter = AppRouter();
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:onehub/common/auth_popup/auth_popup.dart';
 import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/models/enums/status_enum.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
@@ -22,8 +24,20 @@ class _LandingScreenState extends State<LandingScreen> {
   CurrentUserInfoModel _currentUser;
   @override
   void initState() {
+    showAuthPopup();
     getUserInfo();
     super.initState();
+  }
+
+  void showAuthPopup() async {
+    await Future.delayed(Duration(seconds: 1));
+    if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AuthPopup();
+          });
+    }
   }
 
   Future<void> getUserInfo() async {
@@ -34,10 +48,9 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     final _navProvider = Provider.of<NavigationProvider>(context);
-    final _userProvider = Provider.of<CurrentUserProvider>(context);
     return SafeArea(
       child: Visibility(
-        visible: _userProvider.status == Status.Loaded,
+        // visible: _userProvider.status == Status.Loaded,
         child: Scaffold(
           backgroundColor: AppColor.background,
           body: PageView(
