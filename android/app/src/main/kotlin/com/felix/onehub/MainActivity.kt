@@ -1,4 +1,4 @@
-package com.felix.gitapp
+package com.felix.onehub
 
 import io.flutter.embedding.android.FlutterActivity
 
