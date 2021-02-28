@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/common/loading_indicator.dart';
-import 'package:gitapp/models/enums/status_enum.dart';
-import 'package:gitapp/models/users/current_user_info_model.dart';
-import 'package:gitapp/providers/landing_navigation_provider.dart';
-import 'package:gitapp/providers/users/current_user_provider.dart';
-import 'package:gitapp/style/colors.dart';
-import 'package:gitapp/view/home/home.dart';
-import 'package:gitapp/view/notifications/notifications.dart';
-import 'package:gitapp/view/search/search.dart';
-import 'package:gitapp/view/settings/settings.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/models/enums/status_enum.dart';
+import 'package:onehub/models/users/current_user_info_model.dart';
+import 'package:onehub/providers/landing_navigation_provider.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/home/home.dart';
+import 'package:onehub/view/notifications/notifications.dart';
+import 'package:onehub/view/search/search.dart';
+import 'package:onehub/view/settings/settings.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {

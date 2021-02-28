@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/common/loading_indicator.dart';
-import 'package:gitapp/controller/button/button_controller.dart';
-import 'package:gitapp/style/colors.dart';
+import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/controller/button/button_controller.dart';
+import 'package:onehub/style/colors.dart';
 
 class Button extends StatefulWidget {
   final bool listenToLoadingController;

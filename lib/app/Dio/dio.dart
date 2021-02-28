@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:gitapp/app/Dio/response_handler.dart';
-import 'package:gitapp/controller/button/button_controller.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
+import 'package:onehub/app/Dio/response_handler.dart';
+import 'package:onehub/controller/button/button_controller.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class GetDio {

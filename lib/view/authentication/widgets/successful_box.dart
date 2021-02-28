@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gitapp/routes/router.gr.dart';
+import 'package:onehub/routes/router.gr.dart';
 
 class SuccessfulBox extends StatelessWidget {
   @override

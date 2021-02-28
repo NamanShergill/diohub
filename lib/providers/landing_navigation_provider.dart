@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/providers/base_provider.dart';
+import 'package:onehub/providers/base_provider.dart';
 
 class NavigationProvider extends BaseProvider {
   int _currentIndex = 0;

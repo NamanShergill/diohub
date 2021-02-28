@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gitapp/app/Dio/response_handler.dart';
-import 'package:gitapp/common/bottom_sheet.dart';
-import 'package:gitapp/models/authentication/device_code_model.dart';
-import 'package:gitapp/models/popup/popup_type.dart';
-import 'package:gitapp/providers/authentication/auth_provider.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/app/Dio/response_handler.dart';
+import 'package:onehub/common/bottom_sheet.dart';
+import 'package:onehub/models/authentication/device_code_model.dart';
+import 'package:onehub/models/popup/popup_type.dart';
+import 'package:onehub/providers/authentication/auth_provider.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

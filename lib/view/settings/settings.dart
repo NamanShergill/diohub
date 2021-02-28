@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/common/button.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
+import 'package:onehub/common/button.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

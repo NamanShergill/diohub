@@ -1,6 +1,6 @@
-import 'package:gitapp/models/authentication/device_code_model.dart';
-import 'package:gitapp/providers/base_provider.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
+import 'package:onehub/models/authentication/device_code_model.dart';
+import 'package:onehub/providers/base_provider.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
 
 enum AuthStatus {
   unauthenticated,

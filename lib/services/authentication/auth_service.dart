@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:gitapp/app/Dio/dio.dart';
-import 'package:gitapp/app/keys.dart';
-import 'package:gitapp/models/authentication/access_token_model.dart';
-import 'package:gitapp/routes/router.gr.dart';
+import 'package:onehub/app/Dio/dio.dart';
+import 'package:onehub/app/keys.dart';
+import 'package:onehub/models/authentication/access_token_model.dart';
+import 'package:onehub/routes/router.gr.dart';
 
 class AuthService {
   static final String _url = '/login/';

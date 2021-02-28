@@ -1,9 +1,9 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:gitapp/common/popup/exit_confirm.dart';
-import 'package:gitapp/models/popup/popup_type.dart';
-import 'package:gitapp/style/colors.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/common/popup/exit_confirm.dart';
+import 'package:onehub/models/popup/popup_type.dart';
+import 'package:onehub/style/colors.dart';
 
 class DialogHelper {
   static exit(context) => showDialog(

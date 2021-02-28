@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/models/authentication/device_code_model.dart';
-import 'package:gitapp/providers/authentication/auth_provider.dart';
-import 'package:gitapp/style/colors.dart';
-import 'package:gitapp/view/authentication/widgets/enter_code_box.dart';
-import 'package:gitapp/view/authentication/widgets/login_prompt_box.dart';
-import 'package:gitapp/view/authentication/widgets/successful_box.dart';
+import 'package:onehub/models/authentication/device_code_model.dart';
+import 'package:onehub/providers/authentication/auth_provider.dart';
+import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/authentication/widgets/enter_code_box.dart';
+import 'package:onehub/view/authentication/widgets/login_prompt_box.dart';
+import 'package:onehub/view/authentication/widgets/successful_box.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

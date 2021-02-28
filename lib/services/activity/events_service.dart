@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:gitapp/app/Dio/dio.dart';
+import 'package:onehub/app/Dio/dio.dart';
 
 class EventsService {
   static Future<Response> getUserEvents(String user) async {

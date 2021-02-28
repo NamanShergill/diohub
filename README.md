@@ -1,4 +1,4 @@
-# gitapp
+# onehub
 
 A Github mobile client
 

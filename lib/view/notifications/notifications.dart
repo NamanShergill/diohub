@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/common/loading_indicator.dart';
-import 'package:gitapp/models/notiifications/notifications_model.dart';
-import 'package:gitapp/providers/notifications/notifications_provider.dart';
-import 'package:gitapp/style/colors.dart';
-import 'package:gitapp/view/notifications/widgets/notification_card.dart';
+import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/models/notiifications/notifications_model.dart';
+import 'package:onehub/providers/notifications/notifications_provider.dart';
+import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/notifications/widgets/notification_card.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsScreen extends StatefulWidget {

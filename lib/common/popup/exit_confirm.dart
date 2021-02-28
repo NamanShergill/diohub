@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/style/colors.dart';
+import 'package:onehub/style/colors.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {
   @override

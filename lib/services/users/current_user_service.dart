@@ -1,6 +1,6 @@
-import 'package:gitapp/app/Dio/cache.dart';
-import 'package:gitapp/app/Dio/dio.dart';
-import 'package:gitapp/models/users/current_user_info_model.dart';
+import 'package:onehub/app/Dio/cache.dart';
+import 'package:onehub/app/Dio/dio.dart';
+import 'package:onehub/models/users/current_user_info_model.dart';
 
 class CurrentUserService {
   static final String _url = '/user';

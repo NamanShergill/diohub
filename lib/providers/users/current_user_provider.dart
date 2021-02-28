@@ -1,8 +1,8 @@
-import 'package:gitapp/models/enums/status_enum.dart';
-import 'package:gitapp/models/users/current_user_info_model.dart';
-import 'package:gitapp/providers/base_provider.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
-import 'package:gitapp/services/users/current_user_service.dart';
+import 'package:onehub/models/enums/status_enum.dart';
+import 'package:onehub/models/users/current_user_info_model.dart';
+import 'package:onehub/providers/base_provider.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
+import 'package:onehub/services/users/current_user_service.dart';
 
 class CurrentUserProvider extends BaseProvider {
   bool _authenticated;

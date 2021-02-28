@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gitapp/app/Dio/response_handler.dart';
-import 'package:gitapp/app/global.dart';
-import 'package:gitapp/providers/authentication/auth_provider.dart';
-import 'package:gitapp/providers/landing_navigation_provider.dart';
-import 'package:gitapp/providers/notifications/notifications_provider.dart';
-import 'package:gitapp/providers/users/current_user_provider.dart';
-import 'package:gitapp/routes/router.gr.dart';
-import 'package:gitapp/services/authentication/auth_service.dart';
-import 'package:gitapp/style/colors.dart';
+import 'package:onehub/app/Dio/response_handler.dart';
+import 'package:onehub/app/global.dart';
+import 'package:onehub/providers/authentication/auth_provider.dart';
+import 'package:onehub/providers/landing_navigation_provider.dart';
+import 'package:onehub/providers/notifications/notifications_provider.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:onehub/routes/router.gr.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

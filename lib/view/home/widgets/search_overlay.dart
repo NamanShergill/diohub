@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/providers/landing_navigation_provider.dart';
-import 'package:gitapp/style/colors.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/providers/landing_navigation_provider.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 class SearchOverlayScreen extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gitapp/providers/landing_navigation_provider.dart';
-import 'package:gitapp/providers/users/current_user_provider.dart';
-import 'package:gitapp/routes/router.gr.dart';
-import 'package:gitapp/style/colors.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/providers/landing_navigation_provider.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:onehub/routes/router.gr.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {

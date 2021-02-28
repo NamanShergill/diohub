@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gitapp/app/Dio/cache.dart';
-import 'package:gitapp/app/Dio/dio.dart';
-import 'package:gitapp/models/notiifications/notifications_model.dart';
+import 'package:onehub/app/Dio/cache.dart';
+import 'package:onehub/app/Dio/dio.dart';
+import 'package:onehub/models/notiifications/notifications_model.dart';
 
 class NotificationsService {
   static String _url = '/notifications';

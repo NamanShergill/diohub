@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:gitapp/view/authentication/login.dart';
-import 'package:gitapp/view/home/widgets/search_overlay.dart';
-import 'package:gitapp/view/landing/landing.dart';
+import 'package:onehub/view/authentication/login.dart';
+import 'package:onehub/view/home/widgets/search_overlay.dart';
+import 'package:onehub/view/landing/landing.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
