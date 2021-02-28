@@ -9,6 +9,7 @@ class Button extends StatefulWidget {
   final String title;
   final Color color;
   final bool enabled;
+  Stream loadingStream;
   Button({
     this.listenToLoadingController = true,
     @required this.onTap,
@@ -27,16 +28,24 @@ class _ButtonState extends State<Button> {
   void initState() {
     if (widget.listenToLoadingController) {
       ButtonController.buttonStream.listen((onData) {
-        setState(() {
-          if (onData != null) {
-            loading = onData;
-          } else {
-            loading = false;
-          }
-        });
+        if (mounted) {
+          setState(() {
+            if (onData != null) {
+              loading = onData;
+            } else {
+              loading = false;
+            }
+          });
+        }
       });
     }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
