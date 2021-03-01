@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:onehub/app/Dio/response_handler.dart';
+import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void showBottomActionsMenu(BuildContext context,
     {String headerText,
@@ -44,4 +48,30 @@ void showBottomActionsMenu(BuildContext context,
               ),
             ],
           ));
+}
+
+void showURLBottomActionsMenu(BuildContext context, String url) {
+  showBottomActionsMenu(context,
+      headerText: url,
+      childWidget: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          onTap: () {
+            canLaunch(url).then((value) {
+              Navigator.pop(context);
+              if (value) {
+                launch(url);
+              } else {
+                ResponseHandler.setErrorMessage(
+                    AppPopupData(title: 'Invalid URL'));
+              }
+            });
+          },
+          title: Text("Open"),
+          trailing: Icon(
+            LineIcons.link,
+            color: Colors.white,
+          ),
+        ),
+      ));
 }

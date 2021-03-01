@@ -6,13 +6,16 @@ import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/notifications/notifications_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/internet_connectivity.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ResponseHandler.getErrorStream();
   ResponseHandler.getSuccessStream();
+  InternetConnectivity.networkStatusService();
   runApp(MyApp());
 }
 
@@ -67,7 +70,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: AppColor.background,
               buttonTheme: ButtonThemeData(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: AppThemeBorderRadius.medBorderRadius),
               ),
               dividerTheme:
                   DividerThemeData(color: Colors.white, thickness: 0.04),

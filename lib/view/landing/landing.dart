@@ -8,11 +8,11 @@ import 'package:line_icons/line_icons.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/auth_popup/auth_popup.dart';
 import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/style/doubles.dart';
 import 'package:onehub/view/home/home.dart';
 import 'package:onehub/view/notifications/notifications.dart';
 import 'package:onehub/view/search/search.dart';
@@ -58,77 +58,19 @@ class _LandingScreenState extends State<LandingScreen> {
         // visible: _userProvider.status == Status.Loaded,
         child: Scaffold(
           backgroundColor: AppColor.background,
-          body: Stack(
-            children: [
-              PageView(
-                controller: _navProvider.controller,
-                onPageChanged: (index) {
-                  _navProvider.setCurrentIndex(index);
-                },
-                children: [
-                  HomeScreen(),
-                  SearchScreen(),
-                  NotificationsScreen(),
-                  SettingsScreen(),
-                ],
-              ),
-              //Show a toast to return to authentication if it is in progress.
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                  builder: (_, state) {
-                    return Visibility(
-                        visible: state is AuthenticationInitialized,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Material(
-                            borderRadius: AppThemeDoubles.medBorderRadius,
-                            color: AppColor.onBackground,
-                            child: InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) {
-                                      return AuthPopup();
-                                    });
-                              },
-                              borderRadius: AppThemeDoubles.medBorderRadius,
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        AppThemeDoubles.medBorderRadius,
-                                  ),
-                                  width: double.infinity,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(LineIcons.exclamationCircle),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'Tap here to return to authentication.',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .copyWith(
-                                                  fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ));
-                  },
-                ),
-              ),
-            ],
+          body: ScaffoldBody(
+            child: PageView(
+              controller: _navProvider.controller,
+              onPageChanged: (index) {
+                _navProvider.setCurrentIndex(index);
+              },
+              children: [
+                HomeScreen(),
+                SearchScreen(),
+                NotificationsScreen(),
+                SettingsScreen(),
+              ],
+            ),
           ),
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,

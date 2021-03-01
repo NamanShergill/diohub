@@ -1,20 +1,17 @@
 import 'dart:async';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/models/authentication/device_code_model.dart';
 import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CodeInfoBox extends StatefulWidget {
   final DeviceCodeModel deviceCodeModel;
@@ -67,9 +64,22 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
             endWidget: Text('Time Expired.'),
             widgetBuilder: (_, CurrentRemainingTime time) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      'Expires in ${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec}'),
+                    'Verification.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Divider(
+                    height: 32,
+                  ),
+                  Center(
+                    child: Text(
+                        'Expires in ${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec}'),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: LinearProgressIndicator(
@@ -108,62 +118,54 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 });
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DottedBorder(
-                  radius: Radius.circular(5),
-                  color: Colors.white,
-                  dashPattern: [8],
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.deviceCodeModel.userCode,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          widget.deviceCodeModel.userCode,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              .copyWith(fontWeight: FontWeight.bold),
+                        Visibility(
+                          visible: !copied,
+                          child: Icon(
+                            Icons.copy,
+                            color: Colors.grey,
+                            size: 13,
+                          ),
+                          replacement: Icon(
+                            Icons.check,
+                            color: Colors.grey,
+                            size: 13,
+                          ),
                         ),
                         SizedBox(
-                          height: 8,
+                          width: 5,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Visibility(
-                              visible: !copied,
-                              child: Icon(
-                                Icons.copy,
-                                color: Colors.grey,
-                                size: 13,
-                              ),
-                              replacement: Icon(
-                                Icons.check,
-                                color: Colors.grey,
-                                size: 13,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Visibility(
-                              visible: !copied,
-                              child: Text(
-                                'TAP TO COPY',
-                                style: TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w400),
-                              ),
-                              replacement: Text(
-                                'COPIED',
-                                style: TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
-                        )
+                        Visibility(
+                          visible: !copied,
+                          child: Text(
+                            'TAP TO COPY',
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.w400),
+                          ),
+                          replacement: Text(
+                            'COPIED',
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.w400),
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -205,36 +207,14 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 ),
               ),
               onTap: () {
-                showBottomActionsMenu(context,
-                    headerText: widget.deviceCodeModel.verificationUri,
-                    childWidget: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        onTap: () {
-                          canLaunch(widget.deviceCodeModel.verificationUri)
-                              .then((value) {
-                            Navigator.pop(context);
-                            if (value) {
-                              launch(widget.deviceCodeModel.verificationUri);
-                            } else {
-                              ResponseHandler.setErrorMessage(
-                                  AppPopupData(title: 'Invalid URL'));
-                            }
-                          });
-                        },
-                        title: Text("Open"),
-                        trailing: Icon(
-                          LineIcons.link,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ));
+                showURLBottomActionsMenu(
+                    context, widget.deviceCodeModel.verificationUri);
               },
             ),
           ),
         ),
-        SizedBox(
-          height: 16,
+        Divider(
+          height: 32,
         ),
         Center(
           child: MaterialButton(

@@ -46,7 +46,6 @@ class AuthService {
     var response =
         await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
             .post("${_url}device/code", data: formData);
-    debugPrint(response.toString());
     return response;
   }
 

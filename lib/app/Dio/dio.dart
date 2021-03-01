@@ -47,10 +47,12 @@ class GetDio {
         return response;
       }, onError: (DioError error) async {
         if (buttonLock) ButtonController.setButtonValue(false);
+        if (error.response == null) {
+          throw Exception(error.message ?? 'Some error occurred.');
+        }
         if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
         }
-        return error.response;
       }))
       ..add(DioCacheManager(CacheConfig(baseUrl: 'https://api.github.com'))
           .interceptor);

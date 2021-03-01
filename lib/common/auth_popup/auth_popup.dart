@@ -49,15 +49,15 @@ class _AuthPopupState extends State<AuthPopup> {
                             .headline5
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        height: 8,
+                      Divider(
+                        height: 32,
                       ),
                       Text(
                         'You need to login using your GitHub account for the full experience.',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      SizedBox(
-                        height: 16,
+                      Divider(
+                        height: 32,
                       ),
                       Button(
                         title: 'Login with GitHub',
@@ -87,15 +87,15 @@ class _AuthPopupState extends State<AuthPopup> {
                             .headline5
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        height: 8,
+                      Divider(
+                        height: 32,
                       ),
                       Text(
                         'Authentication completed successfully.',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      SizedBox(
-                        height: 16,
+                      Divider(
+                        height: 32,
                       ),
                       Center(
                         child: MaterialButton(
@@ -122,15 +122,15 @@ class _AuthPopupState extends State<AuthPopup> {
                             .headline5
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        height: 8,
+                      Divider(
+                        height: 32,
                       ),
                       Text(
                         state.error,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      SizedBox(
-                        height: 16,
+                      Divider(
+                        height: 32,
                       ),
                       Center(
                         child: MaterialButton(
