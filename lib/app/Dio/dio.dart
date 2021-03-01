@@ -49,7 +49,6 @@ class GetDio {
         if (buttonLock) ButtonController.setButtonValue(false);
         if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
-          return error.response;
         }
         return error.response;
       }))

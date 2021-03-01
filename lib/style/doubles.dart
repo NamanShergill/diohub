@@ -1,3 +1,7 @@
+import 'package:flutter/cupertino.dart';
+
 class AppThemeDoubles {
-  static final double defaultBorderRadius = 15.0;
+  static final BorderRadius smallBorderRadius = BorderRadius.circular(5.0);
+  static final BorderRadius medBorderRadius = BorderRadius.circular(10.0);
+  static final BorderRadius bigBorderRadius = BorderRadius.circular(15.0);
 }

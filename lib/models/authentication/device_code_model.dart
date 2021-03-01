@@ -4,19 +4,23 @@ class DeviceCodeModel {
   String verificationUri;
   int expiresIn;
   int interval;
+  int parsedOn;
 
   DeviceCodeModel(
       {this.deviceCode,
       this.userCode,
       this.verificationUri,
       this.expiresIn,
+      this.parsedOn,
       this.interval});
 
   DeviceCodeModel.fromJson(Map<String, dynamic> json) {
     deviceCode = json['device_code'];
     userCode = json['user_code'];
     verificationUri = json['verification_uri'];
-    expiresIn = json['expires_in'];
+    expiresIn =
+        DateTime.now().millisecondsSinceEpoch + json['expires_in'] * 1000;
+    parsedOn = DateTime.now().millisecondsSinceEpoch;
     interval = json['interval'];
   }
 
@@ -26,6 +30,7 @@ class DeviceCodeModel {
     data['user_code'] = this.userCode;
     data['verification_uri'] = this.verificationUri;
     data['expires_in'] = this.expiresIn;
+    data['parsed_on'] = this.parsedOn;
     data['interval'] = this.interval;
     return data;
   }

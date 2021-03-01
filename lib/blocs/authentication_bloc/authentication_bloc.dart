@@ -27,7 +27,7 @@ class AuthenticationBloc
         yield AuthenticationInitialized(
             DeviceCodeModel.fromJson(response.data));
       } else {
-        yield AuthenticationError('Something went wrong, please try again');
+        yield AuthenticationError('Something went wrong, please try again.');
       }
     } else if (event is RequestAccessToken) {
       // Recurring function to request access token from Github on the supplied interval
@@ -41,17 +41,21 @@ class AuthenticationBloc
         // If not, the recursion will break here.
         if (currentState is AuthenticationInitialized &&
             currentState.deviceCodeModel.deviceCode == deviceCode) {
-          Response response =
-              await AuthService.getAccessToken(deviceCode: deviceCode);
-          if (response.data['access_token'] != null) {
-            // Access token received. State is set to authenticated. Function can stop executing now.
-            add(AuthSuccessful());
-          } else if (response.data['interval'] != null) {
-            // Execute the function again with the new interval given by GitHub.
-            requestAccessToken(deviceCode, response.data['interval']);
-          } else {
-            // Execute the function again.
-            requestAccessToken(deviceCode, interval);
+          try {
+            Response response =
+                await AuthService.getAccessToken(deviceCode: deviceCode);
+            if (response.data['access_token'] != null) {
+              // Access token received. State is set to authenticated. Function can stop executing now.
+              add(AuthSuccessful());
+            } else if (response.data['interval'] != null) {
+              // Execute the function again with the new interval given by GitHub.
+              requestAccessToken(deviceCode, response.data['interval']);
+            } else {
+              // Execute the function again.
+              requestAccessToken(deviceCode, interval);
+            }
+          } catch (error) {
+            add(AuthError(error.toString()));
           }
         }
       }
@@ -64,6 +68,6 @@ class AuthenticationBloc
     } else if (event is LogOut) {
       AuthService.logOut();
       yield AuthenticationInitial();
-    }
+    } else if (event is AuthError) yield AuthenticationError(event.error);
   }
 }

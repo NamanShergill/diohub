@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/controller/button/button_controller.dart';
@@ -9,13 +10,20 @@ class Button extends StatefulWidget {
   final String title;
   final Color color;
   final bool enabled;
-  Stream loadingStream;
+  final double textSize;
+  final Icon leadingIcon;
+  final double borderRadius;
+  final String loadingText;
   Button({
     this.listenToLoadingController = true,
     @required this.onTap,
     @required this.title,
     this.enabled = true,
     this.color,
+    this.borderRadius = 10,
+    this.textSize = 20,
+    this.leadingIcon,
+    this.loadingText,
   });
 
   @override
@@ -52,20 +60,47 @@ class _ButtonState extends State<Button> {
   Widget build(BuildContext context) {
     return Container(
       child: MaterialButton(
-        disabledColor: AppColor.accent.withOpacity(0.7),
-        onPressed: widget.enabled ? widget.onTap : null,
+        disabledColor: (widget.color ?? AppColor.accent).withOpacity(0.7),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius)),
+        onPressed: widget.enabled && !loading ? widget.onTap : null,
         color: widget.color ?? AppColor.accent,
         child: Padding(
             padding: EdgeInsets.all(16),
             child: !loading
-                ? Text(
-                    widget.title.toUpperCase(),
-                    style: ThemeData.dark()
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 20),
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                          visible: widget.leadingIcon != null,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: widget.leadingIcon ?? Container(),
+                          )),
+                      Text(
+                        widget.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(fontSize: widget.textSize),
+                      ),
+                    ],
                   )
-                : LoadingIndicator()),
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                          visible: widget.loadingText != null,
+                          child: Text(widget.loadingText ?? '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  .copyWith(fontSize: widget.textSize))),
+                      LoadingIndicator(),
+                    ],
+                  )),
       ),
     );
   }

@@ -13,6 +13,11 @@ class RequestAccessToken extends AuthenticationEvent {
   RequestAccessToken(this.deviceCode, this.interval);
 }
 
+class AuthError extends AuthenticationEvent {
+  final String error;
+  AuthError(this.error);
+}
+
 class ResetStates extends AuthenticationEvent {}
 
 class AuthSuccessful extends AuthenticationEvent {}

@@ -64,7 +64,6 @@ class AuthService {
       'device_code': deviceCode,
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
-    print(DateTime.now());
     Response response = await GetDio.getDio(
             loggedIn: false,
             baseURL: 'https://github.com/',
@@ -74,6 +73,8 @@ class AuthService {
     if (response.data['access_token'] != null) {
       storeAccessToken(AccessTokenModel.fromJson(response.data));
       return response;
+    } else if (response.data['error'] == 'incorrect_device_code') {
+      throw Exception(response.data['error_description']);
     }
     return response;
   }

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -9,6 +12,7 @@ import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/style/doubles.dart';
 import 'package:onehub/view/home/home.dart';
 import 'package:onehub/view/notifications/notifications.dart';
 import 'package:onehub/view/search/search.dart';
@@ -22,6 +26,7 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   CurrentUserInfoModel _currentUser;
+
   @override
   void initState() {
     showAuthPopup();
@@ -53,59 +58,124 @@ class _LandingScreenState extends State<LandingScreen> {
         // visible: _userProvider.status == Status.Loaded,
         child: Scaffold(
           backgroundColor: AppColor.background,
-          body: PageView(
-            controller: _navProvider.controller,
-            onPageChanged: (index) {
-              _navProvider.setCurrentIndex(index);
-            },
+          body: Stack(
             children: [
-              HomeScreen(),
-              SearchScreen(),
-              NotificationsScreen(),
-              SettingsScreen(),
+              PageView(
+                controller: _navProvider.controller,
+                onPageChanged: (index) {
+                  _navProvider.setCurrentIndex(index);
+                },
+                children: [
+                  HomeScreen(),
+                  SearchScreen(),
+                  NotificationsScreen(),
+                  SettingsScreen(),
+                ],
+              ),
+              //Show a toast to return to authentication if it is in progress.
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (_, state) {
+                    return Visibility(
+                        visible: state is AuthenticationInitialized,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            borderRadius: AppThemeDoubles.medBorderRadius,
+                            color: AppColor.onBackground,
+                            child: InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AuthPopup();
+                                    });
+                              },
+                              borderRadius: AppThemeDoubles.medBorderRadius,
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        AppThemeDoubles.medBorderRadius,
+                                  ),
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(LineIcons.exclamationCircle),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Tap here to return to authentication.',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                        ));
+                  },
+                ),
+              ),
             ],
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GNav(
-              backgroundColor: AppColor.background,
-              selectedIndex: _navProvider.currentIndex,
-              onTabChange: (index) {
-                _navProvider.animateToPage(index);
-              },
-              gap: 10,
-              color: AppColor.grey,
-              activeColor: Colors.white,
-              rippleColor: Colors.grey[800],
-              hoverColor: Colors.grey[700],
-              iconSize: 20,
-              textStyle: TextStyle(fontSize: 16, color: Colors.white),
-              tabBackgroundColor: Colors.grey[900],
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
-              duration: Duration(milliseconds: 250),
-              tabs: [
-                GButton(
-                  icon: LineIcons.home,
-                  text: 'Home',
-                  heroTag: 'homeNavButton',
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GNav(
+                  backgroundColor: AppColor.background,
+                  selectedIndex: _navProvider.currentIndex,
+                  onTabChange: (index) {
+                    _navProvider.animateToPage(index);
+                  },
+                  gap: 10,
+                  color: AppColor.grey,
+                  activeColor: Colors.white,
+                  rippleColor: Colors.grey[800],
+                  hoverColor: Colors.grey[700],
+                  iconSize: 20,
+                  textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                  tabBackgroundColor: Colors.grey[900],
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
+                  duration: Duration(milliseconds: 250),
+                  tabs: [
+                    GButton(
+                      icon: LineIcons.home,
+                      text: 'Home',
+                      heroTag: 'homeNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.search,
+                      text: 'Search',
+                      heroTag: 'searchNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.bell,
+                      text: 'Notifications',
+                      heroTag: 'notificationsNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.cog,
+                      text: 'Settings',
+                      heroTag: 'settingsNavButton',
+                    ),
+                  ],
                 ),
-                GButton(
-                  icon: LineIcons.search,
-                  text: 'Search',
-                  heroTag: 'searchNavButton',
-                ),
-                GButton(
-                  icon: LineIcons.bell,
-                  text: 'Notifications',
-                  heroTag: 'notificationsNavButton',
-                ),
-                GButton(
-                  icon: LineIcons.cog,
-                  text: 'Settings',
-                  heroTag: 'settingsNavButton',
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         replacement: Scaffold(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/models/authentication/device_code_model.dart';
 import 'package:onehub/models/popup/popup_type.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CodeInfoBox extends StatefulWidget {
@@ -23,17 +25,16 @@ class CodeInfoBox extends StatefulWidget {
 
 class _CodeInfoBoxState extends State<CodeInfoBox> {
   CountdownTimerController timerController;
+  bool copied = false;
 
   @override
   void initState() {
     timerController = CountdownTimerController(
-      endTime: DateTime.now().millisecondsSinceEpoch +
-          widget.deviceCodeModel.expiresIn * 1000,
+      endTime: widget.deviceCodeModel.expiresIn,
       onEnd: () {
         BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
       },
     );
-    copyCode();
     super.initState();
   }
 
@@ -56,92 +57,197 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      color: Colors.grey,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Enter the following code'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                  onTap: () {
-                    showBottomActionsMenu(context,
-                        header: Text(
-                          widget.deviceCodeModel.userCode,
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        childWidget: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            onTap: () {
-                              copyCode(pop: true);
-                            },
-                            title: Text("Copy to Clipboard"),
-                            trailing: Icon(
-                              LineIcons.copy,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ));
-                  },
-                  child: Text(widget.deviceCodeModel.userCode)),
-            ),
-            CountdownTimer(
-              controller: timerController,
-              widgetBuilder: (_, CurrentRemainingTime time) {
-                return Text('${time.min}:${time.sec}');
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: CountdownTimer(
+            controller: timerController,
+            endWidget: Text('Time Expired.'),
+            widgetBuilder: (_, CurrentRemainingTime time) {
+              return Column(
+                children: [
+                  Text(
+                      'Expires in ${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec}'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: LinearProgressIndicator(
+                      backgroundColor: AppColor.grey,
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColor.grey3),
+                      value: ((time.min ?? 0) * 60 + time.sec) /
+                          ((widget.deviceCodeModel.expiresIn -
+                                  widget.deviceCodeModel.parsedOn) /
+                              1000),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Center(
+          child: Material(
+            elevation: 2,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            color: AppColor.onBackground,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () async {
+                copyCode();
+                setState(() {
+                  copied = true;
+                });
+                await Future.delayed(Duration(seconds: 4));
+                setState(() {
+                  copied = false;
+                });
               },
-            ),
-            Flexible(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  child: Text(
-                    widget.deviceCodeModel.verificationUri,
-                    overflow: TextOverflow.ellipsis,
+                child: DottedBorder(
+                  radius: Radius.circular(5),
+                  color: Colors.white,
+                  dashPattern: [8],
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.deviceCodeModel.userCode,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Visibility(
+                              visible: !copied,
+                              child: Icon(
+                                Icons.copy,
+                                color: Colors.grey,
+                                size: 13,
+                              ),
+                              replacement: Icon(
+                                Icons.check,
+                                color: Colors.grey,
+                                size: 13,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Visibility(
+                              visible: !copied,
+                              child: Text(
+                                'TAP TO COPY',
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w400),
+                              ),
+                              replacement: Text(
+                                'COPIED',
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  onTap: () {
-                    showBottomActionsMenu(context,
-                        header: Text(widget.deviceCodeModel.verificationUri),
-                        childWidget: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            onTap: () {
-                              canLaunch(widget.deviceCodeModel.verificationUri)
-                                  .then((value) {
-                                Navigator.pop(context);
-                                if (value) {
-                                  launch(
-                                      widget.deviceCodeModel.verificationUri);
-                                } else {
-                                  ResponseHandler.setErrorMessage(
-                                      AppPopupData(title: 'Invalid URL'));
-                                }
-                              });
-                            },
-                            title: Text("Open"),
-                            trailing: Icon(LineIcons.alternateFontAwesome),
-                          ),
-                        ));
-                  },
                 ),
               ),
             ),
-            MaterialButton(
-              child: Text('Back'),
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
+          ),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Center(
+          child: Text(
+            'Input the code on the following link.',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Flexible(
+          child: Material(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            color: AppColor.onBackground,
+            elevation: 2,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.deviceCodeModel.verificationUri,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {
+                showBottomActionsMenu(context,
+                    headerText: widget.deviceCodeModel.verificationUri,
+                    childWidget: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        onTap: () {
+                          canLaunch(widget.deviceCodeModel.verificationUri)
+                              .then((value) {
+                            Navigator.pop(context);
+                            if (value) {
+                              launch(widget.deviceCodeModel.verificationUri);
+                            } else {
+                              ResponseHandler.setErrorMessage(
+                                  AppPopupData(title: 'Invalid URL'));
+                            }
+                          });
+                        },
+                        title: Text("Open"),
+                        trailing: Icon(
+                          LineIcons.link,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ));
               },
             ),
-          ],
+          ),
         ),
-      ),
+        SizedBox(
+          height: 16,
+        ),
+        Center(
+          child: MaterialButton(
+            child: Text(
+              'Tap here to cancel',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
+            },
+          ),
+        ),
+      ],
     );
   }
 }

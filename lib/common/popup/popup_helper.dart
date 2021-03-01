@@ -23,8 +23,8 @@ class DialogHelper {
               color: appPopup.popupType == PopupType.failed
                   ? Colors.redAccent
                   : AppColor.success,
-              offset: Offset(0.0, 2.0),
-              blurRadius: 3.0)
+              offset: Offset(0.0, 1.0),
+              blurRadius: 1.0)
         ],
         backgroundGradient: LinearGradient(
           colors: appPopup.popupType == PopupType.failed

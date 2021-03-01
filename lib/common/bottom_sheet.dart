@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:onehub/style/colors.dart';
 
 void showBottomActionsMenu(BuildContext context,
-    {@required Widget header,
+    {String headerText,
+    Widget header,
+    TextStyle headerTextStyle,
     @required Widget childWidget,
     double titlePadding = 16.0}) {
   final _media = MediaQuery.of(context).size;
@@ -23,12 +25,17 @@ void showBottomActionsMenu(BuildContext context,
                     decoration: BoxDecoration(
                         color: AppColor.grey,
                         borderRadius: BorderRadius.circular(15)),
-                    height: 2,
+                    height: 3,
                     width: _media.width * 0.2,
                   )),
               Padding(
                 padding: EdgeInsets.all(titlePadding),
-                child: Center(child: header),
+                child: Center(
+                    child: header ??
+                        Text(
+                          headerText,
+                          style: TextStyle(fontSize: 16).merge(headerTextStyle),
+                        )),
               ),
               Divider(),
               childWidget,

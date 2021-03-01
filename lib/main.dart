@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/app/global.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/providers/authentication/auth_provider.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/notifications/notifications_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
@@ -36,9 +35,6 @@ class MyApp extends StatelessWidget {
             create: (_) => NavigationProvider(),
           ),
           ChangeNotifierProvider(
-            create: (_) => AuthProvider(),
-          ),
-          ChangeNotifierProvider(
             create: (_) => NotificationsProvider(),
           ),
         ],
@@ -69,8 +65,12 @@ class MyApp extends StatelessWidget {
               accentIconTheme: IconThemeData(color: AppColor.accent),
               dividerColor: Colors.grey.withOpacity(0.7),
               backgroundColor: AppColor.background,
+              buttonTheme: ButtonThemeData(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
               dividerTheme:
-                  DividerThemeData(color: Colors.white, thickness: 0.1),
+                  DividerThemeData(color: Colors.white, thickness: 0.04),
               fontFamily: 'Montserrat'),
           routerDelegate: Global.customRouter.delegate(),
           routeInformationParser: Global.customRouter.defaultRouteParser(),
