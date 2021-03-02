@@ -59,7 +59,7 @@ class _AuthPopupState extends State<AuthPopup> {
                       Divider(
                         height: 32,
                       ),
-                      Button(
+                      StringButton(
                         title: 'Login with GitHub',
                         leadingIcon: Icon(
                           Octicons.mark_github,

@@ -3,6 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showBottomActionsMenu(BuildContext context,
@@ -23,13 +24,16 @@ void showBottomActionsMenu(BuildContext context,
       builder: (context) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              SizedBox(
+                height: 4,
+              ),
               Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
                         color: AppColor.grey,
                         borderRadius: BorderRadius.circular(15)),
-                    height: 3,
+                    height: 4,
                     width: _media.width * 0.2,
                   )),
               Padding(
@@ -50,28 +54,49 @@ void showBottomActionsMenu(BuildContext context,
           ));
 }
 
-void showURLBottomActionsMenu(BuildContext context, String url) {
+void showURLBottomActionsMenu(BuildContext context, String url,
+    {String shareDescription}) {
   showBottomActionsMenu(context,
       headerText: url,
-      childWidget: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          onTap: () {
-            canLaunch(url).then((value) {
-              Navigator.pop(context);
-              if (value) {
-                launch(url);
-              } else {
-                ResponseHandler.setErrorMessage(
-                    AppPopupData(title: 'Invalid URL'));
-              }
-            });
-          },
-          title: Text("Open"),
-          trailing: Icon(
-            LineIcons.link,
-            color: Colors.white,
+      childWidget: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              onTap: () {
+                canLaunch(url).then((value) {
+                  Navigator.pop(context);
+                  if (value) {
+                    launch(url);
+                  } else {
+                    ResponseHandler.setErrorMessage(
+                        AppPopupData(title: 'Invalid URL'));
+                  }
+                });
+              },
+              title: Text("Open"),
+              trailing: Icon(
+                LineIcons.link,
+                color: Colors.white,
+              ),
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              onTap: () {
+                if (shareDescription != null) {
+                  Share.share('$shareDescription\n$url');
+                } else
+                  Share.share(url);
+              },
+              title: Text("Share"),
+              trailing: Icon(
+                LineIcons.share,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ));
 }

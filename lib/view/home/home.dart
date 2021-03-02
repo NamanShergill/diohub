@@ -98,10 +98,7 @@ class _HomeScreenState extends State<HomeScreen>
             ],
           ),
         ),
-        Expanded(
-            child: LoginCheckWrapper(
-          child: HomeTabs(),
-        )),
+        Expanded(child: LoginCheckWrapper(child: HomeTabs())),
       ],
     );
   }

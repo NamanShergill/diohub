@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/models/notifications/notifications_model.dart';
 import 'package:onehub/providers/notifications/notifications_provider.dart';
 import 'package:onehub/style/colors.dart';
@@ -58,20 +59,22 @@ class _NotificationsScreenState extends State<NotificationsScreen>
           ),
         ];
       },
-      body: FutureBuilder(
-        future: _notificationsProvider.getAllNotifications(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<NotificationModel>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return NotificationCard(snapshot.data[index]);
-                });
-          }
-          return LoadingIndicator();
-        },
+      body: LoginCheckWrapper(
+        child: FutureBuilder(
+          // future: (_notificationsProvider.getAllNotifications()),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<NotificationModel>> snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return NotificationCard(snapshot.data[index]);
+                  });
+            }
+            return LoadingIndicator();
+          },
+        ),
       ),
     );
   }

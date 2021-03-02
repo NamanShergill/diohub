@@ -12,12 +12,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Button(
+      child: StringButton(
         listenToLoadingController: false,
         onTap: () {
           BlocProvider.of<AuthenticationBloc>(context).add(LogOut());
         },
         title: 'Log Out',
+        stretch: false,
       ),
     );
   }

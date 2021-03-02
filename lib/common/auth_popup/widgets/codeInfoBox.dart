@@ -9,6 +9,7 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/bottom_sheet.dart';
+import 'package:onehub/common/button.dart';
 import 'package:onehub/models/authentication/device_code_model.dart';
 import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/style/colors.dart';
@@ -100,74 +101,71 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
           height: 8,
         ),
         Center(
-          child: Material(
-            elevation: 2,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Button(
+            onTap: () async {
+              copyCode();
+              setState(() {
+                copied = true;
+              });
+              await Future.delayed(Duration(seconds: 4));
+              setState(() {
+                copied = false;
+              });
+            },
+            enabled: !copied,
+            padding: const EdgeInsets.all(24.0),
             color: AppColor.onBackground,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(10),
-              onTap: () async {
-                copyCode();
-                setState(() {
-                  copied = true;
-                });
-                await Future.delayed(Duration(seconds: 4));
-                setState(() {
-                  copied = false;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
+            child: Column(
+              children: [
+                Text(
+                  widget.deviceCodeModel.userCode,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      widget.deviceCodeModel.userCode,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(fontWeight: FontWeight.bold),
+                    Visibility(
+                      visible: !copied,
+                      child: Icon(
+                        Icons.copy,
+                        color: Colors.grey,
+                        size: 13,
+                      ),
+                      replacement: Icon(
+                        Icons.check,
+                        color: Colors.grey,
+                        size: 13,
+                      ),
                     ),
                     SizedBox(
-                      height: 8,
+                      width: 5,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                          visible: !copied,
-                          child: Icon(
-                            Icons.copy,
-                            color: Colors.grey,
-                            size: 13,
-                          ),
-                          replacement: Icon(
-                            Icons.check,
-                            color: Colors.grey,
-                            size: 13,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Visibility(
-                          visible: !copied,
-                          child: Text(
-                            'TAP TO COPY',
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w400),
-                          ),
-                          replacement: Text(
-                            'COPIED',
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ],
-                    )
+                    Visibility(
+                      visible: !copied,
+                      child: Text(
+                        'TAP TO COPY',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                      replacement: Text(
+                        'COPIED',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                    ),
                   ],
-                ),
-              ),
+                )
+              ],
             ),
           ),
         ),
@@ -208,7 +206,9 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
               ),
               onTap: () {
                 showURLBottomActionsMenu(
-                    context, widget.deviceCodeModel.verificationUri);
+                    context, widget.deviceCodeModel.verificationUri,
+                    shareDescription:
+                        'Enter the code ${widget.deviceCodeModel.userCode} on:');
               },
             ),
           ),

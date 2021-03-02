@@ -43,9 +43,11 @@ class AuthService {
       'client_id': PrivateKeys.clientID,
       'scope': _scope,
     });
-    var response =
-        await GetDio.getDio(loggedIn: false, baseURL: 'https://github.com/')
-            .post("${_url}device/code", data: formData);
+    var response = await GetDio.getDio(
+            loggedIn: false,
+            baseURL: 'https://github.com/',
+            loginRequired: false)
+        .post("${_url}device/code", data: formData);
     return response;
   }
 
@@ -65,6 +67,7 @@ class AuthService {
     });
     Response response = await GetDio.getDio(
             loggedIn: false,
+            loginRequired: false,
             baseURL: 'https://github.com/',
             debugLog: false,
             buttonLock: false)

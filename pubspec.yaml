@@ -26,10 +26,9 @@ dependencies:
   auto_route: ^1.0.0-beta.10
   another_flushbar: ^1.10.11
   cached_network_image: ^2.5.0
-  connectivity: ^3.0.0
+  connectivity: ^3.0.1
   dio_http_cache: ^0.2.11
   dio: ^3.0.10
-  dotted_border: ^1.0.7
   equatable: ^1.2.6
   flutter_bloc: ^6.1.2
   flutter_cache_manager: ^2.1.1
@@ -49,6 +48,7 @@ dependencies:
   path_provider: ^1.6.27
   pretty_dio_logger: ^1.1.1
   provider: ^4.3.3
+  share: ^2.0.0
   url_launcher: ^6.0.1
 
   # The following adds the Cupertino Icons font to your application.

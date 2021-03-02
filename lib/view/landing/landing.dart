@@ -11,7 +11,6 @@ import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/home.dart';
 import 'package:onehub/view/notifications/notifications.dart';
@@ -46,7 +45,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   Future<void> getUserInfo() async {
-    _currentUser = await context.read<CurrentUserProvider>().getUserInfo();
+    // _currentUser = await context.read<CurrentUserProvider>().getUserInfo();
     setState(() {});
   }
 

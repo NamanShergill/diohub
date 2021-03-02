@@ -11,6 +11,7 @@ class GetDio {
       {loggedIn = true,
       checkCache = true,
       baseURL = "https://api.github.com",
+      bool loginRequired = true,
       bool debugLog = true,
       bool buttonLock = true}) {
     if (buttonLock) ButtonController.setButtonValue(true);
@@ -21,10 +22,14 @@ class GetDio {
         options.headers["Accept"] = "application/json";
         options.headers["setContentType"] = "application/json";
         if (loggedIn == false) {
+          if (loginRequired) throw Exception('Not authenticated.');
         } else {
           dio.interceptors.requestLock.lock();
           try {
             AuthService.getAccessTokenFromDevice().then((token) async {
+              if (token == null) {
+                throw Exception('Not authenticated.');
+              }
               options.headers["Authorization"] = "token $token";
             }).whenComplete(() {
               dio.interceptors.requestLock.unlock();

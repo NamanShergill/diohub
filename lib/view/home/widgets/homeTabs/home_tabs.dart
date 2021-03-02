@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onehub/style/colors.dart';
 
 class HomeTabs extends StatefulWidget {
   HomeTabs({Key key}) : super(key: key);
@@ -44,8 +45,10 @@ class _HomeTabsState extends State<HomeTabs> with TickerProviderStateMixin {
       child: Column(
         children: [
           TabBar(
+            physics: BouncingScrollPhysics(),
             isScrollable: true,
             controller: _tabController,
+            unselectedLabelColor: AppColor.grey3,
             onTap: (index) {
               animateToPage(index);
             },
@@ -76,7 +79,7 @@ class _HomeTabsState extends State<HomeTabs> with TickerProviderStateMixin {
               children: [
                 Container(
                   color: Colors.red,
-                  height: 80,
+                  height: 2000,
                   width: 40,
                 ),
                 Container(
