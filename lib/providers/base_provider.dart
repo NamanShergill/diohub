@@ -5,12 +5,13 @@ class BaseProvider extends ChangeNotifier {
   bool _busy = false;
   bool get busy => _busy;
 
-  Status _status = Status.Initialized;
+  Status _status = Status.initialized;
   Status get status => _status;
+
+  String error;
 
   void setBusy(bool value) {
     _busy = value;
     notifyListeners();
   }
 }
-

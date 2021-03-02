@@ -6,13 +6,15 @@ import 'package:provider/provider.dart';
 
 class LoadingProgressWrapper<T extends BaseProvider> extends StatelessWidget {
   final builder;
-  LoadingProgressWrapper({this.builder});
+  final errorBuilder;
+  LoadingProgressWrapper({this.builder, this.errorBuilder});
   @override
   Widget build(BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
-    if (value.status == Status.Loaded) return builder(context, value);
-    if (value.status == Status.Loading) return LoadingIndicator();
-    if (value.status == Status.Error) return Text('Error');
+    if (value.status == Status.loaded) return builder(context, value);
+    if (value.status == Status.loading) return LoadingIndicator();
+    if (value.status == Status.error)
+      return errorBuilder(context, value.error) ?? Text(value.error);
     return Container();
   }
 }
