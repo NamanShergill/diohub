@@ -11,11 +11,9 @@ class AuthService {
   static final _storage = new FlutterSecureStorage();
 
   static Future<bool> isAuthenticated() async {
-    var res = await _storage.read(key: 'isAuthenticated');
     var token = await _storage.read(key: 'accessToken');
-    debugPrint('Auth Status $res');
-    debugPrint('Auth token $token');
-    if (res != null) {
+    debugPrint('Auth token ${token ?? 'not found.'}');
+    if (token != null) {
       return true;
     }
     return false;
@@ -25,7 +23,6 @@ class AuthService {
     await _storage.write(
         key: "accessToken", value: accessTokenModel.accessToken);
     await _storage.write(key: 'scope', value: accessTokenModel.scope);
-    await _storage.write(key: "isAuthenticated", value: "true");
   }
 
   static Future<String> getAccessTokenFromDevice() async {

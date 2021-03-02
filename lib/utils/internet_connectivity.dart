@@ -17,7 +17,6 @@ class InternetConnectivity {
     Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult status) async {
-      print(status);
       if (status != ConnectivityResult.none) {
         _networkController.add(NetworkStatus.Restored);
         await Future.delayed(Duration(seconds: 5));

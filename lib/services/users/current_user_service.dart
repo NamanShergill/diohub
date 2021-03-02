@@ -9,10 +9,10 @@ class CurrentUserService {
     CurrentUserInfoModel currentUserInfo = await GetDio.getDio()
         .get(_url, options: CacheManager.currentUserProfileInfo())
         .then((value) {
-      if (value.data['login'] != null) {
+      if (value.statusCode == 200) {
         return CurrentUserInfoModel.fromJson(value.data);
-      }
-      return null;
+      } else
+        throw Exception(value.statusMessage);
     });
     return currentUserInfo;
   }

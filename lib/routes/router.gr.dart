@@ -5,19 +5,21 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
+import 'package:flutter/material.dart' as _i4;
 
 import '../view/home/widgets/search_overlay.dart' as _i3;
-import '../view/landing/landing.dart' as _i2;
+import '../view/landing/widgets/landing_auth_wrapper.dart' as _i2;
 
 class AppRouter extends _i1.RootStackRouter {
   AppRouter();
 
   @override
   final Map<String, _i1.PageFactory> pagesMap = {
-    LandingScreenRoute.name: (entry) {
+    LandingAuthWrapperScreenRoute.name: (entry) {
+      var route = entry.routeData.as<LandingAuthWrapperScreenRoute>();
       return _i1.CustomPage(
           entry: entry,
-          child: _i2.LandingScreen(),
+          child: _i2.LandingAuthWrapperScreen(key: route.key),
           transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
           durationInMilliseconds: 350);
     },
@@ -31,21 +33,27 @@ class AppRouter extends _i1.RootStackRouter {
 
   @override
   List<_i1.RouteConfig> get routes => [
-        _i1.RouteConfig<LandingScreenRoute>(LandingScreenRoute.name,
+        _i1.RouteConfig<LandingAuthWrapperScreenRoute>(
+            LandingAuthWrapperScreenRoute.name,
             path: '/',
-            routeBuilder: (match) => LandingScreenRoute.fromMatch(match)),
+            routeBuilder: (match) =>
+                LandingAuthWrapperScreenRoute.fromMatch(match)),
         _i1.RouteConfig<SearchOverlayScreenRoute>(SearchOverlayScreenRoute.name,
             path: '/search-overlay-screen',
             routeBuilder: (match) => SearchOverlayScreenRoute.fromMatch(match))
       ];
 }
 
-class LandingScreenRoute extends _i1.PageRouteInfo {
-  const LandingScreenRoute() : super(name, path: '/');
+class LandingAuthWrapperScreenRoute extends _i1.PageRouteInfo {
+  LandingAuthWrapperScreenRoute({this.key}) : super(name, path: '/');
 
-  LandingScreenRoute.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
+  LandingAuthWrapperScreenRoute.fromMatch(_i1.RouteMatch match)
+      : key = null,
+        super.fromMatch(match);
 
-  static const String name = 'LandingScreenRoute';
+  final _i4.Key key;
+
+  static const String name = 'LandingAuthWrapperScreenRoute';
 }
 
 class SearchOverlayScreenRoute extends _i1.PageRouteInfo {

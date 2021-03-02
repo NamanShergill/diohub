@@ -40,7 +40,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                   child: Column(
                     children: [
                       Hero(
-                        tag: 'test',
+                        tag: 'search_bar',
                         child: Material(
                           color: Colors.transparent,
                           child: searchBar(),

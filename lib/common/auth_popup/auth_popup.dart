@@ -37,7 +37,7 @@ class _AuthPopupState extends State<AuthPopup> {
                 }
               },
               builder: (context, state) {
-                if (state is AuthenticationInitial) {
+                if (state is AuthenticationUnauthenticated) {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

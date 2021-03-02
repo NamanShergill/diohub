@@ -7,6 +7,8 @@ abstract class AuthenticationState {
 
 class AuthenticationInitial extends AuthenticationState {}
 
+class AuthenticationUnauthenticated extends AuthenticationState {}
+
 class AuthenticationInitialized extends AuthenticationState {
   final DeviceCodeModel deviceCodeModel;
   AuthenticationInitialized(this.deviceCodeModel);

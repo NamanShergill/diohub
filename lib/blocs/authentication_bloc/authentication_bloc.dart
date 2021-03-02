@@ -20,7 +20,10 @@ class AuthenticationBloc
   ) async* {
     if (event is CheckAuthState) {
       bool auth = await AuthService.isAuthenticated();
-      if (auth) yield AuthenticationSuccessful();
+      if (auth)
+        yield AuthenticationSuccessful();
+      else
+        yield AuthenticationUnauthenticated();
     } else if (event is RequestDeviceCode) {
       Response response = await AuthService.getDeviceToken();
       if (response.data['device_code'] != null) {
@@ -64,10 +67,10 @@ class AuthenticationBloc
     } else if (event is AuthSuccessful) {
       yield AuthenticationSuccessful();
     } else if (event is ResetStates) {
-      yield AuthenticationInitial();
+      yield AuthenticationUnauthenticated();
     } else if (event is LogOut) {
       AuthService.logOut();
-      yield AuthenticationInitial();
+      yield AuthenticationUnauthenticated();
     } else if (event is AuthError) yield AuthenticationError(event.error);
   }
 }

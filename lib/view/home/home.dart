@@ -1,12 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:onehub/app/global.dart';
+import 'package:onehub/common/collapsible_app_bar.dart';
+import 'package:onehub/common/loading_progress_wrapper.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
-import 'package:onehub/providers/landing_navigation_provider.dart';
-import 'package:onehub/routes/router.gr.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/home/widgets/homeTabs/home_tabs.dart';
-import 'package:provider/provider.dart';
+import 'package:onehub/view/home/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key});
@@ -15,90 +14,171 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
+  TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    return LoginCheckWrapper(
+      replacement: HomeScreenUnauthenticated(),
+      child: DefaultTabController(
+        length: 4,
+        initialIndex: 0,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, _) {
+            return [
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  expandedHeight: 280,
+                  collapsedHeight: 150,
+                  pinned: true,
+                  elevation: 2,
+                  backgroundColor: AppColor.background,
+                  flexibleSpace: Padding(
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                    child: CollapsibleAppBar(
+                      minHeight: 150,
+                      maxHeight: 280,
+                      title: 'Home',
+                      child: SearchBar(),
+                      trailing: ClipOval(
+                        child: LoadingProgressWrapper<CurrentUserProvider>(
+                          builder: (context, value) => CachedNetworkImage(
+                            imageUrl: value.currentUserInfo.avatarUrl,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(0),
+                    child: TabBar(
+                      physics: BouncingScrollPhysics(),
+                      isScrollable: true,
+                      controller: _tabController,
+                      unselectedLabelColor: AppColor.grey3,
+                      tabs: [
+                        Tab(
+                          child: Text('Activity'),
+                        ),
+                        Tab(
+                          child: Text('Pull Requests'),
+                        ),
+                        Tab(
+                          child: Text('Issues'),
+                        ),
+                        Tab(
+                          child: Text('Repositories'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ];
+          },
+          body: Builder(
+            builder: (context) {
+              NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+              return Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: LoginCheckWrapper(
+                  child: TabBarView(
+                    controller: _tabController,
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      Container(
+                        color: AppColor.background,
+                        height: 80,
+                        width: 40,
+                      ),
+                      Container(
+                        color: Colors.blue,
+                        height: 80,
+                        width: 40,
+                      ),
+                      Container(
+                        color: Colors.green,
+                        height: 80,
+                        width: 40,
+                      ),
+                      Container(
+                        color: Colors.amber,
+                        height: 80,
+                        width: 40,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomeScreenUnauthenticated extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    final _navigation = Provider.of<NavigationProvider>(context);
     return Column(
       children: [
         SizedBox(
           height: _media.height * 0.08,
         ),
-        Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Home',
-                    style: Theme.of(context).textTheme.headline4.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    child: ClipOval(
-                        // child: CachedNetworkImage(
-                        //   // imageUrl: _currentUser.currentUserInfo.avatarUrl,
-                        // ),
-                        ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Hero(
-                tag: 'test',
-                child: Material(
-                  borderRadius: BorderRadius.circular(75),
-                  color: AppColor.onBackground,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(75),
-                    onTap: () {
-                      Global.customRouter.push(SearchOverlayScreenRoute());
-                    },
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                LineIcons.search,
-                                color: AppColor.grey3,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Search or Jump to...',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(
-                                        color: AppColor.grey3.withOpacity(0.7)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Home',
+                      style: Theme.of(context).textTheme.headline4.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
+                    Container(
+                      height: 60,
+                      width: 60,
+                      child: ClipOval(
+                          // child: CachedNetworkImage(
+                          //   // imageUrl: _currentUser.currentUserInfo.avatarUrl,
+                          // ),
+                          ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SearchBar(),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LoginPromptBox(),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        Expanded(child: LoginCheckWrapper(child: HomeTabs())),
       ],
     );
   }
