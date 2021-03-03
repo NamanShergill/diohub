@@ -11,14 +11,15 @@ class GetDio {
       {loggedIn = true,
       checkCache = true,
       baseURL = "https://api.github.com",
+      bool applyBaseURL = true,
       bool loginRequired = true,
-      bool debugLog = true,
+      bool debugLog = false,
       bool buttonLock = true}) {
     if (buttonLock) ButtonController.setButtonValue(true);
     Dio dio = Dio();
     dio.interceptors
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-        options.baseUrl = baseURL;
+        if (applyBaseURL) options.baseUrl = baseURL;
         options.headers["Accept"] = "application/json";
         options.headers["setContentType"] = "application/json";
         if (loggedIn == false) {
@@ -58,8 +59,13 @@ class GetDio {
         if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
         }
-      }))
-      ..add(DioCacheManager(CacheConfig(baseUrl: 'https://api.github.com'))
+      }));
+    if (checkCache)
+      dio.interceptors.add(DioCacheManager(CacheConfig(
+              baseUrl: 'https://api.github.com',
+              defaultMaxAge: Duration(minutes: 10),
+              defaultMaxStale: Duration(days: 7),
+              maxMemoryCacheCount: 10000))
           .interceptor);
     if (debugLog)
       dio.interceptors

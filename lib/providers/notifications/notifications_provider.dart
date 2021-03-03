@@ -8,7 +8,7 @@ class NotificationsProvider extends BaseProvider {
   List<NotificationModel> get notifications => _notifications;
 
   Future<List<NotificationModel>> getAllNotifications() async {
-    await NotificationsService.getAllNotifications().then((value) {
+    await NotificationsService.getNotifications().then((value) {
       _notifications = value;
     });
     return _notifications;

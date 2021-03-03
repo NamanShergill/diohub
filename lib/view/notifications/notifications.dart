@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
-import 'package:onehub/providers/notifications/notifications_provider.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:onehub/view/notifications/widgets/infinite_notification_scroll.dart';
 
 class NotificationsScreen extends StatefulWidget {
   @override
@@ -17,7 +16,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _notificationsProvider = Provider.of<NotificationsProvider>(context);
     final _media = MediaQuery.of(context).size;
     return LoginCheckWrapper(
       child: NestedScrollView(
@@ -48,8 +46,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
         body: Builder(
           builder: (context) {
             NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-            return Container(
-              color: Colors.red,
+            return Padding(
+              padding: const EdgeInsets.only(top: 100.0),
+              child: InfiniteNotificationScroll(),
             );
           },
         ),

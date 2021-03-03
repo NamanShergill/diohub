@@ -17,4 +17,8 @@ class CacheManager {
   static Options search({bool refresh = false}) =>
       buildCacheOptions(Duration(days: 7),
           maxStale: Duration(days: 7), forceRefresh: refresh);
+
+  static Options defaultCache({bool refresh = false}) =>
+      buildCacheOptions(Duration(minutes: 15),
+          maxStale: Duration(days: 7), forceRefresh: refresh);
 }
