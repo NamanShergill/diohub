@@ -91,7 +91,7 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
             color: AppColor.grey,
             borderRadius: BorderRadius.circular(10),
           ),
-          height: 15,
+          height: 20,
         ),
       ),
     );
@@ -106,6 +106,13 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
             imageUrl: avatarUrl,
             height: 20,
             fit: BoxFit.fill,
+            placeholder: (context, string) {
+              return ShimmerWidget(
+                child: Container(
+                  color: Colors.grey,
+                ),
+              );
+            },
           ),
         ),
         SizedBox(
@@ -137,13 +144,13 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
       DateTime _dateTime = DateTime.parse(date);
       Duration _difference = DateTime.now().difference(_dateTime);
       if (_difference.inMinutes < 1) {
-        return '${_difference.inSeconds} s';
+        return '${_difference.inSeconds}s';
       } else if (_difference.inHours < 1) {
-        return '${_difference.inMinutes} m';
+        return '${_difference.inMinutes}m';
       } else if (_difference.inDays < 1) {
-        return '${_difference.inHours} h';
+        return '${_difference.inHours}h';
       } else if (_difference.inDays < 31) {
-        return '${_difference.inDays} d';
+        return '${_difference.inDays}d';
       } else {
         return '${DateFormat('d MMM').format(_dateTime)}';
       }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
+import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
+import 'package:onehub/models/notifications/notifications_model.dart';
+import 'package:onehub/services/activity/notifications_service.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/notifications/widgets/infinite_notification_scroll.dart';
+import 'package:onehub/view/notifications/widgets/issue_notification_card.dart';
+import 'package:onehub/view/notifications/widgets/pull_request_notification_card.dart';
 
 class NotificationsScreen extends StatefulWidget {
   @override
@@ -48,7 +52,19 @@ class _NotificationsScreenState extends State<NotificationsScreen>
             NestedScrollView.sliverOverlapAbsorberHandleFor(context);
             return Padding(
               padding: const EdgeInsets.only(top: 100.0),
-              child: InfiniteNotificationScroll(),
+              child: InfiniteScrollWrapper<NotificationModel>(
+                future: (pageNumber, pageSize) {
+                  return NotificationsService.getNotifications(
+                      page: pageNumber, perPage: pageSize);
+                },
+                builder: (context, NotificationModel item, index) {
+                  if (item.subject.type == SubjectEnum.issue)
+                    return IssueNotificationCard(item);
+                  else if (item.subject.type == SubjectEnum.pullRequest)
+                    return PullRequestNotificationCard(item);
+                  return Container();
+                },
+              ),
             );
           },
         ),

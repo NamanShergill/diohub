@@ -9,12 +9,13 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 class GetDio {
   static Dio getDio(
       {loggedIn = true,
-      checkCache = true,
+      cacheEnabled = true,
       baseURL = "https://api.github.com",
       bool applyBaseURL = true,
       bool loginRequired = true,
       bool debugLog = false,
       bool buttonLock = true}) {
+    // Makes the buttons listening to this stream get disabled to prevent multiple taps.
     if (buttonLock) ButtonController.setButtonValue(true);
     Dio dio = Dio();
     dio.interceptors
@@ -25,14 +26,18 @@ class GetDio {
         if (loggedIn == false) {
           if (loginRequired) throw Exception('Not authenticated.');
         } else {
+          // Queue the request to add necessary headers before executing.
           dio.interceptors.requestLock.lock();
           try {
             AuthService.getAccessTokenFromDevice().then((token) async {
-              if (token == null) {
+              // Throw error if request requires login and no token is found on device.
+              if (token == null && loginRequired) {
                 throw Exception('Not authenticated.');
               }
+              // Add auth token to header.
               options.headers["Authorization"] = "token $token";
             }).whenComplete(() {
+              // Execute the request and return the necessary headers.
               dio.interceptors.requestLock.unlock();
               return options;
             });
@@ -42,31 +47,37 @@ class GetDio {
           return options;
         }
       }, onResponse: (Response response) async {
+        // Makes the buttons listening to this stream get enabled again.
         if (buttonLock) ButtonController.setButtonValue(false);
+        // If response contains a ['message'] key, show success popup to the user with the message.
         if (response.data.runtimeType.toString().contains('Map')) {
-          Map result = response.data;
-
-          if (result.containsKey("message")) {
-            ResponseHandler.setSuccessMessage(result["message"]);
+          if (response.data.containsKey("message")) {
+            ResponseHandler.setSuccessMessage(response.data["message"]);
           }
         }
         return response;
       }, onError: (DioError error) async {
+        // Makes the buttons listening to this stream get enabled again.
         if (buttonLock) ButtonController.setButtonValue(false);
+
+        // Todo: Add better exception handling based on response codes.
         if (error.response == null) {
           throw Exception(error.message ?? 'Some error occurred.');
         }
-        if (error.response.data.runtimeType.toString() == "String") {
+        // If response contains a ['message'] key, show error popup to the user with the message.
+        else if (error.response.data.runtimeType.toString() == "String") {
           ResponseHandler.setErrorMessage(error.response.data);
         }
       }));
-    if (checkCache)
+    // If [cacheEnabled] is true, check the cache/cache the response.
+    if (cacheEnabled)
       dio.interceptors.add(DioCacheManager(CacheConfig(
               baseUrl: 'https://api.github.com',
               defaultMaxAge: Duration(minutes: 10),
               defaultMaxStale: Duration(days: 7),
               maxMemoryCacheCount: 10000))
           .interceptor);
+    // Log the request in the console for debugging if [debugLog] is true.
     if (debugLog)
       dio.interceptors
           .add(PrettyDioLogger(requestHeader: true, requestBody: true));

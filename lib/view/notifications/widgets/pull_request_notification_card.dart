@@ -90,7 +90,7 @@ class _PullRequestNotificationCardState
             color: AppColor.grey,
             borderRadius: BorderRadius.circular(10),
           ),
-          height: 15,
+          height: 20,
         ),
       ),
     );

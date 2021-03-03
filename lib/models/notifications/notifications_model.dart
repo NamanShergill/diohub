@@ -54,11 +54,13 @@ class NotificationModel {
   }
 }
 
+enum SubjectEnum { issue, pullRequest, unknown }
+
 class Subject {
   String title;
   String url;
   String latestCommentUrl;
-  String type;
+  SubjectEnum type;
 
   Subject({this.title, this.url, this.latestCommentUrl, this.type});
 
@@ -66,7 +68,12 @@ class Subject {
     title = json['title'];
     url = json['url'];
     latestCommentUrl = json['latest_comment_url'];
-    type = json['type'];
+    if (json['type'] == 'Issue')
+      type = SubjectEnum.issue;
+    else if (json['type'] == 'PullRequest')
+      type = SubjectEnum.pullRequest;
+    else
+      type = SubjectEnum.unknown;
   }
 
   Map<String, dynamic> toJson() {
