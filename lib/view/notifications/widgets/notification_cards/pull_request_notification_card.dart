@@ -92,14 +92,33 @@ class _PullRequestNotificationCardState
     }
     return Opacity(
       opacity: 0.3,
-      child: ShimmerWidget(
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColor.grey,
-            borderRadius: BorderRadius.circular(10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ShimmerWidget(
+            child: ClipOval(
+              child: Container(
+                height: 20,
+                width: 20,
+                color: Colors.grey,
+              ),
+            ),
           ),
-          height: 20,
-        ),
+          SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: ShimmerWidget(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColor.grey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                height: 20,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

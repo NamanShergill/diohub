@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/common/animations/expanded_widget.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
@@ -19,6 +20,8 @@ class FilterSheet extends StatefulWidget {
 class _FilterSheetState extends State<FilterSheet> {
   Map<String, dynamic> apiFilters;
   Map<String, dynamic> clientFilters;
+
+  bool changesMade = false;
 
   @override
   void initState() {
@@ -47,6 +50,7 @@ class _FilterSheetState extends State<FilterSheet> {
           tileWrapper(
             function: () {
               apiFilters['all'] = !apiFilters['all'];
+              changesMade = true;
             },
             child: SwitchListTile(
                 value: !apiFilters['all'],
@@ -69,6 +73,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 clientFilters['show_only'].remove('assign');
               else
                 clientFilters['show_only'].add('assign');
+              changesMade = true;
             },
             child: CheckboxListTile(
                 secondary: Icon(
@@ -103,6 +108,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 clientFilters['show_only'].remove('mention');
               else
                 clientFilters['show_only'].add('mention');
+              changesMade = true;
             },
             child: CheckboxListTile(
                 secondary: Icon(
@@ -149,25 +155,28 @@ class _FilterSheetState extends State<FilterSheet> {
             height: 16,
           ),
         ]),
-        Divider(),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Button(
-            onTap: () {
-              sendFilters();
-              if (mounted) Navigator.pop(context);
-            },
-            color: AppColor.onBackground,
-            child: Text(
-              'Apply',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
+        ExpandedSection(
+          expand: changesMade,
+          child: Column(
+            children: [
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Button(
+                  onTap: () {
+                    sendFilters();
+                    if (mounted) Navigator.pop(context);
+                  },
+                  color: AppColor.onBackground,
+                  child: Text(
+                    'Apply',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        Visibility(
-            visible: clientFilters != widget.clientFilters ||
-                apiFilters != widget.apiFilters,
-            child: Text('Changes not applied.'))
       ],
     );
   }

@@ -112,7 +112,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             ),
                             listenToLoadingController: false,
                             color: AppColor.onBackground,
-                            elevation: 0,
+                            elevation: 2,
                           ),
                         ),
                         Padding(
@@ -158,7 +158,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             ),
                             listenToLoadingController: false,
                             color: AppColor.onBackground,
-                            elevation: 0,
+                            elevation: 2,
                           ),
                         ),
                         SizedBox(
