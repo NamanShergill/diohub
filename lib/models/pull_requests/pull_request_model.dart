@@ -118,6 +118,7 @@ class PullRequestModel {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     body = json['body'];
     if (json['labels'] != null) {
+      // ignore: deprecated_member_use
       labels = new List<Labels>();
       json['labels'].forEach((v) {
         labels.add(new Labels.fromJson(v));
@@ -135,18 +136,21 @@ class PullRequestModel {
     assignee =
         json['assignee'] != null ? new User.fromJson(json['assignee']) : null;
     if (json['assignees'] != null) {
+      // ignore: deprecated_member_use
       assignees = new List<User>();
       json['assignees'].forEach((v) {
         assignees.add(new User.fromJson(v));
       });
     }
     if (json['requested_reviewers'] != null) {
+      // ignore: deprecated_member_use
       requestedReviewers = new List<User>();
       json['requested_reviewers'].forEach((v) {
         requestedReviewers.add(new User.fromJson(v));
       });
     }
     if (json['requested_teams'] != null) {
+      // ignore: deprecated_member_use
       requestedTeams = new List<RequestedTeams>();
       json['requested_teams'].forEach((v) {
         requestedTeams.add(new RequestedTeams.fromJson(v));

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:onehub/common/animations/expanded_widget.dart';
+import 'package:onehub/common/bottom_sheet.dart';
+import 'package:onehub/common/button.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/models/notifications/notifications_model.dart';
 import 'package:onehub/services/activity/notifications_service.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/notifications/widgets/issue_notification_card.dart';
-import 'package:onehub/view/notifications/widgets/pull_request_notification_card.dart';
+import 'package:onehub/view/notifications/widgets/notification_cards/filter_sheet.dart';
+import 'package:onehub/view/notifications/widgets/notification_cards/issue_notification_card.dart';
+import 'package:onehub/view/notifications/widgets/notification_cards/pull_request_notification_card.dart';
 
 class NotificationsScreen extends StatefulWidget {
   @override
@@ -15,8 +20,22 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
+  Map<String, dynamic> apiFilters = {'all': true};
+  Map<String, dynamic> clientFilters = {'show_only': []};
+  bool expanded = false;
+  InfiniteScrollWrapperController _controller =
+      InfiniteScrollWrapperController();
+
+  bool checkFilter(NotificationModel notification) {
+    bool allowed = true;
+    if (clientFilters['show_only'].isNotEmpty)
+      allowed = clientFilters['show_only'].contains(notification.reason);
+    return allowed;
+  }
+
   @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -33,14 +52,25 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                 pinned: true,
                 elevation: 2,
                 backgroundColor: AppColor.background,
-                flexibleSpace: CollapsibleAppBar(
-                  minHeight: 100,
-                  maxHeight: 150,
-                  expandedParentPadding: 0,
-                  title: 'Notifications',
-                  trailing: IconButton(
-                    icon: Icon(Icons.sort),
-                    onPressed: () {},
+                flexibleSpace: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      expanded = !expanded;
+                    });
+                  },
+                  child: CollapsibleAppBar(
+                    minHeight: 100,
+                    maxHeight: 150,
+                    expandedParentPadding: 0,
+                    title: 'Notifications',
+                    trailing: IconButton(
+                      icon: Icon(Icons.sort),
+                      onPressed: () {
+                        setState(() {
+                          expanded = !expanded;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -52,18 +82,125 @@ class _NotificationsScreenState extends State<NotificationsScreen>
             NestedScrollView.sliverOverlapAbsorberHandleFor(context);
             return Padding(
               padding: const EdgeInsets.only(top: 100.0),
-              child: InfiniteScrollWrapper<NotificationModel>(
-                future: (pageNumber, pageSize) {
-                  return NotificationsService.getNotifications(
-                      page: pageNumber, perPage: pageSize);
-                },
-                builder: (context, NotificationModel item, index) {
-                  if (item.subject.type == SubjectEnum.issue)
-                    return IssueNotificationCard(item);
-                  else if (item.subject.type == SubjectEnum.pullRequest)
-                    return PullRequestNotificationCard(item);
-                  return Container();
-                },
+              child: Column(
+                children: [
+                  ExpandedSection(
+                    expand: expanded,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8),
+                          child: Button(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            onTap: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Mark all as read.',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                Icon(
+                                  LineIcons.checkCircle,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                            listenToLoadingController: false,
+                            color: AppColor.onBackground,
+                            elevation: 0,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8),
+                          child: Button(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            onTap: () {
+                              showBottomActionsMenu(context,
+                                  headerTextStyle: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  childWidget: (context) {
+                                return FilterSheet(
+                                  apiFilters: apiFilters,
+                                  clientFilters: clientFilters,
+                                  onFiltersChanged: (Map updatedAPIFilters,
+                                      Map updatedClientFilters) {
+                                    apiFilters = updatedAPIFilters;
+                                    clientFilters = updatedClientFilters;
+                                    _controller.refresh();
+                                  },
+                                );
+                              },
+                                  fullScreen: true,
+                                  enableDrag: true,
+                                  shrink: false,
+                                  headerText: 'Filter Notifications.');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Filter Notifications.',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                Icon(
+                                  LineIcons.filter,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                            listenToLoadingController: false,
+                            color: AppColor.onBackground,
+                            elevation: 0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: InfiniteScrollWrapper<NotificationModel>(
+                      controller: _controller,
+                      spacing: 0,
+                      future: (pageNumber, pageSize) {
+                        return NotificationsService.getNotifications(
+                            page: pageNumber,
+                            perPage: pageSize,
+                            filters: apiFilters);
+                      },
+                      refreshFuture: (pageNumber, pageSize) {
+                        return NotificationsService.getNotifications(
+                            page: pageNumber,
+                            perPage: pageSize,
+                            refresh: true,
+                            filters: apiFilters);
+                      },
+                      filterFn: (List<NotificationModel> list) {
+                        List<NotificationModel> filtered = [];
+                        list.forEach((element) {
+                          if (checkFilter(element)) filtered.add(element);
+                        });
+                        return filtered;
+                      },
+                      builder: (context, NotificationModel item, index) {
+                        if (item.subject.type == SubjectEnum.issue)
+                          return IssueNotificationCard(item);
+                        else if (item.subject.type == SubjectEnum.pullRequest)
+                          return PullRequestNotificationCard(item);
+                        return Container();
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           },

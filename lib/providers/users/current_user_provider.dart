@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/models/enums/status_enum.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/services/users/current_user_service.dart';
@@ -17,20 +16,30 @@ class CurrentUserProvider extends BaseProvider {
 
   CurrentUserProvider({this.authenticationBloc}) {
     authBlocSubscription = authenticationBloc.listen((state) {
+      // Fetch user details if authentication is successful.
       if (state is AuthenticationSuccessful) getUserInfo();
     });
-    //Request for user details again when back online, if failed due to no connection.
+    // Request for user details again when back online, if failed previously due to no connection.
     internetSubscription = InternetConnectivity.networkStream.listen((event) {
       if (event != NetworkStatus.Online && _providerStatus == Status.error)
         getUserInfo();
     });
   }
 
+  // Get provider status.
   @override
   Status get status => _providerStatus;
 
+  @override
+  void dispose() {
+    authBlocSubscription.cancel();
+    internetSubscription.cancel();
+    super.dispose();
+  }
+
   CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
 
+  /// Get User information from the API.
   Future<CurrentUserInfoModel> getUserInfo() async {
     _providerStatus = Status.loading;
     try {
@@ -44,6 +53,7 @@ class CurrentUserProvider extends BaseProvider {
         return null;
       });
     } catch (e) {
+      // LogOut if auth credentials sent are incorrect.
       if (e.response != null && e.response.statusCode == 401)
         authenticationBloc.add(LogOut());
       error = e.message ?? 'Something went wrong';

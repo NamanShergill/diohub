@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:onehub/models/enums/status_enum.dart';
 
 class BaseProvider extends ChangeNotifier {
   bool _busy = false;
   bool get busy => _busy;
 
+  /// Status of the providers extending [BaseProvider] for better state handling.
   Status _status = Status.initialized;
   Status get status => _status;
 
@@ -15,3 +15,5 @@ class BaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+enum Status { initialized, loading, loaded, error }

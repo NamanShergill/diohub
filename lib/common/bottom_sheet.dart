@@ -9,8 +9,11 @@ import 'package:url_launcher/url_launcher.dart';
 void showBottomActionsMenu(BuildContext context,
     {String headerText,
     Widget header,
+    bool enableDrag = false,
+    bool shrink = true,
+    bool fullScreen = false,
     TextStyle headerTextStyle,
-    @required Widget childWidget,
+    @required WidgetBuilder childWidget,
     double titlePadding = 16.0}) {
   final _media = MediaQuery.of(context).size;
   showModalBottomSheet<void>(
@@ -19,10 +22,12 @@ void showBottomActionsMenu(BuildContext context,
         topRight: Radius.circular(20),
         topLeft: Radius.circular(20),
       )),
+      enableDrag: enableDrag,
+      isScrollControlled: fullScreen,
       backgroundColor: AppColor.background,
       context: context,
       builder: (context) => Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: shrink ? MainAxisSize.min : MainAxisSize.max,
             children: [
               SizedBox(
                 height: 4,
@@ -34,8 +39,11 @@ void showBottomActionsMenu(BuildContext context,
                         color: AppColor.grey,
                         borderRadius: BorderRadius.circular(15)),
                     height: 4,
-                    width: _media.width * 0.2,
+                    width: _media.width * 0.1,
                   )),
+              SizedBox(
+                height: fullScreen ? 20 : 0,
+              ),
               Padding(
                 padding: EdgeInsets.all(titlePadding),
                 child: Center(
@@ -46,7 +54,7 @@ void showBottomActionsMenu(BuildContext context,
                         )),
               ),
               Divider(),
-              childWidget,
+              childWidget(context),
               SizedBox(
                 height: 8,
               ),
@@ -56,47 +64,47 @@ void showBottomActionsMenu(BuildContext context,
 
 void showURLBottomActionsMenu(BuildContext context, String url,
     {String shareDescription}) {
-  showBottomActionsMenu(context,
-      headerText: url,
-      childWidget: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              onTap: () {
-                canLaunch(url).then((value) {
-                  Navigator.pop(context);
-                  if (value) {
-                    launch(url);
-                  } else {
-                    ResponseHandler.setErrorMessage(
-                        AppPopupData(title: 'Invalid URL'));
-                  }
-                });
-              },
-              title: Text("Open"),
-              trailing: Icon(
-                LineIcons.link,
-                color: Colors.white,
-              ),
+  showBottomActionsMenu(context, headerText: url, childWidget: (context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            onTap: () {
+              canLaunch(url).then((value) {
+                Navigator.pop(context);
+                if (value) {
+                  launch(url);
+                } else {
+                  ResponseHandler.setErrorMessage(
+                      AppPopupData(title: 'Invalid URL'));
+                }
+              });
+            },
+            title: Text("Open"),
+            trailing: Icon(
+              LineIcons.link,
+              color: Colors.white,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              onTap: () {
-                if (shareDescription != null) {
-                  Share.share('$shareDescription\n$url');
-                } else
-                  Share.share(url);
-              },
-              title: Text("Share"),
-              trailing: Icon(
-                LineIcons.share,
-                color: Colors.white,
-              ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            onTap: () {
+              if (shareDescription != null) {
+                Share.share('$shareDescription\n$url');
+              } else
+                Share.share(url);
+            },
+            title: Text("Share"),
+            trailing: Icon(
+              LineIcons.share,
+              color: Colors.white,
             ),
           ),
-        ],
-      ));
+        ),
+      ],
+    );
+  });
 }

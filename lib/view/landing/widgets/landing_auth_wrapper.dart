@@ -4,6 +4,7 @@ import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/view/landing/landing.dart';
 
+/// Show loading indicator on app startup until authentication status is determined.
 class LandingAuthWrapperScreen extends StatefulWidget {
   LandingAuthWrapperScreen({Key key}) : super(key: key);
 

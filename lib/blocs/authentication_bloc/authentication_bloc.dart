@@ -19,13 +19,16 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is CheckAuthState) {
+      //Check if user is authenticated and yield a state accordingly.
       bool auth = await AuthService.isAuthenticated();
       if (auth)
         yield AuthenticationSuccessful();
       else
         yield AuthenticationUnauthenticated();
     } else if (event is RequestDeviceCode) {
+      // Get device code to initiate authentication.
       Response response = await AuthService.getDeviceToken();
+      // ['device_code'] should not be null.
       if (response.data['device_code'] != null) {
         yield AuthenticationInitialized(
             DeviceCodeModel.fromJson(response.data));
@@ -63,6 +66,7 @@ class AuthenticationBloc
         }
       }
 
+      // Initiate recursive function to request for access token at set intervals.
       requestAccessToken(event.deviceCode, event.interval);
     } else if (event is AuthSuccessful) {
       yield AuthenticationSuccessful();

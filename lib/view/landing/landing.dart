@@ -24,8 +24,8 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
+    //Show auth popup if user is not authenticated.
     showAuthPopup();
-    getUserInfo();
     super.initState();
   }
 
@@ -38,11 +38,6 @@ class _LandingScreenState extends State<LandingScreen> {
             return AuthPopup();
           });
     }
-  }
-
-  Future<void> getUserInfo() async {
-    // _currentUser = await context.read<CurrentUserProvider>().getUserInfo();
-    setState(() {});
   }
 
   @override

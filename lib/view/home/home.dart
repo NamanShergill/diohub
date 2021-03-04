@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
-import 'package:onehub/common/loading_progress_wrapper.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
+import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
@@ -54,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen>
                       title: 'Home',
                       child: SearchBar(),
                       trailing: ClipOval(
-                        child: LoadingProgressWrapper<CurrentUserProvider>(
+                        child:
+                            ProviderLoadingProgressWrapper<CurrentUserProvider>(
                           builder: (context, value) => CachedNetworkImage(
                             imageUrl: value.currentUserInfo.avatarUrl,
                           ),

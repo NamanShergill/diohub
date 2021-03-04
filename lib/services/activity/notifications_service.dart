@@ -8,7 +8,7 @@ class NotificationsService {
   /// Fetch notifications. API Endpoint: '/notifications'.
   /// Add notification filters in the [filters] parameter as a [Map].
   static Future<List<NotificationModel>> getNotifications(
-      {bool refresh = false, int perPage, int page, Map filters}) async {
+      {bool refresh = false, int perPage, int page, filters}) async {
     // Map the request parameters.
     Map<String, dynamic> queryParameters = {
       'per_page': perPage,
@@ -21,7 +21,7 @@ class NotificationsService {
     List<NotificationModel> notifications = await GetDio.getDio()
         .get(
       _url,
-      options: CacheManager.notifications(),
+      options: CacheManager.notifications(refresh: refresh),
       queryParameters: queryParameters,
     )
         .then((value) {

@@ -4,7 +4,6 @@ import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/app/global.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
-import 'package:onehub/providers/notifications/notifications_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
@@ -13,8 +12,11 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Error popup stream initialised.
   ResponseHandler.getErrorStream();
+  // Success popup stream initialised.
   ResponseHandler.getSuccessStream();
+  // Connectivity check stream initialised.
   InternetConnectivity.networkStatusService();
   runApp(MyApp());
 }
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // Initialise Authentication Bloc and add event to check auth state.
         BlocProvider(
           create: (_) => AuthenticationBloc()..add(CheckAuthState()),
           lazy: false,
@@ -42,9 +45,6 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider(
                 create: (_) => NavigationProvider(),
               ),
-              ChangeNotifierProvider(
-                create: (_) => NotificationsProvider(),
-              ),
             ],
             child: MaterialApp.router(
               theme: ThemeData(
@@ -52,6 +52,11 @@ class MyApp extends StatelessWidget {
                   unselectedWidgetColor: AppColor.grey,
                   accentColor: Colors.white,
                   cardColor: AppColor.background,
+                  elevatedButtonTheme: ElevatedButtonThemeData(
+                      style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(AppColor.onBackground),
+                  )),
                   iconTheme: IconThemeData(color: Colors.white),
                   textTheme: TextTheme(
                     bodyText1: TextStyle(),
