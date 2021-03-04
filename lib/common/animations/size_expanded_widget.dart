@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-class ExpandedSection extends StatefulWidget {
+class SizeExpandedSection extends StatefulWidget {
   final Widget child;
   final bool expand;
   final Axis axis;
-  ExpandedSection({this.expand = false, this.child, this.axis = Axis.vertical});
+  final Curve animationCurve;
+  SizeExpandedSection(
+      {this.expand = true,
+      this.child,
+      this.axis = Axis.vertical,
+      this.animationCurve});
 
   @override
-  _ExpandedSectionState createState() => _ExpandedSectionState();
+  _SizeExpandedSectionState createState() => _SizeExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<ExpandedSection>
+class _SizeExpandedSectionState extends State<SizeExpandedSection>
     with SingleTickerProviderStateMixin {
   AnimationController expandController;
   Animation<double> animation;
@@ -19,17 +24,17 @@ class _ExpandedSectionState extends State<ExpandedSection>
   void initState() {
     super.initState();
     prepareAnimations();
-    _runExpandCheck();
   }
 
-  ///Setting up the animation
+  //Setting up the animation
   void prepareAnimations() {
     expandController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     animation = CurvedAnimation(
       parent: expandController,
-      curve: Curves.fastOutSlowIn,
+      curve: widget.animationCurve ?? Curves.fastOutSlowIn,
     );
+    if (widget.expand) _runExpandCheck();
   }
 
   void _runExpandCheck() {
@@ -41,7 +46,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
   }
 
   @override
-  void didUpdateWidget(ExpandedSection oldWidget) {
+  void didUpdateWidget(SizeExpandedSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
   }
@@ -58,7 +63,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
       axisAlignment: 1.0,
       sizeFactor: animation,
       child: widget.child,
-      axis: Axis.vertical,
+      axis: widget.axis ?? Axis.vertical,
     );
   }
 }

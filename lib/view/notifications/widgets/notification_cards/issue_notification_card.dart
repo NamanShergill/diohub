@@ -70,41 +70,41 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
         // Todo: Update issue event model and more cases.
         if (latestIssueEvent.event == 'assigned')
           return footerRow(latestIssueEvent.actor.avatarUrl,
-              'Assigned #${issueInfo.number} to ${latestIssueEvent.assignee.login}.');
+              'Assigned #${issueInfo.number} to ${latestIssueEvent.assignee.login}');
+        else if (latestIssueEvent.event == 'closed')
+          return footerRow(
+              latestIssueEvent.actor.avatarUrl, 'Closed #${issueInfo.number}');
       }
       // Return latest comment.
       return footerRow(latestComment.user.avatarUrl, latestComment.body);
     }
-    return Opacity(
-      opacity: 0.3,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ShimmerWidget(
-            child: ClipOval(
-              child: Container(
-                height: 20,
-                width: 20,
-                color: Colors.grey,
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ShimmerWidget(
+          child: ClipOval(
+            child: Container(
+              height: 20,
+              width: 20,
+              color: Colors.grey,
             ),
           ),
-          SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            child: ShimmerWidget(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColor.grey,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                height: 20,
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          child: ShimmerWidget(
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColor.grey,
+                borderRadius: BorderRadius.circular(10),
               ),
+              height: 20,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -143,19 +143,20 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
     if (issueInfo != null &&
         latestIssueEvent != null &&
         latestComment != null) {
-      String date;
-      //If issue is open, GitHub considers the later event/comment's time.
-      if (issueInfo.state == 'open') {
-        if (DateTime.parse(latestIssueEvent.createdAt)
-            .isAfter(DateTime.parse(latestComment.createdAt)))
-          date = latestIssueEvent.createdAt;
-        else
-          date = latestComment.createdAt;
-      }
-      //If it is closed, it just sees the latest comment date, and ignores the actions.
-      else
-        date = latestComment.createdAt;
+      String date = widget.notification.updatedAt;
 
+      //Todo: I can't figure out how GitHub decides the dates on notifications. Do this later.
+
+      //If notification reason is assign, it will show issue creation date.
+      // if (widget.notification.reason == 'assign')
+      //   date = widget.notification.updatedAt;
+      // else {
+      //   if (DateTime.parse(latestIssueEvent.createdAt)
+      //       .isAfter(DateTime.parse(latestComment.createdAt)))
+      //     date = latestIssueEvent.createdAt;
+      //   else
+      //     date = latestComment.createdAt;
+      // }
       DateTime _dateTime = DateTime.parse(date);
       Duration _difference = DateTime.now().difference(_dateTime);
       if (_difference.inMinutes < 1) {

@@ -52,11 +52,13 @@ class _LandingScreenState extends State<LandingScreen> {
             onPageChanged: (index) {
               _navProvider.setCurrentIndex(index);
             },
+            physics: NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(),
               SearchScreen(),
               NotificationsScreen(),
               SettingsScreen(),
+              Container(),
             ],
           ),
         ),
@@ -98,9 +100,14 @@ class _LandingScreenState extends State<LandingScreen> {
                     heroTag: 'notificationsNavButton',
                   ),
                   GButton(
-                    icon: LineIcons.cog,
-                    text: 'Settings',
+                    icon: LineIcons.user,
+                    text: 'Profile',
                     heroTag: 'settingsNavButton',
+                  ),
+                  GButton(
+                    icon: LineIcons.infoCircle,
+                    text: 'About',
+                    heroTag: 'aboutNavButton',
                   ),
                 ],
               ),

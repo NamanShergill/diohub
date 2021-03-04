@@ -3,6 +3,7 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/controller/button/button_controller.dart';
+import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/services/authentication/auth_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -52,7 +53,8 @@ class GetDio {
         // If response contains a ['message'] key, show success popup to the user with the message.
         if (response.data.runtimeType.toString().contains('Map')) {
           if (response.data.containsKey("message")) {
-            ResponseHandler.setSuccessMessage(response.data["message"]);
+            ResponseHandler.setSuccessMessage(
+                AppPopupData(title: response.data["message"]));
           }
         }
         return response;
@@ -65,8 +67,9 @@ class GetDio {
           throw Exception(error.message ?? 'Some error occurred.');
         }
         // If response contains a ['message'] key, show error popup to the user with the message.
-        else if (error.response.data.runtimeType.toString() == "String") {
-          ResponseHandler.setErrorMessage(error.response.data);
+        else if (error.response.data.containsKey("message")) {
+          ResponseHandler.setErrorMessage(
+              AppPopupData(title: error.response.data['message']));
         }
       }));
     // If [cacheEnabled] is true, check the cache/cache the response.

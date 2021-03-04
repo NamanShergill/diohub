@@ -90,42 +90,39 @@ class _PullRequestNotificationCardState
       return footerRow(pullRequest.user.avatarUrl,
           'Status: ${pullRequest.merged ? 'Merged' : pullRequest.state.substring(0, 1).toUpperCase() + pullRequest.state.substring(1)}');
     }
-    return Opacity(
-      opacity: 0.3,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ShimmerWidget(
-            child: ClipOval(
-              child: Container(
-                height: 20,
-                width: 20,
-                color: Colors.grey,
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ShimmerWidget(
+          child: ClipOval(
+            child: Container(
+              height: 20,
+              width: 20,
+              color: Colors.grey,
             ),
           ),
-          SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            child: ShimmerWidget(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColor.grey,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                height: 20,
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          child: ShimmerWidget(
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColor.grey,
+                borderRadius: BorderRadius.circular(10),
               ),
+              height: 20,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   String getDate() {
-    if (pullRequest != null) {
-      DateTime _dateTime = DateTime.parse(pullRequest.updatedAt);
+    if (loading != null) {
+      DateTime _dateTime = DateTime.parse(widget.notification.updatedAt);
       Duration _difference = DateTime.now().difference(_dateTime);
       if (_difference.inMinutes < 1) {
         return '${_difference.inSeconds} s';

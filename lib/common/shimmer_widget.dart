@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
@@ -8,8 +9,8 @@ class ShimmerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       child: child,
-      baseColor: Colors.white,
-      highlightColor: Colors.grey,
+      baseColor: AppColor.grey,
+      highlightColor: AppColor.grey2,
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/models/authentication/device_code_model.dart';
@@ -55,179 +56,183 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: CountdownTimer(
-            controller: timerController,
-            endWidget: Text('Time Expired.'),
-            widgetBuilder: (_, CurrentRemainingTime time) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return SizeExpandedSection(
+      animationCurve: Curves.easeOutCirc,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: CountdownTimer(
+              controller: timerController,
+              endWidget: Text('Time Expired.'),
+              widgetBuilder: (_, CurrentRemainingTime time) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Verification.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Divider(
+                      height: 32,
+                    ),
+                    Center(
+                      child: Text(
+                          'Expires in ${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec}'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LinearProgressIndicator(
+                        backgroundColor: AppColor.grey,
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(AppColor.grey3),
+                        value: ((time.min ?? 0) * 60 + time.sec) /
+                            ((widget.deviceCodeModel.expiresIn -
+                                    widget.deviceCodeModel.parsedOn) /
+                                1000),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Center(
+            child: Button(
+              onTap: () async {
+                copyCode();
+                setState(() {
+                  copied = true;
+                });
+                await Future.delayed(Duration(seconds: 4));
+                setState(() {
+                  copied = false;
+                });
+              },
+              enabled: !copied,
+              padding: const EdgeInsets.all(24.0),
+              color: AppColor.onBackground,
+              child: Column(
                 children: [
                   Text(
-                    'Verification.',
+                    widget.deviceCodeModel.userCode,
                     style: Theme.of(context)
                         .textTheme
                         .headline5
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
-                  Divider(
-                    height: 32,
+                  SizedBox(
+                    height: 8,
                   ),
-                  Center(
-                    child: Text(
-                        'Expires in ${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec}'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: LinearProgressIndicator(
-                      backgroundColor: AppColor.grey,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColor.grey3),
-                      value: ((time.min ?? 0) * 60 + time.sec) /
-                          ((widget.deviceCodeModel.expiresIn -
-                                  widget.deviceCodeModel.parsedOn) /
-                              1000),
-                    ),
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: !copied,
+                        child: Icon(
+                          Icons.copy,
+                          color: Colors.grey,
+                          size: 13,
+                        ),
+                        replacement: Icon(
+                          Icons.check,
+                          color: Colors.grey,
+                          size: 13,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Visibility(
+                        visible: !copied,
+                        child: Text(
+                          'TAP TO COPY',
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                        replacement: Text(
+                          'COPIED',
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              );
-            },
-          ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Center(
-          child: Button(
-            onTap: () async {
-              copyCode();
-              setState(() {
-                copied = true;
-              });
-              await Future.delayed(Duration(seconds: 4));
-              setState(() {
-                copied = false;
-              });
-            },
-            enabled: !copied,
-            padding: const EdgeInsets.all(24.0),
-            color: AppColor.onBackground,
-            child: Column(
-              children: [
-                Text(
-                  widget.deviceCodeModel.userCode,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                      visible: !copied,
-                      child: Icon(
-                        Icons.copy,
-                        color: Colors.grey,
-                        size: 13,
-                      ),
-                      replacement: Icon(
-                        Icons.check,
-                        color: Colors.grey,
-                        size: 13,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Visibility(
-                      visible: !copied,
-                      child: Text(
-                        'TAP TO COPY',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
-                      ),
-                      replacement: Text(
-                        'COPIED',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        Center(
-          child: Text(
-            'Input the code on the following link.',
-            style: Theme.of(context).textTheme.bodyText1,
+          SizedBox(
+            height: 16,
           ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Flexible(
-          child: Material(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            color: AppColor.onBackground,
-            elevation: 2,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(10),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.deviceCodeModel.verificationUri,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ],
+          Center(
+            child: Text(
+              'Input the code on the following link.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Flexible(
+            child: Material(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              color: AppColor.onBackground,
+              elevation: 2,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.deviceCodeModel.verificationUri,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  showURLBottomActionsMenu(
+                      context, widget.deviceCodeModel.verificationUri,
+                      shareDescription:
+                          'Enter the code ${widget.deviceCodeModel.userCode} on:');
+                },
               ),
-              onTap: () {
-                showURLBottomActionsMenu(
-                    context, widget.deviceCodeModel.verificationUri,
-                    shareDescription:
-                        'Enter the code ${widget.deviceCodeModel.userCode} on:');
+            ),
+          ),
+          Divider(
+            height: 32,
+          ),
+          Center(
+            child: MaterialButton(
+              child: Text(
+                'Tap here to cancel',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
               },
             ),
           ),
-        ),
-        Divider(
-          height: 32,
-        ),
-        Center(
-          child: MaterialButton(
-            child: Text(
-              'Tap here to cancel',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
-            },
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

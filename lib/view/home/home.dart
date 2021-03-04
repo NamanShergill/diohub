@@ -4,6 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
+import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
@@ -44,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen>
                   expandedHeight: 280,
                   collapsedHeight: 150,
                   pinned: true,
+                  floating: true,
+                  snap: true,
                   elevation: 2,
                   backgroundColor: AppColor.background,
                   flexibleSpace: Padding(
@@ -58,11 +61,25 @@ class _HomeScreenState extends State<HomeScreen>
                             ProviderLoadingProgressWrapper<CurrentUserProvider>(
                           builder: (context, value) => CachedNetworkImage(
                             imageUrl: value.currentUserInfo.avatarUrl,
+                            placeholder: (context, _) {
+                              return ShimmerWidget(
+                                child: Container(
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
                           ),
                           errorBuilder: (context, error) {
                             return Icon(
                               LineIcons.exclamationCircle,
                               size: 40,
+                            );
+                          },
+                          loadingBuilder: (context) {
+                            return ShimmerWidget(
+                              child: Container(
+                                color: Colors.grey,
+                              ),
                             );
                           },
                         ),

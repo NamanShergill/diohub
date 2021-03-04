@@ -52,6 +52,7 @@ dependencies:
   provider: ^4.3.3
   share: ^2.0.0
   shimmer: ^2.0.0-nullsafety.0
+  snapping_sheet: ^2.0.2
   url_launcher: ^6.0.2
 
   # The following adds the Cupertino Icons font to your application.

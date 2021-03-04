@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/expanded_widget.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
 
 class CollapsibleAppBar extends StatelessWidget {
   final double maxHeight;
@@ -86,7 +86,7 @@ class CollapsibleAppBar extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ExpandedSection(
+                  SizeExpandedSection(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: child,
