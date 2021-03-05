@@ -21,8 +21,7 @@ class BasicNotificationCard extends StatefulWidget {
 class _BasicNotificationCardState extends State<BasicNotificationCard> {
   void markAsRead() {
     HapticFeedback.vibrate();
-    GetDio.getDio(debugLog: true)
-        .patch('/notifications/threads/${widget.notification.id}');
+    GetDio.getDio().patch('/notifications/threads/${widget.notification.id}');
     setState(() {
       widget.notification.unread = false;
     });
