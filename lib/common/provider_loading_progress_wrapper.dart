@@ -13,11 +13,19 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
   @override
   Widget build(BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
-    if (value.status == Status.loaded) return builder(context, value);
-    if (value.status == Status.loading)
-      return loadingBuilder(context) ?? LoadingIndicator();
-    if (value.status == Status.error)
-      return errorBuilder(context, value.error) ?? Text(value.error);
-    return Container();
+    return StreamBuilder(
+        stream: value.statusStream,
+        builder: (context, AsyncSnapshot<Status> snapshot) {
+          if (snapshot.data == Status.loaded) return builder(context, value);
+          if (snapshot.data == Status.loading)
+            return loadingBuilder != null
+                ? loadingBuilder(context)
+                : LoadingIndicator();
+          if (snapshot.data == Status.error)
+            return errorBuilder(context, value.error) ?? Text(value.error);
+          return loadingBuilder != null
+              ? loadingBuilder(context)
+              : LoadingIndicator();
+        });
   }
 }

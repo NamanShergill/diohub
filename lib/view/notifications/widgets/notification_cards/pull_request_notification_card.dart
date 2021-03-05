@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/models/notifications/notifications_model.dart';
+import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/basic_notification_card.dart';

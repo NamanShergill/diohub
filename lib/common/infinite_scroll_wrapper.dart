@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:onehub/app/global.dart';
 import 'package:onehub/style/colors.dart';
 
 import 'loading_indicator.dart';
@@ -32,12 +33,18 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Show a divider between each element. Defaults to true.
   final bool divider;
 
+  /// Show divider above the first item.
+  final bool firstDivider;
+
   /// Filter the results before displaying them.
   /// Gives the list of results that can be modified and returned.
   final filterFn;
 
   /// A controller to call the refresh function if required.
   final InfiniteScrollWrapperController controller;
+
+  /// Spacing to add to the top of the list.
+  final double topSpacing;
 
   InfiniteScrollWrapper(
       {Key key,
@@ -48,6 +55,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.filterFn,
       this.divider = true,
       this.pageSize = 10,
+      this.topSpacing = 0,
+      this.firstDivider = true,
       this.spacing = 16})
       : super(key: key);
 
@@ -58,7 +67,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
   _InfiniteScrollWrapperState(InfiniteScrollWrapperController _controller) {
-    _controller.refresh = resetAndRefresh;
+    if (_controller != null) _controller.refresh = resetAndRefresh;
   }
 
   // Start off with the first page.
@@ -119,6 +128,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
         _pagingController.appendPage(filteredItems, nextPageKey);
       }
     } catch (error) {
+      Global.log.e(error);
       _pagingController.error = error;
     }
   }
@@ -135,8 +145,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<T>(
           itemBuilder: (context, T item, index) => Column(children: [
+            if (index == 0)
+              SizedBox(
+                height: widget.topSpacing,
+              ),
             Visibility(
-              visible: widget.divider,
+              visible:
+                  widget.divider && (index == 0 ? widget.firstDivider : true),
               child: Divider(
                 height: widget.spacing,
               ),

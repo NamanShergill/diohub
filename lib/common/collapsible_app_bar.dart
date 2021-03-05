@@ -19,7 +19,7 @@ class CollapsibleAppBar extends StatelessWidget {
       this.maxHeight,
       this.expandedParentPadding = 8,
       this.padding = const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-      this.childCollapseValue = 0.6,
+      this.childCollapseValue = 0.7,
       this.trailing});
 
   double _calculateExpandRatio(BoxConstraints constraints) {
@@ -58,28 +58,31 @@ class CollapsibleAppBar extends StatelessWidget {
                           : Alignment.bottomLeft)
                   .evaluate(animation),
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal:
-                        Tween<double>(begin: 0, end: expandedParentPadding)
-                            .evaluate(animation)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.headline4.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: Tween<double>(begin: 26, end: 36)
+                padding: EdgeInsets.only(bottom: child != null ? 30 : 0),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal:
+                          Tween<double>(begin: 0, end: expandedParentPadding)
                               .evaluate(animation)),
-                    ),
-                    Container(
-                      height:
-                          Tween<double>(begin: 50, end: 60).evaluate(animation),
-                      width:
-                          Tween<double>(begin: 50, end: 60).evaluate(animation),
-                      child: trailing,
-                    ),
-                  ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.headline4.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Tween<double>(begin: 26, end: 36)
+                                .evaluate(animation)),
+                      ),
+                      Container(
+                        height: Tween<double>(begin: 50, end: 60)
+                            .evaluate(animation),
+                        width: Tween<double>(begin: 50, end: 60)
+                            .evaluate(animation),
+                        child: trailing,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -90,7 +93,7 @@ class CollapsibleAppBar extends StatelessWidget {
                 children: [
                   SizeExpandedSection(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
+                      padding: const EdgeInsets.only(bottom: 20.0),
                       child: child,
                     ),
                     axis: Axis.vertical,

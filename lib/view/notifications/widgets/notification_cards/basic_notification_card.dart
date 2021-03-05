@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/models/notifications/notifications_model.dart';
+import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/services/activity/notifications_service.dart';
 import 'package:onehub/style/colors.dart';
 

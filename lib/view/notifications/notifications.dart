@@ -5,7 +5,7 @@ import 'package:onehub/common/button.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
-import 'package:onehub/models/notifications/notifications_model.dart';
+import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/services/activity/notifications_service.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/notifications/widgets/filter_sheet.dart';
@@ -19,19 +19,23 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
-  // Filters to be supplied to the API.
+  /// Filters to be supplied to the API.
   Map<String, dynamic> apiFilters = {'all': true};
-  // Filters to be applied client side.
+
+  /// Filters to be applied client side.
   Map<String, dynamic> clientFilters = {'show_only': []};
-  // Is the action button pane expanded.
+
+  /// Is the action button pane expanded.
   bool expanded = false;
-  // Controller for the infinite pagination wrapper.
+
+  /// Controller for the infinite pagination wrapper.
   InfiniteScrollWrapperController _controller =
       InfiniteScrollWrapperController();
-  // 'Mark all as read" button status.
+
+  /// 'Mark all as read" button status.
   bool loadingButton = false;
 
-  // Function to check if a specific notification fits the user filter or not.
+  /// Function to check if a specific notification fits the user filter or not.
   bool checkFilter(NotificationModel notification) {
     bool allowed = true;
     if (clientFilters['show_only'].isNotEmpty)
@@ -39,7 +43,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     return allowed;
   }
 
-  // Show bottom sheet to apply filters.
+  /// Show bottom sheet to apply filters.
   void showFilterSheet() {
     showModalBottomSheet(
         context: context,

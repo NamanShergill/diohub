@@ -71,7 +71,6 @@ class CurrentUserProvider extends BaseProvider {
           await CurrentUserService.getCurrentUserInfo().then((value) {
         if (value != null) {
           super.statusController.add(Status.loaded);
-          notifyListeners();
           return value;
         }
         return null;
@@ -82,7 +81,6 @@ class CurrentUserProvider extends BaseProvider {
         authenticationBloc.add(LogOut());
       error = e.message ?? 'Something went wrong.';
       super.statusController.add(Status.error);
-      notifyListeners();
     }
     return _currentUserInfo;
   }

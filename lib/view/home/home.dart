@@ -7,6 +7,7 @@ import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/home/widgets/events/events.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,16 +44,14 @@ class _HomeScreenState extends State<HomeScreen>
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   expandedHeight: 280,
-                  collapsedHeight: 150,
+                  collapsedHeight: 155,
                   pinned: true,
-                  floating: true,
-                  snap: true,
                   elevation: 2,
                   backgroundColor: AppColor.background,
                   flexibleSpace: Padding(
                     padding: const EdgeInsets.only(bottom: 30.0),
                     child: CollapsibleAppBar(
-                      minHeight: 150,
+                      minHeight: 155,
                       maxHeight: 280,
                       title: 'Home',
                       child: SearchBar(),
@@ -93,18 +92,20 @@ class _HomeScreenState extends State<HomeScreen>
                       isScrollable: true,
                       controller: _tabController,
                       unselectedLabelColor: AppColor.grey3,
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontSize: 14),
                       tabs: [
                         Tab(
-                          child: Text('Activity'),
+                          text: 'Activity'.toUpperCase(),
+                        ),
+                        Tab(text: 'Pull Requests'.toUpperCase()),
+                        Tab(
+                          child: Text('Issues'.toUpperCase()),
                         ),
                         Tab(
-                          child: Text('Pull Requests'),
-                        ),
-                        Tab(
-                          child: Text('Issues'),
-                        ),
-                        Tab(
-                          child: Text('Repositories'),
+                          child: Text('Repositories'.toUpperCase()),
                         ),
                       ],
                     ),
@@ -113,39 +114,42 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ];
           },
-          body: Builder(
-            builder: (context) {
-              NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-              return Padding(
-                padding: const EdgeInsets.only(top: 150),
-                child: LoginCheckWrapper(
-                  child: TabBarView(
-                    controller: _tabController,
-                    physics: BouncingScrollPhysics(),
-                    children: [
-                      Container(
-                        color: AppColor.background,
-                        height: 80,
-                        width: 40,
+          body: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+            builder: (context, value) {
+              return Builder(
+                builder: (context) {
+                  NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+                  return Container(
+                    color: AppColor.onBackground,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 150),
+                      child: LoginCheckWrapper(
+                        child: TabBarView(
+                          controller: _tabController,
+                          physics: BouncingScrollPhysics(),
+                          children: [
+                            Events(),
+                            Container(
+                              color: Colors.blue,
+                              height: 80,
+                              width: 40,
+                            ),
+                            Container(
+                              color: Colors.green,
+                              height: 80,
+                              width: 40,
+                            ),
+                            Container(
+                              color: Colors.amber,
+                              height: 80,
+                              width: 40,
+                            ),
+                          ],
+                        ),
                       ),
-                      Container(
-                        color: Colors.blue,
-                        height: 80,
-                        width: 40,
-                      ),
-                      Container(
-                        color: Colors.green,
-                        height: 80,
-                        width: 40,
-                      ),
-                      Container(
-                        color: Colors.amber,
-                        height: 80,
-                        width: 40,
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             },
           ),

@@ -1,6 +1,6 @@
 import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/notifications/notifications_model.dart';
+import 'package:onehub/models/events/notifications_model.dart';
 
 class NotificationsService {
   static String _url = '/notifications';
@@ -22,7 +22,7 @@ class NotificationsService {
     List<NotificationModel> notifications = await GetDio.getDio()
         .get(
       _url,
-      options: CacheManager.notifications(refresh: refresh),
+      options: CacheManager.notifications(refresh),
       queryParameters: queryParameters,
     )
         .then((value) {
