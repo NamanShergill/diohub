@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/notifications/notifications_model.dart';
+import 'package:onehub/services/activity/notifications_service.dart';
 import 'package:onehub/style/colors.dart';
 
 class BasicNotificationCard extends StatefulWidget {
@@ -23,7 +23,7 @@ class BasicNotificationCard extends StatefulWidget {
 class _BasicNotificationCardState extends State<BasicNotificationCard> {
   void markAsRead() {
     HapticFeedback.vibrate();
-    GetDio.getDio().patch('/notifications/threads/${widget.notification.id}');
+    NotificationsService.markThreadAsRead(widget.notification.id);
     setState(() {
       widget.notification.unread = false;
     });

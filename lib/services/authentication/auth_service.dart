@@ -47,6 +47,7 @@ class AuthService {
     return response;
   }
 
+  // Todo: Remove unneeded scopes later. Idk what half of these even do lmao.
   static String _scope =
       'repo repo:status repo_deployment public_repo repo:invite '
       'security_events admin:repo_hook write:repo_hook read:repo_hook admin:org'

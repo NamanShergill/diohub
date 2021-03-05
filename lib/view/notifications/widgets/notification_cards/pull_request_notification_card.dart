@@ -32,8 +32,7 @@ class _PullRequestNotificationCardState
   }
 
   void getInfo() async {
-    // Get more information on issue to display
-
+    // Get more information on the pull request to display
     pullRequest = await PullsService.getPullInformation(
         fullUrl: widget.notification.subject.url);
     setState(() {

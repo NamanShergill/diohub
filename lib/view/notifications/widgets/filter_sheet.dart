@@ -8,10 +8,18 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class FilterSheet extends StatefulWidget {
+  ///  Provides the selected filters, if any.
   final onFiltersChanged;
+
+  ///  Current API Filters.
   final Map apiFilters;
+
+  /// Current client filters.
   final Map clientFilters;
+
+  /// Controller to scroll the bottom sheet along with the [ListView].
   final ScrollController controller;
+
   FilterSheet(
       {Key key,
       this.onFiltersChanged,
@@ -35,23 +43,27 @@ class _FilterSheetState extends State<FilterSheet> {
   }
 
   // Have to do it this way because even if I make [clientFilters] not a
-  // reference to [widget.clientFilters] by using [Map.from()], the list inside copied is still a
-  // reference to the original list, causing changes in both if values is changed in one.
+  // reference to [widget.clientFilters] by using [Map.from()], the list
+  // inside copied is still a reference to the original list, causing changes
+  // in both if values is changed in one.
   void deepCopy() {
     apiFilters['all'] = widget.apiFilters['all'];
     clientFilters['show_only'] =
         widget.clientFilters['show_only'].map((e) => e).toList();
   }
 
+  // Todo: Add remove filters button.
   void removeFilters(String key) {
     apiFilters.remove(key);
     sendFilters();
   }
 
+  // Send the filters to the parent widget.
   void sendFilters() {
     widget.onFiltersChanged(apiFilters, clientFilters);
   }
 
+  // Check if filters are modified to show the Apply Button accordingly.
   bool isModified() {
     bool modified = false;
     Function deepEq = const DeepCollectionEquality().equals;
@@ -117,9 +129,6 @@ class _FilterSheetState extends State<FilterSheet> {
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     onChanged: (value) {}),
-              ),
-              SizedBox(
-                height: 16,
               ),
             ]),
             section(title: 'Show only', contents: [
@@ -345,37 +354,6 @@ class _FilterSheetState extends State<FilterSheet> {
                     ),
                     onChanged: (value) {}),
               ),
-              // tileWrapper(
-              //   child: CheckboxListTile(
-              //       secondary: Icon(
-              //         LineIcons.teamspeak,
-              //         color: Colors.white,
-              //       ),
-              //       value: true,
-              //       activeColor: AppColor.accent,
-              //       title: Text(
-              //         'Team mentioned',
-              //         style: Theme.of(context).textTheme.bodyText1,
-              //       ),
-              //       onChanged: (value) {}),
-              // ),
-              // tileWrapper(
-              //   child: CheckboxListTile(
-              //       secondary: Icon(
-              //         LineIcons.check,
-              //         color: Colors.white,
-              //       ),
-              //       value: true,
-              //       activeColor: AppColor.accent,
-              //       title: Text(
-              //         'Review Requested',
-              //         style: Theme.of(context).textTheme.bodyText1,
-              //       ),
-              //       onChanged: (value) {}),
-              // ),
-              SizedBox(
-                height: 16,
-              ),
             ]),
           ],
         ),
@@ -438,6 +416,9 @@ class _FilterSheetState extends State<FilterSheet> {
           ),
           Column(
             children: contents,
+          ),
+          SizedBox(
+            height: 16,
           ),
         ],
       ),

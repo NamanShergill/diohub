@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
@@ -141,11 +140,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                   setState(() {
                                     loadingButton = true;
                                   });
-                                  await GetDio.getDio()
-                                      .put('/notifications', queryParameters: {
-                                    'last_read_at':
-                                        DateTime.now().toIso8601String(),
-                                  });
+                                  await NotificationsService.markAllAsRead();
                                   setState(() {
                                     loadingButton = false;
                                   });
