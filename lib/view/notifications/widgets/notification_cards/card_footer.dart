@@ -15,8 +15,7 @@ class CardFooter extends StatelessWidget {
       children: [
         ClipOval(
           child: Opacity(
-                opacity: unread ? 1 : 0.7,
-
+            opacity: unread ? 1 : 0.7,
             child: CachedNetworkImage(
               imageUrl: avatarUrl,
               height: 20,
@@ -39,7 +38,7 @@ class CardFooter extends StatelessWidget {
         Flexible(
           child: Text(
             text,
-            style: TextStyle(color: unread?Colors.white:AppColor.grey3),
+            style: TextStyle(color: unread ? Colors.white : AppColor.grey3),
             overflow: TextOverflow.ellipsis,
           ),
         ),
