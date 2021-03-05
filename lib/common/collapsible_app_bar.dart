@@ -50,7 +50,9 @@ class CollapsibleAppBar extends StatelessWidget {
           children: [
             Align(
               alignment: AlignmentTween(
-                      begin: Alignment.topLeft,
+                      begin: child != null
+                          ? Alignment.topLeft
+                          : Alignment.bottomLeft,
                       end: child != null
                           ? Alignment.centerLeft
                           : Alignment.bottomLeft)
