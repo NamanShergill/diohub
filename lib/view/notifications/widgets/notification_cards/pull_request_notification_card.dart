@@ -1,13 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/notifications/notifications_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
-import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
+import 'package:onehub/view/notifications/widgets/notification_cards/card_footer.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
   final NotificationModel notification;
@@ -48,95 +46,23 @@ class _PullRequestNotificationCardState
     super.build(context);
     return BasicNotificationCard(
       notification: widget.notification,
-      date: getDate(),
-      icon: getIcon(),
-      footer: getFooter(),
-    );
-  }
-
-  Widget footerRow(String avatarUrl, String text) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: avatarUrl,
-            height: 20,
-            fit: BoxFit.fill,
-            placeholder: (context, string) {
-              return ShimmerWidget(
-                child: Container(
-                  height: 20,
-                  width: 20,
-                  color: Colors.grey,
-                ),
-              );
-            },
-          ),
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Flexible(
-          child: Text(
-              '${text.substring(0, text.length > 40 ? 40 : text.length)}${text.length > 40 ? '...' : ''}'),
-        ),
-      ],
+      iconBuilder: (context) {
+        return getIcon();
+      },
+      footerBuilder: (context) {
+        if (!loading) {
+          return getFooter();
+        }
+        return null;
+      },
     );
   }
 
   Widget getFooter() {
-    if (!loading) {
-      return footerRow(pullRequest.user.avatarUrl,
-          'Status: ${pullRequest.merged ? 'Merged' : pullRequest.state.substring(0, 1).toUpperCase() + pullRequest.state.substring(1)}');
-    }
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ShimmerWidget(
-          child: ClipOval(
-            child: Container(
-              height: 20,
-              width: 20,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Expanded(
-          child: ShimmerWidget(
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColor.grey,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              height: 20,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  String getDate() {
-    if (loading != null) {
-      DateTime _dateTime = DateTime.parse(widget.notification.updatedAt);
-      Duration _difference = DateTime.now().difference(_dateTime);
-      if (_difference.inMinutes < 1) {
-        return '${_difference.inSeconds} s';
-      } else if (_difference.inHours < 1) {
-        return '${_difference.inMinutes} m';
-      } else if (_difference.inDays < 1) {
-        return '${_difference.inHours} h';
-      } else if (_difference.inDays < 31) {
-        return '${_difference.inDays} d';
-      } else {
-        return '${DateFormat('d MMM').format(_dateTime)}';
-      }
-    }
-    return '';
+    return CardFooter(
+        pullRequest.user.avatarUrl,
+        'Status: ${pullRequest.merged ? 'Merged' : pullRequest.state.substring(0, 1).toUpperCase() + pullRequest.state.substring(1)}',
+        widget.notification.unread);
   }
 
   Widget getIcon() {
