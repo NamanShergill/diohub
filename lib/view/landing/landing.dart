@@ -7,7 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/auth_popup/auth_popup.dart';
-import 'package:onehub/common/scaffold_body.dart';
+import 'package:onehub/common/scaffold_body/scaffold_body.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/home.dart';

@@ -11,7 +11,7 @@ import 'package:onehub/view/landing/widgets/landing_auth_wrapper.dart';
     AutoRoute(page: LandingAuthWrapperScreen, initial: true),
     CustomRoute(
         page: SearchOverlayScreen,
-        transitionsBuilder: TransitionsBuilders.fadeIn)
+        transitionsBuilder: TransitionsBuilders.fadeIn),
   ],
 )
 class $AppRouter {}

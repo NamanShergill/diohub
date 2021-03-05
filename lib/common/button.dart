@@ -68,36 +68,41 @@ class _ButtonState extends State<Button> {
           borderRadius: BorderRadius.circular(widget.borderRadius)),
       onPressed: widget.enabled && !loading ? widget.onTap : null,
       color: widget.color ?? AppColor.accent,
-      child: Padding(
-          padding: widget.padding,
-          child: !loading
-              ? Row(
-                  mainAxisSize:
-                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                        visible: widget.leadingIcon != null,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: widget.leadingIcon ?? Container(),
-                        )),
-                    Flexible(child: widget.child),
-                  ],
-                )
-              : Row(
-                  mainAxisSize:
-                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                        visible: widget.loadingWidget != null,
-                        child: widget.loadingWidget ?? Container()),
-                    LoadingIndicator(),
-                  ],
-                )),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+              padding: widget.padding,
+              child: !loading
+                  ? Row(
+                      mainAxisSize:
+                          widget.stretch ? MainAxisSize.max : MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(
+                            visible: widget.leadingIcon != null,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: widget.leadingIcon ?? Container(),
+                            )),
+                        Flexible(child: widget.child),
+                      ],
+                    )
+                  : Row(
+                      mainAxisSize:
+                          widget.stretch ? MainAxisSize.max : MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(
+                            visible: widget.loadingWidget != null,
+                            child: widget.loadingWidget ?? Container()),
+                        LoadingIndicator(),
+                      ],
+                    )),
+        ],
+      ),
     );
   }
 }
@@ -109,6 +114,7 @@ class StringButton extends StatelessWidget {
   final bool enabled;
   final double textSize;
   final String title;
+  final String subtitle;
   final Icon leadingIcon;
   final double borderRadius;
   final String loadingText;
@@ -123,6 +129,7 @@ class StringButton extends StatelessWidget {
     this.enabled = true,
     this.stretch = true,
     this.color,
+    this.subtitle,
     this.elevation = 2,
     this.borderRadius = 10,
     this.textSize,
@@ -134,9 +141,20 @@ class StringButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Button(
       onTap: onTap,
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.button.copyWith(fontSize: textSize),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style:
+                Theme.of(context).textTheme.button.copyWith(fontSize: textSize),
+          ),
+          Visibility(
+              visible: subtitle != null,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(subtitle ?? ''),
+              )),
+        ],
       ),
       loadingWidget: Text(loadingText ?? '',
           style:

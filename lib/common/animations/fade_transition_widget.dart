@@ -25,7 +25,7 @@ class _FadeAnimationSectionState extends State<FadeAnimationSection>
     prepareAnimations();
   }
 
-  //Setting up the animation
+  /// Setting up the animation
   void prepareAnimations() {
     expandController = AnimationController(
         vsync: this,

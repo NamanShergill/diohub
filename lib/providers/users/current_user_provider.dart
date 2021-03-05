@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:onehub/common/base_popup_notification.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/services/users/current_user_service.dart';
@@ -12,19 +13,11 @@ class CurrentUserProvider extends BaseProvider {
   final AuthenticationBloc authenticationBloc;
   StreamSubscription authBlocSubscription;
   StreamSubscription internetSubscription;
+  StreamSubscription errorSubscription;
+
   String error;
 
-  CurrentUserProvider({this.authenticationBloc}) {
-    authBlocSubscription = authenticationBloc.listen((state) {
-      // Fetch user details if authentication is successful.
-      if (state is AuthenticationSuccessful) getUserInfo();
-    });
-    // Request for user details again when back online, if failed previously due to no connection.
-    internetSubscription = InternetConnectivity.networkStream.listen((event) {
-      if (event != NetworkStatus.Online && _providerStatus == Status.error)
-        getUserInfo();
-    });
-  }
+  CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
 
   // Get provider status.
   @override
@@ -34,19 +27,50 @@ class CurrentUserProvider extends BaseProvider {
   void dispose() {
     authBlocSubscription.cancel();
     internetSubscription.cancel();
+    errorSubscription.cancel();
     super.dispose();
   }
 
-  CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
+  CurrentUserProvider({this.authenticationBloc}) {
+    authBlocSubscription = authenticationBloc.listen((state) {
+      // Fetch user details if authentication is successful.
+      if (state is AuthenticationSuccessful) getUserInfo();
+    });
+    // Request for user details again when back online, if failed previously due to no connection.
+    internetSubscription =
+        InternetConnectivity.networkStream.listen((event) async {
+      if (event != NetworkStatus.Online && _providerStatus == Status.error) {
+        await getUserInfo();
+      }
+    });
+    // listen to the status of the provider and execute accordingly.
+    errorSubscription = super.statusStream.listen((event) {
+      _providerStatus = event;
+      // Show a popup to retry if there was an error fetching the user details.
+      if (event == Status.error) {
+        super.showPopup(BasePopupNotification(
+          title: 'Could not fetch user details. Tap to retry.',
+          dismissOnTap: false,
+          // Try getting the user details again on tap.
+          onTap: (context) async {
+            await getUserInfo();
+          },
+        ));
+        // Remove the popup if a status other than loading is set.
+      } else if (event != Status.loading) {
+        super.showPopup(null);
+      }
+    });
+  }
 
   /// Get User information from the API.
   Future<CurrentUserInfoModel> getUserInfo() async {
-    _providerStatus = Status.loading;
+    super.statusController.add(Status.loading);
     try {
       _currentUserInfo =
           await CurrentUserService.getCurrentUserInfo().then((value) {
         if (value != null) {
-          _providerStatus = Status.loaded;
+          super.statusController.add(Status.loaded);
           notifyListeners();
           return value;
         }
@@ -56,8 +80,8 @@ class CurrentUserProvider extends BaseProvider {
       // LogOut if auth credentials sent are incorrect.
       if (e.response != null && e.response.statusCode == 401)
         authenticationBloc.add(LogOut());
-      error = e.message ?? 'Something went wrong';
-      _providerStatus = Status.error;
+      error = e.message ?? 'Something went wrong.';
+      super.statusController.add(Status.error);
       notifyListeners();
     }
     return _currentUserInfo;
