@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
+import 'package:onehub/app/global.dart';
 import 'package:onehub/controller/button/button_controller.dart';
 import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/services/authentication/auth_service.dart';
@@ -9,9 +10,9 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class GetDio {
   static Dio getDio(
-      {loggedIn = true,
-      cacheEnabled = true,
-      baseURL = "https://api.github.com",
+      {bool loggedIn = true,
+      bool cacheEnabled = true,
+      String baseURL = Global.apiBaseURL,
       bool applyBaseURL = true,
       bool loginRequired = true,
       bool debugLog = false,
@@ -75,7 +76,7 @@ class GetDio {
     // If [cacheEnabled] is true, check the cache/cache the response.
     if (cacheEnabled)
       dio.interceptors.add(DioCacheManager(CacheConfig(
-              baseUrl: 'https://api.github.com',
+              baseUrl: baseURL,
               defaultMaxAge: Duration(minutes: 10),
               defaultMaxStale: Duration(days: 7),
               maxMemoryCacheCount: 10000))

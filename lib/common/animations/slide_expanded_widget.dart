@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/style/animDuartions.dart';
 
-class SizeExpandedSection extends StatefulWidget {
+class SlideExpandedSection extends StatefulWidget {
   final Widget child;
   final bool expand;
-  final Axis axis;
   final Curve animationCurve;
   final Duration duration;
-
-  SizeExpandedSection(
-      {this.expand = true,
-      this.child,
-      this.axis = Axis.vertical,
-      this.duration,
-      this.animationCurve});
+  SlideExpandedSection(
+      {this.expand = true, this.child, this.animationCurve, this.duration});
 
   @override
-  _SizeExpandedSectionState createState() => _SizeExpandedSectionState();
+  _SlideExpandedSectionState createState() => _SlideExpandedSectionState();
 }
 
-class _SizeExpandedSectionState extends State<SizeExpandedSection>
+class _SlideExpandedSectionState extends State<SlideExpandedSection>
     with SingleTickerProviderStateMixin {
   AnimationController expandController;
-  Animation<double> animation;
+  Animation<Offset> animation;
 
   @override
   void initState() {
@@ -36,10 +30,13 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
         vsync: this,
         duration:
             widget.duration ?? AppThemeAnimDurations.transitionAnimDuration);
-    animation = CurvedAnimation(
+    animation = Tween<Offset>(
+      begin: const Offset(1.5, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
       parent: expandController,
-      curve: widget.animationCurve ?? Curves.fastOutSlowIn,
-    );
+      curve: widget.animationCurve ?? Curves.easeIn,
+    ));
     if (widget.expand) _runExpandCheck();
   }
 
@@ -52,7 +49,7 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
   }
 
   @override
-  void didUpdateWidget(SizeExpandedSection oldWidget) {
+  void didUpdateWidget(SlideExpandedSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
   }
@@ -65,11 +62,9 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
 
   @override
   Widget build(BuildContext context) {
-    return SizeTransition(
-      axisAlignment: 1.0,
-      sizeFactor: animation,
+    return SlideTransition(
+      position: animation,
       child: widget.child,
-      axis: widget.axis ?? Axis.vertical,
     );
   }
 }

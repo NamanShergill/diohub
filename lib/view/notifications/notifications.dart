@@ -92,9 +92,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         expand: expanded,
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 8,
-                            ),
+                            Divider(),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 8),
@@ -194,9 +192,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                 elevation: 2,
                               ),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
+                            Divider(),
                           ],
                         ),
                       ),
