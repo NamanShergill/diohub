@@ -31,8 +31,6 @@ class AuthService {
     if (accessToken != null) {
       return accessToken;
     }
-    //Todo: Router
-    // ExtendedNavigator.named('rootNav').replace(Routes.loginScreen);
     return null;
   }
 

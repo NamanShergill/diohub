@@ -123,7 +123,6 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
             ]),
             section(title: 'Show only', contents: [
-              // Todo: Add more filters. Need bigger data set of responses.
               tileWrapper(
                 function: () {
                   if (clientFilters['show_only'].contains('assign'))

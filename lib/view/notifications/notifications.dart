@@ -20,19 +20,58 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
+  // Filters to be supplied to the API.
   Map<String, dynamic> apiFilters = {'all': true};
+  // Filters to be applied client side.
   Map<String, dynamic> clientFilters = {'show_only': []};
+  // Is the action button pane expanded.
   bool expanded = false;
+  // Controller for the infinite pagination wrapper.
   InfiniteScrollWrapperController _controller =
       InfiniteScrollWrapperController();
-  bool bottomSheetExpanded = false;
+  // 'Mark all as read" button status.
   bool loadingButton = false;
 
+  // Function to check if a specific notification fits the user filter or not.
   bool checkFilter(NotificationModel notification) {
     bool allowed = true;
     if (clientFilters['show_only'].isNotEmpty)
       allowed = clientFilters['show_only'].contains(notification.reason);
     return allowed;
+  }
+
+  // Show bottom sheet to apply filters.
+  void showFilterSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
+        )),
+        backgroundColor: AppColor.background,
+        isScrollControlled: true,
+        builder: (context) {
+          return DraggableScrollableSheet(
+            initialChildSize: 1,
+            maxChildSize: 1,
+            expand: false,
+            minChildSize: 0.6,
+            builder: (context, scrollController) {
+              return FilterSheet(
+                apiFilters: apiFilters,
+                controller: scrollController,
+                clientFilters: clientFilters,
+                onFiltersChanged:
+                    (Map updatedAPIFilters, Map updatedClientFilters) {
+                  apiFilters = updatedAPIFilters;
+                  clientFilters = updatedClientFilters;
+                  _controller.refresh();
+                },
+              );
+            },
+          );
+        });
   }
 
   @override
@@ -139,38 +178,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               child: Button(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 onTap: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                      )),
-                                      backgroundColor: AppColor.background,
-                                      isScrollControlled: true,
-                                      builder: (context) {
-                                        return DraggableScrollableSheet(
-                                          initialChildSize: 1,
-                                          maxChildSize: 1,
-                                          expand: false,
-                                          minChildSize: 0.6,
-                                          builder: (context, scrollController) {
-                                            return FilterSheet(
-                                              apiFilters: apiFilters,
-                                              controller: scrollController,
-                                              clientFilters: clientFilters,
-                                              onFiltersChanged: (Map
-                                                      updatedAPIFilters,
-                                                  Map updatedClientFilters) {
-                                                apiFilters = updatedAPIFilters;
-                                                clientFilters =
-                                                    updatedClientFilters;
-                                                _controller.refresh();
-                                              },
-                                            );
-                                          },
-                                        );
-                                      });
+                                  showFilterSheet();
                                 },
                                 child: Row(
                                   mainAxisAlignment:

@@ -4,6 +4,7 @@ import 'package:onehub/style/colors.dart';
 
 import 'loading_indicator.dart';
 
+/// Controller for [InfiniteScrollWrapper].
 class InfiniteScrollWrapperController {
   void Function() refresh;
 }
@@ -57,13 +58,20 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
   _InfiniteScrollWrapperState(InfiniteScrollWrapperController _controller) {
-    _controller.refresh = refreshFilters;
+    _controller.refresh = resetAndRefresh;
   }
 
+  // Start off with the first page.
   int pageNumber = 1;
+
+  // Define the paging controller.
   final PagingController<int, T> _pagingController =
       PagingController(firstPageKey: 0);
+
+  // If the API results are supposed to be refreshed
+  // or be fetched from cache, if available.
   bool refresh = false;
+
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
@@ -78,23 +86,30 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
     super.dispose();
   }
 
-  void refreshFilters() {
+  // Refresh everything and reload.
+  void resetAndRefresh() {
     refresh = true;
     pageNumber = 1;
     _pagingController.refresh();
   }
 
+  // Fetch the data to display.
   Future<void> _fetchPage(int pageKey) async {
     try {
+      // Use the supplied APIs accordingly, based on the *refresh* value.
       final newItems = refresh
           ? await widget.refreshFuture(pageNumber, widget.pageSize)
           : await widget.future(pageNumber, widget.pageSize);
+      // Check if it is the last page of results.
       final isLastPage = newItems.length < widget.pageSize;
       var filteredItems;
+      // Filter items based on the provided filterFn.
       if (widget.filterFn != null)
         filteredItems = widget.filterFn(newItems) ?? <T>[];
       else
         filteredItems = newItems;
+      // If the last page, set refresh value to false,
+      // as all pages have been refreshed.
       if (isLastPage) {
         _pagingController.appendLastPage(filteredItems);
         refresh = false;
@@ -104,7 +119,6 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
         _pagingController.appendPage(filteredItems, nextPageKey);
       }
     } catch (error) {
-      print(error);
       _pagingController.error = error;
     }
   }
@@ -114,7 +128,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
     return RefreshIndicator(
       color: AppColor.accent,
       onRefresh: () => Future.sync(() async {
-        refreshFilters();
+        resetAndRefresh();
       }),
       child: PagedListView<int, T>(
         physics: BouncingScrollPhysics(),

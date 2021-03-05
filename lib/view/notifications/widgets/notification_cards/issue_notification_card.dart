@@ -68,7 +68,7 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
     // If latest event is after latest comment, show in preview.
     if (DateTime.parse(latestIssueEvent.createdAt)
         .isAfter(DateTime.parse(latestComment.createdAt))) {
-      // Todo: Update issue event model and more cases.
+      // Todo: Update issue event model and add more cases.
       if (latestIssueEvent.event == 'assigned')
         return CardFooter(
             latestIssueEvent.actor.avatarUrl,

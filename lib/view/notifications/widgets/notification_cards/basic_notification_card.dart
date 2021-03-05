@@ -198,7 +198,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
   String getDate() {
     String date = widget.notification.updatedAt;
 
-    //Todo: I can't figure out how GitHub decides the dates on notifications. Do this later.
+    // Todo: I can't figure out how GitHub decides the dates on notifications. Do this later.
 
     //If notification reason is assign, it will show issue creation date.
     // if (widget.notification.reason == 'assign')
