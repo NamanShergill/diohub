@@ -4,12 +4,13 @@ class IssueEventModel {
   String url;
   Actor actor;
   String event;
+  //Todo: Is it going to be int?
   Null commitId;
-  Null commitUrl;
+  String commitUrl;
   String createdAt;
   Actor assignee;
   Actor assigner;
-  Null performedViaGithubApp;
+  bool performedViaGithubApp;
 
   IssueEventModel(
       {this.id,

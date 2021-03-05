@@ -1,3 +1,5 @@
+import 'package:onehub/models/users/user_info_model.dart';
+
 class PullRequestModel {
   String url;
   int id;
@@ -15,7 +17,7 @@ class PullRequestModel {
   String state;
   bool locked;
   String title;
-  User user;
+  UserInfoModel user;
   String body;
   List<Labels> labels;
   Milestone milestone;
@@ -25,9 +27,9 @@ class PullRequestModel {
   String closedAt;
   String mergedAt;
   String mergeCommitSha;
-  User assignee;
-  List<User> assignees;
-  List<User> requestedReviewers;
+  UserInfoModel assignee;
+  List<UserInfoModel> assignees;
+  List<UserInfoModel> requestedReviewers;
   List<RequestedTeams> requestedTeams;
   Head head;
   Head base;
@@ -39,7 +41,7 @@ class PullRequestModel {
   bool mergeable;
   bool rebaseable;
   String mergeableState;
-  User mergedBy;
+  UserInfoModel mergedBy;
   int comments;
   int reviewComments;
   bool maintainerCanModify;
@@ -115,7 +117,8 @@ class PullRequestModel {
     state = json['state'];
     locked = json['locked'];
     title = json['title'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user =
+        json['user'] != null ? new UserInfoModel.fromJson(json['user']) : null;
     body = json['body'];
     if (json['labels'] != null) {
       // ignore: deprecated_member_use
@@ -133,20 +136,21 @@ class PullRequestModel {
     closedAt = json['closed_at'];
     mergedAt = json['merged_at'];
     mergeCommitSha = json['merge_commit_sha'];
-    assignee =
-        json['assignee'] != null ? new User.fromJson(json['assignee']) : null;
+    assignee = json['assignee'] != null
+        ? new UserInfoModel.fromJson(json['assignee'])
+        : null;
     if (json['assignees'] != null) {
       // ignore: deprecated_member_use
-      assignees = new List<User>();
+      assignees = new List<UserInfoModel>();
       json['assignees'].forEach((v) {
-        assignees.add(new User.fromJson(v));
+        assignees.add(new UserInfoModel.fromJson(v));
       });
     }
     if (json['requested_reviewers'] != null) {
       // ignore: deprecated_member_use
-      requestedReviewers = new List<User>();
+      requestedReviewers = new List<UserInfoModel>();
       json['requested_reviewers'].forEach((v) {
-        requestedReviewers.add(new User.fromJson(v));
+        requestedReviewers.add(new UserInfoModel.fromJson(v));
       });
     }
     if (json['requested_teams'] != null) {
@@ -166,8 +170,9 @@ class PullRequestModel {
     mergeable = json['mergeable'];
     rebaseable = json['rebaseable'];
     mergeableState = json['mergeable_state'];
-    mergedBy =
-        json['merged_by'] != null ? new User.fromJson(json['merged_by']) : null;
+    mergedBy = json['merged_by'] != null
+        ? new UserInfoModel.fromJson(json['merged_by'])
+        : null;
     comments = json['comments'];
     reviewComments = json['review_comments'];
     maintainerCanModify = json['maintainer_can_modify'];
@@ -255,91 +260,6 @@ class PullRequestModel {
   }
 }
 
-class User {
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
-
-  User(
-      {this.login,
-      this.id,
-      this.nodeId,
-      this.avatarUrl,
-      this.gravatarId,
-      this.url,
-      this.htmlUrl,
-      this.followersUrl,
-      this.followingUrl,
-      this.gistsUrl,
-      this.starredUrl,
-      this.subscriptionsUrl,
-      this.organizationsUrl,
-      this.reposUrl,
-      this.eventsUrl,
-      this.receivedEventsUrl,
-      this.type,
-      this.siteAdmin});
-
-  User.fromJson(Map<String, dynamic> json) {
-    login = json['login'];
-    id = json['id'];
-    nodeId = json['node_id'];
-    avatarUrl = json['avatar_url'];
-    gravatarId = json['gravatar_id'];
-    url = json['url'];
-    htmlUrl = json['html_url'];
-    followersUrl = json['followers_url'];
-    followingUrl = json['following_url'];
-    gistsUrl = json['gists_url'];
-    starredUrl = json['starred_url'];
-    subscriptionsUrl = json['subscriptions_url'];
-    organizationsUrl = json['organizations_url'];
-    reposUrl = json['repos_url'];
-    eventsUrl = json['events_url'];
-    receivedEventsUrl = json['received_events_url'];
-    type = json['type'];
-    siteAdmin = json['site_admin'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['login'] = this.login;
-    data['id'] = this.id;
-    data['node_id'] = this.nodeId;
-    data['avatar_url'] = this.avatarUrl;
-    data['gravatar_id'] = this.gravatarId;
-    data['url'] = this.url;
-    data['html_url'] = this.htmlUrl;
-    data['followers_url'] = this.followersUrl;
-    data['following_url'] = this.followingUrl;
-    data['gists_url'] = this.gistsUrl;
-    data['starred_url'] = this.starredUrl;
-    data['subscriptions_url'] = this.subscriptionsUrl;
-    data['organizations_url'] = this.organizationsUrl;
-    data['repos_url'] = this.reposUrl;
-    data['events_url'] = this.eventsUrl;
-    data['received_events_url'] = this.receivedEventsUrl;
-    data['type'] = this.type;
-    data['site_admin'] = this.siteAdmin;
-    return data;
-  }
-}
-
 class Labels {
   int id;
   String nodeId;
@@ -391,7 +311,7 @@ class Milestone {
   String state;
   String title;
   String description;
-  User creator;
+  UserInfoModel creator;
   int openIssues;
   int closedIssues;
   String createdAt;
@@ -427,8 +347,9 @@ class Milestone {
     state = json['state'];
     title = json['title'];
     description = json['description'];
-    creator =
-        json['creator'] != null ? new User.fromJson(json['creator']) : null;
+    creator = json['creator'] != null
+        ? new UserInfoModel.fromJson(json['creator'])
+        : null;
     openIssues = json['open_issues'];
     closedIssues = json['closed_issues'];
     createdAt = json['created_at'];
@@ -522,7 +443,7 @@ class Head {
   String label;
   String ref;
   String sha;
-  User user;
+  UserInfoModel user;
   Repo repo;
 
   Head({this.label, this.ref, this.sha, this.user, this.repo});
@@ -531,7 +452,8 @@ class Head {
     label = json['label'];
     ref = json['ref'];
     sha = json['sha'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user =
+        json['user'] != null ? new UserInfoModel.fromJson(json['user']) : null;
     repo = json['repo'] != null ? new Repo.fromJson(json['repo']) : null;
   }
 
@@ -555,7 +477,7 @@ class Repo {
   String nodeId;
   String name;
   String fullName;
-  User owner;
+  UserInfoModel owner;
   bool private;
   String htmlUrl;
   String description;
@@ -717,7 +639,9 @@ class Repo {
     nodeId = json['node_id'];
     name = json['name'];
     fullName = json['full_name'];
-    owner = json['owner'] != null ? new User.fromJson(json['owner']) : null;
+    owner = json['owner'] != null
+        ? new UserInfoModel.fromJson(json['owner'])
+        : null;
     private = json['private'];
     htmlUrl = json['html_url'];
     description = json['description'];

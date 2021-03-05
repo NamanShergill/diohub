@@ -11,11 +11,11 @@ class IssueModel {
   String nodeId;
   int number;
   String title;
-  User user;
+  UserInfoModel user;
   List<Labels> labels;
   String state;
   bool locked;
-  User assignee;
+  UserInfoModel assignee;
   List<UserInfoModel> assignees;
   Milestone milestone;
   int comments;
@@ -25,7 +25,7 @@ class IssueModel {
   String authorAssociation;
   Null activeLockReason;
   String body;
-  User closedBy;
+  UserInfoModel closedBy;
   Null performedViaGithubApp;
 
   IssueModel(
@@ -67,7 +67,8 @@ class IssueModel {
     nodeId = json['node_id'];
     number = json['number'];
     title = json['title'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user =
+        json['user'] != null ? new UserInfoModel.fromJson(json['user']) : null;
     if (json['labels'] != null) {
       // ignore: deprecated_member_use
       labels = new List<Labels>();
@@ -77,8 +78,9 @@ class IssueModel {
     }
     state = json['state'];
     locked = json['locked'];
-    assignee =
-        json['assignee'] != null ? new User.fromJson(json['assignee']) : null;
+    assignee = json['assignee'] != null
+        ? new UserInfoModel.fromJson(json['assignee'])
+        : null;
     if (json['assignees'] != null) {
       // ignore: deprecated_member_use
       assignees = new List<UserInfoModel>();
@@ -96,8 +98,9 @@ class IssueModel {
     authorAssociation = json['author_association'];
     activeLockReason = json['active_lock_reason'];
     body = json['body'];
-    closedBy =
-        json['closed_by'] != null ? new User.fromJson(json['closed_by']) : null;
+    closedBy = json['closed_by'] != null
+        ? new UserInfoModel.fromJson(json['closed_by'])
+        : null;
     performedViaGithubApp = json['performed_via_github_app'];
   }
 
@@ -141,91 +144,6 @@ class IssueModel {
       data['closed_by'] = this.closedBy.toJson();
     }
     data['performed_via_github_app'] = this.performedViaGithubApp;
-    return data;
-  }
-}
-
-class User {
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
-
-  User(
-      {this.login,
-      this.id,
-      this.nodeId,
-      this.avatarUrl,
-      this.gravatarId,
-      this.url,
-      this.htmlUrl,
-      this.followersUrl,
-      this.followingUrl,
-      this.gistsUrl,
-      this.starredUrl,
-      this.subscriptionsUrl,
-      this.organizationsUrl,
-      this.reposUrl,
-      this.eventsUrl,
-      this.receivedEventsUrl,
-      this.type,
-      this.siteAdmin});
-
-  User.fromJson(Map<String, dynamic> json) {
-    login = json['login'];
-    id = json['id'];
-    nodeId = json['node_id'];
-    avatarUrl = json['avatar_url'];
-    gravatarId = json['gravatar_id'];
-    url = json['url'];
-    htmlUrl = json['html_url'];
-    followersUrl = json['followers_url'];
-    followingUrl = json['following_url'];
-    gistsUrl = json['gists_url'];
-    starredUrl = json['starred_url'];
-    subscriptionsUrl = json['subscriptions_url'];
-    organizationsUrl = json['organizations_url'];
-    reposUrl = json['repos_url'];
-    eventsUrl = json['events_url'];
-    receivedEventsUrl = json['received_events_url'];
-    type = json['type'];
-    siteAdmin = json['site_admin'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['login'] = this.login;
-    data['id'] = this.id;
-    data['node_id'] = this.nodeId;
-    data['avatar_url'] = this.avatarUrl;
-    data['gravatar_id'] = this.gravatarId;
-    data['url'] = this.url;
-    data['html_url'] = this.htmlUrl;
-    data['followers_url'] = this.followersUrl;
-    data['following_url'] = this.followingUrl;
-    data['gists_url'] = this.gistsUrl;
-    data['starred_url'] = this.starredUrl;
-    data['subscriptions_url'] = this.subscriptionsUrl;
-    data['organizations_url'] = this.organizationsUrl;
-    data['repos_url'] = this.reposUrl;
-    data['events_url'] = this.eventsUrl;
-    data['received_events_url'] = this.receivedEventsUrl;
-    data['type'] = this.type;
-    data['site_admin'] = this.siteAdmin;
     return data;
   }
 }
@@ -280,7 +198,7 @@ class Milestone {
   int number;
   String title;
   Null description;
-  User creator;
+  UserInfoModel creator;
   int openIssues;
   int closedIssues;
   String state;
@@ -316,8 +234,9 @@ class Milestone {
     number = json['number'];
     title = json['title'];
     description = json['description'];
-    creator =
-        json['creator'] != null ? new User.fromJson(json['creator']) : null;
+    creator = json['creator'] != null
+        ? new UserInfoModel.fromJson(json['creator'])
+        : null;
     openIssues = json['open_issues'];
     closedIssues = json['closed_issues'];
     state = json['state'];
