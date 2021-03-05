@@ -21,4 +21,8 @@ class CacheManager {
   static Options defaultCache({bool refresh = false}) =>
       buildCacheOptions(Duration(minutes: 15),
           maxStale: Duration(days: 7), forceRefresh: refresh);
+
+  static void clearCache() async {
+    await DioCacheManager(CacheConfig()).clearAll();
+  }
 }

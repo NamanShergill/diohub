@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/app/keys.dart';
 import 'package:onehub/models/authentication/access_token_model.dart';
@@ -90,7 +90,7 @@ class AuthService {
   }
 
   static void logOut() async {
-    await DioCacheManager(CacheConfig()).clearAll();
+    CacheManager.clearCache();
     await _storage.deleteAll();
   }
 }
