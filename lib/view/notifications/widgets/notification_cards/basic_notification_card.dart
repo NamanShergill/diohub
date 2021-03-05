@@ -21,6 +21,10 @@ class BasicNotificationCard extends StatefulWidget {
 }
 
 class _BasicNotificationCardState extends State<BasicNotificationCard> {
+  // Need to add a key to Slidable's child widget
+  // to prevent unnecessary rebuilds.
+  GlobalKey key = GlobalKey();
+
   void markAsRead() {
     HapticFeedback.vibrate();
     NotificationsService.markThreadAsRead(widget.notification.id);
@@ -79,6 +83,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       ),
       key: UniqueKey(),
       child: Material(
+        key: key,
         color: widget.notification.unread
             ? AppColor.onBackground
             : Colors.transparent,
