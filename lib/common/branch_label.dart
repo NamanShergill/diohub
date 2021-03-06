@@ -4,20 +4,22 @@ import 'package:onehub/style/colors.dart';
 
 class BranchLabel extends StatelessWidget {
   final String name;
-  BranchLabel(this.name);
+  final double size;
+  BranchLabel(this.name, {this.size = 16});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      padding: EdgeInsets.symmetric(horizontal: size / 2),
       child: Container(
         decoration: BoxDecoration(
             color: AppColor.accent,
             borderRadius: AppThemeBorderRadius.smallBorderRadius),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
+          padding:
+              EdgeInsets.symmetric(vertical: size / 3, horizontal: size / 2),
           child: Text(
             name,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: size),
           ),
         ),
       ),

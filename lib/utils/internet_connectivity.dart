@@ -10,10 +10,10 @@ class InternetConnectivity {
 
   static Stream<NetworkStatus> get networkStream => _networkController.stream;
 
+  static NetworkStatus _status = NetworkStatus.Online;
+  static NetworkStatus get status => _status;
+
   static networkStatusService() async {
-    if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
-      _networkController.add(NetworkStatus.Offline);
-    }
     Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult status) async {
@@ -26,6 +26,12 @@ class InternetConnectivity {
         _networkController.add(NetworkStatus.Offline);
       }
     });
+    _networkController.stream.listen((event) {
+      _status = event;
+    });
+    if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
+      _networkController.add(NetworkStatus.Offline);
+    }
   }
 
   void dispose() {

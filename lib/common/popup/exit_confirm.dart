@@ -67,24 +67,24 @@ class ExitConfirmationDialog extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('No'),
-                          textColor: Colors.white,
-                        ),
+                        // FlatButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).pop();
+                        //   },
+                        //   child: Text('No'),
+                        //   textColor: Colors.white,
+                        // ),
                         SizedBox(
                           width: 16,
                         ),
-                        RaisedButton(
-                          onPressed: () {
-                            return Navigator.of(context).pop(true);
-                          },
-                          child: Text('Yes'),
-                          color: Colors.white,
-                          textColor: Colors.redAccent,
-                        ),
+                        // RaisedButton(
+                        //   onPressed: () {
+                        //     return Navigator.of(context).pop(true);
+                        //   },
+                        //   child: Text('Yes'),
+                        //   color: Colors.white,
+                        //   textColor: Colors.redAccent,
+                        // ),
                       ],
                     )
                   ],

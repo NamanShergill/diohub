@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/scaffold_body/scaffoldBody_controller.dart';
-import 'package:onehub/common/scaffold_body/scaffold_body.dart';
+
+import 'file:///D:/Programming/Flutter/onehub/lib/common/scaffold_body.dart';
 
 class RepositoryScreen extends StatefulWidget {
   RepositoryScreen({Key key}) : super(key: key);
@@ -10,14 +10,14 @@ class RepositoryScreen extends StatefulWidget {
 }
 
 class _RepositoryScreenState extends State<RepositoryScreen> {
-  final ScaffoldBodyController scaffoldBodyController =
-      ScaffoldBodyController();
+  // final ScaffoldBodyController scaffoldBodyController =
+  //     ScaffoldBodyController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScaffoldBody(
-        controller: scaffoldBodyController,
-      ),
+          // controller: scaffoldBodyController,
+          ),
     );
   }
 }

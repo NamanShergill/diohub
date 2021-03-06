@@ -9,19 +9,11 @@ import 'package:onehub/utils/internet_connectivity.dart';
 
 class CurrentUserProvider extends BaseProvider {
   CurrentUserInfoModel _currentUserInfo;
-  Status _providerStatus = Status.initialized;
   final AuthenticationBloc authenticationBloc;
   StreamSubscription authBlocSubscription;
   StreamSubscription internetSubscription;
   StreamSubscription errorSubscription;
-
-  String error;
-
   CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
-
-  // Get provider status.
-  @override
-  Status get status => _providerStatus;
 
   @override
   void dispose() {
@@ -34,18 +26,39 @@ class CurrentUserProvider extends BaseProvider {
   CurrentUserProvider({this.authenticationBloc}) {
     authBlocSubscription = authenticationBloc.listen((state) {
       // Fetch user details if authentication is successful.
-      if (state is AuthenticationSuccessful) getUserInfo();
+      if (state is AuthenticationSuccessful) {
+        void tryFetchUserInfo() async {
+          // Fetch user info.
+          await getUserInfo();
+          // Wait a short duration.
+          await Future.delayed(Duration(seconds: 10));
+          // If internet is available and user still not fetched,
+          // call this function again.
+          if (super.status != Status.loaded &&
+              state is AuthenticationSuccessful &&
+              InternetConnectivity.status != NetworkStatus.Offline)
+            tryFetchUserInfo();
+        }
+
+        // Start the recursive function.
+        tryFetchUserInfo();
+      } else if (state is AuthenticationUnauthenticated) {
+        // Reset provider if the user is unauthenticated.
+        super.statusController.add(Status.initialized);
+      }
     });
-    // Request for user details again when back online, if failed previously due to no connection.
+    // Request for user details again when back online,
+    // if failed previously due to no connection.
     internetSubscription =
         InternetConnectivity.networkStream.listen((event) async {
-      if (event != NetworkStatus.Online && _providerStatus == Status.error) {
+      if (event != NetworkStatus.Online &&
+          super.status == Status.error &&
+          authenticationBloc.state.authenticated) {
         await getUserInfo();
       }
     });
     // listen to the status of the provider and execute accordingly.
     errorSubscription = super.statusStream.listen((event) {
-      _providerStatus = event;
       // Show a popup to retry if there was an error fetching the user details.
       if (event == Status.error) {
         super.showPopup(BasePopupNotification(
@@ -77,11 +90,19 @@ class CurrentUserProvider extends BaseProvider {
       });
     } catch (e) {
       // LogOut if auth credentials sent are incorrect.
-      if (e.response != null && e.response.statusCode == 401)
+      if (e.response != null &&
+          e.response.statusCode == 401 &&
+          authenticationBloc.state.authenticated)
         authenticationBloc.add(LogOut());
       error = e.message ?? 'Something went wrong.';
       super.statusController.add(Status.error);
     }
     return _currentUserInfo;
+  }
+
+  @override
+  void resetProvider() {
+    _currentUserInfo = null;
+    super.resetProvider();
   }
 }

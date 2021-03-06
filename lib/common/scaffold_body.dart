@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:onehub/common/scaffold_body/scaffoldBody_controller.dart';
-import 'package:onehub/controller/notification_controller.dart';
 import 'package:onehub/utils/internet_connectivity.dart';
 
 class ScaffoldBody extends StatefulWidget {
@@ -11,55 +9,22 @@ class ScaffoldBody extends StatefulWidget {
   final Widget header;
   final bool showHeader;
   final bool showFooter;
-  final ScaffoldBodyController controller;
+  final StreamController<Widget> notificationController;
   ScaffoldBody(
       {Key key,
       this.child,
       this.header,
       this.footer,
-      this.controller,
+      this.notificationController,
       this.showFooter = true,
       this.showHeader = true})
       : super(key: key);
 
   @override
-  _ScaffoldBodyState createState() => _ScaffoldBodyState(controller);
+  _ScaffoldBodyState createState() => _ScaffoldBodyState();
 }
 
 class _ScaffoldBodyState extends State<ScaffoldBody> {
-  _ScaffoldBodyState(ScaffoldBodyController controller) {
-    if (controller != null) controller.showPopupNotification = showPopup;
-  }
-
-  StreamController<Widget> _popupNotificationController;
-
-  Stream<Widget> popupNotificationStream;
-
-  disposeStream() {
-    _popupNotificationController.close();
-  }
-
-  /// If a [ScaffoldBodyController] controller is provided, set up a stream
-  /// specific to this scaffold, otherwise listen to the global stream.
-  void setupNotificationStream() {
-    if (widget.controller != null) {
-      _popupNotificationController = StreamController<Widget>.broadcast();
-      popupNotificationStream = _popupNotificationController.stream;
-    } else
-      popupNotificationStream =
-          PopupNotificationController.popupNotificationStream;
-  }
-
-  void showPopup(Widget data) {
-    _popupNotificationController.add(data);
-  }
-
-  @override
-  void initState() {
-    setupNotificationStream();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -97,7 +62,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: StreamBuilder(
-                  stream: popupNotificationStream,
+                  stream: widget.notificationController.stream,
                   builder: (context, AsyncSnapshot<Widget> widget) {
                     return widget.data ?? Container();
                   },

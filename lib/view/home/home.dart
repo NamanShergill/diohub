@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
                 sliver: SliverAppBar(
                   expandedHeight: 280,
                   collapsedHeight: 155,
+                  //Todo: Check this tomorrow.
                   pinned: true,
                   elevation: 2,
                   backgroundColor: AppColor.background,

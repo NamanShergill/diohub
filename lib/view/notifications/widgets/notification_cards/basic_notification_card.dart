@@ -7,6 +7,7 @@ import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/services/activity/notifications_service.dart';
+import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class BasicNotificationCard extends StatefulWidget {
@@ -187,10 +188,10 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
         ),
         Expanded(
           child: ShimmerWidget(
+            borderRadius: AppThemeBorderRadius.medBorderRadius,
             child: Container(
               decoration: BoxDecoration(
                 color: AppColor.grey,
-                borderRadius: BorderRadius.circular(10),
               ),
               height: 20,
             ),

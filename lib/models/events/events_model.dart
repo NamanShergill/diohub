@@ -3,7 +3,7 @@ class EventsModel {
   EventsType type;
   Actor actor;
   Repo repo;
-  Payload payload;
+  Map payload;
   bool public;
   String createdAt;
 
@@ -20,20 +20,40 @@ class EventsModel {
   EventsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     String eventType = json['type'];
-    if (eventType == 'PushEvent')
-      type = EventsType.pushEvent;
-    else if (eventType == 'WatchEvent')
-      type = EventsType.watchEvent;
+    if (eventType == 'CreateEvent')
+      type = EventsType.CreateEvent;
+    else if (eventType == 'DeleteEvent')
+      type = EventsType.DeleteEvent;
     else if (eventType == 'ForkEvent')
-      type = EventsType.forkEvent;
-    else if (eventType == 'CreateEvent')
-      type = EventsType.createEvent;
-    else if (eventType == 'PublicEvent') type = EventsType.publicEvent;
+      type = EventsType.ForkEvent;
+    else if (eventType == 'GollumEvent')
+      type = EventsType.GollumEvent;
+    else if (eventType == 'IssueCommentEvent')
+      type = EventsType.IssueCommentEvent;
+    else if (eventType == 'IssuesEvent')
+      type = EventsType.IssuesEvent;
+    else if (eventType == 'MemberEvent')
+      type = EventsType.MemberEvent;
+    else if (eventType == 'PublicEvent')
+      type = EventsType.PublicEvent;
+    else if (eventType == 'PullRequestEvent')
+      type = EventsType.PullRequestEvent;
+    else if (eventType == 'PullRequestReviewCommentEvent')
+      type = EventsType.PullRequestReviewCommentEvent;
+    else if (eventType == 'PushEvent')
+      type = EventsType.PushEvent;
+    else if (eventType == 'ReleaseEvent')
+      type = EventsType.ReleaseEvent;
+    else if (eventType == 'SponsorshipEvent')
+      type = EventsType.SponsorshipEvent;
+    else if (eventType == 'WatchEvent')
+      type = EventsType.WatchEvent;
+    else
+      type = EventsType.Undefined;
 
     actor = json['actor'] != null ? new Actor.fromJson(json['actor']) : null;
     repo = json['repo'] != null ? new Repo.fromJson(json['repo']) : null;
-    payload =
-        json['payload'] != null ? new Payload.fromJson(json['payload']) : null;
+    payload = json['payload'] != null ? json['payload'] : null;
     public = json['public'];
     createdAt = json['created_at'];
   }
@@ -49,7 +69,7 @@ class EventsModel {
       data['repo'] = this.repo.toJson();
     }
     if (this.payload != null) {
-      data['payload'] = this.payload.toJson();
+      data['payload'] = this.payload;
     }
     data['public'] = this.public;
     data['created_at'] = this.createdAt;
@@ -216,4 +236,22 @@ class Author {
   }
 }
 
-enum EventsType { pushEvent, watchEvent, forkEvent, publicEvent, createEvent }
+// Ref: https://docs.github.com/en/developers/webhooks-and-events/github-event-types
+enum EventsType {
+  CommitCommentEvent,
+  CreateEvent,
+  DeleteEvent,
+  ForkEvent,
+  GollumEvent,
+  IssueCommentEvent,
+  IssuesEvent,
+  MemberEvent,
+  PublicEvent,
+  PullRequestEvent,
+  PullRequestReviewCommentEvent,
+  PushEvent,
+  ReleaseEvent,
+  SponsorshipEvent,
+  WatchEvent,
+  Undefined
+}
