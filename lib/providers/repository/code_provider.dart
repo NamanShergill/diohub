@@ -6,14 +6,14 @@ import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/services/git_database/blobs_service.dart';
 
 class CodeProvider extends BaseProvider {
-  List<String> _tree = [];
-  List<String> get tree => _tree;
+  List<Tree> _tree = [];
+  List<Tree> get tree => _tree;
   String _repoURL;
   RepoBranchProvider _branchProvider;
   CodeTreeModel _codeTree;
   CodeTreeModel get codeTree => _codeTree;
-  final StreamController<String> _treeController =
-      StreamController<String>.broadcast();
+  final StreamController<Tree> _treeController =
+      StreamController<Tree>.broadcast();
 
   CodeProvider({String repoURL}) : _repoURL = repoURL;
 
@@ -33,10 +33,10 @@ class CodeProvider extends BaseProvider {
         }
       });
       _treeController.stream.listen((event) {
-        if (event == '../')
+        if (event == null)
           _tree.removeLast();
         else if (event != null) _tree.add(event);
-        _fetchTree(_tree.last);
+        _fetchTree(_tree.last.sha);
       });
     }
   }
@@ -63,10 +63,10 @@ class CodeProvider extends BaseProvider {
   }
 
   void popTree() {
-    _treeController.add('../');
+    _treeController.add(null);
   }
 
-  void pushTree(String sha) {
-    _treeController.add(sha);
+  void pushTree(Tree tree) {
+    _treeController.add(tree);
   }
 }
