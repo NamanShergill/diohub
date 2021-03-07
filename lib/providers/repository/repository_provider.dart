@@ -9,41 +9,38 @@ class RepositoryProvider extends BaseProvider {
 
   RepositoryModel get repositoryModel => _repository;
 
-  RepositoryProvider() {
-    super.statusStream.listen((event) {
+  RepositoryProvider(String url) : _url = url {
+    if (_url != null) {
+      _getRepository(_url);
+    }
+    statusStream.listen((event) {
       // Show a popup to retry if there was an error fetching the user details.
       if (event == Status.error) {
-        super.showPopup(BasePopupNotification(
+        showPopup(BasePopupNotification(
           title: 'Could not fetch repository details. Tap to retry.',
           dismissOnTap: false,
           // Try getting the user details again on tap.
           onTap: (context) async {
-            await getRepository(_url);
+            _getRepository(_url);
           },
         ));
         // Remove the popup if a status other than loading is set.
       } else if (event != Status.loading) {
-        super.showPopup(null);
+        showPopup(null);
       }
     });
   }
 
   /// Get Repository information from the API.
-  Future<RepositoryModel> getRepository(String url) async {
+  void _getRepository(String url) async {
     _url = url;
-    super.statusController.add(Status.loading);
+    statusController.add(Status.loading);
     try {
-      _repository = await RepositoryServices.fetchRepository(url).then((value) {
-        if (value != null) {
-          super.statusController.add(Status.loaded);
-          return value;
-        }
-        return null;
-      });
+      _repository = await RepositoryServices.fetchRepository(url);
+      statusController.add(Status.loaded);
     } catch (e) {
       error = e.message ?? 'Something went wrong.';
-      super.statusController.add(Status.error);
+      statusController.add(Status.error);
     }
-    return _repository;
   }
 }

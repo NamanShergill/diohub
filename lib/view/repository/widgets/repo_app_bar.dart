@@ -13,26 +13,32 @@ class RepoAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       title: SliverAppBarTitle(
-          child: RichText(
-        text: TextSpan(
-            style: Theme.of(context).textTheme.headline5.copyWith(
-                  fontSize: 17,
-                ),
-            children: [
-              TextSpan(text: '${_repo.owner.login}/'),
-              TextSpan(
-                  text: _repo.name,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-            ]),
+          child: Row(
+        children: [
+          ProfileImage(_repo.owner.avatarUrl),
+          SizedBox(
+            width: 8,
+          ),
+          RichText(
+            text: TextSpan(
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(fontSize: 18),
+                children: [
+                  TextSpan(text: '${_repo.owner.login}/'),
+                  TextSpan(
+                      text: _repo.name,
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ]),
+          ),
+        ],
       )),
       pinned: true,
       expandedHeight: 450,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [
-            SizedBox(
-              height: 8,
-            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Stack(
@@ -112,6 +118,7 @@ class RepoAppBar extends StatelessWidget {
               tabs: [
                 Tab(text: "Readme"),
                 Tab(text: "Code"),
+                Tab(text: "Commits"),
                 Tab(text: "Issues"),
                 Tab(text: "Pull Requests"),
                 Tab(text: "License"),

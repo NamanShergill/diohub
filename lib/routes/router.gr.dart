@@ -18,8 +18,11 @@ class AppRouter extends _i1.RootStackRouter {
   final Map<String, _i1.PageFactory> pagesMap = {
     LandingAuthWrapperScreenRoute.name: (entry) {
       var route = entry.routeData.as<LandingAuthWrapperScreenRoute>();
-      return _i1.MaterialPageX(
-          entry: entry, child: _i2.LandingAuthWrapperScreen(key: route.key));
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i2.LandingAuthWrapperScreen(key: route.key),
+          transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
+          durationInMilliseconds: 250);
     },
     SearchOverlayScreenRoute.name: (entry) {
       return _i1.CustomPage(
@@ -29,9 +32,12 @@ class AppRouter extends _i1.RootStackRouter {
     },
     RepositoryScreenRoute.name: (entry) {
       var route = entry.routeData.as<RepositoryScreenRoute>();
-      return _i1.MaterialPageX(
+      return _i1.CustomPage(
           entry: entry,
-          child: _i4.RepositoryScreen(route.repositoryURL, key: route.key));
+          child: _i4.RepositoryScreen(route.repositoryURL,
+              branch: route.branch, key: route.key),
+          transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
+          durationInMilliseconds: 250);
     }
   };
 
@@ -74,15 +80,18 @@ class SearchOverlayScreenRoute extends _i1.PageRouteInfo {
 }
 
 class RepositoryScreenRoute extends _i1.PageRouteInfo {
-  RepositoryScreenRoute({this.repositoryURL, this.key})
+  RepositoryScreenRoute({this.repositoryURL, this.branch, this.key})
       : super(name, path: '/repository-screen');
 
   RepositoryScreenRoute.fromMatch(_i1.RouteMatch match)
       : repositoryURL = null,
+        branch = null,
         key = null,
         super.fromMatch(match);
 
   final String repositoryURL;
+
+  final String branch;
 
   final _i5.Key key;
 

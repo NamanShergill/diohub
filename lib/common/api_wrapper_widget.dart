@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/fade_animation_widget.dart';
 import 'package:onehub/common/loading_indicator.dart';
+
+import 'animations/fade_animation_widget.dart';
 
 typedef ResponseBuilder<T>(BuildContext context, T data);
 typedef ErrorBuilder(BuildContext context, String error);

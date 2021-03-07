@@ -19,15 +19,15 @@ class BaseProvider extends ChangeNotifier {
   final StreamController<Status> _statusController =
       StreamController<Status>.broadcast();
 
+  /// StreamController for provider notifications.
+  final StreamController<Widget> _notificationController =
+      StreamController<Widget>.broadcast();
+
   /// Get the latest stream of provider status.
   Stream<Status> get statusStream => _statusController.stream;
 
   /// Get the controller of provider status.
   StreamController<Status> get statusController => _statusController;
-
-  /// StreamController for provider notifications.
-  final StreamController<Widget> _notificationController =
-      StreamController<Widget>.broadcast();
 
   /// Get the controller of provider notifications.
   StreamController<Widget> get notificationController =>

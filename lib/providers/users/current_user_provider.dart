@@ -23,7 +23,7 @@ class CurrentUserProvider extends BaseProvider {
           await Future.delayed(Duration(seconds: 10));
           // If internet is available and user still not fetched,
           // call this function again.
-          if (super.status != Status.loaded &&
+          if (status != Status.loaded &&
               state is AuthenticationSuccessful &&
               InternetConnectivity.status != NetworkStatus.Offline)
             tryFetchUserInfo();
@@ -33,23 +33,23 @@ class CurrentUserProvider extends BaseProvider {
         tryFetchUserInfo();
       } else if (state is AuthenticationUnauthenticated) {
         // Reset provider if the user is unauthenticated.
-        super.statusController.add(Status.initialized);
+        statusController.add(Status.initialized);
       }
     });
     // Request for user details again when back online,
     // if failed previously due to no connection.
     InternetConnectivity.networkStream.listen((event) async {
       if (event != NetworkStatus.Online &&
-          super.status == Status.error &&
+          status == Status.error &&
           authenticationBloc.state.authenticated) {
         await getUserInfo();
       }
     });
     // listen to the status of the provider and execute accordingly.
-    super.statusStream.listen((event) {
+    statusStream.listen((event) {
       // Show a popup to retry if there was an error fetching the user details.
       if (event == Status.error) {
-        super.showPopup(BasePopupNotification(
+        showPopup(BasePopupNotification(
           title: 'Could not fetch user details. Tap to retry.',
           dismissOnTap: false,
           // Try getting the user details again on tap.
@@ -59,19 +59,19 @@ class CurrentUserProvider extends BaseProvider {
         ));
         // Remove the popup if a status other than loading is set.
       } else if (event != Status.loading) {
-        super.showPopup(null);
+        showPopup(null);
       }
     });
   }
 
   /// Get User information from the API.
   Future<CurrentUserInfoModel> getUserInfo() async {
-    super.statusController.add(Status.loading);
+    statusController.add(Status.loading);
     try {
       _currentUserInfo =
           await CurrentUserService.getCurrentUserInfo().then((value) {
         if (value != null) {
-          super.statusController.add(Status.loaded);
+          statusController.add(Status.loaded);
           return value;
         }
         return null;
@@ -83,7 +83,7 @@ class CurrentUserProvider extends BaseProvider {
           authenticationBloc.state.authenticated)
         authenticationBloc.add(LogOut());
       error = e.message ?? 'Something went wrong.';
-      super.statusController.add(Status.error);
+      statusController.add(Status.error);
     }
     return _currentUserInfo;
   }
@@ -91,6 +91,6 @@ class CurrentUserProvider extends BaseProvider {
   @override
   void resetProvider() {
     _currentUserInfo = null;
-    super.resetProvider();
+    resetProvider();
   }
 }

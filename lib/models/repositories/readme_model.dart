@@ -85,6 +85,7 @@ class RepositoryReadmeModel {
         links: json["_links"] == null ? null : Links.fromJson(json["_links"]),
       );
 
+  // Todo: Decide where I want this to get parsed.
   static String getContent(String source) {
     String temp = source;
     List<String> listTemp = temp.split('\n');

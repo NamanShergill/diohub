@@ -5,7 +5,9 @@ import 'package:onehub/view/repository/repository_screen.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
-@MaterialAutoRouter(
+@CustomAutoRouter(
+  transitionsBuilder: TransitionsBuilders.slideLeft,
+  durationInMilliseconds: 250,
   routes: <AutoRoute>[
     AutoRoute(page: LandingAuthWrapperScreen, initial: true),
     CustomRoute(
