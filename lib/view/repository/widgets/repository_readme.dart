@@ -94,22 +94,27 @@ class RepositoryReadme extends StatelessWidget {
                             shrinkWrap: true,
                             itemCount: data.children.length,
                             itemBuilder: (context, index) {
+                              print(data.children[index].className);
                               return Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
                                         AppThemeBorderRadius.smallBorderRadius),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0, horizontal: 16),
-                                    child: HighlightView(
-                                      data.children[index].text,
-                                      language: data.children[index].className
-                                              ?.substring(9) ??
-                                          'txt',
-                                      theme: syntaxHighlight,
+                                child: Scrollbar(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 16),
+                                      child: HighlightView(
+                                        data.children[index].text,
+                                        language: data.children[index].className
+                                                .isNotEmpty
+                                            ? data.children[index].className
+                                                ?.substring(9)
+                                            : 'txt',
+                                        theme: syntaxHighlight,
+                                      ),
                                     ),
                                   ),
                                 ),
