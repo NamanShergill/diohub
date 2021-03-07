@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
+import 'package:onehub/mock/eventsData.dart';
 import 'package:onehub/models/events/events_model.dart';
 
 class EventsService {
@@ -19,7 +20,7 @@ class EventsService {
         '/users/$user/received_events',
         queryParameters: parameters,
         options: CacheManager.events(refresh));
-    List unParsedEvents = response.data;
+    List unParsedEvents = eventsData;
     List<EventsModel> parsedEvents = [];
     for (var event in unParsedEvents) {
       parsedEvents.add(EventsModel.fromJson(event));
