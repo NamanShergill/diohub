@@ -3,15 +3,16 @@ import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:provider/provider.dart';
 
-typedef ErrorBuilder = Widget Function(BuildContext context, String error);
+typedef ErrorBuilder(BuildContext context, String error);
+typedef ChildBuilder<T>(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
     extends StatelessWidget {
-  final builder;
-  final loadingBuilder;
+  final ChildBuilder<T> childBuilder;
+  final WidgetBuilder loadingBuilder;
   final ErrorBuilder errorBuilder;
   ProviderLoadingProgressWrapper(
-      {this.builder, this.errorBuilder, this.loadingBuilder});
+      {this.childBuilder, this.errorBuilder, this.loadingBuilder});
   @override
   Widget build(BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
@@ -19,7 +20,8 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
         stream: value.statusStream,
         initialData: value.status,
         builder: (context, AsyncSnapshot<Status> snapshot) {
-          if (snapshot.data == Status.loaded) return builder(context, value);
+          if (snapshot.data == Status.loaded)
+            return childBuilder(context, value);
           if (snapshot.data == Status.loading)
             return loadingBuilder != null
                 ? loadingBuilder(context)

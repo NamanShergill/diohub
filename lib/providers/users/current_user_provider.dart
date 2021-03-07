@@ -10,21 +10,10 @@ import 'package:onehub/utils/internet_connectivity.dart';
 class CurrentUserProvider extends BaseProvider {
   CurrentUserInfoModel _currentUserInfo;
   final AuthenticationBloc authenticationBloc;
-  StreamSubscription authBlocSubscription;
-  StreamSubscription internetSubscription;
-  StreamSubscription errorSubscription;
   CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
 
-  @override
-  void dispose() {
-    authBlocSubscription.cancel();
-    internetSubscription.cancel();
-    errorSubscription.cancel();
-    super.dispose();
-  }
-
   CurrentUserProvider({this.authenticationBloc}) {
-    authBlocSubscription = authenticationBloc.listen((state) {
+    authenticationBloc.listen((state) {
       // Fetch user details if authentication is successful.
       if (state is AuthenticationSuccessful) {
         void tryFetchUserInfo() async {
@@ -49,8 +38,7 @@ class CurrentUserProvider extends BaseProvider {
     });
     // Request for user details again when back online,
     // if failed previously due to no connection.
-    internetSubscription =
-        InternetConnectivity.networkStream.listen((event) async {
+    InternetConnectivity.networkStream.listen((event) async {
       if (event != NetworkStatus.Online &&
           super.status == Status.error &&
           authenticationBloc.state.authenticated) {
@@ -58,7 +46,7 @@ class CurrentUserProvider extends BaseProvider {
       }
     });
     // listen to the status of the provider and execute accordingly.
-    errorSubscription = super.statusStream.listen((event) {
+    super.statusStream.listen((event) {
       // Show a popup to retry if there was an error fetching the user details.
       if (event == Status.error) {
         super.showPopup(BasePopupNotification(

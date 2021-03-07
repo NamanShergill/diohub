@@ -20,7 +20,8 @@ class EventsService {
         '/users/$user/received_events',
         queryParameters: parameters,
         options: CacheManager.events(refresh));
-    List unParsedEvents = eventsData;
+    // Todo: Change this.
+    List unParsedEvents = response.data + eventsData;
     List<EventsModel> parsedEvents = [];
     for (var event in unParsedEvents) {
       parsedEvents.add(EventsModel.fromJson(event));

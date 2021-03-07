@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/fade_transition_widget.dart';
-import 'package:onehub/common/shimmer_widget.dart';
+import 'package:onehub/common/animations/fade_animation_widget.dart';
+import 'package:onehub/common/profile_image.dart';
 import 'package:onehub/style/colors.dart';
 
 class CardFooter extends StatelessWidget {
@@ -15,23 +14,11 @@ class CardFooter extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ClipOval(
-            child: Opacity(
-              opacity: unread ? 1 : 0.7,
-              child: CachedNetworkImage(
-                imageUrl: avatarUrl,
-                height: 20,
-                fit: BoxFit.fill,
-                placeholder: (context, string) {
-                  return ShimmerWidget(
-                    child: Container(
-                      height: 20,
-                      width: 20,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
-              ),
+          Opacity(
+            opacity: unread ? 1 : 0.7,
+            child: ProfileImage(
+              avatarUrl,
+              size: 20,
             ),
           ),
           SizedBox(

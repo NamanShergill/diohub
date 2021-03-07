@@ -14,6 +14,7 @@ class Button extends StatefulWidget {
   final double borderRadius;
   final Widget loadingWidget;
   final bool stretch;
+  final bool loading;
   final double elevation;
   final EdgeInsets padding;
   Button({
@@ -23,6 +24,7 @@ class Button extends StatefulWidget {
     this.enabled = true,
     this.stretch = true,
     this.color,
+    this.loading = false,
     this.padding = const EdgeInsets.all(16),
     this.elevation = 2,
     this.borderRadius = 10,
@@ -50,7 +52,8 @@ class _ButtonState extends State<Button> {
           });
         }
       });
-    }
+    } else
+      loading = widget.loading;
     super.initState();
   }
 

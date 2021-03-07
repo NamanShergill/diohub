@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/fade_transition_widget.dart';
+import 'package:onehub/common/animations/fade_animation_widget.dart';
 import 'package:onehub/common/loading_indicator.dart';
 
 typedef ResponseBuilder<T>(BuildContext context, T data);

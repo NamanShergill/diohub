@@ -3,12 +3,12 @@ import 'package:onehub/style/animDuartions.dart';
 
 class FadeAnimationSection extends StatefulWidget {
   final Widget child;
-  final bool show;
+  final bool expand;
   final Curve animationCurve;
   final Duration duration;
 
   FadeAnimationSection(
-      {this.show = true, this.child, this.animationCurve, this.duration});
+      {this.expand = true, this.child, this.animationCurve, this.duration});
 
   @override
   _FadeAnimationSectionState createState() => _FadeAnimationSectionState();
@@ -35,11 +35,11 @@ class _FadeAnimationSectionState extends State<FadeAnimationSection>
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
     );
-    if (widget.show) _runExpandCheck();
+    if (widget.expand) _runExpandCheck();
   }
 
   void _runExpandCheck() {
-    if (widget.show) {
+    if (widget.expand) {
       expandController.forward();
     } else {
       expandController.reverse();

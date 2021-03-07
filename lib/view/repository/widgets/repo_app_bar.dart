@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/repository/widgets/sliver_app_bar_title.dart';
+import 'package:onehub/view/repository/widgets/star_button.dart';
+
+class RepoAppBar extends StatelessWidget {
+  final RepositoryModel _repo;
+  RepoAppBar({RepositoryModel repo}) : _repo = repo;
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      title: SliverAppBarTitle(
+          child: RichText(
+        text: TextSpan(
+            style: Theme.of(context).textTheme.headline5.copyWith(
+                  fontSize: 17,
+                ),
+            children: [
+              TextSpan(text: '${_repo.owner.login}/'),
+              TextSpan(
+                  text: _repo.name,
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ]),
+      )),
+      pinned: true,
+      expandedHeight: 450,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Column(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: AppBar().preferredSize.height,
+                        ),
+                        Row(
+                          children: [
+                            ProfileImage(_repo.owner.avatarUrl),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              _repo.owner.login,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          _repo.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 32,
+                        ),
+                        Row(
+                          children: [
+                            Icon(Octicons.repo_forked),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text('${_repo.forksCount} forks'),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: [
+                            StarButton(
+                              stars: _repo.stargazersCount,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 60,
+            ),
+          ],
+        ),
+      ),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: Container(
+          color: AppColor.background,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: TabBar(
+              isScrollable: true,
+              tabs: [
+                Tab(text: "Readme"),
+                Tab(text: "Code"),
+                Tab(text: "Issues"),
+                Tab(text: "Pull Requests"),
+                Tab(text: "License"),
+                Tab(text: "Watchers"),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

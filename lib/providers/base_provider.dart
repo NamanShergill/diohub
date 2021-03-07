@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import 'file:///D:/Programming/Flutter/onehub/lib/common/scaffold_body.dart';
-
 class BaseProvider extends ChangeNotifier {
   BaseProvider() {
     // Update provider status based on the data sent to the stream.

@@ -7,6 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/auth_popup/auth_popup.dart';
+import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
@@ -15,8 +16,6 @@ import 'package:onehub/view/notifications/notifications.dart';
 import 'package:onehub/view/search/search.dart';
 import 'package:onehub/view/settings/settings.dart';
 import 'package:provider/provider.dart';
-
-import 'file:///D:/Programming/Flutter/onehub/lib/common/scaffold_body.dart';
 
 class LandingScreen extends StatefulWidget {
   @override

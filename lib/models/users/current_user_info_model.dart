@@ -1,3 +1,5 @@
+// Todo: Redo Model. Ref: https://app.quicktype.io/
+
 class CurrentUserInfoModel {
   String login;
   int id;

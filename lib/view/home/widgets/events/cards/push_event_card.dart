@@ -18,9 +18,11 @@ class PushEventCard extends StatelessWidget {
       childPadding: EdgeInsets.all(8),
       actor: event.actor.login,
       headerText: [
-        TextSpan(text: ' pushed to ', style: AppThemeTextStyles.eventHeaderMed),
         TextSpan(
-            text: event.repo.name, style: AppThemeTextStyles.eventHeaderBold)
+            text: ' pushed to ', style: AppThemeTextStyles.eventCardHeaderMed),
+        TextSpan(
+            text: event.repo.name,
+            style: AppThemeTextStyles.eventCardHeaderBold)
       ],
       avatarUrl: event.actor.avatarUrl,
       child: CustomExpansionTile(
@@ -30,7 +32,7 @@ class PushEventCard extends StatelessWidget {
           children: [
             Text(
               '${data.size} commit${data.size > 1 ? 's' : ''} to',
-              style: AppThemeTextStyles.eventChildTitleSmall,
+              style: AppThemeTextStyles.eventCardChildTitleSmall,
             ),
             BranchLabel(
               data.ref.split('/').last,

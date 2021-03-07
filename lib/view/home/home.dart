@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen>
                       trailing: ClipOval(
                         child:
                             ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                          builder: (context, value) => CachedNetworkImage(
+                          childBuilder: (context, value) => CachedNetworkImage(
                             imageUrl: value.currentUserInfo.avatarUrl,
                             placeholder: (context, _) {
                               return ShimmerWidget(
@@ -99,14 +99,14 @@ class _HomeScreenState extends State<HomeScreen>
                           .copyWith(fontSize: 14),
                       tabs: [
                         Tab(
-                          text: 'Activity'.toUpperCase(),
+                          text: 'Activity',
                         ),
-                        Tab(text: 'Pull Requests'.toUpperCase()),
+                        Tab(text: 'Pull Requests'),
                         Tab(
-                          child: Text('Issues'.toUpperCase()),
+                          child: Text('Issues'),
                         ),
                         Tab(
-                          child: Text('Repositories'.toUpperCase()),
+                          child: Text('Repositories'),
                         ),
                       ],
                     ),
@@ -115,44 +115,47 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ];
           },
-          body: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-            builder: (context, value) {
-              return Builder(
-                builder: (context) {
-                  NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                  return Container(
-                    color: AppColor.onBackground,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 150),
-                      child: LoginCheckWrapper(
-                        child: TabBarView(
-                          controller: _tabController,
-                          physics: BouncingScrollPhysics(),
-                          children: [
-                            Events(),
-                            Container(
-                              color: Colors.blue,
-                              height: 80,
-                              width: 40,
-                            ),
-                            Container(
-                              color: Colors.green,
-                              height: 80,
-                              width: 40,
-                            ),
-                            Container(
-                              color: Colors.amber,
-                              height: 80,
-                              width: 40,
-                            ),
-                          ],
+          body: Container(
+            color: AppColor.onBackground,
+            child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+              childBuilder: (context, value) {
+                return Builder(
+                  builder: (context) {
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+                    return Container(
+                      color: AppColor.onBackground,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150),
+                        child: LoginCheckWrapper(
+                          child: TabBarView(
+                            controller: _tabController,
+                            physics: BouncingScrollPhysics(),
+                            children: [
+                              Events(),
+                              Container(
+                                color: Colors.blue,
+                                height: 80,
+                                width: 40,
+                              ),
+                              Container(
+                                color: Colors.green,
+                                height: 80,
+                                width: 40,
+                              ),
+                              Container(
+                                color: Colors.amber,
+                                height: 80,
+                                width: 40,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -185,11 +188,6 @@ class HomeScreenUnauthenticated extends StatelessWidget {
                     Container(
                       height: 60,
                       width: 60,
-                      child: ClipOval(
-                          // child: CachedNetworkImage(
-                          //   // imageUrl: _currentUser.currentUserInfo.avatarUrl,
-                          // ),
-                          ),
                     ),
                   ],
                 ),

@@ -1,3 +1,0 @@
-class BaseModel {
-  BaseModel.fromJson();
-}

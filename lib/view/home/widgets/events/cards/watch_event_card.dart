@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -7,6 +8,7 @@ import 'package:onehub/common/language_indicator.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/events/events_model.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/services/repositories/repo_services.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/textStyles.dart';
@@ -28,12 +30,16 @@ class WatchEventCard extends StatelessWidget {
       ],
       avatarUrl: event.actor.avatarUrl,
       childPadding: EdgeInsets.all(24),
+      onTap: () {
+        AutoRouter.of(context)
+            .push(RepositoryScreenRoute(repositoryURL: event.repo.url));
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             event.repo.name,
-            style: AppThemeTextStyles.eventChildTitle,
+            style: AppThemeTextStyles.eventCardChildTitle,
           ),
           APIWrapper<RepositoryModel>(
             apiCall: RepositoryServices.fetchRepository(event.repo.url),
@@ -79,7 +85,7 @@ class WatchEventCard extends StatelessWidget {
                             ? repo.description.substring(0, 100) + '...'
                             : repo.description ?? 'No description.'
                         : 'No description.',
-                    style: AppThemeTextStyles.eventChildSubtitle,
+                    style: AppThemeTextStyles.eventCardChildSubtitle,
                   ),
                   SizedBox(
                     height: 8,
@@ -105,7 +111,7 @@ class WatchEventCard extends StatelessWidget {
                           ),
                           Text(
                             repo.stargazersCount.toString(),
-                            style: AppThemeTextStyles.eventChildFooter,
+                            style: AppThemeTextStyles.eventCardChildFooter,
                           ),
                         ],
                       ),
@@ -113,8 +119,8 @@ class WatchEventCard extends StatelessWidget {
                         width: 16,
                       ),
                       Text(
-                        'Updated ${DateFormat('MMM d').format(DateTime.parse(repo.updatedAt))}',
-                        style: AppThemeTextStyles.eventChildFooter,
+                        'Updated ${DateFormat('MMM d').format(repo.updatedAt)}',
+                        style: AppThemeTextStyles.eventCardChildFooter,
                       ),
                     ],
                   ),

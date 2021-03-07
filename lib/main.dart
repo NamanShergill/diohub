@@ -57,6 +57,8 @@ class MyApp extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(AppColor.onBackground),
                   )),
+                  appBarTheme:
+                      AppBarTheme(color: AppColor.background, elevation: 5),
                   iconTheme: IconThemeData(color: Colors.white),
                   textTheme: TextTheme(
                     bodyText1: TextStyle(),
@@ -74,11 +76,15 @@ class MyApp extends StatelessWidget {
                     overline: TextStyle(),
                   ).apply(displayColor: Colors.white, bodyColor: Colors.white),
                   primaryColor: AppColor.accent,
+                  scrollbarTheme: ScrollbarThemeData(
+                      thumbColor:
+                          MaterialStateProperty.all<Color>(Colors.grey)),
                   primaryIconTheme: IconThemeData(color: Colors.white),
                   accentIconTheme: IconThemeData(color: AppColor.accent),
                   dividerColor: Colors.grey.withOpacity(0.7),
                   backgroundColor: AppColor.background,
                   buttonTheme: ButtonThemeData(
+                    textTheme: ButtonTextTheme.primary,
                     shape: RoundedRectangleBorder(
                         borderRadius: AppThemeBorderRadius.medBorderRadius),
                   ),

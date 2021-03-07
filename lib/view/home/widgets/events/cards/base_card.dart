@@ -1,6 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/shimmer_widget.dart';
+import 'package:onehub/common/profile_image.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/textStyles.dart';
@@ -12,15 +11,18 @@ class BaseEventCard extends StatelessWidget {
   final EdgeInsets childPadding;
   final List<TextSpan> headerText;
   final List<TextSpan> _topText;
+  final Function onTap;
 
   BaseEventCard(
       {this.child,
       this.actor,
       this.avatarUrl,
       this.headerText,
+      this.onTap,
       this.childPadding = const EdgeInsets.all(16.0)})
       : _topText = [
-              TextSpan(text: actor, style: AppThemeTextStyles.eventHeaderMed)
+              TextSpan(
+                  text: actor, style: AppThemeTextStyles.eventCardHeaderMed)
             ] +
             headerText;
   @override
@@ -34,22 +36,7 @@ class BaseEventCard extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: avatarUrl,
-                height: 25,
-                fit: BoxFit.fill,
-                placeholder: (context, string) {
-                  return ShimmerWidget(
-                    child: Container(
-                      height: 25,
-                      width: 25,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
-              ),
-            ),
+            ProfileImage(avatarUrl),
             SizedBox(
               width: 8,
             ),
@@ -75,7 +62,7 @@ class BaseEventCard extends StatelessWidget {
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.medBorderRadius,
-              onTap: () {},
+              onTap: onTap,
               child: Container(
                 width: double.infinity,
                 child: Padding(

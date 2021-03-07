@@ -5,12 +5,14 @@ class SizeExpandedSection extends StatefulWidget {
   final Widget child;
   final bool expand;
   final Axis axis;
+  final double axisAlignment;
   final Curve animationCurve;
   final Duration duration;
 
   SizeExpandedSection(
       {this.expand = true,
       this.child,
+      this.axisAlignment = 1.0,
       this.axis = Axis.vertical,
       this.duration,
       this.animationCurve});
@@ -66,7 +68,7 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-      axisAlignment: 1.0,
+      axisAlignment: widget.axisAlignment,
       sizeFactor: animation,
       child: widget.child,
       axis: widget.axis ?? Axis.vertical,

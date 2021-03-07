@@ -21,7 +21,7 @@ class LanguageIndicator extends StatelessWidget {
             width: size / 2,
           ),
           Text(
-            language,
+            language ?? 'N/A',
             style: TextStyle(fontSize: size / 1.1),
           ),
         ],
