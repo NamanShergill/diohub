@@ -38,9 +38,6 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         children: [
-          SizedBox(
-            height: 16,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: APIWrapper<RepositoryReadmeModel>(

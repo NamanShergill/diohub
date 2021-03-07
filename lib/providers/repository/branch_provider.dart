@@ -20,23 +20,27 @@ class RepoBranchProvider extends BaseProvider {
 
   RepoBranchProvider({String initialBranch}) : _initialBranch = initialBranch;
 
-  void initStream(RepositoryProvider repositoryProvider) {
-    _repositoryProvider = repositoryProvider;
-    // In case the provider loads lazily and the event of load is
-    // already dispatched before it started listening to the stream.
-    if (_repositoryProvider.status == Status.loaded)
-      _fetchBranch(
-          '${_repositoryProvider.repositoryModel.url}/branches/${_initialBranch ?? _repositoryProvider.repositoryModel.defaultBranch}');
-    repositoryProvider.statusStream.listen((event) {
-      if (event == Status.loaded) {
+  void updateProvider(RepositoryProvider repositoryProvider) {
+    // Only initialise streams if the provider is not equal,
+    // ignore the call otherwise.
+    if (_repositoryProvider != repositoryProvider) {
+      _repositoryProvider = repositoryProvider;
+      // In case the provider loads lazily and the event of load is
+      // already dispatched before it started listening to the stream.
+      if (_repositoryProvider.status == Status.loaded)
         _fetchBranch(
             '${_repositoryProvider.repositoryModel.url}/branches/${_initialBranch ?? _repositoryProvider.repositoryModel.defaultBranch}');
-      }
-    });
-    _loadBranch.stream.listen((event) {
-      _fetchBranch(
-          '${_repositoryProvider.repositoryModel.url}/branches/$event');
-    });
+      repositoryProvider.statusStream.listen((event) {
+        if (event == Status.loaded) {
+          _fetchBranch(
+              '${_repositoryProvider.repositoryModel.url}/branches/${_initialBranch ?? _repositoryProvider.repositoryModel.defaultBranch}');
+        }
+      });
+      _loadBranch.stream.listen((event) {
+        _fetchBranch(
+            '${_repositoryProvider.repositoryModel.url}/branches/$event');
+      });
+    }
   }
 
   void changeBranch(String branchName) {

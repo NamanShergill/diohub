@@ -17,25 +17,28 @@ class CodeProvider extends BaseProvider {
 
   CodeProvider({String repoURL}) : _repoURL = repoURL;
 
-  void initStream(RepoBranchProvider repoBranchProvider) {
-    _branchProvider = repoBranchProvider;
-    // In case the provider loads lazily and the event of load is
-    // already dispatched before it started listening to the stream.
-    if (_branchProvider.status == Status.loaded)
-      _fetchTree(_branchProvider.branch.commit.sha);
-    _branchProvider.statusStream.listen((event) {
-      print(event);
-      if (event == Status.loaded) {
-        statusController.add(Status.initialized);
+  void updateProvider(RepoBranchProvider repoBranchProvider) {
+    // Only initialise streams if the provider is not equal,
+    // ignore the call otherwise.
+    if (_branchProvider != repoBranchProvider) {
+      _branchProvider = repoBranchProvider;
+      // In case the provider loads lazily and the event of load is
+      // already dispatched before it started listening to the stream.
+      if (_branchProvider.status == Status.loaded)
         _fetchTree(_branchProvider.branch.commit.sha);
-      }
-    });
-    _treeController.stream.listen((event) {
-      if (event == '../')
-        _tree.removeLast();
-      else if (event != null) _tree.add(event);
-      _fetchTree(_tree.last);
-    });
+      _branchProvider.statusStream.listen((event) {
+        if (event == Status.loaded) {
+          statusController.add(Status.initialized);
+          _fetchTree(_branchProvider.branch.commit.sha);
+        }
+      });
+      _treeController.stream.listen((event) {
+        if (event == '../')
+          _tree.removeLast();
+        else if (event != null) _tree.add(event);
+        _fetchTree(_tree.last);
+      });
+    }
   }
 
   void _fetchTree(String sha) async {

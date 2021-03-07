@@ -57,7 +57,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
           create: (_) => repoBranchProvider,
-          update: (_, repo, __) => repoBranchProvider..initStream(repo),
+          update: (_, repo, __) => repoBranchProvider..updateProvider(repo),
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoIssuesProvider>(
             create: (_) => RepoIssuesProvider(),
@@ -67,7 +67,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
             update: (_, repo, __) => RepoPullsProvider()),
         ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
           create: (_) => codeProvider,
-          update: (_, branch, __) => codeProvider..initStream(branch),
+          update: (_, branch, __) => codeProvider..updateProvider(branch),
         ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoCommitsProvider>(
             create: (_) => RepoCommitsProvider(),
@@ -88,40 +88,47 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
                     final _repo = value.repositoryModel;
                     return NestedScrollView(
                         headerSliverBuilder: (context, value) {
-                          return [
-                            SliverSafeArea(
-                              sliver: RepoAppBar(
-                                repo: _repo,
-                              ),
+                      return [
+                        SliverOverlapAbsorber(
+                          handle:
+                              NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                  context),
+                          sliver: SliverSafeArea(
+                            sliver: RepoAppBar(
+                              repo: _repo,
                             ),
-                          ];
-                        },
-                        body: AnimatedSwitcher(
-                          duration: Duration(milliseconds: 50),
-                          child: loading
-                              ? Container(
-                                  color: AppColor.onBackground,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 48.0),
-                                        child: LoadingIndicator(),
-                                      ),
-                                    ],
-                                  ))
-                              : TabBarView(
+                          ),
+                        )
+                      ];
+                    }, body: Builder(builder: (context) {
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+
+                      return AnimatedSwitcher(
+                        duration: Duration(milliseconds: 50),
+                        child: loading
+                            ? Container(
+                                color: AppColor.onBackground,
+                                child: Column(
                                   children: [
-                                    RepositoryReadme(_repo.url),
-                                    CodeBrowser(),
-                                    Container(),
-                                    Container(),
-                                    Container(),
-                                    Container(),
-                                    Container(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 48.0),
+                                      child: LoadingIndicator(),
+                                    ),
                                   ],
-                                ),
-                        ));
+                                ))
+                            : TabBarView(
+                                children: [
+                                  RepositoryReadme(_repo.url),
+                                  CodeBrowser(),
+                                  Container(),
+                                  Container(),
+                                  Container(),
+                                  Container(),
+                                  Container(),
+                                ],
+                              ),
+                      );
+                    }));
                   },
                 ),
               ),
