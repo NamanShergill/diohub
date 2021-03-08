@@ -21,24 +21,30 @@ class RepositoryScreen extends StatefulWidget {
   final String repositoryURL;
   final String branch;
   final int index;
-  RepositoryScreen(this.repositoryURL, {this.branch, this.index = 0, Key key})
+  final String initSHA;
+  RepositoryScreen(this.repositoryURL,
+      {this.branch, this.index = 0, Key key, this.initSHA})
       : super(key: key);
 
   @override
   _RepositoryScreenState createState() => _RepositoryScreenState();
 }
 
-class _RepositoryScreenState extends State<RepositoryScreen> {
+class _RepositoryScreenState extends State<RepositoryScreen>
+    with TickerProviderStateMixin {
   bool loading = true;
   RepoBranchProvider repoBranchProvider;
   CodeProvider codeProvider;
   RepoReadmeProvider readmeProvider;
+  TabController tabController;
 
   @override
   void initState() {
+    tabController = TabController(length: 6, vsync: this);
     waitForTransition();
     repoBranchProvider = RepoBranchProvider(initialBranch: widget.branch);
-    codeProvider = CodeProvider(repoURL: widget.repositoryURL);
+    codeProvider =
+        CodeProvider(repoURL: widget.repositoryURL, initialSHA: widget.initSHA);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     super.initState();
   }
@@ -84,9 +90,18 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
         return SafeArea(
           child: Scaffold(
             backgroundColor: AppColor.background,
-            body: DefaultTabController(
-              length: 7,
-              initialIndex: widget.index,
+            body: WillPopScope(
+              onWillPop: () async {
+                if (Provider.of<CodeProvider>(context, listen: false)
+                            .tree
+                            .length >
+                        1 &&
+                    tabController.index == 1) {
+                  Provider.of<CodeProvider>(context, listen: false).popTree();
+                  return false;
+                } else
+                  return true;
+              },
               child: ScaffoldBody(
                 notificationController: Provider.of<RepositoryProvider>(context)
                     .notificationController,
@@ -103,6 +118,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
                           sliver: SliverSafeArea(
                             sliver: RepoAppBar(
                               repo: _repo,
+                              tabController: tabController,
                             ),
                           ),
                         )
@@ -124,10 +140,10 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
                                   ],
                                 ))
                             : TabBarView(
+                                controller: tabController,
                                 children: [
                                   RepositoryReadme(_repo.url),
                                   CodeBrowser(),
-                                  Container(),
                                   Container(),
                                   Container(),
                                   Container(),

@@ -23,7 +23,7 @@ class BrowserListTile extends StatelessWidget {
                 repoURL: repoURL, sha: tree.sha, fileName: tree.path));
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
           child: Row(
             children: [
               getIcon(),

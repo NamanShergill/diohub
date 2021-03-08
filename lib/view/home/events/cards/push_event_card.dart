@@ -5,6 +5,7 @@ import 'package:onehub/common/custom_expansion_tile.dart';
 import 'package:onehub/models/events/events_model.dart';
 import 'package:onehub/models/events/payloads/push_event_payload_model.dart';
 import 'package:onehub/routes/router.gr.dart';
+import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/textStyles.dart';
 import 'package:onehub/view/home/events/cards/base_card.dart';
@@ -21,7 +22,7 @@ class PushEventCard extends StatelessWidget {
         AutoRouter.of(context).push(RepositoryScreenRoute(
             repositoryURL: event.repo.url,
             branch: data.ref.split('/').last,
-            index: 2));
+            index: 1));
       },
       childPadding: EdgeInsets.all(8),
       actor: event.actor.login,
@@ -59,16 +60,29 @@ class PushEventCard extends StatelessWidget {
                 },
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return RichText(
-                      text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2,
-                          children: [
-                        TextSpan(
-                            text:
-                                ' #${data.commits[index].sha.substring(0, 6)}',
-                            style: TextStyle(color: AppColor.accent)),
-                        TextSpan(text: '  ' + data.commits[index].message)
-                      ]));
+                  return InkWell(
+                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    onTap: () {
+                      AutoRouter.of(context).push(RepositoryScreenRoute(
+                          index: 1,
+                          branch: data.ref.split('/').last,
+                          repositoryURL: event.repo.url,
+                          initSHA: data.commits[index].sha));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: RichText(
+                          text: TextSpan(
+                              style: Theme.of(context).textTheme.bodyText2,
+                              children: [
+                            TextSpan(
+                                text:
+                                    ' #${data.commits[index].sha.substring(0, 6)}',
+                                style: TextStyle(color: AppColor.accent)),
+                            TextSpan(text: '  ' + data.commits[index].message)
+                          ])),
+                    ),
+                  );
                 }),
           )
         ],

@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:onehub/models/repositories/code_tree_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/branch_provider.dart';
-import 'package:onehub/services/git_database/blobs_service.dart';
+import 'package:onehub/services/git_database/git_database_service.dart';
 
 class CodeProvider extends BaseProvider {
+  List<Tree> _tree = [];
+
   /// The list of [Tree]s for a branch currently opened, used to track the
   /// current directory.
-  List<Tree> _tree = [];
   List<Tree> get tree => _tree;
 
   /// Current repository's URL.
@@ -30,7 +31,12 @@ class CodeProvider extends BaseProvider {
   final StreamController<Tree> _treeController =
       StreamController<Tree>.broadcast();
 
-  CodeProvider({String repoURL}) : _repoURL = repoURL {
+  // SHA to initialise the provider with if not from the default branch SHA.
+  String _initTreeSHA;
+
+  CodeProvider({String repoURL, String initialSHA})
+      : _repoURL = repoURL,
+        _initTreeSHA = initialSHA {
     List<String> temp = _repoURL.split('/');
     _repoName = temp.last;
   }
@@ -44,22 +50,24 @@ class CodeProvider extends BaseProvider {
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
       if (_branchProvider.status == Status.loaded)
-        _fetchTree(_branchProvider.branch.commit.sha);
+        _fetchTree(_initTreeSHA ?? _branchProvider.branch.commit.sha);
+
       _branchProvider.statusStream.listen((event) async {
         // Fetch the root sha in the branch when the branch provider is loaded.
         // This event happens whenever the branch is changed, so this provider
         // is reset and new data is fetched.
         if (event == Status.loaded) {
           statusController.add(Status.initialized);
-          await _fetchTree(_branchProvider.branch.commit.sha);
+          await _fetchTree(_initTreeSHA ?? _branchProvider.branch.commit.sha);
         }
       });
       // Listen to tree pop and push events and fetch data accordingly.
       _treeController.stream.listen((event) async {
         // A null event means pop up the last tree in the list.
-        if (event == null)
+        if (event == null) {
           _tree = _tree.sublist(0, _tree.length - 1);
-        else if (event != null) _tree.add(event);
+        } else if (event != null) _tree.add(event);
+
         // Fetch the last tree in the list after the pop/push events are done,
         await _fetchTree(_tree.last.sha, isFirst: false);
       });
@@ -71,12 +79,30 @@ class CodeProvider extends BaseProvider {
     statusController.add(Status.loading);
     try {
       _codeTree = await GitDatabaseService.getTree(repoURL: _repoURL, sha: sha);
+      // Set _initSHA to null in case one was provided as it is
+      // not required anymore.
+      if (_initTreeSHA != null) _initTreeSHA = null;
       // If this is the first fetch, add initial root tree to the tree list.
       if (isFirst) tree.add(Tree(sha: sha, path: _repoName));
       statusController.add(Status.loaded);
     } catch (e) {
       statusController.add(Status.error);
     }
+  }
+
+  // Reset provider and change base SHA, i.e,
+  // load the tree from a different commit.
+  void changeBaseSHA(String sha) {
+    statusController.add(Status.initialized);
+    _fetchTree(sha);
+  }
+
+  String getPath() {
+    List<String> temp = [];
+    for (int i = 1; i < _tree.length; i++) {
+      temp.add(_tree[i].path);
+    }
+    return temp.join('/');
   }
 
   @override
@@ -90,6 +116,19 @@ class CodeProvider extends BaseProvider {
   disposeStreams() {
     _treeController.close();
     return super.disposeStreams();
+  }
+
+  /// Pop the [Tree] until a specific path.
+  void popTreeUntil(Tree tree) {
+    void checkAndPop() {
+      if (_tree.last != tree) {
+        _tree = _tree.sublist(0, _tree.length - 1);
+        checkAndPop();
+      } else
+        _fetchTree(_tree.last.sha, isFirst: false);
+    }
+
+    checkAndPop();
   }
 
   /// Pop the last [Tree] sent to the provider.

@@ -5,8 +5,9 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
-import 'package:onehub/services/git_database/blobs_service.dart';
+import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:zefyr/zefyr.dart';
 
 class FileViewerAPI extends StatefulWidget {
   final String repoURL;
@@ -22,6 +23,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   final ContentViewController contentViewController = ContentViewController();
 
   bool wrapText = false;
+  bool editing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,17 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
           style: TextStyle(fontSize: 14),
         ),
         actions: [
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: editing ? AppColor.accent : Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                editing = contentViewController.edit();
+              });
+            },
+          ),
           IconButton(
             icon: Icon(
               Icons.wrap_text,
@@ -63,6 +76,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
 
 class ContentViewController {
   bool Function() wrap;
+  bool Function() edit;
 }
 
 class ContentViewer extends StatefulWidget {
@@ -77,13 +91,20 @@ class ContentViewer extends StatefulWidget {
 
 class _ContentViewerState extends State<ContentViewer> {
   _ContentViewerState(ContentViewController contentViewController) {
-    if (contentViewController != null) contentViewController.wrap = changeWrap;
+    if (contentViewController != null) {
+      contentViewController.wrap = changeWrap;
+      contentViewController.edit = edit;
+    }
   }
-
+  final ZefyrController _controller =
+      ZefyrController(NotusDocument.fromDelta(Delta.f));
+  final FocusNode _focusNode = FocusNode();
   bool loading = true;
   List<String> content;
   bool wrapText = false;
+  bool editing = false;
   int numberOfMaxChars = 0;
+  final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
     content = parse();
@@ -95,6 +116,13 @@ class _ContentViewerState extends State<ContentViewer> {
       wrapText = !wrapText;
     });
     return wrapText;
+  }
+
+  bool edit() {
+    setState(() {
+      editing = !editing;
+    });
+    return editing;
   }
 
   List<String> parse() {
@@ -115,12 +143,15 @@ class _ContentViewerState extends State<ContentViewer> {
     for (String string in listTemp) {
       if (string.length > numberOfMaxChars) numberOfMaxChars = string.length;
     }
+    textEditingController.text = listTemp.join('\n');
     return listTemp;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Visibility(
+      visible: !editing,
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
           width: wrapText
@@ -162,6 +193,13 @@ class _ContentViewerState extends State<ContentViewer> {
                   ),
                 );
               }),
-        ));
+        ),
+      ),
+      replacement: Column(
+        children: [
+          Expanded(child: ZefyrEditor(controller: controller)),
+        ],
+      ),
+    );
   }
 }

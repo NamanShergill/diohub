@@ -36,7 +36,10 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.CustomPage(
           entry: entry,
           child: _i4.RepositoryScreen(route.repositoryURL,
-              branch: route.branch, index: route.index ?? 0, key: route.key),
+              branch: route.branch,
+              index: route.index ?? 0,
+              key: route.key,
+              initSHA: route.initSHA),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     },
@@ -94,7 +97,7 @@ class SearchOverlayScreenRoute extends _i1.PageRouteInfo {
 
 class RepositoryScreenRoute extends _i1.PageRouteInfo {
   RepositoryScreenRoute(
-      {this.repositoryURL, this.branch, this.index = 0, this.key})
+      {this.repositoryURL, this.branch, this.index = 0, this.key, this.initSHA})
       : super(name, path: '/repository-screen');
 
   RepositoryScreenRoute.fromMatch(_i1.RouteMatch match)
@@ -102,6 +105,7 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
         branch = null,
         index = 0,
         key = null,
+        initSHA = null,
         super.fromMatch(match);
 
   final String repositoryURL;
@@ -111,6 +115,8 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
   final int index;
 
   final _i6.Key key;
+
+  final String initSHA;
 
   static const String name = 'RepositoryScreenRoute';
 }

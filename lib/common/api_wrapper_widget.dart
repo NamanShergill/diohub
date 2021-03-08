@@ -26,13 +26,13 @@ class APIWrapper<T> extends StatefulWidget {
 class _APIWrapperState<T> extends State<APIWrapper<T>> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<T>(
         future: widget.apiCall,
         builder: (context, AsyncSnapshot<T> snapshot) {
           if (snapshot.hasError)
             return widget.errorBuilder != null
-                ? widget.errorBuilder(context, snapshot.error)
-                : Text(snapshot.error);
+                ? widget.errorBuilder(context, snapshot.error.toString())
+                : Text(snapshot.error.toString());
           else if (snapshot.hasData)
             return FadeAnimationSection(
               child: widget.responseBuilder(context, snapshot.data),

@@ -9,7 +9,10 @@ import 'package:onehub/view/repository/widgets/star_button.dart';
 
 class RepoAppBar extends StatelessWidget {
   final RepositoryModel _repo;
-  RepoAppBar({RepositoryModel repo}) : _repo = repo;
+  final TabController _tabController;
+  RepoAppBar({RepositoryModel repo, TabController tabController})
+      : _repo = repo,
+        _tabController = tabController;
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -125,11 +128,11 @@ class RepoAppBar extends StatelessWidget {
                   repo: _repo,
                 ),
                 TabBar(
+                  controller: _tabController,
                   isScrollable: true,
                   tabs: [
                     Tab(text: "Readme"),
                     Tab(text: "Code"),
-                    Tab(text: "Commits"),
                     Tab(text: "Issues"),
                     Tab(text: "Pull Requests"),
                     Tab(text: "License"),
