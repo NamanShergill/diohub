@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/internet_connectivity.dart';
 
 class ScaffoldBody extends StatefulWidget {
@@ -38,20 +40,42 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                       initialData: true,
                       stream: InternetConnectivity.networkStream,
                       builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.data == NetworkStatus.Offline)
-                          return Container(
-                            width: double.infinity,
-                            color: Colors.redAccent,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Text(
-                                'Network Lost. Showing cached data.',
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )),
+                        return Stack(
+                          children: [
+                            SizeExpandedSection(
+                              expand: snapshot.data == NetworkStatus.Offline,
+                              child: Container(
+                                width: double.infinity,
+                                color: Colors.redAccent,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text(
+                                    'Network Lost. Showing cached data.',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  )),
+                                ),
+                              ),
                             ),
-                          );
-                        return Container();
+                            SizeExpandedSection(
+                              expand: snapshot.data == NetworkStatus.Restored,
+                              child: Container(
+                                width: double.infinity,
+                                color: AppColor.success,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text(
+                                    'Online',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  )),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
                       },
                     )),
             Expanded(child: widget.child ?? Container()),
