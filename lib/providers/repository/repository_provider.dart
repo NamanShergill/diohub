@@ -19,6 +19,8 @@ class RepositoryProvider extends BaseProvider {
         showPopup(BasePopupNotification(
           title: 'Could not fetch repository details. Tap to retry.',
           dismissOnTap: false,
+          notificationController: notificationController,
+
           // Try getting the user details again on tap.
           onTap: (context) async {
             _getRepository(_url);

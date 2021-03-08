@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/controller/notification_controller.dart';
 import 'package:onehub/style/colors.dart';
 
 import 'button.dart';
@@ -11,12 +12,14 @@ class BasePopupNotification extends StatelessWidget {
   final bool listenToLoadingController;
   final Color color;
   final bool dismissOnTap;
+  final StreamController<Widget> notificationController;
   BasePopupNotification(
       {this.title,
       this.onTap,
       this.dismissOnTap = true,
       this.listenToLoadingController = true,
-      this.color});
+      this.color,
+      this.notificationController});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +31,8 @@ class BasePopupNotification extends StatelessWidget {
           onTap: onTap != null
               ? () async {
                   await onTap(context);
-                  if (dismissOnTap)
-                    PopupNotificationController.addPopUpNotification(null);
+                  if (dismissOnTap && notificationController != null)
+                    notificationController.add(null);
                 }
               : null,
           title: title,

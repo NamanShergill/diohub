@@ -19,7 +19,9 @@ class PushEventCard extends StatelessWidget {
     return BaseEventCard(
       onTap: () {
         AutoRouter.of(context).push(RepositoryScreenRoute(
-            repositoryURL: event.repo.url, branch: data.ref.split('/').last));
+            repositoryURL: event.repo.url,
+            branch: data.ref.split('/').last,
+            index: 2));
       },
       childPadding: EdgeInsets.all(8),
       actor: event.actor.login,

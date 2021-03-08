@@ -35,7 +35,7 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.CustomPage(
           entry: entry,
           child: _i4.RepositoryScreen(route.repositoryURL,
-              branch: route.branch, key: route.key),
+              branch: route.branch, index: route.index ?? 0, key: route.key),
           transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
           durationInMilliseconds: 250);
     }
@@ -80,18 +80,22 @@ class SearchOverlayScreenRoute extends _i1.PageRouteInfo {
 }
 
 class RepositoryScreenRoute extends _i1.PageRouteInfo {
-  RepositoryScreenRoute({this.repositoryURL, this.branch, this.key})
+  RepositoryScreenRoute(
+      {this.repositoryURL, this.branch, this.index = 0, this.key})
       : super(name, path: '/repository-screen');
 
   RepositoryScreenRoute.fromMatch(_i1.RouteMatch match)
       : repositoryURL = null,
         branch = null,
+        index = 0,
         key = null,
         super.fromMatch(match);
 
   final String repositoryURL;
 
   final String branch;
+
+  final int index;
 
   final _i5.Key key;
 

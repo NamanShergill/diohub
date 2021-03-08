@@ -20,7 +20,8 @@ import 'package:provider/provider.dart';
 class RepositoryScreen extends StatefulWidget {
   final String repositoryURL;
   final String branch;
-  RepositoryScreen(this.repositoryURL, {this.branch, Key key})
+  final int index;
+  RepositoryScreen(this.repositoryURL, {this.branch, this.index = 0, Key key})
       : super(key: key);
 
   @override
@@ -85,7 +86,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
             backgroundColor: AppColor.background,
             body: DefaultTabController(
               length: 7,
-              initialIndex: 0,
+              initialIndex: widget.index,
               child: ScaffoldBody(
                 notificationController: Provider.of<RepositoryProvider>(context)
                     .notificationController,

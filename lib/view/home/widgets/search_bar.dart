@@ -10,6 +10,7 @@ class SearchBar extends StatelessWidget {
     return Hero(
       tag: 'search_bar',
       child: Material(
+        elevation: 2,
         borderRadius: BorderRadius.circular(75),
         color: AppColor.onBackground,
         child: InkWell(

@@ -13,9 +13,9 @@ class CurrentUserProvider extends BaseProvider {
   CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
 
   CurrentUserProvider({this.authenticationBloc}) {
-    authenticationBloc.listen((state) {
+    authenticationBloc.listen((authState) {
       // Fetch user details if authentication is successful.
-      if (state is AuthenticationSuccessful) {
+      if (authState is AuthenticationSuccessful) {
         void tryFetchUserInfo() async {
           // Fetch user info.
           await getUserInfo();
@@ -24,16 +24,17 @@ class CurrentUserProvider extends BaseProvider {
           // If internet is available and user still not fetched,
           // call this function again.
           if (status != Status.loaded &&
-              state is AuthenticationSuccessful &&
+              authState is AuthenticationSuccessful &&
               InternetConnectivity.status != NetworkStatus.Offline)
             tryFetchUserInfo();
         }
 
         // Start the recursive function.
         tryFetchUserInfo();
-      } else if (state is AuthenticationUnauthenticated) {
+      } else if (authState is AuthenticationUnauthenticated) {
         // Reset provider if the user is unauthenticated.
-        statusController.add(Status.initialized);
+        if (status != Status.initialized)
+          statusController.add(Status.initialized);
       }
     });
     // Request for user details again when back online,
@@ -52,6 +53,7 @@ class CurrentUserProvider extends BaseProvider {
         showPopup(BasePopupNotification(
           title: 'Could not fetch user details. Tap to retry.',
           dismissOnTap: false,
+          notificationController: notificationController,
           // Try getting the user details again on tap.
           onTap: (context) async {
             await getUserInfo();

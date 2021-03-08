@@ -88,6 +88,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                 child: StreamBuilder(
                   stream: widget.notificationController.stream,
                   builder: (context, AsyncSnapshot<Widget> widget) {
+                    print(widget.data);
                     return widget.data ?? Container();
                   },
                 ))),

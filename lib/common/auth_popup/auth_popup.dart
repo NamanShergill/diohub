@@ -7,7 +7,8 @@ import 'package:onehub/common/auth_popup/widgets/codeInfoBox.dart';
 import 'package:onehub/common/auth_popup/widgets/error_popup.dart';
 import 'package:onehub/common/auth_popup/widgets/login_popup.dart';
 import 'package:onehub/common/auth_popup/widgets/success_popup.dart';
-import 'package:onehub/controller/notification_controller.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:provider/provider.dart';
 
 class AuthPopup extends StatefulWidget {
   AuthPopup({Key key}) : super(key: key);
@@ -25,10 +26,11 @@ class _AuthPopupState extends State<AuthPopup> {
           BlocProvider.of<AuthenticationBloc>(context).add(RequestAccessToken(
               state.deviceCodeModel.deviceCode,
               state.deviceCodeModel.interval));
-          PopupNotificationController.addPopUpNotification(
-              AuthProgressNotification());
+          Provider.of<CurrentUserProvider>(context, listen: false)
+              .showPopup(AuthProgressNotification());
         } else {
-          PopupNotificationController.addPopUpNotification(null);
+          Provider.of<CurrentUserProvider>(context, listen: false)
+              .showPopup(null);
         }
       },
       builder: (context, state) {
