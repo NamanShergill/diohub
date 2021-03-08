@@ -40,7 +40,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
 
   @override
   void initState() {
-    tabController = TabController(length: 6, vsync: this);
+    tabController =
+        TabController(length: 6, vsync: this, initialIndex: widget.index ?? 0);
     waitForTransition();
     repoBranchProvider = RepoBranchProvider(initialBranch: widget.branch);
     codeProvider =

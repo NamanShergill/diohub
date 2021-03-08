@@ -46,7 +46,6 @@ class _CodeBrowserState extends State<CodeBrowser>
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Button(
                       padding: EdgeInsets.symmetric(vertical: 16),
-                      enabled: value.status == Status.loaded,
                       color: AppColor.background,
                       listenToLoadingController: false,
                       onTap: () {},

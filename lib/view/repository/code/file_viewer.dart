@@ -7,7 +7,6 @@ import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:zefyr/zefyr.dart';
 
 class FileViewerAPI extends StatefulWidget {
   final String repoURL;
@@ -96,9 +95,6 @@ class _ContentViewerState extends State<ContentViewer> {
       contentViewController.edit = edit;
     }
   }
-  final ZefyrController _controller =
-      ZefyrController(NotusDocument.fromDelta(Delta.f));
-  final FocusNode _focusNode = FocusNode();
   bool loading = true;
   List<String> content;
   bool wrapText = false;
@@ -195,11 +191,11 @@ class _ContentViewerState extends State<ContentViewer> {
               }),
         ),
       ),
-      replacement: Column(
-        children: [
-          Expanded(child: ZefyrEditor(controller: controller)),
-        ],
-      ),
+      // replacement: Column(
+      //   children: [
+      //     Expanded(child: ZefyrEditor(controller: controller)),
+      //   ],
+      // ),
     );
   }
 }

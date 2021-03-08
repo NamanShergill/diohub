@@ -16,6 +16,12 @@ class RepoAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       title: SliverAppBarTitle(
           child: Row(
         children: [

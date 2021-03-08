@@ -587,13 +587,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  notus:
-    dependency: transitive
-    description:
-      name: notus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0-dev.4.0"
   octo_image:
     dependency: transitive
     description:
@@ -741,13 +734,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.8"
-  quill_delta:
-    dependency: transitive
-    description:
-      name: quill_delta
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   quiver:
     dependency: "direct overridden"
     description:
@@ -755,13 +741,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  quiver_hashcode:
-    dependency: transitive
-    description:
-      name: quiver_hashcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   rxdart:
     dependency: transitive
     description:
@@ -1061,13 +1040,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
-  zefyr:
-    dependency: "direct main"
-    description:
-      name: zefyr
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0-dev.2.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"

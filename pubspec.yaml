@@ -62,7 +62,6 @@ dependencies:
   shimmer: ^2.0.0-nullsafety.0
   snapping_sheet: ^2.0.2
   url_launcher: ^6.0.2
-  zefyr: ^1.0.0-dev.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
