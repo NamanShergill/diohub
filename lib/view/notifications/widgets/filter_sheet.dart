@@ -78,44 +78,10 @@ class _FilterSheetState extends State<FilterSheet> {
     return Stack(
       children: [
         ListView(
+          physics: NeverScrollableScrollPhysics(),
           controller: widget.controller,
           shrinkWrap: true,
           children: [
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: AppColor.grey,
-                          borderRadius: BorderRadius.circular(15)),
-                      height: 4,
-                      width: _media.width * 0.1,
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).padding.top + 16,
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Center(
-                  child: Text(
-                'Filter Notifications',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    .copyWith(fontWeight: FontWeight.bold),
-              )),
-            ),
-            Divider(),
-            SizedBox(
-              height: 16,
-            ),
             section(contents: [
               tileWrapper(
                 function: () {

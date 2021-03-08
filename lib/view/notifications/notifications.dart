@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
@@ -45,36 +46,19 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   /// Show bottom sheet to apply filters.
   void showFilterSheet() {
-    showModalBottomSheet(
-        context: context,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
-        )),
-        backgroundColor: AppColor.background,
-        isScrollControlled: true,
-        builder: (context) {
-          return DraggableScrollableSheet(
-            initialChildSize: 1,
-            maxChildSize: 1,
-            expand: false,
-            minChildSize: 0.6,
-            builder: (context, scrollController) {
-              return FilterSheet(
-                apiFilters: apiFilters,
-                controller: scrollController,
-                clientFilters: clientFilters,
-                onFiltersChanged:
-                    (Map updatedAPIFilters, Map updatedClientFilters) {
-                  apiFilters = updatedAPIFilters;
-                  clientFilters = updatedClientFilters;
-                  _controller.refresh();
-                },
-              );
-            },
-          );
-        });
+    showScrollableBottomActionsMenu(context, title: 'Filter Notifications',
+        child: (context, scrollController) {
+      return FilterSheet(
+        apiFilters: apiFilters,
+        controller: scrollController,
+        clientFilters: clientFilters,
+        onFiltersChanged: (Map updatedAPIFilters, Map updatedClientFilters) {
+          apiFilters = updatedAPIFilters;
+          clientFilters = updatedClientFilters;
+          _controller.refresh();
+        },
+      );
+    });
   }
 
   @override

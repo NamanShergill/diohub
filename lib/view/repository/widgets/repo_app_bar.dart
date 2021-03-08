@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:onehub/common/bottom_sheet.dart';
+import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:onehub/providers/repository/branch_provider.dart';
+import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/repository/widgets/branch_select_sheet.dart';
 import 'package:onehub/view/repository/widgets/sliver_app_bar_title.dart';
 import 'package:onehub/view/repository/widgets/star_button.dart';
+import 'package:provider/provider.dart';
 
 class RepoAppBar extends StatelessWidget {
   final RepositoryModel _repo;
@@ -28,7 +35,9 @@ class RepoAppBar extends StatelessWidget {
                 children: [
                   TextSpan(text: '${_repo.owner.login}/'),
                   TextSpan(
-                      text: _repo.name,
+                      text: _repo.name.length > 15
+                          ? '${_repo.name.substring(0, 15)}...'
+                          : _repo.name,
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
           ),
@@ -36,6 +45,7 @@ class RepoAppBar extends StatelessWidget {
       )),
       pinned: true,
       expandedHeight: 450,
+      collapsedHeight: 150,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [
@@ -67,7 +77,9 @@ class RepoAppBar extends StatelessWidget {
                           height: 8,
                         ),
                         Text(
-                          _repo.name,
+                          _repo.name.length > 25
+                              ? '${_repo.name.substring(0, 25)}...'
+                              : _repo.name,
                           style: Theme.of(context)
                               .textTheme
                               .headline5
@@ -113,16 +125,106 @@ class RepoAppBar extends StatelessWidget {
           color: AppColor.background,
           child: Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: TabBar(
-              isScrollable: true,
-              tabs: [
-                Tab(text: "Readme"),
-                Tab(text: "Code"),
-                Tab(text: "Commits"),
-                Tab(text: "Issues"),
-                Tab(text: "Pull Requests"),
-                Tab(text: "License"),
-                Tab(text: "Watchers"),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Material(
+                    color: AppColor.onBackground,
+                    elevation: 2,
+                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: AppThemeBorderRadius.medBorderRadius),
+                        child:
+                            ProviderLoadingProgressWrapper<RepoBranchProvider>(
+                          loadingBuilder: (context) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(18.0),
+                                  child: LoadingIndicator(),
+                                ),
+                              ],
+                            );
+                          },
+                          childBuilder: (context, value) {
+                            return InkWell(
+                              onTap: () {
+                                String currentBranch = context
+                                    .read<RepoBranchProvider>()
+                                    .branch
+                                    .name;
+                                void changeBranch(String branch) {
+                                  Provider.of<RepoBranchProvider>(context,
+                                          listen: false)
+                                      .changeBranch(branch);
+                                }
+
+                                showScrollableBottomActionsMenu(context,
+                                    title: 'Select Branch',
+                                    child: (context, scrollController) {
+                                  return BranchSelectSheet(
+                                    _repo.url,
+                                    controller: scrollController,
+                                    currentBranch: currentBranch,
+                                    defaultBranch: _repo.defaultBranch,
+                                    onSelected: (String branch) {
+                                      changeBranch(branch);
+                                    },
+                                  );
+                                });
+                              },
+                              borderRadius:
+                                  AppThemeBorderRadius.medBorderRadius,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        AppThemeBorderRadius.medBorderRadius),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Row(
+                                          children: [
+                                            Icon(Octicons.git_branch),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Flexible(
+                                                child: Text(value.branch.name)),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(Icons.arrow_drop_down),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )),
+                  ),
+                ),
+                TabBar(
+                  isScrollable: true,
+                  tabs: [
+                    Tab(text: "Readme"),
+                    Tab(text: "Code"),
+                    Tab(text: "Commits"),
+                    Tab(text: "Issues"),
+                    Tab(text: "Pull Requests"),
+                    Tab(text: "License"),
+                    Tab(text: "Watchers"),
+                  ],
+                ),
               ],
             ),
           ),

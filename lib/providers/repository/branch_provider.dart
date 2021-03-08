@@ -55,6 +55,10 @@ class RepoBranchProvider extends BaseProvider {
       _branch = await RepositoryServices.fetchBranch(url);
       statusController.add(Status.loaded);
     } catch (e) {
+      // If it was not the initial load, it means a branch is already loaded.
+      // User will see a popup showing the message key of the error response
+      // from github on why the fetch failed, so no need to dispose the
+      // previous data.
       if (isInitial)
         statusController.add(Status.error);
       else

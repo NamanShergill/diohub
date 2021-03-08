@@ -108,3 +108,71 @@ void showURLBottomActionsMenu(BuildContext context, String url,
     );
   });
 }
+
+typedef ScrollChild(BuildContext context, ScrollController scrollController);
+
+void showScrollableBottomActionsMenu(BuildContext context,
+    {ScrollChild child, String title}) {
+  showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topRight: Radius.circular(20),
+        topLeft: Radius.circular(20),
+      )),
+      backgroundColor: AppColor.background,
+      isScrollControlled: true,
+      builder: (context) {
+        final _media = MediaQuery.of(context).size;
+        return DraggableScrollableSheet(
+          initialChildSize: 1,
+          maxChildSize: 1,
+          expand: false,
+          minChildSize: 0.6,
+          builder: (context, scrollController) {
+            return ListView(
+              shrinkWrap: true,
+              controller: scrollController,
+              children: [
+                SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.grey,
+                              borderRadius: BorderRadius.circular(15)),
+                          height: 4,
+                          width: _media.width * 0.1,
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).padding.top + 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                      child: Text(
+                    title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )),
+                ),
+                Divider(),
+                SizedBox(
+                  height: 16,
+                ),
+                child(context, scrollController),
+              ],
+            );
+          },
+        );
+      });
+}

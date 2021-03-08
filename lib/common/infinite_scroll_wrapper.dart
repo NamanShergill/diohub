@@ -10,19 +10,22 @@ class InfiniteScrollWrapperController {
   void Function() refresh;
 }
 
+typedef ScrollWrapperFuture(int pageNumber, int pageSize);
+typedef ScrollWrapperBuilder<T>(BuildContext context, T item, int index);
+
 /// A wrapper designed to show infinite pagination.
 /// [T] type is defined for the kind of elements to be displayed.
 class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// How to display the data. Give
-  final builder;
+  final ScrollWrapperBuilder<T> builder;
 
   /// The future to fetch data to display from.
-  /// Gives you the current [pageNumber] and [pageSize].
-  final future;
+  /// Gives you the current [pageNumber] and [pageSize], in that order.
+  final ScrollWrapperFuture future;
 
   /// The future to fetch data to display from if the page is refreshed.
-  /// Gives you the current [pageNumber] and [pageSize].
-  final refreshFuture;
+  /// Gives you the current [pageNumber] and [pageSize], in that order.
+  final ScrollWrapperFuture refreshFuture;
 
   /// Total number of elements in each page. Default value is **10**.
   final int pageSize;
@@ -46,6 +49,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Spacing to add to the top of the list.
   final double topSpacing;
 
+  final bool listEndIndicator;
+
   InfiniteScrollWrapper(
       {Key key,
       this.future,
@@ -57,6 +62,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.pageSize = 10,
       this.topSpacing = 0,
       this.firstDivider = true,
+      this.listEndIndicator = true,
       this.spacing = 16})
       : super(key: key);
 
@@ -65,7 +71,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       _InfiniteScrollWrapperState(controller);
 }
 
-class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
+class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   _InfiniteScrollWrapperState(InfiniteScrollWrapperController _controller) {
     if (_controller != null) _controller.refresh = resetAndRefresh;
   }
@@ -176,14 +182,16 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper> {
               style: TextStyle(color: AppColor.grey3),
             ),
           )),
-          noMoreItemsIndicatorBuilder: (context) => Center(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'The end of the line.',
-              style: TextStyle(color: AppColor.grey3),
-            ),
-          )),
+          noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
+              ? Center(
+                  child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'The end of the line.',
+                    style: TextStyle(color: AppColor.grey3),
+                  ),
+                ))
+              : Container(),
         ),
       ),
     );

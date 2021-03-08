@@ -8,6 +8,7 @@ import 'package:onehub/providers/repository/code_provider.dart';
 import 'package:onehub/providers/repository/commits_provider.dart';
 import 'package:onehub/providers/repository/issues_provider.dart';
 import 'package:onehub/providers/repository/pulls_provider.dart';
+import 'package:onehub/providers/repository/readme_provider.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
@@ -30,12 +31,14 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
   bool loading = true;
   RepoBranchProvider repoBranchProvider;
   CodeProvider codeProvider;
+  RepoReadmeProvider readmeProvider;
 
   @override
   void initState() {
     waitForTransition();
     repoBranchProvider = RepoBranchProvider(initialBranch: widget.branch);
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
+    readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     super.initState();
   }
 
@@ -59,6 +62,9 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
           create: (_) => repoBranchProvider,
           update: (_, repo, __) => repoBranchProvider..updateProvider(repo),
         ),
+        ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
+            create: (_) => readmeProvider,
+            update: (_, branch, __) => readmeProvider..updateProvider(branch)),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoIssuesProvider>(
             create: (_) => RepoIssuesProvider(),
             update: (_, repo, __) => RepoIssuesProvider()),

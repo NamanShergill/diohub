@@ -5,13 +5,12 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/image_loader.dart';
 import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/models/repositories/readme_model.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
+import 'package:onehub/providers/repository/readme_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/syntax_highlight.dart';
@@ -40,17 +39,16 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: APIWrapper<RepositoryReadmeModel>(
-              apiCall: RepositoryServices.fetchReadme(widget.repoURL),
+            child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
               loadingBuilder: (context) {
                 return Padding(
-                  padding: const EdgeInsets.only(top: 48),
+                  padding: const EdgeInsets.only(top: 48.0),
                   child: LoadingIndicator(),
                 );
               },
-              responseBuilder: (context, RepositoryReadmeModel data) {
+              childBuilder: (context, value) {
                 return Html(
-                    data: data.content,
+                    data: value.readme.content,
                     onLinkTap: (String url, RenderContext rContext,
                         Map<String, String> attributes, data) {
                       return showURLBottomActionsMenu(context, url);
