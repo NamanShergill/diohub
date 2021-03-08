@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
@@ -13,7 +14,6 @@ import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/repository/readme_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/style/syntax_highlight.dart';
 
 class RepositoryReadme extends StatefulWidget {
   final String repoURL;
@@ -105,23 +105,27 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
                             itemBuilder: (context, index) {
                               return Container(
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: AppColor.background,
                                     borderRadius:
                                         AppThemeBorderRadius.smallBorderRadius),
                                 child: Scrollbar(
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 16),
+                                      padding: const EdgeInsets.only(
+                                        top: 8.0,
+                                        right: 8,
+                                        left: 8,
+                                      ),
                                       child: HighlightView(
                                         data.children[index].text,
+                                        backgroundColor: Colors.transparent,
                                         language: data.children[index].className
                                                 .isNotEmpty
                                             ? data.children[index].className
                                                 ?.substring(9)
                                             : 'txt',
-                                        theme: syntaxHighlight,
+                                        theme: monokaiSublimeTheme,
                                       ),
                                     ),
                                   ),

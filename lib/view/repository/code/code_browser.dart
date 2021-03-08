@@ -6,6 +6,7 @@ import 'package:onehub/common/button.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
+import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/browser_list_tiles.dart';
@@ -110,7 +111,11 @@ class _CodeBrowserState extends State<CodeBrowser>
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return BrowserListTile(
-                                  value.codeTree.tree[index]);
+                                  value.codeTree.tree[index],
+                                  Provider.of<RepositoryProvider>(context,
+                                          listen: false)
+                                      .repositoryModel
+                                      .url);
                             },
                             separatorBuilder: (context, index) {
                               return Divider(

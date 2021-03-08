@@ -5,10 +5,11 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/foundation.dart' as _i5;
+import 'package:flutter/foundation.dart' as _i6;
 
 import '../view/home/widgets/search_overlay.dart' as _i3;
 import '../view/landing/widgets/landing_auth_wrapper.dart' as _i2;
+import '../view/repository/code/file_viewer.dart' as _i5;
 import '../view/repository/repository_screen.dart' as _i4;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -21,7 +22,7 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.CustomPage(
           entry: entry,
           child: _i2.LandingAuthWrapperScreen(key: route.key),
-          transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
+          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     },
     SearchOverlayScreenRoute.name: (entry) {
@@ -36,7 +37,16 @@ class AppRouter extends _i1.RootStackRouter {
           entry: entry,
           child: _i4.RepositoryScreen(route.repositoryURL,
               branch: route.branch, index: route.index ?? 0, key: route.key),
-          transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
+          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+          durationInMilliseconds: 250);
+    },
+    FileViewerAPIRoute.name: (entry) {
+      var route = entry.routeData.as<FileViewerAPIRoute>();
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i5.FileViewerAPI(route.sha,
+              repoURL: route.repoURL, fileName: route.fileName),
+          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     }
   };
@@ -53,7 +63,10 @@ class AppRouter extends _i1.RootStackRouter {
             routeBuilder: (match) => SearchOverlayScreenRoute.fromMatch(match)),
         _i1.RouteConfig<RepositoryScreenRoute>(RepositoryScreenRoute.name,
             path: '/repository-screen',
-            routeBuilder: (match) => RepositoryScreenRoute.fromMatch(match))
+            routeBuilder: (match) => RepositoryScreenRoute.fromMatch(match)),
+        _i1.RouteConfig<FileViewerAPIRoute>(FileViewerAPIRoute.name,
+            path: '/file-viewer-ap-i',
+            routeBuilder: (match) => FileViewerAPIRoute.fromMatch(match))
       ];
 }
 
@@ -64,7 +77,7 @@ class LandingAuthWrapperScreenRoute extends _i1.PageRouteInfo {
       : key = null,
         super.fromMatch(match);
 
-  final _i5.Key key;
+  final _i6.Key key;
 
   static const String name = 'LandingAuthWrapperScreenRoute';
 }
@@ -97,7 +110,26 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
 
   final int index;
 
-  final _i5.Key key;
+  final _i6.Key key;
 
   static const String name = 'RepositoryScreenRoute';
+}
+
+class FileViewerAPIRoute extends _i1.PageRouteInfo {
+  FileViewerAPIRoute({this.sha, this.repoURL, this.fileName})
+      : super(name, path: '/file-viewer-ap-i');
+
+  FileViewerAPIRoute.fromMatch(_i1.RouteMatch match)
+      : sha = null,
+        repoURL = null,
+        fileName = null,
+        super.fromMatch(match);
+
+  final String sha;
+
+  final String repoURL;
+
+  final String fileName;
+
+  static const String name = 'FileViewerAPIRoute';
 }
