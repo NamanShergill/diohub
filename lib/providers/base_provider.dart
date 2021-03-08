@@ -8,6 +8,7 @@ class BaseProvider extends ChangeNotifier {
     statusStream.listen((event) {
       if (event == Status.initialized) resetProvider();
       _status = event;
+      notifyListeners();
     });
   }
 
@@ -40,7 +41,7 @@ class BaseProvider extends ChangeNotifier {
   }
 
   /// Dispose the stream.
-  disposeStatusStream() {
+  disposeStreams() {
     _statusController.close();
     _notificationController.close();
   }

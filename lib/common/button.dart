@@ -67,6 +67,7 @@ class _ButtonState extends State<Button> {
     return MaterialButton(
       disabledColor: (widget.color ?? AppColor.accent).withOpacity(0.7),
       elevation: widget.elevation,
+      disabledTextColor: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
       onPressed: widget.enabled && !loading ? widget.onTap : null,

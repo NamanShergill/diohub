@@ -7,7 +7,7 @@ import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/home/widgets/events/events.dart';
+import 'package:onehub/view/home/events/events.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {

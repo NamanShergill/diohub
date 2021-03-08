@@ -12,7 +12,7 @@ import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/services/repositories/repo_services.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/textStyles.dart';
-import 'package:onehub/view/home/widgets/events/cards/base_card.dart';
+import 'package:onehub/view/home/events/cards/base_card.dart';
 
 class WatchEventCard extends StatelessWidget {
   // Todo: Add repo info fetch. API fetch wrapper needed?

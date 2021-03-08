@@ -44,7 +44,7 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
               apiCall: RepositoryServices.fetchReadme(widget.repoURL),
               loadingBuilder: (context) {
                 return Padding(
-                  padding: const EdgeInsets.only(top: 32),
+                  padding: const EdgeInsets.only(top: 48),
                   child: LoadingIndicator(),
                 );
               },

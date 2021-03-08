@@ -36,9 +36,11 @@ class RepoBranchProvider extends BaseProvider {
               '${_repositoryProvider.repositoryModel.url}/branches/${_initialBranch ?? _repositoryProvider.repositoryModel.defaultBranch}');
         }
       });
+      // Listen if a new branch has been requested and fetch the same.
       _loadBranch.stream.listen((event) {
         _fetchBranch(
-            '${_repositoryProvider.repositoryModel.url}/branches/$event');
+            '${_repositoryProvider.repositoryModel.url}/branches/$event',
+            isInitial: false);
       });
     }
   }
@@ -47,13 +49,16 @@ class RepoBranchProvider extends BaseProvider {
     _loadBranch.add(branchName);
   }
 
-  void _fetchBranch(String url) async {
+  void _fetchBranch(String url, {bool isInitial = true}) async {
     statusController.add(Status.loading);
     try {
       _branch = await RepositoryServices.fetchBranch(url);
       statusController.add(Status.loaded);
     } catch (e) {
-      statusController.add(Status.error);
+      if (isInitial)
+        statusController.add(Status.error);
+      else
+        statusController.add(Status.loaded);
     }
   }
 }
