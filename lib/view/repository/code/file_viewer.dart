@@ -125,7 +125,10 @@ class _ContentViewerState extends State<ContentViewer> {
         child: Container(
           width: wrapText
               ? MediaQuery.of(context).size.width
-              : numberOfMaxChars.toDouble() * 10,
+              : numberOfMaxChars.toDouble() * 10 >
+                      MediaQuery.of(context).size.width
+                  ? numberOfMaxChars.toDouble() * 10
+                  : MediaQuery.of(context).size.width,
           child: ListView.builder(
               itemCount: content.length,
               itemBuilder: (context, index) {
