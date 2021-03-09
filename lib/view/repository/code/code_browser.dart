@@ -56,9 +56,11 @@ class _CodeBrowserState extends State<CodeBrowser>
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 12),
                                   ),
-                                  onTap: () {
-                                    value.unlockCodeFromCommit();
-                                  },
+                                  onTap: value.status == Status.loaded
+                                      ? () {
+                                          value.unlockCodeFromCommit();
+                                        }
+                                      : null,
                                 ),
                                 SizedBox(
                                   height: 16,

@@ -22,9 +22,6 @@ class CodeProvider extends BaseProvider {
   /// Current repository's URL.
   String _repoURL;
 
-  /// Current repository's name.
-  String _repoName;
-
   /// [RepoBranchProvider] this provider will depend on.
   RepoBranchProvider _branchProvider;
 
@@ -48,10 +45,8 @@ class CodeProvider extends BaseProvider {
   String _initialSHA;
 
   CodeProvider({String repoURL, String initialSHA}) : _repoURL = repoURL {
-    List<String> temp = _repoURL.split('/');
-    _repoName = temp.last;
-    // If an initial SHA is provided for browsing, lock the code browsing
-    // view to that specific commit.
+    // If an initial SHA is provided for browsing, the commit will be locked
+    // to it later when the [BranchProvider] is ready to supply data.
     if (initialSHA != null) _initialSHA = initialSHA;
   }
 
@@ -65,10 +60,10 @@ class CodeProvider extends BaseProvider {
       void setupAndRunFetch() {
         if (_initialSHA != null) _lockCodeToCommit(_initialSHA);
         _fetchTree(Tree(
-            sha: _commitLock
-                ? _lockedCommitSHA
-                : _branchProvider.branch.commit.sha,
-            path: _repoName));
+          sha: _commitLock
+              ? _lockedCommitSHA
+              : _branchProvider.branch.commit.sha,
+        ));
       }
 
       // In case the provider loads lazily and the event of load is
@@ -153,7 +148,7 @@ class CodeProvider extends BaseProvider {
       _lockCodeToCommit(sha);
     else
       unlockCodeFromCommit();
-    _fetchTree(Tree(sha: sha, path: _repoName));
+    _fetchTree(Tree(sha: sha));
   }
 
   /// Lock the code viewer to a specific commit.
