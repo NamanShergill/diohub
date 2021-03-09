@@ -171,7 +171,7 @@ class _ContentViewerState extends State<ContentViewer> {
                           width: 8,
                         ),
                         Text(
-                          index.toString(),
+                          (index + 1).toString(),
                         ),
                         SizedBox(
                           width: 12,
