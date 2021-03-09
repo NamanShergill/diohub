@@ -67,6 +67,7 @@ class _ButtonState extends State<Button> {
     return MaterialButton(
       disabledColor: (widget.color ?? AppColor.accent).withOpacity(0.7),
       elevation: widget.elevation,
+      padding: widget.padding,
       disabledTextColor: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
@@ -75,36 +76,34 @@ class _ButtonState extends State<Button> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-              padding: widget.padding,
-              child: !loading
-                  ? Row(
-                      mainAxisSize:
-                          widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                            visible: widget.leadingIcon != null,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: widget.leadingIcon ?? Container(),
-                            )),
-                        Flexible(child: widget.child),
-                      ],
-                    )
-                  : Row(
-                      mainAxisSize:
-                          widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                            visible: widget.loadingWidget != null,
-                            child: widget.loadingWidget ?? Container()),
-                        LoadingIndicator(),
-                      ],
-                    )),
+          !loading
+              ? Row(
+                  mainAxisSize:
+                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                        visible: widget.leadingIcon != null,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: widget.leadingIcon ?? Container(),
+                        )),
+                    Flexible(child: widget.child),
+                  ],
+                )
+              : Row(
+                  mainAxisSize:
+                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                        visible: widget.loadingWidget != null,
+                        child: widget.loadingWidget ?? Container()),
+                    LoadingIndicator(),
+                  ],
+                ),
         ],
       ),
     );

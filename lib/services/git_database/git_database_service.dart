@@ -24,19 +24,22 @@ class GitDatabaseService {
   static Future<List<CommitModel>> getCommitsList(
       {String repoURL,
       String path,
-      String branch,
+      String sha,
       int pageNumber,
       int pageSize,
-      String author}) async {
+      String author,
+      bool refresh = false}) async {
     Map<String, dynamic> queryParams = {
       'path': path,
       'per_page': pageSize,
       'page': pageNumber,
-      'sha': branch
+      'sha': sha
     };
     if (author != null) queryParams['author'] = author;
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(repoURL + '/commits', queryParameters: queryParams);
+    Response response = await GetDio.getDio(applyBaseURL: false).get(
+        repoURL + '/commits',
+        queryParameters: queryParams,
+        options: CacheManager.defaultCache(refresh));
     List unParsedItems = response.data;
     List<CommitModel> parsedItems = [];
     for (var element in unParsedItems) {

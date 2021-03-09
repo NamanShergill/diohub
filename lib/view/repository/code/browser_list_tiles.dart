@@ -9,7 +9,8 @@ import 'package:provider/provider.dart';
 class BrowserListTile extends StatelessWidget {
   final Tree tree;
   final String repoURL;
-  BrowserListTile(this.tree, this.repoURL);
+  final int index;
+  BrowserListTile(this.tree, this.repoURL, this.index);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -17,7 +18,8 @@ class BrowserListTile extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (tree.type == Type.TREE)
-            Provider.of<CodeProvider>(context, listen: false).pushTree(tree);
+            Provider.of<CodeProvider>(context, listen: false)
+                .pushTree(tree, index);
           else if (tree.type == Type.BLOB)
             AutoRouter.of(context).push(FileViewerAPIRoute(
                 repoURL: repoURL, sha: tree.sha, fileName: tree.path));
@@ -30,7 +32,7 @@ class BrowserListTile extends StatelessWidget {
               SizedBox(
                 width: 8,
               ),
-              Text(tree.path),
+              Flexible(child: Text(tree.path)),
             ],
           ),
         ),

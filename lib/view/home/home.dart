@@ -117,15 +117,15 @@ class _HomeScreenState extends State<HomeScreen>
           },
           body: Container(
             color: AppColor.onBackground,
-            child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-              childBuilder: (context, value) {
-                return Builder(
-                  builder: (context) {
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                    return Container(
-                      color: AppColor.onBackground,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 150),
+              child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                childBuilder: (context, value) {
+                  return Builder(
+                    builder: (context) {
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+                      return Container(
+                        color: AppColor.onBackground,
                         child: LoginCheckWrapper(
                           child: TabBarView(
                             controller: _tabController,
@@ -150,11 +150,11 @@ class _HomeScreenState extends State<HomeScreen>
                             ],
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:onehub/common/animations/fade_animation_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
@@ -37,54 +38,56 @@ class BranchButton extends StatelessWidget {
                 );
               },
               childBuilder: (context, value) {
-                return InkWell(
-                  onTap: () {
-                    String currentBranch =
-                        context.read<RepoBranchProvider>().branch.name;
-                    void changeBranch(String branch) {
-                      Provider.of<RepoBranchProvider>(context, listen: false)
-                          .changeBranch(branch);
-                    }
+                return FadeAnimationSection(
+                  child: InkWell(
+                    onTap: () {
+                      String currentBranch =
+                          context.read<RepoBranchProvider>().branch.name;
+                      void changeBranch(String branch) {
+                        Provider.of<RepoBranchProvider>(context, listen: false)
+                            .changeBranch(branch);
+                      }
 
-                    showScrollableBottomActionsMenu(context,
-                        title: 'Select Branch',
-                        child: (context, scrollController) {
-                      return BranchSelectSheet(
-                        _repo.url,
-                        controller: scrollController,
-                        currentBranch: currentBranch,
-                        defaultBranch: _repo.defaultBranch,
-                        onSelected: (String branch) {
-                          changeBranch(branch);
-                        },
-                      );
-                    });
-                  },
-                  borderRadius: AppThemeBorderRadius.medBorderRadius,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: AppThemeBorderRadius.medBorderRadius),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Row(
-                              children: [
-                                Icon(Octicons.git_branch),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Flexible(child: Text(value.branch.name)),
-                              ],
+                      showScrollableBottomActionsMenu(context,
+                          titleText: 'Select Branch',
+                          child: (context, scrollController) {
+                        return BranchSelectSheet(
+                          _repo.url,
+                          controller: scrollController,
+                          currentBranch: currentBranch,
+                          defaultBranch: _repo.defaultBranch,
+                          onSelected: (String branch) {
+                            changeBranch(branch);
+                          },
+                        );
+                      });
+                    },
+                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Icon(Octicons.git_branch),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Flexible(child: Text(value.branch.name)),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Icon(Icons.arrow_drop_down),
-                        ],
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Icon(Icons.arrow_drop_down),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -112,7 +112,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
 typedef ScrollChild(BuildContext context, ScrollController scrollController);
 
 void showScrollableBottomActionsMenu(BuildContext context,
-    {ScrollChild child, String title}) {
+    {ScrollChild child, String titleText, Widget titleWidget}) {
   showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -154,17 +154,19 @@ void showScrollableBottomActionsMenu(BuildContext context,
                 SizedBox(
                   height: MediaQuery.of(context).padding.top + 16,
                 ),
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Center(
-                      child: Text(
-                    title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(fontWeight: FontWeight.bold),
-                  )),
-                ),
+                titleWidget != null
+                    ? titleWidget
+                    : Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(
+                            child: Text(
+                          titleText,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(fontWeight: FontWeight.bold),
+                        )),
+                      ),
                 Divider(),
                 SizedBox(
                   height: 16,

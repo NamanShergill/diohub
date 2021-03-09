@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/api_wrapper_widget.dart';
+import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/models/repositories/commit_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
-import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/browser_list_tiles.dart';
+import 'package:onehub/view/repository/code/commit_browser.dart';
+import 'package:onehub/view/repository/code/commit_info_button.dart';
 import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {
@@ -42,52 +41,85 @@ class _CodeBrowserState extends State<CodeBrowser>
             builder: (context, value, _) {
               return Column(
                 children: [
+                  value.commitLock && value.tree.length != 0
+                      ? SizeExpandedSection(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              children: [
+                                Button(
+                                  listenToLoadingController: false,
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Currently browsing commit ${value.tree.last.commit.sha.substring(0, 6)}.\nLoad the latest code?',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12),
+                                  ),
+                                  onTap: () {
+                                    value.unlockCodeFromCommit();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Button(
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                       color: AppColor.background,
                       listenToLoadingController: false,
-                      onTap: () {},
-                      child: value.status == Status.loaded
-                          ? APIWrapper<List<CommitModel>>(
-                              apiCall: GitDatabaseService.getCommitsList(
-                                  repoURL: Provider.of<RepositoryProvider>(
-                                          context,
-                                          listen: false)
-                                      .repositoryModel
-                                      .url,
-                                  branch: Provider.of<RepoBranchProvider>(
-                                          context,
-                                          listen: false)
-                                      .branch
-                                      .name,
-                                  path: value.getPath(),
-                                  pageNumber: 1,
-                                  pageSize: 1),
-                              responseBuilder: (context, value) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                      onTap: value.status == Status.loaded
+                          ? () {
+                              String repoUrl = context
+                                  .read<RepositoryProvider>()
+                                  .repositoryModel
+                                  .url;
+
+                              String branchName = context
+                                  .read<RepoBranchProvider>()
+                                  .branch
+                                  .name;
+
+                              String path =
+                                  context.read<CodeProvider>().getPath();
+
+                              bool isLocked =
+                                  context.read<CodeProvider>().commitLock;
+                              showScrollableBottomActionsMenu(context,
+                                  titleWidget: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
                                       children: [
-                                        Icon(Octicons.git_commit),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          '${value[0].sha.substring(0, 6)}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                        Text('Commit History'),
+                                        Text('Branch: Placeholder'),
                                       ],
                                     ),
-                                    Icon(Icons.arrow_drop_down),
-                                  ],
+                                  ), child: (sheetContext, controller) {
+                                return CommitBrowser(
+                                  controller: controller,
+                                  currentSHA: value.tree.last.commit.sha,
+                                  isLocked: isLocked,
+                                  repoURL: repoUrl,
+                                  path: path,
+                                  branchName: branchName,
+                                  onSelected: (String sha) {
+                                    return Provider.of<CodeProvider>(context,
+                                            listen: false)
+                                        .changeBaseSHA(sha);
+                                  },
                                 );
-                              },
-                            )
+                              });
+                            }
+                          : null,
+                      child: value.status == Status.loaded
+                          ? CommitInfoButton()
                           : LoadingIndicator(),
                     ),
                   ),
@@ -131,7 +163,18 @@ class _CodeBrowserState extends State<CodeBrowser>
                                     },
                                     child: Center(
                                       child: Text(
-                                        ' ' + value.tree[index].path,
+                                        ' ' +
+                                            (index == 0
+                                                ? Provider.of<
+                                                            RepositoryProvider>(
+                                                        context)
+                                                    .repositoryModel
+                                                    .name
+                                                : value
+                                                    .tree[index - 1]
+                                                    .tree[value
+                                                        .pathIndex[index - 1]]
+                                                    .path),
                                         style: TextStyle(
                                             color:
                                                 index == value.tree.length - 1
@@ -167,18 +210,19 @@ class _CodeBrowserState extends State<CodeBrowser>
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return BrowserListTile(
-                                    value.codeTree.tree[index],
+                                    value.tree.last.tree[index],
                                     Provider.of<RepositoryProvider>(context,
                                             listen: false)
                                         .repositoryModel
-                                        .url);
+                                        .url,
+                                    index);
                               },
                               separatorBuilder: (context, index) {
                                 return Divider(
                                   height: 0,
                                 );
                               },
-                              itemCount: value.codeTree.tree.length),
+                              itemCount: value.tree.last.tree.length),
                         ),
                       ),
                     ),

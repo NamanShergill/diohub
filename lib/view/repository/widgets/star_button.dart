@@ -18,7 +18,7 @@ class _StarButtonState extends State<StarButton> {
     return Button(
       listenToLoadingController: false,
       stretch: false,
-      padding: EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       color: AppColor.onBackground,
       onTap: () {},
       child: Row(

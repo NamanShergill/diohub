@@ -4,30 +4,30 @@
 
 import 'dart:convert';
 
+import 'package:onehub/models/repositories/commit_model.dart';
+
 class CodeTreeModel {
-  CodeTreeModel({
-    this.sha,
-    this.url,
-    this.tree,
-    this.truncated,
-  });
+  CodeTreeModel({this.sha, this.url, this.tree, this.truncated, this.commit});
 
   String sha;
   String url;
   List<Tree> tree;
   bool truncated;
+  CommitModel commit;
 
   CodeTreeModel copyWith({
     String sha,
     String url,
     List<Tree> tree,
     bool truncated,
+    CommitModel commit,
   }) =>
       CodeTreeModel(
         sha: sha ?? this.sha,
         url: url ?? this.url,
         tree: tree ?? this.tree,
         truncated: truncated ?? this.truncated,
+        commit: commit ?? this.commit,
       );
 
   factory CodeTreeModel.fromRawJson(String str) =>
@@ -51,6 +51,7 @@ class CodeTreeModel {
             ? null
             : List<dynamic>.from(tree.map((x) => x.toJson())),
         "truncated": truncated == null ? null : truncated,
+        "commit": commit == null ? null : commit.toJson(),
       };
 }
 

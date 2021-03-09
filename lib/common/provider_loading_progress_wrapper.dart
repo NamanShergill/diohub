@@ -28,11 +28,11 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
                 : LoadingIndicator();
           if (snapshot.data == Status.error)
             return errorBuilder != null
-                ? errorBuilder(context, value.error)
+                ? errorBuilder(context, value.error ?? 'Something went wrong.')
                 : Center(
                     child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(value.error),
+                    child: Text(value.error ?? 'Something went wrong.'),
                   ));
           return loadingBuilder != null
               ? loadingBuilder(context)

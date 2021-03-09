@@ -85,6 +85,7 @@ class MyApp extends StatelessWidget {
                   backgroundColor: AppColor.background,
                   buttonTheme: ButtonThemeData(
                     textTheme: ButtonTextTheme.primary,
+                    padding: EdgeInsets.zero,
                     shape: RoundedRectangleBorder(
                         borderRadius: AppThemeBorderRadius.medBorderRadius),
                   ),

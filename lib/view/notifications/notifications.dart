@@ -46,7 +46,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   /// Show bottom sheet to apply filters.
   void showFilterSheet() {
-    showScrollableBottomActionsMenu(context, title: 'Filter Notifications',
+    showScrollableBottomActionsMenu(context, titleText: 'Filter Notifications',
         child: (context, scrollController) {
       return FilterSheet(
         apiFilters: apiFilters,
@@ -123,7 +123,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 8),
                               child: Button(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 24),
                                 onTap: () async {
                                   setState(() {
                                     loadingButton = true;
@@ -159,7 +160,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 8),
                               child: Button(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 24),
                                 onTap: () {
                                   showFilterSheet();
                                 },
