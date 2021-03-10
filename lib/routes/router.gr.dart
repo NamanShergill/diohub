@@ -48,7 +48,10 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.CustomPage(
           entry: entry,
           child: _i5.FileViewerAPI(route.sha,
-              repoURL: route.repoURL, fileName: route.fileName),
+              repoURL: route.repoURL,
+              fileName: route.fileName,
+              branch: route.branch,
+              repoName: route.repoName),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     }
@@ -122,13 +125,16 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
 }
 
 class FileViewerAPIRoute extends _i1.PageRouteInfo {
-  FileViewerAPIRoute({this.sha, this.repoURL, this.fileName})
+  FileViewerAPIRoute(
+      {this.sha, this.repoURL, this.fileName, this.branch, this.repoName})
       : super(name, path: '/file-viewer-ap-i');
 
   FileViewerAPIRoute.fromMatch(_i1.RouteMatch match)
       : sha = null,
         repoURL = null,
         fileName = null,
+        branch = null,
+        repoName = null,
         super.fromMatch(match);
 
   final String sha;
@@ -136,6 +142,10 @@ class FileViewerAPIRoute extends _i1.PageRouteInfo {
   final String repoURL;
 
   final String fileName;
+
+  final String branch;
+
+  final String repoName;
 
   static const String name = 'FileViewerAPIRoute';
 }

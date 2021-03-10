@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:mime/mime.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
@@ -12,9 +14,12 @@ import 'package:onehub/view/repository/readme/repository_readme.dart';
 
 class FileViewerAPI extends StatefulWidget {
   final String repoURL;
+  final String branch;
+  final String repoName;
   final String fileName;
   final String sha;
-  FileViewerAPI(this.sha, {this.repoURL, this.fileName});
+  FileViewerAPI(this.sha,
+      {this.repoURL, this.fileName, this.branch, this.repoName});
 
   @override
   _FileViewerAPIState createState() => _FileViewerAPIState();
@@ -23,8 +28,26 @@ class FileViewerAPI extends StatefulWidget {
 class _FileViewerAPIState extends State<FileViewerAPI> {
   final ContentViewController contentViewController = ContentViewController();
 
+  String fileExtension;
+  String fileType;
   bool wrapText = false;
-  bool editing = false;
+  // bool editing = false;
+  bool enableWrap;
+
+  @override
+  void initState() {
+    fileType = lookupMimeType(widget.fileName);
+    fileExtension = widget.fileName.split('.').last;
+    enableWrap = checkFileForWrap();
+    super.initState();
+  }
+
+  bool checkFileForWrap() {
+    if (fileType != null && fileType.startsWith('image'))
+      return false;
+    else if (fileExtension == 'md') return false;
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +70,19 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
           //     });
           //   },
           // ),
-          IconButton(
-            icon: Icon(
-              Icons.wrap_text,
-              color: wrapText ? AppColor.accent : Colors.white,
+          Visibility(
+            visible: enableWrap,
+            child: IconButton(
+              icon: Icon(
+                Icons.wrap_text,
+                color: wrapText ? AppColor.accent : Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  wrapText = contentViewController.wrap();
+                });
+              },
             ),
-            onPressed: () {
-              setState(() {
-                wrapText = contentViewController.wrap();
-              });
-            },
           ),
         ],
       ),
@@ -64,10 +90,25 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         apiCall: GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
-          return ContentViewer(
+          if (fileType != null && fileType.startsWith('image'))
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: InteractiveViewer(
+                        child: Image.memory(Uint8List.fromList(
+                            base64Decode(blob.content.split('\n').join())))),
+                  ),
+                ),
+              ],
+            );
+          return TextViewer(
             blob,
             widget.fileName,
             contentViewController: contentViewController,
+            repoName: widget.repoName,
+            branch: widget.branch,
           );
         },
       ),
@@ -80,30 +121,32 @@ class ContentViewController {
   bool Function() edit;
 }
 
-class ContentViewer extends StatefulWidget {
+class TextViewer extends StatefulWidget {
   final BlobModel blob;
   final String fileName;
   final ContentViewController contentViewController;
-  ContentViewer(this.blob, this.fileName, {this.contentViewController});
+  final String branch;
+  final String repoName;
+  TextViewer(this.blob, this.fileName,
+      {this.contentViewController, this.branch, this.repoName});
   @override
-  _ContentViewerState createState() =>
-      _ContentViewerState(contentViewController);
+  _TextViewerState createState() => _TextViewerState(contentViewController);
 }
 
-class _ContentViewerState extends State<ContentViewer> {
-  _ContentViewerState(ContentViewController contentViewController) {
+class _TextViewerState extends State<TextViewer> {
+  _TextViewerState(ContentViewController contentViewController) {
     if (contentViewController != null) {
       contentViewController.wrap = changeWrap;
-      contentViewController.edit = edit;
+      // contentViewController.edit = edit;
     }
   }
   bool loading = true;
   List<String> content;
   bool wrapText = false;
-  bool editing = false;
+  // bool editing = false;
   int numberOfMaxChars = 0;
   String fileType;
-  final TextEditingController textEditingController = TextEditingController();
+  // final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
     content = parse();
@@ -118,12 +161,12 @@ class _ContentViewerState extends State<ContentViewer> {
     return wrapText;
   }
 
-  bool edit() {
-    setState(() {
-      editing = !editing;
-    });
-    return editing;
-  }
+  // bool edit() {
+  //   setState(() {
+  //     editing = !editing;
+  //   });
+  //   return editing;
+  // }
 
   List<String> parse() {
     String temp = widget.blob.content;
@@ -143,21 +186,20 @@ class _ContentViewerState extends State<ContentViewer> {
     for (String string in listTemp) {
       if (string.length > numberOfMaxChars) numberOfMaxChars = string.length;
     }
-    textEditingController.text = listTemp.join('\n');
+    // textEditingController.text = listTemp.join('\n');
     return listTemp;
   }
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !editing,
+      // visible: !editing,
       child: Builder(builder: (context) {
-        if (fileType == 'png')
-          return InteractiveViewer(
-              child: Image.memory(
-                  base64Decode(widget.blob.content.split('\n').join())));
-        else if (fileType == 'md')
-          return MarkdownBody(md.markdownToHtml(content.join('\n')));
+        if (fileType == 'md')
+          return SingleChildScrollView(
+            child: MarkdownBody(md.markdownToHtml(content.join('\n')),
+                widget.branch, widget.repoName),
+          );
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Container(
@@ -203,11 +245,6 @@ class _ContentViewerState extends State<ContentViewer> {
           ),
         );
       }),
-      // replacement: Column(
-      //   children: [
-      //     Expanded(child: ZefyrEditor(controller: controller)),
-      //   ],
-      // ),
     );
   }
 }

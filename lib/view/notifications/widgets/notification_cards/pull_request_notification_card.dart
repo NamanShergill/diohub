@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
+import 'package:onehub/models/pull_requests/review_model.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/card_footer.dart';
@@ -19,6 +20,7 @@ class _PullRequestNotificationCardState
     extends State<PullRequestNotificationCard>
     with AutomaticKeepAliveClientMixin {
   PullRequestModel pullRequest;
+  List<ReviewModel> reviews;
   bool loading = true;
   double iconSize = 20;
 
@@ -33,8 +35,14 @@ class _PullRequestNotificationCardState
 
   void getInfo() async {
     // Get more information on the pull request to display
-    pullRequest = await PullsService.getPullInformation(
-        fullUrl: widget.notification.subject.url);
+    // Todo: Update pull notification cards when I figure out how Github does it.
+    List<Future> futures = [
+      PullsService.getPullInformation(fullUrl: widget.notification.subject.url),
+      // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
+    ];
+    List<dynamic> data = await Future.wait(futures);
+    pullRequest = data[0];
+    // reviews = data[1];
     setState(() {
       loading = false;
     });
@@ -50,14 +58,14 @@ class _PullRequestNotificationCardState
       },
       footerBuilder: (context) {
         if (!loading) {
-          return getFooter();
+          return getPullFooter();
         }
         return null;
       },
     );
   }
 
-  Widget getFooter() {
+  Widget getPullFooter() {
     return CardFooter(
         pullRequest.user.avatarUrl,
         'Status: ${pullRequest.merged ? 'Merged' : pullRequest.state.substring(0, 1).toUpperCase() + pullRequest.state.substring(1)}',

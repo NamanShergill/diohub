@@ -50,7 +50,12 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
                 );
               },
               childBuilder: (context, value) {
-                return MarkdownBody(value.readme.content);
+                return MarkdownBody(
+                    value.readme.content,
+                    Provider.of<RepoBranchProvider>(context).branch.name,
+                    Provider.of<RepositoryProvider>(context)
+                        .repositoryModel
+                        .fullName);
               },
             ),
           ),
@@ -65,7 +70,9 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
 
 class MarkdownBody extends StatelessWidget {
   final String content;
-  MarkdownBody(this.content);
+  final String repo;
+  final String branch;
+  MarkdownBody(this.content, this.branch, this.repo);
   @override
   Widget build(BuildContext context) {
     return Html(
@@ -83,8 +90,7 @@ class MarkdownBody extends StatelessWidget {
             String src = attributes['src'];
             print(attributes);
             if (!src.startsWith('https://') && !src.startsWith('http://'))
-              src =
-                  'https://raw.githubusercontent.com/${Provider.of<RepositoryProvider>(context).repositoryModel.fullName}/${Provider.of<RepoBranchProvider>(context).branch.name}/$src';
+              src = 'https://raw.githubusercontent.com/$repo/$branch/$src';
             if (src.split('.').last.contains('svg'))
               return SvgPicture.network(
                 src,

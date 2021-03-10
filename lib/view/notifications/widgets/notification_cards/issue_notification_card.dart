@@ -36,13 +36,17 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
 
   void getInfo() async {
     // Get more information on issue to display
-    issueInfo = await IssuesService.getIssueInfo(
-        fullUrl: widget.notification.subject.url);
-    latestComment = await IssuesService.getLatestComment(
-        fullUrl: widget.notification.subject.latestCommentUrl);
+    List<Future> futures = [
+      IssuesService.getIssueInfo(fullUrl: widget.notification.subject.url),
+      IssuesService.getLatestComment(
+          fullUrl: widget.notification.subject.latestCommentUrl),
+      IssuesService.getIssueEvents(fullUrl: widget.notification.subject.url)
+    ];
+    List<dynamic> results = await Future.wait(futures);
+    issueInfo = results[0];
+    latestComment = results[1];
     // Get latest event to compare with the latest comment.
-    List issueEvents = await IssuesService.getIssueEvents(
-        fullUrl: widget.notification.subject.url + '/events');
+    List issueEvents = results[2];
     latestIssueEvent = issueEvents.last;
     setState(() {
       loading = false;

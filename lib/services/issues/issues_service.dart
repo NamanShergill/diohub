@@ -20,7 +20,7 @@ class IssuesService {
 
   static Future<List<IssueEventModel>> getIssueEvents({String fullUrl}) async {
     Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(fullUrl, options: CacheManager.defaultCache());
+        .get(fullUrl + '/events', options: CacheManager.defaultCache());
     List unParsedEvents = response.data;
     List<IssueEventModel> parsedEvents = [];
     for (var event in unParsedEvents) {
