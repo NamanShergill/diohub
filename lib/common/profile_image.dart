@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 
 class ProfileImage extends StatelessWidget {
@@ -20,6 +21,12 @@ class ProfileImage extends StatelessWidget {
               width: size,
               color: Colors.grey,
             ),
+          );
+        },
+        errorWidget: (context, _, __) {
+          return Icon(
+            LineIcons.exclamationCircle,
+            size: size,
           );
         },
       ),

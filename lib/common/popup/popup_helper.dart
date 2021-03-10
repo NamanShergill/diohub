@@ -11,7 +11,7 @@ class DialogHelper {
 
   static appPopup(context, AppPopupData appPopup) => Flushbar(
         margin: EdgeInsets.all(8),
-        borderRadius: 8,
+        borderRadius: BorderRadius.circular(8),
         shouldIconPulse: false,
         animationDuration: Duration(milliseconds: 750),
         flushbarPosition: FlushbarPosition.BOTTOM,

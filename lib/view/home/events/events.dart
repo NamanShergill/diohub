@@ -8,6 +8,8 @@ import 'package:onehub/view/home/events/cards/watch_event_card.dart';
 import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
+  final bool privateEvents;
+  Events({this.privateEvents = true});
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context);
@@ -16,12 +18,20 @@ class Events extends StatelessWidget {
       topSpacing: 24,
       spacing: 32,
       future: (pageNumber, pageSize) {
-        return EventsService.getReceivedEvents(_user.currentUserInfo.login,
-            page: pageNumber, perPage: pageSize);
+        if (privateEvents)
+          return EventsService.getReceivedEvents(_user.currentUserInfo.login,
+              page: pageNumber, perPage: pageSize);
+        else
+          return EventsService.getPublicEvents(_user.currentUserInfo.login,
+              page: pageNumber, perPage: pageSize);
       },
       refreshFuture: (pageNumber, pageSize) {
-        return EventsService.getReceivedEvents(_user.currentUserInfo.login,
-            page: pageNumber, perPage: pageSize, refresh: true);
+        if (privateEvents)
+          return EventsService.getReceivedEvents(_user.currentUserInfo.login,
+              page: pageNumber, perPage: pageSize, refresh: true);
+        else
+          return EventsService.getPublicEvents(_user.currentUserInfo.login,
+              page: pageNumber, perPage: pageSize, refresh: true);
       },
       builder: (context, EventsModel item, index) {
         return Padding(

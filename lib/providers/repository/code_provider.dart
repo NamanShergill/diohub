@@ -83,7 +83,7 @@ class CodeProvider extends BaseProvider {
         if (event == Status.loaded) {
           statusController.add(Status.initialized);
           // Remove the commit lock if there was one.
-          if (_commitLock) unlockCodeFromCommit();
+          if (_commitLock) unlockCodeFromCommit(fetchData: false);
           setupAndRunFetch();
         }
       });
@@ -158,12 +158,13 @@ class CodeProvider extends BaseProvider {
   }
 
   /// Unlock the code viewer from a specific commit and reload data.
-  void unlockCodeFromCommit() {
+  void unlockCodeFromCommit({bool fetchData = true}) {
     _commitLock = false;
     _lockedCommit = null;
     _lockedCommitSHA = null;
     resetProvider();
-    _fetchTree(Tree(sha: _branchProvider.branch.commit.sha, url: _repoURL));
+    if (fetchData)
+      _fetchTree(Tree(sha: _branchProvider.branch.commit.sha, url: _repoURL));
   }
 
   String getPath() {

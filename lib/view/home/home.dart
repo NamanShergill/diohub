@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
+    _tabController = TabController(vsync: this, initialIndex: 0, length: 5);
     super.initState();
   }
 
@@ -33,49 +33,31 @@ class _HomeScreenState extends State<HomeScreen>
     super.build(context);
     return LoginCheckWrapper(
       replacement: HomeScreenUnauthenticated(),
-      child: DefaultTabController(
-        length: 4,
-        initialIndex: 0,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  expandedHeight: 280,
-                  collapsedHeight: 155,
-                  //Todo: Check this tomorrow.
-                  pinned: true,
-                  elevation: 2,
-                  backgroundColor: AppColor.background,
-                  flexibleSpace: Padding(
-                    padding: const EdgeInsets.only(bottom: 30.0),
-                    child: CollapsibleAppBar(
-                      minHeight: 155,
-                      maxHeight: 280,
-                      title: 'Home',
-                      child: SearchBar(),
-                      trailing: ClipOval(
-                        child:
-                            ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                          childBuilder: (context, value) => CachedNetworkImage(
-                            imageUrl: value.currentUserInfo.avatarUrl,
-                            placeholder: (context, _) {
-                              return ShimmerWidget(
-                                child: Container(
-                                  color: Colors.grey,
-                                ),
-                              );
-                            },
-                          ),
-                          errorBuilder: (context, error) {
-                            return Icon(
-                              LineIcons.exclamationCircle,
-                              size: 40,
-                            );
-                          },
-                          loadingBuilder: (context) {
+      child: NestedScrollView(
+        headerSliverBuilder: (context, _) {
+          return [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                expandedHeight: 280,
+                collapsedHeight: 155,
+                //Todo: Check this tomorrow.
+                pinned: true,
+                elevation: 2,
+                backgroundColor: AppColor.background,
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: CollapsibleAppBar(
+                    minHeight: 155,
+                    maxHeight: 280,
+                    title: 'Home',
+                    child: SearchBar(),
+                    trailing: ClipOval(
+                      child:
+                          ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                        childBuilder: (context, value) => CachedNetworkImage(
+                          imageUrl: value.currentUserInfo.avatarUrl,
+                          placeholder: (context, _) {
                             return ShimmerWidget(
                               child: Container(
                                 color: Colors.grey,
@@ -83,78 +65,97 @@ class _HomeScreenState extends State<HomeScreen>
                             );
                           },
                         ),
+                        errorBuilder: (context, error) {
+                          return Icon(
+                            LineIcons.exclamationCircle,
+                            size: 40,
+                          );
+                        },
+                        loadingBuilder: (context) {
+                          return ShimmerWidget(
+                            child: Container(
+                              color: Colors.grey,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
-                  bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(0),
-                    child: TabBar(
-                      physics: BouncingScrollPhysics(),
-                      isScrollable: true,
-                      controller: _tabController,
-                      unselectedLabelColor: AppColor.grey3,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(fontSize: 14),
-                      tabs: [
-                        Tab(
-                          text: 'Activity',
-                        ),
-                        Tab(text: 'Pull Requests'),
-                        Tab(
-                          child: Text('Issues'),
-                        ),
-                        Tab(
-                          child: Text('Repositories'),
-                        ),
-                      ],
-                    ),
+                ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(0),
+                  child: TabBar(
+                    physics: BouncingScrollPhysics(),
+                    isScrollable: true,
+                    controller: _tabController,
+                    unselectedLabelColor: AppColor.grey3,
+                    labelStyle: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontSize: 14),
+                    tabs: [
+                      Tab(
+                        text: 'Activity',
+                      ),
+                      Tab(text: 'Pull Requests'),
+                      Tab(
+                        child: Text('Issues'),
+                      ),
+                      Tab(
+                        child: Text('Repositories'),
+                      ),
+                      Tab(
+                        child: Text('Public Events'),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ];
-          },
-          body: Container(
-            color: AppColor.onBackground,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 150),
-              child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                childBuilder: (context, value) {
-                  return Builder(
-                    builder: (context) {
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                      return Container(
-                        color: AppColor.onBackground,
-                        child: LoginCheckWrapper(
-                          child: TabBarView(
-                            controller: _tabController,
-                            physics: BouncingScrollPhysics(),
-                            children: [
-                              Events(),
-                              Container(
-                                color: Colors.blue,
-                                height: 80,
-                                width: 40,
-                              ),
-                              Container(
-                                color: Colors.green,
-                                height: 80,
-                                width: 40,
-                              ),
-                              Container(
-                                color: Colors.amber,
-                                height: 80,
-                                width: 40,
-                              ),
-                            ],
-                          ),
+            ),
+          ];
+        },
+        body: Container(
+          color: AppColor.onBackground,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 150),
+            child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+              childBuilder: (context, value) {
+                return Builder(
+                  builder: (context) {
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+                    return Container(
+                      color: AppColor.onBackground,
+                      child: LoginCheckWrapper(
+                        child: TabBarView(
+                          controller: _tabController,
+                          physics: BouncingScrollPhysics(),
+                          children: [
+                            Events(),
+                            Container(
+                              color: Colors.blue,
+                              height: 80,
+                              width: 40,
+                            ),
+                            Container(
+                              color: Colors.green,
+                              height: 80,
+                              width: 40,
+                            ),
+                            Container(
+                              color: Colors.amber,
+                              height: 80,
+                              width: 40,
+                            ),
+                            Events(
+                              privateEvents: false,
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),

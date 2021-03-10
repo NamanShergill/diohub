@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/repository/readme/repository_readme.dart';
 
 class FileViewerAPI extends StatefulWidget {
   final String repoURL;
@@ -34,17 +36,17 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
           style: TextStyle(fontSize: 14),
         ),
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: editing ? AppColor.accent : Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                editing = contentViewController.edit();
-              });
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.edit,
+          //     color: editing ? AppColor.accent : Colors.white,
+          //   ),
+          //   onPressed: () {
+          //     setState(() {
+          //       editing = contentViewController.edit();
+          //     });
+          //   },
+          // ),
           IconButton(
             icon: Icon(
               Icons.wrap_text,
@@ -100,10 +102,12 @@ class _ContentViewerState extends State<ContentViewer> {
   bool wrapText = false;
   bool editing = false;
   int numberOfMaxChars = 0;
+  String fileType;
   final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
     content = parse();
+    fileType = widget.fileName.split('.').last;
     super.initState();
   }
 
@@ -147,50 +151,58 @@ class _ContentViewerState extends State<ContentViewer> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: !editing,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Container(
-          width: wrapText
-              ? MediaQuery.of(context).size.width
-              : numberOfMaxChars.toDouble() * 10 >
-                      MediaQuery.of(context).size.width
-                  ? numberOfMaxChars.toDouble() * 10
-                  : MediaQuery.of(context).size.width,
-          child: ListView.builder(
-              itemCount: content.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  color: index % 2 == 0
-                      ? AppColor.background
-                      : AppColor.onBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          (index + 1).toString(),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Flexible(
-                          child: HighlightView(
-                            content[index],
-                            backgroundColor: Colors.transparent,
-                            theme: monokaiSublimeTheme,
-                            language: widget.fileName.split('.').last,
+      child: Builder(builder: (context) {
+        if (fileType == 'png')
+          return InteractiveViewer(
+              child: Image.memory(
+                  base64Decode(widget.blob.content.split('\n').join())));
+        else if (fileType == 'md')
+          return MarkdownBody(md.markdownToHtml(content.join('\n')));
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Container(
+            width: wrapText
+                ? MediaQuery.of(context).size.width
+                : numberOfMaxChars.toDouble() * 10 >
+                        MediaQuery.of(context).size.width
+                    ? numberOfMaxChars.toDouble() * 10
+                    : MediaQuery.of(context).size.width,
+            child: ListView.builder(
+                itemCount: content.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    color: index % 2 == 0
+                        ? AppColor.background
+                        : AppColor.onBackground,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 8,
                           ),
-                        ),
-                      ],
+                          Text(
+                            (index + 1).toString(),
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                          Flexible(
+                            child: HighlightView(
+                              content[index],
+                              backgroundColor: Colors.transparent,
+                              theme: monokaiSublimeTheme,
+                              language: fileType,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }),
-        ),
-      ),
+                  );
+                }),
+          ),
+        );
+      }),
       // replacement: Column(
       //   children: [
       //     Expanded(child: ZefyrEditor(controller: controller)),

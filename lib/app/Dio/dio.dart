@@ -85,6 +85,10 @@ class GetDio {
     if (debugLog)
       dio.interceptors
           .add(PrettyDioLogger(requestHeader: true, requestBody: true));
+    // dio.interceptors.add(PrettyDioLogger(
+    //   responseHeader: true,
+    //   responseBody: false,
+    // ));
     return dio;
   }
 }

@@ -49,7 +49,11 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Spacing to add to the top of the list.
   final double topSpacing;
 
+  /// Show the list end indicator or not.
   final bool listEndIndicator;
+
+  /// Header to show above the list.
+  final WidgetBuilder header;
 
   InfiniteScrollWrapper(
       {Key key,
@@ -58,6 +62,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.refreshFuture,
       this.controller,
       this.filterFn,
+      this.header,
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
@@ -152,8 +157,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
         builderDelegate: PagedChildBuilderDelegate<T>(
           itemBuilder: (context, T item, index) => Column(children: [
             if (index == 0)
-              SizedBox(
-                height: widget.topSpacing,
+              Column(
+                children: [
+                  SizedBox(
+                    height: widget.topSpacing,
+                  ),
+                  if (widget.header != null) widget.header(context),
+                ],
               ),
             Visibility(
               visible:

@@ -24,6 +24,7 @@ class PushEventCard extends StatelessWidget {
             branch: data.ref.split('/').last,
             index: 1));
       },
+      date: event.createdAt,
       childPadding: EdgeInsets.all(8),
       actor: event.actor.login,
       headerText: [
@@ -43,9 +44,11 @@ class PushEventCard extends StatelessWidget {
               '${data.size} commit${data.size > 1 ? 's' : ''} to',
               style: AppThemeTextStyles.eventCardChildTitleSmall,
             ),
-            BranchLabel(
-              data.ref.split('/').last,
-              size: 12,
+            Flexible(
+              child: BranchLabel(
+                data.ref.split('/').last,
+                size: 12,
+              ),
             ),
           ],
         ),

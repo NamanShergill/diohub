@@ -11,9 +11,12 @@ import 'package:onehub/common/image_loader.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/shimmer_widget.dart';
+import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/providers/repository/readme_provider.dart';
+import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {
   final String repoURL;
@@ -47,93 +50,7 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
                 );
               },
               childBuilder: (context, value) {
-                return Html(
-                    data: value.readme.content,
-                    onLinkTap: (String url, RenderContext rContext,
-                        Map<String, String> attributes, data) {
-                      return showURLBottomActionsMenu(context, url);
-                    },
-                    style: {
-                      'a': Style(textDecoration: TextDecoration.none),
-                    },
-                    customRender: {
-                      'img': (RenderContext context, Widget child,
-                          Map<String, String> attributes, data) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ImageLoader(
-                            attributes['src'],
-                            errorBuilder: (context) {
-                              return SvgPicture.network(
-                                attributes['src'],
-                                placeholderBuilder: (context) {
-                                  return ShimmerWidget(
-                                    borderRadius:
-                                        AppThemeBorderRadius.smallBorderRadius,
-                                    child: Container(
-                                      height: 20,
-                                      width: 80,
-                                      color: Colors.grey,
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      'code': (RenderContext context, Widget child,
-                          Map<String, String> attributes, data) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              color: AppColor.grey,
-                              borderRadius:
-                                  AppThemeBorderRadius.smallBorderRadius),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6.0, vertical: 0),
-                            child: child,
-                          ),
-                        );
-                      },
-                      'pre': (RenderContext context, Widget child,
-                          Map<String, String> attributes, data) {
-                        return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data.children.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                    color: AppColor.background,
-                                    borderRadius:
-                                        AppThemeBorderRadius.smallBorderRadius),
-                                child: Scrollbar(
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 8.0,
-                                        right: 8,
-                                        left: 8,
-                                      ),
-                                      child: HighlightView(
-                                        data.children[index].text,
-                                        backgroundColor: Colors.transparent,
-                                        language: data.children[index].className
-                                                .isNotEmpty
-                                            ? data.children[index].className
-                                                ?.substring(9)
-                                            : 'txt',
-                                        theme: monokaiSublimeTheme,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            });
-                      }
-                    });
+                return MarkdownBody(value.readme.content);
               },
             ),
           ),
@@ -143,5 +60,117 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
         ],
       ),
     );
+  }
+}
+
+class MarkdownBody extends StatelessWidget {
+  final String content;
+  MarkdownBody(this.content);
+  @override
+  Widget build(BuildContext context) {
+    return Html(
+        data: content,
+        onLinkTap: (String url, RenderContext rContext,
+            Map<String, String> attributes, data) {
+          return showURLBottomActionsMenu(context, url);
+        },
+        style: {
+          'a': Style(textDecoration: TextDecoration.none),
+        },
+        customRender: {
+          'img': (RenderContext renderContext, Widget child,
+              Map<String, String> attributes, data) {
+            String src = attributes['src'];
+            print(attributes);
+            if (!src.startsWith('https://') && !src.startsWith('http://'))
+              src =
+                  'https://raw.githubusercontent.com/${Provider.of<RepositoryProvider>(context).repositoryModel.fullName}/${Provider.of<RepoBranchProvider>(context).branch.name}/$src';
+            if (src.split('.').last.contains('svg'))
+              return SvgPicture.network(
+                src,
+                placeholderBuilder: (renderContext) {
+                  return ShimmerWidget(
+                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    child: Container(
+                      height: 20,
+                      width: 80,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
+              );
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: ImageLoader(
+                src,
+                // Some SVGs don't have svg in their URL so will miss the
+                // if check above. They will fail in the image loader
+                // so will build here.
+                errorBuilder: (renderContext) {
+                  return SvgPicture.network(
+                    src,
+                    placeholderBuilder: (renderContext) {
+                      return ShimmerWidget(
+                        borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                        child: Container(
+                          height: 20,
+                          width: 80,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            );
+          },
+          'code': (RenderContext context, Widget child,
+              Map<String, String> attributes, data) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: AppColor.grey,
+                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
+                child: child,
+              ),
+            );
+          },
+          'pre': (RenderContext context, Widget child,
+              Map<String, String> attributes, data) {
+            return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: data.children.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: AppColor.background,
+                        borderRadius: AppThemeBorderRadius.smallBorderRadius),
+                    child: Scrollbar(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 8.0,
+                            right: 8,
+                            left: 8,
+                          ),
+                          child: HighlightView(
+                            data.children[index].text,
+                            backgroundColor: Colors.transparent,
+                            language: data.children[index].className.isNotEmpty
+                                ? data.children[index].className?.substring(9)
+                                : 'txt',
+                            theme: monokaiSublimeTheme,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          }
+        });
   }
 }
