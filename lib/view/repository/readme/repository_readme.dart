@@ -88,7 +88,6 @@ class MarkdownBody extends StatelessWidget {
           'img': (RenderContext renderContext, Widget child,
               Map<String, String> attributes, data) {
             String src = attributes['src'];
-            print(attributes);
             if (!src.startsWith('https://') && !src.startsWith('http://'))
               src = 'https://raw.githubusercontent.com/$repo/$branch/$src';
             if (src.split('.').last.contains('svg'))

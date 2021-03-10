@@ -35,14 +35,14 @@ class CommitInfoButton extends StatelessWidget {
                   Row(
                     children: [
                       ProfileImage(
-                        value.tree.last.commit.committer?.avatarUrl ?? '',
+                        value.tree.last.commit.author?.avatarUrl ?? '',
                         size: 13,
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
-                        value.tree.last.commit.committer?.login ?? 'N/A',
+                        value.tree.last.commit.author?.login ?? 'N/A',
                         style: TextStyle(fontSize: 11),
                       ),
                     ],
