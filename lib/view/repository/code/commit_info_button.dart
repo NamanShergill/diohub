@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/profile_image.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
+import 'package:provider/provider.dart';
 
 class CommitInfoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProviderLoadingProgressWrapper<CodeProvider>(
-      childBuilder: (context, value) {
+    return Consumer<CodeProvider>(
+      builder: (context, value, _) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -34,17 +34,16 @@ class CommitInfoButton extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
-                        Octicons.git_commit,
-                        size: 11,
-                        color: AppColor.grey3,
+                      ProfileImage(
+                        value.tree.last.commit.author.avatarUrl,
+                        size: 13,
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
-                        '${value.tree.last.commit.sha.substring(0, 6)}',
-                        style: TextStyle(fontSize: 11, color: AppColor.grey3),
+                        value.tree.last.commit.author.login,
+                        style: TextStyle(fontSize: 11),
                       ),
                     ],
                   ),
@@ -56,16 +55,22 @@ class CommitInfoButton extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    ProfileImage(
-                      value.tree.last.commit.author.avatarUrl,
-                      size: 14,
+                    Icon(
+                      Octicons.git_commit,
+                      size: 11,
+                      color: AppColor.grey3,
                     ),
                     SizedBox(
                       width: 5,
                     ),
                     Text(
-                      value.tree.last.commit.author.login,
-                      style: TextStyle(fontSize: 13),
+                      '${value.tree.last.commit.sha.substring(0, 6)}',
+                      style: TextStyle(fontSize: 11, color: AppColor.grey3),
+                    ),
+                    Icon(
+                      Icons.arrow_drop_down,
+                      size: 13,
+                      color: AppColor.grey3,
                     ),
                   ],
                 ),
@@ -98,10 +103,6 @@ class CommitInfoButton extends StatelessWidget {
             ),
             SizedBox(
               width: 8,
-            ),
-            Icon(Icons.arrow_drop_down),
-            SizedBox(
-              width: 3,
             ),
           ],
         );

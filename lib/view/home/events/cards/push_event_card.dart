@@ -77,7 +77,7 @@ class PushEventCard extends StatelessWidget {
                               children: [
                             TextSpan(
                                 text:
-                                    ' #${data.commits[index].sha.substring(0, 6)}',
+                                    '#${data.commits[index].sha.substring(0, 6)}',
                                 style: TextStyle(color: AppColor.accent)),
                             TextSpan(text: '  ' + data.commits[index].message)
                           ])),

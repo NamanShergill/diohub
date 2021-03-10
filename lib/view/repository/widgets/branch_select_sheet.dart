@@ -69,7 +69,11 @@ class BranchSelectSheet extends StatelessWidget {
                                 Flexible(
                                   child: Text(
                                     item.name,
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: item.name == currentBranch
+                                            ? FontWeight.bold
+                                            : FontWeight.normal),
                                   ),
                                 ),
                               ],

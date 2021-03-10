@@ -50,11 +50,23 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 Button(
                                   listenToLoadingController: false,
                                   padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Currently browsing commit ${value.tree.last.commit.sha.substring(0, 6)}.\nLoad the latest code?',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Currently browsing commit ${value.tree.last.commit.sha.substring(0, 6)}.',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Load the latest code?',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
+                                      ),
+                                    ],
                                   ),
                                   onTap: value.status == Status.loaded
                                       ? () {
@@ -120,7 +132,8 @@ class _CodeBrowserState extends State<CodeBrowser>
                               });
                             }
                           : null,
-                      child: value.status == Status.loaded
+                      child: value.status == Status.loaded ||
+                              (value.commitLock && value.tree.length > 0)
                           ? CommitInfoButton()
                           : LoadingIndicator(),
                     ),

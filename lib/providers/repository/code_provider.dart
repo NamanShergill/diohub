@@ -35,6 +35,9 @@ class CodeProvider extends BaseProvider {
   /// The commit the code browsing is locked to.
   CommitModel _lockedCommit;
 
+  /// Get the locked commit.
+  CommitModel get lockedCommit => _lockedCommit;
+
   /// If the code browsing is locked to a specific commit.
   bool _commitLock = false;
 
@@ -58,7 +61,10 @@ class CodeProvider extends BaseProvider {
       _branchProvider = repoBranchProvider;
       // Setup init functions and run them for fetching data.
       void setupAndRunFetch() {
+        // Lock code to commit if an initial SHA was provided.
         if (_initialSHA != null) _lockCodeToCommit(_initialSHA);
+        // If an initial SHA was provided, load the tree from that SHA,
+        // otherwise use the default sha for the branch.
         _fetchTree(Tree(
           sha: _commitLock
               ? _lockedCommitSHA
@@ -68,10 +74,7 @@ class CodeProvider extends BaseProvider {
 
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
-      if (_branchProvider.status == Status.loaded)
-        // If an initial SHA was provided, load the tree from that SHA,
-        // otherwise use the default sha for the branch.
-        setupAndRunFetch();
+      if (_branchProvider.status == Status.loaded) setupAndRunFetch();
       // Listen to the branch provider for any changes.
       _branchProvider.statusStream.listen((event) async {
         // Fetch the root sha in the branch when the branch provider is loaded.
@@ -86,7 +89,6 @@ class CodeProvider extends BaseProvider {
       });
       // Listen to tree pop and push events and fetch data accordingly.
       _treeController.stream.listen((event) async {
-        // A null event means pop up the last tree in the list.
         if (event != null)
           // Fetch the last tree in the list after the pop/push events are done,
           await _fetchTree(event);
@@ -98,36 +100,33 @@ class CodeProvider extends BaseProvider {
   Future _fetchTree(Tree tree) async {
     statusController.add(Status.loading);
     try {
-      // Fetch the tree to be displayed.
-      CodeTreeModel _codeTree =
-          await GitDatabaseService.getTree(repoURL: _repoURL, sha: tree.sha);
-      // Check for commit lock and proceed accordingly.
+      // Start with initial future to fetch code tree.
+      List<Future> future = <Future>[
+        GitDatabaseService.getTree(repoURL: _repoURL, sha: tree.sha)
+      ];
+      // If commit lock is disabled or _lockedCommit has not been fetched yet
+      // add future to fetch them.
+      if (!_commitLock || _lockedCommit == null)
+        future.add(GitDatabaseService.getCommitsList(
+            repoURL: _repoURL,
+            sha: _commitLock ? _lockedCommitSHA : _branchProvider.branch.name,
+            path: getPath(),
+            pageNumber: 1,
+            pageSize: 1));
+      // Run the futures.
+      List<dynamic> data = await Future.wait(future);
+      // Get _codeTree data from the completed futures.
+      CodeTreeModel _codeTree = data[0];
       if (_commitLock) {
-        // If _lockedCommit is null, fetch it, otherwise just
-        // add it to the fetched tree directly.
-        if (_lockedCommit == null)
-          _lockedCommit = await GitDatabaseService.getCommitsList(
-                  repoURL: _repoURL,
-                  sha: _lockedCommitSHA,
-                  path: getPath(),
-                  pageNumber: 1,
-                  pageSize: 1)
-              .then((value) {
-            return value.first;
-          });
+        // If _lockedCommit was null, data for it has
+        // been fetched, assign it here.
+        if (_lockedCommit == null) _lockedCommit = data[1].first;
+        // Add data to tree.
         _tree.add(_codeTree.copyWith(commit: _lockedCommit));
       } else {
-        // Fetch the latest commit related to the current tree.
-        CommitModel _commit = await GitDatabaseService.getCommitsList(
-                repoURL: _repoURL,
-                sha: _branchProvider.branch.name,
-                path: getPath(),
-                pageNumber: 1,
-                pageSize: 1)
-            .then((value) {
-          return value.first;
-        });
-        // If this is the first fetch, add initial root tree to the tree list.
+        // Get _commit data from the completed future.
+        CommitModel _commit = data[1].first;
+        // Add data to tree.
         _tree.add(_codeTree.copyWith(commit: _commit));
       }
       // Set _initSHA to null if it is not as data using it has already

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/animations/fade_animation_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
-import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
+import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
 import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class BranchButton extends StatelessWidget {
   final RepositoryModel _repo;
+  final double height = 55;
   BranchButton({RepositoryModel repo}) : _repo = repo;
   @override
   Widget build(BuildContext context) {
@@ -27,14 +28,15 @@ class BranchButton extends StatelessWidget {
                 borderRadius: AppThemeBorderRadius.medBorderRadius),
             child: ProviderLoadingProgressWrapper<RepoBranchProvider>(
               loadingBuilder: (context) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: LoadingIndicator(),
-                    ),
-                  ],
+                return ShimmerWidget(
+                  borderRadius: AppThemeBorderRadius.medBorderRadius,
+                  baseColor: AppColor.onBackground,
+                  highlightColor: Colors.grey.shade800,
+                  child: Container(
+                    color: AppColor.onBackground,
+                    width: double.infinity,
+                    height: height,
+                  ),
                 );
               },
               childBuilder: (context, value) {
@@ -64,10 +66,11 @@ class BranchButton extends StatelessWidget {
                     },
                     borderRadius: AppThemeBorderRadius.medBorderRadius,
                     child: Container(
+                      height: height,
                       decoration: BoxDecoration(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
