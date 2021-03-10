@@ -24,7 +24,7 @@ class CommitInfoButton extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      '${value.tree.last.commit.commit.message.length > 20 ? value.tree.last.commit.commit.message.substring(0, 20) + '...' : value.tree.last.commit.commit.message}',
+                      '${value.tree.last.commit.commit.message.length > 25 ? value.tree.last.commit.commit.message.substring(0, 25) + '...' : value.tree.last.commit.commit.message}',
                       style:
                           TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                     ),

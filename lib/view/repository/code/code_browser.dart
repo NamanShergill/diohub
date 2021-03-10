@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/button.dart';
@@ -108,11 +109,32 @@ class _CodeBrowserState extends State<CodeBrowser>
                                   context.read<CodeProvider>().commitLock;
                               showScrollableBottomActionsMenu(context,
                                   titleWidget: Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        Text('Commit History'),
-                                        Text('Branch: Placeholder'),
+                                        Text(
+                                          'Commit History',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Octicons.git_branch,
+                                              size: 14,
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(branchName),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ), child: (sheetContext, controller) {
@@ -142,71 +164,74 @@ class _CodeBrowserState extends State<CodeBrowser>
               );
             },
           ),
-          SizedBox(
-            height: 16,
-          ),
           ProviderLoadingProgressWrapper<CodeProvider>(
             childBuilder: (context, value) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Container(
-                      height: 30,
-                      child: Row(
-                        children: [
-                          ListView.separated(
-                              physics: BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: value.tree.length,
-                              separatorBuilder: (context, index) {
-                                return Center(child: Text(' /'));
-                              },
-                              itemBuilder: (context, index) {
-                                return Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    borderRadius:
-                                        AppThemeBorderRadius.smallBorderRadius,
-                                    onTap: () {
-                                      if (index != value.tree.length - 1)
-                                        Provider.of<CodeProvider>(context,
-                                                listen: false)
-                                            .popTreeUntil(value.tree[index]);
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        ' ' +
-                                            (index == 0
-                                                ? Provider.of<
-                                                            RepositoryProvider>(
-                                                        context)
-                                                    .repositoryModel
-                                                    .name
-                                                : value
-                                                    .tree[index - 1]
-                                                    .tree[value
-                                                        .pathIndex[index - 1]]
-                                                    .path),
-                                        style: TextStyle(
-                                            color:
-                                                index == value.tree.length - 1
-                                                    ? AppColor.accent
-                                                    : Colors.white,
-                                            fontWeight:
-                                                index == value.tree.length - 1
-                                                    ? FontWeight.bold
-                                                    : FontWeight.w500),
+                  Visibility(
+                    visible: value.tree.length > 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Container(
+                            height: 30,
+                            child: ListView.separated(
+                                physics: BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: value.tree.length,
+                                separatorBuilder: (context, index) {
+                                  return Center(child: Text(' /'));
+                                },
+                                itemBuilder: (context, index) {
+                                  return Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      borderRadius: AppThemeBorderRadius
+                                          .smallBorderRadius,
+                                      onTap: () {
+                                        if (index != value.tree.length - 1)
+                                          Provider.of<CodeProvider>(context,
+                                                  listen: false)
+                                              .popTreeUntil(value.tree[index]);
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          ' ' +
+                                              (index == 0
+                                                  ? Provider.of<
+                                                              RepositoryProvider>(
+                                                          context)
+                                                      .repositoryModel
+                                                      .name
+                                                  : value
+                                                      .tree[index - 1]
+                                                      .tree[value
+                                                          .pathIndex[index - 1]]
+                                                      .path),
+                                          style: TextStyle(
+                                              color:
+                                                  index == value.tree.length - 1
+                                                      ? AppColor.accent
+                                                      : Colors.white,
+                                              fontWeight:
+                                                  index == value.tree.length - 1
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w500),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
-                          Text(' /'),
-                        ],
-                      ),
+                                  );
+                                }),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizeExpandedSection(
@@ -221,7 +246,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                               border:
                                   Border.all(color: AppColor.grey, width: 0.5)),
                           child: ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: BouncingScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return BrowserListTile(

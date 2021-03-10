@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/scaffold_body.dart';
+import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
 import 'package:onehub/providers/repository/commits_provider.dart';
@@ -93,12 +94,15 @@ class _RepositoryScreenState extends State<RepositoryScreen>
             backgroundColor: AppColor.background,
             body: WillPopScope(
               onWillPop: () async {
-                if (Provider.of<CodeProvider>(context, listen: false)
+                if ((Provider.of<CodeProvider>(context, listen: false)
                             .tree
                             .length >
                         1 &&
-                    tabController.index == 1) {
-                  Provider.of<CodeProvider>(context, listen: false).popTree();
+                    tabController.index == 1)) {
+                  if (Provider.of<CodeProvider>(context, listen: false)
+                          .status !=
+                      Status.loading)
+                    Provider.of<CodeProvider>(context, listen: false).popTree();
                   return false;
                 } else
                   return true;

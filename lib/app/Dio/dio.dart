@@ -25,8 +25,6 @@ class GetDio {
         if (applyBaseURL) options.baseUrl = baseURL;
         options.headers["Accept"] = "application/json";
         options.headers["setContentType"] = "application/json";
-        options.connectTimeout = 5 * 1000;
-        options.receiveTimeout = 5 * 1000;
         if (loggedIn == false) {
           if (loginRequired) throw Exception('Not authenticated.');
         } else {
