@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-class CommitModel {
-  CommitModel({
+class CommitListModel {
+  CommitListModel({
     this.url,
     this.sha,
     this.nodeId,
@@ -27,7 +27,7 @@ class CommitModel {
   CommitModelAuthor committer;
   List<Parent> parents;
 
-  CommitModel copyWith({
+  CommitListModel copyWith({
     String url,
     String sha,
     String nodeId,
@@ -38,7 +38,7 @@ class CommitModel {
     CommitModelAuthor committer,
     List<Parent> parents,
   }) =>
-      CommitModel(
+      CommitListModel(
         url: url ?? this.url,
         sha: sha ?? this.sha,
         nodeId: nodeId ?? this.nodeId,
@@ -50,12 +50,13 @@ class CommitModel {
         parents: parents ?? this.parents,
       );
 
-  factory CommitModel.fromRawJson(String str) =>
-      CommitModel.fromJson(json.decode(str));
+  factory CommitListModel.fromRawJson(String str) =>
+      CommitListModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CommitModel.fromJson(Map<String, dynamic> json) => CommitModel(
+  factory CommitListModel.fromJson(Map<String, dynamic> json) =>
+      CommitListModel(
         url: json["url"] == null ? null : json["url"],
         sha: json["sha"] == null ? null : json["sha"],
         nodeId: json["node_id"] == null ? null : json["node_id"],

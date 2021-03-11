@@ -24,22 +24,46 @@ class APIWrapper<T> extends StatefulWidget {
 }
 
 class _APIWrapperState<T> extends State<APIWrapper<T>> {
+  T data;
+  bool loading = true;
+  String error;
+
+  // Doing it this way instead of a future builder for better error handling.
+  // And to add a refresh controller in the future.
+  Future fetchData() async {
+    setState(() {
+      loading = true;
+    });
+    if (data == null)
+      try {
+        error = null;
+        data = await widget.apiCall;
+      } catch (e) {
+        error = e.toString() ?? 'Some error occurred.';
+      }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<T>(
-        future: widget.apiCall,
-        builder: (context, AsyncSnapshot<T> snapshot) {
-          if (snapshot.hasError)
-            return widget.errorBuilder != null
-                ? widget.errorBuilder(context, snapshot.error.toString())
-                : Text(snapshot.error.toString());
-          else if (snapshot.hasData)
-            return FadeAnimationSection(
-              child: widget.responseBuilder(context, snapshot.data),
-            );
-          return widget.loadingBuilder != null
-              ? widget.loadingBuilder(context)
-              : LoadingIndicator();
-        });
+    if (loading)
+      return widget.loadingBuilder != null
+          ? widget.loadingBuilder(context)
+          : LoadingIndicator();
+    else if (error != null)
+      return widget.errorBuilder != null
+          ? widget.errorBuilder(context, error)
+          : Text(error);
+    return FadeAnimationSection(
+      child: widget.responseBuilder(context, data),
+    );
   }
 }

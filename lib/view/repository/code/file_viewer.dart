@@ -175,7 +175,7 @@ class _TextViewerState extends State<TextViewer> {
       try {
         return utf8.decode(base64.decode(e));
       } catch (e) {
-        print(e);
+        debugPrint(e);
         return '';
       }
     }).toList();

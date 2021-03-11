@@ -63,12 +63,12 @@ class MyApp extends StatelessWidget {
                   textTheme: TextTheme(
                     bodyText1: TextStyle(),
                     bodyText2: TextStyle(),
-                    headline1: TextStyle(),
-                    headline2: TextStyle(),
-                    headline3: TextStyle(),
-                    headline4: TextStyle(),
-                    headline5: TextStyle(),
-                    headline6: TextStyle(),
+                    headline1: TextStyle(fontWeight: FontWeight.bold),
+                    headline2: TextStyle(fontWeight: FontWeight.bold),
+                    headline3: TextStyle(fontWeight: FontWeight.bold),
+                    headline4: TextStyle(fontWeight: FontWeight.bold),
+                    headline5: TextStyle(fontWeight: FontWeight.bold),
+                    headline6: TextStyle(fontWeight: FontWeight.bold),
                     subtitle1: TextStyle(),
                     subtitle2: TextStyle(),
                     caption: TextStyle(),
@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
                   scrollbarTheme: ScrollbarThemeData(
                       thumbColor:
                           MaterialStateProperty.all<Color>(Colors.grey)),
+                  scaffoldBackgroundColor: AppColor.background,
                   primaryIconTheme: IconThemeData(color: Colors.white),
                   accentIconTheme: IconThemeData(color: AppColor.accent),
                   dividerColor: Colors.grey.withOpacity(0.7),

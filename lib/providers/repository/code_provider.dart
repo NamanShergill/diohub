@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:onehub/models/repositories/code_tree_model.dart';
-import 'package:onehub/models/repositories/commit_model.dart';
+import 'package:onehub/models/repositories/commit_list_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
+import 'package:onehub/services/repositories/repo_services.dart';
 
 class CodeProvider extends BaseProvider {
   List<CodeTreeModel> _tree = [];
@@ -33,10 +35,10 @@ class CodeProvider extends BaseProvider {
   String _lockedCommitSHA;
 
   /// The commit the code browsing is locked to.
-  CommitModel _lockedCommit;
+  CommitListModel _lockedCommit;
 
   /// Get the locked commit.
-  CommitModel get lockedCommit => _lockedCommit;
+  CommitListModel get lockedCommit => _lockedCommit;
 
   /// If the code browsing is locked to a specific commit.
   bool _commitLock = false;
@@ -107,7 +109,7 @@ class CodeProvider extends BaseProvider {
       // If commit lock is disabled or _lockedCommit has not been fetched yet
       // add future to fetch them.
       if (!_commitLock || _lockedCommit == null)
-        future.add(GitDatabaseService.getCommitsList(
+        future.add(RepositoryServices.getCommitsList(
             repoURL: _repoURL,
             sha: _commitLock ? _lockedCommitSHA : _branchProvider.branch.name,
             path: getPath(),
@@ -125,7 +127,7 @@ class CodeProvider extends BaseProvider {
         _tree.add(_codeTree.copyWith(commit: _lockedCommit));
       } else {
         // Get _commit data from the completed future.
-        CommitModel _commit = data[1].first;
+        CommitListModel _commit = data[1].first;
         // Add data to tree.
         _tree.add(_codeTree.copyWith(commit: _commit));
       }
@@ -134,7 +136,7 @@ class CodeProvider extends BaseProvider {
       if (_initialSHA != null) _initialSHA = null;
       statusController.add(Status.loaded);
     } catch (e) {
-      print(e);
+      debugPrint(e);
       statusController.add(Status.error);
     }
   }

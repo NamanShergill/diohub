@@ -1,16 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/scaffold_body.dart';
+import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
-import 'package:onehub/providers/repository/commits_provider.dart';
 import 'package:onehub/providers/repository/issues_provider.dart';
 import 'package:onehub/providers/repository/pulls_provider.dart';
 import 'package:onehub/providers/repository/readme_provider.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
+import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/code_browser.dart';
@@ -84,14 +87,21 @@ class _RepositoryScreenState extends State<RepositoryScreen>
           create: (_) => codeProvider,
           update: (_, branch, __) => codeProvider..updateProvider(branch),
         ),
-        ChangeNotifierProxyProvider<RepoBranchProvider, RepoCommitsProvider>(
-            create: (_) => RepoCommitsProvider(),
-            update: (_, branch, __) => RepoCommitsProvider()),
       ],
       child: Builder(builder: (context) {
         return SafeArea(
           child: Scaffold(
             backgroundColor: AppColor.background,
+            // Show a temporary app bar until the provider loads.
+            appBar:
+                Provider.of<RepositoryProvider>(context).status != Status.loaded
+                    ? AppBar(
+                        elevation: 0,
+                      )
+                    : PreferredSize(
+                        child: Container(),
+                        preferredSize: Size(0, 0),
+                      ),
             body: WillPopScope(
               onWillPop: () async {
                 if ((Provider.of<CodeProvider>(context, listen: false)
@@ -152,7 +162,32 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   Container(),
                                   Container(),
                                   Container(),
-                                  Container(),
+                                  Container(
+                                    child: MaterialButton(
+                                      child: Text('Open Wiki'),
+                                      onPressed: () {
+                                        print(Provider.of<RepositoryProvider>(
+                                                context,
+                                                listen: false)
+                                            .repositoryModel
+                                            .hasWiki);
+                                        if (Provider.of<RepositoryProvider>(
+                                                context,
+                                                listen: false)
+                                            .repositoryModel
+                                            .hasWiki)
+                                          AutoRouter.of(context).push(
+                                              WikiViewerRoute(
+                                                  repoURL:
+                                                      widget.repositoryURL));
+                                        else
+                                          ResponseHandler.setErrorMessage(
+                                              AppPopupData(
+                                                  title:
+                                                      'Repository has no wiki.'));
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                       );

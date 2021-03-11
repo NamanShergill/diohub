@@ -59,13 +59,19 @@ class PushEventCard extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: data.commits.length,
                 separatorBuilder: (context, index) {
-                  return Divider();
+                  return Divider(
+                    height: 0,
+                  );
                 },
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return InkWell(
                     borderRadius: AppThemeBorderRadius.smallBorderRadius,
                     onTap: () {
+                      AutoRouter.of(context).push(CommitInfoScreenRoute(
+                          commitURL: data.commits[index].url));
+                    },
+                    onLongPress: () {
                       AutoRouter.of(context).push(RepositoryScreenRoute(
                           index: 1,
                           branch: data.ref.split('/').last,
@@ -73,7 +79,8 @@ class PushEventCard extends StatelessWidget {
                           initSHA: data.commits[index].sha));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 8),
                       child: RichText(
                           text: TextSpan(
                               style: Theme.of(context).textTheme.bodyText2,

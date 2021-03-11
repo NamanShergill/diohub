@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:markdown/markdown.dart';
 
 class RepositoryReadmeModel {
@@ -93,7 +94,7 @@ class RepositoryReadmeModel {
       try {
         return utf8.decode(base64.decode(e));
       } catch (e) {
-        print(e);
+        debugPrint(e);
         return '';
       }
     }).toList();

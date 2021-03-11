@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -6,13 +7,14 @@ import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/profile_image.dart';
 import 'package:onehub/models/popup/popup_type.dart';
-import 'package:onehub/models/repositories/commit_model.dart';
+import 'package:onehub/models/repositories/commit_list_model.dart';
+import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
 class CommitBrowserTiles extends StatefulWidget {
-  final CommitModel item;
+  final CommitListModel item;
   final bool highlighted;
   final ValueChanged<String> onSelected;
 
@@ -199,7 +201,10 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                       height: 0,
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        AutoRouter.of(context).push(
+                            CommitInfoScreenRoute(commitURL: widget.item.url));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
@@ -221,7 +226,9 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                       height: 0,
                     ),
                     InkWell(
-                      onTap: () {copySha();},
+                      onTap: () {
+                        copySha();
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/models/repositories/commit_model.dart';
-import 'package:onehub/services/git_database/git_database_service.dart';
+import 'package:onehub/models/repositories/commit_list_model.dart';
+import 'package:onehub/services/repositories/repo_services.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/commit_browser_tiles.dart';
@@ -129,10 +129,10 @@ class _CommitBrowserState extends State<CommitBrowser> {
               ),
               Container(
                 height: _media.height * 0.85,
-                child: InfiniteScrollWrapper<CommitModel>(
+                child: InfiniteScrollWrapper<CommitListModel>(
                   controller: controller,
                   future: (pageNumber, pageSize) {
-                    return GitDatabaseService.getCommitsList(
+                    return RepositoryServices.getCommitsList(
                       repoURL: widget.repoURL,
                       pageNumber: pageNumber,
                       pageSize: pageSize,
@@ -145,7 +145,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                     setState(() {
                       isLocked = false;
                     });
-                    return GitDatabaseService.getCommitsList(
+                    return RepositoryServices.getCommitsList(
                         repoURL: widget.repoURL,
                         pageNumber: pageNumber,
                         pageSize: pageSize,

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/repositories/commit_model.dart';
+import 'package:onehub/models/repositories/commit_list_model.dart';
 
 class CodeTreeModel {
   CodeTreeModel({this.sha, this.url, this.tree, this.truncated, this.commit});
@@ -13,14 +13,14 @@ class CodeTreeModel {
   String url;
   List<Tree> tree;
   bool truncated;
-  CommitModel commit;
+  CommitListModel commit;
 
   CodeTreeModel copyWith({
     String sha,
     String url,
     List<Tree> tree,
     bool truncated,
-    CommitModel commit,
+    CommitListModel commit,
   }) =>
       CodeTreeModel(
         sha: sha ?? this.sha,

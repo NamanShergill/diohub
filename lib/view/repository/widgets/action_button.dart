@@ -75,7 +75,7 @@ class _ActionButtonState extends State<ActionButton> {
           Text(
             widget.count > 999
                 ? '${(widget.count / 1000).toStringAsFixed(1)}k'
-                : widget.count.toString(),
+                : '${(widget.count == 0) ? 'None' : widget.count.toString()}',
             style: TextStyle(
               fontSize: 13,
             ),

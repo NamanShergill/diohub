@@ -155,7 +155,7 @@ class RepoAppBar extends StatelessWidget {
                     Tab(text: "Issues"),
                     Tab(text: "Pull Requests"),
                     Tab(text: "License"),
-                    Tab(text: "Watchers"),
+                    Tab(text: "More"),
                   ],
                 ),
               ],
