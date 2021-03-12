@@ -19,10 +19,10 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
   static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
       {String branch}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false, debugLog: true)
-        .get(repoUrl + '/readme',
-            options: CacheManager.defaultCache(),
-            queryParameters: {'ref': branch});
+    Response response = await GetDio.getDio(applyBaseURL: false).get(
+        repoUrl + '/readme',
+        options: CacheManager.defaultCache(),
+        queryParameters: {'ref': branch});
     return RepositoryReadmeModel.fromJson(response.data);
   }
 

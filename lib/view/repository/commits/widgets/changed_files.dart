@@ -65,13 +65,17 @@ class _ChangedFilesState extends State<ChangedFiles> {
                         height: 0,
                       ),
                       InkWell(
-                        onTap: () {
-                          AutoRouter.of(context).push(ChangesViewerRoute(
-                              patch: _files[index].patch,
-                              contentURL: _files[index].contentsUrl,
-                              fileType:
-                                  _files[index].filename.split('.').last));
-                        },
+                        onTap: _files[index].patch != null
+                            ? () {
+                                AutoRouter.of(context).push(ChangesViewerRoute(
+                                    patch: _files[index].patch,
+                                    contentURL: _files[index].contentsUrl,
+                                    fileType: _files[index]
+                                        .filename
+                                        .split('.')
+                                        .last));
+                              }
+                            : null,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
@@ -79,12 +83,19 @@ class _ChangedFilesState extends State<ChangedFiles> {
                             children: [
                               Text(
                                 'View Changes',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: _files[index].patch != null
+                                        ? Colors.white
+                                        : AppColor.grey3),
                               ),
                               SizedBox(
                                 width: 8,
                               ),
-                              Icon(Octicons.checklist),
+                              Icon(Octicons.checklist,
+                                  color: _files[index].patch != null
+                                      ? Colors.white
+                                      : AppColor.grey3),
                             ],
                           ),
                         ),

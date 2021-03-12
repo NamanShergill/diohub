@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
-import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/common/app_scroll_view.dart';
+import 'package:onehub/common/profile_image.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/models/popup/popup_type.dart';
@@ -18,7 +20,8 @@ import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/code_browser.dart';
 import 'package:onehub/view/repository/readme/repository_readme.dart';
-import 'package:onehub/view/repository/widgets/repo_app_bar.dart';
+import 'package:onehub/view/repository/widgets/action_button.dart';
+import 'package:onehub/view/repository/widgets/branch_button.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryScreen extends StatefulWidget {
@@ -124,73 +127,144 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
                   childBuilder: (context, value) {
                     final _repo = value.repositoryModel;
-                    return NestedScrollView(
-                        headerSliverBuilder: (context, value) {
-                      return [
-                        SliverOverlapAbsorber(
-                          handle:
-                              NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                  context),
-                          sliver: SliverSafeArea(
-                            sliver: RepoAppBar(
-                              repo: _repo,
-                              tabController: tabController,
+                    return AppScrollView(
+                      scrollViewAppBar: ScrollViewAppBar(
+                        expandedHeight: 360,
+                        collapsedHeight: 150,
+                        appBarWidget: Row(
+                          children: [
+                            ProfileImage(_repo.owner.avatarUrl),
+                            SizedBox(
+                              width: 8,
                             ),
-                          ),
-                        )
-                      ];
-                    }, body: Builder(builder: (context) {
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-
-                      return AnimatedSwitcher(
-                        duration: Duration(milliseconds: 50),
-                        child: loading
-                            ? Container(
-                                color: AppColor.onBackground,
-                                child: Column(
+                            Flexible(
+                              child: RichText(
+                                text: TextSpan(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5
+                                        .copyWith(fontSize: 18),
+                                    children: [
+                                      TextSpan(text: '${_repo.owner.login}/'),
+                                      TextSpan(
+                                          text: _repo.name.length > 15
+                                              ? '${_repo.name.substring(0, 15)}...'
+                                              : _repo.name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                    ]),
+                              ),
+                            ),
+                          ],
+                        ),
+                        flexibleBackgroundWidget: Column(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: AppBar().preferredSize.height,
+                                ),
+                                Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 48.0),
-                                      child: LoadingIndicator(),
+                                    ProfileImage(_repo.owner.avatarUrl),
+                                    SizedBox(
+                                      width: 8,
                                     ),
-                                  ],
-                                ))
-                            : Container(
-                                color: AppColor.onBackground,
-                                child: TabBarView(
-                                  controller: tabController,
-                                  children: [
-                                    RepositoryReadme(_repo.url),
-                                    CodeBrowser(),
-                                    Container(),
-                                    Container(),
-                                    Container(),
-                                    Container(
-                                      child: MaterialButton(
-                                        child: Text('Open Wiki'),
-                                        onPressed: () {
-                                          if (Provider.of<RepositoryProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .repositoryModel
-                                              .hasWiki)
-                                            AutoRouter.of(context).push(
-                                                WikiViewerRoute(
-                                                    repoURL:
-                                                        widget.repositoryURL));
-                                          else
-                                            ResponseHandler.setErrorMessage(
-                                                AppPopupData(
-                                                    title:
-                                                        'Repository has no wiki.'));
-                                        },
-                                      ),
+                                    Text(
+                                      _repo.owner.login,
+                                      style: TextStyle(color: Colors.grey),
                                     ),
                                   ],
                                 ),
-                              ),
-                      );
-                    }));
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  _repo.name.length > 20
+                                      ? '${_repo.name.substring(0, 20)}...'
+                                      : _repo.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ActionButton(
+                                  count: _repo.stargazersCount,
+                                  icon: Octicons.star,
+                                  action: 'Star',
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                ActionButton(
+                                  count: _repo.forksCount,
+                                  icon: Octicons.repo_forked,
+                                  action: 'Fork',
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                ActionButton(
+                                  count: _repo.watchersCount,
+                                  icon: Octicons.eye,
+                                  action: 'Watch',
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 60,
+                            ),
+                          ],
+                        ),
+                        bottomPadding: 60,
+                        tabController: tabController,
+                        tabs: [
+                          'Readme',
+                          'Code',
+                          'Issues',
+                          'Pull Requests',
+                          'License',
+                          'More'
+                        ],
+                        bottomHeader: BranchButton(
+                          repo: _repo,
+                        ),
+                      ),
+                      tabController: tabController,
+                      loading: loading,
+                      tabViews: [
+                        RepositoryReadme(_repo.url),
+                        CodeBrowser(),
+                        Container(),
+                        Container(),
+                        Container(),
+                        Container(
+                          child: MaterialButton(
+                            child: Text('Open Wiki'),
+                            onPressed: () {
+                              if (Provider.of<RepositoryProvider>(context,
+                                      listen: false)
+                                  .repositoryModel
+                                  .hasWiki)
+                                AutoRouter.of(context).push(WikiViewerRoute(
+                                    repoURL: widget.repositoryURL));
+                              else
+                                ResponseHandler.setErrorMessage(AppPopupData(
+                                    title: 'Repository has no wiki.'));
+                            },
+                          ),
+                        ),
+                      ],
+                    );
                   },
                 ),
               ),

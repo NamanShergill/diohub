@@ -20,7 +20,8 @@ class GitDatabaseService {
   }
 
   static Future<BlobModel> getFileContents(String url) async {
-    Response response = await GetDio.getDio(applyBaseURL: false).get(url);
+    Response response =
+        await GetDio.getDio(applyBaseURL: false, debugLog: true).get(url);
     return BlobModel.fromJson(response.data);
   }
 }

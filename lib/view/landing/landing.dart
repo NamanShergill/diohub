@@ -13,6 +13,7 @@ import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/home.dart';
 import 'package:onehub/view/notifications/notifications.dart';
+import 'package:onehub/view/profile/current_user_profile_screen.dart';
 import 'package:onehub/view/search/search.dart';
 import 'package:onehub/view/settings/settings.dart';
 import 'package:provider/provider.dart';
@@ -60,8 +61,8 @@ class _LandingScreenState extends State<LandingScreen> {
               HomeScreen(),
               SearchScreen(),
               NotificationsScreen(),
+              CurrentUserProfileScreen(),
               SettingsScreen(),
-              Container(),
             ],
           ),
         ),
