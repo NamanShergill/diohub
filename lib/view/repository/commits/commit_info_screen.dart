@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:onehub/common/app_tab_bar.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/providers/base_provider.dart';
@@ -62,15 +63,15 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                           initialIndex: 0,
                           child: Column(
                             children: [
-                              TabBar(isScrollable: true, tabs: [
-                                Tab(
-                                  text: 'Commit Information',
+                              AppTabBar(tabs: [
+                                AppTab(
+                                  title: 'Commit Information',
                                 ),
-                                Tab(
-                                  text: 'Changed Files',
+                                AppTab(
+                                  title: 'Changed Files',
                                 ),
-                                Tab(
-                                  text: 'Comments',
+                                AppTab(
+                                  title: 'Comments',
                                 ),
                               ]),
                               Expanded(

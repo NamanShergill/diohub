@@ -10,6 +10,7 @@ import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/parse_base64.dart';
 import 'package:onehub/view/repository/readme/repository_readme.dart';
 
 class FileViewerAPI extends StatefulWidget {
@@ -149,7 +150,9 @@ class _TextViewerState extends State<TextViewer> {
   // final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
-    content = parse();
+    content = parseBase64(widget.blob.content);
+    for (String str in content)
+      if (str.length > numberOfMaxChars) numberOfMaxChars = str.length;
     fileType = widget.fileName.split('.').last;
     super.initState();
   }
@@ -167,28 +170,6 @@ class _TextViewerState extends State<TextViewer> {
   //   });
   //   return editing;
   // }
-
-  List<String> parse() {
-    String temp = widget.blob.content;
-    List<String> listTemp = temp.split('\n');
-    listTemp = listTemp.map((e) {
-      try {
-        return utf8.decode(base64.decode(e));
-      } catch (e) {
-        debugPrint(e);
-        return '';
-      }
-    }).toList();
-    setState(() {
-      loading = false;
-    });
-    listTemp = listTemp.join().split('\n');
-    for (String string in listTemp) {
-      if (string.length > numberOfMaxChars) numberOfMaxChars = string.length;
-    }
-    // textEditingController.text = listTemp.join('\n');
-    return listTemp;
-  }
 
   @override
   Widget build(BuildContext context) {

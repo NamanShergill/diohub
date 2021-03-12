@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:onehub/common/app_tab_bar.dart';
 import 'package:onehub/common/profile_image.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
 import 'package:onehub/style/colors.dart';
@@ -98,8 +99,7 @@ class RepoAppBar extends StatelessWidget {
                         height: 16,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ActionButton(
                             count: _repo.stargazersCount,
@@ -139,27 +139,23 @@ class RepoAppBar extends StatelessWidget {
         preferredSize: Size.fromHeight(60),
         child: Container(
           color: AppColor.background,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: [
-                BranchButton(
-                  repo: _repo,
-                ),
-                TabBar(
-                  controller: _tabController,
-                  isScrollable: true,
-                  tabs: [
-                    Tab(text: "Readme"),
-                    Tab(text: "Code"),
-                    Tab(text: "Issues"),
-                    Tab(text: "Pull Requests"),
-                    Tab(text: "License"),
-                    Tab(text: "More"),
-                  ],
-                ),
-              ],
-            ),
+          child: Column(
+            children: [
+              BranchButton(
+                repo: _repo,
+              ),
+              AppTabBar(
+                controller: _tabController,
+                tabs: [
+                  AppTab(title: "Readme"),
+                  AppTab(title: "Code"),
+                  AppTab(title: "Issues"),
+                  AppTab(title: "Pull Requests"),
+                  AppTab(title: "License"),
+                  AppTab(title: "More"),
+                ],
+              ),
+            ],
           ),
         ),
       ),

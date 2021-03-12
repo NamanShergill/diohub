@@ -80,7 +80,7 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.CustomPage(
           entry: entry,
           child:
-              _i8.ChangesViewer(route.patch, route.rawFileURL, route.fileType),
+              _i8.ChangesViewer(route.patch, route.contentURL, route.fileType),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     }
@@ -220,18 +220,18 @@ class WikiViewerRoute extends _i1.PageRouteInfo {
 }
 
 class ChangesViewerRoute extends _i1.PageRouteInfo {
-  ChangesViewerRoute({this.patch, this.rawFileURL, this.fileType})
+  ChangesViewerRoute({this.patch, this.contentURL, this.fileType})
       : super(name, path: '/changes-viewer');
 
   ChangesViewerRoute.fromMatch(_i1.RouteMatch match)
       : patch = null,
-        rawFileURL = null,
+        contentURL = null,
         fileType = null,
         super.fromMatch(match);
 
   final String patch;
 
-  final String rawFileURL;
+  final String contentURL;
 
   final String fileType;
 

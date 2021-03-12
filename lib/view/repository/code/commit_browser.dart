@@ -128,7 +128,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                 ),
               ),
               Container(
-                height: _media.height * 0.85,
+                height: _media.height * 0.8,
                 child: InfiniteScrollWrapper<CommitListModel>(
                   controller: controller,
                   future: (pageNumber, pageSize) {

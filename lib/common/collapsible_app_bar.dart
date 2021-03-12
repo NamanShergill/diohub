@@ -19,7 +19,7 @@ class CollapsibleAppBar extends StatelessWidget {
       this.maxHeight,
       this.expandedParentPadding = 8,
       this.padding = const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-      this.childCollapseValue = 0.7,
+      this.childCollapseValue = 0.75,
       this.trailing});
 
   double _calculateExpandRatio(BoxConstraints constraints) {
@@ -93,7 +93,7 @@ class CollapsibleAppBar extends StatelessWidget {
                 children: [
                   SizeExpandedSection(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
+                      padding: const EdgeInsets.only(bottom: 35.0),
                       child: child,
                     ),
                     axis: Axis.vertical,

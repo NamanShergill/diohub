@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/patch_viewer.dart';
 
-class ChangesViewer extends StatelessWidget {
+class ChangesViewer extends StatefulWidget {
   final String patch;
-  final String rawFileURL;
+  final String contentURL;
   final String fileType;
-  ChangesViewer(this.patch, this.rawFileURL, this.fileType);
+  ChangesViewer(this.patch, this.contentURL, this.fileType);
+
+  @override
+  _ChangesViewerState createState() => _ChangesViewerState();
+}
+
+class _ChangesViewerState extends State<ChangesViewer> {
+  bool wrap = false;
+  final PatchViewController controller = PatchViewController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: Icon(Icons.wrap_text),
+              onPressed: () {
+                controller.wrap();
+              })
+        ],
+      ),
       body: SingleChildScrollView(
         child: PatchViewer(
-          patch: patch,
-          fileType: fileType,
-          rawFileURL: rawFileURL,
+          controller: controller,
+          patch: widget.patch,
+          fileType: widget.fileType,
+          contentURL: widget.contentURL,
+          wrap: wrap,
         ),
       ),
     );

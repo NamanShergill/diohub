@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:onehub/common/app_tab_bar.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen>
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
-                expandedHeight: 280,
+                expandedHeight: 300,
                 collapsedHeight: 155,
                 //Todo: Check this tomorrow.
                 pinned: true,
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen>
                   padding: const EdgeInsets.only(bottom: 30.0),
                   child: CollapsibleAppBar(
                     minHeight: 155,
-                    maxHeight: 280,
+                    maxHeight: 300,
                     title: 'Home',
                     child: SearchBar(),
                     trailing: ClipOval(
@@ -84,28 +85,23 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(0),
-                  child: TabBar(
-                    physics: BouncingScrollPhysics(),
-                    isScrollable: true,
+                  child: AppTabBar(
                     controller: _tabController,
-                    unselectedLabelColor: AppColor.grey3,
-                    labelStyle: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(fontSize: 14),
                     tabs: [
-                      Tab(
-                        text: 'Activity',
+                      AppTab(
+                        title: 'Activity',
                       ),
-                      Tab(text: 'Pull Requests'),
-                      Tab(
-                        child: Text('Issues'),
+                      AppTab(
+                        title: 'Pull Requests',
                       ),
-                      Tab(
-                        child: Text('Repositories'),
+                      AppTab(
+                        title: 'Issues',
                       ),
-                      Tab(
-                        child: Text('Public Events'),
+                      AppTab(
+                        title: 'Repositories',
+                      ),
+                      AppTab(
+                        title: 'Public Activity',
                       ),
                     ],
                   ),
@@ -123,34 +119,31 @@ class _HomeScreenState extends State<HomeScreen>
                 return Builder(
                   builder: (context) {
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                    return Container(
-                      color: AppColor.onBackground,
-                      child: LoginCheckWrapper(
-                        child: TabBarView(
-                          controller: _tabController,
-                          physics: BouncingScrollPhysics(),
-                          children: [
-                            Events(),
-                            Container(
-                              color: Colors.blue,
-                              height: 80,
-                              width: 40,
-                            ),
-                            Container(
-                              color: Colors.green,
-                              height: 80,
-                              width: 40,
-                            ),
-                            Container(
-                              color: Colors.amber,
-                              height: 80,
-                              width: 40,
-                            ),
-                            Events(
-                              privateEvents: false,
-                            ),
-                          ],
-                        ),
+                    return LoginCheckWrapper(
+                      child: TabBarView(
+                        controller: _tabController,
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          Events(),
+                          Container(
+                            color: Colors.blue,
+                            height: 80,
+                            width: 40,
+                          ),
+                          Container(
+                            color: Colors.green,
+                            height: 80,
+                            width: 40,
+                          ),
+                          Container(
+                            color: Colors.amber,
+                            height: 80,
+                            width: 40,
+                          ),
+                          Events(
+                            privateEvents: false,
+                          ),
+                        ],
                       ),
                     );
                   },

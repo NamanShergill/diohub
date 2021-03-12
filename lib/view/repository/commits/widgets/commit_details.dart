@@ -18,26 +18,41 @@ class CommitDetails extends StatelessWidget {
 
     Widget section(String title, {Widget child}) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style:
-                  Theme.of(context).textTheme.headline6.copyWith(fontSize: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        child: Material(
+          elevation: 2,
+          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          color: AppColor.onBackground,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      child,
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 16,
-            ),
-            child,
-          ],
+          ),
         ),
       );
     }
 
-    return Container(
-      color: AppColor.onBackground,
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,7 +65,6 @@ class CommitDetails extends StatelessWidget {
               _commit.commit.commit.message,
             ),
           ),
-          Divider(),
           section(
             'Made by',
             child: Row(
@@ -68,13 +82,11 @@ class CommitDetails extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
           section('Committed',
               child: Text(
                 getDate(_commit.commit.commit.committer.date.toString(),
                     shorten: false),
               )),
-          Divider(),
           section(
             'Parents',
             child: ListView.separated(
@@ -88,9 +100,11 @@ class CommitDetails extends StatelessWidget {
               },
               itemBuilder: (context, index) {
                 return Material(
+                  elevation: 2,
                   borderRadius: AppThemeBorderRadius.medBorderRadius,
                   color: AppColor.background,
                   child: InkWell(
+                    borderRadius: AppThemeBorderRadius.medBorderRadius,
                     onTap: () {
                       AutoRouter.of(context).push(CommitInfoScreenRoute(
                           commitURL: _commit.commit.parents[index].url));
@@ -116,7 +130,6 @@ class CommitDetails extends StatelessWidget {
               },
             ),
           ),
-          Divider(),
           section('Stats',
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +149,6 @@ class CommitDetails extends StatelessWidget {
                   Text('Deletions: ${_commit.commit.stats.deletions}'),
                 ],
               )),
-          Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
             child: Button(

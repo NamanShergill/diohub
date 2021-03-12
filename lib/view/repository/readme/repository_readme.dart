@@ -34,36 +34,33 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
-      color: AppColor.onBackground,
-      child: ListView(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
-              loadingBuilder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 48.0),
-                  child: LoadingIndicator(),
-                );
-              },
-              childBuilder: (context, value) {
-                return MarkdownBody(
-                    value.readme.content,
-                    Provider.of<RepoBranchProvider>(context).branch.name,
-                    Provider.of<RepositoryProvider>(context)
-                        .repositoryModel
-                        .fullName);
-              },
-            ),
+    return ListView(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
+            loadingBuilder: (context) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 48.0),
+                child: LoadingIndicator(),
+              );
+            },
+            childBuilder: (context, value) {
+              return MarkdownBody(
+                  value.readme.content,
+                  Provider.of<RepoBranchProvider>(context).branch.name,
+                  Provider.of<RepositoryProvider>(context)
+                      .repositoryModel
+                      .fullName);
+            },
           ),
-          SizedBox(
-            height: 16,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+      ],
     );
   }
 }
@@ -151,7 +148,7 @@ class MarkdownBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Container(
                     decoration: BoxDecoration(
-                        color: AppColor.background,
+                        color: AppColor.onBackground,
                         borderRadius: AppThemeBorderRadius.smallBorderRadius),
                     child: Scrollbar(
                       child: SingleChildScrollView(

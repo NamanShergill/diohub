@@ -104,6 +104,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       ),
             body: WillPopScope(
               onWillPop: () async {
+                // Don't pop screen if code browsing is open and not the root tree.
                 if ((Provider.of<CodeProvider>(context, listen: false)
                             .tree
                             .length >
@@ -154,41 +155,39 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                     ),
                                   ],
                                 ))
-                            : TabBarView(
-                                controller: tabController,
-                                children: [
-                                  RepositoryReadme(_repo.url),
-                                  CodeBrowser(),
-                                  Container(),
-                                  Container(),
-                                  Container(),
-                                  Container(
-                                    child: MaterialButton(
-                                      child: Text('Open Wiki'),
-                                      onPressed: () {
-                                        print(Provider.of<RepositoryProvider>(
-                                                context,
-                                                listen: false)
-                                            .repositoryModel
-                                            .hasWiki);
-                                        if (Provider.of<RepositoryProvider>(
-                                                context,
-                                                listen: false)
-                                            .repositoryModel
-                                            .hasWiki)
-                                          AutoRouter.of(context).push(
-                                              WikiViewerRoute(
-                                                  repoURL:
-                                                      widget.repositoryURL));
-                                        else
-                                          ResponseHandler.setErrorMessage(
-                                              AppPopupData(
-                                                  title:
-                                                      'Repository has no wiki.'));
-                                      },
+                            : Container(
+                                color: AppColor.onBackground,
+                                child: TabBarView(
+                                  controller: tabController,
+                                  children: [
+                                    RepositoryReadme(_repo.url),
+                                    CodeBrowser(),
+                                    Container(),
+                                    Container(),
+                                    Container(),
+                                    Container(
+                                      child: MaterialButton(
+                                        child: Text('Open Wiki'),
+                                        onPressed: () {
+                                          if (Provider.of<RepositoryProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .repositoryModel
+                                              .hasWiki)
+                                            AutoRouter.of(context).push(
+                                                WikiViewerRoute(
+                                                    repoURL:
+                                                        widget.repositoryURL));
+                                          else
+                                            ResponseHandler.setErrorMessage(
+                                                AppPopupData(
+                                                    title:
+                                                        'Repository has no wiki.'));
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                       );
                     }));

@@ -60,6 +60,7 @@ class GetDio {
         }
         return response;
       }, onError: (DioError error) async {
+        Global.log.e(error.response.data);
         // Makes the buttons listening to this stream get enabled again.
         if (buttonLock) ButtonController.setButtonValue(false);
 

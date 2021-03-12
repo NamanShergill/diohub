@@ -6,6 +6,7 @@ import 'package:onehub/providers/repository/branch_provider.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:onehub/routes/router.gr.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
@@ -41,7 +42,7 @@ class BrowserListTile extends StatelessWidget {
             children: [
               getIcon(),
               SizedBox(
-                width: 8,
+                width: 16,
               ),
               Flexible(child: Text(tree.path)),
             ],
@@ -56,13 +57,13 @@ class BrowserListTile extends StatelessWidget {
       case Type.TREE:
         return Icon(
           Icons.folder,
-          color: Colors.white,
+          color: AppColor.grey3,
         );
         break;
       case Type.BLOB:
         return Icon(
           LineIcons.file,
-          color: Colors.white,
+          color: AppColor.grey3,
         );
         break;
     }

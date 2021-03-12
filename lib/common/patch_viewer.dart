@@ -3,59 +3,83 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/parse_base64.dart';
+
+class PatchViewController {
+  bool Function() wrap;
+}
 
 // Todo: I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
 class PatchViewer extends StatefulWidget {
   final String patch;
-  final String rawFileURL;
+  final String contentURL;
   final String fileType;
+  final bool wrap;
+  final PatchViewController controller;
 
   /// Pass this as true before starting parsing to prevent lag.
+  /// Todo: Remove?
   final bool waitBeforeLoad;
   PatchViewer(
       {Key key,
       this.patch,
-      this.rawFileURL,
+      this.wrap = false,
+      this.contentURL,
       this.fileType,
+      this.controller,
       this.waitBeforeLoad = true})
       : super(key: key);
 
   @override
-  _PatchViewerState createState() => _PatchViewerState();
+  _PatchViewerState createState() => _PatchViewerState(controller);
 }
 
 class _PatchViewerState extends State<PatchViewer> {
+  _PatchViewerState(PatchViewController controller) {
+    if (controller != null) controller.wrap = changeWrap;
+  }
   String patch;
   int maxChars = 0;
   List<String> rawData;
   bool loading = true;
+  final PatchViewController controller = PatchViewController();
+
+  bool wrap;
 
   @override
   void initState() {
     patch = widget.patch;
+    wrap = widget.wrap;
     startUp();
     super.initState();
   }
 
+  bool changeWrap() {
+    setState(() {
+      wrap = !wrap;
+    });
+    controller.wrap();
+    return wrap;
+  }
+
   void startUp() async {
     List<Future> futures = [];
-    if (widget.rawFileURL != null) futures.add(fetchRawFile());
-    if (widget.waitBeforeLoad)
-      futures.add(Future.delayed(Duration(seconds: 1)));
+    if (widget.contentURL != null) futures.add(fetchBlobFile());
     await Future.wait(futures);
     regex();
-
     setState(() {
       loading = false;
     });
   }
 
-  Future fetchRawFile() async {
-    String data = await GitDatabaseService.getRawFile(widget.rawFileURL);
-    rawData = data.split('\n');
-    rawData = rawData.sublist(0, rawData.length - 1);
+  Future fetchBlobFile() async {
+    BlobModel blob =
+        await GitDatabaseService.getFileContents(widget.contentURL);
+    String data = blob.content;
+    rawData = parseBase64(data);
     for (String str in rawData)
       if (str.length > maxChars) maxChars = str.length;
   }
@@ -148,13 +172,15 @@ class _PatchViewerState extends State<PatchViewer> {
                 SizedBox(
                   width: 20,
                 ),
-                HighlightView(
-                  displayCodeWithoutFirstLine[lineIndex].length > 0
-                      ? displayCodeWithoutFirstLine[lineIndex].substring(1)
-                      : " ",
-                  backgroundColor: Colors.transparent,
-                  theme: monokaiSublimeTheme,
-                  language: widget.fileType,
+                Flexible(
+                  child: HighlightView(
+                    displayCodeWithoutFirstLine[lineIndex].length > 0
+                        ? displayCodeWithoutFirstLine[lineIndex].substring(1)
+                        : " ",
+                    backgroundColor: Colors.transparent,
+                    theme: monokaiSublimeTheme,
+                    language: widget.fileType,
+                  ),
                 ),
               ],
             ),
@@ -177,7 +203,9 @@ class _PatchViewerState extends State<PatchViewer> {
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Container(
-              width: maxChars.toDouble() * 14,
+              width: wrap
+                  ? MediaQuery.of(context).size.width
+                  : maxChars.toDouble() * 10,
               child: ListView.builder(
                   itemCount: codeChunks.length,
                   shrinkWrap: true,
@@ -193,9 +221,12 @@ class _PatchViewerState extends State<PatchViewer> {
                           displayCode: displayCode,
                           displayHeader: displayHeader,
                           index: index,
+                          startRemove: codeChunks[index]['startRemove'],
                           maxChars: maxChars,
                           fileType: widget.fileType,
                           rawData: rawData,
+                          wrap: wrap,
+                          controller: controller,
                           startAdd: codeChunks[index]['startAdd'],
                         ),
                         showCodeChunk(displayCode, index),
@@ -253,42 +284,74 @@ class ChunkHeader extends StatefulWidget {
   final int index;
   final List<String> displayCode;
   final int startAdd;
+  final int startRemove;
   final String fileType;
   final List<Map> codeChunks;
   final int maxChars;
+  final bool wrap;
   final List<String> displayHeader;
+  final PatchViewController controller;
+
   ChunkHeader(
       {this.codeChunks,
       this.startAdd,
+      this.startRemove,
       this.displayHeader,
       this.index,
       this.fileType,
+      this.wrap,
       this.rawData,
+      this.controller,
       this.maxChars,
       this.displayCode});
   @override
-  _ChunkHeaderState createState() => _ChunkHeaderState();
+  _ChunkHeaderState createState() => _ChunkHeaderState(controller);
 }
 
 class _ChunkHeaderState extends State<ChunkHeader> {
+  _ChunkHeaderState(PatchViewController controller) {
+    if (controller != null) controller.wrap = changeWrap;
+  }
   bool expanded = false;
+  List<String> data;
+  bool wrap;
+
+  @override
+  void initState() {
+    setupData();
+    wrap = widget.wrap;
+
+    if (widget.startAdd == 1 || widget.startRemove == 1) expanded = true;
+    super.initState();
+  }
+
+  bool changeWrap() {
+    setState(() {
+      wrap = !wrap;
+    });
+    return wrap;
+  }
+
+  void setupData() {
+    if (widget.index == 0) {
+      data = widget.rawData.sublist(0, widget.startAdd - 1);
+    } else {
+      data = widget.rawData.sublist(
+          widget.codeChunks[widget.index - 1]['startAdd'] +
+              widget.codeChunks[widget.index - 1]['lengthAdd'] -
+              1,
+          widget.startAdd - 1);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     if (expanded) {
-      List<String> data;
-      if (widget.index == 0) {
-        data = widget.rawData.sublist(0, widget.startAdd - 1);
-      } else {
-        data = widget.rawData.sublist(
-            widget.codeChunks[widget.index - 1]['startAdd'] +
-                widget.codeChunks[widget.index - 1]['lengthAdd'] -
-                1,
-            widget.startAdd - 1);
-      }
       return SizeExpandedSection(
         child: Container(
-          width: widget.maxChars.toDouble() * 14,
+          width: wrap
+              ? MediaQuery.of(context).size.width
+              : widget.maxChars.toDouble() * 10,
           child: ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -307,7 +370,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                           width: 35,
                           child: Text(widget.index == 0
                               ? '${index + 1}'
-                              : '${widget.codeChunks[widget.index - 1]['startAdd'] + widget.codeChunks[widget.index - 1]['lengthAdd'] + index}'),
+                              : '${widget.codeChunks[widget.index - 1]['startRemove'] + widget.codeChunks[widget.index - 1]['lengthRemove'] + index}'),
                         ),
                         SizedBox(
                           width: 10,
@@ -321,11 +384,13 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                         SizedBox(
                           width: 25,
                         ),
-                        HighlightView(
-                          data[index],
-                          backgroundColor: Colors.transparent,
-                          theme: monokaiSublimeTheme,
-                          language: widget.fileType,
+                        Flexible(
+                          child: HighlightView(
+                            data[index],
+                            backgroundColor: Colors.transparent,
+                            theme: monokaiSublimeTheme,
+                            language: widget.fileType,
+                          ),
                         ),
                       ],
                     ));
@@ -356,9 +421,12 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                 widget.displayHeader[widget.index],
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-              Text(
-                widget.displayCode[0],
-                style: TextStyle(color: Colors.white, fontSize: 12),
+              Flexible(
+                child: Text(
+                  widget.displayCode[0],
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
               ),
             ],
           ),
