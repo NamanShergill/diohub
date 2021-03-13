@@ -19,6 +19,7 @@ import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/code_browser.dart';
+import 'package:onehub/view/repository/issues/issues_list.dart';
 import 'package:onehub/view/repository/readme/repository_readme.dart';
 import 'package:onehub/view/repository/widgets/action_button.dart';
 import 'package:onehub/view/repository/widgets/branch_button.dart';
@@ -133,7 +134,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         collapsedHeight: 150,
                         appBarWidget: Row(
                           children: [
-                            ProfileImage(
+                            ProfileInfo(
                               _repo.owner.avatarUrl,
                               userLogin: _repo.owner.login,
                             ),
@@ -161,14 +162,13 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                           ],
                         ),
                         flexibleBackgroundWidget: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                  height: AppBar().preferredSize.height,
-                                ),
-                                ProfileImage(
+                                ProfileInfo(
                                   _repo.owner.avatarUrl,
                                   userLogin: _repo.owner.login,
                                   extended: true,
@@ -240,7 +240,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       tabViews: [
                         RepositoryReadme(_repo.url),
                         CodeBrowser(),
-                        Container(),
+                        IssuesList(),
                         Container(),
                         Container(),
                         Container(

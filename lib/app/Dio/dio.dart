@@ -16,14 +16,16 @@ class GetDio {
       bool applyBaseURL = true,
       bool loginRequired = true,
       bool debugLog = false,
-      bool buttonLock = true}) {
+      bool buttonLock = true,
+      String acceptHeader}) {
     // Makes the buttons listening to this stream get disabled to prevent multiple taps.
     if (buttonLock) ButtonController.setButtonValue(true);
     Dio dio = Dio();
     dio.interceptors
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
         if (applyBaseURL) options.baseUrl = baseURL;
-        options.headers["Accept"] = "application/json";
+        options.headers["Accept"] = acceptHeader ?? "application/json";
+
         options.headers["setContentType"] = "application/json";
         if (loggedIn == false) {
           if (loginRequired) throw Exception('Not authenticated.');

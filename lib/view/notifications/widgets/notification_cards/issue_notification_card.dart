@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/shimmer_widget.dart';
@@ -5,6 +6,7 @@ import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/models/issues/issue_comments_model.dart';
 import 'package:onehub/models/issues/issue_event_model.dart';
 import 'package:onehub/models/issues/issue_model.dart';
+import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/card_footer.dart';
@@ -60,6 +62,10 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
       iconBuilder: (context) {
         return getIcon();
       },
+      onTap: () {
+        AutoRouter.of(context)
+            .push(IssueScreenRoute(issueURL: widget.notification.subject.url));
+      },
       footerBuilder: (context) {
         if (!loading) return getIssueFooter();
         return null;
@@ -91,19 +97,19 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
 
   Widget getIcon() {
     if (!loading) {
-      if (issueInfo.state == 'closed')
+      if (issueInfo.state == IssueState.CLOSED)
         return Icon(
           Octicons.issue_closed,
           color: Colors.red,
           size: iconSize,
         );
-      else if (issueInfo.state == 'open')
+      else if (issueInfo.state == IssueState.OPEN)
         return Icon(
           Octicons.issue_opened,
           color: Colors.green,
           size: iconSize,
         );
-      else if (issueInfo.state == 'reopened')
+      else if (issueInfo.state == IssueState.REOPENED)
         return Icon(
           Octicons.issue_reopened,
           color: Colors.green,

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:onehub/view/home/widgets/search_overlay.dart';
+import 'package:onehub/view/issues/issue_screen.dart';
 import 'package:onehub/view/landing/widgets/landing_auth_wrapper.dart';
 import 'package:onehub/view/profile/other_user_profile_screen.dart';
 import 'package:onehub/view/repository/code/file_viewer.dart';
@@ -24,6 +25,7 @@ import 'package:onehub/view/repository/wiki/wiki_viewer.dart';
     AutoRoute(page: WikiViewer),
     AutoRoute(page: ChangesViewer),
     AutoRoute(page: OtherUserProfileScreen),
+    AutoRoute(page: IssueScreen),
   ],
 )
 class $AppRouter {}

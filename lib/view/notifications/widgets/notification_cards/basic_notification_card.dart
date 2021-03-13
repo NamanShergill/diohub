@@ -14,8 +14,9 @@ class BasicNotificationCard extends StatefulWidget {
   final WidgetBuilder iconBuilder;
   final WidgetBuilder footerBuilder;
   final NotificationModel notification;
+  final Function onTap;
   BasicNotificationCard(
-      {this.footerBuilder, this.iconBuilder, this.notification});
+      {this.footerBuilder, this.onTap, this.iconBuilder, this.notification});
 
   @override
   _BasicNotificationCardState createState() => _BasicNotificationCardState();
@@ -89,7 +90,10 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
             ? AppColor.onBackground
             : Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            markAsRead();
+            widget.onTap();
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Row(

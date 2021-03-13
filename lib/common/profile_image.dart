@@ -6,13 +6,17 @@ import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 
-class ProfileImage extends StatelessWidget {
+class ProfileInfo extends StatelessWidget {
   final String avatarUrl;
   final double size;
   final String userLogin;
   final bool extended;
-  ProfileImage(this.avatarUrl,
-      {this.userLogin, this.size = 25, this.extended = false});
+  final TextStyle textStyle;
+  ProfileInfo(this.avatarUrl,
+      {this.userLogin,
+      this.size = 25,
+      this.extended = false,
+      this.textStyle = const TextStyle(color: Colors.grey, fontSize: 15)});
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -27,6 +31,7 @@ class ProfileImage extends StatelessWidget {
               }
             : null,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             ClipOval(
               child: CachedNetworkImage(
@@ -55,7 +60,7 @@ class ProfileImage extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
                   userLogin,
-                  style: TextStyle(color: Colors.grey),
+                  style: textStyle,
                 ),
               ),
           ],

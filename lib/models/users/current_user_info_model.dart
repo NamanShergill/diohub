@@ -37,7 +37,9 @@ class CurrentUserInfoModel extends UserInfoModel {
     reposUrl = json['repos_url'];
     eventsUrl = json['events_url'];
     receivedEventsUrl = json['received_events_url'];
-    type = json['type'];
+    if (json['type'] == 'User')
+      type = Type.user;
+    else if (json['type'] == 'Organization') type = Type.org;
     siteAdmin = json['site_admin'];
     name = json['name'];
     company = json['company'];

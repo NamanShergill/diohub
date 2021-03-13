@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/patch_viewer.dart';
+import 'package:onehub/style/colors.dart';
 
 class ChangesViewer extends StatefulWidget {
   final String patch;
@@ -20,9 +21,14 @@ class _ChangesViewerState extends State<ChangesViewer> {
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(Icons.wrap_text),
+              icon: Icon(
+                Icons.wrap_text,
+                color: wrap ? Colors.white : AppColor.grey3,
+              ),
               onPressed: () {
-                controller.wrap();
+                setState(() {
+                  wrap = controller.wrap();
+                });
               })
         ],
       ),

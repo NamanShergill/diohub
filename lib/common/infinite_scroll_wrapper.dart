@@ -13,6 +13,7 @@ class InfiniteScrollWrapperController {
 typedef ScrollWrapperFuture<T>(
     int pageNumber, int pageSize, bool refresh, T lastItem);
 typedef ScrollWrapperBuilder<T>(BuildContext context, T item, int index);
+typedef FilterFn<T>(List<T> items);
 
 /// A wrapper designed to show infinite pagination.
 /// [T] type is defined for the kind of elements to be displayed.
@@ -27,6 +28,9 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Total number of elements in each page. Default value is **10**.
   final int pageSize;
 
+  /// Page Number to start with. Default value is **1**.
+  final int pageNumber;
+
   /// Vertical spacing between each element.
   final double spacing;
 
@@ -38,7 +42,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
   /// Filter the results before displaying them.
   /// Gives the list of results that can be modified and returned.
-  final filterFn;
+  final FilterFn<T> filterFn;
 
   /// A controller to call the refresh function if required.
   final InfiniteScrollWrapperController controller;
@@ -52,6 +56,9 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Header to show above the list.
   final WidgetBuilder header;
 
+  /// First page loading indicator.
+  final WidgetBuilder firstPageLoadingBuilder;
+
   InfiniteScrollWrapper(
       {Key key,
       this.future,
@@ -59,10 +66,12 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.controller,
       this.filterFn,
       this.header,
+      this.pageNumber = 1,
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
       this.firstDivider = true,
+      this.firstPageLoadingBuilder,
       this.listEndIndicator = true,
       this.spacing = 16})
       : super(key: key);
@@ -78,7 +87,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   }
 
   // Start off with the first page.
-  int pageNumber = 1;
+  int pageNumber;
 
   // Define the paging controller.
   final PagingController<int, T> _pagingController =
@@ -90,6 +99,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
 
   @override
   void initState() {
+    pageNumber = widget.pageNumber;
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -174,7 +184,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
               child: widget.builder(context, item, index),
             ),
           ]),
-          firstPageProgressIndicatorBuilder: (context) => LoadingIndicator(),
+          firstPageProgressIndicatorBuilder: (context) =>
+              widget.firstPageLoadingBuilder != null
+                  ? widget.firstPageLoadingBuilder(context)
+                  : LoadingIndicator(),
           newPageProgressIndicatorBuilder: (context) => Padding(
             padding: const EdgeInsets.all(32.0),
             child: LoadingIndicator(),

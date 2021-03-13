@@ -74,7 +74,6 @@ class _FilterSheetState extends State<FilterSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
     return Stack(
       children: [
         ListView(
@@ -248,7 +247,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
-                      LineIcons.cross,
+                      LineIcons.userSecret,
                       color: Colors.white,
                     ),
                     value:

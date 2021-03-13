@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/info_card.dart';
 import 'package:onehub/common/loading_indicator.dart';
@@ -27,25 +28,29 @@ class UserOverviewScreen extends StatelessWidget {
               responseBuilder: (context, data) {
                 return data.user.pinnedItems.edges.isEmpty
                     ? Text('No Pinned items.')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: data.user.pinnedItems.edges.length,
-                        itemBuilder: (context, index) {
-                          final PurpleNode node =
-                              data.user.pinnedItems.edges[index].node;
-                          return RepositoryCard(RepositoryModel(
-                              stargazersCount: node.stargazerCount,
-                              description: node.description,
-                              language: node.languages.edges.isNotEmpty
-                                  ? node.languages?.edges?.first?.node?.name ??
-                                      'N/A'
-                                  : 'N/A',
-                              name: node.name,
-                              url: node.url.replaceFirst('https://github.com',
-                                  'https://api.github.com/repos'),
-                              updatedAt: node.updatedAt));
-                        },
+                    : SizeExpandedSection(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: data.user.pinnedItems.edges.length,
+                          itemBuilder: (context, index) {
+                            final PurpleNode node =
+                                data.user.pinnedItems.edges[index].node;
+                            return RepositoryCard(RepositoryModel(
+                                stargazersCount: node.stargazerCount,
+                                description: node.description,
+                                language: node.languages.edges.isNotEmpty
+                                    ? node.languages?.edges?.first?.node
+                                            ?.name ??
+                                        'N/A'
+                                    : 'N/A',
+                                name: node.name,
+                                private: false,
+                                url: node.url.replaceFirst('https://github.com',
+                                    'https://api.github.com/repos'),
+                                updatedAt: node.updatedAt));
+                          },
+                        ),
                       );
               },
               loadingBuilder: (context) {

@@ -16,7 +16,7 @@ class CardFooter extends StatelessWidget {
         children: [
           Opacity(
             opacity: unread ? 1 : 0.7,
-            child: ProfileImage(
+            child: ProfileInfo(
               avatarUrl,
               size: 20,
             ),

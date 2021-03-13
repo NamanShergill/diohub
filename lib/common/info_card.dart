@@ -22,26 +22,21 @@ class InfoCard extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontSize: 18),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      child ?? Container(),
-                    ],
-                  ),
+                Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontSize: 18),
                 ),
+                SizedBox(
+                  height: 16,
+                ),
+                child ?? Container(),
               ],
             ),
           ),

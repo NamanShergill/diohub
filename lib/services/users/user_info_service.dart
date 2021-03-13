@@ -72,7 +72,7 @@ class UserInfoService {
                                     stargazerCount
                                     updatedAt
                                     url
-                                    languages(first: 1) {
+                                    languages(orderBy: {direction:DESC, field: SIZE}, first:1) {
                                       edges {
                                         node {
                                           name

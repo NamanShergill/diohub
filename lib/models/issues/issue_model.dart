@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:onehub/models/users/user_info_model.dart';
+
 class IssueModel {
   IssueModel({
     this.url,
@@ -44,12 +46,12 @@ class IssueModel {
   String nodeId;
   int number;
   String title;
-  Assignee user;
+  UserInfoModel user;
   List<Label> labels;
-  String state;
+  IssueState state;
   bool locked;
-  Assignee assignee;
-  List<Assignee> assignees;
+  UserInfoModel assignee;
+  List<UserInfoModel> assignees;
   Milestone milestone;
   int comments;
   DateTime createdAt;
@@ -72,12 +74,12 @@ class IssueModel {
     String nodeId,
     int number,
     String title,
-    Assignee user,
+    UserInfoModel user,
     List<Label> labels,
-    String state,
+    IssueState state,
     bool locked,
-    Assignee assignee,
-    List<Assignee> assignees,
+    UserInfoModel assignee,
+    List<UserInfoModel> assignees,
     Milestone milestone,
     int comments,
     DateTime createdAt,
@@ -136,19 +138,20 @@ class IssueModel {
         nodeId: json["node_id"] == null ? null : json["node_id"],
         number: json["number"] == null ? null : json["number"],
         title: json["title"] == null ? null : json["title"],
-        user: json["user"] == null ? null : Assignee.fromJson(json["user"]),
+        user:
+            json["user"] == null ? null : UserInfoModel.fromJson(json["user"]),
         labels: json["labels"] == null
             ? null
             : List<Label>.from(json["labels"].map((x) => Label.fromJson(x))),
-        state: json["state"] == null ? null : json["state"],
+        state: json["state"] == null ? null : stateValues.map[json["state"]],
         locked: json["locked"] == null ? null : json["locked"],
         assignee: json["assignee"] == null
             ? null
-            : Assignee.fromJson(json["assignee"]),
+            : UserInfoModel.fromJson(json["assignee"]),
         assignees: json["assignees"] == null
             ? null
-            : List<Assignee>.from(
-                json["assignees"].map((x) => Assignee.fromJson(x))),
+            : List<UserInfoModel>.from(
+                json["assignees"].map((x) => UserInfoModel.fromJson(x))),
         milestone: json["milestone"] == null
             ? null
             : Milestone.fromJson(json["milestone"]),
@@ -184,7 +187,7 @@ class IssueModel {
         "labels": labels == null
             ? null
             : List<dynamic>.from(labels.map((x) => x.toJson())),
-        "state": state == null ? null : state,
+        "state": state == null ? null : stateValues.reverse[state],
         "locked": locked == null ? null : locked,
         "assignee": assignee == null ? null : assignee.toJson(),
         "assignees": assignees == null
@@ -201,145 +204,6 @@ class IssueModel {
         "body": body == null ? null : body,
         "closed_by": closedBy,
         "performed_via_github_app": performedViaGithubApp,
-      };
-}
-
-class Assignee {
-  Assignee({
-    this.login,
-    this.id,
-    this.nodeId,
-    this.avatarUrl,
-    this.gravatarId,
-    this.url,
-    this.htmlUrl,
-    this.followersUrl,
-    this.followingUrl,
-    this.gistsUrl,
-    this.starredUrl,
-    this.subscriptionsUrl,
-    this.organizationsUrl,
-    this.reposUrl,
-    this.eventsUrl,
-    this.receivedEventsUrl,
-    this.type,
-    this.siteAdmin,
-  });
-
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
-
-  Assignee copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
-  }) =>
-      Assignee(
-        login: login ?? this.login,
-        id: id ?? this.id,
-        nodeId: nodeId ?? this.nodeId,
-        avatarUrl: avatarUrl ?? this.avatarUrl,
-        gravatarId: gravatarId ?? this.gravatarId,
-        url: url ?? this.url,
-        htmlUrl: htmlUrl ?? this.htmlUrl,
-        followersUrl: followersUrl ?? this.followersUrl,
-        followingUrl: followingUrl ?? this.followingUrl,
-        gistsUrl: gistsUrl ?? this.gistsUrl,
-        starredUrl: starredUrl ?? this.starredUrl,
-        subscriptionsUrl: subscriptionsUrl ?? this.subscriptionsUrl,
-        organizationsUrl: organizationsUrl ?? this.organizationsUrl,
-        reposUrl: reposUrl ?? this.reposUrl,
-        eventsUrl: eventsUrl ?? this.eventsUrl,
-        receivedEventsUrl: receivedEventsUrl ?? this.receivedEventsUrl,
-        type: type ?? this.type,
-        siteAdmin: siteAdmin ?? this.siteAdmin,
-      );
-
-  factory Assignee.fromRawJson(String str) =>
-      Assignee.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Assignee.fromJson(Map<String, dynamic> json) => Assignee(
-        login: json["login"] == null ? null : json["login"],
-        id: json["id"] == null ? null : json["id"],
-        nodeId: json["node_id"] == null ? null : json["node_id"],
-        avatarUrl: json["avatar_url"] == null ? null : json["avatar_url"],
-        gravatarId: json["gravatar_id"] == null ? null : json["gravatar_id"],
-        url: json["url"] == null ? null : json["url"],
-        htmlUrl: json["html_url"] == null ? null : json["html_url"],
-        followersUrl:
-            json["followers_url"] == null ? null : json["followers_url"],
-        followingUrl:
-            json["following_url"] == null ? null : json["following_url"],
-        gistsUrl: json["gists_url"] == null ? null : json["gists_url"],
-        starredUrl: json["starred_url"] == null ? null : json["starred_url"],
-        subscriptionsUrl: json["subscriptions_url"] == null
-            ? null
-            : json["subscriptions_url"],
-        organizationsUrl: json["organizations_url"] == null
-            ? null
-            : json["organizations_url"],
-        reposUrl: json["repos_url"] == null ? null : json["repos_url"],
-        eventsUrl: json["events_url"] == null ? null : json["events_url"],
-        receivedEventsUrl: json["received_events_url"] == null
-            ? null
-            : json["received_events_url"],
-        type: json["type"] == null ? null : json["type"],
-        siteAdmin: json["site_admin"] == null ? null : json["site_admin"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "login": login == null ? null : login,
-        "id": id == null ? null : id,
-        "node_id": nodeId == null ? null : nodeId,
-        "avatar_url": avatarUrl == null ? null : avatarUrl,
-        "gravatar_id": gravatarId == null ? null : gravatarId,
-        "url": url == null ? null : url,
-        "html_url": htmlUrl == null ? null : htmlUrl,
-        "followers_url": followersUrl == null ? null : followersUrl,
-        "following_url": followingUrl == null ? null : followingUrl,
-        "gists_url": gistsUrl == null ? null : gistsUrl,
-        "starred_url": starredUrl == null ? null : starredUrl,
-        "subscriptions_url": subscriptionsUrl == null ? null : subscriptionsUrl,
-        "organizations_url": organizationsUrl == null ? null : organizationsUrl,
-        "repos_url": reposUrl == null ? null : reposUrl,
-        "events_url": eventsUrl == null ? null : eventsUrl,
-        "received_events_url":
-            receivedEventsUrl == null ? null : receivedEventsUrl,
-        "type": type == null ? null : type,
-        "site_admin": siteAdmin == null ? null : siteAdmin,
       };
 }
 
@@ -434,10 +298,10 @@ class Milestone {
   int number;
   String title;
   String description;
-  Assignee creator;
+  UserInfoModel creator;
   int openIssues;
   int closedIssues;
-  String state;
+  IssueState state;
   DateTime createdAt;
   DateTime updatedAt;
   DateTime dueOn;
@@ -452,10 +316,10 @@ class Milestone {
     int number,
     String title,
     String description,
-    Assignee creator,
+    UserInfoModel creator,
     int openIssues,
     int closedIssues,
-    String state,
+    IssueState state,
     DateTime createdAt,
     DateTime updatedAt,
     DateTime dueOn,
@@ -494,12 +358,13 @@ class Milestone {
         number: json["number"] == null ? null : json["number"],
         title: json["title"] == null ? null : json["title"],
         description: json["description"] == null ? null : json["description"],
-        creator:
-            json["creator"] == null ? null : Assignee.fromJson(json["creator"]),
+        creator: json["creator"] == null
+            ? null
+            : UserInfoModel.fromJson(json["creator"]),
         openIssues: json["open_issues"] == null ? null : json["open_issues"],
         closedIssues:
             json["closed_issues"] == null ? null : json["closed_issues"],
-        state: json["state"] == null ? null : json["state"],
+        state: json["state"] == null ? null : stateValues.map[json["state"]],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -522,10 +387,32 @@ class Milestone {
         "creator": creator == null ? null : creator.toJson(),
         "open_issues": openIssues == null ? null : openIssues,
         "closed_issues": closedIssues == null ? null : closedIssues,
-        "state": state == null ? null : state,
+        "state": state == null ? null : stateValues.reverse[state],
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "due_on": dueOn == null ? null : dueOn.toIso8601String(),
         "closed_at": closedAt,
       };
+}
+
+enum IssueState { CLOSED, OPEN, REOPENED }
+
+final stateValues = EnumValues({
+  "closed": IssueState.CLOSED,
+  "open": IssueState.OPEN,
+  "reopened": IssueState.REOPENED
+});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

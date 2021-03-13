@@ -34,7 +34,7 @@ class CommitInfoButton extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      ProfileImage(
+                      ProfileInfo(
                         value.tree.last.commit.author?.avatarUrl ?? '',
                         size: 13,
                       ),

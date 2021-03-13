@@ -34,7 +34,7 @@ class CommitDetails extends StatelessWidget {
             'Made by',
             child: Row(
               children: [
-                ProfileImage(
+                ProfileInfo(
                   _commit.commit.author.avatarUrl,
                   size: 30,
                 ),

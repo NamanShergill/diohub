@@ -43,7 +43,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ProfileImage(
+                ProfileInfo(
                   data.avatarUrl,
                   size: 50,
                 ),
@@ -121,7 +121,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ProfileImage(data.avatarUrl),
+              ProfileInfo(data.avatarUrl),
               SizedBox(
                 width: 8,
               ),

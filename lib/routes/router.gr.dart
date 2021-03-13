@@ -5,9 +5,10 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/material.dart' as _i10;
+import 'package:flutter/material.dart' as _i11;
 
 import '../view/home/widgets/search_overlay.dart' as _i3;
+import '../view/issues/issue_screen.dart' as _i10;
 import '../view/landing/widgets/landing_auth_wrapper.dart' as _i2;
 import '../view/profile/other_user_profile_screen.dart' as _i9;
 import '../view/repository/code/file_viewer.dart' as _i5;
@@ -92,6 +93,14 @@ class AppRouter extends _i1.RootStackRouter {
           child: _i9.OtherUserProfileScreen(route.login),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
+    },
+    IssueScreenRoute.name: (entry) {
+      var route = entry.routeData.as<IssueScreenRoute>();
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i10.IssueScreen(route.issueURL),
+          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+          durationInMilliseconds: 250);
     }
   };
 
@@ -124,7 +133,10 @@ class AppRouter extends _i1.RootStackRouter {
             OtherUserProfileScreenRoute.name,
             path: '/other-user-profile-screen',
             routeBuilder: (match) =>
-                OtherUserProfileScreenRoute.fromMatch(match))
+                OtherUserProfileScreenRoute.fromMatch(match)),
+        _i1.RouteConfig<IssueScreenRoute>(IssueScreenRoute.name,
+            path: '/issue-screen',
+            routeBuilder: (match) => IssueScreenRoute.fromMatch(match))
       ];
 }
 
@@ -135,7 +147,7 @@ class LandingAuthWrapperScreenRoute extends _i1.PageRouteInfo {
       : key = null,
         super.fromMatch(match);
 
-  final _i10.Key key;
+  final _i11.Key key;
 
   static const String name = 'LandingAuthWrapperScreenRoute';
 }
@@ -169,7 +181,7 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
 
   final int index;
 
-  final _i10.Key key;
+  final _i11.Key key;
 
   final String initSHA;
 
@@ -211,7 +223,7 @@ class CommitInfoScreenRoute extends _i1.PageRouteInfo {
         commitURL = null,
         super.fromMatch(match);
 
-  final _i10.Key key;
+  final _i11.Key key;
 
   final String commitURL;
 
@@ -226,7 +238,7 @@ class WikiViewerRoute extends _i1.PageRouteInfo {
         repoURL = null,
         super.fromMatch(match);
 
-  final _i10.Key key;
+  final _i11.Key key;
 
   final String repoURL;
 
@@ -263,4 +275,16 @@ class OtherUserProfileScreenRoute extends _i1.PageRouteInfo {
   final String login;
 
   static const String name = 'OtherUserProfileScreenRoute';
+}
+
+class IssueScreenRoute extends _i1.PageRouteInfo {
+  IssueScreenRoute({this.issueURL}) : super(name, path: '/issue-screen');
+
+  IssueScreenRoute.fromMatch(_i1.RouteMatch match)
+      : issueURL = null,
+        super.fromMatch(match);
+
+  final String issueURL;
+
+  static const String name = 'IssueScreenRoute';
 }

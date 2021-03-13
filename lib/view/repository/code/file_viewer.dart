@@ -7,11 +7,11 @@ import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:mime/mime.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
+import 'package:onehub/common/markdown_body.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/parse_base64.dart';
-import 'package:onehub/view/repository/readme/repository_readme.dart';
 
 class FileViewerAPI extends StatefulWidget {
   final String repoURL;
@@ -179,7 +179,7 @@ class _TextViewerState extends State<TextViewer> {
         if (fileType == 'md')
           return SingleChildScrollView(
             child: MarkdownBody(md.markdownToHtml(content.join('\n')),
-                widget.branch, widget.repoName),
+                branch: widget.branch, repo: widget.repoName),
           );
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,

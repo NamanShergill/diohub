@@ -46,7 +46,7 @@ class BaseEventCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ProfileImage(
+                  ProfileInfo(
                     avatarUrl,
                     userLogin: userLogin,
                   ),

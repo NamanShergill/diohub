@@ -76,7 +76,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         ),
                         Row(
                           children: [
-                            ProfileImage(
+                            ProfileInfo(
                               widget.item.author.avatarUrl,
                               size: 13,
                             ),

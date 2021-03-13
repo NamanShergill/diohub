@@ -38,7 +38,6 @@ class RepositoryProvider extends BaseProvider {
     _url = url;
     statusController.add(Status.loading);
     try {
-      print(_url);
       _repository = await RepositoryServices.fetchRepository(url);
       statusController.add(Status.loaded);
     } catch (e) {

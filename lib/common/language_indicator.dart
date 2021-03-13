@@ -9,6 +9,7 @@ class LanguageIndicator extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(size / 6),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(

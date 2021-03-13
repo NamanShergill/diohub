@@ -98,7 +98,7 @@ class ScrollViewAppBar extends StatelessWidget {
         ),
       ),
       bottom: PreferredSize(
-        preferredSize: Size.fromHeight(bottomPadding),
+        preferredSize: Size.fromHeight(bottomPadding ?? 0),
         child: Container(
           color: AppColor.background,
           child: Column(

@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/textStyles.dart';
+import 'package:onehub/utils/get_date.dart';
 
 import 'language_indicator.dart';
 
@@ -33,7 +34,18 @@ class RepositoryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
+                    Visibility(
+                        visible: repo.private,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Icon(
+                            Octicons.lock,
+                            color: AppColor.grey3,
+                            size: 12,
+                          ),
+                        )),
                     Text(
                       repo.name,
                       style: AppThemeTextStyles.eventCardChildTitle,
@@ -66,18 +78,24 @@ class RepositoryCard extends StatelessWidget {
                 SizedBox(
                   height: 8,
                 ),
-                Text(
-                  repo.description != null
-                      ? repo.description.length > 100
-                          ? repo.description.substring(0, 100) + '...'
-                          : repo.description ?? 'No description.'
-                      : 'No description.',
-                  style: AppThemeTextStyles.eventCardChildSubtitle,
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        repo.description != null
+                            ? repo.description.length > 100
+                                ? repo.description.substring(0, 100) + '...'
+                                : repo.description ?? 'No description.'
+                            : 'No description.',
+                        style: AppThemeTextStyles.eventCardChildSubtitle,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                Row(
+                Wrap(
                   children: [
                     LanguageIndicator(
                       repo.language,
@@ -87,6 +105,7 @@ class RepositoryCard extends StatelessWidget {
                       width: 16,
                     ),
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
@@ -106,7 +125,7 @@ class RepositoryCard extends StatelessWidget {
                       width: 16,
                     ),
                     Text(
-                      'Updated ${DateFormat('MMM d').format(repo.updatedAt)}',
+                      'Updated ${getDate(repo.updatedAt.toString(), shorten: false)}',
                       style: AppThemeTextStyles.eventCardChildFooter,
                     ),
                   ],
