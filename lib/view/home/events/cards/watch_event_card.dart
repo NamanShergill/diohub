@@ -28,6 +28,7 @@ class WatchEventCard extends StatelessWidget {
             text: event.repo.name,
             style: TextStyle(fontWeight: FontWeight.bold)),
       ],
+      userLogin: event.actor.login,
       date: event.createdAt,
       avatarUrl: event.actor.avatarUrl,
       childPadding: EdgeInsets.all(24),

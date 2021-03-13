@@ -38,10 +38,11 @@ class RepositoryProvider extends BaseProvider {
     _url = url;
     statusController.add(Status.loading);
     try {
+      print(_url);
       _repository = await RepositoryServices.fetchRepository(url);
       statusController.add(Status.loaded);
     } catch (e) {
-      error = e.message ?? 'Something went wrong.';
+      error = e.toString() ?? 'Something went wrong.';
       statusController.add(Status.error);
     }
   }

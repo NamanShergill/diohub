@@ -3,7 +3,10 @@ import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/app_scroll_view.dart';
 import 'package:onehub/common/profile_image.dart';
 import 'package:onehub/models/users/user_info_model.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/profile/about/about_user.dart';
+import 'package:onehub/view/profile/overview/user_overview_screen.dart';
+import 'package:onehub/view/profile/repositories/user_repositories.dart';
 
 class UserProfileScreen<T extends UserInfoModel> extends StatefulWidget {
   final bool isCurrentUser;
@@ -27,6 +30,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
   @override
   Widget build(BuildContext context) {
     return AppScrollView(
+      childrenColor: AppColor.background,
       scrollViewAppBar: ScrollViewAppBar(
         tabController: tabController,
         bottomPadding: 0,
@@ -37,7 +41,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ProfileImage(
                   data.avatarUrl,
@@ -50,17 +54,18 @@ class _UserProfileScreenState<T extends UserInfoModel>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.name,
+                      data.name ?? data.login,
                       style: Theme.of(context)
                           .textTheme
                           .headline5
                           .copyWith(fontSize: 18),
                     ),
-                    Text(
-                      data.login,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          fontSize: 15, fontWeight: FontWeight.normal),
-                    ),
+                    if (data.name != null)
+                      Text(
+                        data.login,
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                            fontSize: 15, fontWeight: FontWeight.normal),
+                      ),
                   ],
                 )
               ],
@@ -135,8 +140,11 @@ class _UserProfileScreenState<T extends UserInfoModel>
       tabController: tabController,
       tabViews: [
         AboutUser(data),
-        Container(),
-        Container(),
+        UserOverviewScreen(data),
+        UserRepositories(
+          data,
+          currentUser: widget.isCurrentUser,
+        ),
         Container(),
       ],
     );

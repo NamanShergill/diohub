@@ -31,13 +31,9 @@ class BranchSelectSheet extends StatelessWidget {
             listEndIndicator: false,
             divider: false,
             firstDivider: false,
-            future: (int pageNumber, int perPage) {
+            future: (int pageNumber, int perPage, refresh, _) {
               return RepositoryServices.fetchBranchList(
-                  repoURL, pageNumber, perPage);
-            },
-            refreshFuture: (int pageNumber, int perPage) {
-              return RepositoryServices.fetchBranchList(
-                  repoURL, pageNumber, perPage, true);
+                  repoURL, pageNumber, perPage, refresh);
             },
             builder: (context, item, index) {
               return Padding(

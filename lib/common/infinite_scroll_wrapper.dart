@@ -10,7 +10,8 @@ class InfiniteScrollWrapperController {
   void Function() refresh;
 }
 
-typedef ScrollWrapperFuture(int pageNumber, int pageSize);
+typedef ScrollWrapperFuture<T>(
+    int pageNumber, int pageSize, bool refresh, T lastItem);
 typedef ScrollWrapperBuilder<T>(BuildContext context, T item, int index);
 
 /// A wrapper designed to show infinite pagination.
@@ -21,11 +22,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
   /// The future to fetch data to display from.
   /// Gives you the current [pageNumber] and [pageSize], in that order.
-  final ScrollWrapperFuture future;
-
-  /// The future to fetch data to display from if the page is refreshed.
-  /// Gives you the current [pageNumber] and [pageSize], in that order.
-  final ScrollWrapperFuture refreshFuture;
+  final ScrollWrapperFuture<T> future;
 
   /// Total number of elements in each page. Default value is **10**.
   final int pageSize;
@@ -59,7 +56,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       {Key key,
       this.future,
       this.builder,
-      this.refreshFuture,
       this.controller,
       this.filterFn,
       this.header,
@@ -117,9 +113,8 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       // Use the supplied APIs accordingly, based on the *refresh* value.
-      final newItems = refresh
-          ? await widget.refreshFuture(pageNumber, widget.pageSize)
-          : await widget.future(pageNumber, widget.pageSize);
+      final newItems = await widget.future(pageNumber, widget.pageSize, refresh,
+          _pagingController?.itemList?.last);
       // Check if it is the last page of results.
       final isLastPage = newItems.length < widget.pageSize;
       var filteredItems;

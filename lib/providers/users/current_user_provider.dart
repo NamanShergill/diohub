@@ -4,7 +4,7 @@ import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/base_popup_notification.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
 import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/services/users/current_user_service.dart';
+import 'package:onehub/services/users/user_info_service.dart';
 import 'package:onehub/utils/internet_connectivity.dart';
 
 class CurrentUserProvider extends BaseProvider {
@@ -71,7 +71,7 @@ class CurrentUserProvider extends BaseProvider {
     statusController.add(Status.loading);
     try {
       _currentUserInfo =
-          await CurrentUserService.getCurrentUserInfo().then((value) {
+          await UserInfoService.getCurrentUserInfo().then((value) {
         if (value != null) {
           statusController.add(Status.loaded);
           return value;

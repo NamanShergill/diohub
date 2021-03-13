@@ -9,6 +9,7 @@ class BaseEventCard extends StatelessWidget {
   final Widget child;
   final String avatarUrl;
   final String actor;
+  final String userLogin;
   final EdgeInsets childPadding;
   final List<TextSpan> headerText;
   final List<TextSpan> _topText;
@@ -21,6 +22,7 @@ class BaseEventCard extends StatelessWidget {
       this.avatarUrl,
       this.headerText,
       this.onTap,
+      this.userLogin,
       this.date,
       this.childPadding = const EdgeInsets.all(16.0)})
       : _topText = [
@@ -44,7 +46,10 @@ class BaseEventCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ProfileImage(avatarUrl),
+                  ProfileImage(
+                    avatarUrl,
+                    userLogin: userLogin,
+                  ),
                   SizedBox(
                     width: 8,
                   ),

@@ -11,8 +11,8 @@ class AboutUser extends StatelessWidget {
   AboutUser(this.userInfoModel);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColor.background,
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
       child: Column(
         children: [
           SizedBox(
@@ -34,7 +34,7 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.twitter,
-                    color: AppColor.accent,
+                    color: AppColor.grey3,
                   ),
                   SizedBox(
                     width: 8,
@@ -50,7 +50,7 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.at,
-                    color: AppColor.accent,
+                    color: AppColor.grey3,
                   ),
                   SizedBox(
                     width: 8,
@@ -69,7 +69,7 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.blog,
-                    color: AppColor.accent,
+                    color: AppColor.grey3,
                   ),
                   SizedBox(
                     width: 8,
@@ -85,7 +85,7 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.building,
-                    color: AppColor.accent,
+                    color: AppColor.grey3,
                   ),
                   SizedBox(
                     width: 8,
@@ -101,7 +101,7 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.locationArrow,
-                    color: AppColor.accent,
+                    color: AppColor.grey3,
                   ),
                   SizedBox(
                     width: 8,
@@ -117,7 +117,7 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.calendar,
-                    color: AppColor.accent,
+                    color: AppColor.grey3,
                   ),
                   SizedBox(
                     width: 8,

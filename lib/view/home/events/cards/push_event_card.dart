@@ -24,6 +24,7 @@ class PushEventCard extends StatelessWidget {
             branch: data.ref.split('/').last,
             index: 1));
       },
+      userLogin: event.actor.login,
       date: event.createdAt,
       childPadding: EdgeInsets.all(8),
       actor: event.actor.login,

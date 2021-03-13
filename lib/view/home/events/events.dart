@@ -17,21 +17,13 @@ class Events extends StatelessWidget {
       firstDivider: false,
       topSpacing: 24,
       spacing: 32,
-      future: (pageNumber, pageSize) {
+      future: (pageNumber, pageSize, refresh, _) {
         if (privateEvents)
           return EventsService.getReceivedEvents(_user.currentUserInfo.login,
-              page: pageNumber, perPage: pageSize);
+              page: pageNumber, perPage: pageSize, refresh: refresh);
         else
           return EventsService.getPublicEvents(_user.currentUserInfo.login,
-              page: pageNumber, perPage: pageSize);
-      },
-      refreshFuture: (pageNumber, pageSize) {
-        if (privateEvents)
-          return EventsService.getReceivedEvents(_user.currentUserInfo.login,
-              page: pageNumber, perPage: pageSize, refresh: true);
-        else
-          return EventsService.getPublicEvents(_user.currentUserInfo.login,
-              page: pageNumber, perPage: pageSize, refresh: true);
+              page: pageNumber, perPage: pageSize, refresh: refresh);
       },
       builder: (context, EventsModel item, index) {
         return Padding(

@@ -12,14 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
   auto_route: ^1.0.0-beta.10
-  another_flushbar: ^1.10.14
+  another_flushbar: ^1.10.15
   cached_network_image: ^2.5.1
   connectivity: ^3.0.2
   dio_http_cache: ^0.2.11
   dio: ^3.0.10
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0-nullsafety.4
-  flutter_countdown_timer: ^3.0.1
+  flutter_countdown_timer: ^4.0.0
   flutter_highlight:
     git:
       url: https://github.com/NamanShergill/onehub_highlight.dart.git
@@ -39,7 +39,8 @@ dependencies:
     git:
       url: https://github.com/NamanShergill/onehub_google_nav_bar.git
       ref: master
-  infinite_scroll_pagination: ^3.0.0-nullsafety.0
+  graphql: ^4.0.1
+  infinite_scroll_pagination: ^3.0.1
   intl: ^0.17.0
   line_icons: ^2.0.1
   logger: ^1.0.0-nullsafety.0
@@ -50,7 +51,7 @@ dependencies:
   path_provider: ^2.0.1
   pretty_dio_logger: ^1.1.1
   provider: ^5.0.0
-  share: ^2.0.0
+  share: ^2.0.1
   shimmer: ^2.0.0-nullsafety.0
   snapping_sheet: ^2.0.2
   url_launcher: ^6.0.2
@@ -65,7 +66,7 @@ dev_dependencies:
   build_runner: ^1.11.5
 
 dependency_overrides:
-  xml: ^5.0.0-nullsafety.0
+  xml: ^5.0.2
   args: ^2.0.0
   quiver: ^3.0.0-nullsafety.3
   url_launcher: ^6.0.2

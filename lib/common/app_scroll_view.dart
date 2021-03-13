@@ -10,10 +10,12 @@ class AppScrollView extends StatelessWidget {
   final List<Widget> tabViews;
   final bool loading;
   final TabController tabController;
+  final Color childrenColor;
   AppScrollView(
       {this.scrollViewAppBar,
       this.tabController,
       this.tabViews,
+      this.childrenColor = AppColor.onBackground,
       this.loading = false});
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class AppScrollView extends StatelessWidget {
         duration: Duration(milliseconds: 50),
         child: loading
             ? Container(
-                color: AppColor.onBackground,
+                color: childrenColor,
                 child: Column(
                   children: [
                     Padding(
@@ -43,7 +45,7 @@ class AppScrollView extends StatelessWidget {
                   ],
                 ))
             : Container(
-                color: AppColor.onBackground,
+                color: childrenColor,
                 child: TabBarView(
                   controller: tabController,
                   children: List.generate(

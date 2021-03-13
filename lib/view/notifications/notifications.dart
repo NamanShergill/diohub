@@ -193,17 +193,11 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         child: InfiniteScrollWrapper<NotificationModel>(
                           controller: _controller,
                           spacing: 0,
-                          future: (pageNumber, pageSize) {
+                          future: (pageNumber, pageSize, refresh, _) {
                             return NotificationsService.getNotifications(
                                 page: pageNumber,
                                 perPage: pageSize,
-                                filters: apiFilters);
-                          },
-                          refreshFuture: (pageNumber, pageSize) {
-                            return NotificationsService.getNotifications(
-                                page: pageNumber,
-                                perPage: pageSize,
-                                refresh: true,
+                                refresh: refresh,
                                 filters: apiFilters);
                           },
                           filterFn: (List<NotificationModel> list) {

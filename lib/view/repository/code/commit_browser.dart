@@ -131,28 +131,16 @@ class _CommitBrowserState extends State<CommitBrowser> {
                 height: _media.height * 0.8,
                 child: InfiniteScrollWrapper<CommitListModel>(
                   controller: controller,
-                  future: (pageNumber, pageSize) {
-                    return RepositoryServices.getCommitsList(
-                      repoURL: widget.repoURL,
-                      pageNumber: pageNumber,
-                      pageSize: pageSize,
-                      path: path.join('/'),
-                      sha: isLocked ? widget.currentSHA : widget.branchName,
-                    );
-                  },
-                  divider: false,
-                  refreshFuture: (pageNumber, pageSize) {
-                    setState(() {
-                      isLocked = false;
-                    });
+                  future: (pageNumber, pageSize, refresh, _) {
                     return RepositoryServices.getCommitsList(
                         repoURL: widget.repoURL,
                         pageNumber: pageNumber,
                         pageSize: pageSize,
                         path: path.join('/'),
-                        sha: widget.branchName,
-                        refresh: true);
+                        sha: isLocked ? widget.currentSHA : widget.branchName,
+                        refresh: refresh);
                   },
+                  divider: false,
                   builder: (context, item, index) {
                     return CommitBrowserTiles(
                       highlighted: isLocked && widget.currentSHA == item.sha,

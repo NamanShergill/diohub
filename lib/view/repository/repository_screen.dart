@@ -133,7 +133,10 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         collapsedHeight: 150,
                         appBarWidget: Row(
                           children: [
-                            ProfileImage(_repo.owner.avatarUrl),
+                            ProfileImage(
+                              _repo.owner.avatarUrl,
+                              userLogin: _repo.owner.login,
+                            ),
                             SizedBox(
                               width: 8,
                             ),
@@ -165,17 +168,10 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                 SizedBox(
                                   height: AppBar().preferredSize.height,
                                 ),
-                                Row(
-                                  children: [
-                                    ProfileImage(_repo.owner.avatarUrl),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      _repo.owner.login,
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ],
+                                ProfileImage(
+                                  _repo.owner.avatarUrl,
+                                  userLogin: _repo.owner.login,
+                                  extended: true,
                                 ),
                                 SizedBox(
                                   height: 8,

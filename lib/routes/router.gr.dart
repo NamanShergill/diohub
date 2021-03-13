@@ -5,10 +5,11 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 
 import '../view/home/widgets/search_overlay.dart' as _i3;
 import '../view/landing/widgets/landing_auth_wrapper.dart' as _i2;
+import '../view/profile/other_user_profile_screen.dart' as _i9;
 import '../view/repository/code/file_viewer.dart' as _i5;
 import '../view/repository/commits/commit_info_screen.dart' as _i6;
 import '../view/repository/commits/widgets/changes_viewer.dart' as _i8;
@@ -83,6 +84,14 @@ class AppRouter extends _i1.RootStackRouter {
               _i8.ChangesViewer(route.patch, route.contentURL, route.fileType),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
+    },
+    OtherUserProfileScreenRoute.name: (entry) {
+      var route = entry.routeData.as<OtherUserProfileScreenRoute>();
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i9.OtherUserProfileScreen(route.login),
+          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+          durationInMilliseconds: 250);
     }
   };
 
@@ -110,7 +119,12 @@ class AppRouter extends _i1.RootStackRouter {
             routeBuilder: (match) => WikiViewerRoute.fromMatch(match)),
         _i1.RouteConfig<ChangesViewerRoute>(ChangesViewerRoute.name,
             path: '/changes-viewer',
-            routeBuilder: (match) => ChangesViewerRoute.fromMatch(match))
+            routeBuilder: (match) => ChangesViewerRoute.fromMatch(match)),
+        _i1.RouteConfig<OtherUserProfileScreenRoute>(
+            OtherUserProfileScreenRoute.name,
+            path: '/other-user-profile-screen',
+            routeBuilder: (match) =>
+                OtherUserProfileScreenRoute.fromMatch(match))
       ];
 }
 
@@ -121,7 +135,7 @@ class LandingAuthWrapperScreenRoute extends _i1.PageRouteInfo {
       : key = null,
         super.fromMatch(match);
 
-  final _i9.Key key;
+  final _i10.Key key;
 
   static const String name = 'LandingAuthWrapperScreenRoute';
 }
@@ -155,7 +169,7 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
 
   final int index;
 
-  final _i9.Key key;
+  final _i10.Key key;
 
   final String initSHA;
 
@@ -197,7 +211,7 @@ class CommitInfoScreenRoute extends _i1.PageRouteInfo {
         commitURL = null,
         super.fromMatch(match);
 
-  final _i9.Key key;
+  final _i10.Key key;
 
   final String commitURL;
 
@@ -212,7 +226,7 @@ class WikiViewerRoute extends _i1.PageRouteInfo {
         repoURL = null,
         super.fromMatch(match);
 
-  final _i9.Key key;
+  final _i10.Key key;
 
   final String repoURL;
 
@@ -236,4 +250,17 @@ class ChangesViewerRoute extends _i1.PageRouteInfo {
   final String fileType;
 
   static const String name = 'ChangesViewerRoute';
+}
+
+class OtherUserProfileScreenRoute extends _i1.PageRouteInfo {
+  OtherUserProfileScreenRoute({this.login})
+      : super(name, path: '/other-user-profile-screen');
+
+  OtherUserProfileScreenRoute.fromMatch(_i1.RouteMatch match)
+      : login = null,
+        super.fromMatch(match);
+
+  final String login;
+
+  static const String name = 'OtherUserProfileScreenRoute';
 }

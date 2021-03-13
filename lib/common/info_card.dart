@@ -6,7 +6,9 @@ class InfoCard extends StatelessWidget {
   final String title;
   final Widget child;
   final Function onTap;
-  InfoCard(this.title, {this.child, this.onTap});
+  final Color color;
+  InfoCard(this.title,
+      {this.child, this.onTap, this.color = AppColor.onBackground});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,7 +16,7 @@ class InfoCard extends StatelessWidget {
       child: Material(
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: AppColor.onBackground,
+        color: color,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: onTap,
@@ -36,7 +38,7 @@ class InfoCard extends StatelessWidget {
                       SizedBox(
                         height: 16,
                       ),
-                      child,
+                      child ?? Container(),
                     ],
                   ),
                 ),
