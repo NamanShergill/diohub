@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/animations/fade_animation_widget.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/style/colors.dart';
 
 class CardFooter extends StatelessWidget {
@@ -16,7 +16,7 @@ class CardFooter extends StatelessWidget {
         children: [
           Opacity(
             opacity: unread ? 1 : 0.7,
-            child: ProfileInfo(
+            child: ProfileTile(
               avatarUrl,
               size: 20,
             ),

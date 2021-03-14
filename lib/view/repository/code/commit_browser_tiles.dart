@@ -5,7 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/models/repositories/commit_list_model.dart';
 import 'package:onehub/routes/router.gr.dart';
@@ -76,7 +76,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         ),
                         Row(
                           children: [
-                            ProfileInfo(
+                            ProfileTile(
                               widget.item.author.avatarUrl,
                               size: 13,
                             ),

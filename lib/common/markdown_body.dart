@@ -5,17 +5,46 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/image_loader.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
-class MarkdownBody extends StatelessWidget {
+class MarkdownBodyController {
+  void Function(String string) update;
+}
+
+class MarkdownBody extends StatefulWidget {
   final String content;
   final String repo;
   final String branch;
-  MarkdownBody(this.content, {this.branch, this.repo});
+  final MarkdownBodyController controller;
+  MarkdownBody(this.content, {this.branch, this.repo, this.controller});
+
+  @override
+  _MarkdownBodyState createState() => _MarkdownBodyState(controller);
+}
+
+class _MarkdownBodyState extends State<MarkdownBody> {
+  _MarkdownBodyState(MarkdownBodyController controller) {
+    if (controller != null) controller.update = updateData;
+  }
+  String content;
+
+  @override
+  void initState() {
+    content = md.markdownToHtml(widget.content);
+    super.initState();
+  }
+
+  void updateData(String data) {
+    setState(() {
+      content = md.markdownToHtml(data);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Html(
@@ -29,11 +58,43 @@ class MarkdownBody extends StatelessWidget {
         'blockquote': Style(padding: EdgeInsets.zero, margin: EdgeInsets.zero),
       },
       customRender: {
+        // Todo: Add regex for mentioned users later.
+        // 'p': (RenderContext context, Widget child,
+        //     Map<String, String> attributes, data) {
+        //   print(data.nodes);
+        //
+        //   List widgets = [];
+        //   for (var node in data.nodes) {
+        //     // print(node.runtimeType);
+        //     // print(node.nodeType.toString() + node.);
+        //     if (node is dom.Text) {
+        //       print('sldn sd' + node.text);
+        //       widgets.add(TextSpan(text: 'kjdn sd'));
+        //     } else {
+        //       node.
+        //       widgets.add(node.sourceSpan);
+        //     }
+        //   }
+        //   return Text.rich(TextSpan(
+        //       children:
+        //           List.generate(widgets.length, (index) => widgets[index])));
+        // if (data.text.contains(RegExp(r'(?=@)'))) {
+        //                                  RegExp exp = RegExp(r'(?=@)');
+        //                                  print(data.text.splitWithDelim(exp));
+        //                                  return Wrap(
+        //                                    children: [
+        //                                      child,
+        //                                    ],
+        //                                  );
+        //                                };
+        // return child;
+        // },
         'img': (RenderContext renderContext, Widget child,
             Map<String, String> attributes, data) {
           String src = attributes['src'];
           if (!src.startsWith('https://') && !src.startsWith('http://'))
-            src = 'https://raw.githubusercontent.com/$repo/$branch/$src';
+            src =
+                'https://raw.githubusercontent.com/${widget.repo}/${widget.branch}/$src';
           if (src.split('.').last.contains('svg'))
             return SvgPicture.network(
               src,
@@ -125,11 +186,11 @@ class MarkdownBody extends StatelessWidget {
           return Container(
             padding: EdgeInsets.only(left: 12),
             decoration: BoxDecoration(
-                border:
-                    Border(left: BorderSide(color: AppColor.grey3, width: 2))),
+                border: Border(
+                    left: BorderSide(color: Colors.grey.shade400, width: 2))),
             child: Text(
               data.text.trim(),
-              style: TextStyle(color: AppColor.grey3, fontSize: 12),
+              style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
             ),
           );
         }

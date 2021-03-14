@@ -46,6 +46,10 @@ dependencies:
   line_icons: ^2.0.1
   logger: ^1.0.0-nullsafety.0
   markdown: ^4.0.0
+  markdown_editable_textinput:
+    git:
+      url: https://github.com/NamanShergill/onehub_markdown-editable-textinput
+      ref: master
   mime: ^1.0.0
   page_transition: ^1.1.7+6
   path: ^1.8.0

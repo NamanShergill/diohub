@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
+import 'package:onehub/providers/issue/issue_provider.dart';
 import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/issues/widgets/discussion_comment.dart';
+import 'package:onehub/view/issues_pulls/widgets/comment_box.dart';
+import 'package:onehub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:provider/provider.dart';
 
 class IssueDiscussion extends StatefulWidget {
-  final IssueModel issueModel;
-  IssueDiscussion(this.issueModel);
+  IssueDiscussion();
 
   @override
   _IssueDiscussionState createState() => _IssueDiscussionState();
@@ -21,11 +22,9 @@ class _IssueDiscussionState extends State<IssueDiscussion>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
-  bool commentBoxExpanded = false;
-
   @override
   Widget build(BuildContext context) {
+    final _issue = Provider.of<IssueProvider>(context);
     super.build(context);
     return Stack(
       children: [
@@ -45,7 +44,7 @@ class _IssueDiscussionState extends State<IssueDiscussion>
         InfiniteScrollWrapper<IssuesTimelineEventModel>(
           future: (pageNumber, pageSize, refresh, _) {
             return IssuesService.getIssueTimeline(
-                widget.issueModel.url, pageSize, pageNumber, refresh);
+                _issue.issueModel.url, pageSize, pageNumber, refresh);
           },
           firstPageLoadingBuilder: (context) {
             return Container(
@@ -81,11 +80,13 @@ class _IssueDiscussionState extends State<IssueDiscussion>
                   height: 16,
                 ),
                 DiscussionComment(IssuesTimelineEventModel(
-                    createdAt: widget.issueModel.createdAt,
+                    createdAt: _issue.issueModel.createdAt,
                     event: Event.commented,
-                    user: widget.issueModel.user,
+                    user: _issue.issueModel.user,
                     authorAssociation: AuthorAssociation.NONE,
-                    body: widget.issueModel.body)),
+                    body: _issue.issueModel.body.isNotEmpty
+                        ? _issue.issueModel.body
+                        : "No description provided.")),
               ],
             );
           },
@@ -108,49 +109,66 @@ class _IssueDiscussionState extends State<IssueDiscussion>
               Material(
                 elevation: 2,
                 color: AppColor.accent,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
                 child: InkWell(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),
                   onTap: () {
-                    setState(() {
-                      commentBoxExpanded = !commentBoxExpanded;
+                    showBottomActionsMenu(context,
+                        fullScreen: true,
+                        header: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Comment',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                        Icon(Icons.arrow_drop_down),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
+                        ), childWidget: (context) {
+                      return CommentBox();
                     });
                   },
                   child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    )),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Add a comment'),
+                          Text(
+                            'Add a comment',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: Icon(commentBoxExpanded
-                                ? Icons.arrow_drop_down
-                                : Icons.arrow_drop_up),
+                            child: Icon(
+                              Icons.comment_rounded,
+                              size: 16,
+                            ),
                           )
                         ],
                       ),
                     ),
                   ),
-                ),
-              ),
-              SizeExpandedSection(
-                expand: commentBoxExpanded,
-                child: Container(
-                  color: Colors.red,
-                  height: 400,
                 ),
               ),
             ],

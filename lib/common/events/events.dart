@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/common/events/cards/push_event_card.dart';
+import 'package:onehub/common/events/cards/watch_event_card.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/models/events/events_model.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/services/activity/events_service.dart';
-import 'package:onehub/view/home/events/cards/push_event_card.dart';
-import 'package:onehub/view/home/events/cards/watch_event_card.dart';
 import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {

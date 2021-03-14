@@ -17,6 +17,7 @@ class GetDio {
       bool loginRequired = true,
       bool debugLog = false,
       bool buttonLock = true,
+      bool showPopup = true,
       String acceptHeader}) {
     // Makes the buttons listening to this stream get disabled to prevent multiple taps.
     if (buttonLock) ButtonController.setButtonValue(true);
@@ -25,7 +26,6 @@ class GetDio {
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
         if (applyBaseURL) options.baseUrl = baseURL;
         options.headers["Accept"] = acceptHeader ?? "application/json";
-
         options.headers["setContentType"] = "application/json";
         if (loggedIn == false) {
           if (loginRequired) throw Exception('Not authenticated.');
@@ -55,7 +55,7 @@ class GetDio {
         if (buttonLock) ButtonController.setButtonValue(false);
         // If response contains a ['message'] key, show success popup to the user with the message.
         if (response.data.runtimeType.toString().contains('Map')) {
-          if (response.data.containsKey("message")) {
+          if (response.data.containsKey("message") && showPopup) {
             ResponseHandler.setSuccessMessage(
                 AppPopupData(title: response.data["message"]));
           }
@@ -71,7 +71,7 @@ class GetDio {
           throw Exception(error.message ?? 'Some error occurred.');
         }
         // If response contains a ['message'] key, show error popup to the user with the message.
-        else if (error.response.data.containsKey("message")) {
+        else if (error.response.data.containsKey("message") && showPopup) {
           ResponseHandler.setErrorMessage(
               AppPopupData(title: error.response.data['message']));
         }

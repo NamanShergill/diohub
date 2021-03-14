@@ -31,7 +31,7 @@ class _SlideExpandedSectionState extends State<SlideExpandedSection>
         duration:
             widget.duration ?? AppThemeAnimDurations.transitionAnimDuration);
     animation = Tween<Offset>(
-      begin: const Offset(1.5, 0.0),
+      begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: expandController,

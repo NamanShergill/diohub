@@ -71,7 +71,7 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
       axisAlignment: widget.axisAlignment,
       sizeFactor: animation,
       child: widget.child,
-      axis: widget.axis ?? Axis.vertical,
+      axis: widget.axis,
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:markdown/markdown.dart' hide Text;
 import 'package:onehub/common/markdown_body.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
@@ -24,7 +23,7 @@ class DiscussionComment extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    ProfileInfo(
+                    ProfileTile(
                       item.user.avatarUrl,
                       userLogin: item.user.login,
                       size: 30,
@@ -77,7 +76,7 @@ class DiscussionComment extends StatelessWidget {
             Divider(),
             Row(
               children: [
-                Flexible(child: MarkdownBody(markdownToHtml(item.body))),
+                Flexible(child: MarkdownBody(item.body)),
               ],
             ),
             // Todo: Add reactions later.

@@ -6,15 +6,17 @@ import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/issue/issue_provider.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
-import 'package:onehub/view/issues/issue_discussion.dart';
-import 'package:onehub/view/issues/issue_information.dart';
+import 'package:onehub/view/issues_pulls/issue_discussion.dart';
+import 'package:onehub/view/issues_pulls/issue_information.dart';
 import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {
   final String issueURL;
-  IssueScreen(this.issueURL);
+  final String repoURL;
+  IssueScreen(this.issueURL, this.repoURL);
 
   @override
   _IssueScreenState createState() => _IssueScreenState();
@@ -33,7 +35,12 @@ class _IssueScreenState extends State<IssueScreen>
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => IssueProvider(widget.issueURL),
+      create: (_) => IssueProvider(
+          widget.issueURL,
+          Provider.of<CurrentUserProvider>(context, listen: false)
+              .currentUserInfo
+              .login,
+          widget.repoURL),
       builder: (context, child) {
         return SafeArea(
           child: Consumer<IssueProvider>(
@@ -104,7 +111,8 @@ class _IssueScreenState extends State<IssueScreen>
                                                 IssueState.OPEN
                                             ? AppColor.success
                                             : AppColor.error,
-                                        fontSize: 18),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
                                     width: 8,
@@ -112,32 +120,11 @@ class _IssueScreenState extends State<IssueScreen>
                                   Text(
                                     '#${value.issueModel.number}',
                                     style: TextStyle(
-                                        color: AppColor.grey3, fontSize: 18),
+                                        color: AppColor.grey3, fontSize: 16),
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Text(value.issueModel.title.length > 45
-                                  ? value.issueModel.title.substring(0, 45) +
-                                      '...'
-                                  : value.issueModel.title),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Text(
-                                value.issueModel.state == IssueState.CLOSED
-                                    ? 'By ${value.issueModel.user.login}, closed ${getDate(value.issueModel.closedAt.toString())}.'
-                                    : 'Opened ${getDate(value.issueModel.createdAt.toString(), shorten: false)} by ${value.issueModel.user.login}',
-                                style: TextStyle(
-                                    color: AppColor.grey3, fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
+                                  SizedBox(
+                                    width: 24,
+                                  ),
                                   Icon(
                                     Octicons.comment,
                                     color: AppColor.grey3,
@@ -153,13 +140,42 @@ class _IssueScreenState extends State<IssueScreen>
                                   ),
                                 ],
                               ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                value.issueModel.title.length > 35
+                                    ? value.issueModel.title.substring(0, 35) +
+                                        '...'
+                                    : value.issueModel.title,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                value.issueModel.repositoryUrl.replaceFirst(
+                                    'https://api.github.com/repos/', ''),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                value.issueModel.state == IssueState.CLOSED
+                                    ? 'By ${value.issueModel.user.login}, closed ${getDate(value.issueModel.closedAt.toString())}.'
+                                    : 'Opened ${getDate(value.issueModel.createdAt.toString(), shorten: false)} by ${value.issueModel.user.login}',
+                                style: TextStyle(
+                                    color: AppColor.grey3, fontSize: 12),
+                              ),
                             ],
                           ),
                         ),
                         tabController: tabController,
                         tabViews: [
-                          IssueInformation(value.issueModel),
-                          IssueDiscussion(value.issueModel),
+                          IssueInformation(),
+                          IssueDiscussion(),
                         ],
                       );
                     },

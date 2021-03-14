@@ -21,7 +21,11 @@ class AboutUser extends StatelessWidget {
           if (userInfoModel.bio != null)
             InfoCard(
               'Bio',
-              child: Text(userInfoModel.bio),
+              child: Row(
+                children: [
+                  Text(userInfoModel.bio),
+                ],
+              ),
             ),
           if (userInfoModel.twitterUsername != null)
             InfoCard(

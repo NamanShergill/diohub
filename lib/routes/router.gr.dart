@@ -8,7 +8,7 @@ import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i11;
 
 import '../view/home/widgets/search_overlay.dart' as _i3;
-import '../view/issues/issue_screen.dart' as _i10;
+import '../view/issues_pulls/issue_screen.dart' as _i10;
 import '../view/landing/widgets/landing_auth_wrapper.dart' as _i2;
 import '../view/profile/other_user_profile_screen.dart' as _i9;
 import '../view/repository/code/file_viewer.dart' as _i5;
@@ -98,7 +98,7 @@ class AppRouter extends _i1.RootStackRouter {
       var route = entry.routeData.as<IssueScreenRoute>();
       return _i1.CustomPage(
           entry: entry,
-          child: _i10.IssueScreen(route.issueURL),
+          child: _i10.IssueScreen(route.issueURL, route.repoURL),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     }
@@ -278,13 +278,17 @@ class OtherUserProfileScreenRoute extends _i1.PageRouteInfo {
 }
 
 class IssueScreenRoute extends _i1.PageRouteInfo {
-  IssueScreenRoute({this.issueURL}) : super(name, path: '/issue-screen');
+  IssueScreenRoute({this.issueURL, this.repoURL})
+      : super(name, path: '/issue-screen');
 
   IssueScreenRoute.fromMatch(_i1.RouteMatch match)
       : issueURL = null,
+        repoURL = null,
         super.fromMatch(match);
 
   final String issueURL;
+
+  final String repoURL;
 
   static const String name = 'IssueScreenRoute';
 }

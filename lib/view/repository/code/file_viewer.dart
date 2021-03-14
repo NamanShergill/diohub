@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
-import 'package:markdown/markdown.dart' as md;
 import 'package:mime/mime.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/markdown_body.dart';
@@ -88,7 +87,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         ],
       ),
       body: APIWrapper<BlobModel>(
-        apiCall: GitDatabaseService.getBlob(
+        getCall: GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
           if (fileType != null && fileType.startsWith('image'))
@@ -178,7 +177,7 @@ class _TextViewerState extends State<TextViewer> {
       child: Builder(builder: (context) {
         if (fileType == 'md')
           return SingleChildScrollView(
-            child: MarkdownBody(md.markdownToHtml(content.join('\n')),
+            child: MarkdownBody(content.join('\n'),
                 branch: widget.branch, repo: widget.repoName),
           );
         return SingleChildScrollView(

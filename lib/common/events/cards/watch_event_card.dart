@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
+import 'package:onehub/common/events/cards/base_card.dart';
 import 'package:onehub/common/language_indicator.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/events/events_model.dart';
@@ -12,7 +13,6 @@ import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/services/repositories/repo_services.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/textStyles.dart';
-import 'package:onehub/view/home/events/cards/base_card.dart';
 
 class WatchEventCard extends StatelessWidget {
   // Todo: Add repo info fetch. API fetch wrapper needed?
@@ -44,7 +44,7 @@ class WatchEventCard extends StatelessWidget {
             style: AppThemeTextStyles.eventCardChildTitle,
           ),
           APIWrapper<RepositoryModel>(
-            apiCall: RepositoryServices.fetchRepository(event.repo.url),
+            getCall: RepositoryServices.fetchRepository(event.repo.url),
             loadingBuilder: (context) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

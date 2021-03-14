@@ -41,19 +41,19 @@ void showBottomActionsMenu(BuildContext context,
                     height: 4,
                     width: _media.width * 0.1,
                   )),
-              SizedBox(
-                height: fullScreen ? 20 : 0,
-              ),
               Padding(
                 padding: EdgeInsets.all(titlePadding),
                 child: Center(
                     child: header ??
                         Text(
                           headerText,
-                          style: TextStyle(fontSize: 16).merge(headerTextStyle),
+                          style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)
+                              .merge(headerTextStyle),
                         )),
               ),
-              Divider(),
+              SizedBox(height: 4,),
+              Divider(height: 0,),
               childWidget(context),
               SizedBox(
                 height: 8,

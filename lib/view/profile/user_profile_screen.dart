@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/app_scroll_view.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/profile/about/about_user.dart';
@@ -43,7 +43,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ProfileInfo(
+                ProfileTile(
                   data.avatarUrl,
                   size: 50,
                 ),
@@ -121,7 +121,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ProfileInfo(data.avatarUrl),
+              ProfileTile(data.avatarUrl),
               SizedBox(
                 width: 8,
               ),

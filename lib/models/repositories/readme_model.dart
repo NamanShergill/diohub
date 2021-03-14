@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:markdown/markdown.dart';
 import 'package:onehub/utils/parse_base64.dart';
 
 class RepositoryReadmeModel {
@@ -89,8 +88,7 @@ class RepositoryReadmeModel {
   // Todo: Decide where I want this to get parsed.
   static String getContent(String source) {
     List<String> listTemp = parseBase64(source, splitAtLineBreaks: false);
-    final content = markdownToHtml(listTemp.join());
-    return content;
+    return listTemp.join();
   }
 
   Map<String, dynamic> toJson() => {

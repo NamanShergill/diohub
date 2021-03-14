@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/common/app_scroll_view.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/models/popup/popup_type.dart';
@@ -130,11 +130,11 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                     final _repo = value.repositoryModel;
                     return AppScrollView(
                       scrollViewAppBar: ScrollViewAppBar(
-                        expandedHeight: 360,
+                        expandedHeight: 340,
                         collapsedHeight: 150,
                         appBarWidget: Row(
                           children: [
-                            ProfileInfo(
+                            ProfileTile(
                               _repo.owner.avatarUrl,
                               userLogin: _repo.owner.login,
                             ),
@@ -168,10 +168,10 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ProfileInfo(
+                                ProfileTile(
                                   _repo.owner.avatarUrl,
                                   userLogin: _repo.owner.login,
-                                  extended: true,
+                                  showName: true,
                                 ),
                                 SizedBox(
                                   height: 8,
@@ -191,7 +191,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                               height: 16,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ActionButton(
                                   count: _repo.stargazersCount,

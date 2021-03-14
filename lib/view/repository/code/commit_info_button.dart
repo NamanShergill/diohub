@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/providers/repository/code_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
@@ -34,7 +34,7 @@ class CommitInfoButton extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      ProfileInfo(
+                      ProfileTile(
                         value.tree.last.commit.author?.avatarUrl ?? '',
                         size: 13,
                       ),

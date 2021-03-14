@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/textStyles.dart';
@@ -46,7 +46,7 @@ class BaseEventCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ProfileInfo(
+                  ProfileTile(
                     avatarUrl,
                     userLogin: userLogin,
                   ),

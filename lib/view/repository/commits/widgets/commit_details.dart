@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/info_card.dart';
-import 'package:onehub/common/profile_image.dart';
+import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/providers/commits/commit_provider.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
@@ -26,36 +26,47 @@ class CommitDetails extends StatelessWidget {
           ),
           InfoCard(
             'Message',
-            child: Text(
-              _commit.commit.commit.message,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    _commit.commit.commit.message,
+                  ),
+                ),
+              ],
             ),
           ),
           InfoCard(
             'Made by',
             child: Row(
               children: [
-                ProfileInfo(
-                  _commit.commit.author.avatarUrl,
-                  size: 30,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  _commit.commit.author.login,
+                Expanded(
+                  child: ProfileTile(
+                    _commit.commit.author.avatarUrl,
+                    userLogin: _commit.commit.author.login,
+                    showName: true,
+                  ),
                 ),
               ],
             ),
           ),
           InfoCard('Committed',
-              child: Text(
-                getDate(_commit.commit.commit.committer.date.toString(),
-                    shorten: false),
+              child: Row(
+                children: [
+                  Text(
+                    getDate(_commit.commit.commit.committer.date.toString(),
+                        shorten: false),
+                  ),
+                ],
               )),
           InfoCard(
             'Parents',
             child: _commit.commit.parents.length == 0
-                ? Text('No parents.')
+                ? Row(
+                    children: [
+                      Text('No parents.'),
+                    ],
+                  )
                 : ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -98,22 +109,26 @@ class CommitDetails extends StatelessWidget {
                   ),
           ),
           InfoCard('Stats',
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  Text('Files Changed: ${_commit.commit.files.length}'),
-                  SizedBox(
-                    height: 8,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Files Changed: ${_commit.commit.files.length}'),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('Total Changes: ${_commit.commit.stats.total}'),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('Additions: ${_commit.commit.stats.additions}'),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('Deletions: ${_commit.commit.stats.deletions}'),
+                    ],
                   ),
-                  Text('Total Changes: ${_commit.commit.stats.total}'),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text('Additions: ${_commit.commit.stats.additions}'),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text('Deletions: ${_commit.commit.stats.deletions}'),
                 ],
               )),
           Padding(

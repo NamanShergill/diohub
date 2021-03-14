@@ -216,7 +216,7 @@ class _PatchViewerState extends State<PatchViewer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        ChunkHeader(
+                        if(codeChunks[index]['startAdd']!=null)ChunkHeader(
                           codeChunks: codeChunks,
                           displayCode: displayCode,
                           displayHeader: displayHeader,
@@ -337,9 +337,9 @@ class _ChunkHeaderState extends State<ChunkHeader> {
       data = widget.rawData.sublist(0, widget.startAdd - 1);
     } else {
       data = widget.rawData.sublist(
-          widget.codeChunks[widget.index - 1]['startAdd'] +
-              widget.codeChunks[widget.index - 1]['lengthAdd'] -
-              1,
+          (widget.codeChunks[widget.index - 1]['startAdd'] +
+                  widget.codeChunks[widget.index - 1]['lengthAdd']) ??
+              1 - 1,
           widget.startAdd - 1);
     }
   }

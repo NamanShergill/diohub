@@ -23,7 +23,7 @@ class UserOverviewScreen extends StatelessWidget {
           InfoCard(
             'Pinned Repos',
             child: APIWrapper<PinnedReposModel>(
-              apiCall:
+              getCall:
                   UserInfoService.getUserPinnedRepos(userInfoModel.login, 6),
               responseBuilder: (context, data) {
                 return data.user.pinnedItems.edges.isEmpty

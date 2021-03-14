@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/common/branch_label.dart';
 import 'package:onehub/common/custom_expansion_tile.dart';
+import 'package:onehub/common/events/cards/base_card.dart';
 import 'package:onehub/models/events/events_model.dart';
 import 'package:onehub/models/events/payloads/push_event_payload_model.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/textStyles.dart';
-import 'package:onehub/view/home/events/cards/base_card.dart';
 
 class PushEventCard extends StatelessWidget {
   final EventsModel event;

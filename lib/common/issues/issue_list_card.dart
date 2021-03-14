@@ -22,7 +22,8 @@ class IssueListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(IssueScreenRoute(issueURL: item.url));
+            AutoRouter.of(context).push(IssueScreenRoute(
+                issueURL: item.url, repoURL: item.repositoryUrl));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
