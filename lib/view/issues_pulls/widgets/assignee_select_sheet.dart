@@ -89,16 +89,6 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  'You need to have triage role or above to modify assignees on an issue on an organization repository.',
-                  style: TextStyle(color: AppColor.grey3),
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
                   style: TextStyle(color: AppColor.grey3),
                 ),
