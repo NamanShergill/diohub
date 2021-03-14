@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/issues/issue_list_card.dart';
-import 'package:onehub/models/issues/issues_list_model.dart';
+import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:onehub/services/issues/issues_service.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class IssuesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return InfiniteScrollWrapper<IssuesListModel>(
+    return InfiniteScrollWrapper<IssueModel>(
       future: (pageNumber, pageSize, refresh, _) {
         return IssuesService.getRepoIssues(
             Provider.of<RepositoryProvider>(context, listen: false)

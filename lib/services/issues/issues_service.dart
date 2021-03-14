@@ -5,7 +5,6 @@ import 'package:onehub/models/issues/issue_comments_model.dart';
 import 'package:onehub/models/issues/issue_event_model.dart' hide Label;
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/models/issues/issues_list_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 
 class IssuesService {
@@ -35,7 +34,7 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-repository-issues
-  static Future<List<IssuesListModel>> getRepoIssues(
+  static Future<List<IssueModel>> getRepoIssues(
     String repoURL, {
     int perPage,
     int pageNumber,
@@ -49,8 +48,8 @@ class IssuesService {
         },
         options: CacheManager.defaultCache(refresh));
     List unParsedData = response.data;
-    List<IssuesListModel> parsedData =
-        unParsedData.map((e) => IssuesListModel.fromJson(e)).toList();
+    List<IssueModel> parsedData =
+        unParsedData.map((e) => IssueModel.fromJson(e)).toList();
     return parsedData;
   }
 
@@ -63,6 +62,7 @@ class IssuesService {
   ) async {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
+            debugLog: true,
             acceptHeader: 'application/vnd.github.mockingbird-preview')
         .get('$fullURL/timeline',
             queryParameters: {
@@ -103,6 +103,22 @@ class IssuesService {
     return data.map((e) => UserInfoModel.fromJson(e)).toList();
   }
 
+  // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
+  static Future<IssueModel> addAssignees(
+      String issueURL, List<String> users) async {
+    Response response = await GetDio.getDio(applyBaseURL: false, debugLog: true)
+        .post('$issueURL/assignees', data: {'assignees': users});
+    return IssueModel.fromJson(response.data);
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/issues#remove-assignees-from-an-issue
+  static Future<IssueModel> removeAssignees(
+      String issueURL, List<String> users) async {
+    Response response = await GetDio.getDio(applyBaseURL: false, debugLog: true)
+        .delete('$issueURL/assignees', data: {'assignees': users});
+    return IssueModel.fromJson(response.data);
+  }
+
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-an-issue
   static Future<List<Label>> listLabels(String issueURL) async {
     Response response =
@@ -130,5 +146,12 @@ class IssuesService {
         .put('$issueURL/labels', data: {'labels': labels});
     List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
+  static Future<IssueModel> updateIssue(String issueURL, Map data) async {
+    Response response =
+        await GetDio.getDio(applyBaseURL: false).patch('$issueURL', data: data);
+    return IssueModel.fromJson(response.data);
   }
 }

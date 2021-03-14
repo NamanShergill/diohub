@@ -84,4 +84,18 @@ class RepositoryServices {
         .get(commitURL, options: CacheManager.defaultCache(refresh));
     return CommitModel.fromJson(response.data);
   }
+
+  // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
+  static Future<bool> checkUserRepoPerms(String login, String repoURL) async {
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, showPopup: false, debugLog: true)
+        .get('$repoURL/collaborators/$login/permission',
+            options: Options(validateStatus: (status) {
+      return status < 500;
+    }));
+    if (response.statusCode == 200)
+      return true;
+    else
+      return false;
+  }
 }

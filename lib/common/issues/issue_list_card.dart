@@ -2,19 +2,23 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/issues/issue_label.dart';
-import 'package:onehub/models/issues/issues_list_model.dart';
+import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
 class IssueListCard extends StatelessWidget {
-  final IssuesListModel item;
-  IssueListCard(this.item);
+  final IssueModel item;
+  final bool compact;
+  final EdgeInsets padding;
+  IssueListCard(this.item,
+      {this.compact = false,
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0)});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: padding,
       child: Material(
         elevation: 2,
         color: AppColor.background,
@@ -22,6 +26,7 @@ class IssueListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
+            // Todo: Add case to send to linked PR if one exists.
             AutoRouter.of(context).push(IssueScreenRoute(
                 issueURL: item.url, repoURL: item.repositoryUrl));
           },
@@ -73,27 +78,33 @@ class IssueListCard extends StatelessWidget {
                       .headline6
                       .copyWith(fontSize: 14),
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  item.state == State.CLOSED
-                      ? 'By ${item.user.login}, closed ${getDate(item.closedAt.toString())}.'
-                      : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user.login}',
-                  style: TextStyle(color: AppColor.grey3, fontSize: 12),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Wrap(
-                  children: List.generate(
-                      item.labels.length,
-                      (index) => Padding(
-                            padding:
-                                const EdgeInsets.only(right: 8.0, bottom: 8),
-                            child: IssueLabel(item.labels[index]),
-                          )),
-                ),
+                if (!compact)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        item.state == IssueState.CLOSED
+                            ? 'By ${item.user.login}, closed ${getDate(item.closedAt.toString())}.'
+                            : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user.login}',
+                        style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Wrap(
+                        children: List.generate(
+                            item.labels.length,
+                            (index) => Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 8.0, bottom: 8),
+                                  child: IssueLabel(item.labels[index]),
+                                )),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -103,16 +114,16 @@ class IssueListCard extends StatelessWidget {
   }
 }
 
-Widget getIcon(State state) {
+Widget getIcon(IssueState state) {
   switch (state) {
-    case State.CLOSED:
+    case IssueState.CLOSED:
       return Icon(
         Octicons.issue_closed,
         color: Colors.red,
         size: 15,
       );
       break;
-    case State.OPEN:
+    case IssueState.OPEN:
       return Icon(
         Octicons.issue_opened,
         color: Colors.green,

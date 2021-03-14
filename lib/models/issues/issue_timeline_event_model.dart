@@ -4,8 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
+
+import 'issue_model.dart';
 
 class IssuesTimelineEventModel {
   IssuesTimelineEventModel({
@@ -24,6 +25,7 @@ class IssuesTimelineEventModel {
     this.issueUrl,
     this.user,
     this.updatedAt,
+    this.label,
     this.authorAssociation,
     this.body,
     this.source,
@@ -47,6 +49,7 @@ class IssuesTimelineEventModel {
   AuthorAssociation authorAssociation;
   String body;
   Source source;
+  Label label;
 
   IssuesTimelineEventModel copyWith({
     int id,
@@ -104,6 +107,7 @@ class IssuesTimelineEventModel {
             ? null
             : UserInfoModel.fromJson(json["actor"]),
         event: json["event"] == null ? null : eventValues.map[json["event"]],
+        label: json["label"] == null ? null : Label.fromJson(json["label"]),
         commitId: json["commit_id"],
         commitUrl: json["commit_url"],
         createdAt: json["created_at"] == null

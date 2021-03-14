@@ -10,90 +10,83 @@ class DiscussionComment extends StatelessWidget {
   DiscussionComment(this.item);
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      color: AppColor.onBackground,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-        child: Column(
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
+                ProfileTile(
+                  item.user.avatarUrl,
+                  userLogin: item.user.login,
+                  size: 30,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileTile(
-                      item.user.avatarUrl,
-                      userLogin: item.user.login,
-                      size: 30,
+                    Text(
+                      item.user.login,
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.user.login,
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        if (item.authorAssociation !=
-                                AuthorAssociation.MEMBER &&
-                            item.authorAssociation != AuthorAssociation.NONE)
-                          Builder(
-                            builder: (context) {
-                              String str;
-                              if (item.authorAssociation ==
-                                  AuthorAssociation.COLLABORATOR)
-                                str = 'Collaborator';
-                              else if (item.authorAssociation ==
-                                  AuthorAssociation.CONTRIBUTOR)
-                                str = 'Contributor';
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Text(
-                                  str ?? '',
-                                  style: TextStyle(
-                                      fontSize: 12, color: AppColor.grey3),
-                                ),
-                              );
-                            },
-                          ),
-                      ],
-                    ),
+                    if (item.authorAssociation !=
+                            AuthorAssociation.MEMBER &&
+                        item.authorAssociation != AuthorAssociation.NONE)
+                      Builder(
+                        builder: (context) {
+                          String str;
+                          if (item.authorAssociation ==
+                              AuthorAssociation.COLLABORATOR)
+                            str = 'Collaborator';
+                          else if (item.authorAssociation ==
+                              AuthorAssociation.CONTRIBUTOR)
+                            str = 'Contributor';
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Text(
+                              str ?? '',
+                              style: TextStyle(
+                                  fontSize: 12, color: AppColor.grey3),
+                            ),
+                          );
+                        },
+                      ),
                   ],
                 ),
-                Text(
-                  getDate(item.createdAt.toString(), shorten: false),
-                  style: TextStyle(color: AppColor.grey3, fontSize: 12),
-                ),
               ],
             ),
-            SizedBox(height: 8),
-            Divider(),
-            Row(
-              children: [
-                Flexible(child: MarkdownBody(item.body)),
-              ],
+            Text(
+              getDate(item.createdAt.toString(), shorten: false),
+              style: TextStyle(color: AppColor.grey3, fontSize: 12),
             ),
-            // Todo: Add reactions later.
-            // APIWrapper<List<ReactionsModel>>(
-            //   apiCall: ReactionsService.getCommitCommentReactions(item.url),
-            //   responseBuilder: (context, data) {
-            //     return Wrap(
-            //       children: List.generate(
-            //           data.length,
-            //           (index) => Text(
-            //               EmojiParser().emojify(":${data[index].content}:"))),
-            //     );
-            //   },
-            // ),
           ],
         ),
-      ),
+        SizedBox(height: 8),
+        Divider(),
+        Row(
+          children: [
+            Flexible(child: MarkdownBody(item.body)),
+          ],
+        ),
+        // Todo: Add reactions later.
+        // APIWrapper<List<ReactionsModel>>(
+        //   apiCall: ReactionsService.getCommitCommentReactions(item.url),
+        //   responseBuilder: (context, data) {
+        //     return Wrap(
+        //       children: List.generate(
+        //           data.length,
+        //           (index) => Text(
+        //               EmojiParser().emojify(":${data[index].content}:"))),
+        //     );
+        //   },
+        // ),
+      ],
     );
   }
 }

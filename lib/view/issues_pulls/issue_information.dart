@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
+import 'package:onehub/common/button.dart';
 import 'package:onehub/common/info_card.dart';
 import 'package:onehub/common/issues/issue_label.dart';
 import 'package:onehub/common/markdown_body.dart';
 import 'package:onehub/common/profile_banner.dart';
+import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/providers/issue/issue_provider.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 import 'package:onehub/view/issues_pulls/widgets/assignee_select_sheet.dart';
@@ -19,9 +24,57 @@ class IssueInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     final _issue = Provider.of<IssueProvider>(context).issueModel;
     final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
+    print(_issue.state);
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(
+            height: 8,
+          ),
+          if (_editingEnabled ||
+              Provider.of<CurrentUserProvider>(context).currentUserInfo.login ==
+                  _issue.user.login)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Button(
+                child: _issue.state != IssueState.CLOSED
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Close issue'),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(Octicons.issue_closed),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Reopen issue'),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(Octicons.issue_reopened),
+                        ],
+                      ),
+                onTap: () async {
+                  Map data = {};
+                  if (_issue.state != IssueState.CLOSED) {
+                    data['state'] = 'closed';
+                  } else {
+                    data['state'] = 'open';
+                  }
+                  IssueModel issue =
+                      await IssuesService.updateIssue(_issue.url, data);
+                  Provider.of<IssueProvider>(context, listen: false)
+                      .updateIssue(issue);
+                },
+                color: _issue.state != IssueState.CLOSED
+                    ? AppColor.error
+                    : AppColor.success,
+              ),
+            ),
           SizedBox(
             height: 8,
           ),
@@ -53,8 +106,8 @@ class IssueInformation extends StatelessWidget {
                           issueUrl: _issue.url,
                           assignees: _issue.assignees,
                           newAssignees: (assignees) {
-                            // Provider.of<IssueProvider>(context, listen: false)
-                            //     .updateLabels(labels);
+                            Provider.of<IssueProvider>(context, listen: false)
+                                .updateAssignees(assignees);
                           },
                         );
                       },

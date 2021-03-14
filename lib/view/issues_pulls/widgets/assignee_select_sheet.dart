@@ -34,6 +34,30 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
     super.initState();
   }
 
+  Future<List<UserInfoModel>> updateAssignees() async {
+    List<String> assigneesToRemove = [];
+    List<String> assigneesToAdd = assignees;
+    List<String> originalAssignees =
+        widget.assignees.map((e) => e.login).toList();
+    List<Future> futures = [];
+    for (String login in originalAssignees) {
+      if (!assignees.contains(login)) {
+        assigneesToRemove.add(login);
+        assigneesToAdd.remove(login);
+      }
+    }
+    if (assigneesToRemove.isNotEmpty)
+      futures.add(
+          IssuesService.removeAssignees(widget.issueUrl, assigneesToRemove));
+    if (assigneesToAdd.isNotEmpty)
+      futures.add(IssuesService.addAssignees(widget.issueUrl, assigneesToAdd));
+    if (futures.isNotEmpty) {
+      List<dynamic> results = await Future.wait(futures);
+      return results.last.assignees;
+    }
+    return widget.assignees;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -46,10 +70,9 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             color: AppColor.onBackground,
             onTap: () async {
               try {
-                // List<UserInfoModel> newLabels =
-                // await IssuesService.setLabels(widget.issueUrl, labels);
+                List<UserInfoModel> newAssignees = await updateAssignees();
                 Navigator.pop(context);
-                widget.newAssignees([]);
+                widget.newAssignees(newAssignees);
               } catch (e) {}
             },
             child: Text('Apply'),
@@ -58,6 +81,35 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         SizedBox(
           height: 8,
         ),
+        Theme(
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            title: Text('Note'),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'You need to have triage role or above to modify assignees on an issue on an organization repository.',
+                  style: TextStyle(color: AppColor.grey3),
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'Organizations on the free plan can only have one active assignee on an issue at a time.',
+                  style: TextStyle(color: AppColor.grey3),
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+            ],
+          ),
+        ),
+        Divider(),
         Container(
             height: MediaQuery.of(context).size.height * 0.8,
             child: InfiniteScrollWrapper<UserInfoModel>(
