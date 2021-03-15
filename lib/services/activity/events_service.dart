@@ -5,12 +5,17 @@ import 'package:onehub/models/events/events_model.dart';
 
 class EventsService {
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-for-the-authenticated-user
-  static Future<Response> getAuthenticatedUserEvents(String user) async {
-    Response response =
-        await GetDio.getDio().get('/users/$user/events').then((value) {
-      return value;
-    });
-    return response;
+  static Future<List<EventsModel>> getUserEvents(String user,
+      {int page, int perPage, bool refresh}) async {
+    Response response = await GetDio.getDio().get('/users/$user/events',
+        queryParameters: {'per_page': perPage, 'page': page},
+        options: CacheManager.defaultCache(refresh));
+    List unParsedEvents = response.data;
+    List<EventsModel> parsedEvents = [];
+    for (var event in unParsedEvents) {
+      parsedEvents.add(EventsModel.fromJson(event));
+    }
+    return parsedEvents;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-received-by-the-authenticated-user

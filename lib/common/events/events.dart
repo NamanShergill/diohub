@@ -9,7 +9,8 @@ import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
   final bool privateEvents;
-  Events({this.privateEvents = true});
+  final String specificUser;
+  Events({this.privateEvents = true, this.specificUser});
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context);
@@ -18,7 +19,10 @@ class Events extends StatelessWidget {
       topSpacing: 24,
       spacing: 32,
       future: (pageNumber, pageSize, refresh, _) {
-        if (privateEvents)
+        if (specificUser != null)
+          return EventsService.getUserEvents(specificUser,
+              page: pageNumber, perPage: pageSize, refresh: refresh);
+        else if (privateEvents)
           return EventsService.getReceivedEvents(_user.currentUserInfo.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         else

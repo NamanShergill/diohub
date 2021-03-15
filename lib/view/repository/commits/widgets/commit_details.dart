@@ -140,7 +140,7 @@ class CommitDetails extends StatelessWidget {
                   AutoRouter.of(context).push(RepositoryScreenRoute(
                       repositoryURL: repoURL,
                       initSHA: _commit.commit.sha,
-                      index: 1));
+                      index: 2));
                 },
                 listenToLoadingController: false,
                 child: Text('Browse Files')),

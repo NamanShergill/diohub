@@ -65,7 +65,9 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
       onTap: () {
         AutoRouter.of(context).push(IssueScreenRoute(
             issueURL: widget.notification.subject.url,
-            repoURL: widget.notification.repository.url));
+            repoURL: widget.notification.repository.url,
+            initialIndex: 1,
+            commentsSince: widget.notification.updatedAt));
       },
       footerBuilder: (context) {
         if (!loading) return getIssueFooter();

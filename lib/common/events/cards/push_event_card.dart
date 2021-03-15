@@ -22,7 +22,7 @@ class PushEventCard extends StatelessWidget {
         AutoRouter.of(context).push(RepositoryScreenRoute(
             repositoryURL: event.repo.url,
             branch: data.ref.split('/').last,
-            index: 1));
+            index: 2));
       },
       userLogin: event.actor.login,
       date: event.createdAt,
@@ -74,7 +74,7 @@ class PushEventCard extends StatelessWidget {
                     },
                     onLongPress: () {
                       AutoRouter.of(context).push(RepositoryScreenRoute(
-                          index: 1,
+                          index: 2,
                           branch: data.ref.split('/').last,
                           repositoryURL: event.repo.url,
                           initSHA: data.commits[index].sha));

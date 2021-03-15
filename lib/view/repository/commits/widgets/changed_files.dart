@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:onehub/models/commits/commit_model.dart';
 import 'package:onehub/providers/commits/commit_provider.dart';
 import 'package:onehub/routes/router.gr.dart';
@@ -84,7 +84,6 @@ class _ChangedFilesState extends State<ChangedFiles> {
                               Text(
                                 'View Changes',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
                                     color: _files[index].patch != null
                                         ? Colors.white
                                         : AppColor.grey3),
@@ -92,7 +91,7 @@ class _ChangedFilesState extends State<ChangedFiles> {
                               SizedBox(
                                 width: 8,
                               ),
-                              Icon(Octicons.checklist,
+                              Icon(LineIcons.edit,
                                   color: _files[index].patch != null
                                       ? Colors.white
                                       : AppColor.grey3),

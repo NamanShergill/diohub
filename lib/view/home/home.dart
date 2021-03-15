@@ -9,6 +9,7 @@ import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/view/home/widgets/issues_tab.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -92,10 +93,10 @@ class _HomeScreenState extends State<HomeScreen>
                         title: 'Activity',
                       ),
                       AppTab(
-                        title: 'Pull Requests',
+                        title: 'Issues',
                       ),
                       AppTab(
-                        title: 'Issues',
+                        title: 'Pull Requests',
                       ),
                       AppTab(
                         title: 'Repositories',
@@ -125,11 +126,7 @@ class _HomeScreenState extends State<HomeScreen>
                         physics: BouncingScrollPhysics(),
                         children: [
                           Events(),
-                          Container(
-                            color: Colors.blue,
-                            height: 80,
-                            width: 40,
-                          ),
+                          IssuesTab(),
                           Container(
                             color: Colors.green,
                             height: 80,

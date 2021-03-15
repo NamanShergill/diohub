@@ -98,7 +98,9 @@ class AppRouter extends _i1.RootStackRouter {
       var route = entry.routeData.as<IssueScreenRoute>();
       return _i1.CustomPage(
           entry: entry,
-          child: _i10.IssueScreen(route.issueURL, route.repoURL),
+          child: _i10.IssueScreen(route.issueURL, route.repoURL,
+              initialIndex: route.initialIndex ?? 0,
+              commentsSince: route.commentsSince),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
     }
@@ -278,17 +280,24 @@ class OtherUserProfileScreenRoute extends _i1.PageRouteInfo {
 }
 
 class IssueScreenRoute extends _i1.PageRouteInfo {
-  IssueScreenRoute({this.issueURL, this.repoURL})
+  IssueScreenRoute(
+      {this.issueURL, this.repoURL, this.initialIndex = 0, this.commentsSince})
       : super(name, path: '/issue-screen');
 
   IssueScreenRoute.fromMatch(_i1.RouteMatch match)
       : issueURL = null,
         repoURL = null,
+        initialIndex = 0,
+        commentsSince = null,
         super.fromMatch(match);
 
   final String issueURL;
 
   final String repoURL;
+
+  final int initialIndex;
+
+  final DateTime commentsSince;
 
   static const String name = 'IssueScreenRoute';
 }

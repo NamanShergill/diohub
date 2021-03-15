@@ -1,13 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/markdown_body.dart';
 import 'package:onehub/common/profile_banner.dart';
+import 'package:onehub/models/issues/issue_comments_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
+import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
+class TimelineDiscussionComment extends StatelessWidget {
+  final TimelineEventModel item;
+  TimelineDiscussionComment(this.item);
+  @override
+  Widget build(BuildContext context) {
+    return BaseComment(
+      body: item.body,
+      user: item.user,
+      authorAssociation: item.authorAssociation,
+      createdAt: item.createdAt,
+    );
+  }
+}
+
 class DiscussionComment extends StatelessWidget {
-  final IssuesTimelineEventModel item;
+  final IssueCommentsModel item;
   DiscussionComment(this.item);
+  @override
+  Widget build(BuildContext context) {
+    return BaseComment(
+      body: item.body,
+      user: item.user,
+      authorAssociation: item.authorAssociation,
+      createdAt: item.createdAt,
+    );
+  }
+}
+
+class BaseComment extends StatelessWidget {
+  final UserInfoModel user;
+  final AuthorAssociation authorAssociation;
+  final DateTime createdAt;
+  final String body;
+  BaseComment({this.authorAssociation, this.user, this.createdAt, this.body});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,8 +52,8 @@ class DiscussionComment extends StatelessWidget {
             Row(
               children: [
                 ProfileTile(
-                  item.user.avatarUrl,
-                  userLogin: item.user.login,
+                  user.avatarUrl,
+                  userLogin: user.login,
                   size: 30,
                 ),
                 SizedBox(
@@ -30,25 +63,23 @@ class DiscussionComment extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.user.login,
+                      user.login,
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    if (item.authorAssociation !=
-                            AuthorAssociation.MEMBER &&
-                        item.authorAssociation != AuthorAssociation.NONE)
+                    if (authorAssociation != AuthorAssociation.MEMBER &&
+                        authorAssociation != AuthorAssociation.NONE)
                       Builder(
                         builder: (context) {
                           String str;
-                          if (item.authorAssociation ==
+                          if (authorAssociation ==
                               AuthorAssociation.COLLABORATOR)
                             str = 'Collaborator';
-                          else if (item.authorAssociation ==
+                          else if (authorAssociation ==
                               AuthorAssociation.CONTRIBUTOR)
                             str = 'Contributor';
                           return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 4.0),
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
                               str ?? '',
                               style: TextStyle(
@@ -62,7 +93,7 @@ class DiscussionComment extends StatelessWidget {
               ],
             ),
             Text(
-              getDate(item.createdAt.toString(), shorten: false),
+              getDate(createdAt.toString(), shorten: false),
               style: TextStyle(color: AppColor.grey3, fontSize: 12),
             ),
           ],
@@ -71,7 +102,7 @@ class DiscussionComment extends StatelessWidget {
         Divider(),
         Row(
           children: [
-            Flexible(child: MarkdownBody(item.body)),
+            Flexible(child: MarkdownBody(body)),
           ],
         ),
         // Todo: Add reactions later.

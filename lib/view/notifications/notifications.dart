@@ -92,7 +92,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         minHeight: 100,
                         maxHeight: 150,
                         expandedParentPadding: 0,
-                        title: 'Notifications',
+                        title: 'Inbox',
                         trailing: IconButton(
                           icon: Icon(Icons.sort),
                           onPressed: () {
@@ -170,7 +170,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Filter Notifications',
+                                      'Filter Inbox',
                                       style:
                                           Theme.of(context).textTheme.bodyText1,
                                     ),
@@ -208,10 +208,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             return filtered;
                           },
                           builder: (context, NotificationModel item, index) {
-                            if (item.subject.type == SubjectEnum.issue)
+                            if (item.subject.type == SubjectType.ISSUE)
                               return IssueNotificationCard(item);
                             else if (item.subject.type ==
-                                SubjectEnum.pullRequest)
+                                SubjectType.PULL_REQUEST)
                               return PullRequestNotificationCard(item);
                             return Container();
                           },

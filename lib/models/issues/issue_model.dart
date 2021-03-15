@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:onehub/models/issues/issue_timeline_event_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 
 class IssueModel {
@@ -31,9 +32,11 @@ class IssueModel {
     this.closedAt,
     this.authorAssociation,
     this.activeLockReason,
+    this.repository,
     this.body,
-    this.closedBy,
+    this.timelineUrl,
     this.performedViaGithubApp,
+    this.pullRequest,
   });
 
   String url;
@@ -52,16 +55,18 @@ class IssueModel {
   bool locked;
   UserInfoModel assignee;
   List<UserInfoModel> assignees;
-  Milestone milestone;
+  dynamic milestone;
   int comments;
   DateTime createdAt;
   DateTime updatedAt;
-  dynamic closedAt;
-  String authorAssociation;
+  DateTime closedAt;
+  AuthorAssociation authorAssociation;
   dynamic activeLockReason;
+  Repository repository;
   String body;
-  dynamic closedBy;
+  String timelineUrl;
   dynamic performedViaGithubApp;
+  PullRequest pullRequest;
 
   IssueModel copyWith({
     String url,
@@ -80,16 +85,18 @@ class IssueModel {
     bool locked,
     UserInfoModel assignee,
     List<UserInfoModel> assignees,
-    Milestone milestone,
+    dynamic milestone,
     int comments,
     DateTime createdAt,
     DateTime updatedAt,
-    dynamic closedAt,
-    String authorAssociation,
+    DateTime closedAt,
+    AuthorAssociation authorAssociation,
     dynamic activeLockReason,
+    Repository repository,
     String body,
-    dynamic closedBy,
+    String timelineUrl,
     dynamic performedViaGithubApp,
+    PullRequest pullRequest,
   }) =>
       IssueModel(
         url: url ?? this.url,
@@ -115,10 +122,12 @@ class IssueModel {
         closedAt: closedAt ?? this.closedAt,
         authorAssociation: authorAssociation ?? this.authorAssociation,
         activeLockReason: activeLockReason ?? this.activeLockReason,
+        repository: repository ?? this.repository,
         body: body ?? this.body,
-        closedBy: closedBy ?? this.closedBy,
+        timelineUrl: timelineUrl ?? this.timelineUrl,
         performedViaGithubApp:
             performedViaGithubApp ?? this.performedViaGithubApp,
+        pullRequest: pullRequest ?? this.pullRequest,
       );
 
   factory IssueModel.fromRawJson(String str) =>
@@ -152,9 +161,7 @@ class IssueModel {
             ? null
             : List<UserInfoModel>.from(
                 json["assignees"].map((x) => UserInfoModel.fromJson(x))),
-        milestone: json["milestone"] == null
-            ? null
-            : Milestone.fromJson(json["milestone"]),
+        milestone: json["milestone"],
         comments: json["comments"] == null ? null : json["comments"],
         createdAt: json["created_at"] == null
             ? null
@@ -162,14 +169,22 @@ class IssueModel {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        closedAt: json["closed_at"],
+        closedAt: json["closed_at"] == null
+            ? null
+            : DateTime.parse(json["closed_at"]),
         authorAssociation: json["author_association"] == null
             ? null
-            : json["author_association"],
+            : authorAssociationValues.map[json["author_association"]],
         activeLockReason: json["active_lock_reason"],
+        repository: json["repository"] == null
+            ? null
+            : Repository.fromJson(json["repository"]),
         body: json["body"] == null ? null : json["body"],
-        closedBy: json["closed_by"],
+        timelineUrl: json["timeline_url"] == null ? null : json["timeline_url"],
         performedViaGithubApp: json["performed_via_github_app"],
+        pullRequest: json["pull_request"] == null
+            ? null
+            : PullRequest.fromJson(json["pull_request"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -193,17 +208,20 @@ class IssueModel {
         "assignees": assignees == null
             ? null
             : List<dynamic>.from(assignees.map((x) => x.toJson())),
-        "milestone": milestone == null ? null : milestone.toJson(),
+        "milestone": milestone,
         "comments": comments == null ? null : comments,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "closed_at": closedAt,
-        "author_association":
-            authorAssociation == null ? null : authorAssociation,
+        "closed_at": closedAt == null ? null : closedAt.toIso8601String(),
+        "author_association": authorAssociation == null
+            ? null
+            : authorAssociationValues.reverse[authorAssociation],
         "active_lock_reason": activeLockReason,
+        "repository": repository == null ? null : repository.toJson(),
         "body": body == null ? null : body,
-        "closed_by": closedBy,
+        "timeline_url": timelineUrl == null ? null : timelineUrl,
         "performed_via_github_app": performedViaGithubApp,
+        "pull_request": pullRequest == null ? null : pullRequest.toJson(),
       };
 }
 

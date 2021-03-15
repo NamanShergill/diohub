@@ -140,7 +140,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                             ),
                           ),
                           Text(
-                            getDate(widget.notification.updatedAt),
+                            getDate(widget.notification.updatedAt.toString()),
                             style: TextStyle(color: AppColor.grey3),
                           ),
                         ],

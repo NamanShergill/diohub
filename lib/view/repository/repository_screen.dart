@@ -21,6 +21,7 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/code_browser.dart';
 import 'package:onehub/view/repository/issues/issues_list.dart';
 import 'package:onehub/view/repository/readme/repository_readme.dart';
+import 'package:onehub/view/repository/widgets/about_repository.dart';
 import 'package:onehub/view/repository/widgets/action_button.dart';
 import 'package:onehub/view/repository/widgets/branch_button.dart';
 import 'package:provider/provider.dart';
@@ -224,11 +225,11 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         bottomPadding: 60,
                         tabController: tabController,
                         tabs: [
+                          'About',
                           'Readme',
                           'Code',
                           'Issues',
                           'Pull Requests',
-                          'License',
                           'More'
                         ],
                         bottomHeader: BranchButton(
@@ -238,10 +239,10 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       tabController: tabController,
                       loading: loading,
                       tabViews: [
+                        AboutRepository(_repo),
                         RepositoryReadme(_repo.url),
                         CodeBrowser(),
                         IssuesList(),
-                        Container(),
                         Container(),
                         Container(
                           child: MaterialButton(

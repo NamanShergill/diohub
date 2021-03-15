@@ -15,22 +15,57 @@ class IssuesService {
     return IssueModel.fromJson(response.data);
   }
 
+  // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
   static Future<IssueCommentsModel> getLatestComment({String fullUrl}) async {
     Response response = await GetDio.getDio(applyBaseURL: false)
         .get(fullUrl, options: CacheManager.defaultCache());
     return IssueCommentsModel.fromJson(response.data);
   }
 
+  // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-comments
+  static Future<List<IssueCommentsModel>> getIssueComments(
+      String issueURL, int page, int perPage, bool refresh,
+      {String since}) async {
+    Response response = await GetDio.getDio(applyBaseURL: false).get(
+        issueURL + '/comments',
+        options: CacheManager.defaultCache(refresh),
+        queryParameters: {'since': since});
+    List unParsedComments = response.data;
+    return unParsedComments.map((e) => IssueCommentsModel.fromJson(e)).toList();
+  }
+
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
-  static Future<List<IssueEventModel>> getIssueEvents({String fullUrl}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(fullUrl + '/events', options: CacheManager.defaultCache());
+  static Future<List<IssueEventModel>> getIssueEvents(
+      {String fullUrl, String since}) async {
+    Response response = await GetDio.getDio(applyBaseURL: false).get(
+        fullUrl + '/events',
+        options: CacheManager.defaultCache(),
+        queryParameters: {'since': since});
     List unParsedEvents = response.data;
     List<IssueEventModel> parsedEvents = [];
     for (var event in unParsedEvents) {
       parsedEvents.add(IssueEventModel.fromJson(event));
     }
     return parsedEvents;
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/issues#list-issues-assigned-to-the-authenticated-user
+  static Future<List<IssueModel>> getUserIssues({
+    int perPage,
+    int pageNumber,
+    bool refresh,
+  }) async {
+    Response response = await GetDio.getDio().get('/issues',
+        queryParameters: {
+          'per_page': perPage,
+          'page': pageNumber,
+          'state': 'all',
+        },
+        options: CacheManager.defaultCache(refresh));
+    List unParsedData = response.data;
+    List<IssueModel> parsedData =
+        unParsedData.map((e) => IssueModel.fromJson(e)).toList();
+    return parsedData;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-repository-issues
@@ -54,7 +89,7 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<List<IssuesTimelineEventModel>> getIssueTimeline(
+  static Future<List<TimelineEventModel>> getIssueTimeline(
     String fullURL,
     int perPage,
     int pageNumber,
@@ -62,7 +97,6 @@ class IssuesService {
   ) async {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
-            debugLog: true,
             acceptHeader: 'application/vnd.github.mockingbird-preview')
         .get('$fullURL/timeline',
             queryParameters: {
@@ -71,8 +105,8 @@ class IssuesService {
             },
             options: CacheManager.defaultCache(refresh));
     List unParsedData = response.data;
-    List<IssuesTimelineEventModel> parsedData =
-        unParsedData.map((e) => IssuesTimelineEventModel.fromJson(e)).toList();
+    List<TimelineEventModel> parsedData =
+        unParsedData.map((e) => TimelineEventModel.fromJson(e)).toList();
     return parsedData;
   }
 
@@ -154,4 +188,7 @@ class IssuesService {
         await GetDio.getDio(applyBaseURL: false).patch('$issueURL', data: data);
     return IssueModel.fromJson(response.data);
   }
+
+  // // Ref: https://docs.github.com/en/rest/reference/issues#lock-an-issue
+  // static Future<bool> lockIssue(String issueURL,)
 }

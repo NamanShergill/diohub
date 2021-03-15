@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/app_scroll_view.dart';
+import 'package:onehub/common/events/events.dart';
 import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/style/colors.dart';
@@ -145,7 +146,12 @@ class _UserProfileScreenState<T extends UserInfoModel>
           data,
           currentUser: widget.isCurrentUser,
         ),
-        Container(),
+        Container(
+          color: AppColor.onBackground,
+          child: Events(
+            specificUser: data.login,
+          ),
+        ),
       ],
     );
   }

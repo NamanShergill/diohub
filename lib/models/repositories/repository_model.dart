@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/users/user_info_model.dart';
-
 class RepositoryModel {
   RepositoryModel({
     this.id,
@@ -81,6 +79,7 @@ class RepositoryModel {
     this.openIssues,
     this.watchers,
     this.defaultBranch,
+    this.permissions,
     this.tempCloneToken,
     this.parent,
     this.source,
@@ -93,7 +92,7 @@ class RepositoryModel {
   String name;
   String fullName;
   bool private;
-  UserInfoModel owner;
+  Owner owner;
   String htmlUrl;
   String description;
   bool fork;
@@ -141,7 +140,7 @@ class RepositoryModel {
   String sshUrl;
   String cloneUrl;
   String svnUrl;
-  dynamic homepage;
+  String homepage;
   int size;
   int stargazersCount;
   int watchersCount;
@@ -161,7 +160,8 @@ class RepositoryModel {
   int openIssues;
   int watchers;
   String defaultBranch;
-  dynamic tempCloneToken;
+  Permissions permissions;
+  String tempCloneToken;
   RepositoryModel parent;
   RepositoryModel source;
   int networkCount;
@@ -173,7 +173,7 @@ class RepositoryModel {
     String name,
     String fullName,
     bool private,
-    UserInfoModel owner,
+    Owner owner,
     String htmlUrl,
     String description,
     bool fork,
@@ -221,7 +221,7 @@ class RepositoryModel {
     String sshUrl,
     String cloneUrl,
     String svnUrl,
-    dynamic homepage,
+    String homepage,
     int size,
     int stargazersCount,
     int watchersCount,
@@ -241,7 +241,8 @@ class RepositoryModel {
     int openIssues,
     int watchers,
     String defaultBranch,
-    dynamic tempCloneToken,
+    Permissions permissions,
+    String tempCloneToken,
     RepositoryModel parent,
     RepositoryModel source,
     int networkCount,
@@ -321,6 +322,7 @@ class RepositoryModel {
         openIssues: openIssues ?? this.openIssues,
         watchers: watchers ?? this.watchers,
         defaultBranch: defaultBranch ?? this.defaultBranch,
+        permissions: permissions ?? this.permissions,
         tempCloneToken: tempCloneToken ?? this.tempCloneToken,
         parent: parent ?? this.parent,
         source: source ?? this.source,
@@ -340,9 +342,7 @@ class RepositoryModel {
         name: json["name"] == null ? null : json["name"],
         fullName: json["full_name"] == null ? null : json["full_name"],
         private: json["private"] == null ? null : json["private"],
-        owner: json["owner"] == null
-            ? null
-            : UserInfoModel.fromJson(json["owner"]),
+        owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
         htmlUrl: json["html_url"] == null ? null : json["html_url"],
         description: json["description"] == null ? null : json["description"],
         fork: json["fork"] == null ? null : json["fork"],
@@ -413,7 +413,7 @@ class RepositoryModel {
         sshUrl: json["ssh_url"] == null ? null : json["ssh_url"],
         cloneUrl: json["clone_url"] == null ? null : json["clone_url"],
         svnUrl: json["svn_url"] == null ? null : json["svn_url"],
-        homepage: json["homepage"],
+        homepage: json["homepage"] == null ? null : json["homepage"],
         size: json["size"] == null ? null : json["size"],
         stargazersCount:
             json["stargazers_count"] == null ? null : json["stargazers_count"],
@@ -440,7 +440,11 @@ class RepositoryModel {
         watchers: json["watchers"] == null ? null : json["watchers"],
         defaultBranch:
             json["default_branch"] == null ? null : json["default_branch"],
-        tempCloneToken: json["temp_clone_token"],
+        permissions: json["permissions"] == null
+            ? null
+            : Permissions.fromJson(json["permissions"]),
+        tempCloneToken:
+            json["temp_clone_token"] == null ? null : json["temp_clone_token"],
         parent: json["parent"] == null
             ? null
             : RepositoryModel.fromJson(json["parent"]),
@@ -508,7 +512,7 @@ class RepositoryModel {
         "ssh_url": sshUrl == null ? null : sshUrl,
         "clone_url": cloneUrl == null ? null : cloneUrl,
         "svn_url": svnUrl == null ? null : svnUrl,
-        "homepage": homepage,
+        "homepage": homepage == null ? null : homepage,
         "size": size == null ? null : size,
         "stargazers_count": stargazersCount == null ? null : stargazersCount,
         "watchers_count": watchersCount == null ? null : watchersCount,
@@ -528,7 +532,8 @@ class RepositoryModel {
         "open_issues": openIssues == null ? null : openIssues,
         "watchers": watchers == null ? null : watchers,
         "default_branch": defaultBranch == null ? null : defaultBranch,
-        "temp_clone_token": tempCloneToken,
+        "permissions": permissions == null ? null : permissions.toJson(),
+        "temp_clone_token": tempCloneToken == null ? null : tempCloneToken,
         "parent": parent == null ? null : parent.toJson(),
         "source": source == null ? null : source.toJson(),
         "network_count": networkCount == null ? null : networkCount,
@@ -585,4 +590,201 @@ class License {
         "url": url == null ? null : url,
         "node_id": nodeId == null ? null : nodeId,
       };
+}
+
+class Owner {
+  Owner({
+    this.login,
+    this.id,
+    this.nodeId,
+    this.avatarUrl,
+    this.gravatarId,
+    this.url,
+    this.htmlUrl,
+    this.followersUrl,
+    this.followingUrl,
+    this.gistsUrl,
+    this.starredUrl,
+    this.subscriptionsUrl,
+    this.organizationsUrl,
+    this.reposUrl,
+    this.eventsUrl,
+    this.receivedEventsUrl,
+    this.type,
+    this.siteAdmin,
+  });
+
+  String login;
+  int id;
+  String nodeId;
+  String avatarUrl;
+  String gravatarId;
+  String url;
+  String htmlUrl;
+  String followersUrl;
+  String followingUrl;
+  String gistsUrl;
+  String starredUrl;
+  String subscriptionsUrl;
+  String organizationsUrl;
+  String reposUrl;
+  String eventsUrl;
+  String receivedEventsUrl;
+  Type type;
+  bool siteAdmin;
+
+  Owner copyWith({
+    String login,
+    int id,
+    String nodeId,
+    String avatarUrl,
+    String gravatarId,
+    String url,
+    String htmlUrl,
+    String followersUrl,
+    String followingUrl,
+    String gistsUrl,
+    String starredUrl,
+    String subscriptionsUrl,
+    String organizationsUrl,
+    String reposUrl,
+    String eventsUrl,
+    String receivedEventsUrl,
+    Type type,
+    bool siteAdmin,
+  }) =>
+      Owner(
+        login: login ?? this.login,
+        id: id ?? this.id,
+        nodeId: nodeId ?? this.nodeId,
+        avatarUrl: avatarUrl ?? this.avatarUrl,
+        gravatarId: gravatarId ?? this.gravatarId,
+        url: url ?? this.url,
+        htmlUrl: htmlUrl ?? this.htmlUrl,
+        followersUrl: followersUrl ?? this.followersUrl,
+        followingUrl: followingUrl ?? this.followingUrl,
+        gistsUrl: gistsUrl ?? this.gistsUrl,
+        starredUrl: starredUrl ?? this.starredUrl,
+        subscriptionsUrl: subscriptionsUrl ?? this.subscriptionsUrl,
+        organizationsUrl: organizationsUrl ?? this.organizationsUrl,
+        reposUrl: reposUrl ?? this.reposUrl,
+        eventsUrl: eventsUrl ?? this.eventsUrl,
+        receivedEventsUrl: receivedEventsUrl ?? this.receivedEventsUrl,
+        type: type ?? this.type,
+        siteAdmin: siteAdmin ?? this.siteAdmin,
+      );
+
+  factory Owner.fromRawJson(String str) => Owner.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Owner.fromJson(Map<String, dynamic> json) => Owner(
+        login: json["login"] == null ? null : json["login"],
+        id: json["id"] == null ? null : json["id"],
+        nodeId: json["node_id"] == null ? null : json["node_id"],
+        avatarUrl: json["avatar_url"] == null ? null : json["avatar_url"],
+        gravatarId: json["gravatar_id"] == null ? null : json["gravatar_id"],
+        url: json["url"] == null ? null : json["url"],
+        htmlUrl: json["html_url"] == null ? null : json["html_url"],
+        followersUrl:
+            json["followers_url"] == null ? null : json["followers_url"],
+        followingUrl:
+            json["following_url"] == null ? null : json["following_url"],
+        gistsUrl: json["gists_url"] == null ? null : json["gists_url"],
+        starredUrl: json["starred_url"] == null ? null : json["starred_url"],
+        subscriptionsUrl: json["subscriptions_url"] == null
+            ? null
+            : json["subscriptions_url"],
+        organizationsUrl: json["organizations_url"] == null
+            ? null
+            : json["organizations_url"],
+        reposUrl: json["repos_url"] == null ? null : json["repos_url"],
+        eventsUrl: json["events_url"] == null ? null : json["events_url"],
+        receivedEventsUrl: json["received_events_url"] == null
+            ? null
+            : json["received_events_url"],
+        type: json["type"] == null ? null : typeValues.map[json["type"]],
+        siteAdmin: json["site_admin"] == null ? null : json["site_admin"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "login": login == null ? null : login,
+        "id": id == null ? null : id,
+        "node_id": nodeId == null ? null : nodeId,
+        "avatar_url": avatarUrl == null ? null : avatarUrl,
+        "gravatar_id": gravatarId == null ? null : gravatarId,
+        "url": url == null ? null : url,
+        "html_url": htmlUrl == null ? null : htmlUrl,
+        "followers_url": followersUrl == null ? null : followersUrl,
+        "following_url": followingUrl == null ? null : followingUrl,
+        "gists_url": gistsUrl == null ? null : gistsUrl,
+        "starred_url": starredUrl == null ? null : starredUrl,
+        "subscriptions_url": subscriptionsUrl == null ? null : subscriptionsUrl,
+        "organizations_url": organizationsUrl == null ? null : organizationsUrl,
+        "repos_url": reposUrl == null ? null : reposUrl,
+        "events_url": eventsUrl == null ? null : eventsUrl,
+        "received_events_url":
+            receivedEventsUrl == null ? null : receivedEventsUrl,
+        "type": type == null ? null : typeValues.reverse[type],
+        "site_admin": siteAdmin == null ? null : siteAdmin,
+      };
+}
+
+class Permissions {
+  Permissions({
+    this.admin,
+    this.push,
+    this.pull,
+  });
+
+  bool admin;
+  bool push;
+  bool pull;
+
+  Permissions copyWith({
+    bool admin,
+    bool push,
+    bool pull,
+  }) =>
+      Permissions(
+        admin: admin ?? this.admin,
+        push: push ?? this.push,
+        pull: pull ?? this.pull,
+      );
+
+  factory Permissions.fromRawJson(String str) =>
+      Permissions.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Permissions.fromJson(Map<String, dynamic> json) => Permissions(
+        admin: json["admin"] == null ? null : json["admin"],
+        push: json["push"] == null ? null : json["push"],
+        pull: json["pull"] == null ? null : json["pull"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "admin": admin == null ? null : admin,
+        "push": push == null ? null : push,
+        "pull": pull == null ? null : pull,
+      };
+}
+
+enum Type { USER, ORGANIZATION }
+
+final typeValues =
+    EnumValues({"Organization": Type.ORGANIZATION, "User": Type.USER});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

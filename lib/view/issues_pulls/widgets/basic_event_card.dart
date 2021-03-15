@@ -8,8 +8,7 @@ import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
-TextStyle basicCardTheme =
-    TextStyle(fontWeight: FontWeight.bold, color: AppColor.grey3);
+TextStyle basicCardTheme = TextStyle(color: AppColor.grey3);
 
 class BasicEventCard extends StatelessWidget {
   final UserInfoModel user;
@@ -42,12 +41,12 @@ class BasicEventCard extends StatelessWidget {
                 user.avatarUrl,
                 showName: true,
                 size: 20,
-                textStyle: TextStyle(fontSize: 14),
+                textStyle: TextStyle(
+                    fontSize: 12,
+                    color: AppColor.grey3,
+                    fontWeight: FontWeight.bold),
                 padding: EdgeInsets.all(4),
                 userLogin: user.login,
-              ),
-              SizedBox(
-                width: 2,
               ),
               Text(
                 'on ${getDate(date, shorten: false)}',
@@ -96,9 +95,15 @@ class BasicEventAssignedCard extends StatelessWidget {
   final IconData leading;
   final Color iconColor;
   final String date;
+  final bool isAssigned;
   final UserInfoModel content;
   BasicEventAssignedCard(
-      {this.user, this.content, this.date, this.leading, this.iconColor});
+      {this.user,
+      this.content,
+      this.isAssigned,
+      this.date,
+      this.leading,
+      this.iconColor});
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -106,26 +111,31 @@ class BasicEventAssignedCard extends StatelessWidget {
       content: Row(
         children: [
           Text(
-            'Assigned',
+            isAssigned ? 'Assigned' : 'Unassigned',
             style: basicCardTheme,
           ),
           SizedBox(
             width: 4,
           ),
-          ProfileTile(
-            content.avatarUrl,
-            showName: true,
-            textStyle: TextStyle(fontWeight: FontWeight.bold),
-            padding: EdgeInsets.all(4),
-            userLogin: content.login,
-          ),
+          content.login != user.login
+              ? ProfileTile(
+                  content.avatarUrl,
+                  showName: true,
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColor.grey3),
+                  padding: EdgeInsets.all(4),
+                  userLogin: content.login,
+                )
+              : Text(
+                  'themselves',
+                  style: basicCardTheme,
+                ),
           SizedBox(
             width: 4,
           ),
           Text(
-            'to the issue.',
-            style:
-                TextStyle(fontWeight: FontWeight.bold, color: AppColor.grey3),
+            '${isAssigned ? 'to' : 'from'} the issue.',
+            style: basicCardTheme,
           ),
         ],
       ),
@@ -169,8 +179,7 @@ class BasicEventLabeledCard extends StatelessWidget {
           ),
           Text(
             'label ${added ? 'to' : 'from'} the issue.',
-            style:
-                TextStyle(fontWeight: FontWeight.bold, color: AppColor.grey3),
+            style: basicCardTheme,
           ),
         ],
       ),

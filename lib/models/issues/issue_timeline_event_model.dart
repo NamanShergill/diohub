@@ -8,8 +8,8 @@ import 'package:onehub/models/users/user_info_model.dart';
 
 import 'issue_model.dart';
 
-class IssuesTimelineEventModel {
-  IssuesTimelineEventModel({
+class TimelineEventModel {
+  TimelineEventModel({
     this.id,
     this.nodeId,
     this.url,
@@ -51,7 +51,7 @@ class IssuesTimelineEventModel {
   Source source;
   Label label;
 
-  IssuesTimelineEventModel copyWith({
+  TimelineEventModel copyWith({
     int id,
     String nodeId,
     String url,
@@ -71,7 +71,7 @@ class IssuesTimelineEventModel {
     String body,
     Source source,
   }) =>
-      IssuesTimelineEventModel(
+      TimelineEventModel(
         id: id ?? this.id,
         nodeId: nodeId ?? this.nodeId,
         url: url ?? this.url,
@@ -93,13 +93,13 @@ class IssuesTimelineEventModel {
         source: source ?? this.source,
       );
 
-  factory IssuesTimelineEventModel.fromRawJson(String str) =>
-      IssuesTimelineEventModel.fromJson(json.decode(str));
+  factory TimelineEventModel.fromRawJson(String str) =>
+      TimelineEventModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory IssuesTimelineEventModel.fromJson(Map<String, dynamic> json) =>
-      IssuesTimelineEventModel(
+  factory TimelineEventModel.fromJson(Map<String, dynamic> json) =>
+      TimelineEventModel(
         id: json["id"] == null ? null : json["id"],
         nodeId: json["node_id"] == null ? null : json["node_id"],
         url: json["url"] == null ? null : json["url"],
@@ -303,12 +303,12 @@ class Source {
     this.issue,
   });
 
-  SourceType type;
-  Issue issue;
+  String type;
+  IssueModel issue;
 
   Source copyWith({
-    SourceType type,
-    Issue issue,
+    String type,
+    IssueModel issue,
   }) =>
       Source(
         type: type ?? this.type,
@@ -320,230 +320,14 @@ class Source {
   String toRawJson() => json.encode(toJson());
 
   factory Source.fromJson(Map<String, dynamic> json) => Source(
-        type: json["type"] == null ? null : sourceTypeValues.map[json["type"]],
-        issue: json["issue"] == null ? null : Issue.fromJson(json["issue"]),
+        type: json["type"] == null ? null : json["type"],
+        issue:
+            json["issue"] == null ? null : IssueModel.fromJson(json["issue"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "type": type == null ? null : sourceTypeValues.reverse[type],
+        "type": type == null ? null : type,
         "issue": issue == null ? null : issue.toJson(),
-      };
-}
-
-class Issue {
-  Issue({
-    this.url,
-    this.repositoryUrl,
-    this.labelsUrl,
-    this.commentsUrl,
-    this.eventsUrl,
-    this.htmlUrl,
-    this.id,
-    this.nodeId,
-    this.number,
-    this.title,
-    this.user,
-    this.labels,
-    this.state,
-    this.locked,
-    this.assignee,
-    this.assignees,
-    this.milestone,
-    this.comments,
-    this.createdAt,
-    this.updatedAt,
-    this.closedAt,
-    this.authorAssociation,
-    this.activeLockReason,
-    this.repository,
-    this.body,
-    this.timelineUrl,
-    this.performedViaGithubApp,
-    this.pullRequest,
-  });
-
-  String url;
-  String repositoryUrl;
-  String labelsUrl;
-  String commentsUrl;
-  String eventsUrl;
-  String htmlUrl;
-  int id;
-  String nodeId;
-  int number;
-  String title;
-  UserInfoModel user;
-  List<Label> labels;
-  IssueState state;
-  bool locked;
-  UserInfoModel assignee;
-  List<UserInfoModel> assignees;
-  dynamic milestone;
-  int comments;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime closedAt;
-  AuthorAssociation authorAssociation;
-  dynamic activeLockReason;
-  Repository repository;
-  String body;
-  String timelineUrl;
-  dynamic performedViaGithubApp;
-  PullRequest pullRequest;
-
-  Issue copyWith({
-    String url,
-    String repositoryUrl,
-    String labelsUrl,
-    String commentsUrl,
-    String eventsUrl,
-    String htmlUrl,
-    int id,
-    String nodeId,
-    int number,
-    String title,
-    UserInfoModel user,
-    List<Label> labels,
-    IssueState state,
-    bool locked,
-    UserInfoModel assignee,
-    List<UserInfoModel> assignees,
-    dynamic milestone,
-    int comments,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime closedAt,
-    AuthorAssociation authorAssociation,
-    dynamic activeLockReason,
-    Repository repository,
-    String body,
-    String timelineUrl,
-    dynamic performedViaGithubApp,
-    PullRequest pullRequest,
-  }) =>
-      Issue(
-        url: url ?? this.url,
-        repositoryUrl: repositoryUrl ?? this.repositoryUrl,
-        labelsUrl: labelsUrl ?? this.labelsUrl,
-        commentsUrl: commentsUrl ?? this.commentsUrl,
-        eventsUrl: eventsUrl ?? this.eventsUrl,
-        htmlUrl: htmlUrl ?? this.htmlUrl,
-        id: id ?? this.id,
-        nodeId: nodeId ?? this.nodeId,
-        number: number ?? this.number,
-        title: title ?? this.title,
-        user: user ?? this.user,
-        labels: labels ?? this.labels,
-        state: state ?? this.state,
-        locked: locked ?? this.locked,
-        assignee: assignee ?? this.assignee,
-        assignees: assignees ?? this.assignees,
-        milestone: milestone ?? this.milestone,
-        comments: comments ?? this.comments,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        closedAt: closedAt ?? this.closedAt,
-        authorAssociation: authorAssociation ?? this.authorAssociation,
-        activeLockReason: activeLockReason ?? this.activeLockReason,
-        repository: repository ?? this.repository,
-        body: body ?? this.body,
-        timelineUrl: timelineUrl ?? this.timelineUrl,
-        performedViaGithubApp:
-            performedViaGithubApp ?? this.performedViaGithubApp,
-        pullRequest: pullRequest ?? this.pullRequest,
-      );
-
-  factory Issue.fromRawJson(String str) => Issue.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Issue.fromJson(Map<String, dynamic> json) => Issue(
-        url: json["url"] == null ? null : json["url"],
-        repositoryUrl:
-            json["repository_url"] == null ? null : json["repository_url"],
-        labelsUrl: json["labels_url"] == null ? null : json["labels_url"],
-        commentsUrl: json["comments_url"] == null ? null : json["comments_url"],
-        eventsUrl: json["events_url"] == null ? null : json["events_url"],
-        htmlUrl: json["html_url"] == null ? null : json["html_url"],
-        id: json["id"] == null ? null : json["id"],
-        nodeId: json["node_id"] == null ? null : json["node_id"],
-        number: json["number"] == null ? null : json["number"],
-        title: json["title"] == null ? null : json["title"],
-        user:
-            json["user"] == null ? null : UserInfoModel.fromJson(json["user"]),
-        labels: json["labels"] == null
-            ? null
-            : List<Label>.from(json["labels"].map((x) => Label.fromJson(x))),
-        state: json["state"] == null ? null : stateValues.map[json["state"]],
-        locked: json["locked"] == null ? null : json["locked"],
-        assignee: json["assignee"] == null
-            ? null
-            : UserInfoModel.fromJson(json["assignee"]),
-        assignees: json["assignees"] == null
-            ? null
-            : List<UserInfoModel>.from(
-                json["assignees"].map((x) => UserInfoModel.fromJson(x))),
-        milestone: json["milestone"],
-        comments: json["comments"] == null ? null : json["comments"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-        closedAt: json["closed_at"] == null
-            ? null
-            : DateTime.parse(json["closed_at"]),
-        authorAssociation: json["author_association"] == null
-            ? null
-            : authorAssociationValues.map[json["author_association"]],
-        activeLockReason: json["active_lock_reason"],
-        repository: json["repository"] == null
-            ? null
-            : Repository.fromJson(json["repository"]),
-        body: json["body"] == null ? null : json["body"],
-        timelineUrl: json["timeline_url"] == null ? null : json["timeline_url"],
-        performedViaGithubApp: json["performed_via_github_app"],
-        pullRequest: json["pull_request"] == null
-            ? null
-            : PullRequest.fromJson(json["pull_request"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "url": url == null ? null : url,
-        "repository_url": repositoryUrl == null ? null : repositoryUrl,
-        "labels_url": labelsUrl == null ? null : labelsUrl,
-        "comments_url": commentsUrl == null ? null : commentsUrl,
-        "events_url": eventsUrl == null ? null : eventsUrl,
-        "html_url": htmlUrl == null ? null : htmlUrl,
-        "id": id == null ? null : id,
-        "node_id": nodeId == null ? null : nodeId,
-        "number": number == null ? null : number,
-        "title": title == null ? null : title,
-        "user": user == null ? null : user.toJson(),
-        "labels": labels == null
-            ? null
-            : List<dynamic>.from(labels.map((x) => x.toJson())),
-        "state": state == null ? null : stateValues.reverse[state],
-        "locked": locked == null ? null : locked,
-        "assignee": assignee == null ? null : assignee.toJson(),
-        "assignees": assignees == null
-            ? null
-            : List<dynamic>.from(assignees.map((x) => x.toJson())),
-        "milestone": milestone,
-        "comments": comments == null ? null : comments,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "closed_at": closedAt == null ? null : closedAt.toIso8601String(),
-        "author_association": authorAssociation == null
-            ? null
-            : authorAssociationValues.reverse[authorAssociation],
-        "active_lock_reason": activeLockReason,
-        "repository": repository == null ? null : repository.toJson(),
-        "body": body == null ? null : body,
-        "timeline_url": timelineUrl == null ? null : timelineUrl,
-        "performed_via_github_app": performedViaGithubApp,
-        "pull_request": pullRequest == null ? null : pullRequest.toJson(),
       };
 }
 
@@ -672,13 +456,13 @@ class Repository {
   });
 
   int id;
-  RepositoryNodeId nodeId;
-  RepositoryName name;
-  FullName fullName;
+  String nodeId;
+  String name;
+  String fullName;
   bool private;
   UserInfoModel owner;
   String htmlUrl;
-  Description description;
+  String description;
   bool fork;
   String url;
   String forksUrl;
@@ -720,15 +504,15 @@ class Repository {
   DateTime createdAt;
   DateTime updatedAt;
   DateTime pushedAt;
-  GitUrl gitUrl;
-  SshUrl sshUrl;
+  String gitUrl;
+  String sshUrl;
   String cloneUrl;
   String svnUrl;
   String homepage;
   int size;
   int stargazersCount;
   int watchersCount;
-  Language language;
+  String language;
   bool hasIssues;
   bool hasProjects;
   bool hasDownloads;
@@ -743,18 +527,18 @@ class Repository {
   int forks;
   int openIssues;
   int watchers;
-  DefaultBranch defaultBranch;
+  String defaultBranch;
   Permissions permissions;
 
   Repository copyWith({
     int id,
-    RepositoryNodeId nodeId,
-    RepositoryName name,
-    FullName fullName,
+    String nodeId,
+    String name,
+    String fullName,
     bool private,
     UserInfoModel owner,
     String htmlUrl,
-    Description description,
+    String description,
     bool fork,
     String url,
     String forksUrl,
@@ -796,15 +580,15 @@ class Repository {
     DateTime createdAt,
     DateTime updatedAt,
     DateTime pushedAt,
-    GitUrl gitUrl,
-    SshUrl sshUrl,
+    String gitUrl,
+    String sshUrl,
     String cloneUrl,
     String svnUrl,
     String homepage,
     int size,
     int stargazersCount,
     int watchersCount,
-    Language language,
+    String language,
     bool hasIssues,
     bool hasProjects,
     bool hasDownloads,
@@ -819,7 +603,7 @@ class Repository {
     int forks,
     int openIssues,
     int watchers,
-    DefaultBranch defaultBranch,
+    String defaultBranch,
     Permissions permissions,
   }) =>
       Repository(
@@ -906,23 +690,15 @@ class Repository {
 
   factory Repository.fromJson(Map<String, dynamic> json) => Repository(
         id: json["id"] == null ? null : json["id"],
-        nodeId: json["node_id"] == null
-            ? null
-            : repositoryNodeIdValues.map[json["node_id"]],
-        name: json["name"] == null
-            ? null
-            : repositoryNameValues.map[json["name"]],
-        fullName: json["full_name"] == null
-            ? null
-            : fullNameValues.map[json["full_name"]],
+        nodeId: json["node_id"] == null ? null : json["node_id"],
+        name: json["name"] == null ? null : json["name"],
+        fullName: json["full_name"] == null ? null : json["full_name"],
         private: json["private"] == null ? null : json["private"],
         owner: json["owner"] == null
             ? null
             : UserInfoModel.fromJson(json["owner"]),
         htmlUrl: json["html_url"] == null ? null : json["html_url"],
-        description: json["description"] == null
-            ? null
-            : descriptionValues.map[json["description"]],
+        description: json["description"] == null ? null : json["description"],
         fork: json["fork"] == null ? null : json["fork"],
         url: json["url"] == null ? null : json["url"],
         forksUrl: json["forks_url"] == null ? null : json["forks_url"],
@@ -987,10 +763,8 @@ class Repository {
         pushedAt: json["pushed_at"] == null
             ? null
             : DateTime.parse(json["pushed_at"]),
-        gitUrl:
-            json["git_url"] == null ? null : gitUrlValues.map[json["git_url"]],
-        sshUrl:
-            json["ssh_url"] == null ? null : sshUrlValues.map[json["ssh_url"]],
+        gitUrl: json["git_url"] == null ? null : json["git_url"],
+        sshUrl: json["ssh_url"] == null ? null : json["ssh_url"],
         cloneUrl: json["clone_url"] == null ? null : json["clone_url"],
         svnUrl: json["svn_url"] == null ? null : json["svn_url"],
         homepage: json["homepage"] == null ? null : json["homepage"],
@@ -999,9 +773,7 @@ class Repository {
             json["stargazers_count"] == null ? null : json["stargazers_count"],
         watchersCount:
             json["watchers_count"] == null ? null : json["watchers_count"],
-        language: json["language"] == null
-            ? null
-            : languageValues.map[json["language"]],
+        language: json["language"] == null ? null : json["language"],
         hasIssues: json["has_issues"] == null ? null : json["has_issues"],
         hasProjects: json["has_projects"] == null ? null : json["has_projects"],
         hasDownloads:
@@ -1020,9 +792,8 @@ class Repository {
         forks: json["forks"] == null ? null : json["forks"],
         openIssues: json["open_issues"] == null ? null : json["open_issues"],
         watchers: json["watchers"] == null ? null : json["watchers"],
-        defaultBranch: json["default_branch"] == null
-            ? null
-            : defaultBranchValues.map[json["default_branch"]],
+        defaultBranch:
+            json["default_branch"] == null ? null : json["default_branch"],
         permissions: json["permissions"] == null
             ? null
             : Permissions.fromJson(json["permissions"]),
@@ -1030,15 +801,13 @@ class Repository {
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "node_id":
-            nodeId == null ? null : repositoryNodeIdValues.reverse[nodeId],
-        "name": name == null ? null : repositoryNameValues.reverse[name],
-        "full_name": fullName == null ? null : fullNameValues.reverse[fullName],
+        "node_id": nodeId == null ? null : nodeId,
+        "name": name == null ? null : name,
+        "full_name": fullName == null ? null : fullName,
         "private": private == null ? null : private,
         "owner": owner == null ? null : owner.toJson(),
         "html_url": htmlUrl == null ? null : htmlUrl,
-        "description":
-            description == null ? null : descriptionValues.reverse[description],
+        "description": description == null ? null : description,
         "fork": fork == null ? null : fork,
         "url": url == null ? null : url,
         "forks_url": forksUrl == null ? null : forksUrl,
@@ -1080,15 +849,15 @@ class Repository {
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "pushed_at": pushedAt == null ? null : pushedAt.toIso8601String(),
-        "git_url": gitUrl == null ? null : gitUrlValues.reverse[gitUrl],
-        "ssh_url": sshUrl == null ? null : sshUrlValues.reverse[sshUrl],
+        "git_url": gitUrl == null ? null : gitUrl,
+        "ssh_url": sshUrl == null ? null : sshUrl,
         "clone_url": cloneUrl == null ? null : cloneUrl,
         "svn_url": svnUrl == null ? null : svnUrl,
         "homepage": homepage == null ? null : homepage,
         "size": size == null ? null : size,
         "stargazers_count": stargazersCount == null ? null : stargazersCount,
         "watchers_count": watchersCount == null ? null : watchersCount,
-        "language": language == null ? null : languageValues.reverse[language],
+        "language": language == null ? null : language,
         "has_issues": hasIssues == null ? null : hasIssues,
         "has_projects": hasProjects == null ? null : hasProjects,
         "has_downloads": hasDownloads == null ? null : hasDownloads,
@@ -1103,46 +872,10 @@ class Repository {
         "forks": forks == null ? null : forks,
         "open_issues": openIssues == null ? null : openIssues,
         "watchers": watchers == null ? null : watchers,
-        "default_branch": defaultBranch == null
-            ? null
-            : defaultBranchValues.reverse[defaultBranch],
+        "default_branch": defaultBranch == null ? null : defaultBranch,
         "permissions": permissions == null ? null : permissions.toJson(),
       };
 }
-
-enum DefaultBranch { MASTER }
-
-final defaultBranchValues = EnumValues({"master": DefaultBranch.MASTER});
-
-enum Description { A_COLLECTION_OF_FIREBASE_PLUGINS_FOR_FLUTTER_APPS }
-
-final descriptionValues = EnumValues({
-  "\ud83d\udd25 A collection of Firebase plugins for Flutter apps.":
-      Description.A_COLLECTION_OF_FIREBASE_PLUGINS_FOR_FLUTTER_APPS
-});
-
-enum FullName { FIREBASE_EXTENDED_FLUTTERFIRE, ATN832_CLOUD_FIRESTORE_MOCKS }
-
-final fullNameValues = EnumValues({
-  "atn832/cloud_firestore_mocks": FullName.ATN832_CLOUD_FIRESTORE_MOCKS,
-  "FirebaseExtended/flutterfire": FullName.FIREBASE_EXTENDED_FLUTTERFIRE
-});
-
-enum GitUrl {
-  GIT_GITHUB_COM_FIREBASE_EXTENDED_FLUTTERFIRE_GIT,
-  GIT_GITHUB_COM_ATN832_CLOUD_FIRESTORE_MOCKS_GIT
-}
-
-final gitUrlValues = EnumValues({
-  "git://github.com/atn832/cloud_firestore_mocks.git":
-      GitUrl.GIT_GITHUB_COM_ATN832_CLOUD_FIRESTORE_MOCKS_GIT,
-  "git://github.com/FirebaseExtended/flutterfire.git":
-      GitUrl.GIT_GITHUB_COM_FIREBASE_EXTENDED_FLUTTERFIRE_GIT
-});
-
-enum Language { DART }
-
-final languageValues = EnumValues({"Dart": Language.DART});
 
 class License {
   License({
@@ -1153,18 +886,18 @@ class License {
     this.nodeId,
   });
 
-  Key key;
-  LicenseName name;
-  SpdxId spdxId;
+  String key;
+  String name;
+  String spdxId;
   String url;
-  LicenseNodeId nodeId;
+  String nodeId;
 
   License copyWith({
-    Key key,
-    LicenseName name,
-    SpdxId spdxId,
+    String key,
+    String name,
+    String spdxId,
     String url,
-    LicenseNodeId nodeId,
+    String nodeId,
   }) =>
       License(
         key: key ?? this.key,
@@ -1179,72 +912,21 @@ class License {
   String toRawJson() => json.encode(toJson());
 
   factory License.fromJson(Map<String, dynamic> json) => License(
-        key: json["key"] == null ? null : keyValues.map[json["key"]],
-        name: json["name"] == null ? null : licenseNameValues.map[json["name"]],
-        spdxId:
-            json["spdx_id"] == null ? null : spdxIdValues.map[json["spdx_id"]],
+        key: json["key"] == null ? null : json["key"],
+        name: json["name"] == null ? null : json["name"],
+        spdxId: json["spdx_id"] == null ? null : json["spdx_id"],
         url: json["url"] == null ? null : json["url"],
-        nodeId: json["node_id"] == null
-            ? null
-            : licenseNodeIdValues.map[json["node_id"]],
+        nodeId: json["node_id"] == null ? null : json["node_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "key": key == null ? null : keyValues.reverse[key],
-        "name": name == null ? null : licenseNameValues.reverse[name],
-        "spdx_id": spdxId == null ? null : spdxIdValues.reverse[spdxId],
+        "key": key == null ? null : key,
+        "name": name == null ? null : name,
+        "spdx_id": spdxId == null ? null : spdxId,
         "url": url == null ? null : url,
-        "node_id": nodeId == null ? null : licenseNodeIdValues.reverse[nodeId],
+        "node_id": nodeId == null ? null : nodeId,
       };
 }
-
-enum Key { BSD_3_CLAUSE, BSD_2_CLAUSE }
-
-final keyValues = EnumValues(
-    {"bsd-2-clause": Key.BSD_2_CLAUSE, "bsd-3-clause": Key.BSD_3_CLAUSE});
-
-enum LicenseName {
-  BSD_3_CLAUSE_NEW_OR_REVISED_LICENSE,
-  BSD_2_CLAUSE_SIMPLIFIED_LICENSE
-}
-
-final licenseNameValues = EnumValues({
-  "BSD 2-Clause \"Simplified\" License":
-      LicenseName.BSD_2_CLAUSE_SIMPLIFIED_LICENSE,
-  "BSD 3-Clause \"New\" or \"Revised\" License":
-      LicenseName.BSD_3_CLAUSE_NEW_OR_REVISED_LICENSE
-});
-
-enum LicenseNodeId { M_DC6_T_GLJ_ZW5_Z_ZTU, M_DC6_T_GLJ_ZW5_Z_ZTQ }
-
-final licenseNodeIdValues = EnumValues({
-  "MDc6TGljZW5zZTQ=": LicenseNodeId.M_DC6_T_GLJ_ZW5_Z_ZTQ,
-  "MDc6TGljZW5zZTU=": LicenseNodeId.M_DC6_T_GLJ_ZW5_Z_ZTU
-});
-
-enum SpdxId { BSD_3_CLAUSE, BSD_2_CLAUSE }
-
-final spdxIdValues = EnumValues(
-    {"BSD-2-Clause": SpdxId.BSD_2_CLAUSE, "BSD-3-Clause": SpdxId.BSD_3_CLAUSE});
-
-enum RepositoryName { FLUTTERFIRE, CLOUD_FIRESTORE_MOCKS }
-
-final repositoryNameValues = EnumValues({
-  "cloud_firestore_mocks": RepositoryName.CLOUD_FIRESTORE_MOCKS,
-  "flutterfire": RepositoryName.FLUTTERFIRE
-});
-
-enum RepositoryNodeId {
-  MD_EW_OL_JLC_G9_ZA_X_RVCNKY_MDI0_MJK3_MDM,
-  MD_EW_OL_JLC_G9_ZA_X_RVCNKY_MJ_EY_MD_YY_NJ_Y
-}
-
-final repositoryNodeIdValues = EnumValues({
-  "MDEwOlJlcG9zaXRvcnkyMDI0Mjk3MDM=":
-      RepositoryNodeId.MD_EW_OL_JLC_G9_ZA_X_RVCNKY_MDI0_MJK3_MDM,
-  "MDEwOlJlcG9zaXRvcnkyMjEyMDYyNjY=":
-      RepositoryNodeId.MD_EW_OL_JLC_G9_ZA_X_RVCNKY_MJ_EY_MD_YY_NJ_Y
-});
 
 class Permissions {
   Permissions({
@@ -1286,26 +968,10 @@ class Permissions {
       };
 }
 
-enum SshUrl {
-  GIT_GITHUB_COM_FIREBASE_EXTENDED_FLUTTERFIRE_GIT,
-  GIT_GITHUB_COM_ATN832_CLOUD_FIRESTORE_MOCKS_GIT
-}
-
-final sshUrlValues = EnumValues({
-  "git@github.com:atn832/cloud_firestore_mocks.git":
-      SshUrl.GIT_GITHUB_COM_ATN832_CLOUD_FIRESTORE_MOCKS_GIT,
-  "git@github.com:FirebaseExtended/flutterfire.git":
-      SshUrl.GIT_GITHUB_COM_FIREBASE_EXTENDED_FLUTTERFIRE_GIT
-});
-
 enum IssueState { CLOSED, OPEN }
 
 final stateValues =
     EnumValues({"closed": IssueState.CLOSED, "open": IssueState.OPEN});
-
-enum SourceType { ISSUE }
-
-final sourceTypeValues = EnumValues({"issue": SourceType.ISSUE});
 
 class EnumValues<T> {
   Map<String, T> map;

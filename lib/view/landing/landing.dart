@@ -100,7 +100,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   GButton(
                     icon: LineIcons.bell,
-                    text: 'Notifications',
+                    text: 'Inbox',
                     heroTag: 'notificationsNavButton',
                   ),
                   GButton(
