@@ -68,6 +68,7 @@ class _DiscussionState extends State<Discussion>
                           .subtract(Duration(minutes: 5))
                           .toIso8601String());
                 },
+                bottomSpacing: 60,
                 header: (context) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -129,6 +130,7 @@ class _DiscussionState extends State<Discussion>
                     child: LoadingIndicator(),
                   );
                 },
+                bottomSpacing: 60,
                 filterFn: (List<TimelineEventModel> list) {
                   List<Event> allowedEvents = [
                     Event.commented,

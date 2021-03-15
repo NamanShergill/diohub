@@ -50,6 +50,9 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Spacing to add to the top of the list.
   final double topSpacing;
 
+  /// Spacing to add to the bottom of the list.
+  final double bottomSpacing;
+
   /// Show the list end indicator or not.
   final bool listEndIndicator;
 
@@ -65,6 +68,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.builder,
       this.controller,
       this.filterFn,
+      this.bottomSpacing = 0,
       this.header,
       this.pageNumber = 1,
       this.divider = true,
@@ -197,8 +201,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                if (widget.header != null && pageNumber == 1)
-                  widget.header(context),
+                if (widget.header != null) widget.header(context),
                 Text(
                   'And then there were none.',
                   style: TextStyle(color: AppColor.grey3),
@@ -210,9 +213,16 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
               ? Center(
                   child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'The end of the line.',
-                    style: TextStyle(color: AppColor.grey3),
+                  child: Column(
+                    children: [
+                      Text(
+                        'The end of the line.',
+                        style: TextStyle(color: AppColor.grey3),
+                      ),
+                      SizedBox(
+                        height: widget.bottomSpacing,
+                      ),
+                    ],
                   ),
                 ))
               : Container(),
