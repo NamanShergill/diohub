@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:onehub/models/issues/issue_model.dart';
+
 class IssueEventModel {
   IssueEventModel({
     this.id,
@@ -286,34 +288,6 @@ class Label {
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
         "color": color == null ? null : color,
-      };
-}
-
-class Milestone {
-  Milestone({
-    this.title,
-  });
-
-  String title;
-
-  Milestone copyWith({
-    String title,
-  }) =>
-      Milestone(
-        title: title ?? this.title,
-      );
-
-  factory Milestone.fromRawJson(String str) =>
-      Milestone.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Milestone.fromJson(Map<String, dynamic> json) => Milestone(
-        title: json["title"] == null ? null : json["title"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "title": title == null ? null : title,
       };
 }
 

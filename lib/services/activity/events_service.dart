@@ -9,7 +9,7 @@ class EventsService {
       {int page, int perPage, bool refresh}) async {
     Response response = await GetDio.getDio().get('/users/$user/events',
         queryParameters: {'per_page': perPage, 'page': page},
-        options: CacheManager.defaultCache(refresh));
+        options: CacheManager.defaultCache(refresh: refresh));
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];
     for (var event in unParsedEvents) {
@@ -25,7 +25,7 @@ class EventsService {
     Response response = await GetDio.getDio().get(
         '/users/$user/received_events',
         queryParameters: parameters,
-        options: CacheManager.events(refresh));
+        options: CacheManager.events(refresh: refresh));
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];
     for (var event in unParsedEvents) {
@@ -39,7 +39,8 @@ class EventsService {
       {bool refresh = false, int perPage, int page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
     Response response = await GetDio.getDio().get('/events',
-        queryParameters: parameters, options: CacheManager.events(refresh));
+        queryParameters: parameters,
+        options: CacheManager.events(refresh: refresh));
     // Todo: Change this.
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];

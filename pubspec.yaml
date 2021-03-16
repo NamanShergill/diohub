@@ -32,6 +32,7 @@ dependencies:
       url: https://github.com/Sub6Resources/flutter_html.git
       ref: 4688f1a91421a76ea5c27e29889fadce6b6b4102
   flutter_icons: ^1.1.0
+  flutter_reaction_button: ^1.0.7+3
   flutter_secure_storage: ^4.1.0
   flutter_slidable: ^0.6.0-nullsafety.0
   flutter_signin_button: ^2.0.0-nullsafety.0

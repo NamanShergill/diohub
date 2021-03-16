@@ -1,22 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/common/markdown_body.dart';
 import 'package:onehub/common/profile_banner.dart';
+import 'package:onehub/common/reaction_bar.dart';
 import 'package:onehub/models/issues/issue_comments_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
+import 'package:provider/provider.dart';
 
 class TimelineDiscussionComment extends StatelessWidget {
   final TimelineEventModel item;
-  TimelineDiscussionComment(this.item);
+  final bool isLocked;
+  TimelineDiscussionComment(this.item, this.isLocked);
   @override
   Widget build(BuildContext context) {
     return BaseComment(
       body: item.body,
       user: item.user,
+      url: item.url,
       authorAssociation: item.authorAssociation,
       createdAt: item.createdAt,
+      isLocked: isLocked,
     );
   }
 }
@@ -40,7 +47,15 @@ class BaseComment extends StatelessWidget {
   final AuthorAssociation authorAssociation;
   final DateTime createdAt;
   final String body;
-  BaseComment({this.authorAssociation, this.user, this.createdAt, this.body});
+  final bool isLocked;
+  final String url;
+  BaseComment(
+      {this.authorAssociation,
+      this.url,
+      this.user,
+      this.createdAt,
+      this.body,
+      this.isLocked = false});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -78,6 +93,8 @@ class BaseComment extends StatelessWidget {
                           else if (authorAssociation ==
                               AuthorAssociation.CONTRIBUTOR)
                             str = 'Contributor';
+                          else if (authorAssociation == AuthorAssociation.OWNER)
+                            str = 'Owner';
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
@@ -105,18 +122,13 @@ class BaseComment extends StatelessWidget {
             Flexible(child: MarkdownBody(body)),
           ],
         ),
-        // Todo: Add reactions later.
-        // APIWrapper<List<ReactionsModel>>(
-        //   apiCall: ReactionsService.getCommitCommentReactions(item.url),
-        //   responseBuilder: (context, data) {
-        //     return Wrap(
-        //       children: List.generate(
-        //           data.length,
-        //           (index) => Text(
-        //               EmojiParser().emojify(":${data[index].content}:"))),
-        //     );
-        //   },
-        // ),
+        if (url != null)
+          ReactionBar(
+              url,
+              Provider.of<CurrentUserProvider>(context, listen: false)
+                  .currentUserInfo
+                  .login,
+              !isLocked),
       ],
     );
   }

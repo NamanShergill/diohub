@@ -161,13 +161,14 @@ enum ActorType { USER, ORGANIZATION }
 final actorTypeValues = EnumValues(
     {"Organization": ActorType.ORGANIZATION, "User": ActorType.USER});
 
-enum AuthorAssociation { CONTRIBUTOR, MEMBER, NONE, COLLABORATOR }
+enum AuthorAssociation { CONTRIBUTOR, MEMBER, NONE, COLLABORATOR, OWNER }
 
 final authorAssociationValues = EnumValues({
   "COLLABORATOR": AuthorAssociation.COLLABORATOR,
   "CONTRIBUTOR": AuthorAssociation.CONTRIBUTOR,
   "MEMBER": AuthorAssociation.MEMBER,
-  "NONE": AuthorAssociation.NONE
+  "NONE": AuthorAssociation.NONE,
+  "OWNER": AuthorAssociation.OWNER,
 });
 
 enum Event {
@@ -178,6 +179,8 @@ enum Event {
   base_ref_changed,
   closed,
   commented,
+  commit_commented,
+
   committed,
   connected,
   convert_to_draft,
@@ -262,6 +265,7 @@ final eventValues = EnumValues({
   "unpinned": Event.unpinned,
   "unsubscribed": Event.unsubscribed,
   "user_blocked": Event.user_blocked,
+  "commit-commented": Event.commit_commented,
 });
 
 class Rename {
@@ -967,11 +971,6 @@ class Permissions {
         "pull": pull == null ? null : pull,
       };
 }
-
-enum IssueState { CLOSED, OPEN }
-
-final stateValues =
-    EnumValues({"closed": IssueState.CLOSED, "open": IssueState.OPEN});
 
 class EnumValues<T> {
   Map<String, T> map;

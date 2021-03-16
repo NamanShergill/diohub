@@ -7,51 +7,46 @@ import 'package:onehub/common/scaffold_body.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
 import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/issue/issue_provider.dart';
+import 'package:onehub/providers/pulls/pull_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 import 'package:onehub/view/issues_pulls/discussion.dart';
-import 'package:onehub/view/issues_pulls/issue_information.dart';
 import 'package:provider/provider.dart';
 
-class IssueScreen extends StatefulWidget {
-  final String issueURL;
-  final String repoURL;
+class PullScreen extends StatefulWidget {
+  final String pullURL;
   final DateTime commentsSince;
   final int initialIndex;
-  IssueScreen(this.issueURL, this.repoURL,
-      {this.initialIndex = 0, this.commentsSince});
-
+  PullScreen(this.pullURL, {this.initialIndex = 0, this.commentsSince});
   @override
-  _IssueScreenState createState() => _IssueScreenState();
+  _PullScreenState createState() => _PullScreenState();
 }
 
-class _IssueScreenState extends State<IssueScreen>
+class _PullScreenState extends State<PullScreen>
     with SingleTickerProviderStateMixin {
   TabController tabController;
 
   @override
   void initState() {
     tabController = TabController(
-        length: 2, initialIndex: widget.initialIndex, vsync: this);
+        length: 4, initialIndex: widget.initialIndex, vsync: this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => IssueProvider(
-          widget.issueURL,
+      create: (_) => PullProvider(
+          widget.pullURL,
           Provider.of<CurrentUserProvider>(context, listen: false)
               .currentUserInfo
-              .login,
-          widget.repoURL),
+              .login),
       builder: (context, child) {
         return SafeArea(
-          child: Consumer<IssueProvider>(
+          child: Consumer<PullProvider>(
             builder: (context, value, _) {
               return Scaffold(
                 appBar: value.status != Status.loaded
@@ -61,7 +56,7 @@ class _IssueScreenState extends State<IssueScreen>
                     : null,
                 body: ScaffoldBody(
                   notificationController: value.notificationController,
-                  child: ProviderLoadingProgressWrapper<IssueProvider>(
+                  child: ProviderLoadingProgressWrapper<PullProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
                         childrenColor: AppColor.background,
@@ -70,31 +65,33 @@ class _IssueScreenState extends State<IssueScreen>
                           tabs: [
                             'Information',
                             'Discussion',
+                            'Commits',
+                            'Files Changed',
                           ],
                           collapsedHeight: 120,
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.issueModel.state, 15),
+                              getIcon(value.pullModel.state, 15),
                               SizedBox(
                                 width: 4,
                               ),
                               Text(
-                                value.issueModel.state == IssueState.OPEN
+                                value.pullModel.state == IssueState.OPEN
                                     ? 'Open'
                                     : 'Closed',
                                 style: TextStyle(
-                                    color: value.issueModel.state ==
-                                            IssueState.OPEN
-                                        ? AppColor.success
-                                        : AppColor.error,
+                                    color:
+                                        value.pullModel.state == IssueState.OPEN
+                                            ? AppColor.success
+                                            : AppColor.error,
                                     fontSize: 14),
                               ),
                               SizedBox(
                                 width: 8,
                               ),
                               Text(
-                                '#${value.issueModel.number}',
+                                '#${value.pullModel.number}',
                                 style: TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
@@ -106,16 +103,16 @@ class _IssueScreenState extends State<IssueScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.issueModel.state, 20),
+                                  getIcon(value.pullModel.state, 20),
                                   SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    value.issueModel.state == IssueState.OPEN
+                                    value.pullModel.state == IssueState.OPEN
                                         ? 'Open'
                                         : 'Closed',
                                     style: TextStyle(
-                                        color: value.issueModel.state ==
+                                        color: value.pullModel.state ==
                                                 IssueState.OPEN
                                             ? AppColor.success
                                             : AppColor.error,
@@ -126,7 +123,7 @@ class _IssueScreenState extends State<IssueScreen>
                                     width: 8,
                                   ),
                                   Text(
-                                    '#${value.issueModel.number}',
+                                    '#${value.pullModel.number}',
                                     style: TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
@@ -142,7 +139,7 @@ class _IssueScreenState extends State<IssueScreen>
                                     width: 4,
                                   ),
                                   Text(
-                                    '${value.issueModel.comments} comments',
+                                    '${value.pullModel.comments} comments',
                                     style: TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
@@ -152,14 +149,14 @@ class _IssueScreenState extends State<IssueScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.issueModel.title.length >
+                                value.pullModel.title.length >
                                         MediaQuery.of(context).size.width / 14
-                                    ? value.issueModel.title.substring(
+                                    ? value.pullModel.title.substring(
                                             0,
                                             MediaQuery.of(context).size.width ~/
                                                 14) +
                                         '...'
-                                    : value.issueModel.title,
+                                    : value.pullModel.title,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
@@ -171,26 +168,23 @@ class _IssueScreenState extends State<IssueScreen>
                                   onTap: () {
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
-                                            repositoryURL: value
-                                                .issueModel.repositoryUrl));
+                                            repositoryURL: value.repoURL));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: Text(
-                                      value.issueModel.repositoryUrl
-                                          .replaceFirst(
-                                              'https://api.github.com/repos/',
-                                              ''),
+                                      value.repoURL.replaceFirst(
+                                          'https://api.github.com/repos/', ''),
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),
                                 ),
                               ),
                               Text(
-                                value.issueModel.state == IssueState.CLOSED
-                                    ? 'By ${value.issueModel.user.login}, closed ${getDate(value.issueModel.closedAt.toString(), shorten: false)}.'
-                                    : 'Opened ${getDate(value.issueModel.createdAt.toString(), shorten: false)} by ${value.issueModel.user.login}',
+                                value.pullModel.state == IssueState.CLOSED
+                                    ? 'By ${value.pullModel.user.login}, closed ${getDate(value.pullModel.closedAt.toString(), shorten: false)}.'
+                                    : 'Opened ${getDate(value.pullModel.createdAt.toString(), shorten: false)} by ${value.pullModel.user.login}',
                                 style: TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
@@ -199,23 +193,25 @@ class _IssueScreenState extends State<IssueScreen>
                         ),
                         tabController: tabController,
                         tabViews: [
-                          IssueInformation(),
+                          Container(),
                           Discussion(
                             commentsSince: widget.commentsSince,
-                            isLocked: value.issueModel.locked &&
-                                !value.editingEnabled,
-                            createdAt: value.issueModel.createdAt,
-                            issueUrl: value.issueModel.url,
+                            isLocked:
+                                value.pullModel.locked && !value.editingEnabled,
+                            createdAt: value.pullModel.createdAt,
+                            issueUrl: value.pullModel.issueUrl,
                             initialComment: TimelineEventModel(
-                                createdAt: value.issueModel.createdAt,
+                                createdAt: value.pullModel.createdAt,
                                 event: Event.commented,
-                                user: value.issueModel.user,
+                                user: value.pullModel.user,
                                 authorAssociation:
-                                    value.issueModel.authorAssociation,
-                                body: value.issueModel.body.isNotEmpty
-                                    ? value.issueModel.body
+                                    value.pullModel.authorAssociation,
+                                body: value.pullModel.body.isNotEmpty
+                                    ? value.pullModel.body
                                     : "No description provided."),
                           ),
+                          Container(),
+                          Container(),
                         ],
                       );
                     },

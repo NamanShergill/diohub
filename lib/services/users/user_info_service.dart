@@ -31,7 +31,7 @@ class UserInfoService {
           'per_page': perPage,
           'page': pageNumber
         },
-        options: CacheManager.defaultCache(refresh));
+        options: CacheManager.defaultCache(refresh: refresh));
     List unParsedData = response.data;
     List<RepositoryModel> data =
         unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
@@ -46,7 +46,7 @@ class UserInfoService {
           'per_page': perPage,
           'page': pageNumber
         },
-        options: CacheManager.defaultCache(refresh));
+        options: CacheManager.defaultCache(refresh: refresh));
     List unParsedData = response.data;
     List<RepositoryModel> data =
         unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
@@ -54,7 +54,8 @@ class UserInfoService {
   }
 
   static Future<UserInfoModel> getUserInfo(String login) async {
-    Response response = await GetDio.getDio().get('/users/$login');
+    Response response = await GetDio.getDio()
+        .get('/users/$login', options: CacheManager.defaultCache());
     return UserInfoModel.fromJson(response.data);
   }
 

@@ -22,7 +22,7 @@ class NotificationsService {
     List<NotificationModel> notifications = await GetDio.getDio()
         .get(
       _url,
-      options: CacheManager.notifications(refresh),
+      options: CacheManager.notifications(refresh: refresh),
       queryParameters: queryParameters,
     )
         .then((value) {

@@ -5,10 +5,11 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/material.dart' as _i11;
+import 'package:flutter/material.dart' as _i12;
 
 import '../view/home/widgets/search_overlay.dart' as _i3;
 import '../view/issues_pulls/issue_screen.dart' as _i10;
+import '../view/issues_pulls/pull_screen.dart' as _i11;
 import '../view/landing/widgets/landing_auth_wrapper.dart' as _i2;
 import '../view/profile/other_user_profile_screen.dart' as _i9;
 import '../view/repository/code/file_viewer.dart' as _i5;
@@ -103,6 +104,16 @@ class AppRouter extends _i1.RootStackRouter {
               commentsSince: route.commentsSince),
           transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
           durationInMilliseconds: 250);
+    },
+    PullScreenRoute.name: (entry) {
+      var route = entry.routeData.as<PullScreenRoute>();
+      return _i1.CustomPage(
+          entry: entry,
+          child: _i11.PullScreen(route.pullURL,
+              initialIndex: route.initialIndex ?? 0,
+              commentsSince: route.commentsSince),
+          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+          durationInMilliseconds: 250);
     }
   };
 
@@ -138,7 +149,10 @@ class AppRouter extends _i1.RootStackRouter {
                 OtherUserProfileScreenRoute.fromMatch(match)),
         _i1.RouteConfig<IssueScreenRoute>(IssueScreenRoute.name,
             path: '/issue-screen',
-            routeBuilder: (match) => IssueScreenRoute.fromMatch(match))
+            routeBuilder: (match) => IssueScreenRoute.fromMatch(match)),
+        _i1.RouteConfig<PullScreenRoute>(PullScreenRoute.name,
+            path: '/pull-screen',
+            routeBuilder: (match) => PullScreenRoute.fromMatch(match))
       ];
 }
 
@@ -149,7 +163,7 @@ class LandingAuthWrapperScreenRoute extends _i1.PageRouteInfo {
       : key = null,
         super.fromMatch(match);
 
-  final _i11.Key key;
+  final _i12.Key key;
 
   static const String name = 'LandingAuthWrapperScreenRoute';
 }
@@ -183,7 +197,7 @@ class RepositoryScreenRoute extends _i1.PageRouteInfo {
 
   final int index;
 
-  final _i11.Key key;
+  final _i12.Key key;
 
   final String initSHA;
 
@@ -225,7 +239,7 @@ class CommitInfoScreenRoute extends _i1.PageRouteInfo {
         commitURL = null,
         super.fromMatch(match);
 
-  final _i11.Key key;
+  final _i12.Key key;
 
   final String commitURL;
 
@@ -240,7 +254,7 @@ class WikiViewerRoute extends _i1.PageRouteInfo {
         repoURL = null,
         super.fromMatch(match);
 
-  final _i11.Key key;
+  final _i12.Key key;
 
   final String repoURL;
 
@@ -300,4 +314,23 @@ class IssueScreenRoute extends _i1.PageRouteInfo {
   final DateTime commentsSince;
 
   static const String name = 'IssueScreenRoute';
+}
+
+class PullScreenRoute extends _i1.PageRouteInfo {
+  PullScreenRoute({this.pullURL, this.initialIndex = 0, this.commentsSince})
+      : super(name, path: '/pull-screen');
+
+  PullScreenRoute.fromMatch(_i1.RouteMatch match)
+      : pullURL = null,
+        initialIndex = 0,
+        commentsSince = null,
+        super.fromMatch(match);
+
+  final String pullURL;
+
+  final int initialIndex;
+
+  final DateTime commentsSince;
+
+  static const String name = 'PullScreenRoute';
 }

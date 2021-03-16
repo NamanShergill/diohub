@@ -91,6 +91,8 @@ class GetDio {
     // dio.interceptors.add(PrettyDioLogger(
     //   responseHeader: true,
     //   responseBody: false,
+    //   requestBody: true,
+    //   requestHeader: true,
     // ));
     return dio;
   }

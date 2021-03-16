@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/events/notifications_model.dart';
+import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/models/pull_requests/review_model.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
@@ -68,13 +69,13 @@ class _PullRequestNotificationCardState
   Widget getPullFooter() {
     return CardFooter(
         pullRequest.user.avatarUrl,
-        'Status: ${pullRequest.merged ? 'Merged' : pullRequest.state.substring(0, 1).toUpperCase() + pullRequest.state.substring(1)}',
+        'Status: ${pullRequest.merged ? 'Merged' : stateValues.reverse[pullRequest.state].substring(0, 1).toUpperCase() + stateValues.reverse[pullRequest.state].substring(1)}',
         widget.notification.unread);
   }
 
   Widget getIcon() {
     if (!loading) {
-      if (pullRequest.state == 'closed') {
+      if (pullRequest.state == IssueState.CLOSED) {
         if (pullRequest.merged)
           return Icon(
             Octicons.git_merge,
@@ -87,7 +88,7 @@ class _PullRequestNotificationCardState
             color: Colors.red,
             size: iconSize,
           );
-      } else if (pullRequest.state == 'open')
+      } else if (pullRequest.state == IssueState.OPEN)
         return Icon(
           Octicons.git_pull_request,
           color: Colors.green,

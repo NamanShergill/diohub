@@ -5,12 +5,15 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:html/parser.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/image_loader.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/regex.dart';
 
 class MarkdownBodyController {
   void Function(String string) update;
@@ -35,14 +38,73 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   void initState() {
-    content = md.markdownToHtml(widget.content);
+    updateData(md.markdownToHtml(widget.content));
     super.initState();
   }
 
   void updateData(String data) {
-    setState(() {
-      content = md.markdownToHtml(data);
+    var document = parse(data);
+    // The list of tags to perform modifications on.
+    List<String> tags = ['p', 'li'];
+    tags.forEach((element) {
+      var elements = document.getElementsByTagName(element);
+      performModifications(elements);
     });
+    content = document.outerHtml;
+  }
+
+  void performModifications(elements) {
+    for (dom.Element node in elements) {
+      // Make a snapshot of the nodes list as the current one would change
+      // in the loops.
+      List<dom.Node> unModifiedNodes = List.from(node.nodes);
+      for (int i = 0; i < unModifiedNodes.length; i++) {
+        // Select the child node.
+        dom.Node childNode = unModifiedNodes[i];
+        // Check if the node type is Text.
+        if (childNode is dom.Text) {
+          // Split strings if they start with @ or digits if they start with #.
+          RegExp exp =
+              RegExp(r'(@[a-zA-Z0-9_/]+?(?![a-zA-Z0-9_/]))|((?=/#(\d+)/))');
+          List<String> strings = childNode.text.splitWithDelim(exp);
+          // Insert new elements just before the current element node.
+          strings.forEach(
+            (e) {
+              // Change @<string> to a URL to a Github profile.
+              if (e.startsWith('@')) {
+                // If string has a '/' in it, it is likely a mention to a
+                // Github team.
+                if (e.contains('/'))
+                  node.insertBefore(
+                      parseFragment(
+                          '<a href="https://github.com/orgs/${e.split('/').first.substring(0)}/teams/${e.split('/').last}" style="color: #ffffff; font-weight:bold">$e</a>'),
+                      childNode);
+                else
+                  node.insertBefore(
+                      parseFragment(
+                          '<a href="https://github.com/${e.substring(1)}" style="color: #ffffff; font-weight:bold">$e</a>'),
+                      childNode);
+              }
+              // Todo: Add issue redirection case.
+              // Change #<digits> to a URL to a repo issue. Will need issueURL.
+              else if (e.startsWith('#')) {
+                node.insertBefore(
+                    parseFragment(
+                        '<a href="https://github.com/${e.substring(1)}" style="font-weight:bold">$e</a>'),
+                    childNode);
+              }
+              // Just add the normal string if the cases above don't match.
+              else {
+                node.insertBefore(parseFragment(e), childNode);
+              }
+            },
+          );
+          // Remove the current element node, as the children inside have been
+          // accordingly parsed and changed.
+          childNode.remove();
+        }
+      }
+    }
   }
 
   @override

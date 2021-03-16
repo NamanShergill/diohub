@@ -24,7 +24,6 @@ class IssueInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     final _issue = Provider.of<IssueProvider>(context).issueModel;
     final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
-    print(_issue.state);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -32,8 +31,16 @@ class IssueInformation extends StatelessWidget {
             height: 8,
           ),
           if (_editingEnabled ||
-              Provider.of<CurrentUserProvider>(context).currentUserInfo.login ==
-                  _issue.user.login)
+              (Provider.of<CurrentUserProvider>(context)
+                          .currentUserInfo
+                          .login ==
+                      _issue.user.login &&
+                  (_issue.state == IssueState.CLOSED
+                      ? _issue.closedBy.login ==
+                          Provider.of<CurrentUserProvider>(context)
+                              .currentUserInfo
+                              .login
+                      : true)))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Button(
@@ -86,6 +93,22 @@ class IssueInformation extends StatelessWidget {
               ],
             ),
           ),
+          if (_issue.state == IssueState.CLOSED)
+            InfoCard(
+              'Closed By',
+              child: Row(
+                children: [
+                  Flexible(
+                    child: ProfileTile(
+                      _issue.closedBy.avatarUrl,
+                      padding: EdgeInsets.all(8),
+                      userLogin: _issue.closedBy.login,
+                      showName: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           InfoCard(
             'Assignees',
             headerTrailing: _editingEnabled

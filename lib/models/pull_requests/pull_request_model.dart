@@ -4,57 +4,60 @@
 
 import 'dart:convert';
 
+import 'package:onehub/models/issues/issue_model.dart';
+import 'package:onehub/models/issues/issue_timeline_event_model.dart';
+import 'package:onehub/models/users/user_info_model.dart';
+
 class PullRequestModel {
-  PullRequestModel({
-    this.url,
-    this.id,
-    this.nodeId,
-    this.htmlUrl,
-    this.diffUrl,
-    this.patchUrl,
-    this.issueUrl,
-    this.number,
-    this.state,
-    this.locked,
-    this.title,
-    this.user,
-    this.body,
-    this.createdAt,
-    this.updatedAt,
-    this.closedAt,
-    this.mergedAt,
-    this.mergeCommitSha,
-    this.assignee,
-    this.assignees,
-    this.requestedReviewers,
-    this.requestedTeams,
-    this.labels,
-    this.milestone,
-    this.draft,
-    this.commitsUrl,
-    this.reviewCommentsUrl,
-    this.reviewCommentUrl,
-    this.commentsUrl,
-    this.statusesUrl,
-    this.head,
-    this.base,
-    this.links,
-    this.authorAssociation,
-    this.autoMerge,
-    this.activeLockReason,
-    this.merged,
-    this.mergeable,
-    this.rebaseable,
-    this.mergeableState,
-    this.mergedBy,
-    this.comments,
-    this.reviewComments,
-    this.maintainerCanModify,
-    this.commits,
-    this.additions,
-    this.deletions,
-    this.changedFiles,
-  });
+  PullRequestModel(
+      {this.url,
+      this.id,
+      this.nodeId,
+      this.htmlUrl,
+      this.diffUrl,
+      this.patchUrl,
+      this.issueUrl,
+      this.number,
+      this.state,
+      this.locked,
+      this.title,
+      this.user,
+      this.body,
+      this.createdAt,
+      this.updatedAt,
+      this.closedAt,
+      this.mergedAt,
+      this.mergeCommitSha,
+      this.assignee,
+      this.assignees,
+      this.requestedReviewers,
+      this.requestedTeams,
+      this.labels,
+      this.milestone,
+      this.draft,
+      this.commitsUrl,
+      this.reviewCommentsUrl,
+      this.reviewCommentUrl,
+      this.commentsUrl,
+      this.statusesUrl,
+      this.head,
+      this.base,
+      this.links,
+      this.authorAssociation,
+      this.autoMerge,
+      this.activeLockReason,
+      this.comments,
+      this.deletions,
+      this.additions,
+      this.commits,
+      this.changedFiles,
+      this.maintainerCanModify,
+      this.mergeable,
+      this.mergeableState,
+      this.merged,
+      this.mergedBy,
+      this.rebaseable,
+      this.reviewComments});
 
   String url;
   int id;
@@ -64,22 +67,22 @@ class PullRequestModel {
   String patchUrl;
   String issueUrl;
   int number;
-  String state;
+  IssueState state;
   bool locked;
   String title;
-  MergedBy user;
+  UserInfoModel user;
   String body;
   DateTime createdAt;
   DateTime updatedAt;
   DateTime closedAt;
   DateTime mergedAt;
   String mergeCommitSha;
-  dynamic assignee;
-  List<dynamic> assignees;
-  List<dynamic> requestedReviewers;
+  UserInfoModel assignee;
+  List<UserInfoModel> assignees;
+  List<UserInfoModel> requestedReviewers;
   List<dynamic> requestedTeams;
   List<Label> labels;
-  dynamic milestone;
+  Milestone milestone;
   bool draft;
   String commitsUrl;
   String reviewCommentsUrl;
@@ -89,14 +92,14 @@ class PullRequestModel {
   Base head;
   Base base;
   Links links;
-  String authorAssociation;
-  dynamic autoMerge;
-  dynamic activeLockReason;
+  AuthorAssociation authorAssociation;
+  bool autoMerge;
+  String activeLockReason;
   bool merged;
-  dynamic mergeable;
-  dynamic rebaseable;
+  bool mergeable;
+  bool rebaseable;
   String mergeableState;
-  MergedBy mergedBy;
+  UserInfoModel mergedBy;
   int comments;
   int reviewComments;
   bool maintainerCanModify;
@@ -104,7 +107,6 @@ class PullRequestModel {
   int additions;
   int deletions;
   int changedFiles;
-
   PullRequestModel copyWith({
     String url,
     int id,
@@ -114,22 +116,22 @@ class PullRequestModel {
     String patchUrl,
     String issueUrl,
     int number,
-    String state,
+    IssueState state,
     bool locked,
     String title,
-    MergedBy user,
+    UserInfoModel user,
     String body,
     DateTime createdAt,
     DateTime updatedAt,
     DateTime closedAt,
     DateTime mergedAt,
     String mergeCommitSha,
-    dynamic assignee,
-    List<dynamic> assignees,
-    List<dynamic> requestedReviewers,
+    UserInfoModel assignee,
+    List<UserInfoModel> assignees,
+    List<UserInfoModel> requestedReviewers,
     List<dynamic> requestedTeams,
     List<Label> labels,
-    dynamic milestone,
+    Milestone milestone,
     bool draft,
     String commitsUrl,
     String reviewCommentsUrl,
@@ -139,21 +141,9 @@ class PullRequestModel {
     Base head,
     Base base,
     Links links,
-    String authorAssociation,
+    AuthorAssociation authorAssociation,
     dynamic autoMerge,
     dynamic activeLockReason,
-    bool merged,
-    dynamic mergeable,
-    dynamic rebaseable,
-    String mergeableState,
-    MergedBy mergedBy,
-    int comments,
-    int reviewComments,
-    bool maintainerCanModify,
-    int commits,
-    int additions,
-    int deletions,
-    int changedFiles,
   }) =>
       PullRequestModel(
         url: url ?? this.url,
@@ -192,18 +182,6 @@ class PullRequestModel {
         authorAssociation: authorAssociation ?? this.authorAssociation,
         autoMerge: autoMerge ?? this.autoMerge,
         activeLockReason: activeLockReason ?? this.activeLockReason,
-        merged: merged ?? this.merged,
-        mergeable: mergeable ?? this.mergeable,
-        rebaseable: rebaseable ?? this.rebaseable,
-        mergeableState: mergeableState ?? this.mergeableState,
-        mergedBy: mergedBy ?? this.mergedBy,
-        comments: comments ?? this.comments,
-        reviewComments: reviewComments ?? this.reviewComments,
-        maintainerCanModify: maintainerCanModify ?? this.maintainerCanModify,
-        commits: commits ?? this.commits,
-        additions: additions ?? this.additions,
-        deletions: deletions ?? this.deletions,
-        changedFiles: changedFiles ?? this.changedFiles,
       );
 
   factory PullRequestModel.fromRawJson(String str) =>
@@ -221,10 +199,11 @@ class PullRequestModel {
         patchUrl: json["patch_url"] == null ? null : json["patch_url"],
         issueUrl: json["issue_url"] == null ? null : json["issue_url"],
         number: json["number"] == null ? null : json["number"],
-        state: json["state"] == null ? null : json["state"],
+        state: json["state"] == null ? null : stateValues.map[json["state"]],
         locked: json["locked"] == null ? null : json["locked"],
         title: json["title"] == null ? null : json["title"],
-        user: json["user"] == null ? null : MergedBy.fromJson(json["user"]),
+        user:
+            json["user"] == null ? null : UserInfoModel.fromJson(json["user"]),
         body: json["body"] == null ? null : json["body"],
         createdAt: json["created_at"] == null
             ? null
@@ -240,20 +219,26 @@ class PullRequestModel {
             : DateTime.parse(json["merged_at"]),
         mergeCommitSha:
             json["merge_commit_sha"] == null ? null : json["merge_commit_sha"],
-        assignee: json["assignee"],
+        assignee: json["assignee"] == null
+            ? null
+            : UserInfoModel.fromJson(json["assignee"]),
         assignees: json["assignees"] == null
             ? null
-            : List<dynamic>.from(json["assignees"].map((x) => x)),
+            : List<UserInfoModel>.from(
+                json["assignees"].map((x) => UserInfoModel.fromJson(x))),
         requestedReviewers: json["requested_reviewers"] == null
             ? null
-            : List<dynamic>.from(json["requested_reviewers"].map((x) => x)),
+            : List<UserInfoModel>.from(json["requested_reviewers"]
+                .map((x) => UserInfoModel.fromJson(x))),
         requestedTeams: json["requested_teams"] == null
             ? null
             : List<dynamic>.from(json["requested_teams"].map((x) => x)),
         labels: json["labels"] == null
             ? null
             : List<Label>.from(json["labels"].map((x) => Label.fromJson(x))),
-        milestone: json["milestone"],
+        milestone: json["milestone"] == null
+            ? null
+            : Milestone.fromJson(json["milestone"]),
         draft: json["draft"] == null ? null : json["draft"],
         commitsUrl: json["commits_url"] == null ? null : json["commits_url"],
         reviewCommentsUrl: json["review_comments_url"] == null
@@ -269,7 +254,7 @@ class PullRequestModel {
         links: json["_links"] == null ? null : Links.fromJson(json["_links"]),
         authorAssociation: json["author_association"] == null
             ? null
-            : json["author_association"],
+            : authorAssociationValues.map[json["author_association"]],
         autoMerge: json["auto_merge"],
         activeLockReason: json["active_lock_reason"],
         merged: json["merged"] == null ? null : json["merged"],
@@ -279,7 +264,7 @@ class PullRequestModel {
             json["mergeable_state"] == null ? null : json["mergeable_state"],
         mergedBy: json["merged_by"] == null
             ? null
-            : MergedBy.fromJson(json["merged_by"]),
+            : UserInfoModel.fromJson(json["merged_by"]),
         comments: json["comments"] == null ? null : json["comments"],
         reviewComments:
             json["review_comments"] == null ? null : json["review_comments"],
@@ -302,7 +287,7 @@ class PullRequestModel {
         "patch_url": patchUrl == null ? null : patchUrl,
         "issue_url": issueUrl == null ? null : issueUrl,
         "number": number == null ? null : number,
-        "state": state == null ? null : state,
+        "state": state == null ? null : stateValues.reverse[state],
         "locked": locked == null ? null : locked,
         "title": title == null ? null : title,
         "user": user == null ? null : user.toJson(),
@@ -312,20 +297,20 @@ class PullRequestModel {
         "closed_at": closedAt == null ? null : closedAt.toIso8601String(),
         "merged_at": mergedAt == null ? null : mergedAt.toIso8601String(),
         "merge_commit_sha": mergeCommitSha == null ? null : mergeCommitSha,
-        "assignee": assignee,
+        "assignee": assignee == null ? null : assignee.toJson(),
         "assignees": assignees == null
             ? null
-            : List<dynamic>.from(assignees.map((x) => x)),
+            : List<dynamic>.from(assignees.map((x) => x.toJson())),
         "requested_reviewers": requestedReviewers == null
             ? null
-            : List<dynamic>.from(requestedReviewers.map((x) => x)),
+            : List<dynamic>.from(requestedReviewers.map((x) => x.toJson())),
         "requested_teams": requestedTeams == null
             ? null
             : List<dynamic>.from(requestedTeams.map((x) => x)),
         "labels": labels == null
             ? null
             : List<dynamic>.from(labels.map((x) => x.toJson())),
-        "milestone": milestone,
+        "milestone": milestone.toJson(),
         "draft": draft == null ? null : draft,
         "commits_url": commitsUrl == null ? null : commitsUrl,
         "review_comments_url":
@@ -337,8 +322,9 @@ class PullRequestModel {
         "head": head == null ? null : head.toJson(),
         "base": base == null ? null : base.toJson(),
         "_links": links == null ? null : links.toJson(),
-        "author_association":
-            authorAssociation == null ? null : authorAssociation,
+        "author_association": authorAssociation == null
+            ? null
+            : authorAssociationValues.reverse[authorAssociation],
         "auto_merge": autoMerge,
         "active_lock_reason": activeLockReason,
         "merged": merged == null ? null : merged,
@@ -369,14 +355,14 @@ class Base {
   String label;
   String ref;
   String sha;
-  MergedBy user;
+  UserInfoModel user;
   Repo repo;
 
   Base copyWith({
     String label,
     String ref,
     String sha,
-    MergedBy user,
+    UserInfoModel user,
     Repo repo,
   }) =>
       Base(
@@ -395,7 +381,8 @@ class Base {
         label: json["label"] == null ? null : json["label"],
         ref: json["ref"] == null ? null : json["ref"],
         sha: json["sha"] == null ? null : json["sha"],
-        user: json["user"] == null ? null : MergedBy.fromJson(json["user"]),
+        user:
+            json["user"] == null ? null : UserInfoModel.fromJson(json["user"]),
         repo: json["repo"] == null ? null : Repo.fromJson(json["repo"]),
       );
 
@@ -490,7 +477,7 @@ class Repo {
   String name;
   String fullName;
   bool private;
-  MergedBy owner;
+  UserInfoModel owner;
   String htmlUrl;
   String description;
   bool fork;
@@ -565,7 +552,7 @@ class Repo {
     String name,
     String fullName,
     bool private,
-    MergedBy owner,
+    UserInfoModel owner,
     String htmlUrl,
     String description,
     bool fork,
@@ -720,7 +707,9 @@ class Repo {
         name: json["name"] == null ? null : json["name"],
         fullName: json["full_name"] == null ? null : json["full_name"],
         private: json["private"] == null ? null : json["private"],
-        owner: json["owner"] == null ? null : MergedBy.fromJson(json["owner"]),
+        owner: json["owner"] == null
+            ? null
+            : UserInfoModel.fromJson(json["owner"]),
         htmlUrl: json["html_url"] == null ? null : json["html_url"],
         description: json["description"] == null ? null : json["description"],
         fork: json["fork"] == null ? null : json["fork"],
@@ -945,208 +934,6 @@ class License {
         "spdx_id": spdxId == null ? null : spdxId,
         "url": url == null ? null : url,
         "node_id": nodeId == null ? null : nodeId,
-      };
-}
-
-class MergedBy {
-  MergedBy({
-    this.login,
-    this.id,
-    this.nodeId,
-    this.avatarUrl,
-    this.gravatarId,
-    this.url,
-    this.htmlUrl,
-    this.followersUrl,
-    this.followingUrl,
-    this.gistsUrl,
-    this.starredUrl,
-    this.subscriptionsUrl,
-    this.organizationsUrl,
-    this.reposUrl,
-    this.eventsUrl,
-    this.receivedEventsUrl,
-    this.type,
-    this.siteAdmin,
-  });
-
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
-
-  MergedBy copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
-  }) =>
-      MergedBy(
-        login: login ?? this.login,
-        id: id ?? this.id,
-        nodeId: nodeId ?? this.nodeId,
-        avatarUrl: avatarUrl ?? this.avatarUrl,
-        gravatarId: gravatarId ?? this.gravatarId,
-        url: url ?? this.url,
-        htmlUrl: htmlUrl ?? this.htmlUrl,
-        followersUrl: followersUrl ?? this.followersUrl,
-        followingUrl: followingUrl ?? this.followingUrl,
-        gistsUrl: gistsUrl ?? this.gistsUrl,
-        starredUrl: starredUrl ?? this.starredUrl,
-        subscriptionsUrl: subscriptionsUrl ?? this.subscriptionsUrl,
-        organizationsUrl: organizationsUrl ?? this.organizationsUrl,
-        reposUrl: reposUrl ?? this.reposUrl,
-        eventsUrl: eventsUrl ?? this.eventsUrl,
-        receivedEventsUrl: receivedEventsUrl ?? this.receivedEventsUrl,
-        type: type ?? this.type,
-        siteAdmin: siteAdmin ?? this.siteAdmin,
-      );
-
-  factory MergedBy.fromRawJson(String str) =>
-      MergedBy.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory MergedBy.fromJson(Map<String, dynamic> json) => MergedBy(
-        login: json["login"] == null ? null : json["login"],
-        id: json["id"] == null ? null : json["id"],
-        nodeId: json["node_id"] == null ? null : json["node_id"],
-        avatarUrl: json["avatar_url"] == null ? null : json["avatar_url"],
-        gravatarId: json["gravatar_id"] == null ? null : json["gravatar_id"],
-        url: json["url"] == null ? null : json["url"],
-        htmlUrl: json["html_url"] == null ? null : json["html_url"],
-        followersUrl:
-            json["followers_url"] == null ? null : json["followers_url"],
-        followingUrl:
-            json["following_url"] == null ? null : json["following_url"],
-        gistsUrl: json["gists_url"] == null ? null : json["gists_url"],
-        starredUrl: json["starred_url"] == null ? null : json["starred_url"],
-        subscriptionsUrl: json["subscriptions_url"] == null
-            ? null
-            : json["subscriptions_url"],
-        organizationsUrl: json["organizations_url"] == null
-            ? null
-            : json["organizations_url"],
-        reposUrl: json["repos_url"] == null ? null : json["repos_url"],
-        eventsUrl: json["events_url"] == null ? null : json["events_url"],
-        receivedEventsUrl: json["received_events_url"] == null
-            ? null
-            : json["received_events_url"],
-        type: json["type"] == null ? null : json["type"],
-        siteAdmin: json["site_admin"] == null ? null : json["site_admin"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "login": login == null ? null : login,
-        "id": id == null ? null : id,
-        "node_id": nodeId == null ? null : nodeId,
-        "avatar_url": avatarUrl == null ? null : avatarUrl,
-        "gravatar_id": gravatarId == null ? null : gravatarId,
-        "url": url == null ? null : url,
-        "html_url": htmlUrl == null ? null : htmlUrl,
-        "followers_url": followersUrl == null ? null : followersUrl,
-        "following_url": followingUrl == null ? null : followingUrl,
-        "gists_url": gistsUrl == null ? null : gistsUrl,
-        "starred_url": starredUrl == null ? null : starredUrl,
-        "subscriptions_url": subscriptionsUrl == null ? null : subscriptionsUrl,
-        "organizations_url": organizationsUrl == null ? null : organizationsUrl,
-        "repos_url": reposUrl == null ? null : reposUrl,
-        "events_url": eventsUrl == null ? null : eventsUrl,
-        "received_events_url":
-            receivedEventsUrl == null ? null : receivedEventsUrl,
-        "type": type == null ? null : type,
-        "site_admin": siteAdmin == null ? null : siteAdmin,
-      };
-}
-
-class Label {
-  Label({
-    this.id,
-    this.nodeId,
-    this.url,
-    this.name,
-    this.color,
-    this.labelDefault,
-    this.description,
-  });
-
-  int id;
-  String nodeId;
-  String url;
-  String name;
-  String color;
-  bool labelDefault;
-  String description;
-
-  Label copyWith({
-    int id,
-    String nodeId,
-    String url,
-    String name,
-    String color,
-    bool labelDefault,
-    String description,
-  }) =>
-      Label(
-        id: id ?? this.id,
-        nodeId: nodeId ?? this.nodeId,
-        url: url ?? this.url,
-        name: name ?? this.name,
-        color: color ?? this.color,
-        labelDefault: labelDefault ?? this.labelDefault,
-        description: description ?? this.description,
-      );
-
-  factory Label.fromRawJson(String str) => Label.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Label.fromJson(Map<String, dynamic> json) => Label(
-        id: json["id"] == null ? null : json["id"],
-        nodeId: json["node_id"] == null ? null : json["node_id"],
-        url: json["url"] == null ? null : json["url"],
-        name: json["name"] == null ? null : json["name"],
-        color: json["color"] == null ? null : json["color"],
-        labelDefault: json["default"] == null ? null : json["default"],
-        description: json["description"] == null ? null : json["description"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "node_id": nodeId == null ? null : nodeId,
-        "url": url == null ? null : url,
-        "name": name == null ? null : name,
-        "color": color == null ? null : color,
-        "default": labelDefault == null ? null : labelDefault,
-        "description": description == null ? null : description,
       };
 }
 

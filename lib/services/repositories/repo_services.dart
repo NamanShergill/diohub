@@ -39,7 +39,7 @@ class RepositoryServices {
       [bool refresh = false]) async {
     Response response = await GetDio.getDio(applyBaseURL: false).get(
         '$repoURL/branches',
-        options: CacheManager.defaultCache(refresh),
+        options: CacheManager.defaultCache(refresh: refresh),
         queryParameters: {'per_page': perPage, 'page': pageNumber});
     List unParseData = response.data;
     List<RepoBranchListItemModel> parsedData = [];
@@ -68,7 +68,7 @@ class RepositoryServices {
     Response response = await GetDio.getDio(applyBaseURL: false).get(
         repoURL + '/commits',
         queryParameters: queryParams,
-        options: CacheManager.defaultCache(refresh));
+        options: CacheManager.defaultCache(refresh: refresh));
     List unParsedItems = response.data;
     List<CommitListModel> parsedItems = [];
     for (var element in unParsedItems) {
@@ -81,18 +81,23 @@ class RepositoryServices {
   static Future<CommitModel> getCommit(String commitURL,
       {bool refresh = false}) async {
     Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(commitURL, options: CacheManager.defaultCache(refresh));
+        .get(commitURL, options: CacheManager.defaultCache(refresh: refresh));
     return CommitModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
   static Future<bool> checkUserRepoPerms(String login, String repoURL) async {
-    Response response = await GetDio.getDio(
-            applyBaseURL: false, showPopup: false, debugLog: true)
-        .get('$repoURL/collaborators/$login/permission',
-            options: Options(validateStatus: (status) {
-      return status < 500;
-    }));
+    Response response =
+        await GetDio.getDio(applyBaseURL: false, showPopup: false).get(
+      '$repoURL/collaborators/$login/permission',
+      options: CacheManager.defaultCache(
+        options: Options(
+          validateStatus: (status) {
+            return status < 500;
+          },
+        ),
+      ),
+    );
     if (response.statusCode == 200)
       return true;
     else

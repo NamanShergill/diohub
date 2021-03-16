@@ -20,6 +20,7 @@ import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/code_browser.dart';
 import 'package:onehub/view/repository/issues/issues_list.dart';
+import 'package:onehub/view/repository/pulls/pulls_list.dart';
 import 'package:onehub/view/repository/readme/repository_readme.dart';
 import 'package:onehub/view/repository/widgets/about_repository.dart';
 import 'package:onehub/view/repository/widgets/action_button.dart';
@@ -243,7 +244,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         RepositoryReadme(_repo.url),
                         CodeBrowser(),
                         IssuesList(),
-                        Container(),
+                        PullsList(),
                         Container(
                           child: MaterialButton(
                             child: Text('Open Wiki'),

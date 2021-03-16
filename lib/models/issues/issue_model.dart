@@ -34,6 +34,7 @@ class IssueModel {
     this.activeLockReason,
     this.repository,
     this.body,
+    this.closedBy,
     this.timelineUrl,
     this.performedViaGithubApp,
     this.pullRequest,
@@ -46,6 +47,8 @@ class IssueModel {
   String eventsUrl;
   String htmlUrl;
   int id;
+  UserInfoModel closedBy;
+
   String nodeId;
   int number;
   String title;
@@ -79,6 +82,7 @@ class IssueModel {
     String nodeId,
     int number,
     String title,
+    UserInfoModel closedBy,
     UserInfoModel user,
     List<Label> labels,
     IssueState state,
@@ -118,6 +122,7 @@ class IssueModel {
         milestone: milestone ?? this.milestone,
         comments: comments ?? this.comments,
         createdAt: createdAt ?? this.createdAt,
+        closedBy: closedBy ?? this.closedBy,
         updatedAt: updatedAt ?? this.updatedAt,
         closedAt: closedAt ?? this.closedAt,
         authorAssociation: authorAssociation ?? this.authorAssociation,
@@ -157,6 +162,9 @@ class IssueModel {
         assignee: json["assignee"] == null
             ? null
             : UserInfoModel.fromJson(json["assignee"]),
+        closedBy: json["closed_by"] == null
+            ? null
+            : UserInfoModel.fromJson(json["closed_by"]),
         assignees: json["assignees"] == null
             ? null
             : List<UserInfoModel>.from(
@@ -199,6 +207,7 @@ class IssueModel {
         "number": number == null ? null : number,
         "title": title == null ? null : title,
         "user": user == null ? null : user.toJson(),
+        "closed_by": closedBy == null ? null : closedBy.toJson(),
         "labels": labels == null
             ? null
             : List<dynamic>.from(labels.map((x) => x.toJson())),

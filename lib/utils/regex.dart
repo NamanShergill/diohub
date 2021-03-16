@@ -1,6 +1,10 @@
 extension RegExpExtension on RegExp {
   List<String> allMatchesWithSep(String input, [int start = 0]) {
     var result = <String>[];
+    allMatches(input).forEach((element) {
+      // print(input);
+      // print(element[0]);
+    });
     for (var match in allMatches(input, start)) {
       result.add(input.substring(start, match.start));
       result.add(match[0]);
