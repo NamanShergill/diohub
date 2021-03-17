@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/shimmer_widget.dart';
@@ -5,6 +6,7 @@ import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/models/pull_requests/review_model.dart';
+import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/card_footer.dart';
@@ -56,6 +58,10 @@ class _PullRequestNotificationCardState
       notification: widget.notification,
       iconBuilder: (context) {
         return getIcon();
+      },
+      onTap: () {
+        return AutoRouter.of(context)
+            .push(PullScreenRoute(pullURL: widget.notification.subject.url));
       },
       footerBuilder: (context) {
         if (!loading) {

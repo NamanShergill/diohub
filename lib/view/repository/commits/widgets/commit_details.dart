@@ -1,15 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/info_card.dart';
 import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/providers/commits/commit_provider.dart';
 import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
+import 'package:onehub/view/repository/commits/widgets/commit_s_h_a_button.dart';
 import 'package:provider/provider.dart';
 
 class CommitDetails extends StatelessWidget {
@@ -77,34 +75,8 @@ class CommitDetails extends StatelessWidget {
                       );
                     },
                     itemBuilder: (context, index) {
-                      return Material(
-                        elevation: 2,
-                        borderRadius: AppThemeBorderRadius.medBorderRadius,
-                        color: AppColor.background,
-                        child: InkWell(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius,
-                          onTap: () {
-                            AutoRouter.of(context).push(CommitInfoScreenRoute(
-                                commitURL: _commit.commit.parents[index].url));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Octicons.git_commit,
-                                  size: 16,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(_commit.commit.parents[index].sha
-                                    .substring(0, 6))
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                      return CommitSHAButton(_commit.commit.parents[index].sha,
+                          _commit.commit.parents[index].url);
                     },
                   ),
           ),

@@ -43,7 +43,6 @@ class _DiscussionState extends State<Discussion>
 
   @override
   void initState() {
-    print(widget.issueUrl);
     commentsSince = widget.commentsSince;
     super.initState();
   }
@@ -151,6 +150,7 @@ class _DiscussionState extends State<Discussion>
                     Event.locked,
                     Event.merged,
                     Event.pinned,
+                    Event.ready_for_review,
                     Event.referenced,
                     Event.renamed,
                     Event.reopened,
@@ -295,7 +295,17 @@ class _DiscussionState extends State<Discussion>
                           content: item.label,
                           added: item.event == Event.labeled,
                         ));
-                      }
+                      } else if (item.event == Event.committed)
+                        return paddingWrap(
+                            child: BasicEventCommitCard(
+                          user: item.author,
+                          leading: LineIcons.alternateComment,
+                          date: item.author.date.toString(),
+                          message: item.message,
+                          sha: item.sha,
+                          // Don't need a direct reference to the git database.
+                          commitURL: item.url.split('/git').join(''),
+                        ));
                       return Text(eventValues.reverse[item.event]);
                     },
                   );

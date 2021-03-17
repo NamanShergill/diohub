@@ -49,7 +49,7 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
     latestComment = results[1];
     // Get latest event to compare with the latest comment.
     List issueEvents = results[2];
-    latestIssueEvent = issueEvents.last;
+    if (issueEvents.isNotEmpty) latestIssueEvent = issueEvents.last;
     setState(() {
       loading = false;
     });
@@ -79,7 +79,8 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
 
   Widget getIssueFooter() {
     // If latest event is after latest comment, show in preview.
-    if (latestIssueEvent.createdAt.isAfter(latestComment.createdAt)) {
+    if (latestIssueEvent != null &&
+        latestIssueEvent.createdAt.isAfter(latestComment.createdAt)) {
       // Todo: Update issue event model and add more cases.
       if (latestIssueEvent.event == 'assigned')
         return CardFooter(

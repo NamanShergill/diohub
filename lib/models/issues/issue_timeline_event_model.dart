@@ -4,51 +4,67 @@
 
 import 'dart:convert';
 
+import 'package:onehub/models/commits/commit_model.dart';
+import 'package:onehub/models/events/events_model.dart';
+import 'package:onehub/models/events/payloads/push_event_payload_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 
 import 'issue_model.dart';
 
 class TimelineEventModel {
-  TimelineEventModel({
-    this.id,
-    this.nodeId,
-    this.url,
-    this.actor,
-    this.event,
-    this.commitId,
-    this.commitUrl,
-    this.createdAt,
-    this.performedViaGithubApp,
-    this.rename,
-    this.assignee,
-    this.htmlUrl,
-    this.issueUrl,
-    this.user,
-    this.updatedAt,
-    this.label,
-    this.authorAssociation,
-    this.body,
-    this.source,
-  });
+  TimelineEventModel(
+      {this.id,
+      this.nodeId,
+      this.url,
+      this.actor,
+      this.event,
+      this.commitId,
+      this.commitUrl,
+      this.createdAt,
+      this.performedViaGithubApp,
+      this.rename,
+      this.assignee,
+      this.htmlUrl,
+      this.issueUrl,
+      this.user,
+      this.updatedAt,
+      this.label,
+      this.authorAssociation,
+      this.body,
+      this.source,
+      this.sha,
+      this.author,
+      this.parents,
+      this.committer,
+      this.tree,
+      this.message,
+      this.pullRequestUrl});
 
+  String sha;
   int id;
   String nodeId;
   String url;
+  String htmlUrl;
+  Author author;
+  Tree tree;
+  Author committer;
+  String message;
+  List<Parent> parents;
   UserInfoModel actor;
   Event event;
-  dynamic commitId;
+  String commitId;
   dynamic commitUrl;
   DateTime createdAt;
   dynamic performedViaGithubApp;
   Rename rename;
   UserInfoModel assignee;
-  String htmlUrl;
   String issueUrl;
   UserInfoModel user;
   DateTime updatedAt;
   AuthorAssociation authorAssociation;
   String body;
   Source source;
+  String pullRequestUrl;
   Label label;
 
   TimelineEventModel copyWith({
@@ -130,6 +146,18 @@ class TimelineEventModel {
             : authorAssociationValues.map[json["author_association"]],
         body: json["body"] == null ? null : json["body"],
         source: json["source"] == null ? null : Source.fromJson(json["source"]),
+        sha: json["sha"] == null ? null : json["sha"],
+        author: json["author"] == null ? null : Author.fromJson(json["author"]),
+        committer: json["committer"] == null
+            ? null
+            : Author.fromJson(json["committer"]),
+        message: json["message"] == null ? null : json["message"],
+        parents: json["parents"] == null
+            ? null
+            : List<Parent>.from(json["parents"].map((x) => Parent.fromJson(x))),
+        pullRequestUrl:
+            json["pull_request_url"] == null ? null : json["pull_request_url"],
+        tree: json["tree"] == null ? null : Tree.fromJson(json["tree"]),
       );
 
   Map<String, dynamic> toJson() => {

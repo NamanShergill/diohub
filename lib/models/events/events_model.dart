@@ -1,5 +1,7 @@
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
+import 'dart:convert';
+
 class EventsModel {
   String id;
   EventsType type;
@@ -220,22 +222,42 @@ class Commits {
 }
 
 class Author {
-  String email;
+  Author({
+    this.name,
+    this.email,
+    this.date,
+  });
+
   String name;
+  String email;
+  DateTime date;
 
-  Author({this.email, this.name});
+  Author copyWith({
+    String name,
+    String email,
+    DateTime date,
+  }) =>
+      Author(
+        name: name ?? this.name,
+        email: email ?? this.email,
+        date: date ?? this.date,
+      );
 
-  Author.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    name = json['name'];
-  }
+  factory Author.fromRawJson(String str) => Author.fromJson(json.decode(str));
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['name'] = this.name;
-    return data;
-  }
+  String toRawJson() => json.encode(toJson());
+
+  factory Author.fromJson(Map<String, dynamic> json) => Author(
+        name: json["name"] == null ? null : json["name"],
+        email: json["email"] == null ? null : json["email"],
+        date: json["date"] == null ? null : DateTime.parse(json["date"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name == null ? null : name,
+        "email": email == null ? null : email,
+        "date": date == null ? null : date.toIso8601String(),
+      };
 }
 
 // Ref: https://docs.github.com/en/developers/webhooks-and-events/github-event-types

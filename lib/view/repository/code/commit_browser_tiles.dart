@@ -18,7 +18,8 @@ class CommitBrowserTiles extends StatefulWidget {
   final bool highlighted;
   final ValueChanged<String> onSelected;
 
-  CommitBrowserTiles({Key key, this.item, this.highlighted, this.onSelected})
+  CommitBrowserTiles(
+      {Key key, this.item, this.highlighted = false, this.onSelected})
       : super(key: key);
 
   @override
@@ -37,6 +38,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      elevation: 2,
       borderRadius: AppThemeBorderRadius.medBorderRadius,
       color: widget.highlighted ? AppColor.accent : AppColor.onBackground,
       child: InkWell(

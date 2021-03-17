@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
+import 'package:onehub/models/commits/commit_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/models/pull_requests/review_model.dart';
+import 'package:onehub/models/repositories/commit_list_model.dart';
 
 class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
@@ -38,6 +40,44 @@ class PullsService {
     List unParsedData = response.data;
     List<PullRequestModel> parsedData =
         unParsedData.map((e) => PullRequestModel.fromJson(e)).toList();
+    return parsedData;
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/pulls#list-commits-on-a-pull-request
+  static Future<List<CommitListModel>> getPullCommits(
+    String pullURL, {
+    int perPage,
+    int pageNumber,
+    bool refresh,
+  }) async {
+    Response response = await GetDio.getDio().get('$pullURL/commits',
+        queryParameters: {
+          'per_page': perPage,
+          'page': pageNumber,
+        },
+        options: CacheManager.defaultCache(refresh: refresh));
+    List unParsedData = response.data;
+    List<CommitListModel> parsedData =
+        unParsedData.map((e) => CommitListModel.fromJson(e)).toList();
+    return parsedData;
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/pulls#list-pull-requests-files
+  static Future<List<FileElement>> getPullFiles(
+    String pullURL, {
+    int perPage,
+    int pageNumber,
+    bool refresh,
+  }) async {
+    Response response = await GetDio.getDio().get('$pullURL/files',
+        queryParameters: {
+          'per_page': perPage,
+          'page': pageNumber,
+        },
+        options: CacheManager.defaultCache(refresh: refresh));
+    List unParsedData = response.data;
+    List<FileElement> parsedData =
+        unParsedData.map((e) => FileElement.fromJson(e)).toList();
     return parsedData;
   }
 }

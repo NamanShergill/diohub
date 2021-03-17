@@ -14,6 +14,8 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 import 'package:onehub/view/issues_pulls/discussion.dart';
+import 'package:onehub/view/issues_pulls/widgets/pull_changed_files_list.dart';
+import 'package:onehub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:provider/provider.dart';
 
 class PullScreen extends StatefulWidget {
@@ -210,8 +212,8 @@ class _PullScreenState extends State<PullScreen>
                                     ? value.pullModel.body
                                     : "No description provided."),
                           ),
-                          Container(),
-                          Container(),
+                          PullsCommitsList(),
+                          PullChangedFilesList(),
                         ],
                       );
                     },

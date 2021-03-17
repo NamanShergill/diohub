@@ -197,17 +197,17 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
             child: LoadingIndicator(),
           ),
           noItemsFoundIndicatorBuilder: (context) => Center(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                if (widget.header != null) widget.header(context),
-                Text(
+              child: Column(
+            children: [
+              if (widget.header != null) widget.header(context),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
                   'And then there were none.',
                   style: TextStyle(color: AppColor.grey3),
                 ),
-              ],
-            ),
+              ),
+            ],
           )),
           noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
               ? Center(

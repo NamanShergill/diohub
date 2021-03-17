@@ -136,6 +136,34 @@ class _ReactionBarState extends State<ReactionBar> {
         axis: Axis.horizontal,
         child: Row(
           children: [
+            Flexible(
+                child: Container(
+              height: 60,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: reactions.length,
+                  itemBuilder: (context, index) {
+                    return Visibility(
+                      visible: reactions[index].count > 0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ReactionButton(
+                            reactions[index],
+                            url: widget.url,
+                            isEnabled: widget.isEnabled,
+                            onChanged: (reaction) {
+                              setState(() {
+                                reactions[index] = reaction;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            )),
             if (widget.isEnabled)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -160,6 +188,7 @@ class _ReactionBarState extends State<ReactionBar> {
                   boxItemsSpacing: 24,
                   initialReaction: Reaction(
                     icon: Material(
+                        elevation: 2,
                         color: AppColor.background,
                         borderRadius: AppThemeBorderRadius.bigBorderRadius,
                         child: Padding(
@@ -182,30 +211,6 @@ class _ReactionBarState extends State<ReactionBar> {
                           ))),
                 ),
               ),
-            Expanded(
-                child: Row(
-              children: List.generate(
-                reactions.length,
-                (index) => Visibility(
-                  visible: reactions[index].count > 0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ReactionButton(
-                        reactions[index],
-                        url: widget.url,
-                        isEnabled: widget.isEnabled,
-                        onChanged: (reaction) {
-                          setState(() {
-                            reactions[index] = reaction;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )),
           ],
         ),
       );
@@ -342,6 +347,7 @@ class _ReactionButtonState extends State<ReactionButton> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2.0),
         child: Material(
+            elevation: 2,
             color: _reaction.reacted ? AppColor.accent : AppColor.background,
             borderRadius: AppThemeBorderRadius.bigBorderRadius,
             child: InkWell(

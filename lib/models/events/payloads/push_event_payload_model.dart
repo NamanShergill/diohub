@@ -1,5 +1,7 @@
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
+import 'package:onehub/models/events/events_model.dart';
+
 class PushEventPayloadModel {
   int pushId;
   int size;
@@ -76,25 +78,6 @@ class Commits {
     data['message'] = this.message;
     data['distinct'] = this.distinct;
     data['url'] = this.url;
-    return data;
-  }
-}
-
-class Author {
-  String email;
-  String name;
-
-  Author({this.email, this.name});
-
-  Author.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['name'] = this.name;
     return data;
   }
 }
