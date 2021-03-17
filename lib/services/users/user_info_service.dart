@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:graphql/client.dart' hide Response;
 import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
@@ -11,9 +12,13 @@ import 'package:onehub/models/users/user_info_model.dart';
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    CurrentUserInfoModel currentUserInfo = await GetDio.getDio()
-        .get('/user', options: CacheManager.currentUserProfileInfo())
-        .then((value) {
+    CurrentUserInfoModel currentUserInfo =
+        await GetDio.getDio(options: CacheManager.currentUserProfileInfo())
+            .get('/user',
+                options: CacheOptions(
+                        policy: CachePolicy.refresh, store: MemCacheStore())
+                    .toOptions())
+            .then((value) {
       if (value.statusCode == 200) {
         return CurrentUserInfoModel.fromJson(value.data);
       } else
@@ -25,13 +30,13 @@ class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
       int perPage, int pageNumber, bool refresh) async {
-    Response response = await GetDio.getDio().get('/user/repos',
-        queryParameters: {
-          'sort': 'updated',
-          'per_page': perPage,
-          'page': pageNumber
-        },
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get('/user/repos', queryParameters: {
+      'sort': 'updated',
+      'per_page': perPage,
+      'page': pageNumber
+    });
     List unParsedData = response.data;
     List<RepositoryModel> data =
         unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
@@ -40,13 +45,16 @@ class UserInfoService {
 
   static Future<List<RepositoryModel>> getUserRepos(
       String username, int perPage, int pageNumber, bool refresh) async {
-    Response response = await GetDio.getDio().get('/users/$username/repos',
-        queryParameters: {
-          'sort': 'updated',
-          'per_page': perPage,
-          'page': pageNumber
-        },
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get(
+      '/users/$username/repos',
+      queryParameters: {
+        'sort': 'updated',
+        'per_page': perPage,
+        'page': pageNumber
+      },
+    );
     List unParsedData = response.data;
     List<RepositoryModel> data =
         unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
@@ -54,8 +62,10 @@ class UserInfoService {
   }
 
   static Future<UserInfoModel> getUserInfo(String login) async {
-    Response response = await GetDio.getDio()
-        .get('/users/$login', options: CacheManager.defaultCache());
+    Response response =
+        await GetDio.getDio(options: CacheManager.defaultCache()).get(
+      '/users/$login',
+    );
     return UserInfoModel.fromJson(response.data);
   }
 

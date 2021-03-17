@@ -7,21 +7,24 @@ import 'package:onehub/models/repositories/code_tree_model.dart';
 class GitDatabaseService {
   // Ref: https://docs.github.com/en/rest/reference/git#get-a-tree
   static Future<CodeTreeModel> getTree({String repoURL, String sha}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get('$repoURL/git/trees/$sha', options: CacheManager.defaultCache());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get('$repoURL/git/trees/$sha');
     return CodeTreeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/git#get-a-blob
   static Future<BlobModel> getBlob({String repoURL, String sha}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get('$repoURL/git/blobs/$sha', options: CacheManager.defaultCache());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get('$repoURL/git/blobs/$sha');
     return BlobModel.fromJson(response.data);
   }
 
   static Future<BlobModel> getFileContents(String url) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(url, options: CacheManager.defaultCache());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get(url);
     return BlobModel.fromJson(response.data);
   }
 }

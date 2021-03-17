@@ -1,37 +1,41 @@
-import 'package:dio/dio.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class CacheManager {
-  static Options notifications({bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(minutes: 15),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions notifications({bool refresh = false}) =>
+      _template(refresh);
 
-  static Options currentUserProfileInfo(
-          {bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(minutes: 15),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions currentUserProfileInfo({bool refresh = false}) =>
+      _template(refresh);
 
-  static Options userProfileInfo({bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(days: 7),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions userProfileInfo({bool refresh = false}) =>
+      _template(refresh);
 
-  static Options repositories({bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(minutes: 15),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions repositories({bool refresh = false}) =>
+      _template(refresh);
 
-  static Options search({bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(days: 7),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions search({bool refresh = false}) => _template(refresh);
 
-  static Options events({bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(minutes: 15),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions events({bool refresh = false}) => _template(refresh);
 
-  static Options defaultCache({bool refresh = false, Options options}) =>
-      buildCacheOptions(Duration(minutes: 15),
-          maxStale: Duration(days: 7), forceRefresh: refresh, options: options);
+  static CacheOptions defaultCache({bool refresh = false}) =>
+      _template(refresh);
 
   static void clearCache() async {
-    await DioCacheManager(CacheConfig()).clearAll();
+    await DbCacheStore().clean();
   }
+
+  static CacheOptions _template(
+    bool refresh, {
+    CachePolicy policy = CachePolicy.request,
+    List<int> exceptions = const [401, 403],
+    CachePriority priority = CachePriority.normal,
+    Duration maxStale = const Duration(days: 7),
+  }) =>
+      CacheOptions(
+        store: DbCacheStore(),
+        policy: refresh ? CachePolicy.refresh : policy,
+        hitCacheOnErrorExcept: exceptions,
+        priority: priority,
+        maxStale: maxStale,
+      );
 }

@@ -7,9 +7,10 @@ class EventsService {
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-for-the-authenticated-user
   static Future<List<EventsModel>> getUserEvents(String user,
       {int page, int perPage, bool refresh}) async {
-    Response response = await GetDio.getDio().get('/users/$user/events',
-        queryParameters: {'per_page': perPage, 'page': page},
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get('/users/$user/events',
+            queryParameters: {'per_page': perPage, 'page': page});
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];
     for (var event in unParsedEvents) {
@@ -22,10 +23,9 @@ class EventsService {
   static Future<List<EventsModel>> getReceivedEvents(String user,
       {bool refresh = false, int perPage, int page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
-    Response response = await GetDio.getDio().get(
-        '/users/$user/received_events',
-        queryParameters: parameters,
-        options: CacheManager.events(refresh: refresh));
+    Response response =
+        await GetDio.getDio(options: CacheManager.events(refresh: refresh))
+            .get('/users/$user/received_events', queryParameters: parameters);
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];
     for (var event in unParsedEvents) {
@@ -38,9 +38,11 @@ class EventsService {
   static Future<List<EventsModel>> getPublicEvents(String user,
       {bool refresh = false, int perPage, int page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
-    Response response = await GetDio.getDio().get('/events',
-        queryParameters: parameters,
-        options: CacheManager.events(refresh: refresh));
+    Response response =
+        await GetDio.getDio(options: CacheManager.events(refresh: refresh)).get(
+      '/events',
+      queryParameters: parameters,
+    );
     // Todo: Change this.
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/models/reactions/reactions_model.dart';
 
@@ -7,7 +8,8 @@ class ReactionsService {
   static Future<List<ReactionsModel>> getReactions(String fullURL) async {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
-            acceptHeader: 'application/vnd.github.squirrel-girl-preview')
+            acceptHeader: 'application/vnd.github.squirrel-girl-preview',
+            options: CacheManager.defaultCache())
         .get('$fullURL/reactions');
     List unParsedData = response.data;
     return unParsedData.map((e) => ReactionsModel.fromJson(e)).toList();

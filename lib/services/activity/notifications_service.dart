@@ -19,10 +19,11 @@ class NotificationsService {
     // Add filters, if any, to the parameters.
     if (filters != null) queryParameters.addAll(filters);
     // Make API request to get a list of notifications;
-    List<NotificationModel> notifications = await GetDio.getDio()
+    List<NotificationModel> notifications = await GetDio.getDio(
+      options: CacheManager.notifications(refresh: refresh),
+    )
         .get(
       _url,
-      options: CacheManager.notifications(refresh: refresh),
       queryParameters: queryParameters,
     )
         .then((value) {

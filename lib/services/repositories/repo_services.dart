@@ -11,25 +11,26 @@ import 'package:onehub/models/repositories/repository_model.dart';
 class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository
   static Future<RepositoryModel> fetchRepository(String url) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(url, options: CacheManager.repositories());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.repositories())
+        .get(url);
     return RepositoryModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
   static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
       {String branch}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false).get(
-        repoUrl + '/readme',
-        options: CacheManager.defaultCache(),
-        queryParameters: {'ref': branch});
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get(repoUrl + '/readme', queryParameters: {'ref': branch});
     return RepositoryReadmeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
   static Future<BranchModel> fetchBranch(String branchUrl) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(branchUrl, options: CacheManager.defaultCache());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get(branchUrl);
     return BranchModel.fromJson(response.data);
   }
 
@@ -37,10 +38,11 @@ class RepositoryServices {
   static Future<List<RepoBranchListItemModel>> fetchBranchList(
       String repoURL, int pageNumber, int perPage,
       [bool refresh = false]) async {
-    Response response = await GetDio.getDio(applyBaseURL: false).get(
-        '$repoURL/branches',
-        options: CacheManager.defaultCache(refresh: refresh),
-        queryParameters: {'per_page': perPage, 'page': pageNumber});
+    Response response = await GetDio.getDio(
+            applyBaseURL: false,
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get('$repoURL/branches',
+            queryParameters: {'per_page': perPage, 'page': pageNumber});
     List unParseData = response.data;
     List<RepoBranchListItemModel> parsedData = [];
     for (var item in unParseData) {
@@ -65,10 +67,10 @@ class RepositoryServices {
       'sha': sha
     };
     if (author != null) queryParams['author'] = author;
-    Response response = await GetDio.getDio(applyBaseURL: false).get(
-        repoURL + '/commits',
-        queryParameters: queryParams,
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            applyBaseURL: false,
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get(repoURL + '/commits', queryParameters: queryParams);
     List unParsedItems = response.data;
     List<CommitListModel> parsedItems = [];
     for (var element in unParsedItems) {
@@ -80,22 +82,25 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit
   static Future<CommitModel> getCommit(String commitURL,
       {bool refresh = false}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(commitURL, options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+      applyBaseURL: false,
+      options: CacheManager.defaultCache(refresh: refresh),
+    ).get(commitURL);
     return CommitModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
   static Future<bool> checkUserRepoPerms(String login, String repoURL) async {
-    Response response =
-        await GetDio.getDio(applyBaseURL: false, showPopup: false).get(
+    Response response = await GetDio.getDio(
+      applyBaseURL: false,
+      showPopup: false,
+      options: CacheManager.defaultCache(),
+    ).get(
       '$repoURL/collaborators/$login/permission',
-      options: CacheManager.defaultCache(
-        options: Options(
-          validateStatus: (status) {
-            return status < 500;
-          },
-        ),
+      options: Options(
+        validateStatus: (status) {
+          return status < 500;
+        },
       ),
     );
     if (response.statusCode == 200)

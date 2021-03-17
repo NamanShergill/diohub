@@ -137,32 +137,31 @@ class _ReactionBarState extends State<ReactionBar> {
         child: Row(
           children: [
             Flexible(
-                child: Container(
-              height: 60,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: reactions.length,
-                  itemBuilder: (context, index) {
-                    return Visibility(
-                      visible: reactions[index].count > 0,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ReactionButton(
-                            reactions[index],
-                            url: widget.url,
-                            isEnabled: widget.isEnabled,
-                            onChanged: (reaction) {
-                              setState(() {
-                                reactions[index] = reaction;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
+                child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  reactions.length,
+                  (index) => Visibility(
+                    visible: reactions[index].count > 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ReactionButton(
+                          reactions[index],
+                          url: widget.url,
+                          isEnabled: widget.isEnabled,
+                          onChanged: (reaction) {
+                            setState(() {
+                              reactions[index] = reaction;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             )),
             if (widget.isEnabled)
               Padding(

@@ -9,15 +9,17 @@ import 'package:onehub/models/repositories/commit_list_model.dart';
 class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
   static Future<PullRequestModel> getPullInformation({String fullUrl}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(fullUrl, options: CacheManager.defaultCache());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get(fullUrl);
     return PullRequestModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
   static Future<ReviewModel> getPullReviews({String fullUrl}) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
-        .get(fullUrl + '/reviews', options: CacheManager.defaultCache());
+    Response response = await GetDio.getDio(
+            applyBaseURL: false, options: CacheManager.defaultCache())
+        .get(fullUrl + '/reviews');
     return ReviewModel.fromJson(response.data);
   }
 
@@ -28,15 +30,15 @@ class PullsService {
     int pageNumber,
     bool refresh,
   }) async {
-    Response response = await GetDio.getDio().get('$repoURL/pulls',
-        queryParameters: {
-          'per_page': perPage,
-          'page': pageNumber,
-          'sort': 'popularity',
-          'state': 'all',
-          'direction': 'desc',
-        },
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get('$repoURL/pulls', queryParameters: {
+      'per_page': perPage,
+      'page': pageNumber,
+      'sort': 'popularity',
+      'state': 'all',
+      'direction': 'desc',
+    });
     List unParsedData = response.data;
     List<PullRequestModel> parsedData =
         unParsedData.map((e) => PullRequestModel.fromJson(e)).toList();
@@ -50,12 +52,15 @@ class PullsService {
     int pageNumber,
     bool refresh,
   }) async {
-    Response response = await GetDio.getDio().get('$pullURL/commits',
-        queryParameters: {
-          'per_page': perPage,
-          'page': pageNumber,
-        },
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get(
+      '$pullURL/commits',
+      queryParameters: {
+        'per_page': perPage,
+        'page': pageNumber,
+      },
+    );
     List unParsedData = response.data;
     List<CommitListModel> parsedData =
         unParsedData.map((e) => CommitListModel.fromJson(e)).toList();
@@ -69,12 +74,12 @@ class PullsService {
     int pageNumber,
     bool refresh,
   }) async {
-    Response response = await GetDio.getDio().get('$pullURL/files',
-        queryParameters: {
-          'per_page': perPage,
-          'page': pageNumber,
-        },
-        options: CacheManager.defaultCache(refresh: refresh));
+    Response response = await GetDio.getDio(
+            options: CacheManager.defaultCache(refresh: refresh))
+        .get('$pullURL/files', queryParameters: {
+      'per_page': perPage,
+      'page': pageNumber,
+    });
     List unParsedData = response.data;
     List<FileElement> parsedData =
         unParsedData.map((e) => FileElement.fromJson(e)).toList();
