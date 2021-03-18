@@ -9,11 +9,11 @@ import 'package:onehub/view/profile/user_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
-  final String login;
+  final String? login;
   OtherUserProfileScreen(this.login);
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<CurrentUserProvider>(context).currentUserInfo.login ==
+    if (Provider.of<CurrentUserProvider>(context).currentUserInfo!.login ==
         login)
       return SafeArea(
           child: Scaffold(

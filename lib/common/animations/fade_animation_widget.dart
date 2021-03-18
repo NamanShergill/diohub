@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:onehub/style/animDuartions.dart';
 
 class FadeAnimationSection extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   final bool expand;
-  final Curve animationCurve;
-  final Duration duration;
+  final Curve? animationCurve;
+  final Duration? duration;
 
   FadeAnimationSection(
       {this.expand = true, this.child, this.animationCurve, this.duration});
@@ -16,8 +16,8 @@ class FadeAnimationSection extends StatefulWidget {
 
 class _FadeAnimationSectionState extends State<FadeAnimationSection>
     with SingleTickerProviderStateMixin {
-  AnimationController expandController;
-  Animation<double> animation;
+  late AnimationController expandController;
+  late Animation<double> animation;
 
   @override
   void initState() {

@@ -26,8 +26,8 @@ class AuthService {
     await _storage.write(key: 'scope', value: accessTokenModel.scope);
   }
 
-  static Future<String> getAccessTokenFromDevice() async {
-    String accessToken = await _storage.read(key: "accessToken");
+  static Future<String?> getAccessTokenFromDevice() async {
+    String? accessToken = await _storage.read(key: "accessToken");
     if (accessToken != null) {
       return accessToken;
     }
@@ -56,7 +56,7 @@ class AuthService {
       'delete_repo write:discussion read:discussion write:packages read:packages'
       ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
 
-  static Future<Response> getAccessToken({String deviceCode}) async {
+  static Future<Response> getAccessToken({String? deviceCode}) async {
     FormData formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
       'device_code': deviceCode,

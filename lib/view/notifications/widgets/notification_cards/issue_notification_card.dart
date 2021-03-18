@@ -13,7 +13,7 @@ import 'package:onehub/view/notifications/widgets/notification_cards/card_footer
 
 class IssueNotificationCard extends StatefulWidget {
   final NotificationModel notification;
-  IssueNotificationCard(this.notification, {Key key});
+  IssueNotificationCard(this.notification, {Key? key});
 
   @override
   _IssueNotificationCardState createState() => _IssueNotificationCardState();
@@ -21,9 +21,9 @@ class IssueNotificationCard extends StatefulWidget {
 
 class _IssueNotificationCardState extends State<IssueNotificationCard>
     with AutomaticKeepAliveClientMixin {
-  IssueModel issueInfo;
-  IssueCommentsModel latestComment;
-  IssueEventModel latestIssueEvent;
+  late IssueModel issueInfo;
+  late IssueCommentsModel latestComment;
+  IssueEventModel? latestIssueEvent;
   bool loading = true;
   double iconSize = 20;
 
@@ -39,10 +39,10 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
   void getInfo() async {
     // Get more information on issue to display
     List<Future> futures = [
-      IssuesService.getIssueInfo(fullUrl: widget.notification.subject.url),
+      IssuesService.getIssueInfo(fullUrl: widget.notification.subject!.url!),
       IssuesService.getLatestComment(
-          fullUrl: widget.notification.subject.latestCommentUrl),
-      IssuesService.getIssueEvents(fullUrl: widget.notification.subject.url)
+          fullUrl: widget.notification.subject!.latestCommentUrl!),
+      IssuesService.getIssueEvents(fullUrl: widget.notification.subject!.url!)
     ];
     List<dynamic> results = await Future.wait(futures);
     issueInfo = results[0];
@@ -64,14 +64,15 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
       },
       onTap: () {
         AutoRouter.of(context).push(IssueScreenRoute(
-            issueURL: widget.notification.subject.url,
-            repoURL: widget.notification.repository.url,
+            issueURL: widget.notification.subject!.url,
+            repoURL: widget.notification.repository!.url,
             initialIndex: 1,
             commentsSince: widget.notification.updatedAt));
       },
+      loading: loading,
       footerBuilder: (context) {
         if (!loading) return getIssueFooter();
-        return null;
+        return Container();
       },
       notification: widget.notification,
     );
@@ -80,22 +81,22 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
   Widget getIssueFooter() {
     // If latest event is after latest comment, show in preview.
     if (latestIssueEvent != null &&
-        latestIssueEvent.createdAt.isAfter(latestComment.createdAt)) {
+        latestIssueEvent!.createdAt!.isAfter(latestComment.createdAt!)) {
       // Todo: Update issue event model and add more cases.
-      if (latestIssueEvent.event == 'assigned')
+      if (latestIssueEvent!.event == 'assigned')
         return CardFooter(
-            latestIssueEvent.actor.avatarUrl,
-            'Assigned #${issueInfo.number} to ${latestIssueEvent.assignee.login}',
+            latestIssueEvent!.actor!.avatarUrl,
+            'Assigned #${issueInfo.number} to ${latestIssueEvent!.assignee!.login}',
             widget.notification.unread);
-      else if (latestIssueEvent.event == 'reopened')
-        return CardFooter(latestIssueEvent.actor.avatarUrl,
+      else if (latestIssueEvent!.event == 'reopened')
+        return CardFooter(latestIssueEvent!.actor!.avatarUrl,
             'Reopened #${issueInfo.number}', widget.notification.unread);
-      else if (latestIssueEvent.event == 'closed')
-        return CardFooter(latestIssueEvent.actor.avatarUrl,
+      else if (latestIssueEvent!.event == 'closed')
+        return CardFooter(latestIssueEvent!.actor!.avatarUrl,
             'Closed #${issueInfo.number}', widget.notification.unread);
     }
     // Return latest comment.
-    return CardFooter(latestComment.user.avatarUrl, latestComment.body,
+    return CardFooter(latestComment.user!.avatarUrl, latestComment.body,
         widget.notification.unread);
   }
 

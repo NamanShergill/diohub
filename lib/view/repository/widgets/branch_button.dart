@@ -12,9 +12,9 @@ import 'package:onehub/view/repository/widgets/branch_select_sheet.dart';
 import 'package:provider/provider.dart';
 
 class BranchButton extends StatelessWidget {
-  final RepositoryModel _repo;
+  final RepositoryModel? _repo;
   final double height = 55;
-  BranchButton({RepositoryModel repo}) : _repo = repo;
+  BranchButton({RepositoryModel? repo}) : _repo = repo;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,8 +43,8 @@ class BranchButton extends StatelessWidget {
                 return FadeAnimationSection(
                   child: InkWell(
                     onTap: () {
-                      String currentBranch =
-                          context.read<RepoBranchProvider>().branch.name;
+                      String? currentBranch =
+                          context.read<RepoBranchProvider>().branch!.name;
                       void changeBranch(String branch) {
                         Provider.of<RepoBranchProvider>(context, listen: false)
                             .changeBranch(branch);
@@ -54,10 +54,10 @@ class BranchButton extends StatelessWidget {
                           titleText: 'Select Branch',
                           child: (context, scrollController) {
                         return BranchSelectSheet(
-                          _repo.url,
+                          _repo!.url!,
                           controller: scrollController,
                           currentBranch: currentBranch,
-                          defaultBranch: _repo.defaultBranch,
+                          defaultBranch: _repo!.defaultBranch,
                           onSelected: (String branch) {
                             changeBranch(branch);
                           },
@@ -81,7 +81,7 @@ class BranchButton extends StatelessWidget {
                                   SizedBox(
                                     width: 8,
                                   ),
-                                  Flexible(child: Text(value.branch.name)),
+                                  Flexible(child: Text(value.branch!.name!)),
                                 ],
                               ),
                             ),

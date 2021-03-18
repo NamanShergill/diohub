@@ -18,6 +18,7 @@ void main() async {
   ResponseHandler.getSuccessStream();
   // Connectivity check stream initialised.
   InternetConnectivity.networkStatusService();
+  await Global.setupAppCache();
   runApp(MyApp());
 }
 

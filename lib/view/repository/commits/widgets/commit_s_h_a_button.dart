@@ -6,8 +6,8 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class CommitSHAButton extends StatelessWidget {
-  final String sha;
-  final String commitURL;
+  final String? sha;
+  final String? commitURL;
   CommitSHAButton(this.sha, this.commitURL);
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class CommitSHAButton extends StatelessWidget {
               SizedBox(
                 width: 8,
               ),
-              Text(sha.substring(0, 6))
+              Text(sha!.substring(0, 6))
             ],
           ),
         ),

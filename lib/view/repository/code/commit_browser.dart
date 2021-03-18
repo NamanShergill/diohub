@@ -9,13 +9,13 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/repository/code/commit_browser_tiles.dart';
 
 class CommitBrowser extends StatefulWidget {
-  final ScrollController controller;
-  final String currentSHA;
-  final bool isLocked;
-  final ValueChanged<String> onSelected;
-  final String repoURL;
-  final String path;
-  final String branchName;
+  final ScrollController? controller;
+  final String? currentSHA;
+  final bool? isLocked;
+  final ValueChanged<String>? onSelected;
+  final String? repoURL;
+  final String? path;
+  final String? branchName;
   CommitBrowser(
       {this.controller,
       this.currentSHA,
@@ -30,15 +30,15 @@ class CommitBrowser extends StatefulWidget {
 }
 
 class _CommitBrowserState extends State<CommitBrowser> {
-  bool isLocked;
-  List<String> path;
+  bool? isLocked;
+  late List<String> path;
   InfiniteScrollWrapperController controller =
       InfiniteScrollWrapperController();
   @override
   void initState() {
-    path = widget.path.split('/');
+    path = widget.path!.split('/');
     isLocked = widget.isLocked;
-    if (path.first.isEmpty || isLocked) path = [];
+    if (path.first.isEmpty || isLocked!) path = [];
     super.initState();
   }
 
@@ -57,7 +57,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Visibility(
-                  visible: isLocked,
+                  visible: isLocked!,
                   child: Button(
                     child: Text('Load latest commits.'),
                     listenToLoadingController: false,
@@ -106,7 +106,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                                   child: Text(
                                     ' ' +
                                         (index == 0
-                                            ? widget.repoURL.split('/').last
+                                            ? widget.repoURL!.split('/').last
                                             : path[index - 1]),
                                     style: TextStyle(
                                         color: index == path.length
@@ -133,20 +133,20 @@ class _CommitBrowserState extends State<CommitBrowser> {
                   controller: controller,
                   future: (pageNumber, pageSize, refresh, _) {
                     return RepositoryServices.getCommitsList(
-                        repoURL: widget.repoURL,
+                        repoURL: widget.repoURL!,
                         pageNumber: pageNumber,
                         pageSize: pageSize,
                         path: path.join('/'),
-                        sha: isLocked ? widget.currentSHA : widget.branchName,
+                        sha: isLocked! ? widget.currentSHA : widget.branchName,
                         refresh: refresh);
                   },
                   divider: false,
                   builder: (context, item, index) {
                     return CommitBrowserTiles(
-                      highlighted: isLocked && widget.currentSHA == item.sha,
+                      highlighted: isLocked! && widget.currentSHA == item.sha,
                       item: item,
                       onSelected: (value) {
-                        widget.onSelected(value);
+                        widget.onSelected!(value);
                         Navigator.pop(context);
                       },
                     );

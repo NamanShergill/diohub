@@ -15,7 +15,7 @@ class ChangedFilesListCard extends StatelessWidget {
         return RichText(
           text: TextSpan(
             text: 'File added: +${file.additions}',
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
+            style: Theme.of(context).textTheme.subtitle1!.copyWith(
                 fontSize: 12,
                 color: AppColor.success,
                 fontWeight: FontWeight.w500),
@@ -25,7 +25,7 @@ class ChangedFilesListCard extends StatelessWidget {
         return RichText(
           text: TextSpan(
             text: 'File removed: -${file.deletions}',
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
+            style: Theme.of(context).textTheme.subtitle1!.copyWith(
                 fontSize: 12,
                 color: AppColor.error,
                 fontWeight: FontWeight.w500),
@@ -36,7 +36,7 @@ class ChangedFilesListCard extends StatelessWidget {
         text: TextSpan(
             style: Theme.of(context)
                 .textTheme
-                .subtitle1
+                .subtitle1!
                 .copyWith(fontSize: 12, fontWeight: FontWeight.w500),
             children: [
               TextSpan(
@@ -61,10 +61,10 @@ class ChangedFilesListCard extends StatelessWidget {
         child: ExpansionTile(
           tilePadding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
           title: Text(
-            file.filename,
+            file.filename!,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1
+                .bodyText1!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           subtitle: Padding(
@@ -82,7 +82,7 @@ class ChangedFilesListCard extends StatelessWidget {
                       AutoRouter.of(context).push(ChangesViewerRoute(
                           patch: file.patch,
                           contentURL: file.contentsUrl,
-                          fileType: file.filename.split('.').last));
+                          fileType: file.filename!.split('.').last));
                     }
                   : null,
               child: Padding(

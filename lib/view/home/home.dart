@@ -13,7 +13,7 @@ import 'package:onehub/view/home/widgets/issues_tab.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key});
+  HomeScreen({Key? key});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen>
                       child:
                           ProviderLoadingProgressWrapper<CurrentUserProvider>(
                         childBuilder: (context, value) => CachedNetworkImage(
-                          imageUrl: value.currentUserInfo.avatarUrl,
+                          imageUrl: value.currentUserInfo!.avatarUrl!,
                           placeholder: (context, _) {
                             return ShimmerWidget(
                               child: Container(
@@ -173,7 +173,7 @@ class HomeScreenUnauthenticated extends StatelessWidget {
                   children: [
                     Text(
                       'Home',
-                      style: Theme.of(context).textTheme.headline4.copyWith(
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     Container(

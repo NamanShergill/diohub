@@ -12,8 +12,10 @@ class ResponseHandler {
   static final StreamController _successController =
       StreamController<AppPopupData>.broadcast();
 
-  static Stream<AppPopupData> get _errorStream => _errorController.stream;
-  static Stream<AppPopupData> get _successStream => _successController.stream;
+  static Stream<AppPopupData> get _errorStream =>
+      _errorController.stream as Stream<AppPopupData>;
+  static Stream<AppPopupData> get _successStream =>
+      _successController.stream as Stream<AppPopupData>;
 
   dispose() {
     _errorController.close();
@@ -30,25 +32,21 @@ class ResponseHandler {
 
   static getErrorStream() {
     _errorStream.listen((error) {
-      if (error != null) {
-        error.popupType = PopupType.failed;
-        DialogHelper.appPopup(
-          Global.currentContext,
-          error,
-        );
-      }
+      error.popupType = PopupType.failed;
+      DialogHelper.appPopup(
+        Global.currentContext,
+        error,
+      );
     });
   }
 
   static getSuccessStream() {
     _successStream.listen((success) {
-      if (success != null) {
-        success.popupType = PopupType.success;
-        DialogHelper.appPopup(
-          Global.currentContext,
-          success,
-        );
-      }
+      success.popupType = PopupType.success;
+      DialogHelper.appPopup(
+        Global.currentContext,
+        success,
+      );
     });
   }
 }

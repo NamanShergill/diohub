@@ -6,14 +6,14 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/internet_connectivity.dart';
 
 class ScaffoldBody extends StatefulWidget {
-  final Widget child;
-  final Widget footer;
-  final Widget header;
+  final Widget? child;
+  final Widget? footer;
+  final Widget? header;
   final bool showHeader;
   final bool showFooter;
-  final StreamController<Widget> notificationController;
+  final StreamController<Widget?>? notificationController;
   ScaffoldBody(
-      {Key key,
+      {Key? key,
       this.child,
       this.header,
       this.footer,
@@ -86,8 +86,8 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: StreamBuilder(
-                  stream: widget.notificationController.stream,
-                  builder: (context, AsyncSnapshot<Widget> widget) {
+                  stream: widget.notificationController!.stream,
+                  builder: (context, AsyncSnapshot<Widget?> widget) {
                     return widget.data ?? Container();
                   },
                 ))),

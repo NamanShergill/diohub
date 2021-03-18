@@ -6,10 +6,10 @@ import 'package:onehub/style/colors.dart';
 import 'app_tab_bar.dart';
 
 class AppScrollView extends StatelessWidget {
-  final ScrollViewAppBar scrollViewAppBar;
-  final List<Widget> tabViews;
+  final ScrollViewAppBar? scrollViewAppBar;
+  final List<Widget>? tabViews;
   final bool loading;
-  final TabController tabController;
+  final TabController? tabController;
   final Color childrenColor;
   AppScrollView(
       {this.scrollViewAppBar,
@@ -24,7 +24,7 @@ class AppScrollView extends StatelessWidget {
         SliverOverlapAbsorber(
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           sliver: SliverSafeArea(
-            sliver: scrollViewAppBar,
+            sliver: scrollViewAppBar!,
           ),
         )
       ];
@@ -49,7 +49,7 @@ class AppScrollView extends StatelessWidget {
                 child: TabBarView(
                   controller: tabController,
                   children: List.generate(
-                      tabViews.length, (index) => tabViews[index]),
+                      tabViews!.length, (index) => tabViews![index]),
                 ),
               ),
       );
@@ -58,14 +58,14 @@ class AppScrollView extends StatelessWidget {
 }
 
 class ScrollViewAppBar extends StatelessWidget {
-  final List<String> tabs;
-  final Widget appBarWidget;
-  final double expandedHeight;
-  final Widget flexibleBackgroundWidget;
-  final double collapsedHeight;
-  final double bottomPadding;
-  final TabController tabController;
-  final Widget bottomHeader;
+  final List<String>? tabs;
+  final Widget? appBarWidget;
+  final double? expandedHeight;
+  final Widget? flexibleBackgroundWidget;
+  final double? collapsedHeight;
+  final double? bottomPadding;
+  final TabController? tabController;
+  final Widget? bottomHeader;
   ScrollViewAppBar(
       {this.tabs,
       this.appBarWidget,
@@ -107,9 +107,9 @@ class ScrollViewAppBar extends StatelessWidget {
               AppTabBar(
                 controller: tabController,
                 tabs: List.generate(
-                    tabs.length,
+                    tabs!.length,
                     (index) => AppTab(
-                          title: tabs[index],
+                          title: tabs![index],
                         )),
               ),
             ],
@@ -121,10 +121,10 @@ class ScrollViewAppBar extends StatelessWidget {
 }
 
 class SliverAppBarTitle extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   const SliverAppBarTitle({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
   @override
   _SliverAppBarTitleState createState() {
@@ -133,8 +133,8 @@ class SliverAppBarTitle extends StatefulWidget {
 }
 
 class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
-  ScrollPosition _position;
-  bool _visible;
+  ScrollPosition? _position;
+  bool? _visible;
   @override
   void dispose() {
     _removeListener();
@@ -159,7 +159,7 @@ class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
   }
 
   void _positionListener() {
-    final FlexibleSpaceBarSettings settings =
+    final FlexibleSpaceBarSettings? settings =
         context.dependOnInheritedWidgetOfExactType();
     bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;

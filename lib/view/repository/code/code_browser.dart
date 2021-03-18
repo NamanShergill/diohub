@@ -52,7 +52,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Currently browsing commit ${value.tree.last.commit.sha.substring(0, 6)}.',
+                                      'Currently browsing commit ${value.tree.last.commit!.sha!.substring(0, 6)}.',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -89,13 +89,13 @@ class _CodeBrowserState extends State<CodeBrowser>
                     listenToLoadingController: false,
                     onTap: value.status == Status.loaded
                         ? () {
-                            String repoUrl = context
+                            String? repoUrl = context
                                 .read<RepositoryProvider>()
-                                .repositoryModel
+                                .repositoryModel!
                                 .url;
 
                             String branchName =
-                                context.read<RepoBranchProvider>().branch.name;
+                                context.read<RepoBranchProvider>().branch!.name!;
 
                             String path =
                                 context.read<CodeProvider>().getPath();
@@ -135,7 +135,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 ), child: (sheetContext, controller) {
                               return CommitBrowser(
                                 controller: controller,
-                                currentSHA: value.tree.last.commit.sha,
+                                currentSHA: value.tree.last.commit!.sha,
                                 isLocked: isLocked,
                                 repoURL: repoUrl,
                                 path: path,
@@ -203,13 +203,13 @@ class _CodeBrowserState extends State<CodeBrowser>
                                                 ? Provider.of<
                                                             RepositoryProvider>(
                                                         context)
-                                                    .repositoryModel
-                                                    .name
+                                                    .repositoryModel!
+                                                    .name!
                                                 : value
                                                     .tree[index - 1]
-                                                    .tree[value
+                                                    .tree![value
                                                         .pathIndex[index - 1]]
-                                                    .path),
+                                                    .path!),
                                         style: TextStyle(
                                             color:
                                                 index == value.tree.length - 1
@@ -245,10 +245,10 @@ class _CodeBrowserState extends State<CodeBrowser>
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return BrowserListTile(
-                                  value.tree.last.tree[index],
+                                  value.tree.last.tree![index],
                                   Provider.of<RepositoryProvider>(context,
                                           listen: false)
-                                      .repositoryModel
+                                      .repositoryModel!
                                       .url,
                                   index);
                             },
@@ -257,7 +257,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 height: 0,
                               );
                             },
-                            itemCount: value.tree.last.tree.length),
+                            itemCount: value.tree.last.tree!.length),
                       ),
                     ),
                   ),

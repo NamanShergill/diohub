@@ -16,14 +16,14 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/regex.dart';
 
 class MarkdownBodyController {
-  void Function(String string) update;
+  late void Function(String string) update;
 }
 
 class MarkdownBody extends StatefulWidget {
-  final String content;
-  final String repo;
-  final String branch;
-  final MarkdownBodyController controller;
+  final String? content;
+  final String? repo;
+  final String? branch;
+  final MarkdownBodyController? controller;
   MarkdownBody(this.content, {this.branch, this.repo, this.controller});
 
   @override
@@ -31,14 +31,14 @@ class MarkdownBody extends StatefulWidget {
 }
 
 class _MarkdownBodyState extends State<MarkdownBody> {
-  _MarkdownBodyState(MarkdownBodyController controller) {
+  _MarkdownBodyState(MarkdownBodyController? controller) {
     if (controller != null) controller.update = updateData;
   }
-  String content;
+  late String content;
 
   @override
   void initState() {
-    updateData(md.markdownToHtml(widget.content));
+    updateData(md.markdownToHtml(widget.content!));
     super.initState();
   }
 
@@ -66,12 +66,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           // Split strings if they start with @ or digits if they start with #.
           RegExp exp =
               RegExp(r'(@[a-zA-Z0-9_/]+?(?![a-zA-Z0-9_/]))|((?=/#(\d+)/))');
-          List<String> strings = childNode.text.splitWithDelim(exp);
+          List<String?> strings = childNode.text.splitWithDelim(exp);
           // Insert new elements just before the current element node.
           strings.forEach(
             (e) {
               // Change @<string> to a URL to a Github profile.
-              if (e.startsWith('@')) {
+              if (e!.startsWith('@')) {
                 // If string has a '/' in it, it is likely a mention to a
                 // Github team.
                 if (e.contains('/'))
@@ -111,7 +111,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
   Widget build(BuildContext context) {
     return Html(
       data: content,
-      onLinkTap: (String url, RenderContext rContext,
+      onLinkTap: (String? url, RenderContext rContext,
           Map<String, String> attributes, data) {
         return showURLBottomActionsMenu(context, url);
       },
@@ -153,7 +153,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
         // },
         'img': (RenderContext renderContext, Widget child,
             Map<String, String> attributes, data) {
-          String src = attributes['src'];
+          String src = attributes['src']!;
           if (!src.startsWith('https://') && !src.startsWith('http://'))
             src =
                 'https://raw.githubusercontent.com/${widget.repo}/${widget.branch}/$src';
@@ -213,7 +213,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           return ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: data.children.length,
+            itemCount: data!.children.length,
             itemBuilder: (context, index) {
               return Container(
                 decoration: BoxDecoration(
@@ -232,7 +232,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                         data.children[index].text,
                         backgroundColor: Colors.transparent,
                         language: data.children[index].className.isNotEmpty
-                            ? data.children[index].className?.substring(9)
+                            ? data.children[index].className.substring(9)
                             : 'txt',
                         theme: monokaiSublimeTheme,
                       ),
@@ -251,7 +251,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                 border: Border(
                     left: BorderSide(color: Colors.grey.shade400, width: 2))),
             child: Text(
-              data.text.trim(),
+              data!.text.trim(),
               style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
             ),
           );

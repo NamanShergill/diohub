@@ -7,7 +7,7 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
 class AboutUser extends StatelessWidget {
-  final UserInfoModel userInfoModel;
+  final UserInfoModel? userInfoModel;
   AboutUser(this.userInfoModel);
   @override
   Widget build(BuildContext context) {
@@ -18,21 +18,21 @@ class AboutUser extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          if (userInfoModel.bio != null)
+          if (userInfoModel!.bio != null)
             InfoCard(
               'Bio',
               child: Row(
                 children: [
-                  Text(userInfoModel.bio),
+                  Text(userInfoModel!.bio!),
                 ],
               ),
             ),
-          if (userInfoModel.twitterUsername != null)
+          if (userInfoModel!.twitterUsername != null)
             InfoCard(
               'Twitter',
               onTap: () {
                 showURLBottomActionsMenu(context,
-                    'https://twitter.com/${userInfoModel.twitterUsername}');
+                    'https://twitter.com/${userInfoModel!.twitterUsername}');
               },
               child: Row(
                 children: [
@@ -43,11 +43,11 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text('@${userInfoModel.twitterUsername}'),
+                  Text('@${userInfoModel!.twitterUsername}'),
                 ],
               ),
             ),
-          if (userInfoModel.email != null)
+          if (userInfoModel!.email != null)
             InfoCard(
               'Email',
               child: Row(
@@ -59,15 +59,15 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text(userInfoModel.email),
+                  Text(userInfoModel!.email!),
                 ],
               ),
             ),
-          if (userInfoModel.blog != null && userInfoModel.blog.isNotEmpty)
+          if (userInfoModel!.blog != null && userInfoModel!.blog!.isNotEmpty)
             InfoCard(
               'Blog',
               onTap: () {
-                showURLBottomActionsMenu(context, userInfoModel.blog);
+                showURLBottomActionsMenu(context, userInfoModel!.blog);
               },
               child: Row(
                 children: [
@@ -78,11 +78,11 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Flexible(child: Text('${userInfoModel.blog}')),
+                  Flexible(child: Text('${userInfoModel!.blog}')),
                 ],
               ),
             ),
-          if (userInfoModel.company != null)
+          if (userInfoModel!.company != null)
             InfoCard(
               'Company',
               child: Row(
@@ -94,11 +94,11 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text(userInfoModel.company),
+                  Text(userInfoModel!.company!),
                 ],
               ),
             ),
-          if (userInfoModel.location != null)
+          if (userInfoModel!.location != null)
             InfoCard(
               'Location',
               child: Row(
@@ -110,11 +110,11 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text(userInfoModel.location),
+                  Text(userInfoModel!.location!),
                 ],
               ),
             ),
-          if (userInfoModel.createdAt != null)
+          if (userInfoModel!.createdAt != null)
             InfoCard(
               'Joined',
               child: Row(
@@ -126,7 +126,7 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text(getDate(userInfoModel.createdAt.toString(),
+                  Text(getDate(userInfoModel!.createdAt.toString(),
                       shorten: false)),
                 ],
               ),

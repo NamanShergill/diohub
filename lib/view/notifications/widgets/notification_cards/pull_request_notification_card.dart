@@ -22,8 +22,8 @@ class PullRequestNotificationCard extends StatefulWidget {
 class _PullRequestNotificationCardState
     extends State<PullRequestNotificationCard>
     with AutomaticKeepAliveClientMixin {
-  PullRequestModel pullRequest;
-  List<ReviewModel> reviews;
+  late PullRequestModel pullRequest;
+  List<ReviewModel>? reviews;
   bool loading = true;
   double iconSize = 20;
 
@@ -40,7 +40,8 @@ class _PullRequestNotificationCardState
     // Get more information on the pull request to display
     // Todo: Update pull notification cards when I figure out how Github does it.
     List<Future> futures = [
-      PullsService.getPullInformation(fullUrl: widget.notification.subject.url),
+      PullsService.getPullInformation(
+          fullUrl: widget.notification.subject!.url!),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
     List<dynamic> data = await Future.wait(futures);
@@ -61,28 +62,29 @@ class _PullRequestNotificationCardState
       },
       onTap: () {
         return AutoRouter.of(context)
-            .push(PullScreenRoute(pullURL: widget.notification.subject.url));
+            .push(PullScreenRoute(pullURL: widget.notification.subject!.url));
       },
+      loading: loading,
       footerBuilder: (context) {
         if (!loading) {
           return getPullFooter();
         }
-        return null;
+        return Container();
       },
     );
   }
 
   Widget getPullFooter() {
     return CardFooter(
-        pullRequest.user.avatarUrl,
-        'Status: ${pullRequest.merged ? 'Merged' : stateValues.reverse[pullRequest.state].substring(0, 1).toUpperCase() + stateValues.reverse[pullRequest.state].substring(1)}',
+        pullRequest.user!.avatarUrl,
+        'Status: ${pullRequest.merged! ? 'Merged' : stateValues.reverse![pullRequest.state!]!.substring(0, 1).toUpperCase() + stateValues.reverse![pullRequest.state!]!.substring(1)}',
         widget.notification.unread);
   }
 
   Widget getIcon() {
     if (!loading) {
       if (pullRequest.state == IssueState.CLOSED) {
-        if (pullRequest.merged)
+        if (pullRequest.merged!)
           return Icon(
             Octicons.git_merge,
             color: Colors.deepPurpleAccent,

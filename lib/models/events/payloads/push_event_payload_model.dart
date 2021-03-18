@@ -3,13 +3,13 @@
 import 'package:onehub/models/events/events_model.dart';
 
 class PushEventPayloadModel {
-  int pushId;
-  int size;
-  int distinctSize;
-  String ref;
-  String head;
-  String before;
-  List<Commits> commits;
+  int? pushId;
+  int? size;
+  int? distinctSize;
+  String? ref;
+  String? head;
+  String? before;
+  List<Commits>? commits;
 
   PushEventPayloadModel(
       {this.pushId,
@@ -29,9 +29,9 @@ class PushEventPayloadModel {
     before = json['before'];
     if (json['commits'] != null) {
       // ignore: deprecated_member_use
-      commits = new List<Commits>();
+      commits = <Commits>[];
       json['commits'].forEach((v) {
-        commits.add(new Commits.fromJson(v));
+        commits!.add(new Commits.fromJson(v));
       });
     }
   }
@@ -45,18 +45,18 @@ class PushEventPayloadModel {
     data['head'] = this.head;
     data['before'] = this.before;
     if (this.commits != null) {
-      data['commits'] = this.commits.map((v) => v.toJson()).toList();
+      data['commits'] = this.commits!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Commits {
-  String sha;
-  Author author;
-  String message;
-  bool distinct;
-  String url;
+  String? sha;
+  Author? author;
+  String? message;
+  bool? distinct;
+  String? url;
 
   Commits({this.sha, this.author, this.message, this.distinct, this.url});
 
@@ -73,7 +73,7 @@ class Commits {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['sha'] = this.sha;
     if (this.author != null) {
-      data['author'] = this.author.toJson();
+      data['author'] = this.author!.toJson();
     }
     data['message'] = this.message;
     data['distinct'] = this.distinct;

@@ -24,13 +24,13 @@ class CodeInfoBox extends StatefulWidget {
 }
 
 class _CodeInfoBoxState extends State<CodeInfoBox> {
-  CountdownTimerController timerController;
+  CountdownTimerController? timerController;
   bool copied = false;
 
   @override
   void initState() {
     timerController = CountdownTimerController(
-      endTime: widget.deviceCodeModel.expiresIn,
+      endTime: widget.deviceCodeModel.expiresIn!,
       onEnd: () {
         BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
       },
@@ -40,7 +40,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
 
   @override
   void dispose() {
-    timerController.dispose();
+    timerController!.dispose();
     super.dispose();
   }
 
@@ -67,7 +67,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
               child: CountdownTimer(
                 controller: timerController,
                 endWidget: Text('Time Expired.'),
-                widgetBuilder: (_, CurrentRemainingTime time) {
+                widgetBuilder: (_, CurrentRemainingTime? time) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -75,7 +75,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                         'Verification.',
                         style: Theme.of(context)
                             .textTheme
-                            .headline5
+                            .headline5!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Divider(
@@ -83,7 +83,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                       ),
                       Center(
                         child: Text(
-                            'Expires in ${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec}'),
+                            'Expires in ${time!.min ?? '00'}:${time.sec! < 10 ? '0' : ''}${time.sec}'),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -91,9 +91,9 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                           backgroundColor: AppColor.grey,
                           valueColor:
                               AlwaysStoppedAnimation<Color>(AppColor.grey3),
-                          value: ((time.min ?? 0) * 60 + time.sec) /
-                              ((widget.deviceCodeModel.expiresIn -
-                                      widget.deviceCodeModel.parsedOn) /
+                          value: ((time.min ?? 0) * 60 + time.sec!) /
+                              ((widget.deviceCodeModel.expiresIn! -
+                                      widget.deviceCodeModel.parsedOn!) /
                                   1000),
                         ),
                       ),
@@ -123,10 +123,10 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 child: Column(
                   children: [
                     Text(
-                      widget.deviceCodeModel.userCode,
+                      widget.deviceCodeModel.userCode!,
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
+                          .headline5!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
@@ -200,7 +200,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.deviceCodeModel.verificationUri,
+                          widget.deviceCodeModel.verificationUri!,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.blue,

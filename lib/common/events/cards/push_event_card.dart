@@ -14,40 +14,40 @@ class PushEventCard extends StatelessWidget {
   final EventsModel event;
   final PushEventPayloadModel data;
   PushEventCard(this.event, Map payload)
-      : data = PushEventPayloadModel.fromJson(payload);
+      : data = PushEventPayloadModel.fromJson(payload as Map<String, dynamic>);
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
       onTap: () {
         AutoRouter.of(context).push(RepositoryScreenRoute(
-            repositoryURL: event.repo.url,
-            branch: data.ref.split('/').last,
+            repositoryURL: event.repo!.url,
+            branch: data.ref!.split('/').last,
             index: 2));
       },
-      userLogin: event.actor.login,
+      userLogin: event.actor!.login,
       date: event.createdAt,
       childPadding: EdgeInsets.all(8),
-      actor: event.actor.login,
+      actor: event.actor!.login,
       headerText: [
         TextSpan(
             text: ' pushed to ', style: AppThemeTextStyles.eventCardHeaderMed),
         TextSpan(
-            text: event.repo.name,
+            text: event.repo!.name,
             style: AppThemeTextStyles.eventCardHeaderBold)
       ],
-      avatarUrl: event.actor.avatarUrl,
+      avatarUrl: event.actor!.avatarUrl,
       child: CustomExpansionTile(
         expanded: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '${data.size} commit${data.size > 1 ? 's' : ''} to',
+              '${data.size} commit${data.size! > 1 ? 's' : ''} to',
               style: AppThemeTextStyles.eventCardChildTitleSmall,
             ),
             Flexible(
               child: BranchLabel(
-                data.ref.split('/').last,
+                data.ref!.split('/').last,
                 size: 12,
               ),
             ),
@@ -58,7 +58,7 @@ class PushEventCard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ListView.separated(
                 shrinkWrap: true,
-                itemCount: data.commits.length,
+                itemCount: data.commits!.length,
                 separatorBuilder: (context, index) {
                   return Divider(
                     height: 0,
@@ -70,14 +70,14 @@ class PushEventCard extends StatelessWidget {
                     borderRadius: AppThemeBorderRadius.smallBorderRadius,
                     onTap: () {
                       AutoRouter.of(context).push(CommitInfoScreenRoute(
-                          commitURL: data.commits[index].url));
+                          commitURL: data.commits![index].url));
                     },
                     onLongPress: () {
                       AutoRouter.of(context).push(RepositoryScreenRoute(
                           index: 2,
-                          branch: data.ref.split('/').last,
-                          repositoryURL: event.repo.url,
-                          initSHA: data.commits[index].sha));
+                          branch: data.ref!.split('/').last,
+                          repositoryURL: event.repo!.url,
+                          initSHA: data.commits![index].sha));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -88,9 +88,9 @@ class PushEventCard extends StatelessWidget {
                               children: [
                             TextSpan(
                                 text:
-                                    '#${data.commits[index].sha.substring(0, 6)}',
+                                    '#${data.commits![index].sha!.substring(0, 6)}',
                                 style: TextStyle(color: AppColor.accent)),
-                            TextSpan(text: '  ' + data.commits[index].message)
+                            TextSpan(text: '  ' + data.commits![index].message!)
                           ])),
                     ),
                   );

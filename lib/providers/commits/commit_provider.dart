@@ -4,13 +4,13 @@ import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/services/repositories/repo_services.dart';
 
 class CommitProvider extends BaseProvider {
-  final String _commitURL;
+  final String? _commitURL;
 
-  CommitModel _commit;
+  CommitModel? _commit;
 
-  CommitModel get commit => _commit;
+  CommitModel? get commit => _commit;
 
-  CommitProvider(String commitURL) : _commitURL = commitURL {
+  CommitProvider(String? commitURL) : _commitURL = commitURL {
     if (_commitURL != null) {
       _getCommit();
     }
@@ -37,10 +37,10 @@ class CommitProvider extends BaseProvider {
   void _getCommit() async {
     statusController.add(Status.loading);
     try {
-      _commit = await RepositoryServices.getCommit(_commitURL);
+      _commit = await RepositoryServices.getCommit(_commitURL!);
       statusController.add(Status.loaded);
     } catch (e) {
-      error = e.message ?? 'Something went wrong.';
+      error = e.toString();
       statusController.add(Status.error);
     }
   }

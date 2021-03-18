@@ -7,13 +7,13 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showBottomActionsMenu(BuildContext context,
-    {String headerText,
-    Widget header,
+    {String? headerText,
+    Widget? header,
     bool enableDrag = false,
     bool shrink = true,
     bool fullScreen = false,
-    TextStyle headerTextStyle,
-    @required WidgetBuilder childWidget,
+    TextStyle? headerTextStyle,
+    required WidgetBuilder childWidget,
     double titlePadding = 16.0}) {
   final _media = MediaQuery.of(context).size;
   showModalBottomSheet<void>(
@@ -46,7 +46,7 @@ void showBottomActionsMenu(BuildContext context,
                 child: Center(
                     child: header ??
                         Text(
-                          headerText,
+                          headerText!,
                           style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)
                               .merge(headerTextStyle),
@@ -62,8 +62,8 @@ void showBottomActionsMenu(BuildContext context,
           ));
 }
 
-void showURLBottomActionsMenu(BuildContext context, String url,
-    {String shareDescription}) {
+void showURLBottomActionsMenu(BuildContext context, String? url,
+    {String? shareDescription}) {
   showBottomActionsMenu(context, headerText: url, childWidget: (context) {
     return Column(
       children: [
@@ -71,7 +71,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             onTap: () {
-              canLaunch(url).then((value) {
+              canLaunch(url!).then((value) {
                 Navigator.pop(context);
                 if (value) {
                   launch(url);
@@ -95,7 +95,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
               if (shareDescription != null) {
                 Share.share('$shareDescription\n$url');
               } else
-                Share.share(url);
+                Share.share(url!);
             },
             title: Text("Share"),
             trailing: Icon(
@@ -112,7 +112,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
 typedef ScrollChild(BuildContext context, ScrollController scrollController);
 
 void showScrollableBottomActionsMenu(BuildContext context,
-    {ScrollChild child, String titleText, Widget titleWidget}) {
+    {ScrollChild? child, String? titleText, Widget? titleWidget}) {
   showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -160,10 +160,10 @@ void showScrollableBottomActionsMenu(BuildContext context,
                         padding: EdgeInsets.all(16.0),
                         child: Center(
                             child: Text(
-                          titleText,
+                          titleText!,
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(fontWeight: FontWeight.bold),
                         )),
                       ),
@@ -171,7 +171,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
                 SizedBox(
                   height: 16,
                 ),
-                child(context, scrollController),
+                child!(context, scrollController),
               ],
             );
           },

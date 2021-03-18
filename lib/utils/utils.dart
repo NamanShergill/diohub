@@ -3,9 +3,7 @@ import 'dart:convert';
 class Utils {
   Utils._();
 
-  /// parse token
-  static Map<String, dynamic> parseJwt(String token) {
-    if (token == null) return null;
+  static Map<String, dynamic>? parseJwt(String token) {
     final parts = token.split('&');
     if (parts.length != 2) {
       return null;

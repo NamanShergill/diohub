@@ -17,26 +17,26 @@ class NotificationModel {
     this.subscriptionUrl,
   });
 
-  String id;
-  bool unread;
-  String reason;
-  DateTime updatedAt;
-  DateTime lastReadAt;
-  Subject subject;
-  Repository repository;
-  String url;
-  String subscriptionUrl;
+  String? id;
+  bool? unread;
+  String? reason;
+  DateTime? updatedAt;
+  DateTime? lastReadAt;
+  Subject? subject;
+  Repository? repository;
+  String? url;
+  String? subscriptionUrl;
 
   NotificationModel copyWith({
-    String id,
-    bool unread,
-    String reason,
-    DateTime updatedAt,
-    DateTime lastReadAt,
-    Subject subject,
-    Repository repository,
-    String url,
-    String subscriptionUrl,
+    String? id,
+    bool? unread,
+    String? reason,
+    DateTime? updatedAt,
+    DateTime? lastReadAt,
+    Subject? subject,
+    Repository? repository,
+    String? url,
+    String? subscriptionUrl,
   }) =>
       NotificationModel(
         id: id ?? this.id,
@@ -80,11 +80,11 @@ class NotificationModel {
         "id": id == null ? null : id,
         "unread": unread == null ? null : unread,
         "reason": reason == null ? null : reason,
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
         "last_read_at":
-            lastReadAt == null ? null : lastReadAt.toIso8601String(),
-        "subject": subject == null ? null : subject.toJson(),
-        "repository": repository == null ? null : repository.toJson(),
+            lastReadAt == null ? null : lastReadAt!.toIso8601String(),
+        "subject": subject == null ? null : subject!.toJson(),
+        "repository": repository == null ? null : repository!.toJson(),
         "url": url == null ? null : url,
         "subscription_url": subscriptionUrl == null ? null : subscriptionUrl,
       };
@@ -140,100 +140,100 @@ class Repository {
     this.deploymentsUrl,
   });
 
-  int id;
-  String nodeId;
-  String name;
-  String fullName;
-  bool private;
-  Owner owner;
-  String htmlUrl;
-  String description;
-  bool fork;
-  String url;
-  String forksUrl;
-  String keysUrl;
-  String collaboratorsUrl;
-  String teamsUrl;
-  String hooksUrl;
-  String issueEventsUrl;
-  String eventsUrl;
-  String assigneesUrl;
-  String branchesUrl;
-  String tagsUrl;
-  String blobsUrl;
-  String gitTagsUrl;
-  String gitRefsUrl;
-  String treesUrl;
-  String statusesUrl;
-  String languagesUrl;
-  String stargazersUrl;
-  String contributorsUrl;
-  String subscribersUrl;
-  String subscriptionUrl;
-  String commitsUrl;
-  String gitCommitsUrl;
-  String commentsUrl;
-  String issueCommentUrl;
-  String contentsUrl;
-  String compareUrl;
-  String mergesUrl;
-  String archiveUrl;
-  String downloadsUrl;
-  String issuesUrl;
-  String pullsUrl;
-  String milestonesUrl;
-  String notificationsUrl;
-  String labelsUrl;
-  String releasesUrl;
-  String deploymentsUrl;
+  int? id;
+  String? nodeId;
+  String? name;
+  String? fullName;
+  bool? private;
+  Owner? owner;
+  String? htmlUrl;
+  String? description;
+  bool? fork;
+  String? url;
+  String? forksUrl;
+  String? keysUrl;
+  String? collaboratorsUrl;
+  String? teamsUrl;
+  String? hooksUrl;
+  String? issueEventsUrl;
+  String? eventsUrl;
+  String? assigneesUrl;
+  String? branchesUrl;
+  String? tagsUrl;
+  String? blobsUrl;
+  String? gitTagsUrl;
+  String? gitRefsUrl;
+  String? treesUrl;
+  String? statusesUrl;
+  String? languagesUrl;
+  String? stargazersUrl;
+  String? contributorsUrl;
+  String? subscribersUrl;
+  String? subscriptionUrl;
+  String? commitsUrl;
+  String? gitCommitsUrl;
+  String? commentsUrl;
+  String? issueCommentUrl;
+  String? contentsUrl;
+  String? compareUrl;
+  String? mergesUrl;
+  String? archiveUrl;
+  String? downloadsUrl;
+  String? issuesUrl;
+  String? pullsUrl;
+  String? milestonesUrl;
+  String? notificationsUrl;
+  String? labelsUrl;
+  String? releasesUrl;
+  String? deploymentsUrl;
 
   Repository copyWith({
-    int id,
-    String nodeId,
-    String name,
-    String fullName,
-    bool private,
-    Owner owner,
-    String htmlUrl,
-    String description,
-    bool fork,
-    String url,
-    String forksUrl,
-    String keysUrl,
-    String collaboratorsUrl,
-    String teamsUrl,
-    String hooksUrl,
-    String issueEventsUrl,
-    String eventsUrl,
-    String assigneesUrl,
-    String branchesUrl,
-    String tagsUrl,
-    String blobsUrl,
-    String gitTagsUrl,
-    String gitRefsUrl,
-    String treesUrl,
-    String statusesUrl,
-    String languagesUrl,
-    String stargazersUrl,
-    String contributorsUrl,
-    String subscribersUrl,
-    String subscriptionUrl,
-    String commitsUrl,
-    String gitCommitsUrl,
-    String commentsUrl,
-    String issueCommentUrl,
-    String contentsUrl,
-    String compareUrl,
-    String mergesUrl,
-    String archiveUrl,
-    String downloadsUrl,
-    String issuesUrl,
-    String pullsUrl,
-    String milestonesUrl,
-    String notificationsUrl,
-    String labelsUrl,
-    String releasesUrl,
-    String deploymentsUrl,
+    int? id,
+    String? nodeId,
+    String? name,
+    String? fullName,
+    bool? private,
+    Owner? owner,
+    String? htmlUrl,
+    String? description,
+    bool? fork,
+    String? url,
+    String? forksUrl,
+    String? keysUrl,
+    String? collaboratorsUrl,
+    String? teamsUrl,
+    String? hooksUrl,
+    String? issueEventsUrl,
+    String? eventsUrl,
+    String? assigneesUrl,
+    String? branchesUrl,
+    String? tagsUrl,
+    String? blobsUrl,
+    String? gitTagsUrl,
+    String? gitRefsUrl,
+    String? treesUrl,
+    String? statusesUrl,
+    String? languagesUrl,
+    String? stargazersUrl,
+    String? contributorsUrl,
+    String? subscribersUrl,
+    String? subscriptionUrl,
+    String? commitsUrl,
+    String? gitCommitsUrl,
+    String? commentsUrl,
+    String? issueCommentUrl,
+    String? contentsUrl,
+    String? compareUrl,
+    String? mergesUrl,
+    String? archiveUrl,
+    String? downloadsUrl,
+    String? issuesUrl,
+    String? pullsUrl,
+    String? milestonesUrl,
+    String? notificationsUrl,
+    String? labelsUrl,
+    String? releasesUrl,
+    String? deploymentsUrl,
   }) =>
       Repository(
         id: id ?? this.id,
@@ -361,7 +361,7 @@ class Repository {
         "name": name == null ? null : name,
         "full_name": fullName == null ? null : fullName,
         "private": private == null ? null : private,
-        "owner": owner == null ? null : owner.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
         "html_url": htmlUrl == null ? null : htmlUrl,
         "description": description == null ? null : description,
         "fork": fork == null ? null : fork,
@@ -427,44 +427,44 @@ class Owner {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  OwnerType type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  OwnerType? type;
+  bool? siteAdmin;
 
   Owner copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    OwnerType type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    OwnerType? type,
+    bool? siteAdmin,
   }) =>
       Owner(
         login: login ?? this.login,
@@ -538,7 +538,7 @@ class Owner {
         "events_url": eventsUrl == null ? null : eventsUrl,
         "received_events_url":
             receivedEventsUrl == null ? null : receivedEventsUrl,
-        "type": type == null ? null : ownerTypeValues.reverse[type],
+        "type": type == null ? null : ownerTypeValues.reverse![type!],
         "site_admin": siteAdmin == null ? null : siteAdmin,
       };
 }
@@ -556,16 +556,16 @@ class Subject {
     this.type,
   });
 
-  String title;
-  String url;
-  String latestCommentUrl;
-  SubjectType type;
+  String? title;
+  String? url;
+  String? latestCommentUrl;
+  SubjectType? type;
 
   Subject copyWith({
-    String title,
-    String url,
-    String latestCommentUrl,
-    SubjectType type,
+    String? title,
+    String? url,
+    String? latestCommentUrl,
+    SubjectType? type,
   }) =>
       Subject(
         title: title ?? this.title,
@@ -592,7 +592,7 @@ class Subject {
         "url": url == null ? null : url,
         "latest_comment_url":
             latestCommentUrl == null ? null : latestCommentUrl,
-        "type": type == null ? null : subjectTypeValues.reverse[type],
+        "type": type == null ? null : subjectTypeValues.reverse![type!],
       };
 }
 
@@ -603,11 +603,11 @@ final subjectTypeValues = EnumValues(
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

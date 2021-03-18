@@ -6,11 +6,11 @@ import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/services/users/user_info_service.dart';
 
 class UserProvider extends BaseProvider {
-  UserInfoModel _currentUserInfo;
-  final String _userName;
-  UserInfoModel get currentUserInfo => _currentUserInfo;
+  UserInfoModel? _currentUserInfo;
+  final String? _userName;
+  UserInfoModel? get currentUserInfo => _currentUserInfo;
 
-  UserProvider(String username) : _userName = username {
+  UserProvider(String? username) : _userName = username {
     getUserInfo();
     // listen to the status of the provider and execute accordingly.
     statusStream.listen((event) {
@@ -33,19 +33,13 @@ class UserProvider extends BaseProvider {
   }
 
   /// Get User information from the API.
-  Future<UserInfoModel> getUserInfo() async {
+  Future<UserInfoModel?> getUserInfo() async {
     statusController.add(Status.loading);
     try {
-      _currentUserInfo =
-          await UserInfoService.getUserInfo(_userName).then((value) {
-        if (value != null) {
-          statusController.add(Status.loaded);
-          return value;
-        }
-        return null;
-      });
+      _currentUserInfo = await UserInfoService.getUserInfo(_userName);
+      statusController.add(Status.loaded);
     } catch (e) {
-      error = e.message ?? 'Something went wrong.';
+      error = e.toString();
       statusController.add(Status.error);
     }
     return _currentUserInfo;

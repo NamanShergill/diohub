@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
   final Tree tree;
-  final String repoURL;
+  final String? repoURL;
   final int index;
   BrowserListTile(this.tree, this.repoURL, this.index);
   @override
@@ -29,22 +29,22 @@ class BrowserListTile extends StatelessWidget {
                 sha: tree.sha,
                 fileName: tree.path,
                 branch: Provider.of<RepoBranchProvider>(context, listen: false)
-                    .branch
+                    .branch!
                     .name,
                 repoName:
                     Provider.of<RepositoryProvider>(context, listen: false)
-                        .repositoryModel
+                        .repositoryModel!
                         .fullName));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
           child: Row(
             children: [
-              getIcon(),
+              getIcon()!,
               SizedBox(
                 width: 16,
               ),
-              Flexible(child: Text(tree.path)),
+              Flexible(child: Text(tree.path!)),
             ],
           ),
         ),
@@ -52,21 +52,23 @@ class BrowserListTile extends StatelessWidget {
     );
   }
 
-  Icon getIcon() {
+  Icon? getIcon() {
     switch (tree.type) {
       case Type.TREE:
         return Icon(
           Icons.folder,
           color: AppColor.grey3,
         );
-        break;
       case Type.BLOB:
         return Icon(
           LineIcons.file,
           color: AppColor.grey3,
         );
-        break;
+      case null:
+        return Icon(
+          LineIcons.question,
+          color: AppColor.grey3,
+        );
     }
-    return null;
   }
 }

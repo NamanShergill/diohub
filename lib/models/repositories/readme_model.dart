@@ -22,32 +22,32 @@ class RepositoryReadmeModel {
     this.links,
   });
 
-  String name;
-  String path;
-  String sha;
-  int size;
-  String url;
-  String htmlUrl;
-  String gitUrl;
-  String downloadUrl;
-  String type;
-  String content;
-  String encoding;
-  Links links;
+  String? name;
+  String? path;
+  String? sha;
+  int? size;
+  String? url;
+  String? htmlUrl;
+  String? gitUrl;
+  String? downloadUrl;
+  String? type;
+  String? content;
+  String? encoding;
+  Links? links;
 
   RepositoryReadmeModel copyWith({
-    String name,
-    String path,
-    String sha,
-    int size,
-    String url,
-    String htmlUrl,
-    String gitUrl,
-    String downloadUrl,
-    String type,
-    String content,
-    String encoding,
-    Links links,
+    String? name,
+    String? path,
+    String? sha,
+    int? size,
+    String? url,
+    String? htmlUrl,
+    String? gitUrl,
+    String? downloadUrl,
+    String? type,
+    String? content,
+    String? encoding,
+    Links? links,
   }) =>
       RepositoryReadmeModel(
         name: name ?? this.name,
@@ -103,7 +103,7 @@ class RepositoryReadmeModel {
         "type": type == null ? null : type,
         "content": content == null ? null : content,
         "encoding": encoding == null ? null : encoding,
-        "_links": links == null ? null : links.toJson(),
+        "_links": links == null ? null : links!.toJson(),
       };
 }
 
@@ -114,14 +114,14 @@ class Links {
     this.html,
   });
 
-  String self;
-  String git;
-  String html;
+  String? self;
+  String? git;
+  String? html;
 
   Links copyWith({
-    String self,
-    String git,
-    String html,
+    String? self,
+    String? git,
+    String? html,
   }) =>
       Links(
         self: self ?? this.self,

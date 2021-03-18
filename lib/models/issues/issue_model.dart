@@ -40,67 +40,67 @@ class IssueModel {
     this.pullRequest,
   });
 
-  String url;
-  String repositoryUrl;
-  String labelsUrl;
-  String commentsUrl;
-  String eventsUrl;
-  String htmlUrl;
-  int id;
-  UserInfoModel closedBy;
+  String? url;
+  String? repositoryUrl;
+  String? labelsUrl;
+  String? commentsUrl;
+  String? eventsUrl;
+  String? htmlUrl;
+  int? id;
+  UserInfoModel? closedBy;
 
-  String nodeId;
-  int number;
-  String title;
-  UserInfoModel user;
-  List<Label> labels;
-  IssueState state;
-  bool locked;
-  UserInfoModel assignee;
-  List<UserInfoModel> assignees;
+  String? nodeId;
+  int? number;
+  String? title;
+  UserInfoModel? user;
+  List<Label>? labels;
+  IssueState? state;
+  bool? locked;
+  UserInfoModel? assignee;
+  List<UserInfoModel>? assignees;
   dynamic milestone;
-  int comments;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime closedAt;
-  AuthorAssociation authorAssociation;
+  int? comments;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? closedAt;
+  AuthorAssociation? authorAssociation;
   dynamic activeLockReason;
-  Repository repository;
-  String body;
-  String timelineUrl;
+  Repository? repository;
+  String? body;
+  String? timelineUrl;
   dynamic performedViaGithubApp;
-  PullRequest pullRequest;
+  PullRequest? pullRequest;
 
   IssueModel copyWith({
-    String url,
-    String repositoryUrl,
-    String labelsUrl,
-    String commentsUrl,
-    String eventsUrl,
-    String htmlUrl,
-    int id,
-    String nodeId,
-    int number,
-    String title,
-    UserInfoModel closedBy,
-    UserInfoModel user,
-    List<Label> labels,
-    IssueState state,
-    bool locked,
-    UserInfoModel assignee,
-    List<UserInfoModel> assignees,
+    String? url,
+    String? repositoryUrl,
+    String? labelsUrl,
+    String? commentsUrl,
+    String? eventsUrl,
+    String? htmlUrl,
+    int? id,
+    String? nodeId,
+    int? number,
+    String? title,
+    UserInfoModel? closedBy,
+    UserInfoModel? user,
+    List<Label>? labels,
+    IssueState? state,
+    bool? locked,
+    UserInfoModel? assignee,
+    List<UserInfoModel>? assignees,
     dynamic milestone,
-    int comments,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime closedAt,
-    AuthorAssociation authorAssociation,
+    int? comments,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? closedAt,
+    AuthorAssociation? authorAssociation,
     dynamic activeLockReason,
-    Repository repository,
-    String body,
-    String timelineUrl,
+    Repository? repository,
+    String? body,
+    String? timelineUrl,
     dynamic performedViaGithubApp,
-    PullRequest pullRequest,
+    PullRequest? pullRequest,
   }) =>
       IssueModel(
         url: url ?? this.url,
@@ -206,31 +206,31 @@ class IssueModel {
         "node_id": nodeId == null ? null : nodeId,
         "number": number == null ? null : number,
         "title": title == null ? null : title,
-        "user": user == null ? null : user.toJson(),
-        "closed_by": closedBy == null ? null : closedBy.toJson(),
+        "user": user == null ? null : user!.toJson(),
+        "closed_by": closedBy == null ? null : closedBy!.toJson(),
         "labels": labels == null
             ? null
-            : List<dynamic>.from(labels.map((x) => x.toJson())),
-        "state": state == null ? null : stateValues.reverse[state],
+            : List<dynamic>.from(labels!.map((x) => x.toJson())),
+        "state": state == null ? null : stateValues.reverse![state!],
         "locked": locked == null ? null : locked,
-        "assignee": assignee == null ? null : assignee.toJson(),
+        "assignee": assignee == null ? null : assignee!.toJson(),
         "assignees": assignees == null
             ? null
-            : List<dynamic>.from(assignees.map((x) => x.toJson())),
+            : List<dynamic>.from(assignees!.map((x) => x.toJson())),
         "milestone": milestone,
         "comments": comments == null ? null : comments,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "closed_at": closedAt == null ? null : closedAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+        "closed_at": closedAt == null ? null : closedAt!.toIso8601String(),
         "author_association": authorAssociation == null
             ? null
-            : authorAssociationValues.reverse[authorAssociation],
+            : authorAssociationValues.reverse![authorAssociation!],
         "active_lock_reason": activeLockReason,
-        "repository": repository == null ? null : repository.toJson(),
+        "repository": repository == null ? null : repository!.toJson(),
         "body": body == null ? null : body,
         "timeline_url": timelineUrl == null ? null : timelineUrl,
         "performed_via_github_app": performedViaGithubApp,
-        "pull_request": pullRequest == null ? null : pullRequest.toJson(),
+        "pull_request": pullRequest == null ? null : pullRequest!.toJson(),
       };
 }
 
@@ -245,22 +245,22 @@ class Label {
     this.description,
   });
 
-  int id;
-  String nodeId;
-  String url;
-  String name;
-  String color;
-  bool labelDefault;
-  String description;
+  int? id;
+  String? nodeId;
+  String? url;
+  String? name;
+  String? color;
+  bool? labelDefault;
+  String? description;
 
   Label copyWith({
-    int id,
-    String nodeId,
-    String url,
-    String name,
-    String color,
-    bool labelDefault,
-    String description,
+    int? id,
+    String? nodeId,
+    String? url,
+    String? name,
+    String? color,
+    bool? labelDefault,
+    String? description,
   }) =>
       Label(
         id: id ?? this.id,
@@ -317,39 +317,39 @@ class Milestone {
     this.closedAt,
   });
 
-  String url;
-  String htmlUrl;
-  String labelsUrl;
-  int id;
-  String nodeId;
-  int number;
-  String title;
-  String description;
-  UserInfoModel creator;
-  int openIssues;
-  int closedIssues;
-  IssueState state;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime dueOn;
+  String? url;
+  String? htmlUrl;
+  String? labelsUrl;
+  int? id;
+  String? nodeId;
+  int? number;
+  String? title;
+  String? description;
+  UserInfoModel? creator;
+  int? openIssues;
+  int? closedIssues;
+  IssueState? state;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? dueOn;
   dynamic closedAt;
 
   Milestone copyWith({
-    String url,
-    String htmlUrl,
-    String labelsUrl,
-    int id,
-    String nodeId,
-    int number,
-    String title,
-    String description,
-    UserInfoModel creator,
-    int openIssues,
-    int closedIssues,
-    IssueState state,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime dueOn,
+    String? url,
+    String? htmlUrl,
+    String? labelsUrl,
+    int? id,
+    String? nodeId,
+    int? number,
+    String? title,
+    String? description,
+    UserInfoModel? creator,
+    int? openIssues,
+    int? closedIssues,
+    IssueState? state,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? dueOn,
     dynamic closedAt,
   }) =>
       Milestone(
@@ -411,13 +411,13 @@ class Milestone {
         "number": number == null ? null : number,
         "title": title == null ? null : title,
         "description": description == null ? null : description,
-        "creator": creator == null ? null : creator.toJson(),
+        "creator": creator == null ? null : creator!.toJson(),
         "open_issues": openIssues == null ? null : openIssues,
         "closed_issues": closedIssues == null ? null : closedIssues,
-        "state": state == null ? null : stateValues.reverse[state],
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "due_on": dueOn == null ? null : dueOn.toIso8601String(),
+        "state": state == null ? null : stateValues.reverse![state!],
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+        "due_on": dueOn == null ? null : dueOn!.toIso8601String(),
         "closed_at": closedAt,
       };
 }
@@ -432,11 +432,11 @@ final stateValues = EnumValues({
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

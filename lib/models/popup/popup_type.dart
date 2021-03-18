@@ -9,12 +9,12 @@ enum PopupType {
 }
 
 class AppPopupData {
-  PopupType popupType;
-  final String title;
-  final IconData icon;
+  PopupType? popupType;
+  final String? title;
+  final IconData? icon;
   final FlushbarPosition position;
   final FlushbarStyle style;
-  final Function onTap;
+  final Function? onTap;
 
   AppPopupData(
       {this.title,

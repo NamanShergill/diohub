@@ -18,11 +18,11 @@ import 'package:onehub/view/issues_pulls/widgets/discussion_comment.dart';
 
 class Discussion extends StatefulWidget {
   /// Show  comments since.
-  final DateTime commentsSince;
-  final String issueUrl;
-  final bool isLocked;
-  final DateTime createdAt;
-  final TimelineEventModel initialComment;
+  final DateTime? commentsSince;
+  final String? issueUrl;
+  final bool? isLocked;
+  final DateTime? createdAt;
+  final TimelineEventModel? initialComment;
   Discussion(
       {this.commentsSince,
       this.issueUrl,
@@ -39,7 +39,7 @@ class _DiscussionState extends State<Discussion>
   @override
   bool get wantKeepAlive => true;
 
-  DateTime commentsSince;
+  DateTime? commentsSince;
 
   @override
   void initState() {
@@ -69,8 +69,8 @@ class _DiscussionState extends State<Discussion>
             ? InfiniteScrollWrapper<IssueCommentsModel>(
                 future: (pageNumber, pageSize, refresh, _) {
                   return IssuesService.getIssueComments(
-                      widget.issueUrl, pageSize, pageNumber, refresh,
-                      since: commentsSince
+                      widget.issueUrl!, pageSize, pageNumber, refresh,
+                      since: commentsSince!
                           .subtract(Duration(minutes: 5))
                           .toIso8601String());
                 },
@@ -85,7 +85,7 @@ class _DiscussionState extends State<Discussion>
                       child: Column(
                         children: [
                           Text(
-                            'Showing comments since ${DateFormat('d MMM yyyy').format(commentsSince)}.',
+                            'Showing comments since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -201,7 +201,7 @@ class _DiscussionState extends State<Discussion>
                               setState(() {
                                 commentsSince = date;
                               });
-                            }, currentTime: widget.createdAt);
+                            }, currentTime: widget.createdAt!);
                           },
                         ),
                       ),
@@ -219,7 +219,7 @@ class _DiscussionState extends State<Discussion>
                 builder: (context, item, index) {
                   return Builder(
                     builder: (context) {
-                      if (item?.event == Event.commented)
+                      if (item.event == Event.commented)
                         return paddingWrap(
                             child: TimelineDiscussionComment(
                                 item, widget.isLocked));
@@ -239,7 +239,7 @@ class _DiscussionState extends State<Discussion>
                           leading: Octicons.pencil,
                           date: item.createdAt.toString(),
                           content:
-                              'Renamed this from ${item.rename.from} to ${item.rename.to}.',
+                              'Renamed this from ${item.rename!.from} to ${item.rename!.to}.',
                         ));
                       else if (item.event == Event.pinned)
                         return paddingWrap(
@@ -269,7 +269,7 @@ class _DiscussionState extends State<Discussion>
                           content: item.assignee,
                         ));
                       else if (item.event == Event.cross_referenced) {
-                        if (item.source.issue.pullRequest != null)
+                        if (item.source!.issue!.pullRequest != null)
                           return paddingWrap(
                               child: BasicPullCrossReferencedCard(
                             user: item.actor,
@@ -300,13 +300,13 @@ class _DiscussionState extends State<Discussion>
                             child: BasicEventCommitCard(
                           user: item.author,
                           leading: LineIcons.alternateComment,
-                          date: item.author.date.toString(),
+                          date: item.author!.date.toString(),
                           message: item.message,
                           sha: item.sha,
                           // Don't need a direct reference to the git database.
-                          commitURL: item.url.split('/git').join(''),
+                          commitURL: item.url!.split('/git').join(''),
                         ));
-                      return Text(eventValues.reverse[item.event]);
+                      return Text(eventValues.reverse![item.event!]!);
                     },
                   );
                 },
@@ -318,9 +318,9 @@ class _DiscussionState extends State<Discussion>
             children: [
               Material(
                 elevation: 2,
-                color: widget.isLocked ? AppColor.grey3 : AppColor.accent,
+                color: widget.isLocked! ? AppColor.grey3 : AppColor.accent,
                 child: InkWell(
-                  onTap: widget.isLocked
+                  onTap: widget.isLocked!
                       ? null
                       : () {
                           showBottomActionsMenu(context,
@@ -374,7 +374,7 @@ class _DiscussionState extends State<Discussion>
                           Align(
                             alignment: Alignment.centerRight,
                             child: Icon(
-                              widget.isLocked
+                              widget.isLocked!
                                   ? Octicons.lock
                                   : Icons.comment_rounded,
                               size: 16,
@@ -394,7 +394,7 @@ class _DiscussionState extends State<Discussion>
   }
 }
 
-Widget paddingWrap({Widget child}) {
+Widget paddingWrap({Widget? child}) {
   return Material(
       elevation: 2,
       color: AppColor.onBackground,

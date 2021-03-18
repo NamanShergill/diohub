@@ -3,13 +3,13 @@
 import 'dart:convert';
 
 class EventsModel {
-  String id;
-  EventsType type;
-  Actor actor;
-  Repo repo;
-  Map payload;
-  bool public;
-  String createdAt;
+  String? id;
+  EventsType? type;
+  Actor? actor;
+  Repo? repo;
+  Map? payload;
+  bool? public;
+  String? createdAt;
 
   EventsModel(
       {this.id,
@@ -23,7 +23,7 @@ class EventsModel {
   // Todo: Add more event types.
   EventsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    String eventType = json['type'];
+    String? eventType = json['type'];
     if (eventType == 'CreateEvent')
       type = EventsType.CreateEvent;
     else if (eventType == 'DeleteEvent')
@@ -67,10 +67,10 @@ class EventsModel {
     data['id'] = this.id;
     data['type'] = this.type;
     if (this.actor != null) {
-      data['actor'] = this.actor.toJson();
+      data['actor'] = this.actor!.toJson();
     }
     if (this.repo != null) {
-      data['repo'] = this.repo.toJson();
+      data['repo'] = this.repo!.toJson();
     }
     if (this.payload != null) {
       data['payload'] = this.payload;
@@ -82,12 +82,12 @@ class EventsModel {
 }
 
 class Actor {
-  int id;
-  String login;
-  String displayLogin;
-  String gravatarId;
-  String url;
-  String avatarUrl;
+  int? id;
+  String? login;
+  String? displayLogin;
+  String? gravatarId;
+  String? url;
+  String? avatarUrl;
 
   Actor(
       {this.id,
@@ -119,9 +119,9 @@ class Actor {
 }
 
 class Repo {
-  int id;
-  String name;
-  String url;
+  int? id;
+  String? name;
+  String? url;
 
   Repo({this.id, this.name, this.url});
 
@@ -142,13 +142,13 @@ class Repo {
 
 // Todo: Handle cases for different types of payloads.
 class Payload {
-  int pushId;
-  int size;
-  int distinctSize;
-  String ref;
-  String head;
-  String before;
-  List<Commits> commits;
+  int? pushId;
+  int? size;
+  int? distinctSize;
+  String? ref;
+  String? head;
+  String? before;
+  List<Commits>? commits;
 
   Payload(
       {this.pushId,
@@ -168,9 +168,9 @@ class Payload {
     before = json['before'];
     if (json['commits'] != null) {
       // ignore: deprecated_member_use
-      commits = new List<Commits>();
+      commits = <Commits>[];
       json['commits'].forEach((v) {
-        commits.add(new Commits.fromJson(v));
+        commits!.add(new Commits.fromJson(v));
       });
     }
   }
@@ -184,18 +184,18 @@ class Payload {
     data['head'] = this.head;
     data['before'] = this.before;
     if (this.commits != null) {
-      data['commits'] = this.commits.map((v) => v.toJson()).toList();
+      data['commits'] = this.commits!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Commits {
-  String sha;
-  Author author;
-  String message;
-  bool distinct;
-  String url;
+  String? sha;
+  Author? author;
+  String? message;
+  bool? distinct;
+  String? url;
 
   Commits({this.sha, this.author, this.message, this.distinct, this.url});
 
@@ -212,7 +212,7 @@ class Commits {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['sha'] = this.sha;
     if (this.author != null) {
-      data['author'] = this.author.toJson();
+      data['author'] = this.author!.toJson();
     }
     data['message'] = this.message;
     data['distinct'] = this.distinct;
@@ -228,14 +228,14 @@ class Author {
     this.date,
   });
 
-  String name;
-  String email;
-  DateTime date;
+  String? name;
+  String? email;
+  DateTime? date;
 
   Author copyWith({
-    String name,
-    String email,
-    DateTime date,
+    String? name,
+    String? email,
+    DateTime? date,
   }) =>
       Author(
         name: name ?? this.name,
@@ -256,7 +256,7 @@ class Author {
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
         "email": email == null ? null : email,
-        "date": date == null ? null : date.toIso8601String(),
+        "date": date == null ? null : date!.toIso8601String(),
       };
 }
 

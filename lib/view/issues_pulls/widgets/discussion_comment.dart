@@ -12,17 +12,17 @@ import 'package:onehub/utils/get_date.dart';
 import 'package:provider/provider.dart';
 
 class TimelineDiscussionComment extends StatelessWidget {
-  final TimelineEventModel item;
-  final bool isLocked;
+  final TimelineEventModel? item;
+  final bool? isLocked;
   TimelineDiscussionComment(this.item, this.isLocked);
   @override
   Widget build(BuildContext context) {
     return BaseComment(
-      body: item.body,
-      user: item.user,
-      url: item.url,
-      authorAssociation: item.authorAssociation,
-      createdAt: item.createdAt,
+      body: item!.body,
+      user: item!.user,
+      url: item!.url,
+      authorAssociation: item!.authorAssociation,
+      createdAt: item!.createdAt,
       isLocked: isLocked,
     );
   }
@@ -38,17 +38,18 @@ class DiscussionComment extends StatelessWidget {
       user: item.user,
       authorAssociation: item.authorAssociation,
       createdAt: item.createdAt,
+      url: item.url,
     );
   }
 }
 
 class BaseComment extends StatelessWidget {
-  final UserInfoModel user;
-  final AuthorAssociation authorAssociation;
-  final DateTime createdAt;
-  final String body;
-  final bool isLocked;
-  final String url;
+  final UserInfoModel? user;
+  final AuthorAssociation? authorAssociation;
+  final DateTime? createdAt;
+  final String? body;
+  final bool? isLocked;
+  final String? url;
   BaseComment(
       {this.authorAssociation,
       this.url,
@@ -67,8 +68,8 @@ class BaseComment extends StatelessWidget {
             Row(
               children: [
                 ProfileTile(
-                  user.avatarUrl,
-                  userLogin: user.login,
+                  user!.avatarUrl,
+                  userLogin: user!.login,
                   size: 30,
                 ),
                 SizedBox(
@@ -78,7 +79,7 @@ class BaseComment extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user.login,
+                      user!.login!,
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -86,7 +87,7 @@ class BaseComment extends StatelessWidget {
                         authorAssociation != AuthorAssociation.NONE)
                       Builder(
                         builder: (context) {
-                          String str;
+                          String? str;
                           if (authorAssociation ==
                               AuthorAssociation.COLLABORATOR)
                             str = 'Collaborator';
@@ -126,9 +127,9 @@ class BaseComment extends StatelessWidget {
           ReactionBar(
               url,
               Provider.of<CurrentUserProvider>(context, listen: false)
-                  .currentUserInfo
+                  .currentUserInfo!
                   .login,
-              !isLocked),
+              !isLocked!),
       ],
     );
   }

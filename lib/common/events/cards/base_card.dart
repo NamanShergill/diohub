@@ -6,21 +6,21 @@ import 'package:onehub/style/textStyles.dart';
 import 'package:onehub/utils/get_date.dart';
 
 class BaseEventCard extends StatelessWidget {
-  final Widget child;
-  final String avatarUrl;
-  final String actor;
-  final String userLogin;
+  final Widget? child;
+  final String? avatarUrl;
+  final String? actor;
+  final String? userLogin;
   final EdgeInsets childPadding;
   final List<TextSpan> headerText;
   final List<TextSpan> _topText;
-  final Function onTap;
-  final String date;
+  final Function? onTap;
+  final String? date;
 
   BaseEventCard(
       {this.child,
       this.actor,
       this.avatarUrl,
-      this.headerText,
+      required this.headerText,
       this.onTap,
       this.userLogin,
       this.date,
@@ -58,7 +58,7 @@ class BaseEventCard extends StatelessWidget {
                       text: TextSpan(
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2
+                              .bodyText2!
                               .copyWith(fontSize: 15, letterSpacing: 0),
                           children: _topText),
                     ),
@@ -67,7 +67,7 @@ class BaseEventCard extends StatelessWidget {
               ),
             ),
             Text(
-              getDate(date),
+              getDate(date!),
               style: TextStyle(fontSize: 11, color: AppColor.grey3),
             ),
           ],
@@ -83,7 +83,7 @@ class BaseEventCard extends StatelessWidget {
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.medBorderRadius,
-              onTap: onTap,
+              onTap: onTap as void Function()?,
               child: Container(
                 width: double.infinity,
                 child: Padding(

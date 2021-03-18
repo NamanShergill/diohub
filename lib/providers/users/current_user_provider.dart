@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/common/base_popup_notification.dart';
 import 'package:onehub/models/users/current_user_info_model.dart';
@@ -8,12 +9,12 @@ import 'package:onehub/services/users/user_info_service.dart';
 import 'package:onehub/utils/internet_connectivity.dart';
 
 class CurrentUserProvider extends BaseProvider {
-  CurrentUserInfoModel _currentUserInfo;
-  final AuthenticationBloc authenticationBloc;
-  CurrentUserInfoModel get currentUserInfo => _currentUserInfo;
+  CurrentUserInfoModel? _currentUserInfo;
+  final AuthenticationBloc? authenticationBloc;
+  CurrentUserInfoModel? get currentUserInfo => _currentUserInfo;
 
   CurrentUserProvider({this.authenticationBloc}) {
-    authenticationBloc.listen((authState) {
+    authenticationBloc!.stream.listen((authState) {
       // Fetch user details if authentication is successful.
       if (authState is AuthenticationSuccessful) {
         void tryFetchUserInfo() async {
@@ -42,7 +43,7 @@ class CurrentUserProvider extends BaseProvider {
     InternetConnectivity.networkStream.listen((event) async {
       if (event != NetworkStatus.Online &&
           status == Status.error &&
-          authenticationBloc.state.authenticated) {
+          authenticationBloc!.state.authenticated) {
         await getUserInfo();
       }
     });
@@ -67,24 +68,21 @@ class CurrentUserProvider extends BaseProvider {
   }
 
   /// Get User information from the API.
-  Future<CurrentUserInfoModel> getUserInfo() async {
+  Future<CurrentUserInfoModel?> getUserInfo() async {
     statusController.add(Status.loading);
     try {
       _currentUserInfo =
           await UserInfoService.getCurrentUserInfo().then((value) {
-        if (value != null) {
-          statusController.add(Status.loaded);
-          return value;
-        }
-        return null;
+        statusController.add(Status.loaded);
+        return value;
       });
     } catch (e) {
       // LogOut if auth credentials sent are incorrect.
-      if (e.response != null &&
-          e.response.statusCode == 401 &&
-          authenticationBloc.state.authenticated)
-        authenticationBloc.add(LogOut());
-      error = e.message ?? 'Something went wrong.';
+      if (e is DioError) if (e.response != null &&
+          e.response!.statusCode == 401 &&
+          authenticationBloc!.state.authenticated)
+        authenticationBloc!.add(LogOut());
+      error = e.toString();
       statusController.add(Status.error);
     }
     return _currentUserInfo;

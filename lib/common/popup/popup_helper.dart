@@ -50,7 +50,7 @@ class DialogHelper {
           size: 30,
         ),
         messageText: Text(
-          appPopup.title,
+          appPopup.title!,
           style: TextStyle(
             fontSize: 18.0,
             color: Colors.white,

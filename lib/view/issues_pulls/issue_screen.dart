@@ -18,9 +18,9 @@ import 'package:onehub/view/issues_pulls/issue_information.dart';
 import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {
-  final String issueURL;
-  final String repoURL;
-  final DateTime commentsSince;
+  final String? issueURL;
+  final String? repoURL;
+  final DateTime? commentsSince;
   final int initialIndex;
   IssueScreen(this.issueURL, this.repoURL,
       {this.initialIndex = 0, this.commentsSince});
@@ -31,7 +31,7 @@ class IssueScreen extends StatefulWidget {
 
 class _IssueScreenState extends State<IssueScreen>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _IssueScreenState extends State<IssueScreen>
       create: (_) => IssueProvider(
           widget.issueURL,
           Provider.of<CurrentUserProvider>(context, listen: false)
-              .currentUserInfo
+              .currentUserInfo!
               .login,
           widget.repoURL),
       builder: (context, child) {
@@ -75,16 +75,16 @@ class _IssueScreenState extends State<IssueScreen>
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.issueModel.state, 15),
+                              getIcon(value.issueModel!.state, 15)!,
                               SizedBox(
                                 width: 4,
                               ),
                               Text(
-                                value.issueModel.state == IssueState.OPEN
+                                value.issueModel!.state == IssueState.OPEN
                                     ? 'Open'
                                     : 'Closed',
                                 style: TextStyle(
-                                    color: value.issueModel.state ==
+                                    color: value.issueModel!.state ==
                                             IssueState.OPEN
                                         ? AppColor.success
                                         : AppColor.error,
@@ -94,7 +94,7 @@ class _IssueScreenState extends State<IssueScreen>
                                 width: 8,
                               ),
                               Text(
-                                '#${value.issueModel.number}',
+                                '#${value.issueModel!.number}',
                                 style: TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
@@ -106,16 +106,16 @@ class _IssueScreenState extends State<IssueScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.issueModel.state, 20),
+                                  getIcon(value.issueModel!.state, 20)!,
                                   SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    value.issueModel.state == IssueState.OPEN
+                                    value.issueModel!.state == IssueState.OPEN
                                         ? 'Open'
                                         : 'Closed',
                                     style: TextStyle(
-                                        color: value.issueModel.state ==
+                                        color: value.issueModel!.state ==
                                                 IssueState.OPEN
                                             ? AppColor.success
                                             : AppColor.error,
@@ -126,7 +126,7 @@ class _IssueScreenState extends State<IssueScreen>
                                     width: 8,
                                   ),
                                   Text(
-                                    '#${value.issueModel.number}',
+                                    '#${value.issueModel!.number}',
                                     style: TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
@@ -142,7 +142,7 @@ class _IssueScreenState extends State<IssueScreen>
                                     width: 4,
                                   ),
                                   Text(
-                                    '${value.issueModel.comments} comments',
+                                    '${value.issueModel!.comments} comments',
                                     style: TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
@@ -152,14 +152,14 @@ class _IssueScreenState extends State<IssueScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.issueModel.title.length >
+                                value.issueModel!.title!.length >
                                         MediaQuery.of(context).size.width / 14
-                                    ? value.issueModel.title.substring(
+                                    ? value.issueModel!.title!.substring(
                                             0,
                                             MediaQuery.of(context).size.width ~/
                                                 14) +
                                         '...'
-                                    : value.issueModel.title,
+                                    : value.issueModel!.title!,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
@@ -172,13 +172,13 @@ class _IssueScreenState extends State<IssueScreen>
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
                                             repositoryURL: value
-                                                .issueModel.repositoryUrl));
+                                                .issueModel!.repositoryUrl));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: Text(
-                                      value.issueModel.repositoryUrl
+                                      value.issueModel!.repositoryUrl!
                                           .replaceFirst(
                                               'https://api.github.com/repos/',
                                               ''),
@@ -188,9 +188,9 @@ class _IssueScreenState extends State<IssueScreen>
                                 ),
                               ),
                               Text(
-                                value.issueModel.state == IssueState.CLOSED
-                                    ? 'By ${value.issueModel.user.login}, closed ${getDate(value.issueModel.closedAt.toString(), shorten: false)}.'
-                                    : 'Opened ${getDate(value.issueModel.createdAt.toString(), shorten: false)} by ${value.issueModel.user.login}',
+                                value.issueModel!.state == IssueState.CLOSED
+                                    ? 'By ${value.issueModel!.user!.login}, closed ${getDate(value.issueModel!.closedAt.toString(), shorten: false)}.'
+                                    : 'Opened ${getDate(value.issueModel!.createdAt.toString(), shorten: false)} by ${value.issueModel!.user!.login}',
                                 style: TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
@@ -202,18 +202,18 @@ class _IssueScreenState extends State<IssueScreen>
                           IssueInformation(),
                           Discussion(
                             commentsSince: widget.commentsSince,
-                            isLocked: value.issueModel.locked &&
-                                !value.editingEnabled,
-                            createdAt: value.issueModel.createdAt,
-                            issueUrl: value.issueModel.url,
+                            isLocked: value.issueModel!.locked! &&
+                                !value.editingEnabled!,
+                            createdAt: value.issueModel!.createdAt,
+                            issueUrl: value.issueModel!.url,
                             initialComment: TimelineEventModel(
-                                createdAt: value.issueModel.createdAt,
+                                createdAt: value.issueModel!.createdAt,
                                 event: Event.commented,
-                                user: value.issueModel.user,
+                                user: value.issueModel!.user,
                                 authorAssociation:
-                                    value.issueModel.authorAssociation,
-                                body: value.issueModel.body.isNotEmpty
-                                    ? value.issueModel.body
+                                    value.issueModel!.authorAssociation,
+                                body: value.issueModel!.body!.isNotEmpty
+                                    ? value.issueModel!.body
                                     : "No description provided."),
                           ),
                         ],
@@ -229,7 +229,7 @@ class _IssueScreenState extends State<IssueScreen>
     );
   }
 
-  Widget getIcon(IssueState state, double size) {
+  Widget? getIcon(IssueState? state, double size) {
     switch (state) {
       case IssueState.CLOSED:
         return Icon(
@@ -237,14 +237,12 @@ class _IssueScreenState extends State<IssueScreen>
           color: Colors.red,
           size: size,
         );
-        break;
       case IssueState.OPEN:
         return Icon(
           Octicons.issue_opened,
           color: Colors.green,
           size: size,
         );
-        break;
       default:
         return null;
     }

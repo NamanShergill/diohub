@@ -9,18 +9,18 @@ import 'package:onehub/view/profile/about/about_user.dart';
 import 'package:onehub/view/profile/overview/user_overview_screen.dart';
 import 'package:onehub/view/profile/repositories/user_repositories.dart';
 
-class UserProfileScreen<T extends UserInfoModel> extends StatefulWidget {
-  final bool isCurrentUser;
+class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
+  final bool? isCurrentUser;
   final T userData;
   UserProfileScreen(this.userData, {this.isCurrentUser});
   @override
   _UserProfileScreenState<T> createState() => _UserProfileScreenState<T>();
 }
 
-class _UserProfileScreenState<T extends UserInfoModel>
+class _UserProfileScreenState<T extends UserInfoModel?>
     extends State<UserProfileScreen<T>> with SingleTickerProviderStateMixin {
-  TabController tabController;
-  UserInfoModel data;
+  TabController? tabController;
+  UserInfoModel? data;
   @override
   void initState() {
     data = widget.userData;
@@ -45,7 +45,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ProfileTile(
-                  data.avatarUrl,
+                  data!.avatarUrl,
                   size: 50,
                 ),
                 SizedBox(
@@ -55,16 +55,16 @@ class _UserProfileScreenState<T extends UserInfoModel>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.name ?? data.login,
+                      data!.name ?? data!.login!,
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
+                          .headline5!
                           .copyWith(fontSize: 18),
                     ),
-                    if (data.name != null)
+                    if (data!.name != null)
                       Text(
-                        data.login,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        data!.login!,
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                             fontSize: 15, fontWeight: FontWeight.normal),
                       ),
                   ],
@@ -85,11 +85,11 @@ class _UserProfileScreenState<T extends UserInfoModel>
                   text: TextSpan(
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyText1!
                         .copyWith(fontSize: 15),
                     children: [
                       TextSpan(
-                          text: data.followers.toString(),
+                          text: data!.followers.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       TextSpan(text: ' followers'),
                     ],
@@ -102,11 +102,11 @@ class _UserProfileScreenState<T extends UserInfoModel>
                   text: TextSpan(
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyText1!
                         .copyWith(fontSize: 15),
                     children: [
                       TextSpan(
-                          text: data.following.toString(),
+                          text: data!.following.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       TextSpan(text: ' following'),
                     ],
@@ -122,16 +122,16 @@ class _UserProfileScreenState<T extends UserInfoModel>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ProfileTile(data.avatarUrl),
+              ProfileTile(data!.avatarUrl),
               SizedBox(
                 width: 8,
               ),
               Flexible(
                   child: Text(
-                data.login,
+                data!.login!,
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(fontSize: 18),
               )),
             ],
@@ -149,7 +149,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
         Container(
           color: AppColor.onBackground,
           child: Events(
-            specificUser: data.login,
+            specificUser: data!.login,
           ),
         ),
       ],

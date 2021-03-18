@@ -3,8 +3,8 @@ import 'package:onehub/style/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
-  final Widget child;
-  final BorderRadius borderRadius;
+  final Widget? child;
+  final BorderRadius? borderRadius;
   final Color baseColor;
   final Color highlightColor;
   ShimmerWidget(
@@ -17,7 +17,7 @@ class ShimmerWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.circular(0),
       child: Shimmer.fromColors(
-        child: child,
+        child: child!,
         baseColor: baseColor,
         highlightColor: highlightColor,
       ),

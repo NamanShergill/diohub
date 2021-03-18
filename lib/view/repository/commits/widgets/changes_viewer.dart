@@ -3,9 +3,9 @@ import 'package:onehub/common/patch_viewer.dart';
 import 'package:onehub/style/colors.dart';
 
 class ChangesViewer extends StatefulWidget {
-  final String patch;
-  final String contentURL;
-  final String fileType;
+  final String? patch;
+  final String? contentURL;
+  final String? fileType;
   ChangesViewer(this.patch, this.contentURL, this.fileType);
 
   @override
@@ -13,7 +13,7 @@ class ChangesViewer extends StatefulWidget {
 }
 
 class _ChangesViewerState extends State<ChangesViewer> {
-  bool wrap = false;
+  bool? wrap = false;
   final PatchViewController controller = PatchViewController();
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _ChangesViewerState extends State<ChangesViewer> {
           IconButton(
               icon: Icon(
                 Icons.wrap_text,
-                color: wrap ? Colors.white : AppColor.grey3,
+                color: wrap! ? Colors.white : AppColor.grey3,
               ),
               onPressed: () {
                 setState(() {

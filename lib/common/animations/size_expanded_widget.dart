@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:onehub/style/animDuartions.dart';
 
 class SizeExpandedSection extends StatefulWidget {
-  final Widget child;
-  final bool expand;
+  final Widget? child;
+  final bool? expand;
   final Axis axis;
   final double axisAlignment;
-  final Curve animationCurve;
-  final Duration duration;
+  final Curve? animationCurve;
+  final Duration? duration;
 
   SizeExpandedSection(
       {this.expand = true,
@@ -23,8 +23,8 @@ class SizeExpandedSection extends StatefulWidget {
 
 class _SizeExpandedSectionState extends State<SizeExpandedSection>
     with SingleTickerProviderStateMixin {
-  AnimationController expandController;
-  Animation<double> animation;
+  late AnimationController expandController;
+  late Animation<double> animation;
 
   @override
   void initState() {
@@ -42,11 +42,11 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
     );
-    if (widget.expand) _runExpandCheck();
+    if (widget.expand!) _runExpandCheck();
   }
 
   void _runExpandCheck() {
-    if (widget.expand) {
+    if (widget.expand!) {
       expandController.forward();
     } else {
       expandController.reverse();

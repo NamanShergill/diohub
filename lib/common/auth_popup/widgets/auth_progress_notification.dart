@@ -44,7 +44,7 @@ class AuthProgressNotification extends StatelessWidget {
                             BlocProvider.of<AuthenticationBloc>(context)
                                 .add(ResetStates());
                         },
-                        widgetBuilder: (_, CurrentRemainingTime time) {
+                        widgetBuilder: (_, CurrentRemainingTime? time) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -59,10 +59,10 @@ class AuthProgressNotification extends StatelessWidget {
                                       width: 5,
                                     ),
                                     Text(
-                                      'Authentication in Progress. (${time.min ?? '00'}:${time.sec < 10 ? '0' : ''}${time.sec})',
+                                      'Authentication in Progress. (${time!.min ?? '00'}:${time.sec! < 10 ? '0' : ''}${time.sec})',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText1
+                                          .bodyText1!
                                           .copyWith(
                                               fontWeight: FontWeight.bold),
                                     ),
@@ -77,9 +77,9 @@ class AuthProgressNotification extends StatelessWidget {
                                   backgroundColor: AppColor.grey,
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       AppColor.grey3),
-                                  value: ((time.min ?? 0) * 60 + time.sec) /
-                                      ((state.deviceCodeModel.expiresIn -
-                                              state.deviceCodeModel.parsedOn) /
+                                  value: ((time.min ?? 0) * 60 + time.sec!) /
+                                      ((state.deviceCodeModel.expiresIn! -
+                                              state.deviceCodeModel.parsedOn!) /
                                           1000),
                                 ),
                               ),

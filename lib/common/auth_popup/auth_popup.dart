@@ -11,7 +11,7 @@ import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class AuthPopup extends StatefulWidget {
-  AuthPopup({Key key}) : super(key: key);
+  AuthPopup({Key? key}) : super(key: key);
 
   @override
   _AuthPopupState createState() => _AuthPopupState();

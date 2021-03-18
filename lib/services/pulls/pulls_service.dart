@@ -8,30 +8,31 @@ import 'package:onehub/models/repositories/commit_list_model.dart';
 
 class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
-  static Future<PullRequestModel> getPullInformation({String fullUrl}) async {
+  static Future<PullRequestModel> getPullInformation(
+      {required String fullUrl}) async {
     Response response = await GetDio.getDio(
-            applyBaseURL: false, options: CacheManager.defaultCache())
+            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(fullUrl);
     return PullRequestModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
-  static Future<ReviewModel> getPullReviews({String fullUrl}) async {
+  static Future<ReviewModel> getPullReviews({required String fullUrl}) async {
     Response response = await GetDio.getDio(
-            applyBaseURL: false, options: CacheManager.defaultCache())
+            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(fullUrl + '/reviews');
     return ReviewModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-pull-requests
   static Future<List<PullRequestModel>> getRepoPulls(
-    String repoURL, {
-    int perPage,
-    int pageNumber,
-    bool refresh,
+    String? repoURL, {
+    int? perPage,
+    int? pageNumber,
+    required bool refresh,
   }) async {
     Response response = await GetDio.getDio(
-            options: CacheManager.defaultCache(refresh: refresh))
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/pulls', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
@@ -47,13 +48,13 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-commits-on-a-pull-request
   static Future<List<CommitListModel>> getPullCommits(
-    String pullURL, {
-    int perPage,
-    int pageNumber,
-    bool refresh,
+    String? pullURL, {
+    int? perPage,
+    int? pageNumber,
+    required bool refresh,
   }) async {
     Response response = await GetDio.getDio(
-            options: CacheManager.defaultCache(refresh: refresh))
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '$pullURL/commits',
       queryParameters: {
@@ -69,13 +70,13 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-pull-requests-files
   static Future<List<FileElement>> getPullFiles(
-    String pullURL, {
-    int perPage,
-    int pageNumber,
-    bool refresh,
+    String? pullURL, {
+    int? perPage,
+    int? pageNumber,
+    required bool refresh,
   }) async {
     Response response = await GetDio.getDio(
-            options: CacheManager.defaultCache(refresh: refresh))
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$pullURL/files', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,

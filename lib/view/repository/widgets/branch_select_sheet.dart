@@ -8,10 +8,10 @@ import 'package:onehub/style/colors.dart';
 
 class BranchSelectSheet extends StatelessWidget {
   final String repoURL;
-  final String defaultBranch;
-  final String currentBranch;
-  final ValueChanged<String> onSelected;
-  final ScrollController controller;
+  final String? defaultBranch;
+  final String? currentBranch;
+  final ValueChanged<String>? onSelected;
+  final ScrollController? controller;
   BranchSelectSheet(this.repoURL,
       {this.defaultBranch,
       this.currentBranch,
@@ -46,7 +46,7 @@ class BranchSelectSheet extends StatelessWidget {
                   child: InkWell(
                     borderRadius: AppThemeBorderRadius.medBorderRadius,
                     onTap: () {
-                      onSelected(item.name);
+                      onSelected!(item.name!);
                       Navigator.pop(context);
                     },
                     child: Padding(
@@ -64,7 +64,7 @@ class BranchSelectSheet extends StatelessWidget {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    item.name,
+                                    item.name!,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: item.name == currentBranch

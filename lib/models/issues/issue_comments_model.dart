@@ -22,29 +22,29 @@ class IssueCommentsModel {
     this.performedViaGithubApp,
   });
 
-  String url;
-  String htmlUrl;
-  String issueUrl;
-  int id;
-  String nodeId;
-  UserInfoModel user;
-  DateTime createdAt;
-  DateTime updatedAt;
-  AuthorAssociation authorAssociation;
-  String body;
+  String? url;
+  String? htmlUrl;
+  String? issueUrl;
+  int? id;
+  String? nodeId;
+  UserInfoModel? user;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  AuthorAssociation? authorAssociation;
+  String? body;
   dynamic performedViaGithubApp;
 
   IssueCommentsModel copyWith({
-    String url,
-    String htmlUrl,
-    String issueUrl,
-    int id,
-    String nodeId,
-    UserInfoModel user,
-    DateTime createdAt,
-    DateTime updatedAt,
-    AuthorAssociation authorAssociation,
-    String body,
+    String? url,
+    String? htmlUrl,
+    String? issueUrl,
+    int? id,
+    String? nodeId,
+    UserInfoModel? user,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    AuthorAssociation? authorAssociation,
+    String? body,
     dynamic performedViaGithubApp,
   }) =>
       IssueCommentsModel(
@@ -95,12 +95,12 @@ class IssueCommentsModel {
         "issue_url": issueUrl == null ? null : issueUrl,
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,
-        "user": user == null ? null : user.toJson(),
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "user": user == null ? null : user!.toJson(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
         "author_association": authorAssociation == null
             ? null
-            : authorAssociationValues.reverse[authorAssociation],
+            : authorAssociationValues.reverse![authorAssociation!],
         "body": body == null ? null : body,
         "performed_via_github_app": performedViaGithubApp,
       };
@@ -112,11 +112,11 @@ final typeValues = EnumValues({"User": Type.USER});
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

@@ -9,18 +9,18 @@ import 'package:onehub/models/repositories/commit_list_model.dart';
 class CodeTreeModel {
   CodeTreeModel({this.sha, this.url, this.tree, this.truncated, this.commit});
 
-  String sha;
-  String url;
-  List<Tree> tree;
-  bool truncated;
-  CommitListModel commit;
+  String? sha;
+  String? url;
+  List<Tree>? tree;
+  bool? truncated;
+  CommitListModel? commit;
 
   CodeTreeModel copyWith({
-    String sha,
-    String url,
-    List<Tree> tree,
-    bool truncated,
-    CommitListModel commit,
+    String? sha,
+    String? url,
+    List<Tree>? tree,
+    bool? truncated,
+    CommitListModel? commit,
   }) =>
       CodeTreeModel(
         sha: sha ?? this.sha,
@@ -49,9 +49,9 @@ class CodeTreeModel {
         "url": url == null ? null : url,
         "tree": tree == null
             ? null
-            : List<dynamic>.from(tree.map((x) => x.toJson())),
+            : List<dynamic>.from(tree!.map((x) => x.toJson())),
         "truncated": truncated == null ? null : truncated,
-        "commit": commit == null ? null : commit.toJson(),
+        "commit": commit == null ? null : commit!.toJson(),
       };
 }
 
@@ -65,20 +65,20 @@ class Tree {
     this.url,
   });
 
-  String path;
-  String mode;
-  Type type;
-  String sha;
-  int size;
-  String url;
+  String? path;
+  String? mode;
+  Type? type;
+  String? sha;
+  int? size;
+  String? url;
 
   Tree copyWith({
-    String path,
-    String mode,
-    Type type,
-    String sha,
-    int size,
-    String url,
+    String? path,
+    String? mode,
+    Type? type,
+    String? sha,
+    int? size,
+    String? url,
   }) =>
       Tree(
         path: path ?? this.path,
@@ -105,7 +105,7 @@ class Tree {
   Map<String, dynamic> toJson() => {
         "path": path == null ? null : path,
         "mode": mode == null ? null : mode,
-        "type": type == null ? null : typeValues.reverse[type],
+        "type": type == null ? null : typeValues.reverse![type!],
         "sha": sha == null ? null : sha,
         "size": size == null ? null : size,
         "url": url == null ? null : url,
@@ -118,11 +118,11 @@ final typeValues = EnumValues({"blob": Type.BLOB, "tree": Type.TREE});
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

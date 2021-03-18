@@ -1,6 +1,6 @@
 class AccessTokenModel {
-  String accessToken;
-  String scope;
+  String? accessToken;
+  String? scope;
 
   AccessTokenModel({this.accessToken, this.scope});
 

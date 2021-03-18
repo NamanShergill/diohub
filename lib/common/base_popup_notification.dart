@@ -7,12 +7,12 @@ import 'package:onehub/style/colors.dart';
 import 'button.dart';
 
 class BasePopupNotification extends StatelessWidget {
-  final String title;
+  final String? title;
   final onTap;
   final bool listenToLoadingController;
-  final Color color;
+  final Color? color;
   final bool dismissOnTap;
-  final StreamController<Widget> notificationController;
+  final StreamController<Widget?>? notificationController;
   BasePopupNotification(
       {this.title,
       this.onTap,
@@ -32,7 +32,7 @@ class BasePopupNotification extends StatelessWidget {
               ? () async {
                   await onTap(context);
                   if (dismissOnTap && notificationController != null)
-                    notificationController.add(null);
+                    notificationController!.add(null);
                 }
               : null,
           title: title,

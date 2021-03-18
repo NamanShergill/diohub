@@ -10,8 +10,8 @@ import 'package:onehub/view/repository/commits/widgets/commit_details.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoScreen extends StatefulWidget {
-  final String commitURL;
-  CommitInfoScreen({Key key, this.commitURL}) : super(key: key);
+  final String? commitURL;
+  CommitInfoScreen({Key? key, this.commitURL}) : super(key: key);
 
   @override
   _CommitInfoScreenState createState() => _CommitInfoScreenState();
@@ -44,8 +44,8 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                               ),
                               Text(
                                 Provider.of<CommitProvider>(context)
-                                    .commit
-                                    .sha
+                                    .commit!
+                                    .sha!
                                     .substring(0, 6),
                                 style: TextStyle(fontSize: 14),
                               ),

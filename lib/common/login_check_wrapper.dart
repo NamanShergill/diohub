@@ -7,9 +7,9 @@ import 'package:onehub/common/button.dart';
 import 'package:onehub/style/colors.dart';
 
 class LoginCheckWrapper extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final EdgeInsets loginBoxPadding;
-  final Widget replacement;
+  final Widget? replacement;
   LoginCheckWrapper(
       {this.child,
       this.loginBoxPadding = const EdgeInsets.all(24),
@@ -60,7 +60,7 @@ class LoginPromptBox extends StatelessWidget {
                 'Login Required.',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),

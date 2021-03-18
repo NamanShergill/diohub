@@ -11,14 +11,14 @@ class RepoBranchListItemModel {
     this.protected,
   });
 
-  String name;
-  Commit commit;
-  bool protected;
+  String? name;
+  Commit? commit;
+  bool? protected;
 
   RepoBranchListItemModel copyWith({
-    String name,
-    Commit commit,
-    bool protected,
+    String? name,
+    Commit? commit,
+    bool? protected,
   }) =>
       RepoBranchListItemModel(
         name: name ?? this.name,
@@ -40,7 +40,7 @@ class RepoBranchListItemModel {
 
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
-        "commit": commit == null ? null : commit.toJson(),
+        "commit": commit == null ? null : commit!.toJson(),
         "protected": protected == null ? null : protected,
       };
 }
@@ -51,12 +51,12 @@ class Commit {
     this.url,
   });
 
-  String sha;
-  String url;
+  String? sha;
+  String? url;
 
   Commit copyWith({
-    String sha,
-    String url,
+    String? sha,
+    String? url,
   }) =>
       Commit(
         sha: sha ?? this.sha,

@@ -24,7 +24,7 @@ class CommitInfoButton extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      '${value.tree.last.commit.commit.message.length > 25 ? value.tree.last.commit.commit.message.substring(0, 25) + '...' : value.tree.last.commit.commit.message}',
+                      '${value.tree.last.commit!.commit!.message!.length > 25 ? value.tree.last.commit!.commit!.message!.substring(0, 25) + '...' : value.tree.last.commit!.commit!.message}',
                       style:
                           TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                     ),
@@ -35,14 +35,14 @@ class CommitInfoButton extends StatelessWidget {
                   Row(
                     children: [
                       ProfileTile(
-                        value.tree.last.commit.author?.avatarUrl ?? '',
+                        value.tree.last.commit!.author?.avatarUrl ?? '',
                         size: 13,
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
-                        value.tree.last.commit.author?.login ?? 'N/A',
+                        value.tree.last.commit!.author?.login ?? 'N/A',
                         style: TextStyle(fontSize: 11),
                       ),
                     ],
@@ -64,7 +64,7 @@ class CommitInfoButton extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      '${value.tree.last.commit.sha.substring(0, 6)}',
+                      '${value.tree.last.commit!.sha!.substring(0, 6)}',
                       style: TextStyle(fontSize: 11, color: AppColor.grey3),
                     ),
                     Icon(
@@ -89,7 +89,7 @@ class CommitInfoButton extends StatelessWidget {
                     ),
                     Text(
                       getDate(
-                          value.tree.last.commit.commit.committer.date
+                          value.tree.last.commit!.commit!.committer!.date
                               .toString(),
                           shorten: false),
                       style: TextStyle(

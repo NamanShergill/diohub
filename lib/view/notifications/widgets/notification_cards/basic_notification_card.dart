@@ -11,12 +11,17 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
 class BasicNotificationCard extends StatefulWidget {
-  final WidgetBuilder iconBuilder;
-  final WidgetBuilder footerBuilder;
-  final NotificationModel notification;
-  final Function onTap;
+  final WidgetBuilder? iconBuilder;
+  final WidgetBuilder? footerBuilder;
+  final bool loading;
+  final NotificationModel? notification;
+  final Function? onTap;
   BasicNotificationCard(
-      {this.footerBuilder, this.onTap, this.iconBuilder, this.notification});
+      {this.footerBuilder,
+      this.loading = false,
+      this.onTap,
+      this.iconBuilder,
+      this.notification});
 
   @override
   _BasicNotificationCardState createState() => _BasicNotificationCardState();
@@ -29,9 +34,9 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
 
   void markAsRead() {
     HapticFeedback.vibrate();
-    NotificationsService.markThreadAsRead(widget.notification.id);
+    NotificationsService.markThreadAsRead(widget.notification!.id);
     setState(() {
-      widget.notification.unread = false;
+      widget.notification!.unread = false;
     });
   }
 
@@ -39,7 +44,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
   Widget build(BuildContext context) {
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
-      enabled: widget.notification.unread,
+      enabled: widget.notification!.unread!,
       actions: [
         IconSlideAction(
           icon: LineIcons.check,
@@ -86,13 +91,13 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       key: UniqueKey(),
       child: Material(
         key: key,
-        color: widget.notification.unread
+        color: widget.notification!.unread!
             ? AppColor.onBackground
             : Colors.transparent,
         child: InkWell(
           onTap: () {
             markAsRead();
-            widget.onTap();
+            widget.onTap!();
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
@@ -102,10 +107,10 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: widget.iconBuilder(context),
+                      child: widget.iconBuilder!(context),
                     ),
                     Visibility(
-                        visible: widget.notification.unread,
+                        visible: widget.notification!.unread!,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ClipOval(
@@ -134,22 +139,22 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
-                                widget.notification.repository.fullName,
+                                widget.notification!.repository!.fullName!,
                                 style: TextStyle(color: AppColor.grey3),
                               ),
                             ),
                           ),
                           Text(
-                            getDate(widget.notification.updatedAt.toString()),
+                            getDate(widget.notification!.updatedAt.toString()),
                             style: TextStyle(color: AppColor.grey3),
                           ),
                         ],
                       ),
                       Flexible(
                         child: Text(
-                          widget.notification.subject.title,
+                          widget.notification!.subject!.title!,
                           style: TextStyle(
-                              color: widget.notification.unread
+                              color: widget.notification!.unread!
                                   ? Colors.white
                                   : AppColor.grey3,
                               fontSize: 16,
@@ -159,7 +164,9 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                       SizedBox(
                         height: 16,
                       ),
-                      widget.footerBuilder(context) ?? footerLoading(),
+                      !widget.loading
+                          ? widget.footerBuilder!(context)
+                          : footerLoading(),
                       SizedBox(
                         height: 16,
                       ),

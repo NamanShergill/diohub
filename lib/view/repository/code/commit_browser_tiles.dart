@@ -14,12 +14,12 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 
 class CommitBrowserTiles extends StatefulWidget {
-  final CommitListModel item;
+  final CommitListModel? item;
   final bool highlighted;
-  final ValueChanged<String> onSelected;
+  final ValueChanged<String>? onSelected;
 
   CommitBrowserTiles(
-      {Key key, this.item, this.highlighted = false, this.onSelected})
+      {Key? key, this.item, this.highlighted = false, this.onSelected})
       : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
   bool expanded = false;
 
   void copySha() async {
-    Clipboard.setData(ClipboardData(text: widget.item.sha));
+    Clipboard.setData(ClipboardData(text: widget.item!.sha));
     ResponseHandler.setSuccessMessage(
         AppPopupData(title: 'Copied SHA to clipboard.'));
   }
@@ -68,7 +68,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                       children: [
                         Flexible(
                           child: Text(
-                            widget.item.commit.message,
+                            widget.item!.commit!.message!,
                             style: TextStyle(
                                 fontSize: 13, fontWeight: FontWeight.bold),
                           ),
@@ -79,14 +79,14 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         Row(
                           children: [
                             ProfileTile(
-                              widget.item.author.avatarUrl,
+                              widget.item!.author!.avatarUrl,
                               size: 13,
                             ),
                             SizedBox(
                               width: 5,
                             ),
                             Text(
-                              widget.item.author.login,
+                              widget.item!.author!.login!,
                               style: TextStyle(fontSize: 11),
                             ),
                           ],
@@ -110,7 +110,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                             width: 5,
                           ),
                           Text(
-                            '${widget.item.sha.substring(0, 6)}',
+                            '${widget.item!.sha!.substring(0, 6)}',
                             style: TextStyle(
                               fontSize: 11,
                               color: widget.highlighted
@@ -146,7 +146,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                           ),
                           Text(
                             getDate(
-                                widget.item.commit.committer.date.toString(),
+                                widget.item!.commit!.committer!.date.toString(),
                                 shorten: false),
                             style: TextStyle(
                               fontSize: 11,
@@ -180,7 +180,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                     ),
                     InkWell(
                       onTap: () {
-                        widget.onSelected(widget.item.sha);
+                        widget.onSelected!(widget.item!.sha!);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -205,7 +205,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                     InkWell(
                       onTap: () {
                         AutoRouter.of(context).push(
-                            CommitInfoScreenRoute(commitURL: widget.item.url));
+                            CommitInfoScreenRoute(commitURL: widget.item!.url));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),

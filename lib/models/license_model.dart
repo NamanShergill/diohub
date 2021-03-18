@@ -1,19 +1,19 @@
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
 class LicenseModel {
-  String key;
-  String name;
-  String spdxId;
-  String url;
-  String nodeId;
-  String htmlUrl;
-  String description;
-  String implementation;
-  List<String> permissions;
-  List<String> conditions;
-  List<String> limitations;
-  String body;
-  bool featured;
+  String? key;
+  String? name;
+  String? spdxId;
+  String? url;
+  String? nodeId;
+  String? htmlUrl;
+  String? description;
+  String? implementation;
+  List<String>? permissions;
+  List<String>? conditions;
+  List<String>? limitations;
+  String? body;
+  bool? featured;
 
   LicenseModel(
       {this.key,

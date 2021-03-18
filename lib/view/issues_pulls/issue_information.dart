@@ -22,8 +22,8 @@ class IssueInformation extends StatelessWidget {
   IssueInformation();
   @override
   Widget build(BuildContext context) {
-    final _issue = Provider.of<IssueProvider>(context).issueModel;
-    final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
+    final _issue = Provider.of<IssueProvider>(context).issueModel!;
+    final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled!;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -32,13 +32,13 @@ class IssueInformation extends StatelessWidget {
           ),
           if (_editingEnabled ||
               (Provider.of<CurrentUserProvider>(context)
-                          .currentUserInfo
+                          .currentUserInfo!
                           .login ==
-                      _issue.user.login &&
+                      _issue.user!.login &&
                   (_issue.state == IssueState.CLOSED
-                      ? _issue.closedBy.login ==
+                      ? _issue.closedBy!.login ==
                           Provider.of<CurrentUserProvider>(context)
-                              .currentUserInfo
+                              .currentUserInfo!
                               .login
                       : true)))
             Padding(
@@ -89,7 +89,7 @@ class IssueInformation extends StatelessWidget {
             'Title',
             child: Row(
               children: [
-                Flexible(child: Text(_issue.title)),
+                Flexible(child: Text(_issue.title!)),
               ],
             ),
           ),
@@ -100,9 +100,9 @@ class IssueInformation extends StatelessWidget {
                 children: [
                   Flexible(
                     child: ProfileTile(
-                      _issue.closedBy.avatarUrl,
+                      _issue.closedBy!.avatarUrl,
                       padding: EdgeInsets.all(8),
-                      userLogin: _issue.closedBy.login,
+                      userLogin: _issue.closedBy!.login,
                       showName: true,
                     ),
                   ),
@@ -141,17 +141,17 @@ class IssueInformation extends StatelessWidget {
               builder: (context, value, _) {
                 return Row(
                   children: [
-                    value.issueModel.assignees.isNotEmpty
+                    value.issueModel!.assignees!.isNotEmpty
                         ? Flexible(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                                value.issueModel.assignees.length,
+                                value.issueModel!.assignees!.length,
                                 (index) => ProfileTile(
-                                      value.issueModel.assignees[index]
+                                      value.issueModel!.assignees![index]
                                           .avatarUrl,
                                       userLogin: value
-                                          .issueModel.assignees[index].login,
+                                          .issueModel!.assignees![index].login,
                                       padding: EdgeInsets.all(8),
                                       showName: true,
                                     )),
@@ -192,18 +192,18 @@ class IssueInformation extends StatelessWidget {
                 : null,
             child: Consumer<IssueProvider>(
               builder: (context, issue, _) {
-                var _issue = issue.issueModel;
+                var _issue = issue.issueModel!;
                 return Row(
                   children: [
-                    (_issue.labels.isNotEmpty)
+                    (_issue.labels!.isNotEmpty)
                         ? Flexible(
                             child: Wrap(
                               children: List.generate(
-                                  _issue.labels.length,
+                                  _issue.labels!.length,
                                   (index) => Padding(
                                         padding: const EdgeInsets.only(
                                             right: 4, bottom: 8),
-                                        child: IssueLabel(_issue.labels[index]),
+                                        child: IssueLabel(_issue.labels![index]),
                                       )),
                             ),
                           )
@@ -218,7 +218,7 @@ class IssueInformation extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                    child: _issue.body.isEmpty
+                    child: _issue.body!.isEmpty
                         ? Text('No description provided.')
                         : ExpansionTile(
                             title: Text('Tap to Expand'),
@@ -233,9 +233,9 @@ class IssueInformation extends StatelessWidget {
               children: [
                 Flexible(
                   child: ProfileTile(
-                    _issue.user.avatarUrl,
+                    _issue.user!.avatarUrl,
                     padding: EdgeInsets.all(8),
-                    userLogin: _issue.user.login,
+                    userLogin: _issue.user!.login,
                     showName: true,
                   ),
                 ),

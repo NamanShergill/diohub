@@ -9,10 +9,10 @@ class PinnedReposModel {
     this.user,
   });
 
-  User user;
+  User? user;
 
   PinnedReposModel copyWith({
-    User user,
+    User? user,
   }) =>
       PinnedReposModel(
         user: user ?? this.user,
@@ -29,7 +29,7 @@ class PinnedReposModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user == null ? null : user.toJson(),
+        "user": user == null ? null : user!.toJson(),
       };
 }
 
@@ -38,10 +38,10 @@ class User {
     this.pinnedItems,
   });
 
-  PinnedItems pinnedItems;
+  PinnedItems? pinnedItems;
 
   User copyWith({
-    PinnedItems pinnedItems,
+    PinnedItems? pinnedItems,
   }) =>
       User(
         pinnedItems: pinnedItems ?? this.pinnedItems,
@@ -58,7 +58,7 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
-        "pinnedItems": pinnedItems == null ? null : pinnedItems.toJson(),
+        "pinnedItems": pinnedItems == null ? null : pinnedItems!.toJson(),
       };
 }
 
@@ -67,10 +67,10 @@ class PinnedItems {
     this.edges,
   });
 
-  List<PinnedItemsEdge> edges;
+  List<PinnedItemsEdge>? edges;
 
   PinnedItems copyWith({
-    List<PinnedItemsEdge> edges,
+    List<PinnedItemsEdge>? edges,
   }) =>
       PinnedItems(
         edges: edges ?? this.edges,
@@ -91,7 +91,7 @@ class PinnedItems {
   Map<String, dynamic> toJson() => {
         "edges": edges == null
             ? null
-            : List<dynamic>.from(edges.map((x) => x.toJson())),
+            : List<dynamic>.from(edges!.map((x) => x.toJson())),
       };
 }
 
@@ -100,10 +100,10 @@ class PinnedItemsEdge {
     this.node,
   });
 
-  PurpleNode node;
+  PurpleNode? node;
 
   PinnedItemsEdge copyWith({
-    PurpleNode node,
+    PurpleNode? node,
   }) =>
       PinnedItemsEdge(
         node: node ?? this.node,
@@ -120,7 +120,7 @@ class PinnedItemsEdge {
       );
 
   Map<String, dynamic> toJson() => {
-        "node": node == null ? null : node.toJson(),
+        "node": node == null ? null : node!.toJson(),
       };
 }
 
@@ -134,20 +134,20 @@ class PurpleNode {
     this.languages,
   });
 
-  String name;
-  String description;
-  int stargazerCount;
-  DateTime updatedAt;
-  String url;
-  Languages languages;
+  String? name;
+  String? description;
+  int? stargazerCount;
+  DateTime? updatedAt;
+  String? url;
+  Languages? languages;
 
   PurpleNode copyWith({
-    String name,
-    String description,
-    int stargazerCount,
-    DateTime updatedAt,
-    String url,
-    Languages languages,
+    String? name,
+    String? description,
+    int? stargazerCount,
+    DateTime? updatedAt,
+    String? url,
+    Languages? languages,
   }) =>
       PurpleNode(
         name: name ?? this.name,
@@ -181,9 +181,9 @@ class PurpleNode {
         "name": name == null ? null : name,
         "description": description == null ? null : description,
         "stargazerCount": stargazerCount == null ? null : stargazerCount,
-        "updatedAt": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "updatedAt": updatedAt == null ? null : updatedAt!.toIso8601String(),
         "url": url == null ? null : url,
-        "languages": languages == null ? null : languages.toJson(),
+        "languages": languages == null ? null : languages!.toJson(),
       };
 }
 
@@ -192,10 +192,10 @@ class Languages {
     this.edges,
   });
 
-  List<LanguagesEdge> edges;
+  List<LanguagesEdge>? edges;
 
   Languages copyWith({
-    List<LanguagesEdge> edges,
+    List<LanguagesEdge>? edges,
   }) =>
       Languages(
         edges: edges ?? this.edges,
@@ -216,7 +216,7 @@ class Languages {
   Map<String, dynamic> toJson() => {
         "edges": edges == null
             ? null
-            : List<dynamic>.from(edges.map((x) => x.toJson())),
+            : List<dynamic>.from(edges!.map((x) => x.toJson())),
       };
 }
 
@@ -225,10 +225,10 @@ class LanguagesEdge {
     this.node,
   });
 
-  FluffyNode node;
+  FluffyNode? node;
 
   LanguagesEdge copyWith({
-    FluffyNode node,
+    FluffyNode? node,
   }) =>
       LanguagesEdge(
         node: node ?? this.node,
@@ -244,7 +244,7 @@ class LanguagesEdge {
       );
 
   Map<String, dynamic> toJson() => {
-        "node": node == null ? null : node.toJson(),
+        "node": node == null ? null : node!.toJson(),
       };
 }
 
@@ -253,10 +253,10 @@ class FluffyNode {
     this.name,
   });
 
-  String name;
+  String? name;
 
   FluffyNode copyWith({
-    String name,
+    String? name,
   }) =>
       FluffyNode(
         name: name ?? this.name,

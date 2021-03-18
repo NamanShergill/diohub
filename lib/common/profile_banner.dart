@@ -7,9 +7,9 @@ import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 
 class ProfileTile extends StatelessWidget {
-  final String avatarUrl;
+  final String? avatarUrl;
   final double size;
-  final String userLogin;
+  final String? userLogin;
   final bool showName;
   final TextStyle textStyle;
   final EdgeInsets padding;
@@ -39,7 +39,7 @@ class ProfileTile extends StatelessWidget {
             children: [
               ClipOval(
                 child: CachedNetworkImage(
-                  imageUrl: avatarUrl,
+                  imageUrl: avatarUrl!,
                   height: size,
                   fit: BoxFit.fill,
                   placeholder: (context, string) {
@@ -63,7 +63,7 @@ class ProfileTile extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    userLogin,
+                    userLogin!,
                     style: textStyle,
                   ),
                 ),

@@ -19,30 +19,30 @@ class CommitModel {
     this.files,
   });
 
-  String sha;
-  String nodeId;
-  Commit commit;
-  String url;
-  String htmlUrl;
-  String commentsUrl;
-  CommitModelAuthor author;
-  CommitModelAuthor committer;
-  List<Parent> parents;
-  Stats stats;
-  List<FileElement> files;
+  String? sha;
+  String? nodeId;
+  Commit? commit;
+  String? url;
+  String? htmlUrl;
+  String? commentsUrl;
+  CommitModelAuthor? author;
+  CommitModelAuthor? committer;
+  List<Parent>? parents;
+  Stats? stats;
+  List<FileElement>? files;
 
   CommitModel copyWith({
-    String sha,
-    String nodeId,
-    Commit commit,
-    String url,
-    String htmlUrl,
-    String commentsUrl,
-    CommitModelAuthor author,
-    CommitModelAuthor committer,
-    List<Parent> parents,
-    Stats stats,
-    List<FileElement> files,
+    String? sha,
+    String? nodeId,
+    Commit? commit,
+    String? url,
+    String? htmlUrl,
+    String? commentsUrl,
+    CommitModelAuthor? author,
+    CommitModelAuthor? committer,
+    List<Parent>? parents,
+    Stats? stats,
+    List<FileElement>? files,
   }) =>
       CommitModel(
         sha: sha ?? this.sha,
@@ -89,19 +89,19 @@ class CommitModel {
   Map<String, dynamic> toJson() => {
         "sha": sha == null ? null : sha,
         "node_id": nodeId == null ? null : nodeId,
-        "commit": commit == null ? null : commit.toJson(),
+        "commit": commit == null ? null : commit!.toJson(),
         "url": url == null ? null : url,
         "html_url": htmlUrl == null ? null : htmlUrl,
         "comments_url": commentsUrl == null ? null : commentsUrl,
-        "author": author == null ? null : author.toJson(),
-        "committer": committer == null ? null : committer.toJson(),
+        "author": author == null ? null : author!.toJson(),
+        "committer": committer == null ? null : committer!.toJson(),
         "parents": parents == null
             ? null
-            : List<dynamic>.from(parents.map((x) => x.toJson())),
-        "stats": stats == null ? null : stats.toJson(),
+            : List<dynamic>.from(parents!.map((x) => x.toJson())),
+        "stats": stats == null ? null : stats!.toJson(),
         "files": files == null
             ? null
-            : List<dynamic>.from(files.map((x) => x.toJson())),
+            : List<dynamic>.from(files!.map((x) => x.toJson())),
       };
 }
 
@@ -127,44 +127,44 @@ class CommitModelAuthor {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  String? type;
+  bool? siteAdmin;
 
   CommitModelAuthor copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    String? type,
+    bool? siteAdmin,
   }) =>
       CommitModelAuthor(
         login: login ?? this.login,
@@ -256,22 +256,22 @@ class Commit {
     this.verification,
   });
 
-  CommitAuthor author;
-  CommitAuthor committer;
-  String message;
-  Tree tree;
-  String url;
-  int commentCount;
-  Verification verification;
+  CommitAuthor? author;
+  CommitAuthor? committer;
+  String? message;
+  Tree? tree;
+  String? url;
+  int? commentCount;
+  Verification? verification;
 
   Commit copyWith({
-    CommitAuthor author,
-    CommitAuthor committer,
-    String message,
-    Tree tree,
-    String url,
-    int commentCount,
-    Verification verification,
+    CommitAuthor? author,
+    CommitAuthor? committer,
+    String? message,
+    Tree? tree,
+    String? url,
+    int? commentCount,
+    Verification? verification,
   }) =>
       Commit(
         author: author ?? this.author,
@@ -305,13 +305,13 @@ class Commit {
       );
 
   Map<String, dynamic> toJson() => {
-        "author": author == null ? null : author.toJson(),
-        "committer": committer == null ? null : committer.toJson(),
+        "author": author == null ? null : author!.toJson(),
+        "committer": committer == null ? null : committer!.toJson(),
         "message": message == null ? null : message,
-        "tree": tree == null ? null : tree.toJson(),
+        "tree": tree == null ? null : tree!.toJson(),
         "url": url == null ? null : url,
         "comment_count": commentCount == null ? null : commentCount,
-        "verification": verification == null ? null : verification.toJson(),
+        "verification": verification == null ? null : verification!.toJson(),
       };
 }
 
@@ -322,14 +322,14 @@ class CommitAuthor {
     this.date,
   });
 
-  String name;
-  String email;
-  DateTime date;
+  String? name;
+  String? email;
+  DateTime? date;
 
   CommitAuthor copyWith({
-    String name,
-    String email,
-    DateTime date,
+    String? name,
+    String? email,
+    DateTime? date,
   }) =>
       CommitAuthor(
         name: name ?? this.name,
@@ -351,7 +351,7 @@ class CommitAuthor {
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
         "email": email == null ? null : email,
-        "date": date == null ? null : date.toIso8601String(),
+        "date": date == null ? null : date!.toIso8601String(),
       };
 }
 
@@ -361,12 +361,12 @@ class Tree {
     this.url,
   });
 
-  String sha;
-  String url;
+  String? sha;
+  String? url;
 
   Tree copyWith({
-    String sha,
-    String url,
+    String? sha,
+    String? url,
   }) =>
       Tree(
         sha: sha ?? this.sha,
@@ -396,14 +396,14 @@ class Verification {
     this.payload,
   });
 
-  bool verified;
-  String reason;
+  bool? verified;
+  String? reason;
   dynamic signature;
   dynamic payload;
 
   Verification copyWith({
-    bool verified,
-    String reason,
+    bool? verified,
+    String? reason,
     dynamic signature,
     dynamic payload,
   }) =>
@@ -449,30 +449,30 @@ class FileElement {
     this.previousFilename,
   });
 
-  String sha;
-  String filename;
-  CommitStatus status;
-  int additions;
-  int deletions;
-  int changes;
-  String blobUrl;
-  String rawUrl;
-  String contentsUrl;
-  String patch;
-  String previousFilename;
+  String? sha;
+  String? filename;
+  CommitStatus? status;
+  int? additions;
+  int? deletions;
+  int? changes;
+  String? blobUrl;
+  String? rawUrl;
+  String? contentsUrl;
+  String? patch;
+  String? previousFilename;
 
   FileElement copyWith({
-    String sha,
-    String filename,
-    CommitStatus status,
-    int additions,
-    int deletions,
-    int changes,
-    String blobUrl,
-    String rawUrl,
-    String contentsUrl,
-    String patch,
-    String previousFilename,
+    String? sha,
+    String? filename,
+    CommitStatus? status,
+    int? additions,
+    int? deletions,
+    int? changes,
+    String? blobUrl,
+    String? rawUrl,
+    String? contentsUrl,
+    String? patch,
+    String? previousFilename,
   }) =>
       FileElement(
         sha: sha ?? this.sha,
@@ -513,7 +513,7 @@ class FileElement {
   Map<String, dynamic> toJson() => {
         "sha": sha == null ? null : sha,
         "filename": filename == null ? null : filename,
-        "status": status == null ? null : statusValues.reverse[status],
+        "status": status == null ? null : statusValues.reverse![status!],
         "additions": additions == null ? null : additions,
         "deletions": deletions == null ? null : deletions,
         "changes": changes == null ? null : changes,
@@ -541,14 +541,14 @@ class Parent {
     this.htmlUrl,
   });
 
-  String sha;
-  String url;
-  String htmlUrl;
+  String? sha;
+  String? url;
+  String? htmlUrl;
 
   Parent copyWith({
-    String sha,
-    String url,
-    String htmlUrl,
+    String? sha,
+    String? url,
+    String? htmlUrl,
   }) =>
       Parent(
         sha: sha ?? this.sha,
@@ -580,14 +580,14 @@ class Stats {
     this.deletions,
   });
 
-  int total;
-  int additions;
-  int deletions;
+  int? total;
+  int? additions;
+  int? deletions;
 
   Stats copyWith({
-    int total,
-    int additions,
-    int deletions,
+    int? total,
+    int? additions,
+    int? deletions,
   }) =>
       Stats(
         total: total ?? this.total,
@@ -614,11 +614,11 @@ class Stats {
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

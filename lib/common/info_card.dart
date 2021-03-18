@@ -4,10 +4,10 @@ import 'package:onehub/style/colors.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
-  final Widget child;
-  final Function onTap;
+  final Widget? child;
+  final Function? onTap;
   final Color color;
-  final Widget headerTrailing;
+  final Widget? headerTrailing;
   InfoCard(this.title,
       {this.child,
       this.onTap,
@@ -23,7 +23,7 @@ class InfoCard extends StatelessWidget {
         color: color,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
-          onTap: onTap,
+          onTap: onTap as void Function()?,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -38,11 +38,11 @@ class InfoCard extends StatelessWidget {
                         title,
                         style: Theme.of(context)
                             .textTheme
-                            .headline6
+                            .headline6!
                             .copyWith(fontSize: 16),
                       ),
                     ),
-                    if (headerTrailing != null) headerTrailing,
+                    if (headerTrailing != null) headerTrailing!,
                   ],
                 ),
                 SizedBox(

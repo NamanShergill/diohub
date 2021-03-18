@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:onehub/style/animDuartions.dart';
 
 class SlideExpandedSection extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   final bool expand;
-  final Curve animationCurve;
-  final Duration duration;
+  final Curve? animationCurve;
+  final Duration? duration;
   SlideExpandedSection(
       {this.expand = true, this.child, this.animationCurve, this.duration});
 
@@ -15,8 +15,8 @@ class SlideExpandedSection extends StatefulWidget {
 
 class _SlideExpandedSectionState extends State<SlideExpandedSection>
     with SingleTickerProviderStateMixin {
-  AnimationController expandController;
-  Animation<Offset> animation;
+  late AnimationController expandController;
+  late Animation<Offset> animation;
 
   @override
   void initState() {

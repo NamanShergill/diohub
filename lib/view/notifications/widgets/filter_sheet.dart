@@ -12,16 +12,16 @@ class FilterSheet extends StatefulWidget {
   final onFiltersChanged;
 
   ///  Current API Filters.
-  final Map apiFilters;
+  final Map? apiFilters;
 
   /// Current client filters.
-  final Map clientFilters;
+  final Map? clientFilters;
 
   /// Controller to scroll the bottom sheet along with the [ListView].
-  final ScrollController controller;
+  final ScrollController? controller;
 
   FilterSheet(
-      {Key key,
+      {Key? key,
       this.onFiltersChanged,
       this.apiFilters,
       this.clientFilters,
@@ -47,9 +47,9 @@ class _FilterSheetState extends State<FilterSheet> {
   // inside copied is still a reference to the original list, causing changes
   // in both if values is changed in one.
   void deepCopy() {
-    apiFilters['all'] = widget.apiFilters['all'];
+    apiFilters['all'] = widget.apiFilters!['all'];
     clientFilters['show_only'] =
-        widget.clientFilters['show_only'].map((e) => e).toList();
+        widget.clientFilters!['show_only'].map((e) => e).toList();
   }
 
   // Todo: Add remove filters button.
@@ -360,7 +360,7 @@ class _FilterSheetState extends State<FilterSheet> {
     );
   }
 
-  Widget section({String title, List<Widget> contents}) {
+  Widget section({String? title, required List<Widget> contents}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -374,7 +374,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 title ?? '',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headline6!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
@@ -390,7 +390,7 @@ class _FilterSheetState extends State<FilterSheet> {
     );
   }
 
-  Widget tileWrapper({Widget child, Function function}) {
+  Widget tileWrapper({Widget? child, Function? function}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Material(
@@ -401,7 +401,7 @@ class _FilterSheetState extends State<FilterSheet> {
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
             setState(() {
-              function();
+              function!();
             });
           },
           child: IgnorePointer(

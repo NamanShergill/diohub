@@ -15,18 +15,18 @@ class ReactionsModel {
     this.createdAt,
   });
 
-  int id;
-  String nodeId;
-  UserInfoModel user;
-  String content;
-  DateTime createdAt;
+  int? id;
+  String? nodeId;
+  UserInfoModel? user;
+  String? content;
+  DateTime? createdAt;
 
   ReactionsModel copyWith({
-    int id,
-    String nodeId,
-    UserInfoModel user,
-    String content,
-    DateTime createdAt,
+    int? id,
+    String? nodeId,
+    UserInfoModel? user,
+    String? content,
+    DateTime? createdAt,
   }) =>
       ReactionsModel(
         id: id ?? this.id,
@@ -55,8 +55,8 @@ class ReactionsModel {
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,
-        "user": user == null ? null : user.toJson(),
+        "user": user == null ? null : user!.toJson(),
         "content": content == null ? null : content,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
       };
 }

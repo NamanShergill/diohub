@@ -59,89 +59,89 @@ class PullRequestModel {
       this.rebaseable,
       this.reviewComments});
 
-  String url;
-  int id;
-  String nodeId;
-  String htmlUrl;
-  String diffUrl;
-  String patchUrl;
-  String issueUrl;
-  int number;
-  IssueState state;
-  bool locked;
-  String title;
-  UserInfoModel user;
-  String body;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime closedAt;
-  DateTime mergedAt;
-  String mergeCommitSha;
-  UserInfoModel assignee;
-  List<UserInfoModel> assignees;
-  List<UserInfoModel> requestedReviewers;
-  List<dynamic> requestedTeams;
-  List<Label> labels;
-  Milestone milestone;
-  bool draft;
-  String commitsUrl;
-  String reviewCommentsUrl;
-  String reviewCommentUrl;
-  String commentsUrl;
-  String statusesUrl;
-  Base head;
-  Base base;
-  Links links;
-  AuthorAssociation authorAssociation;
-  bool autoMerge;
-  String activeLockReason;
-  bool merged;
-  bool mergeable;
-  bool rebaseable;
-  String mergeableState;
-  UserInfoModel mergedBy;
-  int comments;
-  int reviewComments;
-  bool maintainerCanModify;
-  int commits;
-  int additions;
-  int deletions;
-  int changedFiles;
+  String? url;
+  int? id;
+  String? nodeId;
+  String? htmlUrl;
+  String? diffUrl;
+  String? patchUrl;
+  String? issueUrl;
+  int? number;
+  IssueState? state;
+  bool? locked;
+  String? title;
+  UserInfoModel? user;
+  String? body;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? closedAt;
+  DateTime? mergedAt;
+  String? mergeCommitSha;
+  UserInfoModel? assignee;
+  List<UserInfoModel>? assignees;
+  List<UserInfoModel>? requestedReviewers;
+  List<dynamic>? requestedTeams;
+  List<Label>? labels;
+  Milestone? milestone;
+  bool? draft;
+  String? commitsUrl;
+  String? reviewCommentsUrl;
+  String? reviewCommentUrl;
+  String? commentsUrl;
+  String? statusesUrl;
+  Base? head;
+  Base? base;
+  Links? links;
+  AuthorAssociation? authorAssociation;
+  bool? autoMerge;
+  String? activeLockReason;
+  bool? merged;
+  bool? mergeable;
+  bool? rebaseable;
+  String? mergeableState;
+  UserInfoModel? mergedBy;
+  int? comments;
+  int? reviewComments;
+  bool? maintainerCanModify;
+  int? commits;
+  int? additions;
+  int? deletions;
+  int? changedFiles;
   PullRequestModel copyWith({
-    String url,
-    int id,
-    String nodeId,
-    String htmlUrl,
-    String diffUrl,
-    String patchUrl,
-    String issueUrl,
-    int number,
-    IssueState state,
-    bool locked,
-    String title,
-    UserInfoModel user,
-    String body,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime closedAt,
-    DateTime mergedAt,
-    String mergeCommitSha,
-    UserInfoModel assignee,
-    List<UserInfoModel> assignees,
-    List<UserInfoModel> requestedReviewers,
-    List<dynamic> requestedTeams,
-    List<Label> labels,
-    Milestone milestone,
-    bool draft,
-    String commitsUrl,
-    String reviewCommentsUrl,
-    String reviewCommentUrl,
-    String commentsUrl,
-    String statusesUrl,
-    Base head,
-    Base base,
-    Links links,
-    AuthorAssociation authorAssociation,
+    String? url,
+    int? id,
+    String? nodeId,
+    String? htmlUrl,
+    String? diffUrl,
+    String? patchUrl,
+    String? issueUrl,
+    int? number,
+    IssueState? state,
+    bool? locked,
+    String? title,
+    UserInfoModel? user,
+    String? body,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? closedAt,
+    DateTime? mergedAt,
+    String? mergeCommitSha,
+    UserInfoModel? assignee,
+    List<UserInfoModel>? assignees,
+    List<UserInfoModel>? requestedReviewers,
+    List<dynamic>? requestedTeams,
+    List<Label>? labels,
+    Milestone? milestone,
+    bool? draft,
+    String? commitsUrl,
+    String? reviewCommentsUrl,
+    String? reviewCommentUrl,
+    String? commentsUrl,
+    String? statusesUrl,
+    Base? head,
+    Base? base,
+    Links? links,
+    AuthorAssociation? authorAssociation,
     dynamic autoMerge,
     dynamic activeLockReason,
   }) =>
@@ -287,30 +287,30 @@ class PullRequestModel {
         "patch_url": patchUrl == null ? null : patchUrl,
         "issue_url": issueUrl == null ? null : issueUrl,
         "number": number == null ? null : number,
-        "state": state == null ? null : stateValues.reverse[state],
+        "state": state == null ? null : stateValues.reverse![state!],
         "locked": locked == null ? null : locked,
         "title": title == null ? null : title,
-        "user": user == null ? null : user.toJson(),
+        "user": user == null ? null : user!.toJson(),
         "body": body == null ? null : body,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "closed_at": closedAt == null ? null : closedAt.toIso8601String(),
-        "merged_at": mergedAt == null ? null : mergedAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+        "closed_at": closedAt == null ? null : closedAt!.toIso8601String(),
+        "merged_at": mergedAt == null ? null : mergedAt!.toIso8601String(),
         "merge_commit_sha": mergeCommitSha == null ? null : mergeCommitSha,
-        "assignee": assignee == null ? null : assignee.toJson(),
+        "assignee": assignee == null ? null : assignee!.toJson(),
         "assignees": assignees == null
             ? null
-            : List<dynamic>.from(assignees.map((x) => x.toJson())),
+            : List<dynamic>.from(assignees!.map((x) => x.toJson())),
         "requested_reviewers": requestedReviewers == null
             ? null
-            : List<dynamic>.from(requestedReviewers.map((x) => x.toJson())),
+            : List<dynamic>.from(requestedReviewers!.map((x) => x.toJson())),
         "requested_teams": requestedTeams == null
             ? null
-            : List<dynamic>.from(requestedTeams.map((x) => x)),
+            : List<dynamic>.from(requestedTeams!.map((x) => x)),
         "labels": labels == null
             ? null
-            : List<dynamic>.from(labels.map((x) => x.toJson())),
-        "milestone": milestone.toJson(),
+            : List<dynamic>.from(labels!.map((x) => x.toJson())),
+        "milestone": milestone!.toJson(),
         "draft": draft == null ? null : draft,
         "commits_url": commitsUrl == null ? null : commitsUrl,
         "review_comments_url":
@@ -319,19 +319,19 @@ class PullRequestModel {
             reviewCommentUrl == null ? null : reviewCommentUrl,
         "comments_url": commentsUrl == null ? null : commentsUrl,
         "statuses_url": statusesUrl == null ? null : statusesUrl,
-        "head": head == null ? null : head.toJson(),
-        "base": base == null ? null : base.toJson(),
-        "_links": links == null ? null : links.toJson(),
+        "head": head == null ? null : head!.toJson(),
+        "base": base == null ? null : base!.toJson(),
+        "_links": links == null ? null : links!.toJson(),
         "author_association": authorAssociation == null
             ? null
-            : authorAssociationValues.reverse[authorAssociation],
+            : authorAssociationValues.reverse![authorAssociation!],
         "auto_merge": autoMerge,
         "active_lock_reason": activeLockReason,
         "merged": merged == null ? null : merged,
         "mergeable": mergeable,
         "rebaseable": rebaseable,
         "mergeable_state": mergeableState == null ? null : mergeableState,
-        "merged_by": mergedBy == null ? null : mergedBy.toJson(),
+        "merged_by": mergedBy == null ? null : mergedBy!.toJson(),
         "comments": comments == null ? null : comments,
         "review_comments": reviewComments == null ? null : reviewComments,
         "maintainer_can_modify":
@@ -352,18 +352,18 @@ class Base {
     this.repo,
   });
 
-  String label;
-  String ref;
-  String sha;
-  UserInfoModel user;
-  Repo repo;
+  String? label;
+  String? ref;
+  String? sha;
+  UserInfoModel? user;
+  Repo? repo;
 
   Base copyWith({
-    String label,
-    String ref,
-    String sha,
-    UserInfoModel user,
-    Repo repo,
+    String? label,
+    String? ref,
+    String? sha,
+    UserInfoModel? user,
+    Repo? repo,
   }) =>
       Base(
         label: label ?? this.label,
@@ -390,8 +390,8 @@ class Base {
         "label": label == null ? null : label,
         "ref": ref == null ? null : ref,
         "sha": sha == null ? null : sha,
-        "user": user == null ? null : user.toJson(),
-        "repo": repo == null ? null : repo.toJson(),
+        "user": user == null ? null : user!.toJson(),
+        "repo": repo == null ? null : repo!.toJson(),
       };
 }
 
@@ -472,154 +472,154 @@ class Repo {
     this.defaultBranch,
   });
 
-  int id;
-  String nodeId;
-  String name;
-  String fullName;
-  bool private;
-  UserInfoModel owner;
-  String htmlUrl;
-  String description;
-  bool fork;
-  String url;
-  String forksUrl;
-  String keysUrl;
-  String collaboratorsUrl;
-  String teamsUrl;
-  String hooksUrl;
-  String issueEventsUrl;
-  String eventsUrl;
-  String assigneesUrl;
-  String branchesUrl;
-  String tagsUrl;
-  String blobsUrl;
-  String gitTagsUrl;
-  String gitRefsUrl;
-  String treesUrl;
-  String statusesUrl;
-  String languagesUrl;
-  String stargazersUrl;
-  String contributorsUrl;
-  String subscribersUrl;
-  String subscriptionUrl;
-  String commitsUrl;
-  String gitCommitsUrl;
-  String commentsUrl;
-  String issueCommentUrl;
-  String contentsUrl;
-  String compareUrl;
-  String mergesUrl;
-  String archiveUrl;
-  String downloadsUrl;
-  String issuesUrl;
-  String pullsUrl;
-  String milestonesUrl;
-  String notificationsUrl;
-  String labelsUrl;
-  String releasesUrl;
-  String deploymentsUrl;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime pushedAt;
-  String gitUrl;
-  String sshUrl;
-  String cloneUrl;
-  String svnUrl;
-  String homepage;
-  int size;
-  int stargazersCount;
-  int watchersCount;
-  String language;
-  bool hasIssues;
-  bool hasProjects;
-  bool hasDownloads;
-  bool hasWiki;
-  bool hasPages;
-  int forksCount;
+  int? id;
+  String? nodeId;
+  String? name;
+  String? fullName;
+  bool? private;
+  UserInfoModel? owner;
+  String? htmlUrl;
+  String? description;
+  bool? fork;
+  String? url;
+  String? forksUrl;
+  String? keysUrl;
+  String? collaboratorsUrl;
+  String? teamsUrl;
+  String? hooksUrl;
+  String? issueEventsUrl;
+  String? eventsUrl;
+  String? assigneesUrl;
+  String? branchesUrl;
+  String? tagsUrl;
+  String? blobsUrl;
+  String? gitTagsUrl;
+  String? gitRefsUrl;
+  String? treesUrl;
+  String? statusesUrl;
+  String? languagesUrl;
+  String? stargazersUrl;
+  String? contributorsUrl;
+  String? subscribersUrl;
+  String? subscriptionUrl;
+  String? commitsUrl;
+  String? gitCommitsUrl;
+  String? commentsUrl;
+  String? issueCommentUrl;
+  String? contentsUrl;
+  String? compareUrl;
+  String? mergesUrl;
+  String? archiveUrl;
+  String? downloadsUrl;
+  String? issuesUrl;
+  String? pullsUrl;
+  String? milestonesUrl;
+  String? notificationsUrl;
+  String? labelsUrl;
+  String? releasesUrl;
+  String? deploymentsUrl;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? pushedAt;
+  String? gitUrl;
+  String? sshUrl;
+  String? cloneUrl;
+  String? svnUrl;
+  String? homepage;
+  int? size;
+  int? stargazersCount;
+  int? watchersCount;
+  String? language;
+  bool? hasIssues;
+  bool? hasProjects;
+  bool? hasDownloads;
+  bool? hasWiki;
+  bool? hasPages;
+  int? forksCount;
   dynamic mirrorUrl;
-  bool archived;
-  bool disabled;
-  int openIssuesCount;
-  License license;
-  int forks;
-  int openIssues;
-  int watchers;
-  String defaultBranch;
+  bool? archived;
+  bool? disabled;
+  int? openIssuesCount;
+  License? license;
+  int? forks;
+  int? openIssues;
+  int? watchers;
+  String? defaultBranch;
 
   Repo copyWith({
-    int id,
-    String nodeId,
-    String name,
-    String fullName,
-    bool private,
-    UserInfoModel owner,
-    String htmlUrl,
-    String description,
-    bool fork,
-    String url,
-    String forksUrl,
-    String keysUrl,
-    String collaboratorsUrl,
-    String teamsUrl,
-    String hooksUrl,
-    String issueEventsUrl,
-    String eventsUrl,
-    String assigneesUrl,
-    String branchesUrl,
-    String tagsUrl,
-    String blobsUrl,
-    String gitTagsUrl,
-    String gitRefsUrl,
-    String treesUrl,
-    String statusesUrl,
-    String languagesUrl,
-    String stargazersUrl,
-    String contributorsUrl,
-    String subscribersUrl,
-    String subscriptionUrl,
-    String commitsUrl,
-    String gitCommitsUrl,
-    String commentsUrl,
-    String issueCommentUrl,
-    String contentsUrl,
-    String compareUrl,
-    String mergesUrl,
-    String archiveUrl,
-    String downloadsUrl,
-    String issuesUrl,
-    String pullsUrl,
-    String milestonesUrl,
-    String notificationsUrl,
-    String labelsUrl,
-    String releasesUrl,
-    String deploymentsUrl,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime pushedAt,
-    String gitUrl,
-    String sshUrl,
-    String cloneUrl,
-    String svnUrl,
-    String homepage,
-    int size,
-    int stargazersCount,
-    int watchersCount,
-    String language,
-    bool hasIssues,
-    bool hasProjects,
-    bool hasDownloads,
-    bool hasWiki,
-    bool hasPages,
-    int forksCount,
+    int? id,
+    String? nodeId,
+    String? name,
+    String? fullName,
+    bool? private,
+    UserInfoModel? owner,
+    String? htmlUrl,
+    String? description,
+    bool? fork,
+    String? url,
+    String? forksUrl,
+    String? keysUrl,
+    String? collaboratorsUrl,
+    String? teamsUrl,
+    String? hooksUrl,
+    String? issueEventsUrl,
+    String? eventsUrl,
+    String? assigneesUrl,
+    String? branchesUrl,
+    String? tagsUrl,
+    String? blobsUrl,
+    String? gitTagsUrl,
+    String? gitRefsUrl,
+    String? treesUrl,
+    String? statusesUrl,
+    String? languagesUrl,
+    String? stargazersUrl,
+    String? contributorsUrl,
+    String? subscribersUrl,
+    String? subscriptionUrl,
+    String? commitsUrl,
+    String? gitCommitsUrl,
+    String? commentsUrl,
+    String? issueCommentUrl,
+    String? contentsUrl,
+    String? compareUrl,
+    String? mergesUrl,
+    String? archiveUrl,
+    String? downloadsUrl,
+    String? issuesUrl,
+    String? pullsUrl,
+    String? milestonesUrl,
+    String? notificationsUrl,
+    String? labelsUrl,
+    String? releasesUrl,
+    String? deploymentsUrl,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? pushedAt,
+    String? gitUrl,
+    String? sshUrl,
+    String? cloneUrl,
+    String? svnUrl,
+    String? homepage,
+    int? size,
+    int? stargazersCount,
+    int? watchersCount,
+    String? language,
+    bool? hasIssues,
+    bool? hasProjects,
+    bool? hasDownloads,
+    bool? hasWiki,
+    bool? hasPages,
+    int? forksCount,
     dynamic mirrorUrl,
-    bool archived,
-    bool disabled,
-    int openIssuesCount,
-    License license,
-    int forks,
-    int openIssues,
-    int watchers,
-    String defaultBranch,
+    bool? archived,
+    bool? disabled,
+    int? openIssuesCount,
+    License? license,
+    int? forks,
+    int? openIssues,
+    int? watchers,
+    String? defaultBranch,
   }) =>
       Repo(
         id: id ?? this.id,
@@ -815,7 +815,7 @@ class Repo {
         "name": name == null ? null : name,
         "full_name": fullName == null ? null : fullName,
         "private": private == null ? null : private,
-        "owner": owner == null ? null : owner.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
         "html_url": htmlUrl == null ? null : htmlUrl,
         "description": description == null ? null : description,
         "fork": fork == null ? null : fork,
@@ -856,9 +856,9 @@ class Repo {
         "labels_url": labelsUrl == null ? null : labelsUrl,
         "releases_url": releasesUrl == null ? null : releasesUrl,
         "deployments_url": deploymentsUrl == null ? null : deploymentsUrl,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "pushed_at": pushedAt == null ? null : pushedAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+        "pushed_at": pushedAt == null ? null : pushedAt!.toIso8601String(),
         "git_url": gitUrl == null ? null : gitUrl,
         "ssh_url": sshUrl == null ? null : sshUrl,
         "clone_url": cloneUrl == null ? null : cloneUrl,
@@ -878,7 +878,7 @@ class Repo {
         "archived": archived == null ? null : archived,
         "disabled": disabled == null ? null : disabled,
         "open_issues_count": openIssuesCount == null ? null : openIssuesCount,
-        "license": license == null ? null : license.toJson(),
+        "license": license == null ? null : license!.toJson(),
         "forks": forks == null ? null : forks,
         "open_issues": openIssues == null ? null : openIssues,
         "watchers": watchers == null ? null : watchers,
@@ -895,18 +895,18 @@ class License {
     this.nodeId,
   });
 
-  String key;
-  String name;
-  String spdxId;
-  String url;
-  String nodeId;
+  String? key;
+  String? name;
+  String? spdxId;
+  String? url;
+  String? nodeId;
 
   License copyWith({
-    String key,
-    String name,
-    String spdxId,
-    String url,
-    String nodeId,
+    String? key,
+    String? name,
+    String? spdxId,
+    String? url,
+    String? nodeId,
   }) =>
       License(
         key: key ?? this.key,
@@ -949,24 +949,24 @@ class Links {
     this.statuses,
   });
 
-  Comments self;
-  Comments html;
-  Comments issue;
-  Comments comments;
-  Comments reviewComments;
-  Comments reviewComment;
-  Comments commits;
-  Comments statuses;
+  Comments? self;
+  Comments? html;
+  Comments? issue;
+  Comments? comments;
+  Comments? reviewComments;
+  Comments? reviewComment;
+  Comments? commits;
+  Comments? statuses;
 
   Links copyWith({
-    Comments self,
-    Comments html,
-    Comments issue,
-    Comments comments,
-    Comments reviewComments,
-    Comments reviewComment,
-    Comments commits,
-    Comments statuses,
+    Comments? self,
+    Comments? html,
+    Comments? issue,
+    Comments? comments,
+    Comments? reviewComments,
+    Comments? reviewComment,
+    Comments? commits,
+    Comments? statuses,
   }) =>
       Links(
         self: self ?? this.self,
@@ -1004,15 +1004,15 @@ class Links {
       );
 
   Map<String, dynamic> toJson() => {
-        "self": self == null ? null : self.toJson(),
-        "html": html == null ? null : html.toJson(),
-        "issue": issue == null ? null : issue.toJson(),
-        "comments": comments == null ? null : comments.toJson(),
+        "self": self == null ? null : self!.toJson(),
+        "html": html == null ? null : html!.toJson(),
+        "issue": issue == null ? null : issue!.toJson(),
+        "comments": comments == null ? null : comments!.toJson(),
         "review_comments":
-            reviewComments == null ? null : reviewComments.toJson(),
-        "review_comment": reviewComment == null ? null : reviewComment.toJson(),
-        "commits": commits == null ? null : commits.toJson(),
-        "statuses": statuses == null ? null : statuses.toJson(),
+            reviewComments == null ? null : reviewComments!.toJson(),
+        "review_comment": reviewComment == null ? null : reviewComment!.toJson(),
+        "commits": commits == null ? null : commits!.toJson(),
+        "statuses": statuses == null ? null : statuses!.toJson(),
       };
 }
 
@@ -1021,10 +1021,10 @@ class Comments {
     this.href,
   });
 
-  String href;
+  String? href;
 
   Comments copyWith({
-    String href,
+    String? href,
   }) =>
       Comments(
         href: href ?? this.href,

@@ -5,10 +5,10 @@ import 'package:onehub/models/events/events_model.dart';
 
 class EventsService {
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-for-the-authenticated-user
-  static Future<List<EventsModel>> getUserEvents(String user,
-      {int page, int perPage, bool refresh}) async {
+  static Future<List<EventsModel>> getUserEvents(String? user,
+      {int? page, int? perPage, required bool refresh}) async {
     Response response = await GetDio.getDio(
-            options: CacheManager.defaultCache(refresh: refresh))
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/users/$user/events',
             queryParameters: {'per_page': perPage, 'page': page});
     List unParsedEvents = response.data;
@@ -20,11 +20,11 @@ class EventsService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-received-by-the-authenticated-user
-  static Future<List<EventsModel>> getReceivedEvents(String user,
-      {bool refresh = false, int perPage, int page}) async {
+  static Future<List<EventsModel>> getReceivedEvents(String? user,
+      {bool refresh = false, int? perPage, int? page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
     Response response =
-        await GetDio.getDio(options: CacheManager.events(refresh: refresh))
+        await GetDio.getDio(cacheOptions: CacheManager.events(refresh: refresh))
             .get('/users/$user/received_events', queryParameters: parameters);
     List unParsedEvents = response.data;
     List<EventsModel> parsedEvents = [];
@@ -35,11 +35,12 @@ class EventsService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-public-events
-  static Future<List<EventsModel>> getPublicEvents(String user,
-      {bool refresh = false, int perPage, int page}) async {
+  static Future<List<EventsModel>> getPublicEvents(String? user,
+      {bool refresh = false, int? perPage, int? page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
     Response response =
-        await GetDio.getDio(options: CacheManager.events(refresh: refresh)).get(
+        await GetDio.getDio(cacheOptions: CacheManager.events(refresh: refresh))
+            .get(
       '/events',
       queryParameters: parameters,
     );

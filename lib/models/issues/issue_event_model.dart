@@ -24,36 +24,36 @@ class IssueEventModel {
     this.assigner,
   });
 
-  int id;
-  String nodeId;
-  String url;
-  Actor actor;
-  String event;
+  int? id;
+  String? nodeId;
+  String? url;
+  Actor? actor;
+  String? event;
   dynamic commitId;
   dynamic commitUrl;
-  DateTime createdAt;
-  Label label;
+  DateTime? createdAt;
+  Label? label;
   dynamic performedViaGithubApp;
-  Rename rename;
-  Milestone milestone;
-  Actor assignee;
-  Actor assigner;
+  Rename? rename;
+  Milestone? milestone;
+  Actor? assignee;
+  Actor? assigner;
 
   IssueEventModel copyWith({
-    int id,
-    String nodeId,
-    String url,
-    Actor actor,
-    String event,
+    int? id,
+    String? nodeId,
+    String? url,
+    Actor? actor,
+    String? event,
     dynamic commitId,
     dynamic commitUrl,
-    DateTime createdAt,
-    Label label,
+    DateTime? createdAt,
+    Label? label,
     dynamic performedViaGithubApp,
-    Rename rename,
-    Milestone milestone,
-    Actor assignee,
-    Actor assigner,
+    Rename? rename,
+    Milestone? milestone,
+    Actor? assignee,
+    Actor? assigner,
   }) =>
       IssueEventModel(
         id: id ?? this.id,
@@ -106,17 +106,17 @@ class IssueEventModel {
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,
         "url": url == null ? null : url,
-        "actor": actor == null ? null : actor.toJson(),
+        "actor": actor == null ? null : actor!.toJson(),
         "event": event == null ? null : event,
         "commit_id": commitId,
         "commit_url": commitUrl,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "label": label == null ? null : label.toJson(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "label": label == null ? null : label!.toJson(),
         "performed_via_github_app": performedViaGithubApp,
-        "rename": rename == null ? null : rename.toJson(),
-        "milestone": milestone == null ? null : milestone.toJson(),
-        "assignee": assignee == null ? null : assignee.toJson(),
-        "assigner": assigner == null ? null : assigner.toJson(),
+        "rename": rename == null ? null : rename!.toJson(),
+        "milestone": milestone == null ? null : milestone!.toJson(),
+        "assignee": assignee == null ? null : assignee!.toJson(),
+        "assigner": assigner == null ? null : assigner!.toJson(),
       };
 }
 
@@ -142,44 +142,44 @@ class Actor {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  String? type;
+  bool? siteAdmin;
 
   Actor copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    String? type,
+    bool? siteAdmin,
   }) =>
       Actor(
         login: login ?? this.login,
@@ -264,12 +264,12 @@ class Label {
     this.color,
   });
 
-  String name;
-  String color;
+  String? name;
+  String? color;
 
   Label copyWith({
-    String name,
-    String color,
+    String? name,
+    String? color,
   }) =>
       Label(
         name: name ?? this.name,
@@ -297,12 +297,12 @@ class Rename {
     this.to,
   });
 
-  String from;
-  String to;
+  String? from;
+  String? to;
 
   Rename copyWith({
-    String from,
-    String to,
+    String? from,
+    String? to,
   }) =>
       Rename(
         from: from ?? this.from,

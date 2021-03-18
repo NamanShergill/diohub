@@ -9,7 +9,7 @@ import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {
-  final String repoURL;
+  final String? repoURL;
   RepositoryReadme(this.repoURL);
 
   @override
@@ -38,10 +38,10 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
               );
             },
             childBuilder: (context, value) {
-              return MarkdownBody(value.readme.content,
-                  branch: Provider.of<RepoBranchProvider>(context).branch.name,
+              return MarkdownBody(value.readme!.content,
+                  branch: Provider.of<RepoBranchProvider>(context).branch!.name,
                   repo: Provider.of<RepositoryProvider>(context)
-                      .repositoryModel
+                      .repositoryModel!
                       .fullName);
             },
           ),

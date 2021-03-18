@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:onehub/style/colors.dart';
 
 class BaseAuthDialog extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   BaseAuthDialog({this.child});
   @override
   Widget build(BuildContext context) {

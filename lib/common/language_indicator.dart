@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LanguageIndicator extends StatelessWidget {
-  final String language;
+  final String? language;
   final double size;
   LanguageIndicator(this.language, {this.size = 16});
   @override

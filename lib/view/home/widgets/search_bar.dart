@@ -36,7 +36,7 @@ class SearchBar extends StatelessWidget {
                       'Search or Jump to...',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1
+                          .bodyText1!
                           .copyWith(color: AppColor.grey3.withOpacity(0.7)),
                     ),
                   ),

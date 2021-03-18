@@ -266,14 +266,14 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0-prev1"
+    version: "4.0.0-prev2"
   dio_cache_interceptor:
     dependency: "direct main"
     description:
       name: dio_cache_interceptor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-beta.7"
+    version: "2.0.0-rc.1"
   effective_dart:
     dependency: transitive
     description:

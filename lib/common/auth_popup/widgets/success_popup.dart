@@ -15,7 +15,7 @@ class SuccessPopup extends StatelessWidget {
               'Successful.',
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headline5!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             Divider(

@@ -8,7 +8,7 @@ class InternetConnectivity {
   static final StreamController _networkController =
       StreamController<NetworkStatus>.broadcast();
 
-  static Stream<NetworkStatus> get networkStream => _networkController.stream;
+  static Stream<NetworkStatus> get networkStream => _networkController.stream as Stream<NetworkStatus>;
 
   static NetworkStatus _status = NetworkStatus.Online;
   static NetworkStatus get status => _status;

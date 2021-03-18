@@ -19,8 +19,8 @@ import 'package:onehub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:provider/provider.dart';
 
 class PullScreen extends StatefulWidget {
-  final String pullURL;
-  final DateTime commentsSince;
+  final String? pullURL;
+  final DateTime? commentsSince;
   final int initialIndex;
   PullScreen(this.pullURL, {this.initialIndex = 0, this.commentsSince});
   @override
@@ -29,7 +29,7 @@ class PullScreen extends StatefulWidget {
 
 class _PullScreenState extends State<PullScreen>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _PullScreenState extends State<PullScreen>
       create: (_) => PullProvider(
           widget.pullURL,
           Provider.of<CurrentUserProvider>(context, listen: false)
-              .currentUserInfo
+              .currentUserInfo!
               .login),
       builder: (context, child) {
         return SafeArea(
@@ -74,26 +74,26 @@ class _PullScreenState extends State<PullScreen>
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.pullModel.state, 15),
+                              getIcon(value.pullModel!.state, 15)!,
                               SizedBox(
                                 width: 4,
                               ),
                               Text(
-                                value.pullModel.state == IssueState.OPEN
+                                value.pullModel!.state == IssueState.OPEN
                                     ? 'Open'
                                     : 'Closed',
                                 style: TextStyle(
-                                    color:
-                                        value.pullModel.state == IssueState.OPEN
-                                            ? AppColor.success
-                                            : AppColor.error,
+                                    color: value.pullModel!.state ==
+                                            IssueState.OPEN
+                                        ? AppColor.success
+                                        : AppColor.error,
                                     fontSize: 14),
                               ),
                               SizedBox(
                                 width: 8,
                               ),
                               Text(
-                                '#${value.pullModel.number}',
+                                '#${value.pullModel!.number}',
                                 style: TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
@@ -105,16 +105,16 @@ class _PullScreenState extends State<PullScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.pullModel.state, 20),
+                                  getIcon(value.pullModel!.state, 20)!,
                                   SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    value.pullModel.state == IssueState.OPEN
+                                    value.pullModel!.state == IssueState.OPEN
                                         ? 'Open'
                                         : 'Closed',
                                     style: TextStyle(
-                                        color: value.pullModel.state ==
+                                        color: value.pullModel!.state ==
                                                 IssueState.OPEN
                                             ? AppColor.success
                                             : AppColor.error,
@@ -125,7 +125,7 @@ class _PullScreenState extends State<PullScreen>
                                     width: 8,
                                   ),
                                   Text(
-                                    '#${value.pullModel.number}',
+                                    '#${value.pullModel!.number}',
                                     style: TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
@@ -141,7 +141,7 @@ class _PullScreenState extends State<PullScreen>
                                     width: 4,
                                   ),
                                   Text(
-                                    '${value.pullModel.comments} comments',
+                                    '${value.pullModel!.comments} comments',
                                     style: TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
@@ -151,14 +151,14 @@ class _PullScreenState extends State<PullScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.pullModel.title.length >
+                                value.pullModel!.title!.length >
                                         MediaQuery.of(context).size.width / 14
-                                    ? value.pullModel.title.substring(
+                                    ? value.pullModel!.title!.substring(
                                             0,
                                             MediaQuery.of(context).size.width ~/
                                                 14) +
                                         '...'
-                                    : value.pullModel.title,
+                                    : value.pullModel!.title!,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
@@ -176,7 +176,7 @@ class _PullScreenState extends State<PullScreen>
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: Text(
-                                      value.repoURL.replaceFirst(
+                                      value.repoURL!.replaceFirst(
                                           'https://api.github.com/repos/', ''),
                                       style: TextStyle(fontSize: 14),
                                     ),
@@ -184,9 +184,9 @@ class _PullScreenState extends State<PullScreen>
                                 ),
                               ),
                               Text(
-                                value.pullModel.state == IssueState.CLOSED
-                                    ? 'By ${value.pullModel.user.login}, closed ${getDate(value.pullModel.closedAt.toString(), shorten: false)}.'
-                                    : 'Opened ${getDate(value.pullModel.createdAt.toString(), shorten: false)} by ${value.pullModel.user.login}',
+                                value.pullModel!.state == IssueState.CLOSED
+                                    ? 'By ${value.pullModel!.user!.login}, closed ${getDate(value.pullModel!.closedAt.toString(), shorten: false)}.'
+                                    : 'Opened ${getDate(value.pullModel!.createdAt.toString(), shorten: false)} by ${value.pullModel!.user!.login}',
                                 style: TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
@@ -198,18 +198,18 @@ class _PullScreenState extends State<PullScreen>
                           Container(),
                           Discussion(
                             commentsSince: widget.commentsSince,
-                            isLocked:
-                                value.pullModel.locked && !value.editingEnabled,
-                            createdAt: value.pullModel.createdAt,
-                            issueUrl: value.pullModel.issueUrl,
+                            isLocked: value.pullModel!.locked! &&
+                                !value.editingEnabled!,
+                            createdAt: value.pullModel!.createdAt,
+                            issueUrl: value.pullModel!.issueUrl,
                             initialComment: TimelineEventModel(
-                                createdAt: value.pullModel.createdAt,
+                                createdAt: value.pullModel!.createdAt,
                                 event: Event.commented,
-                                user: value.pullModel.user,
+                                user: value.pullModel!.user,
                                 authorAssociation:
-                                    value.pullModel.authorAssociation,
-                                body: value.pullModel.body.isNotEmpty
-                                    ? value.pullModel.body
+                                    value.pullModel!.authorAssociation,
+                                body: value.pullModel!.body!.isNotEmpty
+                                    ? value.pullModel!.body
                                     : "No description provided."),
                           ),
                           PullsCommitsList(),
@@ -227,7 +227,7 @@ class _PullScreenState extends State<PullScreen>
     );
   }
 
-  Widget getIcon(IssueState state, double size) {
+  Widget? getIcon(IssueState? state, double size) {
     switch (state) {
       case IssueState.CLOSED:
         return Icon(
@@ -235,14 +235,12 @@ class _PullScreenState extends State<PullScreen>
           color: Colors.red,
           size: size,
         );
-        break;
       case IssueState.OPEN:
         return Icon(
           Octicons.issue_opened,
           color: Colors.green,
           size: size,
         );
-        break;
       default:
         return null;
     }

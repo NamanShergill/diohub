@@ -7,8 +7,8 @@ import 'package:onehub/services/users/user_info_service.dart';
 import 'package:onehub/style/colors.dart';
 
 class UserRepositories extends StatelessWidget {
-  final UserInfoModel userInfoModel;
-  final bool currentUser;
+  final UserInfoModel? userInfoModel;
+  final bool? currentUser;
   UserRepositories(this.userInfoModel, {this.currentUser = false});
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,11 @@ class UserRepositories extends StatelessWidget {
       color: AppColor.onBackground,
       child: InfiniteScrollWrapper<RepositoryModel>(
         future: (pageNumber, pageSize, refresh, _) {
-          if (currentUser)
+          if (currentUser!)
             return UserInfoService.getCurrentUserRepos(
                 pageSize, pageNumber, refresh);
           return UserInfoService.getUserRepos(
-              userInfoModel.login, pageSize, pageNumber, refresh);
+              userInfoModel!.login, pageSize, pageNumber, refresh);
         },
         divider: false,
         spacing: 4,

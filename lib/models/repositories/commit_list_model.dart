@@ -17,26 +17,26 @@ class CommitListModel {
     this.parents,
   });
 
-  String url;
-  String sha;
-  String nodeId;
-  String htmlUrl;
-  String commentsUrl;
-  Commit commit;
-  CommitModelAuthor author;
-  CommitModelAuthor committer;
-  List<Parent> parents;
+  String? url;
+  String? sha;
+  String? nodeId;
+  String? htmlUrl;
+  String? commentsUrl;
+  Commit? commit;
+  CommitModelAuthor? author;
+  CommitModelAuthor? committer;
+  List<Parent>? parents;
 
   CommitListModel copyWith({
-    String url,
-    String sha,
-    String nodeId,
-    String htmlUrl,
-    String commentsUrl,
-    Commit commit,
-    CommitModelAuthor author,
-    CommitModelAuthor committer,
-    List<Parent> parents,
+    String? url,
+    String? sha,
+    String? nodeId,
+    String? htmlUrl,
+    String? commentsUrl,
+    Commit? commit,
+    CommitModelAuthor? author,
+    CommitModelAuthor? committer,
+    List<Parent>? parents,
   }) =>
       CommitListModel(
         url: url ?? this.url,
@@ -80,12 +80,12 @@ class CommitListModel {
         "node_id": nodeId == null ? null : nodeId,
         "html_url": htmlUrl == null ? null : htmlUrl,
         "comments_url": commentsUrl == null ? null : commentsUrl,
-        "commit": commit == null ? null : commit.toJson(),
-        "author": author == null ? null : author.toJson(),
-        "committer": committer == null ? null : committer.toJson(),
+        "commit": commit == null ? null : commit!.toJson(),
+        "author": author == null ? null : author!.toJson(),
+        "committer": committer == null ? null : committer!.toJson(),
         "parents": parents == null
             ? null
-            : List<dynamic>.from(parents.map((x) => x.toJson())),
+            : List<dynamic>.from(parents!.map((x) => x.toJson())),
       };
 }
 
@@ -111,44 +111,44 @@ class CommitModelAuthor {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  String? type;
+  bool? siteAdmin;
 
   CommitModelAuthor copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    String? type,
+    bool? siteAdmin,
   }) =>
       CommitModelAuthor(
         login: login ?? this.login,
@@ -240,22 +240,22 @@ class Commit {
     this.verification,
   });
 
-  String url;
-  CommitAuthor author;
-  CommitAuthor committer;
-  String message;
-  Parent tree;
-  int commentCount;
-  Verification verification;
+  String? url;
+  CommitAuthor? author;
+  CommitAuthor? committer;
+  String? message;
+  Parent? tree;
+  int? commentCount;
+  Verification? verification;
 
   Commit copyWith({
-    String url,
-    CommitAuthor author,
-    CommitAuthor committer,
-    String message,
-    Parent tree,
-    int commentCount,
-    Verification verification,
+    String? url,
+    CommitAuthor? author,
+    CommitAuthor? committer,
+    String? message,
+    Parent? tree,
+    int? commentCount,
+    Verification? verification,
   }) =>
       Commit(
         url: url ?? this.url,
@@ -290,12 +290,12 @@ class Commit {
 
   Map<String, dynamic> toJson() => {
         "url": url == null ? null : url,
-        "author": author == null ? null : author.toJson(),
-        "committer": committer == null ? null : committer.toJson(),
+        "author": author == null ? null : author!.toJson(),
+        "committer": committer == null ? null : committer!.toJson(),
         "message": message == null ? null : message,
-        "tree": tree == null ? null : tree.toJson(),
+        "tree": tree == null ? null : tree!.toJson(),
         "comment_count": commentCount == null ? null : commentCount,
-        "verification": verification == null ? null : verification.toJson(),
+        "verification": verification == null ? null : verification!.toJson(),
       };
 }
 
@@ -306,14 +306,14 @@ class CommitAuthor {
     this.date,
   });
 
-  String name;
-  String email;
-  DateTime date;
+  String? name;
+  String? email;
+  DateTime? date;
 
   CommitAuthor copyWith({
-    String name,
-    String email,
-    DateTime date,
+    String? name,
+    String? email,
+    DateTime? date,
   }) =>
       CommitAuthor(
         name: name ?? this.name,
@@ -335,7 +335,7 @@ class CommitAuthor {
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
         "email": email == null ? null : email,
-        "date": date == null ? null : date.toIso8601String(),
+        "date": date == null ? null : date!.toIso8601String(),
       };
 }
 
@@ -345,12 +345,12 @@ class Parent {
     this.sha,
   });
 
-  String url;
-  String sha;
+  String? url;
+  String? sha;
 
   Parent copyWith({
-    String url,
-    String sha,
+    String? url,
+    String? sha,
   }) =>
       Parent(
         url: url ?? this.url,
@@ -380,14 +380,14 @@ class Verification {
     this.payload,
   });
 
-  bool verified;
-  String reason;
+  bool? verified;
+  String? reason;
   dynamic signature;
   dynamic payload;
 
   Verification copyWith({
-    bool verified,
-    String reason,
+    bool? verified,
+    String? reason,
     dynamic signature,
     dynamic payload,
   }) =>

@@ -9,7 +9,7 @@ class NotificationsService {
   // Add notification filters in the [filters] parameter as a [Map].
   // Ref: https://docs.github.com/en/rest/reference/activity#list-notifications-for-the-authenticated-user
   static Future<List<NotificationModel>> getNotifications(
-      {bool refresh = false, int perPage, int page, filters}) async {
+      {bool refresh = false, int? perPage, int? page, filters}) async {
     // Map the request parameters.
     Map<String, dynamic> queryParameters = {
       'per_page': perPage,
@@ -20,7 +20,7 @@ class NotificationsService {
     if (filters != null) queryParameters.addAll(filters);
     // Make API request to get a list of notifications;
     List<NotificationModel> notifications = await GetDio.getDio(
-      options: CacheManager.notifications(refresh: refresh),
+      cacheOptions: CacheManager.notifications(refresh: refresh),
     )
         .get(
       _url,
@@ -40,7 +40,7 @@ class NotificationsService {
 
   // Mark a thread as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-a-thread-as-read
-  static Future markThreadAsRead(String id) async {
+  static Future markThreadAsRead(String? id) async {
     await GetDio.getDio().patch('/notifications/threads/$id');
   }
 

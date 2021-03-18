@@ -13,7 +13,7 @@ class IssuesList extends StatelessWidget {
       future: (pageNumber, pageSize, refresh, _) {
         return IssuesService.getRepoIssues(
             Provider.of<RepositoryProvider>(context, listen: false)
-                .repositoryModel
+                .repositoryModel!
                 .url,
             pageNumber: pageNumber,
             perPage: pageSize,

@@ -19,12 +19,12 @@ import 'package:onehub/view/repository/commits/widgets/commit_s_h_a_button.dart'
 TextStyle basicCardTheme = TextStyle(color: AppColor.grey3);
 
 class BasicEventCard extends StatelessWidget {
-  final UserInfoModel user;
-  final IconData leading;
-  final String name;
-  final Color iconColor;
-  final String date;
-  final Widget content;
+  final UserInfoModel? user;
+  final IconData? leading;
+  final String? name;
+  final Color? iconColor;
+  final String? date;
+  final Widget? content;
   BasicEventCard(
       {this.user,
       this.content,
@@ -53,7 +53,7 @@ class BasicEventCard extends StatelessWidget {
               ),
               if (user != null)
                 ProfileTile(
-                  user.avatarUrl,
+                  user!.avatarUrl,
                   showName: true,
                   size: 20,
                   textStyle: TextStyle(
@@ -61,13 +61,13 @@ class BasicEventCard extends StatelessWidget {
                       color: AppColor.grey3,
                       fontWeight: FontWeight.bold),
                   padding: EdgeInsets.all(4),
-                  userLogin: user.login,
+                  userLogin: user!.login,
                 ),
               if (name != null)
                 Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
-                    name,
+                    name!,
                     style: TextStyle(
                         fontSize: 12,
                         color: AppColor.grey3,
@@ -75,7 +75,7 @@ class BasicEventCard extends StatelessWidget {
                   ),
                 ),
               Text(
-                'on ${getDate(date, shorten: false)}',
+                'on ${getDate(date!, shorten: false)}',
                 style: TextStyle(fontSize: 12, color: AppColor.grey3),
               ),
             ],
@@ -85,7 +85,7 @@ class BasicEventCard extends StatelessWidget {
             height: 4,
           ),
           Flexible(
-            child: content,
+            child: content!,
           ),
         ],
       ),
@@ -94,11 +94,11 @@ class BasicEventCard extends StatelessWidget {
 }
 
 class BasicEventTextCard extends StatelessWidget {
-  final UserInfoModel user;
-  final IconData leading;
-  final Color iconColor;
-  final String date;
-  final String content;
+  final UserInfoModel? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final String? date;
+  final String? content;
   BasicEventTextCard(
       {this.user, this.content, this.date, this.leading, this.iconColor});
   @override
@@ -106,7 +106,7 @@ class BasicEventTextCard extends StatelessWidget {
     return BasicEventCard(
       iconColor: iconColor,
       content: Text(
-        content,
+        content!,
         style: basicCardTheme,
       ),
       date: date,
@@ -117,12 +117,12 @@ class BasicEventTextCard extends StatelessWidget {
 }
 
 class BasicEventAssignedCard extends StatelessWidget {
-  final UserInfoModel user;
-  final IconData leading;
-  final Color iconColor;
-  final String date;
-  final bool isAssigned;
-  final UserInfoModel content;
+  final UserInfoModel? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final String? date;
+  final bool? isAssigned;
+  final UserInfoModel? content;
   BasicEventAssignedCard(
       {this.user,
       this.content,
@@ -137,20 +137,20 @@ class BasicEventAssignedCard extends StatelessWidget {
       content: Row(
         children: [
           Text(
-            isAssigned ? 'Assigned' : 'Unassigned',
+            isAssigned! ? 'Assigned' : 'Unassigned',
             style: basicCardTheme,
           ),
           SizedBox(
             width: 4,
           ),
-          content.login != user.login
+          content!.login != user!.login
               ? ProfileTile(
-                  content.avatarUrl,
+                  content!.avatarUrl,
                   showName: true,
                   textStyle: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColor.grey3),
                   padding: EdgeInsets.all(4),
-                  userLogin: content.login,
+                  userLogin: content!.login,
                 )
               : Text(
                   'themselves',
@@ -160,7 +160,7 @@ class BasicEventAssignedCard extends StatelessWidget {
             width: 4,
           ),
           Text(
-            '${isAssigned ? 'to' : 'from'} the issue.',
+            '${isAssigned! ? 'to' : 'from'} the issue.',
             style: basicCardTheme,
           ),
         ],
@@ -173,12 +173,12 @@ class BasicEventAssignedCard extends StatelessWidget {
 }
 
 class BasicEventLabeledCard extends StatelessWidget {
-  final UserInfoModel user;
-  final IconData leading;
-  final Color iconColor;
-  final String date;
-  final Label content;
-  final bool added;
+  final UserInfoModel? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final String? date;
+  final Label? content;
+  final bool? added;
   BasicEventLabeledCard(
       {this.user,
       this.content,
@@ -193,7 +193,7 @@ class BasicEventLabeledCard extends StatelessWidget {
       content: Row(
         children: [
           Text(
-            '${added ? 'Added' : 'Removed'} the',
+            '${added! ? 'Added' : 'Removed'} the',
             style: basicCardTheme,
           ),
           SizedBox(
@@ -204,7 +204,7 @@ class BasicEventLabeledCard extends StatelessWidget {
             width: 8,
           ),
           Text(
-            'label ${added ? 'to' : 'from'} the issue.',
+            'label ${added! ? 'to' : 'from'} the issue.',
             style: basicCardTheme,
           ),
         ],
@@ -217,11 +217,11 @@ class BasicEventLabeledCard extends StatelessWidget {
 }
 
 class BasicIssueCrossReferencedCard extends StatelessWidget {
-  final UserInfoModel user;
-  final IconData leading;
-  final Color iconColor;
-  final String date;
-  final Source content;
+  final UserInfoModel? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final String? date;
+  final Source? content;
   BasicIssueCrossReferencedCard(
       {this.user, this.content, this.date, this.leading, this.iconColor});
   @override
@@ -237,7 +237,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
             style: basicCardTheme,
           ),
           IssueListCard(
-            IssueModel.fromJson(content.issue.toJson()),
+            IssueModel.fromJson(content!.issue!.toJson()),
             compact: true,
             padding: EdgeInsets.only(top: 8),
           ),
@@ -251,11 +251,11 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
 }
 
 class BasicPullCrossReferencedCard extends StatelessWidget {
-  final UserInfoModel user;
-  final IconData leading;
-  final Color iconColor;
-  final String date;
-  final Source content;
+  final UserInfoModel? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final String? date;
+  final Source? content;
   BasicPullCrossReferencedCard(
       {this.user, this.content, this.date, this.leading, this.iconColor});
   @override
@@ -272,7 +272,7 @@ class BasicPullCrossReferencedCard extends StatelessWidget {
           ),
           APIWrapper<PullRequestModel>(
             getCall: PullsService.getPullInformation(
-                fullUrl: content.issue.pullRequest.url),
+                fullUrl: content!.issue!.pullRequest!.url!),
             loadingBuilder: (context) {
               return Padding(
                 padding: const EdgeInsets.only(top: 8.0),
@@ -303,13 +303,13 @@ class BasicPullCrossReferencedCard extends StatelessWidget {
 }
 
 class BasicEventCommitCard extends StatelessWidget {
-  final Author user;
-  final IconData leading;
-  final Color iconColor;
-  final String date;
-  final String sha;
-  final String message;
-  final String commitURL;
+  final Author? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final String? date;
+  final String? sha;
+  final String? message;
+  final String? commitURL;
   BasicEventCommitCard(
       {this.user,
       this.sha,
@@ -334,7 +334,7 @@ class BasicEventCommitCard extends StatelessWidget {
             height: 4,
           ),
           Text(
-            message,
+            message!,
             style: basicCardTheme,
           ),
           SizedBox(
@@ -344,7 +344,7 @@ class BasicEventCommitCard extends StatelessWidget {
         ],
       ),
       date: date,
-      name: user.name,
+      name: user!.name,
       leading: leading,
     );
   }

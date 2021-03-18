@@ -7,13 +7,13 @@ import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/style/colors.dart';
 
 class AssigneeSelectSheet extends StatefulWidget {
-  final String repoURL;
-  final String issueUrl;
-  final List<UserInfoModel> assignees;
-  final ScrollController controller;
-  final ValueChanged<List<UserInfoModel>> newAssignees;
+  final String? repoURL;
+  final String? issueUrl;
+  final List<UserInfoModel>? assignees;
+  final ScrollController? controller;
+  final ValueChanged<List<UserInfoModel>?>? newAssignees;
   AssigneeSelectSheet(
-      {Key key,
+      {Key? key,
       this.assignees,
       this.issueUrl,
       this.repoURL,
@@ -26,21 +26,21 @@ class AssigneeSelectSheet extends StatefulWidget {
 }
 
 class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
-  List<String> assignees;
+  late List<String?> assignees;
 
   @override
   void initState() {
-    assignees = widget.assignees.map((e) => e.login).toList();
+    assignees = widget.assignees!.map((e) => e.login).toList();
     super.initState();
   }
 
-  Future<List<UserInfoModel>> updateAssignees() async {
-    List<String> assigneesToRemove = [];
-    List<String> assigneesToAdd = assignees;
-    List<String> originalAssignees =
-        widget.assignees.map((e) => e.login).toList();
+  Future<List<UserInfoModel>?> updateAssignees() async {
+    List<String?> assigneesToRemove = [];
+    List<String?> assigneesToAdd = assignees;
+    List<String?> originalAssignees =
+        widget.assignees!.map((e) => e.login).toList();
     List<Future> futures = [];
-    for (String login in originalAssignees) {
+    for (String? login in originalAssignees) {
       if (!assignees.contains(login)) {
         assigneesToRemove.add(login);
         assigneesToAdd.remove(login);
@@ -70,9 +70,9 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             color: AppColor.onBackground,
             onTap: () async {
               try {
-                List<UserInfoModel> newAssignees = await updateAssignees();
+                List<UserInfoModel>? newAssignees = await updateAssignees();
                 Navigator.pop(context);
-                widget.newAssignees(newAssignees);
+                widget.newAssignees!(newAssignees);
               } catch (e) {}
             },
             child: Text('Apply'),

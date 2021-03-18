@@ -3,13 +3,13 @@ import 'package:onehub/common/button.dart';
 import 'package:onehub/style/colors.dart';
 
 class ActionButton extends StatefulWidget {
-  final int count;
-  final IconData icon;
+  final int? count;
+  final IconData? icon;
   final onTap;
-  final String action;
+  final String? action;
   final bool enabled;
   ActionButton(
-      {Key key,
+      {Key? key,
       this.count,
       this.action,
       this.onTap,
@@ -23,7 +23,7 @@ class ActionButton extends StatefulWidget {
 
 class _ActionButtonState extends State<ActionButton> {
   bool loading = false;
-  bool enabled;
+  bool? enabled;
 
   @override
   void initState() {
@@ -74,8 +74,8 @@ class _ActionButtonState extends State<ActionButton> {
             width: 4,
           ),
           Text(
-            widget.count > 999
-                ? '${(widget.count / 1000).toStringAsFixed(1)}k'
+            widget.count! > 999
+                ? '${(widget.count! / 1000).toStringAsFixed(1)}k'
                 : '${(widget.count == 0) ? 'None' : widget.count.toString()}',
             style: TextStyle(
               fontSize: 13,

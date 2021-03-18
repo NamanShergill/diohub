@@ -1,6 +1,6 @@
 extension RegExpExtension on RegExp {
-  List<String> allMatchesWithSep(String input, [int start = 0]) {
-    var result = <String>[];
+  List<String?> allMatchesWithSep(String input, [int start = 0]) {
+    var result = <String?>[];
     allMatches(input).forEach((element) {
       // print(input);
       // print(element[0]);
@@ -16,6 +16,6 @@ extension RegExpExtension on RegExp {
 }
 
 extension StringExtension on String {
-  List<String> splitWithDelim(RegExp pattern) =>
+  List<String?> splitWithDelim(RegExp pattern) =>
       pattern.allMatchesWithSep(this);
 }

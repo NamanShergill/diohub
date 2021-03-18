@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:graphql/client.dart' hide Response;
 import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
@@ -12,26 +11,19 @@ import 'package:onehub/models/users/user_info_model.dart';
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    CurrentUserInfoModel currentUserInfo =
-        await GetDio.getDio(options: CacheManager.currentUserProfileInfo())
-            .get('/user',
-                options: CacheOptions(
-                        policy: CachePolicy.refresh, store: MemCacheStore())
-                    .toOptions())
-            .then((value) {
-      if (value.statusCode == 200) {
-        return CurrentUserInfoModel.fromJson(value.data);
-      } else
-        throw Exception(value.statusMessage);
-    });
-    return currentUserInfo;
+    Response response =
+        await GetDio.getDio(cacheOptions: CacheManager.currentUserProfileInfo())
+            .get(
+      '/user',
+    );
+    return CurrentUserInfoModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
       int perPage, int pageNumber, bool refresh) async {
     Response response = await GetDio.getDio(
-            options: CacheManager.defaultCache(refresh: refresh))
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/user/repos', queryParameters: {
       'sort': 'updated',
       'per_page': perPage,
@@ -44,9 +36,9 @@ class UserInfoService {
   }
 
   static Future<List<RepositoryModel>> getUserRepos(
-      String username, int perPage, int pageNumber, bool refresh) async {
+      String? username, int perPage, int pageNumber, bool refresh) async {
     Response response = await GetDio.getDio(
-            options: CacheManager.defaultCache(refresh: refresh))
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '/users/$username/repos',
       queryParameters: {
@@ -61,16 +53,16 @@ class UserInfoService {
     return data;
   }
 
-  static Future<UserInfoModel> getUserInfo(String login) async {
+  static Future<UserInfoModel> getUserInfo(String? login) async {
     Response response =
-        await GetDio.getDio(options: CacheManager.defaultCache()).get(
+        await GetDio.getDio(cacheOptions: CacheManager.defaultCache()).get(
       '/users/$login',
     );
     return UserInfoModel.fromJson(response.data);
   }
 
   static Future<PinnedReposModel> getUserPinnedRepos(
-      String user, int first) async {
+      String? user, int first) async {
     String getPinnedRepos = r'''
           query ($user:String!, $first:Int!){ 
                     user(login: $user) { 
@@ -103,6 +95,6 @@ class UserInfoService {
           'first': first,
         });
     final QueryResult result = await GetGraphQL.client.query(options);
-    return PinnedReposModel.fromJson(result.data);
+    return PinnedReposModel.fromJson(result.data!);
   }
 }

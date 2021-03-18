@@ -21,8 +21,8 @@ class BaseProvider extends ChangeNotifier {
       StreamController<Status>.broadcast();
 
   /// StreamController for provider notifications.
-  final StreamController<Widget> _notificationController =
-      StreamController<Widget>.broadcast();
+  final StreamController<Widget?> _notificationController =
+      StreamController<Widget?>.broadcast();
 
   /// Get the latest stream of provider status.
   Stream<Status> get statusStream => _statusController.stream;
@@ -31,12 +31,12 @@ class BaseProvider extends ChangeNotifier {
   StreamController<Status> get statusController => _statusController;
 
   /// Get the controller of provider notifications.
-  StreamController<Widget> get notificationController =>
+  StreamController<Widget?> get notificationController =>
       _notificationController;
 
   /// Show a popup notification on [ScaffoldBody] listening
   /// to the global stream if a [ScaffoldBodyController] is not provided.
-  void showPopup(Widget data) {
+  void showPopup(Widget? data) {
     notificationController.add(data);
   }
 
@@ -53,7 +53,7 @@ class BaseProvider extends ChangeNotifier {
   }
 
   /// Error information, if any.
-  String error;
+  String? error;
 }
 
 enum Status { initialized, loading, loaded, error }

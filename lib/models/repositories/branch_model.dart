@@ -14,20 +14,20 @@ class BranchModel {
     this.protectionUrl,
   });
 
-  String name;
-  BranchModelCommit commit;
-  Links links;
-  bool protected;
-  Protection protection;
-  String protectionUrl;
+  String? name;
+  BranchModelCommit? commit;
+  Links? links;
+  bool? protected;
+  Protection? protection;
+  String? protectionUrl;
 
   BranchModel copyWith({
-    String name,
-    BranchModelCommit commit,
-    Links links,
-    bool protected,
-    Protection protection,
-    String protectionUrl,
+    String? name,
+    BranchModelCommit? commit,
+    Links? links,
+    bool? protected,
+    Protection? protection,
+    String? protectionUrl,
   }) =>
       BranchModel(
         name: name ?? this.name,
@@ -59,10 +59,10 @@ class BranchModel {
 
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
-        "commit": commit == null ? null : commit.toJson(),
-        "_links": links == null ? null : links.toJson(),
+        "commit": commit == null ? null : commit!.toJson(),
+        "_links": links == null ? null : links!.toJson(),
         "protected": protected == null ? null : protected,
-        "protection": protection == null ? null : protection.toJson(),
+        "protection": protection == null ? null : protection!.toJson(),
         "protection_url": protectionUrl == null ? null : protectionUrl,
       };
 }
@@ -80,26 +80,26 @@ class BranchModelCommit {
     this.parents,
   });
 
-  String sha;
-  String nodeId;
-  CommitCommit commit;
-  String url;
-  String htmlUrl;
-  String commentsUrl;
-  PurpleAuthor author;
-  PurpleAuthor committer;
-  List<Parent> parents;
+  String? sha;
+  String? nodeId;
+  CommitCommit? commit;
+  String? url;
+  String? htmlUrl;
+  String? commentsUrl;
+  PurpleAuthor? author;
+  PurpleAuthor? committer;
+  List<Parent>? parents;
 
   BranchModelCommit copyWith({
-    String sha,
-    String nodeId,
-    CommitCommit commit,
-    String url,
-    String htmlUrl,
-    String commentsUrl,
-    PurpleAuthor author,
-    PurpleAuthor committer,
-    List<Parent> parents,
+    String? sha,
+    String? nodeId,
+    CommitCommit? commit,
+    String? url,
+    String? htmlUrl,
+    String? commentsUrl,
+    PurpleAuthor? author,
+    PurpleAuthor? committer,
+    List<Parent>? parents,
   }) =>
       BranchModelCommit(
         sha: sha ?? this.sha,
@@ -142,15 +142,15 @@ class BranchModelCommit {
   Map<String, dynamic> toJson() => {
         "sha": sha == null ? null : sha,
         "node_id": nodeId == null ? null : nodeId,
-        "commit": commit == null ? null : commit.toJson(),
+        "commit": commit == null ? null : commit!.toJson(),
         "url": url == null ? null : url,
         "html_url": htmlUrl == null ? null : htmlUrl,
         "comments_url": commentsUrl == null ? null : commentsUrl,
-        "author": author == null ? null : author.toJson(),
-        "committer": committer == null ? null : committer.toJson(),
+        "author": author == null ? null : author!.toJson(),
+        "committer": committer == null ? null : committer!.toJson(),
         "parents": parents == null
             ? null
-            : List<dynamic>.from(parents.map((x) => x.toJson())),
+            : List<dynamic>.from(parents!.map((x) => x.toJson())),
       };
 }
 
@@ -176,44 +176,44 @@ class PurpleAuthor {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  String? type;
+  bool? siteAdmin;
 
   PurpleAuthor copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    String? type,
+    bool? siteAdmin,
   }) =>
       PurpleAuthor(
         login: login ?? this.login,
@@ -304,22 +304,22 @@ class CommitCommit {
     this.verification,
   });
 
-  FluffyAuthor author;
-  FluffyAuthor committer;
-  String message;
-  Tree tree;
-  String url;
-  int commentCount;
-  Verification verification;
+  FluffyAuthor? author;
+  FluffyAuthor? committer;
+  String? message;
+  Tree? tree;
+  String? url;
+  int? commentCount;
+  Verification? verification;
 
   CommitCommit copyWith({
-    FluffyAuthor author,
-    FluffyAuthor committer,
-    String message,
-    Tree tree,
-    String url,
-    int commentCount,
-    Verification verification,
+    FluffyAuthor? author,
+    FluffyAuthor? committer,
+    String? message,
+    Tree? tree,
+    String? url,
+    int? commentCount,
+    Verification? verification,
   }) =>
       CommitCommit(
         author: author ?? this.author,
@@ -354,13 +354,13 @@ class CommitCommit {
       );
 
   Map<String, dynamic> toJson() => {
-        "author": author == null ? null : author.toJson(),
-        "committer": committer == null ? null : committer.toJson(),
+        "author": author == null ? null : author!.toJson(),
+        "committer": committer == null ? null : committer!.toJson(),
         "message": message == null ? null : message,
-        "tree": tree == null ? null : tree.toJson(),
+        "tree": tree == null ? null : tree!.toJson(),
         "url": url == null ? null : url,
         "comment_count": commentCount == null ? null : commentCount,
-        "verification": verification == null ? null : verification.toJson(),
+        "verification": verification == null ? null : verification!.toJson(),
       };
 }
 
@@ -371,14 +371,14 @@ class FluffyAuthor {
     this.date,
   });
 
-  String name;
-  String email;
-  DateTime date;
+  String? name;
+  String? email;
+  DateTime? date;
 
   FluffyAuthor copyWith({
-    String name,
-    String email,
-    DateTime date,
+    String? name,
+    String? email,
+    DateTime? date,
   }) =>
       FluffyAuthor(
         name: name ?? this.name,
@@ -400,7 +400,7 @@ class FluffyAuthor {
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,
         "email": email == null ? null : email,
-        "date": date == null ? null : date.toIso8601String(),
+        "date": date == null ? null : date!.toIso8601String(),
       };
 }
 
@@ -410,12 +410,12 @@ class Tree {
     this.url,
   });
 
-  String sha;
-  String url;
+  String? sha;
+  String? url;
 
   Tree copyWith({
-    String sha,
-    String url,
+    String? sha,
+    String? url,
   }) =>
       Tree(
         sha: sha ?? this.sha,
@@ -445,16 +445,16 @@ class Verification {
     this.payload,
   });
 
-  bool verified;
-  String reason;
-  String signature;
-  String payload;
+  bool? verified;
+  String? reason;
+  String? signature;
+  String? payload;
 
   Verification copyWith({
-    bool verified,
-    String reason,
-    String signature,
-    String payload,
+    bool? verified,
+    String? reason,
+    String? signature,
+    String? payload,
   }) =>
       Verification(
         verified: verified ?? this.verified,
@@ -490,14 +490,14 @@ class Parent {
     this.htmlUrl,
   });
 
-  String sha;
-  String url;
-  String htmlUrl;
+  String? sha;
+  String? url;
+  String? htmlUrl;
 
   Parent copyWith({
-    String sha,
-    String url,
-    String htmlUrl,
+    String? sha,
+    String? url,
+    String? htmlUrl,
   }) =>
       Parent(
         sha: sha ?? this.sha,
@@ -528,12 +528,12 @@ class Links {
     this.html,
   });
 
-  String self;
-  String html;
+  String? self;
+  String? html;
 
   Links copyWith({
-    String self,
-    String html,
+    String? self,
+    String? html,
   }) =>
       Links(
         self: self ?? this.self,
@@ -561,12 +561,12 @@ class Protection {
     this.requiredStatusChecks,
   });
 
-  bool enabled;
-  RequiredStatusChecks requiredStatusChecks;
+  bool? enabled;
+  RequiredStatusChecks? requiredStatusChecks;
 
   Protection copyWith({
-    bool enabled,
-    RequiredStatusChecks requiredStatusChecks,
+    bool? enabled,
+    RequiredStatusChecks? requiredStatusChecks,
   }) =>
       Protection(
         enabled: enabled ?? this.enabled,
@@ -588,7 +588,7 @@ class Protection {
   Map<String, dynamic> toJson() => {
         "enabled": enabled == null ? null : enabled,
         "required_status_checks":
-            requiredStatusChecks == null ? null : requiredStatusChecks.toJson(),
+            requiredStatusChecks == null ? null : requiredStatusChecks!.toJson(),
       };
 }
 
@@ -598,12 +598,12 @@ class RequiredStatusChecks {
     this.contexts,
   });
 
-  String enforcementLevel;
-  List<dynamic> contexts;
+  String? enforcementLevel;
+  List<dynamic>? contexts;
 
   RequiredStatusChecks copyWith({
-    String enforcementLevel,
-    List<dynamic> contexts,
+    String? enforcementLevel,
+    List<dynamic>? contexts,
   }) =>
       RequiredStatusChecks(
         enforcementLevel: enforcementLevel ?? this.enforcementLevel,
@@ -629,6 +629,6 @@ class RequiredStatusChecks {
         "enforcement_level": enforcementLevel == null ? null : enforcementLevel,
         "contexts": contexts == null
             ? null
-            : List<dynamic>.from(contexts.map((x) => x)),
+            : List<dynamic>.from(contexts!.map((x) => x)),
       };
 }

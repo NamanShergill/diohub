@@ -14,20 +14,20 @@ class BlobModel {
     this.encoding,
   });
 
-  String sha;
-  String nodeId;
-  int size;
-  String url;
-  String content;
-  String encoding;
+  String? sha;
+  String? nodeId;
+  int? size;
+  String? url;
+  String? content;
+  String? encoding;
 
   BlobModel copyWith({
-    String sha,
-    String nodeId,
-    int size,
-    String url,
-    String content,
-    String encoding,
+    String? sha,
+    String? nodeId,
+    int? size,
+    String? url,
+    String? content,
+    String? encoding,
   }) =>
       BlobModel(
         sha: sha ?? this.sha,

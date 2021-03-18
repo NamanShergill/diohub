@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
   final bool privateEvents;
-  final String specificUser;
+  final String? specificUser;
   Events({this.privateEvents = true, this.specificUser});
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,10 @@ class Events extends StatelessWidget {
           return EventsService.getUserEvents(specificUser,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         else if (privateEvents)
-          return EventsService.getReceivedEvents(_user.currentUserInfo.login,
+          return EventsService.getReceivedEvents(_user.currentUserInfo!.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         else
-          return EventsService.getPublicEvents(_user.currentUserInfo.login,
+          return EventsService.getPublicEvents(_user.currentUserInfo!.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
       },
       builder: (context, EventsModel item, index) {
@@ -34,7 +34,7 @@ class Events extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(builder: (context) {
             if (item.type == EventsType.PushEvent)
-              return PushEventCard(item, item.payload);
+              return PushEventCard(item, item.payload!);
             else if (item.type == EventsType.WatchEvent)
               return WatchEventCard(item);
             return Padding(

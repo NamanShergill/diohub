@@ -1,10 +1,10 @@
 class DeviceCodeModel {
-  String deviceCode;
-  String userCode;
-  String verificationUri;
-  int expiresIn;
-  int interval;
-  int parsedOn;
+  String? deviceCode;
+  String? userCode;
+  String? verificationUri;
+  int? expiresIn;
+  int? interval;
+  int? parsedOn;
 
   DeviceCodeModel(
       {this.deviceCode,
@@ -19,7 +19,7 @@ class DeviceCodeModel {
     userCode = json['user_code'];
     verificationUri = json['verification_uri'];
     expiresIn =
-        DateTime.now().millisecondsSinceEpoch + json['expires_in'] * 1000;
+        DateTime.now().millisecondsSinceEpoch + json['expires_in'] * 1000 as int?;
     parsedOn = DateTime.now().millisecondsSinceEpoch;
     interval = json['interval'];
   }

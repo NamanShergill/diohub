@@ -16,7 +16,7 @@ import 'package:onehub/utils/get_date.dart';
 import 'language_indicator.dart';
 
 class RepositoryCard extends StatelessWidget {
-  final RepositoryModel repo;
+  final RepositoryModel? repo;
   RepositoryCard(this.repo);
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class RepositoryCard extends StatelessWidget {
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
             AutoRouter.of(context)
-                .push(RepositoryScreenRoute(repositoryURL: repo.url));
+                .push(RepositoryScreenRoute(repositoryURL: repo!.url));
           },
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -41,7 +41,7 @@ class RepositoryCard extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Visibility(
-                        visible: repo.private,
+                        visible: repo!.private!,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Icon(
@@ -51,14 +51,14 @@ class RepositoryCard extends StatelessWidget {
                           ),
                         )),
                     Text(
-                      repo.name,
+                      repo!.name!,
                       style: AppThemeTextStyles.eventCardChildTitle,
                     ),
                     SizedBox(
                       width: 8,
                     ),
                     Visibility(
-                        visible: repo.fork ?? false,
+                        visible: repo!.fork ?? false,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -86,10 +86,10 @@ class RepositoryCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        repo.description != null
-                            ? repo.description.length > 100
-                                ? repo.description.substring(0, 100) + '...'
-                                : repo.description ?? 'No description.'
+                        repo!.description != null
+                            ? repo!.description!.length > 100
+                                ? repo!.description!.substring(0, 100) + '...'
+                                : repo!.description ?? 'No description.'
                             : 'No description.',
                         style: AppThemeTextStyles.eventCardChildSubtitle,
                       ),
@@ -102,7 +102,7 @@ class RepositoryCard extends StatelessWidget {
                 Wrap(
                   children: [
                     LanguageIndicator(
-                      repo.language,
+                      repo!.language,
                       size: 13,
                     ),
                     SizedBox(
@@ -120,7 +120,7 @@ class RepositoryCard extends StatelessWidget {
                           width: 4,
                         ),
                         Text(
-                          repo.stargazersCount.toString(),
+                          repo!.stargazersCount.toString(),
                           style: AppThemeTextStyles.eventCardChildFooter,
                         ),
                       ],
@@ -129,7 +129,7 @@ class RepositoryCard extends StatelessWidget {
                       width: 16,
                     ),
                     Text(
-                      'Updated ${getDate(repo.updatedAt.toString(), shorten: false)}',
+                      'Updated ${getDate(repo!.updatedAt.toString(), shorten: false)}',
                       style: AppThemeTextStyles.eventCardChildFooter,
                     ),
                   ],
@@ -144,8 +144,8 @@ class RepositoryCard extends StatelessWidget {
 }
 
 class RepoCardLoading extends StatelessWidget {
-  final String repoURL;
-  final String repoName;
+  final String? repoURL;
+  final String? repoName;
   final EdgeInsets padding;
   final double elevation;
   RepoCardLoading(this.repoURL, this.repoName,
@@ -171,11 +171,11 @@ class RepoCardLoading extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  repoName,
+                  repoName!,
                   style: AppThemeTextStyles.eventCardChildTitle,
                 ),
                 APIWrapper<RepositoryModel>(
-                  getCall: RepositoryServices.fetchRepository(repoURL),
+                  getCall: RepositoryServices.fetchRepository(repoURL!),
                   loadingBuilder: (context) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,8 +214,8 @@ class RepoCardLoading extends StatelessWidget {
                         ),
                         Text(
                           repo.description != null
-                              ? repo.description.length > 100
-                                  ? repo.description.substring(0, 100) + '...'
+                              ? repo.description!.length > 100
+                                  ? repo.description!.substring(0, 100) + '...'
                                   : repo.description ?? 'No description.'
                               : 'No description.',
                           style: AppThemeTextStyles.eventCardChildSubtitle,
@@ -253,7 +253,7 @@ class RepoCardLoading extends StatelessWidget {
                               width: 16,
                             ),
                             Text(
-                              'Updated ${DateFormat('MMM d').format(repo.updatedAt)}',
+                              'Updated ${DateFormat('MMM d').format(repo.updatedAt!)}',
                               style: AppThemeTextStyles.eventCardChildFooter,
                             ),
                           ],

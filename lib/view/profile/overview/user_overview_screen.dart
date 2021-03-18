@@ -12,7 +12,7 @@ import 'package:onehub/services/users/user_info_service.dart';
 import 'package:onehub/style/colors.dart';
 
 class UserOverviewScreen extends StatelessWidget {
-  final UserInfoModel userInfoModel;
+  final UserInfoModel? userInfoModel;
   UserOverviewScreen(this.userInfoModel);
   @override
   Widget build(BuildContext context) {
@@ -24,29 +24,29 @@ class UserOverviewScreen extends StatelessWidget {
             'Pinned Repos',
             child: APIWrapper<PinnedReposModel>(
               getCall:
-                  UserInfoService.getUserPinnedRepos(userInfoModel.login, 6),
+                  UserInfoService.getUserPinnedRepos(userInfoModel!.login, 6),
               responseBuilder: (context, data) {
-                return data.user.pinnedItems.edges.isEmpty
+                return data.user!.pinnedItems!.edges!.isEmpty
                     ? Text('No Pinned items.')
                     : SizeExpandedSection(
                         child: ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: data.user.pinnedItems.edges.length,
+                          itemCount: data.user!.pinnedItems!.edges!.length,
                           itemBuilder: (context, index) {
                             final PurpleNode node =
-                                data.user.pinnedItems.edges[index].node;
+                                data.user!.pinnedItems!.edges![index].node!;
                             return RepositoryCard(RepositoryModel(
                                 stargazersCount: node.stargazerCount,
                                 description: node.description,
-                                language: node.languages.edges.isNotEmpty
-                                    ? node.languages?.edges?.first?.node
-                                            ?.name ??
+                                language: node.languages!.edges!.isNotEmpty
+                                    ? node.languages?.edges?.first.node?.name ??
                                         'N/A'
                                     : 'N/A',
                                 name: node.name,
                                 private: false,
-                                url: node.url.replaceFirst('https://github.com',
+                                url: node.url!.replaceFirst(
+                                    'https://github.com',
                                     'https://api.github.com/repos'),
                                 updatedAt: node.updatedAt));
                           },
@@ -66,7 +66,7 @@ class UserOverviewScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SvgPicture.network(
-                  'http://ghchart.rshah.org/0079FD/${userInfoModel.login}'),
+                  'http://ghchart.rshah.org/0079FD/${userInfoModel!.login}'),
             ),
           ),
         ],

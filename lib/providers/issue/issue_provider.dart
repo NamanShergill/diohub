@@ -5,21 +5,21 @@ import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/services/repositories/repo_services.dart';
 
 class IssueProvider extends BaseProvider {
-  final String _issueURL;
-  IssueModel _issueModel;
-  bool _editingEnabled;
-  bool get editingEnabled => _editingEnabled;
+  final String? _issueURL;
+  IssueModel? _issueModel;
+  bool? _editingEnabled;
+  bool? get editingEnabled => _editingEnabled;
 
-  IssueModel get issueModel => _issueModel;
+  IssueModel? get issueModel => _issueModel;
 
-  IssueProvider(String issueURL, String userLogin, String repoURL)
+  IssueProvider(String? issueURL, String? userLogin, String? repoURL)
       : _issueURL = issueURL {
     getIssue(repoURL: repoURL, userLogin: userLogin);
   }
 
-  Future getIssue({String repoURL, String userLogin}) async {
+  Future getIssue({String? repoURL, String? userLogin}) async {
     statusController.add(Status.loading);
-    List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL)];
+    List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL!)];
     if (repoURL != null && userLogin != null)
       futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
     List<dynamic> data = await Future.wait(futures);
@@ -29,17 +29,17 @@ class IssueProvider extends BaseProvider {
   }
 
   void updateLabels(List<Label> labels) {
-    _issueModel.labels = labels;
+    _issueModel!.labels = labels;
     notifyListeners();
   }
 
-  void updateAssignees(List<UserInfoModel> users) {
-    _issueModel.assignees = users;
+  void updateAssignees(List<UserInfoModel>? users) {
+    _issueModel!.assignees = users;
     notifyListeners();
   }
 
   void updateIssue(IssueModel issue) {
-      _issueModel = issue;
-      notifyListeners();
-    }
+    _issueModel = issue;
+    notifyListeners();
+  }
 }

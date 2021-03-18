@@ -28,12 +28,12 @@ import 'package:onehub/view/repository/widgets/branch_button.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryScreen extends StatefulWidget {
-  final String repositoryURL;
-  final String branch;
+  final String? repositoryURL;
+  final String? branch;
   final int index;
-  final String initSHA;
+  final String? initSHA;
   RepositoryScreen(this.repositoryURL,
-      {this.branch, this.index = 0, Key key, this.initSHA})
+      {this.branch, this.index = 0, Key? key, this.initSHA})
       : super(key: key);
 
   @override
@@ -43,16 +43,17 @@ class RepositoryScreen extends StatefulWidget {
 class _RepositoryScreenState extends State<RepositoryScreen>
     with TickerProviderStateMixin {
   bool loading = true;
-  RepoBranchProvider repoBranchProvider;
-  CodeProvider codeProvider;
-  RepoReadmeProvider readmeProvider;
-  TabController tabController;
-
+  late RepoBranchProvider repoBranchProvider;
+  late CodeProvider codeProvider;
+  late RepoReadmeProvider readmeProvider;
+  late TabController tabController;
+  late RepositoryProvider repositoryProvider;
   @override
   void initState() {
     tabController =
-        TabController(length: 6, vsync: this, initialIndex: widget.index ?? 0);
+        TabController(length: 6, vsync: this, initialIndex: widget.index);
     waitForTransition();
+    repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(initialBranch: widget.branch);
     codeProvider =
         CodeProvider(repoURL: widget.repositoryURL, initialSHA: widget.initSHA);
@@ -74,7 +75,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryProvider(widget.repositoryURL),
+          create: (_) => repositoryProvider,
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
           create: (_) => repoBranchProvider,
@@ -129,7 +130,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                     .notificationController,
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
                   childBuilder: (context, value) {
-                    final _repo = value.repositoryModel;
+                    final _repo = value.repositoryModel!;
                     return AppScrollView(
                       scrollViewAppBar: ScrollViewAppBar(
                         expandedHeight: 340,
@@ -137,8 +138,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         appBarWidget: Row(
                           children: [
                             ProfileTile(
-                              _repo.owner.avatarUrl,
-                              userLogin: _repo.owner.login,
+                              _repo.owner!.avatarUrl,
+                              userLogin: _repo.owner!.login,
                             ),
                             SizedBox(
                               width: 8,
@@ -148,13 +149,13 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                 text: TextSpan(
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5
+                                        .headline5!
                                         .copyWith(fontSize: 18),
                                     children: [
-                                      TextSpan(text: '${_repo.owner.login}/'),
+                                      TextSpan(text: '${_repo.owner!.login}/'),
                                       TextSpan(
-                                          text: _repo.name.length > 15
-                                              ? '${_repo.name.substring(0, 15)}...'
+                                          text: _repo.name!.length > 15
+                                              ? '${_repo.name!.substring(0, 15)}...'
                                               : _repo.name,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold)),
@@ -171,20 +172,20 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ProfileTile(
-                                  _repo.owner.avatarUrl,
-                                  userLogin: _repo.owner.login,
+                                  _repo.owner!.avatarUrl,
+                                  userLogin: _repo.owner!.login,
                                   showName: true,
                                 ),
                                 SizedBox(
                                   height: 8,
                                 ),
                                 Text(
-                                  _repo.name.length > 20
-                                      ? '${_repo.name.substring(0, 20)}...'
-                                      : _repo.name,
+                                  _repo.name!.length > 20
+                                      ? '${_repo.name!.substring(0, 20)}...'
+                                      : _repo.name!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline5
+                                      .headline5!
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -251,8 +252,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             onPressed: () {
                               if (Provider.of<RepositoryProvider>(context,
                                       listen: false)
-                                  .repositoryModel
-                                  .hasWiki)
+                                  .repositoryModel!
+                                  .hasWiki!)
                                 AutoRouter.of(context).push(WikiViewerRoute(
                                     repoURL: widget.repositoryURL));
                               else

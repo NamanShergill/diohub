@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import 'package:onehub/models/commits/commit_model.dart';
 import 'package:onehub/models/events/events_model.dart';
-import 'package:onehub/models/events/payloads/push_event_payload_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 
 import 'issue_model.dart';
@@ -40,52 +39,52 @@ class TimelineEventModel {
       this.message,
       this.pullRequestUrl});
 
-  String sha;
-  int id;
-  String nodeId;
-  String url;
-  String htmlUrl;
-  Author author;
-  Tree tree;
-  Author committer;
-  String message;
-  List<Parent> parents;
-  UserInfoModel actor;
-  Event event;
-  String commitId;
+  String? sha;
+  int? id;
+  String? nodeId;
+  String? url;
+  String? htmlUrl;
+  Author? author;
+  Tree? tree;
+  Author? committer;
+  String? message;
+  List<Parent>? parents;
+  UserInfoModel? actor;
+  Event? event;
+  String? commitId;
   dynamic commitUrl;
-  DateTime createdAt;
+  DateTime? createdAt;
   dynamic performedViaGithubApp;
-  Rename rename;
-  UserInfoModel assignee;
-  String issueUrl;
-  UserInfoModel user;
-  DateTime updatedAt;
-  AuthorAssociation authorAssociation;
-  String body;
-  Source source;
-  String pullRequestUrl;
-  Label label;
+  Rename? rename;
+  UserInfoModel? assignee;
+  String? issueUrl;
+  UserInfoModel? user;
+  DateTime? updatedAt;
+  AuthorAssociation? authorAssociation;
+  String? body;
+  Source? source;
+  String? pullRequestUrl;
+  Label? label;
 
   TimelineEventModel copyWith({
-    int id,
-    String nodeId,
-    String url,
-    UserInfoModel actor,
-    Event event,
+    int? id,
+    String? nodeId,
+    String? url,
+    UserInfoModel? actor,
+    Event? event,
     dynamic commitId,
     dynamic commitUrl,
-    DateTime createdAt,
+    DateTime? createdAt,
     dynamic performedViaGithubApp,
-    Rename rename,
-    UserInfoModel assignee,
-    String htmlUrl,
-    String issueUrl,
-    UserInfoModel user,
-    DateTime updatedAt,
-    AuthorAssociation authorAssociation,
-    String body,
-    Source source,
+    Rename? rename,
+    UserInfoModel? assignee,
+    String? htmlUrl,
+    String? issueUrl,
+    UserInfoModel? user,
+    DateTime? updatedAt,
+    AuthorAssociation? authorAssociation,
+    String? body,
+    Source? source,
   }) =>
       TimelineEventModel(
         id: id ?? this.id,
@@ -164,23 +163,23 @@ class TimelineEventModel {
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,
         "url": url == null ? null : url,
-        "actor": actor == null ? null : actor.toJson(),
-        "event": event == null ? null : eventValues.reverse[event],
+        "actor": actor == null ? null : actor!.toJson(),
+        "event": event == null ? null : eventValues.reverse![event!],
         "commit_id": commitId,
         "commit_url": commitUrl,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
         "performed_via_github_app": performedViaGithubApp,
-        "rename": rename == null ? null : rename.toJson(),
-        "assignee": assignee == null ? null : assignee.toJson(),
+        "rename": rename == null ? null : rename!.toJson(),
+        "assignee": assignee == null ? null : assignee!.toJson(),
         "html_url": htmlUrl == null ? null : htmlUrl,
         "issue_url": issueUrl == null ? null : issueUrl,
-        "user": user == null ? null : user.toJson(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "user": user == null ? null : user!.toJson(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
         "author_association": authorAssociation == null
             ? null
-            : authorAssociationValues.reverse[authorAssociation],
+            : authorAssociationValues.reverse![authorAssociation!],
         "body": body == null ? null : body,
-        "source": source == null ? null : source.toJson(),
+        "source": source == null ? null : source!.toJson(),
       };
 }
 
@@ -302,12 +301,12 @@ class Rename {
     this.to,
   });
 
-  String from;
-  String to;
+  String? from;
+  String? to;
 
   Rename copyWith({
-    String from,
-    String to,
+    String? from,
+    String? to,
   }) =>
       Rename(
         from: from ?? this.from,
@@ -335,12 +334,12 @@ class Source {
     this.issue,
   });
 
-  String type;
-  IssueModel issue;
+  String? type;
+  IssueModel? issue;
 
   Source copyWith({
-    String type,
-    IssueModel issue,
+    String? type,
+    IssueModel? issue,
   }) =>
       Source(
         type: type ?? this.type,
@@ -359,7 +358,7 @@ class Source {
 
   Map<String, dynamic> toJson() => {
         "type": type == null ? null : type,
-        "issue": issue == null ? null : issue.toJson(),
+        "issue": issue == null ? null : issue!.toJson(),
       };
 }
 
@@ -371,16 +370,16 @@ class PullRequest {
     this.patchUrl,
   });
 
-  String url;
-  String htmlUrl;
-  String diffUrl;
-  String patchUrl;
+  String? url;
+  String? htmlUrl;
+  String? diffUrl;
+  String? patchUrl;
 
   PullRequest copyWith({
-    String url,
-    String htmlUrl,
-    String diffUrl,
-    String patchUrl,
+    String? url,
+    String? htmlUrl,
+    String? diffUrl,
+    String? patchUrl,
   }) =>
       PullRequest(
         url: url ?? this.url,
@@ -487,156 +486,156 @@ class Repository {
     this.permissions,
   });
 
-  int id;
-  String nodeId;
-  String name;
-  String fullName;
-  bool private;
-  UserInfoModel owner;
-  String htmlUrl;
-  String description;
-  bool fork;
-  String url;
-  String forksUrl;
-  String keysUrl;
-  String collaboratorsUrl;
-  String teamsUrl;
-  String hooksUrl;
-  String issueEventsUrl;
-  String eventsUrl;
-  String assigneesUrl;
-  String branchesUrl;
-  String tagsUrl;
-  String blobsUrl;
-  String gitTagsUrl;
-  String gitRefsUrl;
-  String treesUrl;
-  String statusesUrl;
-  String languagesUrl;
-  String stargazersUrl;
-  String contributorsUrl;
-  String subscribersUrl;
-  String subscriptionUrl;
-  String commitsUrl;
-  String gitCommitsUrl;
-  String commentsUrl;
-  String issueCommentUrl;
-  String contentsUrl;
-  String compareUrl;
-  String mergesUrl;
-  String archiveUrl;
-  String downloadsUrl;
-  String issuesUrl;
-  String pullsUrl;
-  String milestonesUrl;
-  String notificationsUrl;
-  String labelsUrl;
-  String releasesUrl;
-  String deploymentsUrl;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime pushedAt;
-  String gitUrl;
-  String sshUrl;
-  String cloneUrl;
-  String svnUrl;
-  String homepage;
-  int size;
-  int stargazersCount;
-  int watchersCount;
-  String language;
-  bool hasIssues;
-  bool hasProjects;
-  bool hasDownloads;
-  bool hasWiki;
-  bool hasPages;
-  int forksCount;
+  int? id;
+  String? nodeId;
+  String? name;
+  String? fullName;
+  bool? private;
+  UserInfoModel? owner;
+  String? htmlUrl;
+  String? description;
+  bool? fork;
+  String? url;
+  String? forksUrl;
+  String? keysUrl;
+  String? collaboratorsUrl;
+  String? teamsUrl;
+  String? hooksUrl;
+  String? issueEventsUrl;
+  String? eventsUrl;
+  String? assigneesUrl;
+  String? branchesUrl;
+  String? tagsUrl;
+  String? blobsUrl;
+  String? gitTagsUrl;
+  String? gitRefsUrl;
+  String? treesUrl;
+  String? statusesUrl;
+  String? languagesUrl;
+  String? stargazersUrl;
+  String? contributorsUrl;
+  String? subscribersUrl;
+  String? subscriptionUrl;
+  String? commitsUrl;
+  String? gitCommitsUrl;
+  String? commentsUrl;
+  String? issueCommentUrl;
+  String? contentsUrl;
+  String? compareUrl;
+  String? mergesUrl;
+  String? archiveUrl;
+  String? downloadsUrl;
+  String? issuesUrl;
+  String? pullsUrl;
+  String? milestonesUrl;
+  String? notificationsUrl;
+  String? labelsUrl;
+  String? releasesUrl;
+  String? deploymentsUrl;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? pushedAt;
+  String? gitUrl;
+  String? sshUrl;
+  String? cloneUrl;
+  String? svnUrl;
+  String? homepage;
+  int? size;
+  int? stargazersCount;
+  int? watchersCount;
+  String? language;
+  bool? hasIssues;
+  bool? hasProjects;
+  bool? hasDownloads;
+  bool? hasWiki;
+  bool? hasPages;
+  int? forksCount;
   dynamic mirrorUrl;
-  bool archived;
-  bool disabled;
-  int openIssuesCount;
-  License license;
-  int forks;
-  int openIssues;
-  int watchers;
-  String defaultBranch;
-  Permissions permissions;
+  bool? archived;
+  bool? disabled;
+  int? openIssuesCount;
+  License? license;
+  int? forks;
+  int? openIssues;
+  int? watchers;
+  String? defaultBranch;
+  Permissions? permissions;
 
   Repository copyWith({
-    int id,
-    String nodeId,
-    String name,
-    String fullName,
-    bool private,
-    UserInfoModel owner,
-    String htmlUrl,
-    String description,
-    bool fork,
-    String url,
-    String forksUrl,
-    String keysUrl,
-    String collaboratorsUrl,
-    String teamsUrl,
-    String hooksUrl,
-    String issueEventsUrl,
-    String eventsUrl,
-    String assigneesUrl,
-    String branchesUrl,
-    String tagsUrl,
-    String blobsUrl,
-    String gitTagsUrl,
-    String gitRefsUrl,
-    String treesUrl,
-    String statusesUrl,
-    String languagesUrl,
-    String stargazersUrl,
-    String contributorsUrl,
-    String subscribersUrl,
-    String subscriptionUrl,
-    String commitsUrl,
-    String gitCommitsUrl,
-    String commentsUrl,
-    String issueCommentUrl,
-    String contentsUrl,
-    String compareUrl,
-    String mergesUrl,
-    String archiveUrl,
-    String downloadsUrl,
-    String issuesUrl,
-    String pullsUrl,
-    String milestonesUrl,
-    String notificationsUrl,
-    String labelsUrl,
-    String releasesUrl,
-    String deploymentsUrl,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime pushedAt,
-    String gitUrl,
-    String sshUrl,
-    String cloneUrl,
-    String svnUrl,
-    String homepage,
-    int size,
-    int stargazersCount,
-    int watchersCount,
-    String language,
-    bool hasIssues,
-    bool hasProjects,
-    bool hasDownloads,
-    bool hasWiki,
-    bool hasPages,
-    int forksCount,
+    int? id,
+    String? nodeId,
+    String? name,
+    String? fullName,
+    bool? private,
+    UserInfoModel? owner,
+    String? htmlUrl,
+    String? description,
+    bool? fork,
+    String? url,
+    String? forksUrl,
+    String? keysUrl,
+    String? collaboratorsUrl,
+    String? teamsUrl,
+    String? hooksUrl,
+    String? issueEventsUrl,
+    String? eventsUrl,
+    String? assigneesUrl,
+    String? branchesUrl,
+    String? tagsUrl,
+    String? blobsUrl,
+    String? gitTagsUrl,
+    String? gitRefsUrl,
+    String? treesUrl,
+    String? statusesUrl,
+    String? languagesUrl,
+    String? stargazersUrl,
+    String? contributorsUrl,
+    String? subscribersUrl,
+    String? subscriptionUrl,
+    String? commitsUrl,
+    String? gitCommitsUrl,
+    String? commentsUrl,
+    String? issueCommentUrl,
+    String? contentsUrl,
+    String? compareUrl,
+    String? mergesUrl,
+    String? archiveUrl,
+    String? downloadsUrl,
+    String? issuesUrl,
+    String? pullsUrl,
+    String? milestonesUrl,
+    String? notificationsUrl,
+    String? labelsUrl,
+    String? releasesUrl,
+    String? deploymentsUrl,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? pushedAt,
+    String? gitUrl,
+    String? sshUrl,
+    String? cloneUrl,
+    String? svnUrl,
+    String? homepage,
+    int? size,
+    int? stargazersCount,
+    int? watchersCount,
+    String? language,
+    bool? hasIssues,
+    bool? hasProjects,
+    bool? hasDownloads,
+    bool? hasWiki,
+    bool? hasPages,
+    int? forksCount,
     dynamic mirrorUrl,
-    bool archived,
-    bool disabled,
-    int openIssuesCount,
-    License license,
-    int forks,
-    int openIssues,
-    int watchers,
-    String defaultBranch,
-    Permissions permissions,
+    bool? archived,
+    bool? disabled,
+    int? openIssuesCount,
+    License? license,
+    int? forks,
+    int? openIssues,
+    int? watchers,
+    String? defaultBranch,
+    Permissions? permissions,
   }) =>
       Repository(
         id: id ?? this.id,
@@ -837,7 +836,7 @@ class Repository {
         "name": name == null ? null : name,
         "full_name": fullName == null ? null : fullName,
         "private": private == null ? null : private,
-        "owner": owner == null ? null : owner.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
         "html_url": htmlUrl == null ? null : htmlUrl,
         "description": description == null ? null : description,
         "fork": fork == null ? null : fork,
@@ -878,9 +877,9 @@ class Repository {
         "labels_url": labelsUrl == null ? null : labelsUrl,
         "releases_url": releasesUrl == null ? null : releasesUrl,
         "deployments_url": deploymentsUrl == null ? null : deploymentsUrl,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "pushed_at": pushedAt == null ? null : pushedAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+        "pushed_at": pushedAt == null ? null : pushedAt!.toIso8601String(),
         "git_url": gitUrl == null ? null : gitUrl,
         "ssh_url": sshUrl == null ? null : sshUrl,
         "clone_url": cloneUrl == null ? null : cloneUrl,
@@ -900,12 +899,12 @@ class Repository {
         "archived": archived == null ? null : archived,
         "disabled": disabled == null ? null : disabled,
         "open_issues_count": openIssuesCount == null ? null : openIssuesCount,
-        "license": license == null ? null : license.toJson(),
+        "license": license == null ? null : license!.toJson(),
         "forks": forks == null ? null : forks,
         "open_issues": openIssues == null ? null : openIssues,
         "watchers": watchers == null ? null : watchers,
         "default_branch": defaultBranch == null ? null : defaultBranch,
-        "permissions": permissions == null ? null : permissions.toJson(),
+        "permissions": permissions == null ? null : permissions!.toJson(),
       };
 }
 
@@ -918,18 +917,18 @@ class License {
     this.nodeId,
   });
 
-  String key;
-  String name;
-  String spdxId;
-  String url;
-  String nodeId;
+  String? key;
+  String? name;
+  String? spdxId;
+  String? url;
+  String? nodeId;
 
   License copyWith({
-    String key,
-    String name,
-    String spdxId,
-    String url,
-    String nodeId,
+    String? key,
+    String? name,
+    String? spdxId,
+    String? url,
+    String? nodeId,
   }) =>
       License(
         key: key ?? this.key,
@@ -967,14 +966,14 @@ class Permissions {
     this.pull,
   });
 
-  bool admin;
-  bool push;
-  bool pull;
+  bool? admin;
+  bool? push;
+  bool? pull;
 
   Permissions copyWith({
-    bool admin,
-    bool push,
-    bool pull,
+    bool? admin,
+    bool? push,
+    bool? pull,
   }) =>
       Permissions(
         admin: admin ?? this.admin,
@@ -1002,11 +1001,11 @@ class Permissions {
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

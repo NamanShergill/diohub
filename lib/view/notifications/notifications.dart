@@ -37,8 +37,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   bool loadingButton = false;
 
   /// Function to check if a specific notification fits the user filter or not.
-  bool checkFilter(NotificationModel notification) {
-    bool allowed = true;
+  bool? checkFilter(NotificationModel notification) {
+    bool? allowed = true;
     if (clientFilters['show_only'].isNotEmpty)
       allowed = clientFilters['show_only'].contains(notification.reason);
     return allowed;
@@ -53,8 +53,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
         controller: scrollController,
         clientFilters: clientFilters,
         onFiltersChanged: (Map updatedAPIFilters, Map updatedClientFilters) {
-          apiFilters = updatedAPIFilters;
-          clientFilters = updatedClientFilters;
+          apiFilters = updatedAPIFilters as Map<String, dynamic>;
+          clientFilters = updatedClientFilters as Map<String, dynamic>;
           _controller.refresh();
         },
       );
@@ -203,14 +203,14 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                           filterFn: (List<NotificationModel> list) {
                             List<NotificationModel> filtered = [];
                             list.forEach((element) {
-                              if (checkFilter(element)) filtered.add(element);
+                              if (checkFilter(element)!) filtered.add(element);
                             });
                             return filtered;
                           },
                           builder: (context, NotificationModel item, index) {
-                            if (item.subject.type == SubjectType.ISSUE)
+                            if (item.subject!.type == SubjectType.ISSUE)
                               return IssueNotificationCard(item);
-                            else if (item.subject.type ==
+                            else if (item.subject!.type ==
                                 SubjectType.PULL_REQUEST)
                               return PullRequestNotificationCard(item);
                             return Container();
@@ -250,7 +250,7 @@ class UnauthenticatedNotificationsReplacement extends StatelessWidget {
                   children: [
                     Text(
                       'Notifications',
-                      style: Theme.of(context).textTheme.headline4.copyWith(
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     Padding(

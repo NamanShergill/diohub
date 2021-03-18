@@ -5,25 +5,25 @@ import 'package:onehub/style/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WikiViewer extends StatefulWidget {
-  final String repoURL;
-  WikiViewer({Key key, this.repoURL}) : super(key: key);
+  final String? repoURL;
+  WikiViewer({Key? key, this.repoURL}) : super(key: key);
 
   @override
   _WikiViewerState createState() => _WikiViewerState();
 }
 
 class _WikiViewerState extends State<WikiViewer> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   bool loading = true;
-  String wikiLink;
-  String repoLink;
-  String error;
+  String? wikiLink;
+  String? repoLink;
+  String? error;
 
   @override
   void initState() {
-    repoLink = widget.repoURL
+    repoLink = widget.repoURL!
         .replaceAll('https://api.github.com/repos', 'https://github.com');
-    wikiLink = repoLink + '/wiki';
+    wikiLink = repoLink! + '/wiki';
     super.initState();
   }
 
@@ -86,12 +86,12 @@ class _WikiViewerState extends State<WikiViewer> {
                         });
                       },
                       navigationDelegate: (action) {
-                        if (action.url.startsWith(wikiLink))
+                        if (action.url.startsWith(wikiLink!))
                           return NavigationDecision.navigate;
                         else if (action.url == repoLink) {
                           setState(() {
                             error = 'Seems like ' +
-                                repoLink.replaceAll('https://github.com/', '') +
+                                repoLink!.replaceAll('https://github.com/', '') +
                                 ' does not have a wiki yet.';
                           });
                         } else {
@@ -155,11 +155,11 @@ class _WikiViewerState extends State<WikiViewer> {
                         'Uh oh.',
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        error,
+                        error!,
                         textAlign: TextAlign.center,
                       ),
                     ],

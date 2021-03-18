@@ -4,14 +4,14 @@ import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/services/repositories/repo_services.dart';
 
 class RepositoryProvider extends BaseProvider {
-  RepositoryModel _repository;
-  String _url;
+  RepositoryModel? _repository;
+  String? _url;
 
-  RepositoryModel get repositoryModel => _repository;
+  RepositoryModel? get repositoryModel => _repository;
 
-  RepositoryProvider(String url) : _url = url {
+  RepositoryProvider(String? url) : _url = url {
     if (_url != null) {
-      _getRepository(_url);
+      _getRepository(_url!);
     }
     statusStream.listen((event) {
       // Show a popup to retry if there was an error fetching the user details.
@@ -23,7 +23,7 @@ class RepositoryProvider extends BaseProvider {
 
           // Try getting the user details again on tap.
           onTap: (context) async {
-            _getRepository(_url);
+            _getRepository(_url!);
           },
         ));
         // Remove the popup if a status other than loading is set.
@@ -41,7 +41,7 @@ class RepositoryProvider extends BaseProvider {
       _repository = await RepositoryServices.fetchRepository(url);
       statusController.add(Status.loaded);
     } catch (e) {
-      error = e.toString() ?? 'Something went wrong.';
+      error = e.toString();
       statusController.add(Status.error);
     }
   }

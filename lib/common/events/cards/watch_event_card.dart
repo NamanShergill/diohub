@@ -11,20 +11,20 @@ class WatchEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
-      actor: event.actor.login,
+      actor: event.actor!.login,
       headerText: [
         TextSpan(text: ' starred '),
         TextSpan(
-            text: event.repo.name,
+            text: event.repo!.name,
             style: TextStyle(fontWeight: FontWeight.bold)),
       ],
-      userLogin: event.actor.login,
+      userLogin: event.actor!.login,
       date: event.createdAt,
-      avatarUrl: event.actor.avatarUrl,
+      avatarUrl: event.actor!.avatarUrl,
       childPadding: EdgeInsets.zero,
       child: RepoCardLoading(
-        event.repo.url,
-        event.repo.name,
+        event.repo!.url,
+        event.repo!.name,
         elevation: 0,
         padding: EdgeInsets.zero,
       ),

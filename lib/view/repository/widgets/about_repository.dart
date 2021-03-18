@@ -20,7 +20,7 @@ class AboutRepository extends StatelessWidget {
               'Name',
               child: Row(
                 children: [
-                  Flexible(child: Text(repo.name)),
+                  Flexible(child: Text(repo.name!)),
                 ],
               ),
             ),
@@ -29,7 +29,7 @@ class AboutRepository extends StatelessWidget {
                 'About',
                 child: Row(
                   children: [
-                    Flexible(child: Text(repo.description)),
+                    Flexible(child: Text(repo.description!)),
                   ],
                 ),
               ),
@@ -46,12 +46,12 @@ class AboutRepository extends StatelessWidget {
                   ],
                 ),
               ),
-            if (repo.fork)
+            if (repo.fork!)
               InfoCard(
                 'Forked from',
                 child: RepositoryCard(repo.source),
               ),
-            if (repo.homepage != null&&repo.homepage.isNotEmpty)
+            if (repo.homepage != null&&repo.homepage!.isNotEmpty)
               InfoCard(
                 'Homepage',
                 onTap: (){
@@ -59,7 +59,7 @@ class AboutRepository extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    Flexible(child: Text(repo.homepage)),
+                    Flexible(child: Text(repo.homepage!)),
                   ],
                 ),
               ),
@@ -68,7 +68,7 @@ class AboutRepository extends StatelessWidget {
                 'License',
                 child: Row(
                   children: [
-                    Flexible(child: Text(repo.license.name)),
+                    Flexible(child: Text(repo.license!.name!)),
                   ],
                 ),
               ),

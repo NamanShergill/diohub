@@ -7,7 +7,7 @@ import 'package:onehub/services/pulls/pulls_service.dart';
 import 'package:provider/provider.dart';
 
 class PullsList extends StatefulWidget {
-  PullsList({Key key}) : super(key: key);
+  PullsList({Key? key}) : super(key: key);
 
   @override
   _PullsListState createState() => _PullsListState();
@@ -20,7 +20,7 @@ class _PullsListState extends State<PullsList> {
       future: (pageNumber, pageSize, refresh, _) {
         return PullsService.getRepoPulls(
             Provider.of<RepositoryProvider>(context, listen: false)
-                .repositoryModel
+                .repositoryModel!
                 .url,
             pageNumber: pageNumber,
             perPage: pageSize,

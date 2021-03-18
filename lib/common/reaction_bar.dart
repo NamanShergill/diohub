@@ -12,15 +12,15 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class CommentReaction {
-  final String reaction;
+  final String? reaction;
   int count = 0;
   bool reacted = false;
-  List<UserInfoModel> users = [];
-  int userReactionID;
-  String get emoji => getReaction(reaction);
+  List<UserInfoModel?> users = [];
+  int? userReactionID;
+  String? get emoji => getReaction(reaction);
   CommentReaction({this.reaction});
 
-  void addUserReaction(int id) {
+  void addUserReaction(int? id) {
     userReactionID = id;
     count++;
     reacted = true;
@@ -33,40 +33,33 @@ class CommentReaction {
   }
 }
 
-String getReaction(String reaction) {
+String? getReaction(String? reaction) {
   switch (reaction) {
     case '+1':
       return '👍';
-      break;
     case '-1':
       return '👎';
-      break;
+
     case 'laugh':
       return '😄';
-      break;
     case 'confused':
       return '😕';
-      break;
     case 'heart':
       return '❤️';
-      break;
     case 'hooray':
       return '🎉';
-      break;
     case 'rocket':
       return '🚀';
-      break;
     case 'eyes':
       return '👀';
-      break;
     default:
       return null;
   }
 }
 
 class ReactionBar extends StatefulWidget {
-  final String url;
-  final String currentUser;
+  final String? url;
+  final String? currentUser;
   final bool isEnabled;
   ReactionBar(this.url, this.currentUser, [this.isEnabled = true]);
 
@@ -114,16 +107,20 @@ class _ReactionBarState extends State<ReactionBar> {
                       onReactionChanged: (reaction, index) {},
                       boxItemsSpacing: 24,
                       initialReaction: Reaction(
-                        icon: Material(
-                            color: AppColor.background,
-                            borderRadius: AppThemeBorderRadius.bigBorderRadius,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Container(
-                                  height: 36,
-                                  child: Center(child: Icon(Icons.add))),
-                            )),
+                        icon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                              color: AppColor.background,
+                              borderRadius:
+                                  AppThemeBorderRadius.bigBorderRadius,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Container(
+                                    height: 36,
+                                    child: Center(child: Icon(Icons.add))),
+                              )),
+                        ),
                       ),
                       reactions: []),
                 ),
@@ -164,29 +161,30 @@ class _ReactionBarState extends State<ReactionBar> {
               ),
             )),
             if (widget.isEnabled)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: FlutterReactionButton(
-                  splashColor: Colors.transparent,
-                  boxPadding: EdgeInsets.all(16),
-                  shouldChangeReaction: false,
-                  boxColor: AppColor.background,
-                  onReactionChanged: (reaction, index) async {
-                    if (reactions[index].reacted) {
-                      await ReactionsService.deleteReaction(
-                          widget.url, reactions[index].userReactionID);
-                      reactions[index].removeReaction();
-                    } else
-                      await ReactionsService.createReaction(
-                              widget.url, reactions[index].reaction)
-                          .then((value) {
-                        reactions[index].addUserReaction(value.id);
-                      });
-                    setState(() {});
-                  },
-                  boxItemsSpacing: 24,
-                  initialReaction: Reaction(
-                    icon: Material(
+              FlutterReactionButton(
+                splashColor: Colors.transparent,
+                boxPadding: EdgeInsets.all(16),
+                shouldChangeReaction: false,
+                boxColor: AppColor.background,
+                onReactionChanged: (reaction, index) async {
+                  if (reactions[index].reacted) {
+                    await ReactionsService.deleteReaction(
+                        widget.url, reactions[index].userReactionID);
+                    reactions[index].removeReaction();
+                  } else
+                    await ReactionsService.createReaction(
+                            widget.url, reactions[index].reaction)
+                        .then((value) {
+                      reactions[index].addUserReaction(value!.id);
+                    });
+                  setState(() {});
+                },
+                boxItemsSpacing: 24,
+                initialReaction: Reaction(
+                  icon: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 2.0, vertical: 4),
+                    child: Material(
                         elevation: 2,
                         color: AppColor.background,
                         borderRadius: AppThemeBorderRadius.bigBorderRadius,
@@ -201,14 +199,14 @@ class _ReactionBarState extends State<ReactionBar> {
                               ))),
                         )),
                   ),
-                  reactions: List.generate(
-                      reactions.length,
-                      (index) => Reaction(
-                              icon: Text(
-                            reactions[index].emoji,
-                            style: TextStyle(fontSize: 18),
-                          ))),
                 ),
+                reactions: List.generate(
+                    reactions.length,
+                    (index) => Reaction(
+                            icon: Text(
+                          reactions[index].emoji!,
+                          style: TextStyle(fontSize: 18),
+                        ))),
               ),
           ],
         ),
@@ -227,56 +225,56 @@ class _ReactionBarState extends State<ReactionBar> {
     data.forEach((element) {
       if (element.content == plusOne.reaction) {
         plusOne.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           plusOne.reacted = true;
           plusOne.userReactionID = element.id;
         }
         plusOne.count++;
       } else if (element.content == minusOne.reaction) {
         minusOne.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           minusOne.reacted = true;
           minusOne.userReactionID = element.id;
         }
         minusOne.count++;
       } else if (element.content == laugh.reaction) {
-        hooray.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
-          hooray.reacted = true;
-          hooray.userReactionID = element.id;
+        laugh.users.add(element.user);
+        if (element.user!.login == widget.currentUser) {
+          laugh.reacted = true;
+          laugh.userReactionID = element.id;
         }
-        hooray.count++;
+        laugh.count++;
       } else if (element.content == confused.reaction) {
         confused.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           confused.reacted = true;
           confused.userReactionID = element.id;
         }
         confused.count++;
       } else if (element.content == heart.reaction) {
         heart.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           heart.reacted = true;
           heart.userReactionID = element.id;
         }
         heart.count++;
       } else if (element.content == hooray.reaction) {
         hooray.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           hooray.reacted = true;
           hooray.userReactionID = element.id;
         }
         hooray.count++;
       } else if (element.content == rocket.reaction) {
         rocket.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           rocket.reacted = true;
           rocket.userReactionID = element.id;
         }
         rocket.count++;
       } else if (element.content == eyes.reaction) {
         eyes.users.add(element.user);
-        if (element.user.login == widget.currentUser) {
+        if (element.user!.login == widget.currentUser) {
           eyes.reacted = true;
           eyes.userReactionID = element.id;
         }
@@ -299,9 +297,9 @@ class _ReactionBarState extends State<ReactionBar> {
 
 class ReactionButton extends StatefulWidget {
   final CommentReaction commentReaction;
-  final String url;
+  final String? url;
   final bool isEnabled;
-  final ValueChanged<CommentReaction> onChanged;
+  final ValueChanged<CommentReaction>? onChanged;
   ReactionButton(this.commentReaction,
       {this.url, this.onChanged, this.isEnabled = true});
 
@@ -311,7 +309,7 @@ class ReactionButton extends StatefulWidget {
 
 class _ReactionButtonState extends State<ReactionButton> {
   bool loading = false;
-  CommentReaction _reaction;
+  late CommentReaction _reaction;
 
   @override
   void initState() {
@@ -331,9 +329,9 @@ class _ReactionButtonState extends State<ReactionButton> {
       } else
         await ReactionsService.createReaction(widget.url, _reaction.reaction)
             .then((value) {
-          _reaction.addUserReaction(value.id);
+          _reaction.addUserReaction(value!.id);
         });
-      widget.onChanged(_reaction);
+      widget.onChanged!(_reaction);
     } catch (e) {}
     setState(() {
       loading = false;
@@ -344,7 +342,7 @@ class _ReactionButtonState extends State<ReactionButton> {
   Widget build(BuildContext context) {
     return SizeExpandedSection(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+        padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4),
         child: Material(
             elevation: 2,
             color: _reaction.reacted ? AppColor.accent : AppColor.background,
@@ -371,9 +369,9 @@ class _ReactionButtonState extends State<ReactionButton> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ProfileTile(
-                            _reaction.users[index].avatarUrl,
+                            _reaction.users[index]!.avatarUrl,
                             padding: EdgeInsets.all(8),
-                            userLogin: _reaction.users[index].login,
+                            userLogin: _reaction.users[index]!.login,
                             showName: true,
                           ),
                         );
@@ -399,7 +397,7 @@ class _ReactionButtonState extends State<ReactionButton> {
                             SizedBox(
                               width: 8,
                             ),
-                            Text(_reaction.emoji),
+                            Text(_reaction.emoji!),
                             SizedBox(
                               width: 8,
                             ),

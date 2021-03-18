@@ -9,22 +9,22 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/parse_base64.dart';
 
 class PatchViewController {
-  bool Function() wrap;
+  late bool? Function() wrap;
 }
 
 // Todo: I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
 class PatchViewer extends StatefulWidget {
-  final String patch;
-  final String contentURL;
-  final String fileType;
-  final bool wrap;
-  final PatchViewController controller;
+  final String? patch;
+  final String? contentURL;
+  final String? fileType;
+  final bool? wrap;
+  final PatchViewController? controller;
 
   /// Pass this as true before starting parsing to prevent lag.
   /// Todo: Remove?
   final bool waitBeforeLoad;
   PatchViewer(
-      {Key key,
+      {Key? key,
       this.patch,
       this.wrap = false,
       this.contentURL,
@@ -38,16 +38,16 @@ class PatchViewer extends StatefulWidget {
 }
 
 class _PatchViewerState extends State<PatchViewer> {
-  _PatchViewerState(PatchViewController controller) {
+  _PatchViewerState(PatchViewController? controller) {
     if (controller != null) controller.wrap = changeWrap;
   }
-  String patch;
+  String? patch;
   int maxChars = 0;
-  List<String> rawData;
+  List<String>? rawData;
   bool loading = true;
   final PatchViewController controller = PatchViewController();
 
-  bool wrap;
+  bool? wrap;
 
   @override
   void initState() {
@@ -57,9 +57,9 @@ class _PatchViewerState extends State<PatchViewer> {
     super.initState();
   }
 
-  bool changeWrap() {
+  bool? changeWrap() {
     setState(() {
-      wrap = !wrap;
+      wrap = !wrap!;
     });
     controller.wrap();
     return wrap;
@@ -77,21 +77,21 @@ class _PatchViewerState extends State<PatchViewer> {
 
   Future fetchBlobFile() async {
     BlobModel blob =
-        await GitDatabaseService.getFileContents(widget.contentURL);
-    String data = blob.content;
+        await GitDatabaseService.getFileContents(widget.contentURL!);
+    String data = blob.content!;
     rawData = parseBase64(data);
-    for (String str in rawData)
+    for (String str in rawData!)
       if (str.length > maxChars) maxChars = str.length;
   }
 
   void regex() async {
-    RegExpMatch firstHeader = RegExp(r"(?:@@ )(.*)(?: @@)").firstMatch(patch);
+    RegExpMatch firstHeader = RegExp(r"(?:@@ )(.*)(?: @@)").firstMatch(patch!)!;
     makeCodeChunks(firstHeader);
-    patch = patch.replaceFirst(RegExp(r"(?=@@)(.*)(?<=@@)"), '', 0);
-    RegExp(r"(?:\n)(?:@@ )(.*)(?: @@)").allMatches(patch).forEach((element) {
+    patch = patch!.replaceFirst(RegExp(r"(?=@@)(.*)(?<=@@)"), '', 0);
+    RegExp(r"(?:\n)(?:@@ )(.*)(?: @@)").allMatches(patch!).forEach((element) {
       makeCodeChunks(element);
     });
-    codeSplit.addAll(patch.split(RegExp(r"(?:\n)(?=@@)(.*)(?<=@@)")));
+    codeSplit.addAll(patch!.split(RegExp(r"(?:\n)(?=@@)(.*)(?<=@@)")));
     for (int i = 0; i < codeSplit.length; i++) {
       codeChunks[i]['code'] = codeSplit[i].split('\n');
       for (String str in codeChunks[i]['code']) {
@@ -131,7 +131,8 @@ class _PatchViewerState extends State<PatchViewer> {
 
     int getAddIndex = codeChunks[chunkIndex]['startAdd'];
 
-    List<String> displayCodeWithoutFirstLine = displayCode.sublist(1);
+    List<String> displayCodeWithoutFirstLine =
+        displayCode.sublist(1) as List<String>;
 
     return ListView.builder(
         shrinkWrap: true,
@@ -203,7 +204,7 @@ class _PatchViewerState extends State<PatchViewer> {
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Container(
-              width: wrap
+              width: wrap!
                   ? MediaQuery.of(context).size.width
                   : maxChars.toDouble() * 10,
               child: ListView.builder(
@@ -216,19 +217,20 @@ class _PatchViewerState extends State<PatchViewer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        if(codeChunks[index]['startAdd']!=null)ChunkHeader(
-                          codeChunks: codeChunks,
-                          displayCode: displayCode,
-                          displayHeader: displayHeader,
-                          index: index,
-                          startRemove: codeChunks[index]['startRemove'],
-                          maxChars: maxChars,
-                          fileType: widget.fileType,
-                          rawData: rawData,
-                          wrap: wrap,
-                          controller: controller,
-                          startAdd: codeChunks[index]['startAdd'],
-                        ),
+                        if (codeChunks[index]['startAdd'] != null)
+                          ChunkHeader(
+                            codeChunks: codeChunks,
+                            displayCode: displayCode,
+                            displayHeader: displayHeader,
+                            index: index,
+                            startRemove: codeChunks[index]['startRemove'],
+                            maxChars: maxChars,
+                            fileType: widget.fileType,
+                            rawData: rawData,
+                            wrap: wrap,
+                            controller: controller,
+                            startAdd: codeChunks[index]['startAdd'],
+                          ),
                         showCodeChunk(displayCode, index),
                       ],
                     );
@@ -255,11 +257,11 @@ class _PatchViewerState extends State<PatchViewer> {
 }
 
 class CodeChunk {
-  int addStartLine;
-  int addStartingLength;
-  int removeStartLine;
-  int removeStartingLength;
-  List<String> code;
+  int? addStartLine;
+  int? addStartingLength;
+  int? removeStartLine;
+  int? removeStartingLength;
+  List<String>? code;
 
   CodeChunk(
       {this.code,
@@ -280,17 +282,17 @@ class CodeChunk {
 }
 
 class ChunkHeader extends StatefulWidget {
-  final List<String> rawData;
-  final int index;
-  final List<String> displayCode;
-  final int startAdd;
-  final int startRemove;
-  final String fileType;
-  final List<Map> codeChunks;
-  final int maxChars;
-  final bool wrap;
-  final List<String> displayHeader;
-  final PatchViewController controller;
+  final List<String>? rawData;
+  final int? index;
+  final List<String>? displayCode;
+  final int? startAdd;
+  final int? startRemove;
+  final String? fileType;
+  final List<Map>? codeChunks;
+  final int? maxChars;
+  final bool? wrap;
+  final List<String>? displayHeader;
+  final PatchViewController? controller;
 
   ChunkHeader(
       {this.codeChunks,
@@ -309,12 +311,12 @@ class ChunkHeader extends StatefulWidget {
 }
 
 class _ChunkHeaderState extends State<ChunkHeader> {
-  _ChunkHeaderState(PatchViewController controller) {
+  _ChunkHeaderState(PatchViewController? controller) {
     if (controller != null) controller.wrap = changeWrap;
   }
   bool expanded = false;
-  List<String> data;
-  bool wrap;
+  late List<String> data;
+  bool? wrap;
 
   @override
   void initState() {
@@ -325,22 +327,22 @@ class _ChunkHeaderState extends State<ChunkHeader> {
     super.initState();
   }
 
-  bool changeWrap() {
+  bool? changeWrap() {
     setState(() {
-      wrap = !wrap;
+      wrap = !wrap!;
     });
     return wrap;
   }
 
   void setupData() {
     if (widget.index == 0) {
-      data = widget.rawData.sublist(0, widget.startAdd - 1);
+      data = widget.rawData!.sublist(0, widget.startAdd! - 1);
     } else {
-      data = widget.rawData.sublist(
-          (widget.codeChunks[widget.index - 1]['startAdd'] +
-                  widget.codeChunks[widget.index - 1]['lengthAdd']) ??
+      data = widget.rawData!.sublist(
+          (widget.codeChunks![widget.index! - 1]['startAdd'] +
+                  widget.codeChunks![widget.index! - 1]['lengthAdd']) ??
               1 - 1,
-          widget.startAdd - 1);
+          widget.startAdd! - 1);
     }
   }
 
@@ -349,9 +351,9 @@ class _ChunkHeaderState extends State<ChunkHeader> {
     if (expanded) {
       return SizeExpandedSection(
         child: Container(
-          width: wrap
+          width: wrap!
               ? MediaQuery.of(context).size.width
-              : widget.maxChars.toDouble() * 10,
+              : widget.maxChars!.toDouble() * 10,
           child: ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -370,7 +372,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                           width: 35,
                           child: Text(widget.index == 0
                               ? '${index + 1}'
-                              : '${widget.codeChunks[widget.index - 1]['startRemove'] + widget.codeChunks[widget.index - 1]['lengthRemove'] + index}'),
+                              : '${widget.codeChunks![widget.index! - 1]['startRemove'] + widget.codeChunks![widget.index! - 1]['lengthRemove'] + index}'),
                         ),
                         SizedBox(
                           width: 10,
@@ -379,7 +381,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                           width: 35,
                           child: Text(widget.index == 0
                               ? '${index + 1}'
-                              : '${widget.codeChunks[widget.index - 1]['startAdd'] + widget.codeChunks[widget.index - 1]['lengthAdd'] + index}'),
+                              : '${widget.codeChunks![widget.index! - 1]['startAdd'] + widget.codeChunks![widget.index! - 1]['lengthAdd'] + index}'),
                         ),
                         SizedBox(
                           width: 25,
@@ -418,12 +420,12 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                 width: 8,
               ),
               Text(
-                widget.displayHeader[widget.index],
+                widget.displayHeader![widget.index!],
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
               Flexible(
                 child: Text(
-                  widget.displayCode[0],
+                  widget.displayCode![0],
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),

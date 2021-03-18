@@ -1,41 +1,51 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:onehub/app/global.dart';
 
 class CacheManager {
-  static CacheOptions notifications({bool refresh = false}) =>
-      _template(refresh);
+  static CustomCacheOptions notifications({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
-  static CacheOptions currentUserProfileInfo({bool refresh = false}) =>
-      _template(refresh);
+  static CustomCacheOptions currentUserProfileInfo({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
-  static CacheOptions userProfileInfo({bool refresh = false}) =>
-      _template(refresh);
+  static CustomCacheOptions userProfileInfo({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
-  static CacheOptions repositories({bool refresh = false}) =>
-      _template(refresh);
+  static CustomCacheOptions repositories({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
-  static CacheOptions search({bool refresh = false}) => _template(refresh);
+  static CustomCacheOptions search({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
-  static CacheOptions events({bool refresh = false}) => _template(refresh);
+  static CustomCacheOptions events({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
-  static CacheOptions defaultCache({bool refresh = false}) =>
-      _template(refresh);
+  static CustomCacheOptions reactions() => CustomCacheOptions(true);
+
+  static CustomCacheOptions defaultCache({bool refresh = false}) =>
+      CustomCacheOptions(refresh);
 
   static void clearCache() async {
-    await DbCacheStore().clean();
+    await DbCacheStore(databasePath: Global.directoryPath!).clean();
   }
+}
 
-  static CacheOptions _template(
-    bool refresh, {
+class CustomCacheOptions extends CacheOptions {
+  final Duration maxAge;
+  final bool refresh;
+  CustomCacheOptions(
+    this.refresh, {
+    this.maxAge = const Duration(minutes: 15),
     CachePolicy policy = CachePolicy.request,
-    List<int> exceptions = const [401, 403],
-    CachePriority priority = CachePriority.normal,
+    List<int> hitCacheOnErrorExcept = const [401, 403],
+    CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     Duration maxStale = const Duration(days: 7),
-  }) =>
-      CacheOptions(
-        store: DbCacheStore(),
-        policy: refresh ? CachePolicy.refresh : policy,
-        hitCacheOnErrorExcept: exceptions,
-        priority: priority,
-        maxStale: maxStale,
-      );
+    CachePriority priority = CachePriority.normal,
+  }) : super(
+            store: Global.cacheStore,
+            policy: refresh ? CachePolicy.refresh : policy,
+            hitCacheOnErrorExcept: hitCacheOnErrorExcept,
+            keyBuilder: keyBuilder,
+            maxStale: maxStale,
+            priority: priority);
 }

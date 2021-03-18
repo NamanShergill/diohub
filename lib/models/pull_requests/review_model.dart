@@ -19,30 +19,30 @@ class ReviewModel {
     this.commitId,
   });
 
-  int id;
-  String nodeId;
-  User user;
-  String body;
-  String state;
-  String htmlUrl;
-  String pullRequestUrl;
-  String authorAssociation;
-  Links links;
-  DateTime submittedAt;
-  String commitId;
+  int? id;
+  String? nodeId;
+  User? user;
+  String? body;
+  String? state;
+  String? htmlUrl;
+  String? pullRequestUrl;
+  String? authorAssociation;
+  Links? links;
+  DateTime? submittedAt;
+  String? commitId;
 
   ReviewModel copyWith({
-    int id,
-    String nodeId,
-    User user,
-    String body,
-    String state,
-    String htmlUrl,
-    String pullRequestUrl,
-    String authorAssociation,
-    Links links,
-    DateTime submittedAt,
-    String commitId,
+    int? id,
+    String? nodeId,
+    User? user,
+    String? body,
+    String? state,
+    String? htmlUrl,
+    String? pullRequestUrl,
+    String? authorAssociation,
+    Links? links,
+    DateTime? submittedAt,
+    String? commitId,
   }) =>
       ReviewModel(
         id: id ?? this.id,
@@ -85,16 +85,16 @@ class ReviewModel {
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,
-        "user": user == null ? null : user.toJson(),
+        "user": user == null ? null : user!.toJson(),
         "body": body == null ? null : body,
         "state": state == null ? null : state,
         "html_url": htmlUrl == null ? null : htmlUrl,
         "pull_request_url": pullRequestUrl == null ? null : pullRequestUrl,
         "author_association":
             authorAssociation == null ? null : authorAssociation,
-        "_links": links == null ? null : links.toJson(),
+        "_links": links == null ? null : links!.toJson(),
         "submitted_at":
-            submittedAt == null ? null : submittedAt.toIso8601String(),
+            submittedAt == null ? null : submittedAt!.toIso8601String(),
         "commit_id": commitId == null ? null : commitId,
       };
 }
@@ -105,12 +105,12 @@ class Links {
     this.pullRequest,
   });
 
-  Html html;
-  Html pullRequest;
+  Html? html;
+  Html? pullRequest;
 
   Links copyWith({
-    Html html,
-    Html pullRequest,
+    Html? html,
+    Html? pullRequest,
   }) =>
       Links(
         html: html ?? this.html,
@@ -129,8 +129,8 @@ class Links {
       );
 
   Map<String, dynamic> toJson() => {
-        "html": html == null ? null : html.toJson(),
-        "pull_request": pullRequest == null ? null : pullRequest.toJson(),
+        "html": html == null ? null : html!.toJson(),
+        "pull_request": pullRequest == null ? null : pullRequest!.toJson(),
       };
 }
 
@@ -139,10 +139,10 @@ class Html {
     this.href,
   });
 
-  String href;
+  String? href;
 
   Html copyWith({
-    String href,
+    String? href,
   }) =>
       Html(
         href: href ?? this.href,
@@ -183,44 +183,44 @@ class User {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  String type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  String? type;
+  bool? siteAdmin;
 
   User copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    String type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    String? type,
+    bool? siteAdmin,
   }) =>
       User(
         login: login ?? this.login,

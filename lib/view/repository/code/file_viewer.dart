@@ -13,11 +13,11 @@ import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/parse_base64.dart';
 
 class FileViewerAPI extends StatefulWidget {
-  final String repoURL;
-  final String branch;
-  final String repoName;
-  final String fileName;
-  final String sha;
+  final String? repoURL;
+  final String? branch;
+  final String? repoName;
+  final String? fileName;
+  final String? sha;
   FileViewerAPI(this.sha,
       {this.repoURL, this.fileName, this.branch, this.repoName});
 
@@ -28,22 +28,22 @@ class FileViewerAPI extends StatefulWidget {
 class _FileViewerAPIState extends State<FileViewerAPI> {
   final ContentViewController contentViewController = ContentViewController();
 
-  String fileExtension;
-  String fileType;
+  String? fileExtension;
+  String? fileType;
   bool wrapText = false;
   // bool editing = false;
-  bool enableWrap;
+  late bool enableWrap;
 
   @override
   void initState() {
-    fileType = lookupMimeType(widget.fileName);
-    fileExtension = widget.fileName.split('.').last;
+    fileType = lookupMimeType(widget.fileName!);
+    fileExtension = widget.fileName!.split('.').last;
     enableWrap = checkFileForWrap();
     super.initState();
   }
 
   bool checkFileForWrap() {
-    if (fileType != null && fileType.startsWith('image'))
+    if (fileType != null && fileType!.startsWith('image'))
       return false;
     else if (fileExtension == 'md') return false;
     return true;
@@ -55,7 +55,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
       backgroundColor: AppColor.background,
       appBar: AppBar(
         title: Text(
-          widget.fileName,
+          widget.fileName!,
           style: TextStyle(fontSize: 14),
         ),
         actions: [
@@ -90,7 +90,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         getCall: GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
-          if (fileType != null && fileType.startsWith('image'))
+          if (fileType != null && fileType!.startsWith('image'))
             return Column(
               children: [
                 Expanded(
@@ -98,7 +98,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
                     color: Colors.white,
                     child: InteractiveViewer(
                         child: Image.memory(Uint8List.fromList(
-                            base64Decode(blob.content.split('\n').join())))),
+                            base64Decode(blob.content!.split('\n').join())))),
                   ),
                 ),
               ],
@@ -117,16 +117,16 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
 }
 
 class ContentViewController {
-  bool Function() wrap;
-  bool Function() edit;
+  late bool Function() wrap;
+  bool Function()? edit;
 }
 
 class TextViewer extends StatefulWidget {
   final BlobModel blob;
-  final String fileName;
-  final ContentViewController contentViewController;
-  final String branch;
-  final String repoName;
+  final String? fileName;
+  final ContentViewController? contentViewController;
+  final String? branch;
+  final String? repoName;
   TextViewer(this.blob, this.fileName,
       {this.contentViewController, this.branch, this.repoName});
   @override
@@ -134,25 +134,25 @@ class TextViewer extends StatefulWidget {
 }
 
 class _TextViewerState extends State<TextViewer> {
-  _TextViewerState(ContentViewController contentViewController) {
+  _TextViewerState(ContentViewController? contentViewController) {
     if (contentViewController != null) {
       contentViewController.wrap = changeWrap;
       // contentViewController.edit = edit;
     }
   }
   bool loading = true;
-  List<String> content;
+  late List<String> content;
   bool wrapText = false;
   // bool editing = false;
   int numberOfMaxChars = 0;
-  String fileType;
+  String? fileType;
   // final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
-    content = parseBase64(widget.blob.content);
+    content = parseBase64(widget.blob.content!);
     for (String str in content)
       if (str.length > numberOfMaxChars) numberOfMaxChars = str.length;
-    fileType = widget.fileName.split('.').last;
+    fileType = widget.fileName!.split('.').last;
     super.initState();
   }
 

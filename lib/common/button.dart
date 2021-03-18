@@ -6,21 +6,21 @@ import 'package:onehub/style/colors.dart';
 
 class Button extends StatefulWidget {
   final bool listenToLoadingController;
-  final Function onTap;
-  final Color color;
+  final Function? onTap;
+  final Color? color;
   final bool enabled;
   final Widget child;
-  final Icon leadingIcon;
+  final Icon? leadingIcon;
   final double borderRadius;
-  final Widget loadingWidget;
+  final Widget? loadingWidget;
   final bool stretch;
   final bool loading;
   final double elevation;
   final EdgeInsets padding;
   Button({
     this.listenToLoadingController = true,
-    @required this.onTap,
-    @required this.child,
+    required this.onTap,
+    required this.child,
     this.enabled = true,
     this.stretch = true,
     this.color,
@@ -71,7 +71,7 @@ class _ButtonState extends State<Button> {
       disabledTextColor: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
-      onPressed: widget.enabled && !loading ? widget.onTap : null,
+      onPressed: widget.enabled && !loading ? widget.onTap as void Function()? : null,
       color: widget.color ?? AppColor.accent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -112,23 +112,23 @@ class _ButtonState extends State<Button> {
 
 class StringButton extends StatelessWidget {
   final bool listenToLoadingController;
-  final Function onTap;
-  final Color color;
+  final Function? onTap;
+  final Color? color;
   final bool enabled;
-  final double textSize;
-  final String title;
-  final String subtitle;
-  final Icon leadingIcon;
+  final double? textSize;
+  final String? title;
+  final String? subtitle;
+  final Icon? leadingIcon;
   final double borderRadius;
-  final String loadingText;
+  final String? loadingText;
   final bool stretch;
   final double elevation;
   final EdgeInsets padding;
 
   StringButton({
     this.listenToLoadingController = true,
-    @required this.onTap,
-    @required this.title,
+    required this.onTap,
+    required this.title,
     this.enabled = true,
     this.stretch = true,
     this.color,
@@ -147,9 +147,9 @@ class StringButton extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            title,
+            title!,
             style:
-                Theme.of(context).textTheme.button.copyWith(fontSize: textSize),
+                Theme.of(context).textTheme.button!.copyWith(fontSize: textSize),
           ),
           Visibility(
               visible: subtitle != null,
@@ -161,7 +161,7 @@ class StringButton extends StatelessWidget {
       ),
       loadingWidget: Text(loadingText ?? '',
           style:
-              Theme.of(context).textTheme.button.copyWith(fontSize: textSize)),
+              Theme.of(context).textTheme.button!.copyWith(fontSize: textSize)),
       color: color,
       borderRadius: borderRadius,
       leadingIcon: leadingIcon,

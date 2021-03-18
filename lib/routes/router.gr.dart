@@ -197,7 +197,7 @@ class LandingAuthWrapperScreenRoute
       : super(name,
             path: '/', args: LandingAuthWrapperScreenRouteArgs(key: key));
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
   static const String name = 'LandingAuthWrapperScreenRoute';
 }
@@ -205,7 +205,7 @@ class LandingAuthWrapperScreenRoute
 class LandingAuthWrapperScreenRouteArgs {
   const LandingAuthWrapperScreenRouteArgs({this.key});
 
-  final _i12.Key key;
+  final _i12.Key? key;
 }
 
 class SearchOverlayScreenRoute extends _i1.PageRouteInfo {
@@ -218,11 +218,7 @@ class SearchOverlayScreenRoute extends _i1.PageRouteInfo {
 class RepositoryScreenRoute
     extends _i1.PageRouteInfo<RepositoryScreenRouteArgs> {
   RepositoryScreenRoute(
-      {required this.repositoryURL,
-      this.branch,
-      this.index = 0,
-      this.key,
-      this.initSHA})
+      {this.repositoryURL, this.branch, this.index = 0, this.key, this.initSHA})
       : super(name,
             path: '/repository-screen',
             args: RepositoryScreenRouteArgs(
@@ -232,45 +228,41 @@ class RepositoryScreenRoute
                 key: key,
                 initSHA: initSHA));
 
-  final String repositoryURL;
+  final String? repositoryURL;
 
-  final String branch;
+  final String? branch;
 
   final int index;
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
-  final String initSHA;
+  final String? initSHA;
 
   static const String name = 'RepositoryScreenRoute';
 }
 
 class RepositoryScreenRouteArgs {
   const RepositoryScreenRouteArgs(
-      {required this.repositoryURL,
+      {this.repositoryURL,
       this.branch,
       this.index = 0,
       this.key,
       this.initSHA});
 
-  final String repositoryURL;
+  final String? repositoryURL;
 
-  final String branch;
+  final String? branch;
 
   final int index;
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
-  final String initSHA;
+  final String? initSHA;
 }
 
 class FileViewerAPIRoute extends _i1.PageRouteInfo<FileViewerAPIRouteArgs> {
   FileViewerAPIRoute(
-      {required this.sha,
-      this.repoURL,
-      this.fileName,
-      this.branch,
-      this.repoName})
+      {this.sha, this.repoURL, this.fileName, this.branch, this.repoName})
       : super(name,
             path: '/file-viewer-ap-i',
             args: FileViewerAPIRouteArgs(
@@ -280,36 +272,32 @@ class FileViewerAPIRoute extends _i1.PageRouteInfo<FileViewerAPIRouteArgs> {
                 branch: branch,
                 repoName: repoName));
 
-  final String sha;
+  final String? sha;
 
-  final String repoURL;
+  final String? repoURL;
 
-  final String fileName;
+  final String? fileName;
 
-  final String branch;
+  final String? branch;
 
-  final String repoName;
+  final String? repoName;
 
   static const String name = 'FileViewerAPIRoute';
 }
 
 class FileViewerAPIRouteArgs {
   const FileViewerAPIRouteArgs(
-      {required this.sha,
-      this.repoURL,
-      this.fileName,
-      this.branch,
-      this.repoName});
+      {this.sha, this.repoURL, this.fileName, this.branch, this.repoName});
 
-  final String sha;
+  final String? sha;
 
-  final String repoURL;
+  final String? repoURL;
 
-  final String fileName;
+  final String? fileName;
 
-  final String branch;
+  final String? branch;
 
-  final String repoName;
+  final String? repoName;
 }
 
 class CommitInfoScreenRoute
@@ -319,9 +307,9 @@ class CommitInfoScreenRoute
             path: '/commit-info-screen',
             args: CommitInfoScreenRouteArgs(key: key, commitURL: commitURL));
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
-  final String commitURL;
+  final String? commitURL;
 
   static const String name = 'CommitInfoScreenRoute';
 }
@@ -329,9 +317,9 @@ class CommitInfoScreenRoute
 class CommitInfoScreenRouteArgs {
   const CommitInfoScreenRouteArgs({this.key, this.commitURL});
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
-  final String commitURL;
+  final String? commitURL;
 }
 
 class WikiViewerRoute extends _i1.PageRouteInfo<WikiViewerRouteArgs> {
@@ -340,9 +328,9 @@ class WikiViewerRoute extends _i1.PageRouteInfo<WikiViewerRouteArgs> {
             path: '/wiki-viewer',
             args: WikiViewerRouteArgs(key: key, repoURL: repoURL));
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
-  final String repoURL;
+  final String? repoURL;
 
   static const String name = 'WikiViewerRoute';
 }
@@ -350,63 +338,58 @@ class WikiViewerRoute extends _i1.PageRouteInfo<WikiViewerRouteArgs> {
 class WikiViewerRouteArgs {
   const WikiViewerRouteArgs({this.key, this.repoURL});
 
-  final _i12.Key key;
+  final _i12.Key? key;
 
-  final String repoURL;
+  final String? repoURL;
 }
 
 class ChangesViewerRoute extends _i1.PageRouteInfo<ChangesViewerRouteArgs> {
-  ChangesViewerRoute(
-      {required this.patch, required this.contentURL, required this.fileType})
+  ChangesViewerRoute({this.patch, this.contentURL, this.fileType})
       : super(name,
             path: '/changes-viewer',
             args: ChangesViewerRouteArgs(
                 patch: patch, contentURL: contentURL, fileType: fileType));
 
-  final String patch;
+  final String? patch;
 
-  final String contentURL;
+  final String? contentURL;
 
-  final String fileType;
+  final String? fileType;
 
   static const String name = 'ChangesViewerRoute';
 }
 
 class ChangesViewerRouteArgs {
-  const ChangesViewerRouteArgs(
-      {required this.patch, required this.contentURL, required this.fileType});
+  const ChangesViewerRouteArgs({this.patch, this.contentURL, this.fileType});
 
-  final String patch;
+  final String? patch;
 
-  final String contentURL;
+  final String? contentURL;
 
-  final String fileType;
+  final String? fileType;
 }
 
 class OtherUserProfileScreenRoute
     extends _i1.PageRouteInfo<OtherUserProfileScreenRouteArgs> {
-  OtherUserProfileScreenRoute({required this.login})
+  OtherUserProfileScreenRoute({this.login})
       : super(name,
             path: '/other-user-profile-screen',
             args: OtherUserProfileScreenRouteArgs(login: login));
 
-  final String login;
+  final String? login;
 
   static const String name = 'OtherUserProfileScreenRoute';
 }
 
 class OtherUserProfileScreenRouteArgs {
-  const OtherUserProfileScreenRouteArgs({required this.login});
+  const OtherUserProfileScreenRouteArgs({this.login});
 
-  final String login;
+  final String? login;
 }
 
 class IssueScreenRoute extends _i1.PageRouteInfo<IssueScreenRouteArgs> {
   IssueScreenRoute(
-      {required this.issueURL,
-      required this.repoURL,
-      this.initialIndex = 0,
-      this.commentsSince})
+      {this.issueURL, this.repoURL, this.initialIndex = 0, this.commentsSince})
       : super(name,
             path: '/issue-screen',
             args: IssueScreenRouteArgs(
@@ -415,36 +398,32 @@ class IssueScreenRoute extends _i1.PageRouteInfo<IssueScreenRouteArgs> {
                 initialIndex: initialIndex,
                 commentsSince: commentsSince));
 
-  final String issueURL;
+  final String? issueURL;
 
-  final String repoURL;
+  final String? repoURL;
 
   final int initialIndex;
 
-  final DateTime commentsSince;
+  final DateTime? commentsSince;
 
   static const String name = 'IssueScreenRoute';
 }
 
 class IssueScreenRouteArgs {
   const IssueScreenRouteArgs(
-      {required this.issueURL,
-      required this.repoURL,
-      this.initialIndex = 0,
-      this.commentsSince});
+      {this.issueURL, this.repoURL, this.initialIndex = 0, this.commentsSince});
 
-  final String issueURL;
+  final String? issueURL;
 
-  final String repoURL;
+  final String? repoURL;
 
   final int initialIndex;
 
-  final DateTime commentsSince;
+  final DateTime? commentsSince;
 }
 
 class PullScreenRoute extends _i1.PageRouteInfo<PullScreenRouteArgs> {
-  PullScreenRoute(
-      {required this.pullURL, this.initialIndex = 0, this.commentsSince})
+  PullScreenRoute({this.pullURL, this.initialIndex = 0, this.commentsSince})
       : super(name,
             path: '/pull-screen',
             args: PullScreenRouteArgs(
@@ -452,22 +431,22 @@ class PullScreenRoute extends _i1.PageRouteInfo<PullScreenRouteArgs> {
                 initialIndex: initialIndex,
                 commentsSince: commentsSince));
 
-  final String pullURL;
+  final String? pullURL;
 
   final int initialIndex;
 
-  final DateTime commentsSince;
+  final DateTime? commentsSince;
 
   static const String name = 'PullScreenRoute';
 }
 
 class PullScreenRouteArgs {
   const PullScreenRouteArgs(
-      {required this.pullURL, this.initialIndex = 0, this.commentsSince});
+      {this.pullURL, this.initialIndex = 0, this.commentsSince});
 
-  final String pullURL;
+  final String? pullURL;
 
   final int initialIndex;
 
-  final DateTime commentsSince;
+  final DateTime? commentsSince;
 }

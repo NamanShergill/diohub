@@ -7,13 +7,13 @@ import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/style/colors.dart';
 
 class LabelSelectSheet extends StatefulWidget {
-  final String repoURL;
-  final String issueUrl;
-  final List<Label> labels;
-  final ScrollController controller;
-  final ValueChanged<List<Label>> newLabels;
+  final String? repoURL;
+  final String? issueUrl;
+  final List<Label>? labels;
+  final ScrollController? controller;
+  final ValueChanged<List<Label>>? newLabels;
   LabelSelectSheet(
-      {Key key,
+      {Key? key,
       this.labels,
       this.issueUrl,
       this.repoURL,
@@ -26,11 +26,11 @@ class LabelSelectSheet extends StatefulWidget {
 }
 
 class _LabelSelectSheetState extends State<LabelSelectSheet> {
-  List<String> labels;
+  List<String?>? labels;
 
   @override
   void initState() {
-    labels = widget.labels.map((e) => e.name).toList();
+    labels = widget.labels!.map((e) => e.name).toList();
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
                 List<Label> newLabels =
                     await IssuesService.setLabels(widget.issueUrl, labels);
                 Navigator.pop(context);
-                widget.newLabels(newLabels);
+                widget.newLabels!(newLabels);
               } catch (e) {}
             },
             child: Text('Apply'),
@@ -70,13 +70,13 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
               builder: (context, item, index) {
                 return CheckboxListTile(
                   activeColor: AppColor.accent,
-                  value: labels.contains(item.name),
+                  value: labels!.contains(item.name),
                   onChanged: (value) {
                     setState(() {
-                      if (labels.contains(item.name))
-                        labels.remove(item.name);
+                      if (labels!.contains(item.name))
+                        labels!.remove(item.name);
                       else
-                        labels.add(item.name);
+                        labels!.add(item.name);
                     });
                   },
                   title: IssueLabel(item),

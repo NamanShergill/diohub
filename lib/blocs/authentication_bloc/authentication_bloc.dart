@@ -37,7 +37,7 @@ class AuthenticationBloc
       }
     } else if (event is RequestAccessToken) {
       // Recurring function to request access token from Github on the supplied interval
-      void requestAccessToken(String deviceCode, int interval) async {
+      void requestAccessToken(String? deviceCode, int interval) async {
         // Wait the interval provided by Github before hitting the API to check the status of Authentication.
         await Future.delayed(Duration(seconds: interval));
         // Get the current Authentication state.
@@ -67,7 +67,7 @@ class AuthenticationBloc
       }
 
       // Initiate recursive function to request for access token at set intervals.
-      requestAccessToken(event.deviceCode, event.interval);
+      requestAccessToken(event.deviceCode, event.interval!);
     } else if (event is AuthSuccessful) {
       yield AuthenticationSuccessful();
     } else if (event is ResetStates) {

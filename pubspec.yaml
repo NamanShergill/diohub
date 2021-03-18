@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -16,7 +16,7 @@ dependencies:
   cached_network_image: ^3.0.0-nullsafety
   connectivity: ^3.0.2
   dio: ^4.0.0-beta7
-  dio_cache_interceptor: ^2.0.0-beta.7
+  dio_cache_interceptor: ^2.0.0-rc.1
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0-nullsafety.4
   flutter_countdown_timer: ^4.0.0
@@ -79,7 +79,7 @@ dependency_overrides:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets
   fonts:
     - family: Montserrat
       fonts:

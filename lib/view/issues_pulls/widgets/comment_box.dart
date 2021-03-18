@@ -6,7 +6,7 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class CommentBox extends StatefulWidget {
-  CommentBox({Key key}) : super(key: key);
+  CommentBox({Key? key}) : super(key: key);
 
   @override
   _CommentBoxState createState() => _CommentBoxState();

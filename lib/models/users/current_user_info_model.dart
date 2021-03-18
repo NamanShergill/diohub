@@ -3,13 +3,13 @@
 import 'package:onehub/models/users/user_info_model.dart';
 
 class CurrentUserInfoModel extends UserInfoModel {
-  int privateGists;
-  int totalPrivateRepos;
-  int ownedPrivateRepos;
-  int diskUsage;
-  int collaborators;
-  bool twoFactorAuthentication;
-  Plan plan;
+  int? privateGists;
+  int? totalPrivateRepos;
+  int? ownedPrivateRepos;
+  int? diskUsage;
+  int? collaborators;
+  bool? twoFactorAuthentication;
+  Plan? plan;
 
   CurrentUserInfoModel(
       {this.privateGists,
@@ -105,17 +105,17 @@ class CurrentUserInfoModel extends UserInfoModel {
     data['collaborators'] = this.collaborators;
     data['two_factor_authentication'] = this.twoFactorAuthentication;
     if (this.plan != null) {
-      data['plan'] = this.plan.toJson();
+      data['plan'] = this.plan!.toJson();
     }
     return data;
   }
 }
 
 class Plan {
-  String name;
-  int space;
-  int privateRepos;
-  int collaborators;
+  String? name;
+  int? space;
+  int? privateRepos;
+  int? collaborators;
 
   Plan({this.name, this.space, this.privateRepos, this.collaborators});
 

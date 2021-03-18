@@ -87,166 +87,166 @@ class RepositoryModel {
     this.subscribersCount,
   });
 
-  int id;
-  String nodeId;
-  String name;
-  String fullName;
-  bool private;
-  Owner owner;
-  String htmlUrl;
-  String description;
-  bool fork;
-  String url;
-  String forksUrl;
-  String keysUrl;
-  String collaboratorsUrl;
-  String teamsUrl;
-  String hooksUrl;
-  String issueEventsUrl;
-  String eventsUrl;
-  String assigneesUrl;
-  String branchesUrl;
-  String tagsUrl;
-  String blobsUrl;
-  String gitTagsUrl;
-  String gitRefsUrl;
-  String treesUrl;
-  String statusesUrl;
-  String languagesUrl;
-  String stargazersUrl;
-  String contributorsUrl;
-  String subscribersUrl;
-  String subscriptionUrl;
-  String commitsUrl;
-  String gitCommitsUrl;
-  String commentsUrl;
-  String issueCommentUrl;
-  String contentsUrl;
-  String compareUrl;
-  String mergesUrl;
-  String archiveUrl;
-  String downloadsUrl;
-  String issuesUrl;
-  String pullsUrl;
-  String milestonesUrl;
-  String notificationsUrl;
-  String labelsUrl;
-  String releasesUrl;
-  String deploymentsUrl;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime pushedAt;
-  String gitUrl;
-  String sshUrl;
-  String cloneUrl;
-  String svnUrl;
-  String homepage;
-  int size;
-  int stargazersCount;
-  int watchersCount;
-  String language;
-  bool hasIssues;
-  bool hasProjects;
-  bool hasDownloads;
-  bool hasWiki;
-  bool hasPages;
-  int forksCount;
+  int? id;
+  String? nodeId;
+  String? name;
+  String? fullName;
+  bool? private;
+  Owner? owner;
+  String? htmlUrl;
+  String? description;
+  bool? fork;
+  String? url;
+  String? forksUrl;
+  String? keysUrl;
+  String? collaboratorsUrl;
+  String? teamsUrl;
+  String? hooksUrl;
+  String? issueEventsUrl;
+  String? eventsUrl;
+  String? assigneesUrl;
+  String? branchesUrl;
+  String? tagsUrl;
+  String? blobsUrl;
+  String? gitTagsUrl;
+  String? gitRefsUrl;
+  String? treesUrl;
+  String? statusesUrl;
+  String? languagesUrl;
+  String? stargazersUrl;
+  String? contributorsUrl;
+  String? subscribersUrl;
+  String? subscriptionUrl;
+  String? commitsUrl;
+  String? gitCommitsUrl;
+  String? commentsUrl;
+  String? issueCommentUrl;
+  String? contentsUrl;
+  String? compareUrl;
+  String? mergesUrl;
+  String? archiveUrl;
+  String? downloadsUrl;
+  String? issuesUrl;
+  String? pullsUrl;
+  String? milestonesUrl;
+  String? notificationsUrl;
+  String? labelsUrl;
+  String? releasesUrl;
+  String? deploymentsUrl;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? pushedAt;
+  String? gitUrl;
+  String? sshUrl;
+  String? cloneUrl;
+  String? svnUrl;
+  String? homepage;
+  int? size;
+  int? stargazersCount;
+  int? watchersCount;
+  String? language;
+  bool? hasIssues;
+  bool? hasProjects;
+  bool? hasDownloads;
+  bool? hasWiki;
+  bool? hasPages;
+  int? forksCount;
   dynamic mirrorUrl;
-  bool archived;
-  bool disabled;
-  int openIssuesCount;
-  License license;
-  int forks;
-  int openIssues;
-  int watchers;
-  String defaultBranch;
-  Permissions permissions;
-  String tempCloneToken;
-  RepositoryModel parent;
-  RepositoryModel source;
-  int networkCount;
-  int subscribersCount;
+  bool? archived;
+  bool? disabled;
+  int? openIssuesCount;
+  License? license;
+  int? forks;
+  int? openIssues;
+  int? watchers;
+  String? defaultBranch;
+  Permissions? permissions;
+  String? tempCloneToken;
+  RepositoryModel? parent;
+  RepositoryModel? source;
+  int? networkCount;
+  int? subscribersCount;
 
   RepositoryModel copyWith({
-    int id,
-    String nodeId,
-    String name,
-    String fullName,
-    bool private,
-    Owner owner,
-    String htmlUrl,
-    String description,
-    bool fork,
-    String url,
-    String forksUrl,
-    String keysUrl,
-    String collaboratorsUrl,
-    String teamsUrl,
-    String hooksUrl,
-    String issueEventsUrl,
-    String eventsUrl,
-    String assigneesUrl,
-    String branchesUrl,
-    String tagsUrl,
-    String blobsUrl,
-    String gitTagsUrl,
-    String gitRefsUrl,
-    String treesUrl,
-    String statusesUrl,
-    String languagesUrl,
-    String stargazersUrl,
-    String contributorsUrl,
-    String subscribersUrl,
-    String subscriptionUrl,
-    String commitsUrl,
-    String gitCommitsUrl,
-    String commentsUrl,
-    String issueCommentUrl,
-    String contentsUrl,
-    String compareUrl,
-    String mergesUrl,
-    String archiveUrl,
-    String downloadsUrl,
-    String issuesUrl,
-    String pullsUrl,
-    String milestonesUrl,
-    String notificationsUrl,
-    String labelsUrl,
-    String releasesUrl,
-    String deploymentsUrl,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime pushedAt,
-    String gitUrl,
-    String sshUrl,
-    String cloneUrl,
-    String svnUrl,
-    String homepage,
-    int size,
-    int stargazersCount,
-    int watchersCount,
-    String language,
-    bool hasIssues,
-    bool hasProjects,
-    bool hasDownloads,
-    bool hasWiki,
-    bool hasPages,
-    int forksCount,
+    int? id,
+    String? nodeId,
+    String? name,
+    String? fullName,
+    bool? private,
+    Owner? owner,
+    String? htmlUrl,
+    String? description,
+    bool? fork,
+    String? url,
+    String? forksUrl,
+    String? keysUrl,
+    String? collaboratorsUrl,
+    String? teamsUrl,
+    String? hooksUrl,
+    String? issueEventsUrl,
+    String? eventsUrl,
+    String? assigneesUrl,
+    String? branchesUrl,
+    String? tagsUrl,
+    String? blobsUrl,
+    String? gitTagsUrl,
+    String? gitRefsUrl,
+    String? treesUrl,
+    String? statusesUrl,
+    String? languagesUrl,
+    String? stargazersUrl,
+    String? contributorsUrl,
+    String? subscribersUrl,
+    String? subscriptionUrl,
+    String? commitsUrl,
+    String? gitCommitsUrl,
+    String? commentsUrl,
+    String? issueCommentUrl,
+    String? contentsUrl,
+    String? compareUrl,
+    String? mergesUrl,
+    String? archiveUrl,
+    String? downloadsUrl,
+    String? issuesUrl,
+    String? pullsUrl,
+    String? milestonesUrl,
+    String? notificationsUrl,
+    String? labelsUrl,
+    String? releasesUrl,
+    String? deploymentsUrl,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? pushedAt,
+    String? gitUrl,
+    String? sshUrl,
+    String? cloneUrl,
+    String? svnUrl,
+    String? homepage,
+    int? size,
+    int? stargazersCount,
+    int? watchersCount,
+    String? language,
+    bool? hasIssues,
+    bool? hasProjects,
+    bool? hasDownloads,
+    bool? hasWiki,
+    bool? hasPages,
+    int? forksCount,
     dynamic mirrorUrl,
-    bool archived,
-    bool disabled,
-    int openIssuesCount,
-    License license,
-    int forks,
-    int openIssues,
-    int watchers,
-    String defaultBranch,
-    Permissions permissions,
-    String tempCloneToken,
-    RepositoryModel parent,
-    RepositoryModel source,
-    int networkCount,
-    int subscribersCount,
+    bool? archived,
+    bool? disabled,
+    int? openIssuesCount,
+    License? license,
+    int? forks,
+    int? openIssues,
+    int? watchers,
+    String? defaultBranch,
+    Permissions? permissions,
+    String? tempCloneToken,
+    RepositoryModel? parent,
+    RepositoryModel? source,
+    int? networkCount,
+    int? subscribersCount,
   }) =>
       RepositoryModel(
         id: id ?? this.id,
@@ -464,7 +464,7 @@ class RepositoryModel {
         "name": name == null ? null : name,
         "full_name": fullName == null ? null : fullName,
         "private": private == null ? null : private,
-        "owner": owner == null ? null : owner.toJson(),
+        "owner": owner == null ? null : owner!.toJson(),
         "html_url": htmlUrl == null ? null : htmlUrl,
         "description": description == null ? null : description,
         "fork": fork == null ? null : fork,
@@ -505,9 +505,9 @@ class RepositoryModel {
         "labels_url": labelsUrl == null ? null : labelsUrl,
         "releases_url": releasesUrl == null ? null : releasesUrl,
         "deployments_url": deploymentsUrl == null ? null : deploymentsUrl,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "pushed_at": pushedAt == null ? null : pushedAt.toIso8601String(),
+        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+        "pushed_at": pushedAt == null ? null : pushedAt!.toIso8601String(),
         "git_url": gitUrl == null ? null : gitUrl,
         "ssh_url": sshUrl == null ? null : sshUrl,
         "clone_url": cloneUrl == null ? null : cloneUrl,
@@ -527,15 +527,15 @@ class RepositoryModel {
         "archived": archived == null ? null : archived,
         "disabled": disabled == null ? null : disabled,
         "open_issues_count": openIssuesCount == null ? null : openIssuesCount,
-        "license": license == null ? null : license.toJson(),
+        "license": license == null ? null : license!.toJson(),
         "forks": forks == null ? null : forks,
         "open_issues": openIssues == null ? null : openIssues,
         "watchers": watchers == null ? null : watchers,
         "default_branch": defaultBranch == null ? null : defaultBranch,
-        "permissions": permissions == null ? null : permissions.toJson(),
+        "permissions": permissions == null ? null : permissions!.toJson(),
         "temp_clone_token": tempCloneToken == null ? null : tempCloneToken,
-        "parent": parent == null ? null : parent.toJson(),
-        "source": source == null ? null : source.toJson(),
+        "parent": parent == null ? null : parent!.toJson(),
+        "source": source == null ? null : source!.toJson(),
         "network_count": networkCount == null ? null : networkCount,
         "subscribers_count": subscribersCount == null ? null : subscribersCount,
       };
@@ -550,18 +550,18 @@ class License {
     this.nodeId,
   });
 
-  String key;
-  String name;
-  String spdxId;
-  String url;
-  String nodeId;
+  String? key;
+  String? name;
+  String? spdxId;
+  String? url;
+  String? nodeId;
 
   License copyWith({
-    String key,
-    String name,
-    String spdxId,
-    String url,
-    String nodeId,
+    String? key,
+    String? name,
+    String? spdxId,
+    String? url,
+    String? nodeId,
   }) =>
       License(
         key: key ?? this.key,
@@ -614,44 +614,44 @@ class Owner {
     this.siteAdmin,
   });
 
-  String login;
-  int id;
-  String nodeId;
-  String avatarUrl;
-  String gravatarId;
-  String url;
-  String htmlUrl;
-  String followersUrl;
-  String followingUrl;
-  String gistsUrl;
-  String starredUrl;
-  String subscriptionsUrl;
-  String organizationsUrl;
-  String reposUrl;
-  String eventsUrl;
-  String receivedEventsUrl;
-  Type type;
-  bool siteAdmin;
+  String? login;
+  int? id;
+  String? nodeId;
+  String? avatarUrl;
+  String? gravatarId;
+  String? url;
+  String? htmlUrl;
+  String? followersUrl;
+  String? followingUrl;
+  String? gistsUrl;
+  String? starredUrl;
+  String? subscriptionsUrl;
+  String? organizationsUrl;
+  String? reposUrl;
+  String? eventsUrl;
+  String? receivedEventsUrl;
+  Type? type;
+  bool? siteAdmin;
 
   Owner copyWith({
-    String login,
-    int id,
-    String nodeId,
-    String avatarUrl,
-    String gravatarId,
-    String url,
-    String htmlUrl,
-    String followersUrl,
-    String followingUrl,
-    String gistsUrl,
-    String starredUrl,
-    String subscriptionsUrl,
-    String organizationsUrl,
-    String reposUrl,
-    String eventsUrl,
-    String receivedEventsUrl,
-    Type type,
-    bool siteAdmin,
+    String? login,
+    int? id,
+    String? nodeId,
+    String? avatarUrl,
+    String? gravatarId,
+    String? url,
+    String? htmlUrl,
+    String? followersUrl,
+    String? followingUrl,
+    String? gistsUrl,
+    String? starredUrl,
+    String? subscriptionsUrl,
+    String? organizationsUrl,
+    String? reposUrl,
+    String? eventsUrl,
+    String? receivedEventsUrl,
+    Type? type,
+    bool? siteAdmin,
   }) =>
       Owner(
         login: login ?? this.login,
@@ -725,7 +725,7 @@ class Owner {
         "events_url": eventsUrl == null ? null : eventsUrl,
         "received_events_url":
             receivedEventsUrl == null ? null : receivedEventsUrl,
-        "type": type == null ? null : typeValues.reverse[type],
+        "type": type == null ? null : typeValues.reverse![type!],
         "site_admin": siteAdmin == null ? null : siteAdmin,
       };
 }
@@ -737,14 +737,14 @@ class Permissions {
     this.pull,
   });
 
-  bool admin;
-  bool push;
-  bool pull;
+  bool? admin;
+  bool? push;
+  bool? pull;
 
   Permissions copyWith({
-    bool admin,
-    bool push,
-    bool pull,
+    bool? admin,
+    bool? push,
+    bool? pull,
   }) =>
       Permissions(
         admin: admin ?? this.admin,
@@ -777,11 +777,11 @@ final typeValues =
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }

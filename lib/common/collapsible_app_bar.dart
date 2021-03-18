@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 
 class CollapsibleAppBar extends StatelessWidget {
-  final double maxHeight;
-  final double minHeight;
-  final String title;
-  final Widget trailing;
+  final double? maxHeight;
+  final double? minHeight;
+  final String? title;
+  final Widget? trailing;
   final double childCollapseValue;
-  final Widget child;
+  final Widget? child;
   final double expandedParentPadding;
   final EdgeInsets padding;
   final double childHeight;
@@ -24,7 +24,7 @@ class CollapsibleAppBar extends StatelessWidget {
 
   double _calculateExpandRatio(BoxConstraints constraints) {
     var expandRatio =
-        (constraints.maxHeight - minHeight) / (maxHeight - minHeight);
+        (constraints.maxHeight - minHeight!) / (maxHeight! - minHeight!);
     if (expandRatio > 1.0) expandRatio = 1.0;
     if (expandRatio < 0.0) expandRatio = 0.0;
     return expandRatio;
@@ -32,7 +32,7 @@ class CollapsibleAppBar extends StatelessWidget {
 
   double _calculateAbsExpandRatio(BoxConstraints constraints) {
     var expandRatio =
-        (constraints.maxHeight - minHeight) / (maxHeight - minHeight);
+        (constraints.maxHeight - minHeight!) / (maxHeight! - minHeight!);
     return expandRatio;
   }
 
@@ -68,8 +68,8 @@ class CollapsibleAppBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        title,
-                        style: Theme.of(context).textTheme.headline4.copyWith(
+                        title!,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: Tween<double>(begin: 26, end: 36)
                                 .evaluate(animation)),
