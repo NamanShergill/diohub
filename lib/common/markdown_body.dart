@@ -117,40 +117,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
       },
       style: {
         'a': Style(textDecoration: TextDecoration.none),
-        'blockquote': Style(padding: EdgeInsets.zero, margin: EdgeInsets.zero),
+        'blockquote': Style(
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.zero,
+        ),
       },
       customRender: {
-        // Todo: Add regex for mentioned users later.
-        // 'p': (RenderContext context, Widget child,
-        //     Map<String, String> attributes, data) {
-        //   print(data.nodes);
-        //
-        //   List widgets = [];
-        //   for (var node in data.nodes) {
-        //     // print(node.runtimeType);
-        //     // print(node.nodeType.toString() + node.);
-        //     if (node is dom.Text) {
-        //       print('sldn sd' + node.text);
-        //       widgets.add(TextSpan(text: 'kjdn sd'));
-        //     } else {
-        //       node.
-        //       widgets.add(node.sourceSpan);
-        //     }
-        //   }
-        //   return Text.rich(TextSpan(
-        //       children:
-        //           List.generate(widgets.length, (index) => widgets[index])));
-        // if (data.text.contains(RegExp(r'(?=@)'))) {
-        //                                  RegExp exp = RegExp(r'(?=@)');
-        //                                  print(data.text.splitWithDelim(exp));
-        //                                  return Wrap(
-        //                                    children: [
-        //                                      child,
-        //                                    ],
-        //                                  );
-        //                                };
-        // return child;
-        // },
         'img': (RenderContext renderContext, Widget child,
             Map<String, String> attributes, data) {
           String src = attributes['src']!;
@@ -250,10 +222,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             decoration: BoxDecoration(
                 border: Border(
                     left: BorderSide(color: Colors.grey.shade400, width: 2))),
-            child: Text(
-              data!.text.trim(),
-              style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
-            ),
+            child: child,
           );
         }
       },

@@ -71,7 +71,6 @@ class GetDio {
         },
         onResponse:
             (Response response, ResponseInterceptorHandler handler) async {
-          print(response.statusCode);
           // Makes the buttons listening to this stream get enabled again.
           if (buttonLock) ButtonController.setButtonValue(false);
           // If response contains a ['message'] key, show success popup to the user with the message.
