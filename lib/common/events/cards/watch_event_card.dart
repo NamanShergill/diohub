@@ -3,29 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:onehub/common/events/cards/base_card.dart';
 import 'package:onehub/common/repository_card.dart';
 import 'package:onehub/models/events/events_model.dart';
+import 'package:onehub/models/repositories/repository_model.dart';
 
-class WatchEventCard extends StatelessWidget {
-  // Todo: Add repo info fetch. API fetch wrapper needed?
+class RepoEventCard extends StatelessWidget {
   final EventsModel event;
-  WatchEventCard(this.event);
+  final String eventTextMiddle;
+  final RepositoryModel? repo;
+  final String? eventTextEnd;
+  final String? branch;
+  RepoEventCard(this.event, this.eventTextMiddle,
+      {this.eventTextEnd,this.branch, this.repo});
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
       actor: event.actor!.login,
       headerText: [
-        TextSpan(text: ' starred '),
+        TextSpan(text: ' $eventTextMiddle '),
         TextSpan(
-            text: event.repo!.name,
-            style: TextStyle(fontWeight: FontWeight.bold)),
+          text: event.repo!.name,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        if (eventTextEnd != null) TextSpan(text: ' $eventTextEnd'),
       ],
       userLogin: event.actor!.login,
       date: event.createdAt,
       avatarUrl: event.actor!.avatarUrl,
       childPadding: EdgeInsets.zero,
       child: RepoCardLoading(
-        event.repo!.url,
-        event.repo!.name,
-        elevation: 0,
+        repo != null ? repo!.url : event.repo!.url,
+        repo != null ? repo!.name : event.repo!.name,
+        elevation: 0,branch: branch,
         padding: EdgeInsets.zero,
       ),
     );

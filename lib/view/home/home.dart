@@ -7,10 +7,13 @@ import 'package:onehub/common/events/events.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/shimmer_widget.dart';
+import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/widgets/issues_tab.dart';
+import 'package:onehub/view/home/widgets/pulls_tab.dart';
 import 'package:onehub/view/home/widgets/search_bar.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key});
@@ -26,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, initialIndex: 0, length: 5);
+    _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
     super.initState();
   }
 
@@ -43,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen>
               sliver: SliverAppBar(
                 expandedHeight: 300,
                 collapsedHeight: 155,
-                //Todo: Check this tomorrow.
                 pinned: true,
                 elevation: 2,
                 backgroundColor: AppColor.background,
@@ -55,11 +57,31 @@ class _HomeScreenState extends State<HomeScreen>
                     title: 'Home',
                     child: SearchBar(),
                     trailing: ClipOval(
-                      child:
-                          ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                        childBuilder: (context, value) => CachedNetworkImage(
-                          imageUrl: value.currentUserInfo!.avatarUrl!,
-                          placeholder: (context, _) {
+                      child: InkWell(
+                        onTap: () {
+                          Provider.of<NavigationProvider>(context,
+                                  listen: false)
+                              .animateToPage(3);
+                        },
+                        child:
+                            ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                          childBuilder: (context, value) => CachedNetworkImage(
+                            imageUrl: value.currentUserInfo!.avatarUrl!,
+                            placeholder: (context, _) {
+                              return ShimmerWidget(
+                                child: Container(
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
+                          ),
+                          errorBuilder: (context, error) {
+                            return Icon(
+                              LineIcons.exclamationCircle,
+                              size: 40,
+                            );
+                          },
+                          loadingBuilder: (context) {
                             return ShimmerWidget(
                               child: Container(
                                 color: Colors.grey,
@@ -67,19 +89,6 @@ class _HomeScreenState extends State<HomeScreen>
                             );
                           },
                         ),
-                        errorBuilder: (context, error) {
-                          return Icon(
-                            LineIcons.exclamationCircle,
-                            size: 40,
-                          );
-                        },
-                        loadingBuilder: (context) {
-                          return ShimmerWidget(
-                            child: Container(
-                              color: Colors.grey,
-                            ),
-                          );
-                        },
                       ),
                     ),
                   ),
@@ -97,9 +106,6 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       AppTab(
                         title: 'Pull Requests',
-                      ),
-                      AppTab(
-                        title: 'Repositories',
                       ),
                       AppTab(
                         title: 'Public Activity',
@@ -127,16 +133,7 @@ class _HomeScreenState extends State<HomeScreen>
                         children: [
                           Events(),
                           IssuesTab(),
-                          Container(
-                            color: Colors.green,
-                            height: 80,
-                            width: 40,
-                          ),
-                          Container(
-                            color: Colors.amber,
-                            height: 80,
-                            width: 40,
-                          ),
+                          PullsTab(),
                           Events(
                             privateEvents: false,
                           ),

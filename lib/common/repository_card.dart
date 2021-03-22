@@ -148,8 +148,10 @@ class RepoCardLoading extends StatelessWidget {
   final String? repoName;
   final EdgeInsets padding;
   final double elevation;
+  final String? branch;
   RepoCardLoading(this.repoURL, this.repoName,
       {this.elevation = 2,
+      this.branch,
       this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)});
   @override
   Widget build(BuildContext context) {
@@ -162,8 +164,8 @@ class RepoCardLoading extends StatelessWidget {
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
-            AutoRouter.of(context)
-                .push(RepositoryScreenRoute(repositoryURL: repoURL));
+            AutoRouter.of(context).push(
+                RepositoryScreenRoute(repositoryURL: repoURL, branch: branch));
           },
           child: Padding(
             padding: const EdgeInsets.all(24.0),

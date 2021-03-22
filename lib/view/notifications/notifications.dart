@@ -233,47 +233,48 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 class UnauthenticatedNotificationsReplacement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
-
-    return Column(
+    return Stack(
       children: [
-        SizedBox(
-          height: _media.height * 0.08,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Notifications',
-                      style: Theme.of(context).textTheme.headline4!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: IconButton(
-                        icon: Icon(Icons.sort),
-                        onPressed: () {},
+        NestedScrollView(
+            headerSliverBuilder: (context, _) {
+              return [
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar(
+                    expandedHeight: 150,
+                    collapsedHeight: 100,
+                    pinned: true,
+                    elevation: 2,
+                    backgroundColor: AppColor.background,
+                    flexibleSpace: GestureDetector(
+                      child: CollapsibleAppBar(
+                        minHeight: 100,
+                        maxHeight: 150,
+                        expandedParentPadding: 0,
+                        title: 'Inbox',
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.sort,
+                            color: Colors.white,
+                          ),
+                          onPressed: null,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LoginPromptBox(),
-                    ],
                   ),
                 ),
+              ];
+            },
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: LoginPromptBox(),
+                ),
               ],
-            ),
-          ),
-        ),
+            )),
       ],
     );
   }

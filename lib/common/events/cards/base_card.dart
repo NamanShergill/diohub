@@ -14,7 +14,7 @@ class BaseEventCard extends StatelessWidget {
   final List<TextSpan> headerText;
   final List<TextSpan> _topText;
   final Function? onTap;
-  final String? date;
+  final DateTime? date;
 
   BaseEventCard(
       {this.child,
@@ -67,7 +67,7 @@ class BaseEventCard extends StatelessWidget {
               ),
             ),
             Text(
-              getDate(date!),
+              getDate(date!.toString()),
               style: TextStyle(fontSize: 11, color: AppColor.grey3),
             ),
           ],

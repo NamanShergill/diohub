@@ -12,16 +12,18 @@ class IssueListCard extends StatelessWidget {
   final IssueModel item;
   final bool compact;
   final EdgeInsets padding;
+  final bool disableMaterial;
   IssueListCard(this.item,
       {this.compact = false,
+      this.disableMaterial = false,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0)});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: Material(
-        elevation: 2,
-        color: AppColor.background,
+        elevation: disableMaterial ? 0 : 2,
+        color: disableMaterial ? Colors.transparent : AppColor.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,

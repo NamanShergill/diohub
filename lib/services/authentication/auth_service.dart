@@ -48,13 +48,18 @@ class AuthService {
   }
 
   // Todo: Remove unneeded scopes later. Idk what half of these even do lmao.
-  static String _scope =
-      'repo repo:status repo_deployment public_repo repo:invite '
-      'security_events admin:repo_hook write:repo_hook read:repo_hook admin:org'
-      ' write:org read:org admin:public_key write:public_key read:public_key '
-      'admin:org_hook gist user read:user user:email user:follow '
-      'delete_repo write:discussion read:discussion write:packages read:packages'
-      ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
+  // static String _scope =
+  //     'repo repo:status repo_deployment public_repo repo:invite '
+  //     'security_events admin:repo_hook write:repo_hook read:repo_hook admin:org'
+  //     ' write:org read:org admin:public_key write:public_key read:public_key '
+  //     'admin:org_hook gist user read:user user:email user:follow '
+  //     'delete_repo write:discussion read:discussion write:packages read:packages'
+  //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
+  static String _scope = 'repo public_repo repo:invite '
+      'security_events admin:org'
+      ' gist notifications user '
+      'delete_repo write:discussion write:packages read:packages'
+      ' delete:packages workflow';
 
   static Future<Response> getAccessToken({String? deviceCode}) async {
     FormData formData = FormData.fromMap({

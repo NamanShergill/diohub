@@ -23,6 +23,7 @@ class LoginCheckWrapper extends StatelessWidget {
       else
         return replacement ??
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: loginBoxPadding,

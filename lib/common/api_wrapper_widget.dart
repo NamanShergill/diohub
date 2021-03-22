@@ -84,7 +84,12 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     else if (error != null)
       return widget.errorBuilder != null
           ? widget.errorBuilder!(context, error)
-          : Text(error!);
+          // : Text(error!);
+          : Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text('Some error occured.'),
+            );
+
     return FadeAnimationSection(
       child: widget.responseBuilder!(context, data),
     );

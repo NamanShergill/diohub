@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/common/events/cards/issues_event_card.dart';
+import 'package:onehub/common/events/cards/pull_event_card.dart';
 import 'package:onehub/common/events/cards/push_event_card.dart';
 import 'package:onehub/common/events/cards/watch_event_card.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
@@ -36,13 +38,44 @@ class Events extends StatelessWidget {
             if (item.type == EventsType.PushEvent)
               return PushEventCard(item, item.payload!);
             else if (item.type == EventsType.WatchEvent)
-              return WatchEventCard(item);
+              return RepoEventCard(item, 'starred');
+            else if (item.type == EventsType.CreateEvent) {
+              if (item.payload.refType == RefType.REPOSITORY) {
+                return RepoEventCard(item, 'created');
+              } else if (item.payload.refType == RefType.BRANCH) {
+                return RepoEventCard(
+                  item,
+                  'created a new branch in',
+                  branch: item.payload.ref,
+                );
+              }
+            } else if (item.type == EventsType.PublicEvent)
+              return RepoEventCard(
+                item,
+                'made',
+                eventTextEnd: 'public',
+              );
+            else if (item.type == EventsType.PullRequestEvent)
+              return PullEventCard(
+                item,
+              );
+            else if (item.type == EventsType.ForkEvent)
+              return RepoEventCard(
+                item,
+                'forked',
+                repo: item.payload.forkee,
+              );
+            else if (item.type == EventsType.IssuesEvent)
+              return IssuesEventCard(
+                item,
+              );
             return Padding(
               padding: const EdgeInsets.all(
                 42.0,
               ),
               child: Center(
-                child: Text('Unimplemented.'),
+                child:
+                    Text('Unimplemented: ${eventsValues.reverse[item.type]}'),
               ),
             );
           }),

@@ -64,6 +64,7 @@ class GetDio {
               !cacheOptions.refresh &&
               DateTime.now()
                   .isBefore(cache.responseDate.add(cacheOptions.maxAge))) {
+            if (buttonLock) ButtonController.setButtonValue(false);
             // Resolve the request and pass cached data as response.
             return handler
                 .resolve(cache.toResponse(options, fromNetwork: false));
