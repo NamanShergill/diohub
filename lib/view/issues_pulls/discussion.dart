@@ -20,13 +20,13 @@ import 'package:onehub/view/issues_pulls/widgets/discussion_comment.dart';
 class Discussion extends StatefulWidget {
   /// Show  comments since.
   final DateTime? commentsSince;
-  final String? issueUrl;
+  final String issueUrl;
   final bool? isLocked;
   final DateTime? createdAt;
   final TimelineEventModel? initialComment;
   Discussion(
       {this.commentsSince,
-      this.issueUrl,
+      required this.issueUrl,
       this.isLocked,
       this.createdAt,
       this.initialComment});
@@ -41,6 +41,9 @@ class _DiscussionState extends State<Discussion>
   bool get wantKeepAlive => true;
 
   DateTime? commentsSince;
+
+  InfiniteScrollWrapperController commentsSinceController =
+      InfiniteScrollWrapperController();
 
   @override
   void initState() {
@@ -70,11 +73,13 @@ class _DiscussionState extends State<Discussion>
             ? InfiniteScrollWrapper<IssueCommentsModel>(
                 future: (pageNumber, pageSize, refresh, _) {
                   return IssuesService.getIssueComments(
-                      widget.issueUrl!, pageSize, pageNumber, refresh,
+                      widget.issueUrl, pageNumber, pageSize, refresh,
                       since: commentsSince!
                           .subtract(Duration(minutes: 5))
+                          .toUtc()
                           .toIso8601String());
                 },
+                controller: commentsSinceController,
                 bottomSpacing: 60,
                 header: (context) {
                   return Padding(
@@ -370,7 +375,16 @@ class _DiscussionState extends State<Discussion>
                                   ),
                                 ],
                               ), childWidget: (context) {
-                            return CommentBox();
+                            return CommentBox(
+                              issueURL: widget.issueUrl,
+                              onSubmit: (status) {
+                                if (status)
+                                  setState(() {
+                                    commentsSince = DateTime.now();
+                                    commentsSinceController.refresh();
+                                  });
+                              },
+                            );
                           });
                         },
                   child: Container(
@@ -412,10 +426,11 @@ class _DiscussionState extends State<Discussion>
 
 Widget paddingWrap({Widget? child}) {
   return Material(
-      elevation: 2,
-      color: AppColor.onBackground,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-        child: child,
-      ));
+    elevation: 2,
+    color: AppColor.onBackground,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+      child: child,
+    ),
+  );
 }

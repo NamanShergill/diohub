@@ -2,23 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/markdown_body.dart';
+import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class CommentBox extends StatefulWidget {
-  CommentBox({Key? key}) : super(key: key);
+  final String issueURL;
+  final ValueChanged<bool> onSubmit;
+  final String? initText;
+  CommentBox(
+      {Key? key, required this.issueURL, this.initText, required this.onSubmit})
+      : super(key: key);
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
 }
 
 class _CommentBoxState extends State<CommentBox> {
-  String string = 'askniuabiubbuisa';
+  late String commentBody;
   int index = 0;
+  bool loading = false;
   final MarkdownBodyController controller = MarkdownBodyController();
 
   @override
+  void initState() {
+    commentBody = widget.initText ?? '';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Widget textBox() {
+      return MarkdownTextInput(
+        initialValue: commentBody,
+        maxLines: 999999,
+        onTextChanged: (value) {
+          commentBody = value;
+          controller.update(value);
+        },
+        toolbarDecoration: BoxDecoration(color: AppColor.background),
+        inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
+        boxDecoration: BoxDecoration(
+          color: AppColor.onBackground,
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       child: Container(
         color: AppColor.onBackground,
@@ -30,24 +59,16 @@ class _CommentBoxState extends State<CommentBox> {
                 index: index,
                 sizing: StackFit.expand,
                 children: [
-                  MarkdownTextInput(
-                    initialValue: string,
-                    maxLines: 999999,
-                    onTextChanged: (value) {
-                      controller.update(value);
-                    },
-                    toolbarDecoration:
-                        BoxDecoration(color: AppColor.background),
-                    inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
-                    boxDecoration: BoxDecoration(
-                      color: AppColor.onBackground,
-                    ),
-                  ),
+                  loading
+                      ? IgnorePointer(
+                          child: textBox(),
+                        )
+                      : textBox(),
                   Container(
                     color: AppColor.onBackground,
                     child: SingleChildScrollView(
                       child: MarkdownBody(
-                        string,
+                        commentBody,
                         controller: controller,
                       ),
                     ),
@@ -76,6 +97,31 @@ class _CommentBoxState extends State<CommentBox> {
               color: AppColor.background,
               borderRadius: 0,
               listenToLoadingController: false,
+            ),
+            Divider(
+              height: 0,
+            ),
+            Button(
+              onTap: () async {
+                setState(() {
+                  loading = true;
+                });
+                bool status = await IssuesService.addComment(
+                    widget.issueURL, commentBody);
+                setState(() {
+                  loading = false;
+                });
+                widget.onSubmit(status);
+                Navigator.pop(context);
+              },
+              padding: EdgeInsets.all(0),
+              elevation: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('Add Comment'),
+              ),
+              color: AppColor.background,
+              borderRadius: 0,
             ),
           ],
         ),

@@ -38,11 +38,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   void initState() {
-    updateData(md.markdownToHtml(widget.content!));
+    updateData(widget.content!);
     super.initState();
   }
 
   void updateData(String data) {
+    data = md.markdownToHtml(data);
     var document = parse(data);
     // The list of tags to perform modifications on.
     List<String> tags = ['p', 'li'];

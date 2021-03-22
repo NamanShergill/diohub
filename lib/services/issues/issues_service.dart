@@ -31,8 +31,13 @@ class IssuesService {
       {String? since}) async {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
+            debugLog: true,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get(issueURL + '/comments', queryParameters: {'since': since});
+        .get(issueURL + '/comments', queryParameters: {
+      'since': since,
+      'page': page,
+      'per_page': perPage
+    });
     List unParsedComments = response.data;
     return unParsedComments.map((e) => IssueCommentsModel.fromJson(e)).toList();
   }
@@ -200,6 +205,14 @@ class IssuesService {
     Response response =
         await GetDio.getDio(applyBaseURL: false).patch('$issueURL', data: data);
     return IssueModel.fromJson(response.data);
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue-comment
+  static Future<bool> addComment(String issueURL, String body) async {
+    Response response = await GetDio.getDio(applyBaseURL: false)
+        .post('$issueURL/comments', data: {'body': body});
+    if (response.statusCode == 201) return true;
+    return false;
   }
 
   // // Ref: https://docs.github.com/en/rest/reference/issues#lock-an-issue

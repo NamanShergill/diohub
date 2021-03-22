@@ -71,7 +71,8 @@ class _ButtonState extends State<Button> {
       disabledTextColor: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
-      onPressed: widget.enabled && !loading ? widget.onTap as void Function()? : null,
+      onPressed:
+          widget.enabled && !loading ? widget.onTap as void Function()? : null,
       color: widget.color ?? AppColor.accent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -148,8 +149,10 @@ class StringButton extends StatelessWidget {
         children: [
           Text(
             title!,
-            style:
-                Theme.of(context).textTheme.button!.copyWith(fontSize: textSize),
+            style: Theme.of(context)
+                .textTheme
+                .button!
+                .copyWith(fontSize: textSize),
           ),
           Visibility(
               visible: subtitle != null,

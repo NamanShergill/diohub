@@ -36,14 +36,13 @@ class CustomCacheOptions extends CacheOptions {
   CustomCacheOptions(
     this.refresh, {
     this.maxAge = const Duration(minutes: 15),
-    CachePolicy policy = CachePolicy.request,
     List<int> hitCacheOnErrorExcept = const [401, 403],
     CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     Duration maxStale = const Duration(days: 7),
     CachePriority priority = CachePriority.normal,
   }) : super(
             store: Global.cacheStore,
-            policy: refresh ? CachePolicy.refresh : policy,
+            policy: refresh ? CachePolicy.refresh : CachePolicy.request,
             hitCacheOnErrorExcept: hitCacheOnErrorExcept,
             keyBuilder: keyBuilder,
             maxStale: maxStale,

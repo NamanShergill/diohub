@@ -207,7 +207,7 @@ class _PullScreenState extends State<PullScreen>
                             isLocked: value.pullModel!.locked! &&
                                 !value.editingEnabled!,
                             createdAt: value.pullModel!.createdAt,
-                            issueUrl: value.pullModel!.issueUrl,
+                            issueUrl: value.pullModel!.issueUrl!,
                             initialComment: TimelineEventModel(
                                 createdAt: value.pullModel!.createdAt,
                                 event: Event.commented,

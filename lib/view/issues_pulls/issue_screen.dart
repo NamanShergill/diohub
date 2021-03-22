@@ -200,7 +200,7 @@ class _IssueScreenState extends State<IssueScreen>
                             isLocked: value.issueModel!.locked! &&
                                 !value.editingEnabled!,
                             createdAt: value.issueModel!.createdAt,
-                            issueUrl: value.issueModel!.url,
+                            issueUrl: value.issueModel!.url!,
                             initialComment: TimelineEventModel(
                                 createdAt: value.issueModel!.createdAt,
                                 event: Event.commented,
