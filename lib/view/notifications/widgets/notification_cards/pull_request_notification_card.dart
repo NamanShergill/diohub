@@ -8,6 +8,7 @@ import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/models/pull_requests/review_model.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
+import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:onehub/view/notifications/widgets/notification_cards/card_footer.dart';
 
@@ -93,13 +94,13 @@ class _PullRequestNotificationCardState
         else
           return Icon(
             Octicons.git_pull_request,
-            color: Colors.red,
+            color: AppColor.red,
             size: iconSize,
           );
       } else if (pullRequest.state == IssueState.OPEN)
         return Icon(
           Octicons.git_pull_request,
-          color: Colors.green,
+          color: AppColor.green,
           size: iconSize,
         );
       else

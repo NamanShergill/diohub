@@ -78,8 +78,8 @@ class IssueInformation extends StatelessWidget {
                       .updateIssue(issue);
                 },
                 color: _issue.state != IssueState.CLOSED
-                    ? AppColor.error
-                    : AppColor.success,
+                    ? AppColor.red
+                    : AppColor.green,
               ),
             ),
           SizedBox(
@@ -203,7 +203,8 @@ class IssueInformation extends StatelessWidget {
                                   (index) => Padding(
                                         padding: const EdgeInsets.only(
                                             right: 4, bottom: 8),
-                                        child: IssueLabel(_issue.labels![index]),
+                                        child:
+                                            IssueLabel(_issue.labels![index]),
                                       )),
                             ),
                           )
@@ -218,12 +219,15 @@ class IssueInformation extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                    child: _issue.body!.isEmpty
-                        ? Text('No description provided.')
-                        : ExpansionTile(
-                            title: Text('Tap to Expand'),
-                            children: [MarkdownBody(_issue.body)],
-                          )),
+                  child: _issue.body!.isEmpty
+                      ? Text('No description provided.')
+                      : ExpansionTile(
+                          title: Text('Tap to Expand'),
+                          children: [
+                            MarkdownBody(_issue.body),
+                          ],
+                        ),
+                ),
               ],
             ),
           ),

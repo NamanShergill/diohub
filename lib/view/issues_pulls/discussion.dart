@@ -12,6 +12,7 @@ import 'package:onehub/models/issues/issue_comments_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
 import 'package:onehub/services/issues/issues_service.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/style/textStyles.dart';
 import 'package:onehub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:onehub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:onehub/view/issues_pulls/widgets/discussion_comment.dart';
@@ -228,9 +229,9 @@ class _DiscussionState extends State<Discussion>
                             child: BasicEventTextCard(
                           user: item.actor,
                           leading: Octicons.issue_closed,
-                          iconColor: AppColor.error,
+                          iconColor: AppColor.red,
                           date: item.createdAt.toString(),
-                          content: 'Closed this.',
+                          textContent: 'Closed this.',
                         ));
                       else if (item.event == Event.renamed)
                         return paddingWrap(
@@ -238,8 +239,23 @@ class _DiscussionState extends State<Discussion>
                           user: item.actor,
                           leading: Octicons.pencil,
                           date: item.createdAt.toString(),
-                          content:
-                              'Renamed this from ${item.rename!.from} to ${item.rename!.to}.',
+                          content: RichText(
+                            text: TextSpan(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .merge(AppThemeTextStyles
+                                        .basicIssueEventCardText),
+                                children: [
+                                  TextSpan(text: 'Renamed this.\n'),
+                                  TextSpan(
+                                      text: '${item.rename!.from}\n',
+                                      style: TextStyle(
+                                          decoration:
+                                              TextDecoration.lineThrough)),
+                                  TextSpan(text: '${item.rename!.to}'),
+                                ]),
+                          ),
                         ));
                       else if (item.event == Event.pinned)
                         return paddingWrap(
@@ -247,16 +263,16 @@ class _DiscussionState extends State<Discussion>
                           user: item.actor,
                           leading: LineIcons.thumbtack,
                           date: item.createdAt.toString(),
-                          content: 'Pinned this.',
+                          textContent: 'Pinned this.',
                         ));
                       else if (item.event == Event.reopened)
                         return paddingWrap(
                             child: BasicEventTextCard(
                           user: item.actor,
                           leading: Octicons.issue_reopened,
-                          iconColor: AppColor.success,
+                          iconColor: AppColor.green,
                           date: item.createdAt.toString(),
-                          content: 'Reopened this.',
+                          textContent: 'Reopened this.',
                         ));
                       else if (item.event == Event.assigned ||
                           item.event == Event.unassigned)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/style/colors.dart';
 
 class AppThemeTextStyles {
   static const TextStyle appBarTitle =
@@ -11,4 +12,6 @@ class AppThemeTextStyles {
   static const TextStyle eventCardChildTitleSmall = TextStyle(fontSize: 12);
   static const TextStyle eventCardChildSubtitle = TextStyle(fontSize: 14);
   static const TextStyle eventCardChildFooter = TextStyle(fontSize: 13);
+  static const TextStyle basicIssueEventCardText =
+      TextStyle(color: AppColor.grey3);
 }

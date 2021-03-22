@@ -22,7 +22,7 @@ class DialogHelper {
           BoxShadow(
               color: appPopup.popupType == PopupType.failed
                   ? Colors.redAccent
-                  : AppColor.success,
+                  : AppColor.green,
               offset: Offset(0.0, 1.0),
               blurRadius: 1.0)
         ],

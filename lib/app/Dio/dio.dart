@@ -7,6 +7,7 @@ import 'package:onehub/app/global.dart';
 import 'package:onehub/controller/button/button_controller.dart';
 import 'package:onehub/models/popup/popup_type.dart';
 import 'package:onehub/services/authentication/auth_service.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class GetDio {
   static Dio getDio({
@@ -83,7 +84,7 @@ class GetDio {
           handler.next(response);
         },
         onError: (DioError error, ErrorInterceptorHandler handler) async {
-          Global.log.e(error.message);
+          // Global.log.e(error.toString());
           // Makes the buttons listening to this stream get enabled again.
           if (buttonLock) ButtonController.setButtonValue(false);
 
@@ -109,9 +110,9 @@ class GetDio {
                     policy: CachePolicy.request, store: Global.cacheStore)),
       );
     // Log the request in the console for debugging if [debugLog] is true.
-    // if (debugLog)
-    //   dio.interceptors
-    //       .add(PrettyDioLogger(requestHeader: true, requestBody: true));
+    if (debugLog)
+      dio.interceptors
+          .add(PrettyDioLogger(requestHeader: true, requestBody: true));
     return dio;
   }
 }

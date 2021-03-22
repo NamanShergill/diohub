@@ -10,8 +10,8 @@ class AppColor {
   static const Color background = Color(0xff17181C);
   static const Color onPrimary = Color(0xffFFFFFF);
   static const Color onBackground = Color(0xff201f23);
-  static const Color error = Color(0xffF44E3B);
-  static const Color success = Color(0xff27AE61);
+  static const Color red = Color(0xffF44E3B);
+  static const Color green = Color(0xff27AE61);
   static const Color icon = Color(0xff01071D);
   static const Color iconGrey = Color(0xff8192A3);
   static const Color grey = Color(0xff413E3E);

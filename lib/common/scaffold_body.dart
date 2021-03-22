@@ -62,7 +62,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                               expand: snapshot.data == NetworkStatus.Restored,
                               child: Container(
                                 width: double.infinity,
-                                color: AppColor.success,
+                                color: AppColor.green,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(

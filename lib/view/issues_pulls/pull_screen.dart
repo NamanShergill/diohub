@@ -14,6 +14,7 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/get_date.dart';
 import 'package:onehub/view/issues_pulls/discussion.dart';
+import 'package:onehub/view/issues_pulls/pull_information.dart';
 import 'package:onehub/view/issues_pulls/widgets/pull_changed_files_list.dart';
 import 'package:onehub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:provider/provider.dart';
@@ -74,19 +75,24 @@ class _PullScreenState extends State<PullScreen>
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.pullModel!.state, 15)!,
+                              getIcon(value.pullModel!.state,
+                                  value.pullModel!.merged!, 15)!,
                               SizedBox(
                                 width: 4,
                               ),
                               Text(
                                 value.pullModel!.state == IssueState.OPEN
                                     ? 'Open'
-                                    : 'Closed',
+                                    : value.pullModel!.merged!
+                                        ? 'Merged'
+                                        : 'Closed',
                                 style: TextStyle(
                                     color: value.pullModel!.state ==
                                             IssueState.OPEN
-                                        ? AppColor.success
-                                        : AppColor.error,
+                                        ? AppColor.green
+                                        : value.pullModel!.merged!
+                                            ? Colors.deepPurpleAccent
+                                            : AppColor.red,
                                     fontSize: 14),
                               ),
                               SizedBox(
@@ -105,21 +111,26 @@ class _PullScreenState extends State<PullScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.pullModel!.state, 20)!,
+                                  getIcon(value.pullModel!.state,
+                                      value.pullModel!.merged!, 20)!,
                                   SizedBox(
                                     width: 8,
                                   ),
                                   Text(
                                     value.pullModel!.state == IssueState.OPEN
                                         ? 'Open'
-                                        : 'Closed',
+                                        : value.pullModel!.merged!
+                                            ? 'Merged'
+                                            : 'Closed',
                                     style: TextStyle(
                                         color: value.pullModel!.state ==
                                                 IssueState.OPEN
-                                            ? AppColor.success
-                                            : AppColor.error,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                            ? AppColor.green
+                                            : value.pullModel!.merged!
+                                                ? Colors.deepPurpleAccent
+                                                : AppColor.red,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
                                   ),
                                   SizedBox(
                                     width: 8,
@@ -151,14 +162,8 @@ class _PullScreenState extends State<PullScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.pullModel!.title!.length >
-                                        MediaQuery.of(context).size.width / 14
-                                    ? value.pullModel!.title!.substring(
-                                            0,
-                                            MediaQuery.of(context).size.width ~/
-                                                14) +
-                                        '...'
-                                    : value.pullModel!.title!,
+                                value.pullModel!.title!,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
@@ -178,6 +183,7 @@ class _PullScreenState extends State<PullScreen>
                                     child: Text(
                                       value.repoURL!.replaceFirst(
                                           'https://api.github.com/repos/', ''),
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),
@@ -195,7 +201,7 @@ class _PullScreenState extends State<PullScreen>
                         ),
                         tabController: tabController,
                         tabViews: [
-                          Container(),
+                          PullInformation(),
                           Discussion(
                             commentsSince: widget.commentsSince,
                             isLocked: value.pullModel!.locked! &&
@@ -227,18 +233,25 @@ class _PullScreenState extends State<PullScreen>
     );
   }
 
-  Widget? getIcon(IssueState? state, double size) {
+  Widget? getIcon(IssueState? state, bool merged, double size) {
     switch (state) {
       case IssueState.CLOSED:
-        return Icon(
-          Octicons.issue_closed,
-          color: Colors.red,
-          size: size,
-        );
+        if (merged)
+          return Icon(
+            Octicons.git_merge,
+            color: Colors.deepPurpleAccent,
+            size: size,
+          );
+        else
+          return Icon(
+            Octicons.git_pull_request,
+            color: AppColor.red,
+            size: size,
+          );
       case IssueState.OPEN:
         return Icon(
-          Octicons.issue_opened,
-          color: Colors.green,
+          Octicons.git_pull_request,
+          color: AppColor.green,
           size: size,
         );
       default:

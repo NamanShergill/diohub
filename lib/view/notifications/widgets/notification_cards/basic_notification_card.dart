@@ -48,7 +48,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       actions: [
         IconSlideAction(
           icon: LineIcons.check,
-          color: AppColor.success,
+          color: AppColor.green,
           caption: 'Mark as read',
           onTap: () {
             markAsRead();
@@ -58,7 +58,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       secondaryActions: [
         IconSlideAction(
           icon: LineIcons.check,
-          color: AppColor.success,
+          color: AppColor.green,
           caption: 'Mark as read',
           onTap: () {
             markAsRead();
@@ -72,7 +72,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           animationCurve: Curves.easeOutExpo,
           child: Container(
             height: 120,
-            color: AppColor.success,
+            color: AppColor.green,
             child: Center(
               child: Text('Mark as read?'),
             ),

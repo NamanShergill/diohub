@@ -86,8 +86,8 @@ class _IssueScreenState extends State<IssueScreen>
                                 style: TextStyle(
                                     color: value.issueModel!.state ==
                                             IssueState.OPEN
-                                        ? AppColor.success
-                                        : AppColor.error,
+                                        ? AppColor.green
+                                        : AppColor.red,
                                     fontSize: 14),
                               ),
                               SizedBox(
@@ -117,8 +117,8 @@ class _IssueScreenState extends State<IssueScreen>
                                     style: TextStyle(
                                         color: value.issueModel!.state ==
                                                 IssueState.OPEN
-                                            ? AppColor.success
-                                            : AppColor.error,
+                                            ? AppColor.green
+                                            : AppColor.red,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -152,14 +152,8 @@ class _IssueScreenState extends State<IssueScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.issueModel!.title!.length >
-                                        MediaQuery.of(context).size.width / 14
-                                    ? value.issueModel!.title!.substring(
-                                            0,
-                                            MediaQuery.of(context).size.width ~/
-                                                14) +
-                                        '...'
-                                    : value.issueModel!.title!,
+                                value.issueModel!.title!,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
@@ -182,6 +176,7 @@ class _IssueScreenState extends State<IssueScreen>
                                           .replaceFirst(
                                               'https://api.github.com/repos/',
                                               ''),
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),

@@ -12,13 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
   auto_route: ^1.0.1
-  another_flushbar: ^1.10.15
+  another_flushbar: ^1.10.17
   cached_network_image: ^3.0.0-nullsafety
   connectivity: ^3.0.2
   dio: ^4.0.0-beta7
   dio_cache_interceptor: ^2.0.0-rc.1
   equatable: ^2.0.0
-  flutter_bloc: ^7.0.0-nullsafety.4
+  flutter_bloc: ^7.0.0
   flutter_countdown_timer: ^4.0.0
   flutter_datetime_picker: ^1.5.0
   flutter_emoji: ^2.2.1+1
@@ -32,7 +32,7 @@ dependencies:
       url: https://github.com/Sub6Resources/flutter_html.git
       ref: 4688f1a91421a76ea5c27e29889fadce6b6b4102
   flutter_icons: ^1.1.0
-  flutter_reaction_button: ^1.0.7+3
+  flutter_reaction_button: ^1.0.8
   flutter_secure_storage: ^4.1.0
   flutter_slidable: ^0.6.0-nullsafety.0
   flutter_signin_button: ^2.0.0-nullsafety.0
@@ -56,7 +56,7 @@ dependencies:
   page_transition: ^1.1.7+6
   path: ^1.8.0
   path_provider: ^2.0.1
-  pretty_dio_logger: ^1.1.1
+  pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0
   share: ^2.0.1
   shimmer: ^2.0.0-nullsafety.0
@@ -79,7 +79,7 @@ dependency_overrides:
 flutter:
   uses-material-design: true
   assets:
-    - assets
+    - assets/
   fonts:
     - family: Montserrat
       fonts:

@@ -17,7 +17,7 @@ class ChangedFilesListCard extends StatelessWidget {
             text: 'File added: +${file.additions}',
             style: Theme.of(context).textTheme.subtitle1!.copyWith(
                 fontSize: 12,
-                color: AppColor.success,
+                color: AppColor.green,
                 fontWeight: FontWeight.w500),
           ),
         );
@@ -26,9 +26,7 @@ class ChangedFilesListCard extends StatelessWidget {
           text: TextSpan(
             text: 'File removed: -${file.deletions}',
             style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                fontSize: 12,
-                color: AppColor.error,
-                fontWeight: FontWeight.w500),
+                fontSize: 12, color: AppColor.red, fontWeight: FontWeight.w500),
           ),
         );
 
@@ -44,11 +42,11 @@ class ChangedFilesListCard extends StatelessWidget {
               ),
               TextSpan(
                   text: '+${file.additions} ',
-                  style: TextStyle(color: AppColor.success)),
+                  style: TextStyle(color: AppColor.green)),
               TextSpan(text: '| ', style: TextStyle(color: AppColor.grey3)),
               TextSpan(
                   text: '-${file.deletions}',
-                  style: TextStyle(color: AppColor.error)),
+                  style: TextStyle(color: AppColor.red)),
             ]),
       );
     }

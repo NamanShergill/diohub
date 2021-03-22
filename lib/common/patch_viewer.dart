@@ -243,9 +243,9 @@ class _PatchViewerState extends State<PatchViewer> {
     char.isNotEmpty ? char = char[0] : char = '';
     switch (char) {
       case ('+'):
-        return AppColor.success.withOpacity(0.2);
+        return AppColor.green.withOpacity(0.2);
       case ('-'):
-        return AppColor.error.withOpacity(0.2);
+        return AppColor.red.withOpacity(0.2);
       default:
         if (index % 2 == 0) {
           return AppColor.background;

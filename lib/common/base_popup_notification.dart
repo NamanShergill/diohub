@@ -27,7 +27,7 @@ class BasePopupNotification extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StringButton(
-          color: color ?? AppColor.error,
+          color: color ?? AppColor.red,
           onTap: onTap != null
               ? () async {
                   await onTap(context);

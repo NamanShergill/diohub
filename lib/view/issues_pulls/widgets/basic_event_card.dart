@@ -13,10 +13,9 @@ import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/services/pulls/pulls_service.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/style/textStyles.dart';
 import 'package:onehub/utils/get_date.dart';
 import 'package:onehub/view/repository/commits/widgets/commit_s_h_a_button.dart';
-
-TextStyle basicCardTheme = TextStyle(color: AppColor.grey3);
 
 class BasicEventCard extends StatelessWidget {
   final UserInfoModel? user;
@@ -98,17 +97,25 @@ class BasicEventTextCard extends StatelessWidget {
   final IconData? leading;
   final Color? iconColor;
   final String? date;
-  final String? content;
+  final Widget? content;
+  final String? textContent;
   BasicEventTextCard(
-      {this.user, this.content, this.date, this.leading, this.iconColor});
+      {this.user,
+      this.content,
+      this.textContent,
+      this.date,
+      this.leading,
+      this.iconColor});
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
       iconColor: iconColor,
-      content: Text(
-        content!,
-        style: basicCardTheme,
-      ),
+      content: content != null
+          ? content
+          : Text(
+              textContent!,
+              style: AppThemeTextStyles.basicIssueEventCardText,
+            ),
       date: date,
       user: user,
       leading: leading,
@@ -138,7 +145,7 @@ class BasicEventAssignedCard extends StatelessWidget {
         children: [
           Text(
             isAssigned! ? 'Assigned' : 'Unassigned',
-            style: basicCardTheme,
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           SizedBox(
             width: 4,
@@ -154,14 +161,14 @@ class BasicEventAssignedCard extends StatelessWidget {
                 )
               : Text(
                   'themselves',
-                  style: basicCardTheme,
+                  style: AppThemeTextStyles.basicIssueEventCardText,
                 ),
           SizedBox(
             width: 4,
           ),
           Text(
             '${isAssigned! ? 'to' : 'from'} the issue.',
-            style: basicCardTheme,
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
         ],
       ),
@@ -194,7 +201,7 @@ class BasicEventLabeledCard extends StatelessWidget {
         children: [
           Text(
             '${added! ? 'Added' : 'Removed'} the',
-            style: basicCardTheme,
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           SizedBox(
             width: 8,
@@ -204,8 +211,8 @@ class BasicEventLabeledCard extends StatelessWidget {
             width: 8,
           ),
           Text(
-            'label ${added! ? 'to' : 'from'} the issue.',
-            style: basicCardTheme,
+            'label ${added! ? 'to' : 'from'} this.',
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
         ],
       ),
@@ -234,7 +241,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
         children: [
           Text(
             'Mentioned this.',
-            style: basicCardTheme,
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           IssueListCard(
             IssueModel.fromJson(content!.issue!.toJson()),
@@ -268,7 +275,7 @@ class BasicPullCrossReferencedCard extends StatelessWidget {
         children: [
           Text(
             'Mentioned this.',
-            style: basicCardTheme,
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           APIWrapper<PullRequestModel>(
             getCall: PullsService.getPullInformation(
@@ -328,14 +335,15 @@ class BasicEventCommitCard extends StatelessWidget {
         children: [
           Text(
             'Added commit.',
-            style: basicCardTheme.copyWith(fontWeight: FontWeight.bold),
+            style: AppThemeTextStyles.basicIssueEventCardText
+                .copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 4,
           ),
           Text(
             message!,
-            style: basicCardTheme,
+            style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           SizedBox(
             height: 8,

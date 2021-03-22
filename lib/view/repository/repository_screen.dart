@@ -146,6 +146,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             ),
                             Flexible(
                               child: RichText(
+                                overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
                                     style: Theme.of(context)
                                         .textTheme
@@ -154,9 +155,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                     children: [
                                       TextSpan(text: '${_repo.owner!.login}/'),
                                       TextSpan(
-                                          text: _repo.name!.length > 15
-                                              ? '${_repo.name!.substring(0, 15)}...'
-                                              : _repo.name,
+                                          text: _repo.name,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold)),
                                     ]),
@@ -180,9 +179,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   height: 8,
                                 ),
                                 Text(
-                                  _repo.name!.length > 20
-                                      ? '${_repo.name!.substring(0, 20)}...'
-                                      : _repo.name!,
+                                  _repo.name!,
+                                  overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!
