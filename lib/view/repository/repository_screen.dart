@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/common/app_scroll_view.dart';
+import 'package:onehub/common/button.dart';
 import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
 import 'package:onehub/common/scaffold_body.dart';
@@ -245,19 +246,29 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         IssuesList(),
                         PullsList(),
                         Container(
-                          child: MaterialButton(
-                            child: Text('Open Wiki'),
-                            onPressed: () {
-                              if (Provider.of<RepositoryProvider>(context,
-                                      listen: false)
-                                  .repositoryModel!
-                                  .hasWiki!)
-                                AutoRouter.of(context).push(WikiViewerRoute(
-                                    repoURL: widget.repositoryURL));
-                              else
-                                ResponseHandler.setErrorMessage(AppPopupData(
-                                    title: 'Repository has no wiki.'));
-                            },
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Button(
+                                  child: Text('Open Wiki'),
+                                  onTap: () {
+                                    if (Provider.of<RepositoryProvider>(context,
+                                            listen: false)
+                                        .repositoryModel!
+                                        .hasWiki!)
+                                      AutoRouter.of(context).push(
+                                          WikiViewerRoute(
+                                              repoURL: widget.repositoryURL));
+                                    else
+                                      ResponseHandler.setErrorMessage(
+                                          AppPopupData(
+                                              title:
+                                                  'Repository has no wiki.'));
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

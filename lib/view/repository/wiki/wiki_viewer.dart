@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/loading_indicator.dart';
+import 'package:onehub/services/authentication/auth_service.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -18,13 +19,20 @@ class _WikiViewerState extends State<WikiViewer> {
   String? wikiLink;
   String? repoLink;
   String? error;
+  // late Map<String, String> headers;
 
   @override
   void initState() {
+    // setupHeaders();
     repoLink = widget.repoURL!
         .replaceAll('https://api.github.com/repos', 'https://github.com');
     wikiLink = repoLink! + '/wiki';
     super.initState();
+  }
+
+  void setupHeaders() async {
+    String token = (await AuthService.getAccessTokenFromDevice())!;
+    // headers = {'Authorization': 'Bearer $token'};
   }
 
   @override
@@ -77,6 +85,7 @@ class _WikiViewerState extends State<WikiViewer> {
                     WebView(
                       onWebViewCreated: (controller) {
                         _webViewController = controller;
+                        // _webViewController.loadUrl(wikiLink!, headers: headers);
                       },
                       javascriptMode: JavascriptMode.unrestricted,
                       initialUrl: wikiLink,
@@ -91,7 +100,8 @@ class _WikiViewerState extends State<WikiViewer> {
                         else if (action.url == repoLink) {
                           setState(() {
                             error = 'Seems like ' +
-                                repoLink!.replaceAll('https://github.com/', '') +
+                                repoLink!
+                                    .replaceAll('https://github.com/', '') +
                                 ' does not have a wiki yet.';
                           });
                         } else {
