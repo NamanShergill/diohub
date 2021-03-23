@@ -10,8 +10,9 @@ class AppThemeTextStyles {
   static const TextStyle eventCardChildTitle =
       TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
   static const TextStyle eventCardChildTitleSmall = TextStyle(fontSize: 12);
-  static const TextStyle eventCardChildSubtitle = TextStyle(fontSize: 14);
-  static const TextStyle eventCardChildFooter = TextStyle(fontSize: 13);
+  static const TextStyle eventCardChildSubtitle = TextStyle(fontSize: 13);
+  static const TextStyle eventCardChildFooter =
+      TextStyle(fontSize: 11, color: AppColor.grey3);
   static const TextStyle basicIssueEventCardText =
       TextStyle(color: AppColor.grey3);
 }

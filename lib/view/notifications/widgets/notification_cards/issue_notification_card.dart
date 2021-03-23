@@ -67,7 +67,7 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
             issueURL: widget.notification.subject!.url,
             repoURL: widget.notification.repository!.url,
             initialIndex: 1,
-            commentsSince: widget.notification.updatedAt));
+            commentsSince: latestComment.createdAt));
       },
       loading: loading,
       footerBuilder: (context) {

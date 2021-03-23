@@ -5,10 +5,12 @@ import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/info_card.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/repository_card.dart';
+import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
 import 'package:onehub/models/users/pinned_repos_graphql_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/services/users/user_info_service.dart';
+import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class UserOverviewScreen extends StatelessWidget {
@@ -66,7 +68,19 @@ class UserOverviewScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SvgPicture.network(
-                  'http://ghchart.rshah.org/0079FD/${userInfoModel!.login}'),
+                'http://ghchart.rshah.org/0079FD/${userInfoModel!.login}',
+                placeholderBuilder: (context) {
+                  return ShimmerWidget(
+                    baseColor: AppColor.onBackground,
+                    highlightColor: Colors.grey.shade800,
+                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    child: Container(
+                      height: 70,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],

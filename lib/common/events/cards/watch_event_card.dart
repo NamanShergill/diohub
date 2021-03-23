@@ -12,7 +12,7 @@ class RepoEventCard extends StatelessWidget {
   final String? eventTextEnd;
   final String? branch;
   RepoEventCard(this.event, this.eventTextMiddle,
-      {this.eventTextEnd,this.branch, this.repo});
+      {this.eventTextEnd, this.branch, this.repo});
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
@@ -32,7 +32,8 @@ class RepoEventCard extends StatelessWidget {
       child: RepoCardLoading(
         repo != null ? repo!.url : event.repo!.url,
         repo != null ? repo!.name : event.repo!.name,
-        elevation: 0,branch: branch,
+        elevation: 0,
+        branch: branch,
         padding: EdgeInsets.zero,
       ),
     );

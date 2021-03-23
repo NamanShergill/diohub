@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/utils/lang_colors/get_language_color.dart';
 
 class LanguageIndicator extends StatelessWidget {
   final String? language;
   final double size;
-  LanguageIndicator(this.language, {this.size = 16});
+  final TextStyle? textStyle;
+  LanguageIndicator(this.language, {this.size = 16, this.textStyle});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,8 +15,10 @@ class LanguageIndicator extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            decoration:
-                BoxDecoration(color: Colors.orange, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+                color: Color(int.parse(
+                    getLangColor(language).replaceFirst('#', '0xFF'))),
+                shape: BoxShape.circle),
             height: size,
             width: size,
           ),
@@ -23,7 +27,7 @@ class LanguageIndicator extends StatelessWidget {
           ),
           Text(
             language ?? 'N/A',
-            style: TextStyle(fontSize: size / 1.1),
+            style: textStyle ?? TextStyle(fontSize: size / 1.1),
           ),
         ],
       ),

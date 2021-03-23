@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
@@ -17,14 +16,17 @@ import 'language_indicator.dart';
 
 class RepositoryCard extends StatelessWidget {
   final RepositoryModel? repo;
-  RepositoryCard(this.repo);
+  final bool isThemed;
+  RepositoryCard(this.repo, {this.isThemed = true});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+      padding: isThemed
+          ? const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)
+          : EdgeInsets.zero,
       child: Material(
-        elevation: 2,
-        color: AppColor.background,
+        elevation: isThemed ? 2 : 0,
+        color: isThemed ? AppColor.background : Colors.transparent,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -33,10 +35,13 @@ class RepositoryCard extends StatelessWidget {
                 .push(RepositoryScreenRoute(repositoryURL: repo!.url));
           },
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 8,
+                ),
                 Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
@@ -96,14 +101,16 @@ class RepositoryCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 8,
+                Divider(
+                  height: 24,
                 ),
                 Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     LanguageIndicator(
                       repo!.language,
-                      size: 13,
+                      size: 11,
+                      textStyle: AppThemeTextStyles.eventCardChildFooter,
                     ),
                     SizedBox(
                       width: 16,
@@ -115,6 +122,7 @@ class RepositoryCard extends StatelessWidget {
                         Icon(
                           Octicons.star,
                           size: 12,
+                          color: AppColor.grey3,
                         ),
                         SizedBox(
                           width: 4,
@@ -152,7 +160,7 @@ class RepoCardLoading extends StatelessWidget {
   RepoCardLoading(this.repoURL, this.repoName,
       {this.elevation = 2,
       this.branch,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)});
+      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0)});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -161,112 +169,56 @@ class RepoCardLoading extends StatelessWidget {
         elevation: elevation,
         color: AppColor.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
-          onTap: () {
-            AutoRouter.of(context).push(
-                RepositoryScreenRoute(repositoryURL: repoURL, branch: branch));
+        child: APIWrapper<RepositoryModel>(
+          getCall: RepositoryServices.fetchRepository(repoURL!),
+          errorBuilder: (context, error) {
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text('Something went wrong.'),
+            );
           },
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  repoName!,
-                  style: AppThemeTextStyles.eventCardChildTitle,
-                ),
-                APIWrapper<RepositoryModel>(
-                  getCall: RepositoryServices.fetchRepository(repoURL!),
-                  loadingBuilder: (context) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        ShimmerWidget(
-                          borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                          child: Container(
-                            height: 20,
-                            width: double.infinity,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        ShimmerWidget(
-                          borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                          child: Container(
-                            height: 20,
-                            width: 200,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  responseBuilder: (context, RepositoryModel repo) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          repo.description != null
-                              ? repo.description!.length > 100
-                                  ? repo.description!.substring(0, 100) + '...'
-                                  : repo.description ?? 'No description.'
-                              : 'No description.',
-                          style: AppThemeTextStyles.eventCardChildSubtitle,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            LanguageIndicator(
-                              repo.language,
-                              size: 13,
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Octicons.star,
-                                  size: 12,
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                Text(
-                                  repo.stargazersCount.toString(),
-                                  style:
-                                      AppThemeTextStyles.eventCardChildFooter,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Text(
-                              'Updated ${DateFormat('MMM d').format(repo.updatedAt!)}',
-                              style: AppThemeTextStyles.eventCardChildFooter,
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
+          loadingBuilder: (context) {
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    repoName!,
+                    style: AppThemeTextStyles.eventCardChildTitle,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  ShimmerWidget(
+                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    child: Container(
+                      height: 20,
+                      width: double.infinity,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  ShimmerWidget(
+                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    child: Container(
+                      height: 20,
+                      width: 200,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          responseBuilder: (context, RepositoryModel repo) {
+            return RepositoryCard(
+              repo,
+              isThemed: false,
+            );
+          },
         ),
       ),
     );

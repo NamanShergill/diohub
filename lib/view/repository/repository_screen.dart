@@ -117,7 +117,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             .tree
                             .length >
                         1 &&
-                    tabController.index == 1)) {
+                    tabController.index == 2)) {
                   if (Provider.of<CodeProvider>(context, listen: false)
                           .status !=
                       Status.loading)

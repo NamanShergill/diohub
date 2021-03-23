@@ -23,7 +23,7 @@ class AboutUser extends StatelessWidget {
               'Bio',
               child: Row(
                 children: [
-                  Text(userInfoModel!.bio!),
+                  Flexible(child: Text(userInfoModel!.bio!)),
                 ],
               ),
             ),

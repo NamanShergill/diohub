@@ -24,7 +24,8 @@ class _UserProfileScreenState<T extends UserInfoModel?>
   @override
   void initState() {
     data = widget.userData;
-    tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    tabController = TabController(
+        length: data!.type == Type.user ? 4 : 2, vsync: this, initialIndex: 0);
     super.initState();
   }
 
@@ -116,7 +117,12 @@ class _UserProfileScreenState<T extends UserInfoModel?>
             ),
           ],
         ),
-        tabs: ['About', 'Overview', 'Repositories', 'Activity'],
+        tabs: [
+          'About',
+          if (data!.type == Type.user) 'Overview',
+          'Repositories',
+          if (data!.type == Type.user) 'Activity'
+        ],
         appBarWidget: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -141,17 +147,18 @@ class _UserProfileScreenState<T extends UserInfoModel?>
       tabController: tabController,
       tabViews: [
         AboutUser(data),
-        UserOverviewScreen(data),
+        if (data!.type == Type.user) UserOverviewScreen(data),
         UserRepositories(
           data,
           currentUser: widget.isCurrentUser,
         ),
-        Container(
-          color: AppColor.onBackground,
-          child: Events(
-            specificUser: data!.login,
+        if (data!.type == Type.user)
+          Container(
+            color: AppColor.onBackground,
+            child: Events(
+              specificUser: data!.login,
+            ),
           ),
-        ),
       ],
     );
   }

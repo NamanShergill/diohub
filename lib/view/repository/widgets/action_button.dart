@@ -46,7 +46,6 @@ class _ActionButtonState extends State<ActionButton> {
     return Button(
       listenToLoadingController: false,
       stretch: false,
-      elevation: 0,
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       color: AppColor.onBackground,
       onTap: () {},
