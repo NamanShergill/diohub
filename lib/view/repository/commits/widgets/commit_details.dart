@@ -40,8 +40,8 @@ class CommitDetails extends StatelessWidget {
               children: [
                 Expanded(
                   child: ProfileTile(
-                    _commit.commit!.author!.avatarUrl,
-                    userLogin: _commit.commit!.author!.login,
+                    _commit.commit!.author?.avatarUrl,
+                    userLogin: _commit.commit!.author?.login,
                     showName: true,
                   ),
                 ),
@@ -75,7 +75,8 @@ class CommitDetails extends StatelessWidget {
                       );
                     },
                     itemBuilder: (context, index) {
-                      return CommitSHAButton(_commit.commit!.parents![index].sha,
+                      return CommitSHAButton(
+                          _commit.commit!.parents![index].sha,
                           _commit.commit!.parents![index].url);
                     },
                   ),

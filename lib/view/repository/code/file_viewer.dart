@@ -117,7 +117,9 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
 }
 
 class ContentViewController {
-  late bool Function() wrap;
+  bool Function() wrap = () {
+    return false;
+  };
   bool Function()? edit;
 }
 

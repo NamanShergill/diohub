@@ -79,14 +79,14 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         Row(
                           children: [
                             ProfileTile(
-                              widget.item!.author!.avatarUrl,
+                              widget.item!.author?.avatarUrl,
                               size: 13,
                             ),
                             SizedBox(
                               width: 5,
                             ),
                             Text(
-                              widget.item!.author!.login!,
+                              widget.item!.author?.login ?? 'N/A',
                               style: TextStyle(fontSize: 11),
                             ),
                           ],

@@ -39,7 +39,7 @@ class ProfileTile extends StatelessWidget {
             children: [
               ClipOval(
                 child: CachedNetworkImage(
-                  imageUrl: avatarUrl!,
+                  imageUrl: avatarUrl ?? 'N/A',
                   height: size,
                   fit: BoxFit.fill,
                   placeholder: (context, string) {
@@ -59,11 +59,11 @@ class ProfileTile extends StatelessWidget {
                   },
                 ),
               ),
-              if (showName && userLogin != null)
+              if (showName)
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    userLogin!,
+                    userLogin ?? 'N/A',
                     style: textStyle,
                   ),
                 ),

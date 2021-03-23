@@ -11,15 +11,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  auto_route: ^1.0.1
+  auto_route: ^1.0.2
   another_flushbar: ^1.10.17
   cached_network_image: ^3.0.0-nullsafety
-  connectivity: ^3.0.2
+  connectivity: ^3.0.3
   dio: ^4.0.0-beta7
   dio_cache_interceptor: ^2.0.0-rc.1
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0
-  flutter_countdown_timer: ^4.0.0
+  flutter_countdown_timer: ^4.0.2
   flutter_datetime_picker: ^1.5.0
   flutter_emoji: ^2.2.1+1
   flutter_highlight:
@@ -42,7 +42,7 @@ dependencies:
     git:
       url: https://github.com/NamanShergill/onehub_google_nav_bar.git
       ref: master
-  graphql: ^5.0.0-nullsafety.2
+  graphql: ^5.0.0-nullsafety.3
   infinite_scroll_pagination: ^3.0.1
   intl: ^0.17.0
   line_icons: ^2.0.1
@@ -60,7 +60,6 @@ dependencies:
   provider: ^5.0.0
   share: ^2.0.1
   shimmer: ^2.0.0-nullsafety.0
-  snapping_sheet: ^2.0.2
   sqlite3_flutter_libs: ^0.4.1
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.2
@@ -70,7 +69,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^1.0.1
+  auto_route_generator: ^1.0.2
   build_runner: ^1.11.5
 
 dependency_overrides:

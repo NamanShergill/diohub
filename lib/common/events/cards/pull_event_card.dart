@@ -11,9 +11,7 @@ class PullEventCard extends StatelessWidget {
     return BaseEventCard(
       actor: event.actor!.login,
       headerText: [
-        TextSpan(
-            text:
-                ' ${actionValues.reverse[event.payload.action]} a pull request in '),
+        TextSpan(text: ' ${event.payload.action} a pull request in '),
         TextSpan(
           text: event.repo!.name,
           style: TextStyle(fontWeight: FontWeight.bold),

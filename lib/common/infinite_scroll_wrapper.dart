@@ -7,7 +7,7 @@ import 'loading_indicator.dart';
 
 /// Controller for [InfiniteScrollWrapper].
 class InfiniteScrollWrapperController {
-  late void Function() refresh;
+  void Function() refresh = () {};
 }
 
 typedef ScrollWrapperFuture<T>(

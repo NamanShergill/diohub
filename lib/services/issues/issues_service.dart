@@ -31,7 +31,6 @@ class IssuesService {
       {String? since}) async {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
-            debugLog: true,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(issueURL + '/comments', queryParameters: {
       'since': since,
@@ -156,7 +155,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
   static Future<IssueModel> addAssignees(
       String? issueURL, List<String?> users) async {
-    Response response = await GetDio.getDio(applyBaseURL: false, debugLog: true)
+    Response response = await GetDio.getDio(applyBaseURL: false)
         .post('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
@@ -164,7 +163,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#remove-assignees-from-an-issue
   static Future<IssueModel> removeAssignees(
       String? issueURL, List<String?> users) async {
-    Response response = await GetDio.getDio(applyBaseURL: false, debugLog: true)
+    Response response = await GetDio.getDio(applyBaseURL: false)
         .delete('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
@@ -194,7 +193,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#set-labels-for-an-issue
   static Future<List<Label>> setLabels(
       String? issueURL, List<String?>? labels) async {
-    Response response = await GetDio.getDio(applyBaseURL: false, debugLog: true)
+    Response response = await GetDio.getDio(applyBaseURL: false)
         .put('$issueURL/labels', data: {'labels': labels});
     List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();

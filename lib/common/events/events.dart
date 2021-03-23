@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/common/events/cards/added_event_card.dart';
 import 'package:onehub/common/events/cards/issues_event_card.dart';
 import 'package:onehub/common/events/cards/pull_event_card.dart';
 import 'package:onehub/common/events/cards/push_event_card.dart';
@@ -45,7 +46,7 @@ class Events extends StatelessWidget {
               } else if (item.payload.refType == RefType.BRANCH) {
                 return RepoEventCard(
                   item,
-                  'created a new branch in',
+                  'created a new branch \'${item.payload.ref}\' in',
                   branch: item.payload.ref,
                 );
               }
@@ -55,6 +56,12 @@ class Events extends StatelessWidget {
                 'made',
                 eventTextEnd: 'public',
               );
+            else if (item.type == EventsType.MemberEvent)
+              return AddedEventCard(item,
+                  '${item.payload.action} ${item.payload.member.login} to');
+            else if (item.type == EventsType.DeleteEvent)
+              return RepoEventCard(item,
+                  'deleted a ${refTypeValues.reverse[item.payload.refType]} \'${item.payload.ref}\' in');
             else if (item.type == EventsType.PullRequestEvent)
               return PullEventCard(
                 item,
@@ -66,8 +73,12 @@ class Events extends StatelessWidget {
                 repo: item.payload.forkee,
               );
             else if (item.type == EventsType.IssuesEvent)
+              return IssuesEventCard(item, 'an issue in');
+            else if (item.type == EventsType.IssueCommentEvent)
               return IssuesEventCard(
                 item,
+                'a comment in',
+                time: item.createdAt,
               );
             return Padding(
               padding: const EdgeInsets.all(

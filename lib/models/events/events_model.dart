@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:onehub/models/users/user_info_model.dart';
 
 class EventsModel {
   EventsModel({
@@ -160,6 +161,7 @@ class Payload {
     this.description,
     this.pusherType,
     this.issue,
+    this.member,
     this.comment,
     this.review,
     this.release,
@@ -173,7 +175,7 @@ class Payload {
   String head;
   String before;
   List<Commit> commits;
-  Action action;
+  String action;
   int number;
   PullRequestModel pullRequest;
   RefType refType;
@@ -182,6 +184,7 @@ class Payload {
   PusherType pusherType;
   IssueModel issue;
   Comment comment;
+  UserInfoModel member;
   Review review;
   Release release;
 
@@ -194,7 +197,7 @@ class Payload {
     String head,
     String before,
     List<Commit> commits,
-    Action action,
+    String action,
     int number,
     PullRequestModel pullRequest,
     RefType refType,
@@ -246,8 +249,7 @@ class Payload {
         commits: json["commits"] == null
             ? null
             : List<Commit>.from(json["commits"].map((x) => Commit.fromJson(x))),
-        action:
-            json["action"] == null ? null : actionValues.map[json["action"]],
+        action: json["action"] == null ? null : json["action"],
         number: json["number"] == null ? null : json["number"],
         pullRequest: json["pull_request"] == null
             ? null
@@ -269,6 +271,9 @@ class Payload {
         review: json["review"] == null ? null : Review.fromJson(json["review"]),
         release:
             json["release"] == null ? null : Release.fromJson(json["release"]),
+        member: json['member'] == null
+            ? null
+            : UserInfoModel.fromJson(json['member']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -282,7 +287,7 @@ class Payload {
         "commits": commits == null
             ? null
             : List<dynamic>.from(commits.map((x) => x.toJson())),
-        "action": action == null ? null : actionValues.reverse[action],
+        "action": action == null ? null : action,
         "number": number == null ? null : number,
         "pull_request": pullRequest == null ? null : pullRequest.toJson(),
         "ref_type": refType == null ? null : refTypeValues.reverse[refType],
@@ -298,16 +303,6 @@ class Payload {
         "release": release == null ? null : release.toJson(),
       };
 }
-
-enum Action { OPENED, STARTED, CREATED, CLOSED, PUBLISHED }
-
-final actionValues = EnumValues({
-  "closed": Action.CLOSED,
-  "created": Action.CREATED,
-  "opened": Action.OPENED,
-  "published": Action.PUBLISHED,
-  "started": Action.STARTED
-});
 
 class Comment {
   Comment({

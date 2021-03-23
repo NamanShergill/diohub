@@ -13,10 +13,12 @@ class IssueListCard extends StatelessWidget {
   final bool compact;
   final EdgeInsets padding;
   final bool disableMaterial;
+  final DateTime? commentsSince;
   IssueListCard(this.item,
       {this.compact = false,
       this.disableMaterial = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8.0)});
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+      this.commentsSince});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,7 +32,10 @@ class IssueListCard extends StatelessWidget {
           onTap: () {
             // Todo: Add case to send to linked PR if one exists.
             AutoRouter.of(context).push(IssueScreenRoute(
-                issueURL: item.url, repoURL: item.repositoryUrl));
+                issueURL: item.url,
+                repoURL: item.repositoryUrl,
+                commentsSince: commentsSince,
+                initialIndex: commentsSince != null ? 1 : 0));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),

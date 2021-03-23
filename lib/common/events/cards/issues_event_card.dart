@@ -5,7 +5,9 @@ import 'package:onehub/models/events/events_model.dart';
 
 class IssuesEventCard extends StatelessWidget {
   final EventsModel event;
-  IssuesEventCard(this.event);
+  final DateTime? time;
+  final String trailingHeaderText;
+  IssuesEventCard(this.event, this.trailingHeaderText, {this.time});
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
@@ -13,7 +15,7 @@ class IssuesEventCard extends StatelessWidget {
       headerText: [
         TextSpan(
             text:
-                ' ${actionValues.reverse[event.payload.action]} an issue in '),
+                ' ${event.payload.action} $trailingHeaderText '),
         TextSpan(
           text: event.repo!.name,
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -25,6 +27,7 @@ class IssuesEventCard extends StatelessWidget {
       childPadding: EdgeInsets.zero,
       child: IssueListCard(
         event.payload.issue,
+        commentsSince: time,
         disableMaterial: true,
         compact: true,
         padding: EdgeInsets.zero,

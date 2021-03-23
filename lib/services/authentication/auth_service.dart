@@ -71,7 +71,6 @@ class AuthService {
             loggedIn: false,
             loginRequired: false,
             baseURL: 'https://github.com/',
-            debugLog: false,
             buttonLock: false)
         .post("${_url}oauth/access_token", data: formData);
     if (response.data['access_token'] != null) {
