@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/common/place_holder.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -14,7 +15,9 @@ class _SearchScreenState extends State<SearchScreen>
     super.build(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [],
+      children: [
+        TextPlaceHolder('Search currently W.I.P.'),
+      ],
     );
   }
 }

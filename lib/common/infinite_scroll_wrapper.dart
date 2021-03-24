@@ -156,7 +156,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      color: AppColor.accent,
+      color: Colors.white,
       onRefresh: () => Future.sync(() async {
         resetAndRefresh();
       }),

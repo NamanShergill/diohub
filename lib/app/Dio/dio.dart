@@ -61,7 +61,7 @@ class GetDio {
           final cache = await Global.cacheStore.get(key);
           if (cache != null &&
               cacheOptions != null &&
-              !cacheOptions.refresh &&
+              !(cacheOptions.policy == CachePolicy.refresh) &&
               DateTime.now()
                   .isBefore(cache.responseDate.add(cacheOptions.maxAge))) {
             if (buttonLock) ButtonController.setButtonValue(false);

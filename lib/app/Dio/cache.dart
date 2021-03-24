@@ -26,16 +26,15 @@ class CacheManager {
       CustomCacheOptions(refresh);
 
   static void clearCache() async {
-    await DbCacheStore(databasePath: Global.directoryPath!).clean();
+    await Global.cacheStore.clean();
   }
 }
 
 class CustomCacheOptions extends CacheOptions {
   final Duration maxAge;
-  final bool refresh;
   CustomCacheOptions(
-    this.refresh, {
-    this.maxAge = const Duration(minutes: 15),
+    bool refresh, {
+    this.maxAge = const Duration(minutes: 10),
     List<int> hitCacheOnErrorExcept = const [401, 403],
     CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     Duration maxStale = const Duration(days: 7),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
+import 'package:onehub/common/place_holder.dart';
 import 'package:onehub/common/pulls/pull_list_card.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/pull_requests/pull_request_model.dart';
@@ -24,8 +25,8 @@ class PullsTab extends StatelessWidget {
       },
       header: (context) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(height: 50, child: Placeholder()),
+          padding: const EdgeInsets.only(top: 16.0),
+          child: TextPlaceHolder('Filtering options currently W.I.P.'),
         );
       },
       divider: false,

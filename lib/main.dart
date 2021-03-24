@@ -80,14 +80,23 @@ class MyApp extends StatelessWidget {
                   scrollbarTheme: ScrollbarThemeData(
                       thumbColor:
                           MaterialStateProperty.all<Color>(Colors.grey)),
+                  dialogTheme: DialogTheme(
+                    backgroundColor: AppColor.background,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: AppThemeBorderRadius.medBorderRadius),
+                    titleTextStyle: TextStyle(color: Colors.white),
+                    contentTextStyle: TextStyle(color: Colors.white),
+                  ),
                   scaffoldBackgroundColor: AppColor.background,
                   primaryIconTheme: IconThemeData(color: Colors.white),
                   accentIconTheme: IconThemeData(color: AppColor.accent),
                   dividerColor: Colors.grey.withOpacity(0.7),
+                  brightness: Brightness.dark,
                   backgroundColor: AppColor.background,
                   buttonTheme: ButtonThemeData(
                     textTheme: ButtonTextTheme.primary,
                     padding: EdgeInsets.zero,
+                    colorScheme: ColorScheme.dark(),
                     shape: RoundedRectangleBorder(
                         borderRadius: AppThemeBorderRadius.medBorderRadius),
                   ),

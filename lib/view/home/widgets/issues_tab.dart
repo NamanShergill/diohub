@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/issues/issue_list_card.dart';
+import 'package:onehub/common/place_holder.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/services/issues/issues_service.dart';
 
@@ -20,8 +21,8 @@ class IssuesTab extends StatelessWidget {
       },
       header: (context) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(height: 50, child: Placeholder()),
+          padding: const EdgeInsets.only(top: 16.0),
+          child: TextPlaceHolder('Filtering options currently W.I.P.'),
         );
       },
       divider: false,

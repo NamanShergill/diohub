@@ -199,12 +199,13 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          widget.deviceCodeModel.verificationUri!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline),
+                        Flexible(
+                          child: Text(
+                            widget.deviceCodeModel.verificationUri!,
+                            style: TextStyle(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline),
+                          ),
                         ),
                       ],
                     ),

@@ -38,9 +38,10 @@ class CommitDetails extends StatelessWidget {
             'Made by',
             child: Row(
               children: [
-                Expanded(
+                Flexible(
                   child: ProfileTile(
                     _commit.commit!.author?.avatarUrl,
+                    padding: EdgeInsets.all(8),
                     userLogin: _commit.commit!.author?.login,
                     showName: true,
                   ),

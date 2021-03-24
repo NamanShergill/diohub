@@ -202,7 +202,7 @@ class RepoCardLoading extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   ShimmerWidget(
                     borderRadius: AppThemeBorderRadius.smallBorderRadius,
