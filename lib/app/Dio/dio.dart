@@ -16,7 +16,7 @@ class GetDio {
     String baseURL = Global.apiBaseURL,
     bool applyBaseURL = true,
     bool loginRequired = true,
-    bool debugLog = false,
+    bool debugLog = true,
     bool buttonLock = true,
     bool showPopup = true,
     String? acceptHeader,
@@ -57,17 +57,19 @@ class GetDio {
 
           // Check cache first and return cached data if supplied maxAge
           // has not elapsed.
-          final key = CacheOptions.defaultCacheKeyBuilder(options);
-          final cache = await Global.cacheStore.get(key);
-          if (cache != null &&
-              cacheOptions != null &&
-              !(cacheOptions.policy == CachePolicy.refresh) &&
-              DateTime.now()
-                  .isBefore(cache.responseDate.add(cacheOptions.maxAge))) {
-            if (buttonLock) ButtonController.setButtonValue(false);
-            // Resolve the request and pass cached data as response.
-            return handler
-                .resolve(cache.toResponse(options, fromNetwork: false));
+          if (cacheEnabled) {
+            final key = CacheOptions.defaultCacheKeyBuilder(options);
+            final cache = await Global.cacheStore.get(key);
+            if (cache != null &&
+                cacheOptions != null &&
+                !(cacheOptions.policy == CachePolicy.refresh) &&
+                DateTime.now()
+                    .isBefore(cache.responseDate.add(cacheOptions.maxAge))) {
+              if (buttonLock) ButtonController.setButtonValue(false);
+              // Resolve the request and pass cached data as response.
+              return handler
+                  .resolve(cache.toResponse(options, fromNetwork: false));
+            }
           }
           // Proceed with the request.
           handler.next(options);
@@ -92,7 +94,7 @@ class GetDio {
 
           // Todo: Add better exception handling based on response codes.
           if (error.response == null) {
-            throw Exception(error.message);
+            handler.next(error);
           } else if (error.response?.data.runtimeType is Map &&
               error.response?.data.containsKey("message") &&
               showPopup) {
@@ -109,12 +111,12 @@ class GetDio {
         DioCacheInterceptor(
             options: cacheOptions ??
                 CacheOptions(
-                    policy: CachePolicy.request, store: Global.cacheStore)),
+                    policy: CachePolicy.refresh, store: Global.cacheStore)),
       );
     // Log the request in the console for debugging if [debugLog] is true.
     if (debugLog)
-      dio.interceptors
-          .add(PrettyDioLogger(requestHeader: true, requestBody: true));
+      dio.interceptors.add(PrettyDioLogger(
+          requestHeader: true, requestBody: true, responseHeader: true));
     return dio;
   }
 }

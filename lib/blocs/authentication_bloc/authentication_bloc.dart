@@ -27,13 +27,17 @@ class AuthenticationBloc
         yield AuthenticationUnauthenticated();
     } else if (event is RequestDeviceCode) {
       // Get device code to initiate authentication.
-      Response response = await AuthService.getDeviceToken();
-      // ['device_code'] should not be null.
-      if (response.data['device_code'] != null) {
-        yield AuthenticationInitialized(
-            DeviceCodeModel.fromJson(response.data));
-      } else {
-        yield AuthenticationError('Something went wrong, please try again.');
+      try {
+        Response response = await AuthService.getDeviceToken();
+        // ['device_code'] should not be null.
+        if (response.data['device_code'] != null) {
+          yield AuthenticationInitialized(
+              DeviceCodeModel.fromJson(response.data));
+        } else {
+          yield AuthenticationError('Something went wrong, please try again.');
+        }
+      } catch (e) {
+        add(AuthError(e.toString()));
       }
     } else if (event is RequestAccessToken) {
       // Recurring function to request access token from Github on the supplied interval

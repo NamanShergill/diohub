@@ -42,6 +42,7 @@ class AuthService {
     var response = await GetDio.getDio(
             loggedIn: false,
             baseURL: 'https://github.com/',
+            debugLog: false,
             loginRequired: false)
         .post("${_url}device/code", data: formData);
     return response;
@@ -67,19 +68,27 @@ class AuthService {
       'device_code': deviceCode,
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
-    Response response = await GetDio.getDio(
-            loggedIn: false,
-            loginRequired: false,
-            baseURL: 'https://github.com/',
-            buttonLock: false)
-        .post("${_url}oauth/access_token", data: formData);
-    if (response.data['access_token'] != null) {
-      storeAccessToken(AccessTokenModel.fromJson(response.data));
+    try {
+      Response response = await GetDio.getDio(
+              loggedIn: false,
+              loginRequired: false,
+              cacheEnabled: false,
+              debugLog: false,
+              baseURL: 'https://github.com/',
+              buttonLock: false)
+          .post("${_url}oauth/access_token", data: formData);
+      if (response.data['access_token'] != null) {
+        storeAccessToken(AccessTokenModel.fromJson(response.data));
+        return response;
+      } else if (response.data['error'] != null &&
+          response.data['error'] != "authorization_pending" &&
+          response.data['error'] != "slow_down")
+        throw Exception(response.data['error_description']);
       return response;
-    } else if (response.data['error'] == 'incorrect_device_code') {
-      throw Exception(response.data['error_description']);
+    } catch (e) {
+      print(e);
+      throw Exception(e);
     }
-    return response;
   }
 
   Future<DeviceCodeModel> getDeviceCode() async {
