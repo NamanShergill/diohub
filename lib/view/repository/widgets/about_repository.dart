@@ -51,10 +51,10 @@ class AboutRepository extends StatelessWidget {
                 'Forked from',
                 child: RepositoryCard(repo.source),
               ),
-            if (repo.homepage != null&&repo.homepage!.isNotEmpty)
+            if (repo.homepage != null && repo.homepage!.isNotEmpty)
               InfoCard(
                 'Homepage',
-                onTap: (){
+                onTap: () {
                   showURLBottomActionsMenu(context, repo.homepage);
                 },
                 child: Row(
@@ -88,9 +88,6 @@ class AboutRepository extends StatelessWidget {
                         height: 8,
                       ),
                       Text('Watchers: ${repo.watchersCount}'),
-                      SizedBox(
-                        height: 8,
-                      ),
                     ],
                   ),
                 ],

@@ -25,7 +25,7 @@ class InfoCard extends StatelessWidget {
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: onTap as void Function()?,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class InfoCard extends StatelessWidget {
                 //   height: 24,
                 // ),
                 SizedBox(
-                  height: 16,
+                  height: 8,
                 ),
                 child ?? Container(),
               ],

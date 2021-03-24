@@ -14,9 +14,12 @@ class PullListCard extends StatelessWidget {
   final bool compact;
   final bool disableMaterial;
   final EdgeInsets padding;
+  final bool showRepoName;
+
   PullListCard(this.item,
       {this.compact = false,
       this.disableMaterial = false,
+      this.showRepoName = true,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0)});
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,21 @@ class PullListCard extends StatelessWidget {
                     SizedBox(
                       width: 4,
                     ),
+                    if (showRepoName)
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: Text(
+                            item.links!.self!.href!
+                                .replaceAll('https://api.github.com/repos/', '')
+                                .split('/')
+                                .sublist(0, 2)
+                                .join('/'),
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: AppColor.grey3),
+                          ),
+                        ),
+                      ),
                     Text(
                       '#${item.number}',
                       style: TextStyle(color: AppColor.grey3),

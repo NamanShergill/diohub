@@ -35,7 +35,10 @@ class _PullsListState extends State<PullsList> {
       },
       divider: false,
       builder: (context, item, index) {
-        return PullListCard(item);
+        return PullListCard(
+          item,
+          showRepoName: false,
+        );
       },
     );
   }

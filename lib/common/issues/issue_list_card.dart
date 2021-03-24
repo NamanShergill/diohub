@@ -14,8 +14,10 @@ class IssueListCard extends StatelessWidget {
   final EdgeInsets padding;
   final bool disableMaterial;
   final DateTime? commentsSince;
+  final bool showRepoName;
   IssueListCard(this.item,
       {this.compact = false,
+      this.showRepoName = true,
       this.disableMaterial = false,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
       this.commentsSince});
@@ -48,6 +50,21 @@ class IssueListCard extends StatelessWidget {
                     SizedBox(
                       width: 4,
                     ),
+                    if (showRepoName)
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: Text(
+                            item.url!
+                                .replaceAll('https://api.github.com/repos/', '')
+                                .split('/')
+                                .sublist(0, 2)
+                                .join('/'),
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: AppColor.grey3),
+                          ),
+                        ),
+                      ),
                     Text(
                       '#${item.number}',
                       style: TextStyle(color: AppColor.grey3),

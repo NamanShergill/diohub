@@ -34,7 +34,10 @@ class IssuesList extends StatelessWidget {
       },
       divider: false,
       builder: (context, item, index) {
-        return IssueListCard(item);
+        return IssueListCard(
+          item,
+          showRepoName: false,
+        );
       },
     );
   }
