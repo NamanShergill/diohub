@@ -17,7 +17,8 @@ import 'language_indicator.dart';
 class RepositoryCard extends StatelessWidget {
   final RepositoryModel? repo;
   final bool isThemed;
-  RepositoryCard(this.repo, {this.isThemed = true});
+  final String? branch;
+  RepositoryCard(this.repo, {this.isThemed = true, this.branch});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,8 +32,10 @@ class RepositoryCard extends StatelessWidget {
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
-            AutoRouter.of(context)
-                .push(RepositoryScreenRoute(repositoryURL: repo!.url));
+            AutoRouter.of(context).push(RepositoryScreenRoute(
+              repositoryURL: repo!.url,
+              branch: branch,
+            ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
@@ -216,6 +219,7 @@ class RepoCardLoading extends StatelessWidget {
           responseBuilder: (context, RepositoryModel repo) {
             return RepositoryCard(
               repo,
+              branch: branch,
               isThemed: false,
             );
           },

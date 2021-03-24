@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.0.1-24032021.internal+1
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -71,6 +71,12 @@ dev_dependencies:
     sdk: flutter
   auto_route_generator: ^1.0.2
   build_runner: ^1.11.5
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon/icon.png"
 
 dependency_overrides:
   web_socket_channel: ^2.0.0
