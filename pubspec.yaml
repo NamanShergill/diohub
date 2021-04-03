@@ -15,8 +15,8 @@ dependencies:
   another_flushbar: ^1.10.17
   cached_network_image: ^3.0.0-nullsafety
   connectivity: ^3.0.3
-  dio: ^4.0.0-beta7
-  dio_cache_interceptor: ^2.0.0-rc.1
+  dio: ^4.0.0
+  dio_cache_interceptor: ^2.0.0
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0
   flutter_countdown_timer: ^4.0.2
@@ -62,7 +62,7 @@ dependencies:
   shimmer: ^2.0.0-nullsafety.0
   sqlite3_flutter_libs: ^0.4.1
   url_launcher: ^6.0.2
-  webview_flutter: ^2.0.2
+  webview_flutter: ^2.0.3
 
   cupertino_icons: ^1.0.2
 

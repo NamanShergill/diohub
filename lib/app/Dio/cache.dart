@@ -3,7 +3,10 @@ import 'package:onehub/app/global.dart';
 
 class CacheManager {
   static CustomCacheOptions notifications({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+      CustomCacheOptions(refresh,
+          // Have to set it to [CachePolicy.refresh] to ignore 304 error because
+          // GitHub always sends a 304 on the notifications for some reason.
+          cachePolicy: CachePolicy.refresh);
 
   static CustomCacheOptions currentUserProfileInfo({bool refresh = false}) =>
       CustomCacheOptions(refresh);
@@ -32,16 +35,18 @@ class CacheManager {
 
 class CustomCacheOptions extends CacheOptions {
   final Duration maxAge;
+  final bool refresh;
   CustomCacheOptions(
-    bool refresh, {
+    this.refresh, {
     this.maxAge = const Duration(minutes: 10),
     List<int> hitCacheOnErrorExcept = const [401, 403],
     CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     Duration maxStale = const Duration(days: 7),
     CachePriority priority = CachePriority.normal,
+    CachePolicy cachePolicy = CachePolicy.request,
   }) : super(
             store: Global.cacheStore,
-            policy: refresh ? CachePolicy.refresh : CachePolicy.request,
+            policy: refresh ? CachePolicy.refresh : cachePolicy,
             hitCacheOnErrorExcept: hitCacheOnErrorExcept,
             keyBuilder: keyBuilder,
             maxStale: maxStale,

@@ -136,6 +136,7 @@ class _DiscussionState extends State<Discussion>
                   return IssuesService.getIssueTimeline(
                       widget.issueUrl, pageSize, pageNumber, refresh);
                 },
+                controller: commentsSinceController,
                 firstPageLoadingBuilder: (context) {
                   return Container(
                     color: AppColor.background,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
@@ -16,7 +17,7 @@ class GetDio {
     String baseURL = Global.apiBaseURL,
     bool applyBaseURL = true,
     bool loginRequired = true,
-    bool debugLog = true,
+    bool debugLog = kReleaseMode,
     bool buttonLock = true,
     bool showPopup = true,
     String? acceptHeader,
@@ -62,7 +63,7 @@ class GetDio {
             final cache = await Global.cacheStore.get(key);
             if (cache != null &&
                 cacheOptions != null &&
-                !(cacheOptions.policy == CachePolicy.refresh) &&
+                !(cacheOptions.refresh) &&
                 DateTime.now()
                     .isBefore(cache.responseDate.add(cacheOptions.maxAge))) {
               if (buttonLock) ButtonController.setButtonValue(false);
