@@ -82,38 +82,49 @@ class _DiscussionState extends State<Discussion>
                 controller: commentsSinceController,
                 bottomSpacing: 60,
                 header: (context) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Button(
-                      listenToLoadingController: false,
-                      color: AppColor.onBackground,
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Showing comments since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Button(
+                          listenToLoadingController: false,
+                          color: AppColor.onBackground,
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Showing comments since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                'Load the whole timeline?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            'Load the whole timeline?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
+                          onTap: () {
+                            setState(() {
+                              commentsSince = null;
+                            });
+                          },
+                        ),
                       ),
-                      onTap: () {
-                        setState(() {
-                          commentsSince = null;
-                        });
-                      },
-                    ),
+                      if (widget.initialComment!.createdAt!.isAfter(
+                          commentsSince!.subtract(Duration(minutes: 5))))
+                        paddingWrap(
+                          child: TimelineDiscussionComment(
+                              widget.initialComment, widget.isLocked),
+                        ),
+                    ],
                   );
                 },
                 firstPageLoadingBuilder: (context) {

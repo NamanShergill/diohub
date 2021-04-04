@@ -103,7 +103,7 @@ class RepositoryServices {
         },
       ),
     );
-    if (response.statusCode == 200)
+    if (response.statusCode == 200 || response.statusCode == 304)
       return true;
     else
       return false;

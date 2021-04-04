@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 
 class ImageLoader extends StatelessWidget {
@@ -17,13 +18,18 @@ class ImageLoader extends StatelessWidget {
         return errorBuilder != null ? errorBuilder!(context) : Container();
       },
       placeholder: (context, string) {
-        return ShimmerWidget(
-          child: Container(
-            height: size,
-            width: size,
-            color: Colors.grey,
-          ),
-        );
+        return size != null
+            ? ShimmerWidget(
+                child: Container(
+                  height: size,
+                  width: size,
+                  color: Colors.grey,
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: LoadingIndicator(),
+              );
       },
     );
   }

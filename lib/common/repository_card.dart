@@ -187,7 +187,7 @@ class RepoCardLoading extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    repoName!,
+                    repoName!.split('/').last,
                     style: AppThemeTextStyles.eventCardChildTitle,
                   ),
                   SizedBox(

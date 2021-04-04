@@ -197,7 +197,8 @@ class BasicEventLabeledCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicEventCard(
       iconColor: iconColor,
-      content: Row(
+      content: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text(
             '${added! ? 'Added' : 'Removed'} the',

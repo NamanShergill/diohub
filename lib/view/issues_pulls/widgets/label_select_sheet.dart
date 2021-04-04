@@ -36,9 +36,7 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      controller: widget.controller,
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -66,6 +64,7 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
                 return IssuesService.listAvailableLabels(
                     widget.repoURL, pageNumber, pageSize);
               },
+              scrollController: widget.controller,
               listEndIndicator: false,
               builder: (context, item, index) {
                 return CheckboxListTile(
