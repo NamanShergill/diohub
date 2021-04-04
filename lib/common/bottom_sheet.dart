@@ -129,7 +129,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
     builder: (context) {
       final _media = MediaQuery.of(context).size;
       return DraggableScrollableSheet(
-        initialChildSize: 1,
+        initialChildSize: 0.7,
         maxChildSize: 1,
         expand: false,
         minChildSize: 0.6,

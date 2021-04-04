@@ -99,24 +99,21 @@ class ScrollViewAppBar extends StatelessWidget {
       ),
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(bottomPadding ?? 0),
-        child: Container(
-          color: AppColor.background,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: bottomHeader ?? Container(),
-              ),
-              AppTabBar(
-                controller: tabController,
-                tabs: List.generate(
-                    tabs!.length,
-                    (index) => AppTab(
-                          title: tabs![index],
-                        )),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: bottomHeader ?? Container(),
+            ),
+            AppTabBar(
+              controller: tabController,
+              tabs: List.generate(
+                  tabs!.length,
+                  (index) => AppTab(
+                        title: tabs![index],
+                      )),
+            ),
+          ],
         ),
       ),
     );

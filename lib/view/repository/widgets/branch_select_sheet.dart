@@ -20,82 +20,75 @@ class BranchSelectSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      controller: controller,
-      children: [
-        Container(
-          height: _media.height * 0.85,
-          child: InfiniteScrollWrapper<RepoBranchListItemModel>(
-            listEndIndicator: false,
-            divider: false,
-            firstDivider: false,
-            future: (int pageNumber, int perPage, refresh, _) {
-              return RepositoryServices.fetchBranchList(
-                  repoURL, pageNumber, perPage, refresh);
-            },
-            builder: (context, item, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Material(
-                  borderRadius: AppThemeBorderRadius.medBorderRadius,
-                  color: item.name == currentBranch
-                      ? AppColor.accent
-                      : AppColor.onBackground,
-                  child: InkWell(
-                    borderRadius: AppThemeBorderRadius.medBorderRadius,
-                    onTap: () {
-                      onSelected!(item.name!);
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Row(
-                              children: [
-                                Icon(Octicons.git_branch, color: Colors.white),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    item.name!,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: item.name == currentBranch
-                                            ? FontWeight.bold
-                                            : FontWeight.normal),
-                                  ),
-                                ),
-                              ],
+    return Container(
+      height: _media.height * 0.85,
+      child: InfiniteScrollWrapper<RepoBranchListItemModel>(
+        listEndIndicator: false,
+        divider: false,
+        firstDivider: false,
+        future: (int pageNumber, int perPage, refresh, _) {
+          return RepositoryServices.fetchBranchList(
+              repoURL, pageNumber, perPage, refresh);
+        },
+        builder: (context, item, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Material(
+              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              color: item.name == currentBranch
+                  ? AppColor.accent
+                  : AppColor.onBackground,
+              child: InkWell(
+                borderRadius: AppThemeBorderRadius.medBorderRadius,
+                onTap: () {
+                  onSelected!(item.name!);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Row(
+                          children: [
+                            Icon(Octicons.git_branch, color: Colors.white),
+                            SizedBox(
+                              width: 8,
                             ),
-                          ),
-                          Visibility(
-                            visible: defaultBranch == item.name,
-                            child: Text(
-                              'Default',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  color: Colors.white),
+                            Flexible(
+                              child: Text(
+                                item.name!,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: item.name == currentBranch
+                                        ? FontWeight.bold
+                                        : FontWeight.normal),
+                              ),
                             ),
-                            replacement: Container(),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      Visibility(
+                        visible: defaultBranch == item.name,
+                        child: Text(
+                          'Default',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Colors.white),
+                        ),
+                        replacement: Container(),
+                      )
+                    ],
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -95,22 +95,25 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(0),
-                  child: AppTabBar(
-                    controller: _tabController,
-                    tabs: [
-                      AppTab(
-                        title: 'Activity',
-                      ),
-                      AppTab(
-                        title: 'Issues',
-                      ),
-                      AppTab(
-                        title: 'Pull Requests',
-                      ),
-                      AppTab(
-                        title: 'Public Activity',
-                      ),
-                    ],
+                  child: Container(
+                    color: AppColor.background,
+                    child: AppTabBar(
+                      controller: _tabController,
+                      tabs: [
+                        AppTab(
+                          title: 'Activity',
+                        ),
+                        AppTab(
+                          title: 'Issues',
+                        ),
+                        AppTab(
+                          title: 'Pull Requests',
+                        ),
+                        AppTab(
+                          title: 'Public Activity',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -13,6 +13,7 @@ import 'package:onehub/common/image_loader.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/markdown_emoji.dart';
 import 'package:onehub/utils/regex.dart';
 
 class MarkdownBodyController {
@@ -43,6 +44,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
   }
 
   void updateData(String data) {
+    data = emoteText(data);
     data = md.markdownToHtml(data);
     var document = parse(data);
     // The list of tags to perform modifications on.

@@ -46,117 +46,111 @@ class _CommitBrowserState extends State<CommitBrowser> {
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
 
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: widget.controller,
-      shrinkWrap: true,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Visibility(
-                  visible: isLocked!,
-                  child: Button(
-                    child: Text('Load latest commits.'),
-                    listenToLoadingController: false,
-                    onTap: () {
-                      setState(() {
-                        isLocked = false;
-                      });
-                      controller.refresh();
-                    },
-                  )),
-              Visibility(
-                visible: path.length > 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      ' Showing history for',
-                      style: TextStyle(),
-                    ),
-                    Container(
-                      height: 30,
-                      child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: path.length + 1,
-                          separatorBuilder: (context, index) {
-                            return Center(child: Text(' /'));
-                          },
-                          itemBuilder: (context, index) {
-                            return Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius:
-                                    AppThemeBorderRadius.smallBorderRadius,
-                                onTap: () {
-                                  setState(() {
-                                    if (index == 0)
-                                      path = [];
-                                    else
-                                      path = path.sublist(0, index);
-                                  });
-                                  controller.refresh();
-                                },
-                                child: Center(
-                                  child: Text(
-                                    ' ' +
-                                        (index == 0
-                                            ? widget.repoURL!.split('/').last
-                                            : path[index - 1]),
-                                    style: TextStyle(
-                                        color: index == path.length
-                                            ? AppColor.accent
-                                            : Colors.white,
-                                        fontWeight: index == path.length
-                                            ? FontWeight.bold
-                                            : FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                  ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Visibility(
+              visible: isLocked!,
+              child: Button(
+                child: Text('Load latest commits.'),
+                listenToLoadingController: false,
+                onTap: () {
+                  setState(() {
+                    isLocked = false;
+                  });
+                  controller.refresh();
+                },
+              )),
+          Visibility(
+            visible: path.length > 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  ' Showing history for',
+                  style: TextStyle(),
                 ),
-              ),
-              Container(
-                height: _media.height * 0.8,
-                child: InfiniteScrollWrapper<CommitListModel>(
-                  controller: controller,
-                  future: (pageNumber, pageSize, refresh, _) {
-                    return RepositoryServices.getCommitsList(
-                        repoURL: widget.repoURL!,
-                        pageNumber: pageNumber,
-                        pageSize: pageSize,
-                        path: path.join('/'),
-                        sha: isLocked! ? widget.currentSHA : widget.branchName,
-                        refresh: refresh);
-                  },
-                  divider: false,
-                  builder: (context, item, index) {
-                    return CommitBrowserTiles(
-                      highlighted: isLocked! && widget.currentSHA == item.sha,
-                      item: item,
-                      onSelected: (value) {
-                        widget.onSelected!(value);
-                        Navigator.pop(context);
+                Container(
+                  height: 30,
+                  child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: path.length + 1,
+                      separatorBuilder: (context, index) {
+                        return Center(child: Text(' /'));
                       },
-                    );
-                  },
+                      itemBuilder: (context, index) {
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius:
+                                AppThemeBorderRadius.smallBorderRadius,
+                            onTap: () {
+                              setState(() {
+                                if (index == 0)
+                                  path = [];
+                                else
+                                  path = path.sublist(0, index);
+                              });
+                              controller.refresh();
+                            },
+                            child: Center(
+                              child: Text(
+                                ' ' +
+                                    (index == 0
+                                        ? widget.repoURL!.split('/').last
+                                        : path[index - 1]),
+                                style: TextStyle(
+                                    color: index == path.length
+                                        ? AppColor.accent
+                                        : Colors.white,
+                                    fontWeight: index == path.length
+                                        ? FontWeight.bold
+                                        : FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 8,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          Container(
+            height: _media.height * 0.8,
+            child: InfiniteScrollWrapper<CommitListModel>(
+              controller: controller,
+              scrollController: widget.controller,
+              future: (pageNumber, pageSize, refresh, _) {
+                return RepositoryServices.getCommitsList(
+                    repoURL: widget.repoURL!,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize,
+                    path: path.join('/'),
+                    sha: isLocked! ? widget.currentSHA : widget.branchName,
+                    refresh: refresh);
+              },
+              divider: false,
+              builder: (context, item, index) {
+                return CommitBrowserTiles(
+                  highlighted: isLocked! && widget.currentSHA == item.sha,
+                  item: item,
+                  onSelected: (value) {
+                    widget.onSelected!(value);
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

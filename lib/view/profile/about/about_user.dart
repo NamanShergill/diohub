@@ -50,6 +50,10 @@ class AboutUser extends StatelessWidget {
           if (userInfoModel!.email != null)
             InfoCard(
               'Email',
+              onTap: () {
+                showURLBottomActionsMenu(
+                    context, 'mailto:${userInfoModel!.email}');
+              },
               child: Row(
                 children: [
                   Icon(

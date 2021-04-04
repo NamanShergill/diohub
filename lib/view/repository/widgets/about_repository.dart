@@ -5,6 +5,7 @@ import 'package:onehub/common/language_indicator.dart';
 import 'package:onehub/common/repository_card.dart';
 import 'package:onehub/models/repositories/repository_model.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/markdown_emoji.dart';
 
 class AboutRepository extends StatelessWidget {
   final RepositoryModel repo;
@@ -29,7 +30,7 @@ class AboutRepository extends StatelessWidget {
                 'About',
                 child: Row(
                   children: [
-                    Flexible(child: Text(repo.description!)),
+                    Flexible(child: Text(emoteText(repo.description!))),
                   ],
                 ),
               ),

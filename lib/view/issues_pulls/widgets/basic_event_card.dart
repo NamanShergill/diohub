@@ -229,8 +229,21 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
   final Color? iconColor;
   final String? date;
   final Source? content;
+  final String _correctRepo;
   BasicIssueCrossReferencedCard(
-      {this.user, this.content, this.date, this.leading, this.iconColor});
+      {this.user, this.content, this.date, this.leading, this.iconColor})
+      : _correctRepo = content!.issue!.repository!.fullName!;
+
+  // GitHub API sends the wrong links to the issue where the reference was in.
+  // This is here to fix them.
+  // Ref: https://github.com/NamanShergill/onehub/issues/7
+  String fixURL(String url) {
+    List<String> components = url.split('/');
+    components[4] = _correctRepo.split('/').first;
+    components[5] = _correctRepo.split('/').last;
+    return components.join('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -244,7 +257,12 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           IssueListCard(
-            IssueModel.fromJson(content!.issue!.toJson()),
+            content!.issue!.copyWith(
+                url: fixURL(content!.issue!.url!),
+                repositoryUrl: fixURL(content!.issue!.repositoryUrl!),
+                labelsUrl: fixURL(content!.issue!.labelsUrl!),
+                commentsUrl: fixURL(content!.issue!.commentsUrl!),
+                eventsUrl: fixURL(content!.issue!.eventsUrl!)),
             compact: true,
             padding: EdgeInsets.only(top: 8),
           ),
@@ -263,8 +281,22 @@ class BasicPullCrossReferencedCard extends StatelessWidget {
   final Color? iconColor;
   final String? date;
   final Source? content;
+  final String _correctRepo;
+
   BasicPullCrossReferencedCard(
-      {this.user, this.content, this.date, this.leading, this.iconColor});
+      {this.user, this.content, this.date, this.leading, this.iconColor})
+      : _correctRepo = content!.issue!.repository!.fullName!;
+
+  // GitHub API sends the wrong links to the issue where the reference was in.
+  // This is here to fix them.
+  // Ref: https://github.com/NamanShergill/onehub/issues/7
+  String fixURL(String url) {
+    List<String> components = url.split('/');
+    components[4] = _correctRepo.split('/').first;
+    components[5] = _correctRepo.split('/').last;
+    return components.join('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -279,7 +311,7 @@ class BasicPullCrossReferencedCard extends StatelessWidget {
           ),
           APIWrapper<PullRequestModel>(
             getCall: PullsService.getPullInformation(
-                fullUrl: content!.issue!.pullRequest!.url!),
+                fullUrl: fixURL(content!.issue!.pullRequest!.url!)),
             loadingBuilder: (context) {
               return Padding(
                 padding: const EdgeInsets.only(top: 8.0),

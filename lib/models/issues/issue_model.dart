@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
+import 'package:onehub/models/repositories/repository_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
 
 class IssueModel {
@@ -65,7 +66,7 @@ class IssueModel {
   DateTime? closedAt;
   AuthorAssociation? authorAssociation;
   dynamic activeLockReason;
-  Repository? repository;
+  RepositoryModel? repository;
   String? body;
   String? timelineUrl;
   dynamic performedViaGithubApp;
@@ -96,7 +97,7 @@ class IssueModel {
     DateTime? closedAt,
     AuthorAssociation? authorAssociation,
     dynamic activeLockReason,
-    Repository? repository,
+    RepositoryModel? repository,
     String? body,
     String? timelineUrl,
     dynamic performedViaGithubApp,
@@ -186,7 +187,7 @@ class IssueModel {
         activeLockReason: json["active_lock_reason"],
         repository: json["repository"] == null
             ? null
-            : Repository.fromJson(json["repository"]),
+            : RepositoryModel.fromJson(json["repository"]),
         body: json["body"] == null ? null : json["body"],
         timelineUrl: json["timeline_url"] == null ? null : json["timeline_url"],
         performedViaGithubApp: json["performed_via_github_app"],

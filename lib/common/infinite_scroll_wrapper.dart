@@ -62,6 +62,9 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// First page loading indicator.
   final WidgetBuilder? firstPageLoadingBuilder;
 
+  /// ListView ScrollController.
+  final ScrollController? scrollController;
+
   InfiniteScrollWrapper(
       {Key? key,
       required this.future,
@@ -76,6 +79,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.topSpacing = 0,
       this.firstDivider = true,
       this.firstPageLoadingBuilder,
+      this.scrollController,
       this.listEndIndicator = true,
       this.spacing = 16})
       : super(key: key);
@@ -161,6 +165,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
         resetAndRefresh();
       }),
       child: PagedListView<int, T>(
+        scrollController: widget.scrollController,
         physics: BouncingScrollPhysics(),
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<T>(
@@ -191,7 +196,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
           firstPageProgressIndicatorBuilder: (context) =>
               widget.firstPageLoadingBuilder != null
                   ? widget.firstPageLoadingBuilder!(context)
-                  : LoadingIndicator(),
+                  : Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: LoadingIndicator(),
+                    ),
           newPageProgressIndicatorBuilder: (context) => Padding(
             padding: const EdgeInsets.all(32.0),
             child: LoadingIndicator(),
