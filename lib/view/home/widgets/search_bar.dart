@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/app/global.dart';
 import 'package:onehub/routes/router.gr.dart';
+import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class SearchBar extends StatelessWidget {
@@ -11,10 +12,10 @@ class SearchBar extends StatelessWidget {
       tag: 'search_bar',
       child: Material(
         elevation: 2,
-        borderRadius: BorderRadius.circular(75),
+        borderRadius: AppThemeBorderRadius.medBorderRadius,
         color: AppColor.onBackground,
         child: InkWell(
-          borderRadius: BorderRadius.circular(75),
+          borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
             Global.customRouter.push(SearchOverlayScreenRoute());
           },

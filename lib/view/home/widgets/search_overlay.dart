@@ -29,7 +29,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(top: 16, left: 8),
                   child: Column(
                     children: [
                       Hero(
@@ -102,37 +102,41 @@ class _SearchBarState extends State<SearchBar> {
   int qLength = 0;
   @override
   void initState() {
-    controller = RichTextController(
-        patternMap: {
-          widget.searchFilters.queriesRegExp: TextStyle(
-            color: Colors.white,
-            decoration: TextDecoration.underline,
-            fontWeight: FontWeight.bold,
-          ),
-          widget.searchFilters.stringOptionQueriesRegExp: TextStyle(
-            color: Colors.white,
-            decoration: TextDecoration.underline,
-            fontWeight: FontWeight.bold,
-          ),
-        },
-        blacklistPatternMap: {
-          widget.searchFilters.optionQueriesRegExp: TextStyle(
-              color: Colors.white,
-              decoration: TextDecoration.combine([TextDecoration.lineThrough])),
-          widget.searchFilters.blacklistRegExp: TextStyle(
-            color: Colors.white,
-            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
-          ),
-        },
-        allMatches: (strings) {
-          print(strings);
-          if (qLength != strings.length) {
-            qLength = strings.length;
-            HapticFeedback.vibrate();
-          }
-        });
+    initController();
     getFocus();
     super.initState();
+  }
+
+  void initController() {
+    controller = RichTextController(
+      patternMap: {
+        widget.searchFilters.queriesRegExp: TextStyle(
+          color: Colors.white,
+          decoration: TextDecoration.underline,
+          fontWeight: FontWeight.bold,
+        ),
+        widget.searchFilters.stringOptionQueriesRegExp: TextStyle(
+          color: Colors.white,
+          decoration: TextDecoration.underline,
+          fontWeight: FontWeight.bold,
+        ),
+      },
+      blacklistPatternMap: {
+        widget.searchFilters.sensitiveQueriesOptionsRegExp: TextStyle(
+            color: Colors.white,
+            decoration: TextDecoration.combine([TextDecoration.lineThrough])),
+        widget.searchFilters.blacklistRegExp: TextStyle(
+          color: Colors.white,
+          decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+        ),
+      },
+      wlMatches: (strings) {
+        if (qLength != strings.length) {
+          qLength = strings.length;
+          HapticFeedback.vibrate();
+        }
+      },
+    );
   }
 
   void getFocus() async {
@@ -141,6 +145,8 @@ class _SearchBarState extends State<SearchBar> {
       searchNode.requestFocus();
     });
   }
+
+  bool isHelperOpen = false;
 
   bool isFiltersOpen = false;
   @override
@@ -182,17 +188,46 @@ class _SearchBarState extends State<SearchBar> {
                     borderRadius: AppThemeBorderRadius.medBorderRadius),
               ),
             ),
-            itemBuilder: (context, String item) {
-              return ListTile(
-                title: Text(
-                  '$item',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              );
+            itemBuilder: (context, item) {
+              if (item == 1)
+                return Material(
+                  color: AppColor.onBackground,
+                  borderRadius: AppThemeBorderRadius.medBorderRadius,
+                  elevation: 8,
+                  child: Container(
+                    height: 200,
+                  ),
+                );
+              else if (item is List)
+                return Material(
+                  color: AppColor.onBackground,
+                  borderRadius: AppThemeBorderRadius.medBorderRadius,
+                  elevation: 8,
+                  child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              onTap: () {},
+                              title: Text(item[index]),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              height: 0,
+                            );
+                          },
+                          itemCount: item.length)),
+                );
+              return Container();
             },
             suggestionsCallback: (pattern) {
               List<String?> matches = [];
-              pattern.splitMapJoin(widget.searchFilters.optionQueriesRegExp,
+              // Get matches on the option queries on the supplied text.
+              pattern.splitMapJoin(
+                  widget.searchFilters.sensitiveQueriesOptionsRegExp,
                   onMatch: (Match m) {
                 matches.add(m.group(0));
                 return m.group(0)!;
@@ -207,86 +242,94 @@ class _SearchBarState extends State<SearchBar> {
                         .queryFromString(element.split(':').first);
                 },
               );
-              return query?.options?.keys ?? <String>[];
+              if (query?.type == QueryType.number) return [1];
+              return query?.options?.keys != null
+                  ? [query?.options?.keys.toList()]
+                  : <String>[];
             },
             keepSuggestionsOnSuggestionSelected: true,
             hideOnEmpty: true,
             suggestionsBoxDecoration: SuggestionsBoxDecoration(
                 borderRadius: AppThemeBorderRadius.medBorderRadius),
-            onSuggestionSelected: (String item) {
-              controller.text = controller.text + item;
-              controller.selection = TextSelection.fromPosition(
-                TextPosition(offset: controller.text.length),
-              );
-              searchNode.requestFocus();
+            onSuggestionSelected: (item) {
+              if (item is String) {
+                controller.text = controller.text + item;
+                controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length),
+                );
+                searchNode.requestFocus();
+              }
             },
           ),
         ),
-        PortalEntry(
-          visible: isFiltersOpen,
-          portal: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              setState(() {
-                isFiltersOpen = false;
-              });
-            },
-          ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8),
           child: PortalEntry(
-              visible: isFiltersOpen,
-              portal: SizeExpandedSection(
-                child: Container(
-                  width: _media.width * 0.6,
-                  padding:
-                      EdgeInsets.only(bottom: _media.height * 0.4, top: 16),
-                  child: Material(
-                    color: AppColor.onBackground,
-                    borderRadius: AppThemeBorderRadius.medBorderRadius,
-                    elevation: 8,
-                    child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            onTap: () {
-                              controller.text = controller.text +
-                                  '${controller.text.endsWith(' ') ? '' : ' '}' +
-                                  widget.searchFilters.whiteListedQueries[index]
-                                      .query +
-                                  ':';
-                              setState(
-                                () {
-                                  isFiltersOpen = !isFiltersOpen;
-                                  controller.selection =
-                                      TextSelection.fromPosition(
-                                    TextPosition(
-                                        offset: controller.text.length),
-                                  );
-                                  searchNode.requestFocus();
-                                },
-                              );
-                            },
-                            title: Text(
-                              widget.searchFilters.whiteListedQueries[index]
-                                      .query +
-                                  ':',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) => Divider(),
-                        itemCount:
-                            widget.searchFilters.whiteListedQueries.length),
+            visible: isFiltersOpen,
+            portal: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                setState(() {
+                  isFiltersOpen = false;
+                });
+              },
+            ),
+            child: PortalEntry(
+                visible: isFiltersOpen,
+                portal: SizeExpandedSection(
+                  child: Container(
+                    width: _media.width * 0.6,
+                    padding:
+                        EdgeInsets.only(bottom: _media.height * 0.4, top: 16),
+                    child: Material(
+                      color: AppColor.onBackground,
+                      borderRadius: AppThemeBorderRadius.medBorderRadius,
+                      elevation: 8,
+                      child: ListView.separated(
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              onTap: () {
+                                controller.text = controller.text +
+                                    '${controller.text.endsWith(' ') ? '' : ' '}' +
+                                    widget.searchFilters
+                                        .whiteListedQueries[index].query +
+                                    ':';
+                                setState(
+                                  () {
+                                    isFiltersOpen = !isFiltersOpen;
+                                    controller.selection =
+                                        TextSelection.fromPosition(
+                                      TextPosition(
+                                          offset: controller.text.length),
+                                    );
+                                    searchNode.requestFocus();
+                                  },
+                                );
+                              },
+                              title: Text(
+                                widget.searchFilters.whiteListedQueries[index]
+                                        .query +
+                                    ':',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => Divider(),
+                          itemCount:
+                              widget.searchFilters.whiteListedQueries.length),
+                    ),
                   ),
                 ),
-              ),
-              childAnchor: Alignment.bottomLeft,
-              portalAnchor: Alignment.topCenter,
-              child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isFiltersOpen = !isFiltersOpen;
-                    });
-                  },
-                  icon: Icon(LineIcons.filter))),
+                childAnchor: Alignment.bottomLeft,
+                portalAnchor: Alignment.topCenter,
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isFiltersOpen = !isFiltersOpen;
+                      });
+                    },
+                    icon: Icon(LineIcons.filter))),
+          ),
         ),
       ],
     );

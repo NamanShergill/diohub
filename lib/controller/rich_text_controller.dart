@@ -6,20 +6,23 @@ import 'package:flutter/widgets.dart';
 class RichTextController extends TextEditingController {
   final Map<RegExp, TextStyle> patternMap;
   final Map<RegExp, TextStyle> blacklistPatternMap;
-  final ValueChanged<List<String?>>? allMatches;
+  final ValueChanged<List<String?>>? wlMatches;
+  final ValueChanged<List<String?>>? blMatches;
   final Function(List<String> match)? onMatch;
   RichTextController(
       {String? text,
       required this.patternMap,
       this.onMatch,
-      this.allMatches,
+      this.wlMatches,
+      this.blMatches,
       required this.blacklistPatternMap})
       : super(text: text);
 
   RichTextController.fromValue(TextEditingValue value,
       {required this.patternMap,
       this.onMatch,
-      this.allMatches,
+      this.wlMatches,
+      this.blMatches,
       required this.blacklistPatternMap})
       : assert(
           !value.composing.isValid || value.isComposingRangeValid,
@@ -44,9 +47,12 @@ class RichTextController extends TextEditingController {
     combinedMap.addAll(blacklistPatternMap);
 
     allRegex = RegExp('$wlRegex|$blRegex');
-    List<String> matchesCallback =
-        RegExp(wlRegex).allMatches(text).map((e) => (e.group(0)!)).toList();
-    if (allMatches != null) allMatches!(matchesCallback);
+    if (wlMatches != null)
+      wlMatches!(
+          RegExp(wlRegex).allMatches(text).map((e) => (e.group(0)!)).toList());
+    if (blMatches != null)
+      blMatches!(
+          RegExp(blRegex).allMatches(text).map((e) => (e.group(0)!)).toList());
     text.splitMapJoin(
       allRegex,
       onMatch: (Match m) {

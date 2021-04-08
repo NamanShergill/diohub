@@ -1,31 +1,31 @@
 class SearchFilters {
   late List<SearchQuery> _queries;
-  late List<SearchQuery> _optionQueries;
+  late List<SearchQuery> _sensitiveQueries;
   List<SearchQuery> _blackList = [];
   final SearchQueries searchQueries = SearchQueries();
   RegExp? _queriesRegExp;
   RegExp? _blacklistRegExp;
-  RegExp? _stringOptionQueriesRegExp;
-  RegExp? _optionQueriesRegExp;
+  RegExp? _sensitiveQueriesOptionsRegExp;
+  RegExp? _sensitiveQueriesRegExp;
 
   RegExp get queriesRegExp => _queriesRegExp!;
   RegExp get blacklistRegExp => _blacklistRegExp!;
-  RegExp get stringOptionQueriesRegExp => _stringOptionQueriesRegExp!;
-  RegExp get optionQueriesRegExp => _optionQueriesRegExp!;
+  RegExp get stringOptionQueriesRegExp => _sensitiveQueriesOptionsRegExp!;
+  RegExp get sensitiveQueriesOptionsRegExp => _sensitiveQueriesRegExp!;
   List<SearchQuery> get queries => _queries;
-  List<SearchQuery> get optionQueries => _optionQueries;
-  List<SearchQuery> get whiteListedQueries => _optionQueries + _queries;
+  List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
+  List<SearchQuery> get whiteListedQueries => _sensitiveQueries + _queries;
 
   SearchQuery? queryFromString(String query) {
     SearchQuery? value;
-    (_queries + _optionQueries + _blackList).forEach((element) {
+    (_queries + _sensitiveQueries + _blackList).forEach((element) {
       if (element.query == query) value = element;
     });
     return value;
   }
 
   SearchFilters.repositories({List<String> blacklist = const []}) {
-    _queries = _getFilteredList([
+    _filterQueries([
       searchQueries.repo,
       searchQueries.user,
       searchQueries.org,
@@ -38,28 +38,27 @@ class SearchFilters {
       searchQueries.topic,
       searchQueries.topics,
       searchQueries.license,
-      searchQueries.iS,
-      searchQueries.mirror,
-      searchQueries.archived,
-      searchQueries.goodFirstIssues,
-      searchQueries.helpWantedIssues,
-    ], blacklist);
-    _optionQueries = _getFilteredList([
       searchQueries.iN
         ..options = {
           'name': 'Name',
           'description': 'Description',
           'readme': 'Readme'
         },
+      searchQueries.iS,
+      searchQueries.mirror,
       searchQueries.stars,
+      searchQueries.archived,
+      searchQueries.goodFirstIssues,
+      searchQueries.helpWantedIssues,
     ], blacklist);
     _queriesRegExp = _getRegExp(_queries);
     _blacklistRegExp = _getRegExp(_blackList);
-    _optionQueriesRegExp = _getRegExp(_optionQueries);
-    _stringOptionQueriesRegExp = _getOptionRegExp(_optionQueries);
+    _sensitiveQueriesRegExp = _getRegExp(_sensitiveQueries);
+    _sensitiveQueriesOptionsRegExp =
+        _getSensitiveQueryRegExp(_sensitiveQueries);
   }
 
-  RegExp _getOptionRegExp(List<SearchQuery> queries) {
+  RegExp _getSensitiveQueryRegExp(List<SearchQuery> queries) {
     List<SearchQuery> stringQ = [];
     List<SearchQuery> dateQ = [];
     List<SearchQuery> numberQ = [];
@@ -93,16 +92,18 @@ class SearchFilters {
         '(?:-)?(?:$filter)([=><]{1,2})?([*..]{1,3})?((\\w|\\d| |[a-zA-Z0-9!@#\$&()\\-`.+,/"])*)([..*]{1,3})?(?=(\\s)($filter)?|\$)');
   }
 
-  List<SearchQuery> _getFilteredList(
-      List<SearchQuery> original, List<String> blacklist) {
-    List<SearchQuery> list = [];
-    original.forEach((element) {
-      if (!blacklist.contains(element.query))
-        list.add(element);
-      else
-        _blackList.add(element);
-    });
-    return list;
+  void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
+    original.forEach(
+      (element) {
+        if (!blacklist.contains(element.query)) {
+          if (element.type != QueryType.string || element.options != null)
+            _sensitiveQueries.add(element);
+          else
+            _queries.add(element);
+        } else
+          _blackList.add(element);
+      },
+    );
   }
 }
 
@@ -260,7 +261,8 @@ class SearchQuery {
   final QueryType type;
   SearchQuery(this.query,
       {this.description, this.options, this.type = QueryType.string}) {
-    if (type == QueryType.bool) options = {'true': '', 'false': ''};
+    if (type == QueryType.bool && options == null)
+      options = {'true': '', 'false': ''};
   }
 }
 
