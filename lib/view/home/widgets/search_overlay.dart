@@ -36,7 +36,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         child: Material(
                           color: Colors.transparent,
                           child: SearchBar(SearchFilters.repositories(
-                              blacklist: [SearchQueries().repo])),
+                              blacklist: [SearchQueryStrings.repo])),
                         ),
                       ),
                       SizedBox(
@@ -107,12 +107,12 @@ class _SearchBarState extends State<SearchBar> {
           decoration: TextDecoration.underline,
           fontWeight: FontWeight.bold,
         ),
-        widget.searchFilters.optionQueriesRegExp: TextStyle(
+        widget.searchFilters.stringOptionQueriesRegExp: TextStyle(
           color: Colors.white,
           decoration: TextDecoration.underline,
           fontWeight: FontWeight.bold,
         ),
-        widget.searchFilters.optionQueriesOnlyRegExp: TextStyle(
+        widget.searchFilters.optionQueriesRegExp: TextStyle(
             color: Colors.white,
             decoration: TextDecoration.combine([TextDecoration.lineThrough])),
         widget.searchFilters.blacklistRegExp: TextStyle(
@@ -182,7 +182,7 @@ class _SearchBarState extends State<SearchBar> {
             },
             suggestionsCallback: (pattern) {
               List<String?> matches = [];
-              pattern.splitMapJoin(widget.searchFilters.optionQueriesOnlyRegExp,
+              pattern.splitMapJoin(widget.searchFilters.optionQueriesRegExp,
                   onMatch: (Match m) {
                 matches.add(m.group(0));
                 return m.group(0)!;

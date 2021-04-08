@@ -1,37 +1,30 @@
 class SearchFilters {
   late List<SearchQuery> _queries;
   late List<SearchQuery> _optionQueries;
-  final List<SearchQuery> _blackList;
+  List<SearchQuery> _blackList = [];
   final SearchQueries searchQueries = SearchQueries();
   RegExp? _queriesRegExp;
   RegExp? _blacklistRegExp;
+  RegExp? _stringOptionQueriesRegExp;
   RegExp? _optionQueriesRegExp;
-  RegExp? _optionQueriesOnlyRegExp;
 
   RegExp get queriesRegExp => _queriesRegExp!;
   RegExp get blacklistRegExp => _blacklistRegExp!;
+  RegExp get stringOptionQueriesRegExp => _stringOptionQueriesRegExp!;
   RegExp get optionQueriesRegExp => _optionQueriesRegExp!;
-  RegExp get optionQueriesOnlyRegExp => _optionQueriesOnlyRegExp!;
   List<SearchQuery> get queries => _queries;
   List<SearchQuery> get optionQueries => _optionQueries;
   List<SearchQuery> get whiteListedQueries => _optionQueries + _queries;
 
   SearchQuery? queryFromString(String query) {
     SearchQuery? value;
-    _queries.forEach((element) {
-      if (element.query == query) value = element;
-    });
-    _optionQueries.forEach((element) {
-      if (element.query == query) value = element;
-    });
-    _blackList.forEach((element) {
+    (_queries + _optionQueries + _blackList).forEach((element) {
       if (element.query == query) value = element;
     });
     return value;
   }
 
-  SearchFilters.repositories({List<SearchQuery> blacklist = const []})
-      : _blackList = blacklist {
+  SearchFilters.repositories({List<String> blacklist = const []}) {
     _queries = _getFilteredList([
       searchQueries.repo,
       searchQueries.user,
@@ -62,11 +55,11 @@ class SearchFilters {
     ], blacklist);
     _queriesRegExp = _getRegExp(_queries);
     _blacklistRegExp = _getRegExp(_blackList);
-    _optionQueriesOnlyRegExp = _getRegExp(_optionQueries);
-    _optionQueriesRegExp = _getOptionRegExp(_optionQueries);
+    _optionQueriesRegExp = _getRegExp(_optionQueries);
+    _stringOptionQueriesRegExp = _getOptionRegExp(_optionQueries);
   }
 
-  static RegExp _getOptionRegExp(List<SearchQuery> queries) {
+  RegExp _getOptionRegExp(List<SearchQuery> queries) {
     List<String> strings = queries
         .map((query) => query.options!.keys
             .map((option) => '${query.query}:$option')
@@ -77,90 +70,164 @@ class SearchFilters {
         '(?:-)?(?:$filter)([=><]{1,2})?([*..]{1,3})?((\\w|\\d| |[a-zA-Z0-9!@#\$&()\\-`.+,/"])*)([..*]{1,3})?(?=(\\s)($filter)?|\$)');
   }
 
-  static RegExp _getRegExp(List<SearchQuery> queries) {
+  RegExp _getRegExp(List<SearchQuery> queries) {
     List<String> strings = queries.map((e) => e.query + ':').toList();
     String filter = strings.join('|');
     return RegExp(
         '(?:-)?(?:$filter)([=><]{1,2})?([*..]{1,3})?((\\w|\\d| |[a-zA-Z0-9!@#\$&()\\-`.+,/"])*)([..*]{1,3})?(?=(\\s)($filter)?|\$)');
   }
 
-  static List<SearchQuery> _getFilteredList(
-      List<SearchQuery> original, List<SearchQuery> blacklist) {
-    List<String> blacklistedQueries = blacklist.map((e) => e.query).toList();
+  List<SearchQuery> _getFilteredList(
+      List<SearchQuery> original, List<String> blacklist) {
     List<SearchQuery> list = [];
     original.forEach((element) {
-      if (!blacklistedQueries.contains(element.query)) list.add(element);
+      if (!blacklist.contains(element.query))
+        list.add(element);
+      else
+        _blackList.add(element);
     });
     return list;
   }
 }
 
 class SearchQueries {
-  SearchQuery archived = SearchQuery('archived');
-  SearchQuery assignee = SearchQuery('assignee');
-  SearchQuery author = SearchQuery('author');
-  SearchQuery authorName = SearchQuery('author-name');
-  SearchQuery authorEmail = SearchQuery('author-email');
-  SearchQuery authorDate = SearchQuery('author-date');
-  SearchQuery base = SearchQuery('base');
-  SearchQuery closed = SearchQuery('closed');
-  SearchQuery commenter = SearchQuery('commenter');
-  SearchQuery comments = SearchQuery('comments');
-  SearchQuery committer = SearchQuery('committer');
-  SearchQuery committerName = SearchQuery('committer-name');
-  SearchQuery committerEmail = SearchQuery('committer-email');
-  SearchQuery committerDate = SearchQuery('committer-date');
-  SearchQuery created = SearchQuery('created');
-  SearchQuery draft = SearchQuery('draft');
-  SearchQuery extension = SearchQuery('extension');
-  SearchQuery filename = SearchQuery('filename');
-  SearchQuery followers = SearchQuery('followers');
-  SearchQuery fork = SearchQuery('fork');
-  SearchQuery forks = SearchQuery('forks');
-  SearchQuery fullName = SearchQuery('fullname');
-  SearchQuery goodFirstIssues = SearchQuery('good-first-issues');
-  SearchQuery hash = SearchQuery('hash');
-  SearchQuery head = SearchQuery('head');
-  SearchQuery helpWantedIssues = SearchQuery('help-wanted-issues');
-  SearchQuery iN = SearchQuery('in');
-  SearchQuery interactions = SearchQuery('interactions');
-  SearchQuery involves = SearchQuery('involves');
-  SearchQuery iS = SearchQuery('is');
-  SearchQuery label = SearchQuery('label');
-  SearchQuery language = SearchQuery('language');
-  SearchQuery license = SearchQuery('license');
-  SearchQuery linked = SearchQuery('linked');
-  SearchQuery location = SearchQuery('location');
-  SearchQuery merge = SearchQuery('merge');
-  SearchQuery merged = SearchQuery('merged');
-  SearchQuery mentions = SearchQuery('mentions');
-  SearchQuery milestone = SearchQuery('milestone');
-  SearchQuery mirror = SearchQuery('mirror');
-  SearchQuery org = SearchQuery('org');
-  SearchQuery parent = SearchQuery('parent');
-  SearchQuery path = SearchQuery('path');
-  SearchQuery project = SearchQuery('project');
-  SearchQuery pushed = SearchQuery('pushed');
-  SearchQuery reactions = SearchQuery('reactions');
-  SearchQuery repo = SearchQuery('repo');
-  SearchQuery repos = SearchQuery('repos');
-  SearchQuery repositories = SearchQuery('repositories');
-  SearchQuery review = SearchQuery('review');
-  SearchQuery reviewedBy = SearchQuery('reviewed-by');
-  SearchQuery reviewRequested = SearchQuery('review-requested');
-  SearchQuery teamReviewRequested = SearchQuery('team-review-requested');
-  SearchQuery sha = SearchQuery('SHA');
-  SearchQuery size = SearchQuery('size');
-  SearchQuery stars = SearchQuery('stars');
-  SearchQuery state = SearchQuery('state');
-  SearchQuery status = SearchQuery('status');
-  SearchQuery team = SearchQuery('team');
-  SearchQuery topic = SearchQuery('topic');
-  SearchQuery topics = SearchQuery('topics');
-  SearchQuery tree = SearchQuery('tree');
-  SearchQuery type = SearchQuery('type');
-  SearchQuery updated = SearchQuery('updated');
-  SearchQuery user = SearchQuery('user');
+  SearchQuery archived = SearchQuery(SearchQueryStrings.archived);
+  SearchQuery assignee = SearchQuery(SearchQueryStrings.assignee);
+  SearchQuery author = SearchQuery(SearchQueryStrings.author);
+  SearchQuery authorName = SearchQuery(SearchQueryStrings.authorName);
+  SearchQuery authorEmail = SearchQuery(SearchQueryStrings.authorEmail);
+  SearchQuery authorDate = SearchQuery(SearchQueryStrings.authorDate);
+  SearchQuery base = SearchQuery(SearchQueryStrings.base);
+  SearchQuery closed = SearchQuery(SearchQueryStrings.closed);
+  SearchQuery commenter = SearchQuery(SearchQueryStrings.commenter);
+  SearchQuery comments = SearchQuery(SearchQueryStrings.comments);
+  SearchQuery committer = SearchQuery(SearchQueryStrings.committer);
+  SearchQuery committerName = SearchQuery(SearchQueryStrings.committerName);
+  SearchQuery committerEmail = SearchQuery(SearchQueryStrings.committerEmail);
+  SearchQuery committerDate = SearchQuery(SearchQueryStrings.committerDate);
+  SearchQuery created = SearchQuery(SearchQueryStrings.created);
+  SearchQuery draft = SearchQuery(SearchQueryStrings.draft);
+  SearchQuery extension = SearchQuery(SearchQueryStrings.extension);
+  SearchQuery filename = SearchQuery(SearchQueryStrings.filename);
+  SearchQuery followers = SearchQuery(SearchQueryStrings.followers);
+  SearchQuery fork = SearchQuery(SearchQueryStrings.fork);
+  SearchQuery forks = SearchQuery(SearchQueryStrings.forks);
+  SearchQuery fullName = SearchQuery(SearchQueryStrings.fullName);
+  SearchQuery goodFirstIssues = SearchQuery(SearchQueryStrings.goodFirstIssues);
+  SearchQuery hash = SearchQuery(SearchQueryStrings.hash);
+  SearchQuery head = SearchQuery(SearchQueryStrings.head);
+  SearchQuery helpWantedIssues =
+      SearchQuery(SearchQueryStrings.helpWantedIssues);
+  SearchQuery iN = SearchQuery(SearchQueryStrings.iN);
+  SearchQuery interactions = SearchQuery(SearchQueryStrings.interactions);
+  SearchQuery involves = SearchQuery(SearchQueryStrings.involves);
+  SearchQuery iS = SearchQuery(SearchQueryStrings.iS);
+  SearchQuery label = SearchQuery(SearchQueryStrings.label);
+  SearchQuery language = SearchQuery(SearchQueryStrings.language);
+  SearchQuery license = SearchQuery(SearchQueryStrings.license);
+  SearchQuery linked = SearchQuery(SearchQueryStrings.linked);
+  SearchQuery location = SearchQuery(SearchQueryStrings.location);
+  SearchQuery merge = SearchQuery(SearchQueryStrings.merge);
+  SearchQuery merged = SearchQuery(SearchQueryStrings.merged);
+  SearchQuery mentions = SearchQuery(SearchQueryStrings.mentions);
+  SearchQuery milestone = SearchQuery(SearchQueryStrings.milestone);
+  SearchQuery mirror = SearchQuery(SearchQueryStrings.mirror);
+  SearchQuery no = SearchQuery(SearchQueryStrings.no);
+  SearchQuery org = SearchQuery(SearchQueryStrings.org);
+  SearchQuery parent = SearchQuery(SearchQueryStrings.parent);
+  SearchQuery path = SearchQuery(SearchQueryStrings.path);
+  SearchQuery project = SearchQuery(SearchQueryStrings.project);
+  SearchQuery pushed = SearchQuery(SearchQueryStrings.pushed);
+  SearchQuery reactions = SearchQuery(SearchQueryStrings.reactions);
+  SearchQuery repo = SearchQuery(SearchQueryStrings.repo);
+  SearchQuery repos = SearchQuery(SearchQueryStrings.repos);
+  SearchQuery repositories = SearchQuery(SearchQueryStrings.repositories);
+  SearchQuery review = SearchQuery(SearchQueryStrings.review);
+  SearchQuery reviewedBy = SearchQuery(SearchQueryStrings.reviewedBy);
+  SearchQuery reviewRequested = SearchQuery(SearchQueryStrings.reviewRequested);
+  SearchQuery teamReviewRequested =
+      SearchQuery(SearchQueryStrings.teamReviewRequested);
+  SearchQuery sha = SearchQuery(SearchQueryStrings.sha);
+  SearchQuery size = SearchQuery(SearchQueryStrings.size);
+  SearchQuery stars = SearchQuery(SearchQueryStrings.stars);
+  SearchQuery state = SearchQuery(SearchQueryStrings.state);
+  SearchQuery status = SearchQuery(SearchQueryStrings.status);
+  SearchQuery team = SearchQuery(SearchQueryStrings.team);
+  SearchQuery topic = SearchQuery(SearchQueryStrings.topic);
+  SearchQuery topics = SearchQuery(SearchQueryStrings.topics);
+  SearchQuery tree = SearchQuery(SearchQueryStrings.tree);
+  SearchQuery type = SearchQuery(SearchQueryStrings.type);
+  SearchQuery updated = SearchQuery(SearchQueryStrings.updated);
+  SearchQuery user = SearchQuery(SearchQueryStrings.user);
+}
+
+class SearchQueryStrings {
+  static const String archived = 'archived';
+  static const String assignee = 'assignee';
+  static const String author = 'author';
+  static const String authorName = 'author-name';
+  static const String authorEmail = 'author-email';
+  static const String authorDate = 'author-date';
+  static const String base = 'base';
+  static const String closed = 'closed';
+  static const String commenter = 'commenter';
+  static const String comments = 'comments';
+  static const String committer = 'committer';
+  static const String committerName = 'committer-name';
+  static const String committerEmail = 'committer-email';
+  static const String committerDate = 'committer-date';
+  static const String created = 'created';
+  static const String draft = 'draft';
+  static const String extension = 'extension';
+  static const String filename = 'filename';
+  static const String followers = 'followers';
+  static const String fork = 'fork';
+  static const String forks = 'forks';
+  static const String fullName = 'fullname';
+  static const String goodFirstIssues = 'good-first-issues';
+  static const String hash = 'hash';
+  static const String head = 'head';
+  static const String helpWantedIssues = 'help-wanted-issues';
+  static const String iN = 'in';
+  static const String interactions = 'interactions';
+  static const String involves = 'involves';
+  static const String iS = 'is';
+  static const String label = 'label';
+  static const String language = 'language';
+  static const String license = 'license';
+  static const String linked = 'linked';
+  static const String location = 'location';
+  static const String merge = 'merge';
+  static const String merged = 'merged';
+  static const String mentions = 'mentions';
+  static const String milestone = 'milestone';
+  static const String mirror = 'mirror';
+  static const String no = 'no';
+  static const String org = 'org';
+  static const String parent = 'parent';
+  static const String path = 'path';
+  static const String project = 'project';
+  static const String pushed = 'pushed';
+  static const String reactions = 'reactions';
+  static const String repo = 'repo';
+  static const String repos = 'repos';
+  static const String repositories = 'repositories';
+  static const String review = 'review';
+  static const String reviewedBy = 'reviewed-by';
+  static const String reviewRequested = 'review-requested';
+  static const String teamReviewRequested = 'team-review-requested';
+  static const String sha = 'SHA';
+  static const String size = 'size';
+  static const String stars = 'stars';
+  static const String state = 'state';
+  static const String status = 'status';
+  static const String team = 'team';
+  static const String topic = 'topic';
+  static const String topics = 'topics';
+  static const String tree = 'tree';
+  static const String type = 'type';
+  static const String updated = 'updated';
+  static const String user = 'user';
 }
 
 class SearchQuery {
