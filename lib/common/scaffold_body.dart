@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/controller/internet_connectivity.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/internet_connectivity.dart';
 
 class ScaffoldBody extends StatefulWidget {
   final Widget? child;

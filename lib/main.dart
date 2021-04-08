@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_portal/flutter_portal.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/app/global.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:onehub/controller/internet_connectivity.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/internet_connectivity.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -47,64 +48,69 @@ class MyApp extends StatelessWidget {
                 create: (_) => NavigationProvider(),
               ),
             ],
-            child: MaterialApp.router(
-              theme: ThemeData(
-                  visualDensity: VisualDensity.adaptivePlatformDensity,
-                  unselectedWidgetColor: AppColor.grey,
-                  accentColor: Colors.white,
-                  cardColor: AppColor.background,
-                  elevatedButtonTheme: ElevatedButtonThemeData(
+            child: Portal(
+              child: MaterialApp.router(
+                theme: ThemeData(
+                    visualDensity: VisualDensity.adaptivePlatformDensity,
+                    unselectedWidgetColor: AppColor.grey,
+                    accentColor: Colors.white,
+                    cardColor: AppColor.background,
+                    elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(AppColor.onBackground),
-                  )),
-                  appBarTheme:
-                      AppBarTheme(color: AppColor.background, elevation: 5),
-                  iconTheme: IconThemeData(color: Colors.white),
-                  textTheme: TextTheme(
-                    bodyText1: TextStyle(),
-                    bodyText2: TextStyle(),
-                    headline1: TextStyle(fontWeight: FontWeight.bold),
-                    headline2: TextStyle(fontWeight: FontWeight.bold),
-                    headline3: TextStyle(fontWeight: FontWeight.bold),
-                    headline4: TextStyle(fontWeight: FontWeight.bold),
-                    headline5: TextStyle(fontWeight: FontWeight.bold),
-                    headline6: TextStyle(fontWeight: FontWeight.bold),
-                    subtitle1: TextStyle(),
-                    subtitle2: TextStyle(),
-                    caption: TextStyle(),
-                    button: TextStyle(),
-                    overline: TextStyle(),
-                  ).apply(displayColor: Colors.white, bodyColor: Colors.white),
-                  primaryColor: AppColor.accent,
-                  scrollbarTheme: ScrollbarThemeData(
-                      thumbColor:
-                          MaterialStateProperty.all<Color>(Colors.grey)),
-                  dialogTheme: DialogTheme(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColor.onBackground),
+                      ),
+                    ),
+                    appBarTheme:
+                        AppBarTheme(color: AppColor.background, elevation: 5),
+                    iconTheme: IconThemeData(color: Colors.white),
+                    textTheme: TextTheme(
+                      bodyText1: TextStyle(),
+                      bodyText2: TextStyle(),
+                      headline1: TextStyle(fontWeight: FontWeight.bold),
+                      headline2: TextStyle(fontWeight: FontWeight.bold),
+                      headline3: TextStyle(fontWeight: FontWeight.bold),
+                      headline4: TextStyle(fontWeight: FontWeight.bold),
+                      headline5: TextStyle(fontWeight: FontWeight.bold),
+                      headline6: TextStyle(fontWeight: FontWeight.bold),
+                      subtitle1: TextStyle(),
+                      subtitle2: TextStyle(),
+                      caption: TextStyle(),
+                      button: TextStyle(),
+                      overline: TextStyle(),
+                    ).apply(
+                        displayColor: Colors.white, bodyColor: Colors.white),
+                    primaryColor: AppColor.accent,
+                    scrollbarTheme: ScrollbarThemeData(
+                        thumbColor:
+                            MaterialStateProperty.all<Color>(Colors.grey)),
+                    dialogTheme: DialogTheme(
+                      backgroundColor: AppColor.background,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                      titleTextStyle: TextStyle(color: Colors.white),
+                      contentTextStyle: TextStyle(color: Colors.white),
+                    ),
+                    scaffoldBackgroundColor: AppColor.background,
+                    primaryIconTheme: IconThemeData(color: Colors.white),
+                    accentIconTheme: IconThemeData(color: AppColor.accent),
+                    dividerColor: Colors.grey.withOpacity(0.7),
+                    brightness: Brightness.dark,
                     backgroundColor: AppColor.background,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: AppThemeBorderRadius.medBorderRadius),
-                    titleTextStyle: TextStyle(color: Colors.white),
-                    contentTextStyle: TextStyle(color: Colors.white),
-                  ),
-                  scaffoldBackgroundColor: AppColor.background,
-                  primaryIconTheme: IconThemeData(color: Colors.white),
-                  accentIconTheme: IconThemeData(color: AppColor.accent),
-                  dividerColor: Colors.grey.withOpacity(0.7),
-                  brightness: Brightness.dark,
-                  backgroundColor: AppColor.background,
-                  buttonTheme: ButtonThemeData(
-                    textTheme: ButtonTextTheme.primary,
-                    padding: EdgeInsets.zero,
-                    colorScheme: ColorScheme.dark(),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: AppThemeBorderRadius.medBorderRadius),
-                  ),
-                  dividerTheme:
-                      DividerThemeData(color: Colors.white, thickness: 0.04),
-                  fontFamily: 'Montserrat'),
-              routerDelegate: Global.customRouter.delegate(),
-              routeInformationParser: Global.customRouter.defaultRouteParser(),
+                    buttonTheme: ButtonThemeData(
+                      textTheme: ButtonTextTheme.primary,
+                      padding: EdgeInsets.zero,
+                      colorScheme: ColorScheme.dark(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                    ),
+                    dividerTheme:
+                        DividerThemeData(color: Colors.white, thickness: 0.04),
+                    fontFamily: 'Montserrat'),
+                routerDelegate: Global.customRouter.delegate(),
+                routeInformationParser:
+                    Global.customRouter.defaultRouteParser(),
+              ),
             ),
           );
         },
