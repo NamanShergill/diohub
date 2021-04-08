@@ -32,7 +32,6 @@ class SearchFilters {
       searchQueries.size,
       searchQueries.followers,
       searchQueries.forks,
-      searchQueries.stars,
       searchQueries.created,
       searchQueries.pushed,
       searchQueries.language,
@@ -52,6 +51,7 @@ class SearchFilters {
           'description': 'Description',
           'readme': 'Readme'
         },
+      searchQueries.stars,
     ], blacklist);
     _queriesRegExp = _getRegExp(_queries);
     _blacklistRegExp = _getRegExp(_blackList);
@@ -60,14 +60,30 @@ class SearchFilters {
   }
 
   RegExp _getOptionRegExp(List<SearchQuery> queries) {
-    List<String> strings = queries
+    List<SearchQuery> stringQ = [];
+    List<SearchQuery> dateQ = [];
+    List<SearchQuery> numberQ = [];
+    queries.forEach(
+      (element) {
+        if (element.type == QueryType.date)
+          dateQ.add(element);
+        else if (element.type == QueryType.number)
+          numberQ.add(element);
+        else
+          stringQ.add(element);
+      },
+    );
+    List<String> stringsQ = stringQ
         .map((query) => query.options!.keys
             .map((option) => '${query.query}:$option')
             .join('|'))
         .toList();
-    String filter = strings.join('|');
-    return RegExp(
-        '(?:-)?(?:$filter)([=><]{1,2})?([*..]{1,3})?((\\w|\\d| |[a-zA-Z0-9!@#\$&()\\-`.+,/"])*)([..*]{1,3})?(?=(\\s)($filter)?|\$)');
+    String stringRegexp = '(?:-)?(?:${stringsQ.join('|')})';
+    List<String> numbersQ = numberQ.map((query) => '${query.query}:').toList();
+    String numberRegexp =
+        '(?:-)?(?:${numbersQ.join('|')})([><][=]?)?([0-9]+)(?=(\\s)(${numbersQ.join('|')})?|\$)|(?:-)?(?:${numbersQ.join('|')})([0-9]+)([.][.][*])(?=(\\s)(${numbersQ.join('|')})?|\$)|(?:-)?(?:${numbersQ.join('|')})([*][.][.])([0-9]+)(?=(\\s)(${numbersQ.join('|')})?|\$)';
+
+    return RegExp(stringRegexp + '|' + numberRegexp);
   }
 
   RegExp _getRegExp(List<SearchQuery> queries) {
@@ -105,13 +121,16 @@ class SearchQueries {
   SearchQuery committerName = SearchQuery(SearchQueryStrings.committerName);
   SearchQuery committerEmail = SearchQuery(SearchQueryStrings.committerEmail);
   SearchQuery committerDate = SearchQuery(SearchQueryStrings.committerDate);
-  SearchQuery created = SearchQuery(SearchQueryStrings.created);
+  SearchQuery created =
+      SearchQuery(SearchQueryStrings.created, type: QueryType.date);
   SearchQuery draft = SearchQuery(SearchQueryStrings.draft);
   SearchQuery extension = SearchQuery(SearchQueryStrings.extension);
   SearchQuery filename = SearchQuery(SearchQueryStrings.filename);
-  SearchQuery followers = SearchQuery(SearchQueryStrings.followers);
+  SearchQuery followers =
+      SearchQuery(SearchQueryStrings.followers, type: QueryType.number);
   SearchQuery fork = SearchQuery(SearchQueryStrings.fork);
-  SearchQuery forks = SearchQuery(SearchQueryStrings.forks);
+  SearchQuery forks =
+      SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
   SearchQuery fullName = SearchQuery(SearchQueryStrings.fullName);
   SearchQuery goodFirstIssues = SearchQuery(SearchQueryStrings.goodFirstIssues);
   SearchQuery hash = SearchQuery(SearchQueryStrings.hash);
@@ -133,11 +152,12 @@ class SearchQueries {
   SearchQuery milestone = SearchQuery(SearchQueryStrings.milestone);
   SearchQuery mirror = SearchQuery(SearchQueryStrings.mirror);
   SearchQuery no = SearchQuery(SearchQueryStrings.no);
-  SearchQuery org = SearchQuery(SearchQueryStrings.org);
+  SearchQuery org = SearchQuery(SearchQueryStrings.org, type: QueryType.user);
   SearchQuery parent = SearchQuery(SearchQueryStrings.parent);
   SearchQuery path = SearchQuery(SearchQueryStrings.path);
   SearchQuery project = SearchQuery(SearchQueryStrings.project);
-  SearchQuery pushed = SearchQuery(SearchQueryStrings.pushed);
+  SearchQuery pushed =
+      SearchQuery(SearchQueryStrings.pushed, type: QueryType.date);
   SearchQuery reactions = SearchQuery(SearchQueryStrings.reactions);
   SearchQuery repo = SearchQuery(SearchQueryStrings.repo);
   SearchQuery repos = SearchQuery(SearchQueryStrings.repos);
@@ -148,17 +168,20 @@ class SearchQueries {
   SearchQuery teamReviewRequested =
       SearchQuery(SearchQueryStrings.teamReviewRequested);
   SearchQuery sha = SearchQuery(SearchQueryStrings.sha);
-  SearchQuery size = SearchQuery(SearchQueryStrings.size);
-  SearchQuery stars = SearchQuery(SearchQueryStrings.stars);
+  SearchQuery size =
+      SearchQuery(SearchQueryStrings.size, type: QueryType.number);
+  SearchQuery stars =
+      SearchQuery(SearchQueryStrings.stars, type: QueryType.number);
   SearchQuery state = SearchQuery(SearchQueryStrings.state);
   SearchQuery status = SearchQuery(SearchQueryStrings.status);
   SearchQuery team = SearchQuery(SearchQueryStrings.team);
   SearchQuery topic = SearchQuery(SearchQueryStrings.topic);
-  SearchQuery topics = SearchQuery(SearchQueryStrings.topics);
+  SearchQuery topics =
+      SearchQuery(SearchQueryStrings.topics, type: QueryType.number);
   SearchQuery tree = SearchQuery(SearchQueryStrings.tree);
   SearchQuery type = SearchQuery(SearchQueryStrings.type);
   SearchQuery updated = SearchQuery(SearchQueryStrings.updated);
-  SearchQuery user = SearchQuery(SearchQueryStrings.user);
+  SearchQuery user = SearchQuery(SearchQueryStrings.user, type: QueryType.user);
 }
 
 class SearchQueryStrings {
@@ -236,7 +259,9 @@ class SearchQuery {
   Map<String, String>? options;
   final QueryType type;
   SearchQuery(this.query,
-      {this.description, this.options, this.type = QueryType.string});
+      {this.description, this.options, this.type = QueryType.string}) {
+    if (type == QueryType.bool) options = {'true': '', 'false': ''};
+  }
 }
 
-enum QueryType { string, range, date }
+enum QueryType { string, date, number, user, bool }

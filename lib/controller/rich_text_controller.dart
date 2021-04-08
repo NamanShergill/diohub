@@ -4,25 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class RichTextController extends TextEditingController {
-  final Map<RegExp, TextStyle>? patternMap;
-  final Map<String, TextStyle>? stringMap;
+  final Map<RegExp, TextStyle> patternMap;
+  final Map<RegExp, TextStyle> blacklistPatternMap;
+  final ValueChanged<List<String?>>? allMatches;
   final Function(List<String> match)? onMatch;
   RichTextController(
-      {String? text, this.patternMap, this.stringMap, this.onMatch})
-      : assert(patternMap == null || stringMap == null),
-        super(text: text);
+      {String? text,
+      required this.patternMap,
+      this.onMatch,
+      this.allMatches,
+      required this.blacklistPatternMap})
+      : super(text: text);
 
   RichTextController.fromValue(TextEditingValue value,
-      {this.patternMap, this.stringMap, this.onMatch})
+      {required this.patternMap,
+      this.onMatch,
+      this.allMatches,
+      required this.blacklistPatternMap})
       : assert(
-          value == null ||
-              !value.composing.isValid ||
-              value.isComposingRangeValid,
+          !value.composing.isValid || value.isComposingRangeValid,
           'New TextEditingValue $value has an invalid non-empty composing range '
           '${value.composing}. It is recommended to use a valid composing range, '
           'even for readonly text fields',
         ),
-        assert(patternMap == null || stringMap == null),
         super.fromValue(value);
   @override
   TextSpan buildTextSpan(
@@ -33,30 +37,27 @@ class RichTextController extends TextEditingController {
     List<String> matches = [];
     // Validating with REGEX
     RegExp? allRegex;
-    allRegex = patternMap != null
-        ? RegExp(patternMap!.keys.map((e) => e.pattern).join('|'))
-        : null;
-    // Validating with Strings
-    RegExp? stringRegex;
-    stringRegex = stringMap != null
-        ? RegExp(r'\b' + stringMap!.keys.join('|').toString() + r'+\b')
-        : null;
-    ////
+    String wlRegex = patternMap.keys.map((e) => e.pattern).join('|');
+    String blRegex = blacklistPatternMap.keys.map((e) => e.pattern).join('|');
+    Map<RegExp, TextStyle> combinedMap = {};
+    combinedMap.addAll(patternMap);
+    combinedMap.addAll(blacklistPatternMap);
+
+    allRegex = RegExp('$wlRegex|$blRegex');
+    List<String> matchesCallback =
+        RegExp(wlRegex).allMatches(text).map((e) => (e.group(0)!)).toList();
+    if (allMatches != null) allMatches!(matchesCallback);
     text.splitMapJoin(
-      stringMap == null ? allRegex! : stringRegex!,
+      allRegex,
       onMatch: (Match m) {
         if (!matches.contains(m[0])) matches.add(m[0]!);
-        RegExp? k = patternMap?.entries.firstWhere((element) {
+        RegExp? k = combinedMap.entries.firstWhere((element) {
           return element.key.allMatches(m[0]!).isNotEmpty;
         }).key;
-        String? ks = stringMap?.entries.firstWhere((element) {
-          return element.key.allMatches(m[0]!).isNotEmpty;
-        }).key;
-
         children.add(
           TextSpan(
             text: m[0],
-            style: stringMap == null ? patternMap![k] : stringMap![ks],
+            style: combinedMap[k],
           ),
         );
 

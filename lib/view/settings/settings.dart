@@ -98,6 +98,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               onPressed: () {
                                 BlocProvider.of<AuthenticationBloc>(context)
                                     .add(LogOut());
+                                Navigator.pop(context);
                               },
                               child: Text(
                                 'Confirm',

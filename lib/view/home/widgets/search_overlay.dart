@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:line_icons/line_icons.dart';
@@ -98,29 +99,38 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   FocusNode searchNode = FocusNode();
   late RichTextController controller;
+  int qLength = 0;
   @override
   void initState() {
     controller = RichTextController(
-      patternMap: {
-        widget.searchFilters.queriesRegExp: TextStyle(
-          color: Colors.white,
-          decoration: TextDecoration.underline,
-          fontWeight: FontWeight.bold,
-        ),
-        widget.searchFilters.stringOptionQueriesRegExp: TextStyle(
-          color: Colors.white,
-          decoration: TextDecoration.underline,
-          fontWeight: FontWeight.bold,
-        ),
-        widget.searchFilters.optionQueriesRegExp: TextStyle(
+        patternMap: {
+          widget.searchFilters.queriesRegExp: TextStyle(
             color: Colors.white,
-            decoration: TextDecoration.combine([TextDecoration.lineThrough])),
-        widget.searchFilters.blacklistRegExp: TextStyle(
-          color: Colors.white,
-          decoration: TextDecoration.combine([TextDecoration.lineThrough]),
-        ),
-      },
-    );
+            decoration: TextDecoration.underline,
+            fontWeight: FontWeight.bold,
+          ),
+          widget.searchFilters.stringOptionQueriesRegExp: TextStyle(
+            color: Colors.white,
+            decoration: TextDecoration.underline,
+            fontWeight: FontWeight.bold,
+          ),
+        },
+        blacklistPatternMap: {
+          widget.searchFilters.optionQueriesRegExp: TextStyle(
+              color: Colors.white,
+              decoration: TextDecoration.combine([TextDecoration.lineThrough])),
+          widget.searchFilters.blacklistRegExp: TextStyle(
+            color: Colors.white,
+            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+          ),
+        },
+        allMatches: (strings) {
+          print(strings);
+          if (qLength != strings.length) {
+            qLength = strings.length;
+            HapticFeedback.vibrate();
+          }
+        });
     getFocus();
     super.initState();
   }
@@ -213,58 +223,71 @@ class _SearchBarState extends State<SearchBar> {
           ),
         ),
         PortalEntry(
-            visible: isFiltersOpen,
-            portal: SizeExpandedSection(
-              child: Container(
-                width: _media.width * 0.6,
-                padding: EdgeInsets.only(bottom: _media.height * 0.4, top: 16),
-                child: Material(
-                  color: AppColor.onBackground,
-                  borderRadius: AppThemeBorderRadius.medBorderRadius,
-                  elevation: 8,
-                  child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            controller.text = controller.text +
-                                '${controller.text.endsWith(' ') ? '' : ' '}' +
-                                widget.searchFilters.whiteListedQueries[index]
-                                    .query +
-                                ':';
-                            setState(
-                              () {
-                                isFiltersOpen = !isFiltersOpen;
-                                controller.selection =
-                                    TextSelection.fromPosition(
-                                  TextPosition(offset: controller.text.length),
-                                );
-                                searchNode.requestFocus();
-                              },
-                            );
-                          },
-                          title: Text(
-                            widget.searchFilters.whiteListedQueries[index]
-                                    .query +
-                                ':',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => Divider(),
-                      itemCount:
-                          widget.searchFilters.whiteListedQueries.length),
+          visible: isFiltersOpen,
+          portal: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              setState(() {
+                isFiltersOpen = false;
+              });
+            },
+          ),
+          child: PortalEntry(
+              visible: isFiltersOpen,
+              portal: SizeExpandedSection(
+                child: Container(
+                  width: _media.width * 0.6,
+                  padding:
+                      EdgeInsets.only(bottom: _media.height * 0.4, top: 16),
+                  child: Material(
+                    color: AppColor.onBackground,
+                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    elevation: 8,
+                    child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              controller.text = controller.text +
+                                  '${controller.text.endsWith(' ') ? '' : ' '}' +
+                                  widget.searchFilters.whiteListedQueries[index]
+                                      .query +
+                                  ':';
+                              setState(
+                                () {
+                                  isFiltersOpen = !isFiltersOpen;
+                                  controller.selection =
+                                      TextSelection.fromPosition(
+                                    TextPosition(
+                                        offset: controller.text.length),
+                                  );
+                                  searchNode.requestFocus();
+                                },
+                              );
+                            },
+                            title: Text(
+                              widget.searchFilters.whiteListedQueries[index]
+                                      .query +
+                                  ':',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => Divider(),
+                        itemCount:
+                            widget.searchFilters.whiteListedQueries.length),
+                  ),
                 ),
               ),
-            ),
-            childAnchor: Alignment.bottomLeft,
-            portalAnchor: Alignment.topCenter,
-            child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isFiltersOpen = !isFiltersOpen;
-                  });
-                },
-                icon: Icon(LineIcons.filter))),
+              childAnchor: Alignment.bottomLeft,
+              portalAnchor: Alignment.topCenter,
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isFiltersOpen = !isFiltersOpen;
+                    });
+                  },
+                  icon: Icon(LineIcons.filter))),
+        ),
       ],
     );
   }
