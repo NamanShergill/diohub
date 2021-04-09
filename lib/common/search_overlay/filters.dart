@@ -1,6 +1,6 @@
 class SearchFilters {
-  late List<SearchQuery> _queries;
-  late List<SearchQuery> _sensitiveQueries;
+  List<SearchQuery> _queries = [];
+  List<SearchQuery> _sensitiveQueries = [];
   List<SearchQuery> _blackList = [];
   final SearchQueries searchQueries = SearchQueries();
   RegExp? _queriesRegExp;
@@ -10,11 +10,15 @@ class SearchFilters {
 
   RegExp get queriesRegExp => _queriesRegExp!;
   RegExp get blacklistRegExp => _blacklistRegExp!;
-  RegExp get stringOptionQueriesRegExp => _sensitiveQueriesOptionsRegExp!;
-  RegExp get sensitiveQueriesOptionsRegExp => _sensitiveQueriesRegExp!;
+  RegExp get sensitiveQueriesOptionsRegExp => _sensitiveQueriesOptionsRegExp!;
+  RegExp get sensitiveQueriesRegExp => _sensitiveQueriesRegExp!;
   List<SearchQuery> get queries => _queries;
   List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
-  List<SearchQuery> get whiteListedQueries => _sensitiveQueries + _queries;
+  List<SearchQuery> get whiteListedQueries {
+    List<SearchQuery> list = _sensitiveQueries + _queries;
+    list.sort((a, b) => a.query.toLowerCase().compareTo(b.query.toLowerCase()));
+    return list;
+  }
 
   SearchQuery? queryFromString(String query) {
     SearchQuery? value;
@@ -26,18 +30,12 @@ class SearchFilters {
 
   SearchFilters.repositories({List<String> blacklist = const []}) {
     _filterQueries([
-      searchQueries.repo,
-      searchQueries.user,
-      searchQueries.org,
-      searchQueries.size,
+      searchQueries.archived,
+      searchQueries.created,
       searchQueries.followers,
       searchQueries.forks,
-      searchQueries.created,
-      searchQueries.pushed,
-      searchQueries.language,
-      searchQueries.topic,
-      searchQueries.topics,
-      searchQueries.license,
+      searchQueries.goodFirstIssues,
+      searchQueries.helpWantedIssues,
       searchQueries.iN
         ..options = {
           'name': 'Name',
@@ -45,15 +43,22 @@ class SearchFilters {
           'readme': 'Readme'
         },
       searchQueries.iS,
+      searchQueries.language,
+      searchQueries.license,
       searchQueries.mirror,
+      searchQueries.org,
+      searchQueries.pushed,
+      searchQueries.repo,
+      searchQueries.size,
       searchQueries.stars,
-      searchQueries.archived,
-      searchQueries.goodFirstIssues,
-      searchQueries.helpWantedIssues,
+      searchQueries.topic,
+      searchQueries.topics,
+      searchQueries.user,
     ], blacklist);
     _queriesRegExp = _getRegExp(_queries);
     _blacklistRegExp = _getRegExp(_blackList);
-    _sensitiveQueriesRegExp = _getRegExp(_sensitiveQueries);
+    _sensitiveQueriesRegExp =
+        _getRegExp(_sensitiveQueries, waitForFirstLetter: false);
     _sensitiveQueriesOptionsRegExp =
         _getSensitiveQueryRegExp(_sensitiveQueries);
   }
@@ -62,12 +67,15 @@ class SearchFilters {
     List<SearchQuery> stringQ = [];
     List<SearchQuery> dateQ = [];
     List<SearchQuery> numberQ = [];
+    List<SearchQuery> userQ = [];
     queries.forEach(
       (element) {
         if (element.type == QueryType.date)
           dateQ.add(element);
         else if (element.type == QueryType.number)
           numberQ.add(element);
+        else if (element.type == QueryType.user)
+          userQ.add(element);
         else
           stringQ.add(element);
       },
@@ -81,15 +89,18 @@ class SearchFilters {
     List<String> numbersQ = numberQ.map((query) => '${query.query}:').toList();
     String numberRegexp =
         '(?:-)?(?:${numbersQ.join('|')})([><][=]?)?([0-9]+)(?=(\\s)(${numbersQ.join('|')})?|\$)|(?:-)?(?:${numbersQ.join('|')})([0-9]+)([.][.][*])(?=(\\s)(${numbersQ.join('|')})?|\$)|(?:-)?(?:${numbersQ.join('|')})([*][.][.])([0-9]+)(?=(\\s)(${numbersQ.join('|')})?|\$)';
-
-    return RegExp(stringRegexp + '|' + numberRegexp);
+    List<String> usersQ = userQ.map((query) => '${query.query}:').toList();
+    String userRegExp =
+        '(?:-)?(?:${usersQ.join('|')})(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/"])+)(?=(\\s)(${usersQ.join('|')})?|\$)';
+    return RegExp(stringRegexp + '|' + numberRegexp + '|' + userRegExp);
   }
 
-  RegExp _getRegExp(List<SearchQuery> queries) {
+  RegExp _getRegExp(List<SearchQuery> queries,
+      {bool waitForFirstLetter = true}) {
     List<String> strings = queries.map((e) => e.query + ':').toList();
     String filter = strings.join('|');
     return RegExp(
-        '(?:-)?(?:$filter)([=><]{1,2})?([*..]{1,3})?((\\w|\\d| |[a-zA-Z0-9!@#\$&()\\-`.+,/"])*)([..*]{1,3})?(?=(\\s)($filter)?|\$)');
+        '(?:-)?(?:$filter)((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/"])${waitForFirstLetter ? '+' : '*'})(?=(\\s)($filter)?|\$)');
   }
 
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {

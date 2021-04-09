@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:onehub/view/home/widgets/search_overlay.dart';
+import 'package:onehub/common/search_overlay/search_overlay.dart';
 import 'package:onehub/view/issues_pulls/issue_screen.dart';
 import 'package:onehub/view/issues_pulls/pull_screen.dart';
 import 'package:onehub/view/landing/widgets/landing_auth_wrapper.dart';

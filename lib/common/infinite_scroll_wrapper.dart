@@ -11,7 +11,7 @@ class InfiniteScrollWrapperController {
 }
 
 typedef ScrollWrapperFuture<T>(
-    int pageNumber, int pageSize, bool refresh, T lastItem);
+    int pageNumber, int pageSize, bool refresh, T? lastItem);
 typedef ScrollWrapperBuilder<T>(BuildContext context, T item, int index);
 typedef FilterFn<T>(List<T> items);
 
@@ -65,6 +65,11 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// ListView ScrollController.
   final ScrollController? scrollController;
 
+  // Disable refreshing.
+  final bool disableRefresh;
+
+  final bool shrinkWrap;
+
   InfiniteScrollWrapper(
       {Key? key,
       required this.future,
@@ -77,9 +82,11 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
+      this.disableRefresh = false,
       this.firstDivider = true,
       this.firstPageLoadingBuilder,
       this.scrollController,
+      this.shrinkWrap = false,
       this.listEndIndicator = true,
       this.spacing = 16})
       : super(key: key);
@@ -159,83 +166,88 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      color: Colors.white,
-      onRefresh: () => Future.sync(() async {
-        resetAndRefresh();
-      }),
-      child: PagedListView<int, T>(
-        scrollController: widget.scrollController,
-        physics: BouncingScrollPhysics(),
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<T>(
-          itemBuilder: (context, T item, index) => Column(children: [
-            if (index == 0)
-              Column(
-                children: [
-                  SizedBox(
-                    height: widget.topSpacing,
-                  ),
-                  if (widget.header != null) widget.header!(context),
-                ],
-              ),
-            Visibility(
-              visible:
-                  widget.divider && (index == 0 ? widget.firstDivider : true),
-              child: Divider(
-                height: widget.spacing,
-              ),
-            ),
-            Padding(
-              padding: widget.divider
-                  ? EdgeInsets.all(0)
-                  : EdgeInsets.only(top: widget.spacing),
-              child: widget.builder!(context, item, index),
-            ),
-          ]),
-          firstPageProgressIndicatorBuilder: (context) =>
-              widget.firstPageLoadingBuilder != null
-                  ? widget.firstPageLoadingBuilder!(context)
-                  : Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: LoadingIndicator(),
-                    ),
-          newPageProgressIndicatorBuilder: (context) => Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: LoadingIndicator(),
-          ),
-          noItemsFoundIndicatorBuilder: (context) => Center(
-              child: Column(
-            children: [
-              if (widget.header != null) widget.header!(context),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'And then there were none.',
-                  style: TextStyle(color: AppColor.grey3),
+    Widget child = PagedListView<int, T>(
+      scrollController: widget.scrollController,
+      physics: BouncingScrollPhysics(),
+      pagingController: _pagingController,
+      shrinkWrap: widget.shrinkWrap,
+      builderDelegate: PagedChildBuilderDelegate<T>(
+        itemBuilder: (context, T item, index) => Column(children: [
+          if (index == 0)
+            Column(
+              children: [
+                SizedBox(
+                  height: widget.topSpacing,
                 ),
-              ),
-            ],
-          )),
-          noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
-              ? Center(
-                  child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        'The end of the line.',
-                        style: TextStyle(color: AppColor.grey3),
-                      ),
-                      SizedBox(
-                        height: widget.bottomSpacing,
-                      ),
-                    ],
+                if (widget.header != null) widget.header!(context),
+              ],
+            ),
+          Visibility(
+            visible:
+                widget.divider && (index == 0 ? widget.firstDivider : true),
+            child: Divider(
+              height: widget.spacing,
+            ),
+          ),
+          Padding(
+            padding: widget.divider
+                ? EdgeInsets.all(0)
+                : EdgeInsets.only(top: widget.spacing),
+            child: widget.builder!(context, item, index),
+          ),
+        ]),
+        firstPageProgressIndicatorBuilder: (context) =>
+            widget.firstPageLoadingBuilder != null
+                ? widget.firstPageLoadingBuilder!(context)
+                : Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: LoadingIndicator(),
                   ),
-                ))
-              : Container(),
+        newPageProgressIndicatorBuilder: (context) => Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: LoadingIndicator(),
         ),
+        noItemsFoundIndicatorBuilder: (context) => Center(
+            child: Column(
+          children: [
+            if (widget.header != null) widget.header!(context),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'And then there were none.',
+                style: TextStyle(color: AppColor.grey3),
+              ),
+            ),
+          ],
+        )),
+        noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
+            ? Center(
+                child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'The end of the line.',
+                      style: TextStyle(color: AppColor.grey3),
+                    ),
+                    SizedBox(
+                      height: widget.bottomSpacing,
+                    ),
+                  ],
+                ),
+              ))
+            : Container(),
       ),
     );
+
+    return widget.disableRefresh
+        ? child
+        : RefreshIndicator(
+            color: Colors.white,
+            onRefresh: () => Future.sync(() async {
+              resetAndRefresh();
+            }),
+            child: child,
+          );
   }
 }

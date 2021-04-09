@@ -1,5 +1,21 @@
-// Ref & credit to: https://github.com/ozh/github-colors
+// Credits: https://github.com/ozh/github-colors/blob/cfe6bb4893ad00daeb88ef6c68b8940d5ff3de36/colors.json
 
+/*
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+
+ Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.
+*/
+//-----------------------------------------------------------------------------
 const String colorsData = '''
 {
     "1C Enterprise": {

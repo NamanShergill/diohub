@@ -108,12 +108,16 @@ class CodeProvider extends BaseProvider {
       // If commit lock is disabled or _lockedCommit has not been fetched yet
       // add future to fetch them.
       if (!_commitLock || _lockedCommit == null)
-        future.add(RepositoryServices.getCommitsList(
-            repoURL: _repoURL!,
-            sha: _commitLock ? _lockedCommitSHA : _branchProvider!.branch!.name,
-            path: getPath(),
-            pageNumber: 1,
-            pageSize: 1));
+        future.add(
+          RepositoryServices.getCommitsList(
+              repoURL: _repoURL!,
+              sha: _commitLock
+                  ? _lockedCommitSHA
+                  : _branchProvider!.branch!.name,
+              path: getPath(),
+              pageNumber: 1,
+              pageSize: 1),
+        );
       // Run the futures.
       List<dynamic> data = await Future.wait(future);
       // Get _codeTree data from the completed futures.

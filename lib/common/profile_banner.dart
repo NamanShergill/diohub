@@ -13,10 +13,12 @@ class ProfileTile extends StatelessWidget {
   final bool showName;
   final TextStyle textStyle;
   final EdgeInsets padding;
+  final bool disableTap;
   ProfileTile(this.avatarUrl,
       {this.userLogin,
       this.padding = EdgeInsets.zero,
       this.size = 25,
+      this.disableTap = false,
       this.showName = false,
       this.textStyle = const TextStyle(color: Colors.white, fontSize: 15)});
   @override
@@ -26,7 +28,7 @@ class ProfileTile extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: AppThemeBorderRadius.smallBorderRadius,
-        onTap: userLogin != null
+        onTap: userLogin != null && !disableTap
             ? () {
                 AutoRouter.of(context)
                     .push(OtherUserProfileScreenRoute(login: userLogin));

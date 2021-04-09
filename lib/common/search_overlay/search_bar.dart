@@ -6,6 +6,9 @@ import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 
 class SearchBar extends StatelessWidget {
+  final String? message;
+  final String prompt;
+  SearchBar({this.message, this.prompt = 'Search or Jump to...'});
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -17,7 +20,8 @@ class SearchBar extends StatelessWidget {
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
-            Global.customRouter.push(SearchOverlayScreenRoute());
+            Global.customRouter
+                .push(SearchOverlayScreenRoute(message: message));
           },
           child: Container(
             child: Padding(
@@ -34,7 +38,7 @@ class SearchBar extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Search or Jump to...',
+                      prompt,
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1!
