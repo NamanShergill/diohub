@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onehub/app/global.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/style/colors.dart';
 
 import 'loading_indicator.dart';
@@ -166,77 +167,82 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = PagedListView<int, T>(
-      scrollController: widget.scrollController,
-      physics: BouncingScrollPhysics(),
-      pagingController: _pagingController,
-      shrinkWrap: widget.shrinkWrap,
-      builderDelegate: PagedChildBuilderDelegate<T>(
-        itemBuilder: (context, T item, index) => Column(children: [
-          if (index == 0)
-            Column(
-              children: [
-                SizedBox(
-                  height: widget.topSpacing,
-                ),
-                if (widget.header != null) widget.header!(context),
-              ],
-            ),
-          Visibility(
-            visible:
-                widget.divider && (index == 0 ? widget.firstDivider : true),
-            child: Divider(
-              height: widget.spacing,
-            ),
-          ),
-          Padding(
-            padding: widget.divider
-                ? EdgeInsets.all(0)
-                : EdgeInsets.only(top: widget.spacing),
-            child: widget.builder!(context, item, index),
-          ),
-        ]),
-        firstPageProgressIndicatorBuilder: (context) =>
-            widget.firstPageLoadingBuilder != null
-                ? widget.firstPageLoadingBuilder!(context)
-                : Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: LoadingIndicator(),
+    Widget child = SizeExpandedSection(
+      child: PagedListView<int, T>(
+        scrollController: widget.scrollController,
+        physics: BouncingScrollPhysics(),
+        pagingController: _pagingController,
+        shrinkWrap: widget.shrinkWrap,
+        builderDelegate: PagedChildBuilderDelegate<T>(
+          itemBuilder: (context, T item, index) => Column(children: [
+            if (index == 0)
+              Column(
+                children: [
+                  SizedBox(
+                    height: widget.topSpacing,
                   ),
-        newPageProgressIndicatorBuilder: (context) => Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: LoadingIndicator(),
-        ),
-        noItemsFoundIndicatorBuilder: (context) => Center(
-            child: Column(
-          children: [
-            if (widget.header != null) widget.header!(context),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'And then there were none.',
-                style: TextStyle(color: AppColor.grey3),
+                  if (widget.header != null) widget.header!(context),
+                ],
+              ),
+            Visibility(
+              visible:
+                  widget.divider && (index == 0 ? widget.firstDivider : true),
+              child: Divider(
+                height: widget.spacing,
               ),
             ),
-          ],
-        )),
-        noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
-            ? Center(
-                child: Padding(
+            Padding(
+              padding: widget.divider
+                  ? EdgeInsets.all(0)
+                  : EdgeInsets.only(top: widget.spacing),
+              child: widget.builder!(context, item, index),
+            ),
+          ]),
+          firstPageProgressIndicatorBuilder: (context) =>
+              widget.firstPageLoadingBuilder != null
+                  ? widget.firstPageLoadingBuilder!(context)
+                  : Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: LoadingIndicator(),
+                    ),
+          newPageProgressIndicatorBuilder: (context) => Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: LoadingIndicator(),
+          ),
+          noItemsFoundIndicatorBuilder: (context) => Center(
+              child: Column(
+            children: [
+              if (widget.header != null) widget.header!(context),
+              Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'The end of the line.',
-                      style: TextStyle(color: AppColor.grey3),
-                    ),
-                    SizedBox(
-                      height: widget.bottomSpacing,
-                    ),
-                  ],
+                child: Text(
+                  'And then there were none.',
+                  style: TextStyle(color: AppColor.grey3),
                 ),
-              ))
-            : Container(),
+              ),
+            ],
+          )),
+          noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
+              ? Center(
+                  child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        'The end of the line.',
+                        style: TextStyle(color: AppColor.grey3),
+                      ),
+                      SizedBox(
+                        height: widget.bottomSpacing,
+                      ),
+                    ],
+                  ),
+                ))
+              : Padding(
+                  padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                  child: Container(),
+                ),
+        ),
       ),
     );
 

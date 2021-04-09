@@ -2,12 +2,14 @@ class SearchFilters {
   List<SearchQuery> _queries = [];
   List<SearchQuery> _sensitiveQueries = [];
   List<SearchQuery> _blackList = [];
+  final Map<String, String> _sortOptions;
   final SearchQueries searchQueries = SearchQueries();
   RegExp? _queriesRegExp;
   RegExp? _blacklistRegExp;
   RegExp? _sensitiveQueriesOptionsRegExp;
   RegExp? _sensitiveQueriesRegExp;
 
+  Map<String, String> get sortOptions => _sortOptions;
   RegExp get queriesRegExp => _queriesRegExp!;
   RegExp get blacklistRegExp => _blacklistRegExp!;
   RegExp get sensitiveQueriesOptionsRegExp => _sensitiveQueriesOptionsRegExp!;
@@ -20,6 +22,9 @@ class SearchFilters {
     return list;
   }
 
+  List<String> get whiteListedQueriesStrings =>
+      whiteListedQueries.map((e) => e.query).toList();
+
   SearchQuery? queryFromString(String query) {
     SearchQuery? value;
     (_queries + _sensitiveQueries + _blackList).forEach((element) {
@@ -28,7 +33,8 @@ class SearchFilters {
     return value;
   }
 
-  SearchFilters.repositories({List<String> blacklist = const []}) {
+  SearchFilters.repositories({List<String> blacklist = const []})
+      : _sortOptions = {} {
     _filterQueries([
       searchQueries.archived,
       searchQueries.created,
@@ -42,7 +48,7 @@ class SearchFilters {
           'description': 'Description',
           'readme': 'Readme'
         },
-      searchQueries.iS,
+      searchQueries.iS..options = {'public': '', 'internal': '', 'private': ''},
       searchQueries.language,
       searchQueries.license,
       searchQueries.mirror,
@@ -119,7 +125,8 @@ class SearchFilters {
 }
 
 class SearchQueries {
-  SearchQuery archived = SearchQuery(SearchQueryStrings.archived);
+  SearchQuery archived =
+      SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
   SearchQuery assignee = SearchQuery(SearchQueryStrings.assignee);
   SearchQuery author = SearchQuery(SearchQueryStrings.author);
   SearchQuery authorName = SearchQuery(SearchQueryStrings.authorName);
@@ -140,7 +147,8 @@ class SearchQueries {
   SearchQuery filename = SearchQuery(SearchQueryStrings.filename);
   SearchQuery followers =
       SearchQuery(SearchQueryStrings.followers, type: QueryType.number);
-  SearchQuery fork = SearchQuery(SearchQueryStrings.fork);
+  SearchQuery fork = SearchQuery(SearchQueryStrings.fork,
+      options: {'true': 'Include forks.', 'only': 'Only show forks.'});
   SearchQuery forks =
       SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
   SearchQuery fullName = SearchQuery(SearchQueryStrings.fullName);
@@ -162,7 +170,8 @@ class SearchQueries {
   SearchQuery merged = SearchQuery(SearchQueryStrings.merged);
   SearchQuery mentions = SearchQuery(SearchQueryStrings.mentions);
   SearchQuery milestone = SearchQuery(SearchQueryStrings.milestone);
-  SearchQuery mirror = SearchQuery(SearchQueryStrings.mirror);
+  SearchQuery mirror =
+      SearchQuery(SearchQueryStrings.mirror, type: QueryType.bool);
   SearchQuery no = SearchQuery(SearchQueryStrings.no);
   SearchQuery org = SearchQuery(SearchQueryStrings.org, type: QueryType.user);
   SearchQuery parent = SearchQuery(SearchQueryStrings.parent);

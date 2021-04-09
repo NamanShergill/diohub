@@ -46,46 +46,65 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        onPressed: () {
-                          _navProvider.animateToPage(1);
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Tap to Search',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ],
             ),
             Positioned(
-              bottom: 24,
+              bottom: 16,
               left: 0,
               right: 0,
-              child: Hero(
-                tag: 'homeNavButton',
-                child: Material(
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: IconButton(
-                      iconSize: 30,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(LineIcons.times),
-                      color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Hero(
+                      tag: 'homeNavButton',
+                      child: ClipOval(
+                        child: Material(
+                          color: AppColor.onBackground,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: IconButton(
+                              iconSize: 25,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(LineIcons.times),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Hero(
+                      tag: 'searchNavButton',
+                      child: ClipOval(
+                        child: Material(
+                          elevation: 2,
+                          color: AppColor.onBackground,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: IconButton(
+                              iconSize: 25,
+                              onPressed: () {
+                                _navProvider.animateToPage(1);
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(LineIcons.search),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -169,6 +188,25 @@ class _SearchBarState extends State<_SearchBar> {
     searchNode.requestFocus();
   }
 
+  Widget list(int length, builder) {
+    return Material(
+      color: AppColor.onBackground,
+      borderRadius: AppThemeBorderRadius.medBorderRadius,
+      elevation: 8,
+      child: ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return builder(context, index);
+          },
+          separatorBuilder: (context, index) {
+            return Divider(
+              height: 0,
+            );
+          },
+          itemCount: length),
+    );
+  }
+
   OverlayController filtersOverlayController = OverlayController();
   @override
   Widget build(BuildContext context) {
@@ -212,35 +250,36 @@ class _SearchBarState extends State<_SearchBar> {
                           addString(data, remove: item.typedData);
                         },
                       );
+                    else if (item is FilterSuggestion)
+                      return list(item.filters.length, (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            addString(item.filters[index] + ':',
+                                spaceAtEnd: false, remove: item.typedData);
+                          },
+                          title: Text(
+                            item.filters[index] + ':',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      });
                     else if (item is OptionsSuggestion)
-                      return Material(
-                        color: AppColor.onBackground,
-                        borderRadius: AppThemeBorderRadius.medBorderRadius,
-                        elevation: 8,
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () {
-                                  addString(item.results[index],
-                                      spaceAtEnd: true, remove: item.typedData);
-                                },
-                                title: Text(item.results[index]),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                height: 0,
-                              );
-                            },
-                            itemCount: item.results.length),
-                      );
+                      return list(item.results.length, (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            return addString(item.results[index],
+                                spaceAtEnd: true, remove: item.typedData);
+                          },
+                          title: Text(item.results[index]),
+                        );
+                      });
                     return Container();
                   },
                 ),
               );
             },
             suggestionsCallback: (pattern) {
+              if (pattern.isEmpty) return [];
               List<String?> matches = [];
               // Get matches on the option queries on the supplied text.
               pattern.splitMapJoin(widget.searchFilters.sensitiveQueriesRegExp,
@@ -260,20 +299,35 @@ class _SearchBarState extends State<_SearchBar> {
                   }
                 },
               );
-              if (query?.type == QueryType.number && (typedData.isEmpty))
-                return [0, typedData];
-              if (query?.type == QueryType.user && !typedData.endsWith(' '))
-                return [UserSuggestion(typedData, typedData)];
+              if (query == null) {
+                List<String> filteredOptions = [];
 
-              List<String> filteredOptions = [];
-              if (query?.options?.keys != null)
-                query?.options?.keys.toList().forEach((element) {
-                  if (element.startsWith(typedData))
-                    filteredOptions.add(element);
-                });
-              return query?.options?.keys != null
-                  ? [OptionsSuggestion(filteredOptions, typedData)]
-                  : <String>[];
+                typedData = pattern.split(' ').last;
+                if (typedData.isNotEmpty) {
+                  widget.searchFilters.whiteListedQueriesStrings
+                      .forEach((element) {
+                    if (element.startsWith(typedData))
+                      filteredOptions.add(element);
+                  });
+                  return [FilterSuggestion(filteredOptions, typedData)];
+                }
+              } else if (query?.type == QueryType.number &&
+                  (typedData.isEmpty)) {
+                return [0, typedData];
+              } else if (query?.type == QueryType.user &&
+                  !typedData.endsWith(' ')) {
+                return [UserSuggestion(typedData, typedData)];
+              } else if (query?.options?.keys != null) {
+                List<String> filteredOptions = [];
+                query!.options?.keys.toList().forEach(
+                  (element) {
+                    if (element.startsWith(typedData))
+                      filteredOptions.add(element);
+                  },
+                );
+                return [OptionsSuggestion(filteredOptions, typedData)];
+              }
+              return <String>[];
             },
             keepSuggestionsOnSuggestionSelected: true,
             hideOnEmpty: true,
@@ -339,6 +393,11 @@ class UserSuggestion extends SuggestionInfo {
 class OptionsSuggestion extends SuggestionInfo {
   final List<String> results;
   OptionsSuggestion(this.results, String typedData) : super(typedData);
+}
+
+class FilterSuggestion extends SuggestionInfo {
+  final List<String> filters;
+  FilterSuggestion(this.filters, String typedData) : super(typedData);
 }
 
 abstract class SuggestionInfo {

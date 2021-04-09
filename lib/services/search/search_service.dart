@@ -46,7 +46,6 @@ class SearchService {
       'cursor': cursor,
     });
     final QueryResult result = await GetGraphQL.client.query(options);
-    print(result);
     List<UserEdge> userEdges =
         SearchUsersGraphQlModel.fromJson(result.data!).search.edges;
     return userEdges;

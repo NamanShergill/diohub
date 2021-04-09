@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/profile_banner.dart';
 import 'package:onehub/models/search/search_users_graphQL_model.dart';
@@ -23,42 +24,47 @@ class UserSearchDropdown extends StatelessWidget {
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         elevation: 8,
         child: query.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: InfiniteScrollWrapper<UserEdge>(
-                  shrinkWrap: true,
-                  key: Key(query),
-                  disableRefresh: true,
-                  firstDivider: false,
-                  topSpacing: 8,
-                  bottomSpacing: 8,
-                  listEndIndicator: false,
-                  future: (int pageNumber, int pageSize, refresh, _) {
-                    return SearchService.searchMentionUsers(query,
-                        cursor: _ != null ? _.cursor : null);
-                  },
-                  builder: (context, item, index) {
-                    return InkWell(
-                      borderRadius: AppThemeBorderRadius.medBorderRadius,
-                      onTap: () {
-                        if (onSelected != null) onSelected!(item.node.login);
-                      },
-                      child: Row(
-                        children: [
-                          ProfileTile(
-                            item.node.avatarUrl,
-                            disableTap: true,
-                            padding: EdgeInsets.all(8),
-                            showName: true,
-                            userLogin: item.node.login,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+            ? SizeExpandedSection(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: InfiniteScrollWrapper<UserEdge>(
+                    shrinkWrap: true,
+                    key: Key(query),
+                    disableRefresh: true,
+                    firstDivider: false,
+                    topSpacing: 8,
+                    bottomSpacing: 8,
+                    listEndIndicator: false,
+                    future: (int pageNumber, int pageSize, refresh, _) {
+                      return SearchService.searchMentionUsers(query,
+                          cursor: _ != null ? _.cursor : null);
+                    },
+                    builder: (context, item, index) {
+                      return InkWell(
+                        borderRadius: AppThemeBorderRadius.medBorderRadius,
+                        onTap: () {
+                          if (onSelected != null) onSelected!(item.node.login);
+                        },
+                        child: Row(
+                          children: [
+                            ProfileTile(
+                              item.node.avatarUrl,
+                              disableTap: true,
+                              padding: EdgeInsets.all(8),
+                              showName: true,
+                              userLogin: item.node.login,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
-            : Text('Start typing a username to search users.'),
+            : Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text('Start typing a username to search users.'),
+              ),
       ),
     );
   }
