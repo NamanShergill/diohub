@@ -62,7 +62,7 @@ class SearchFilters {
       searchQueries.user,
     ], blacklist);
     _queriesRegExp = _getRegExp(_queries);
-    _blacklistRegExp = _getRegExp(_blackList);
+    _blacklistRegExp = _getRegExp(_blackList, waitForFirstLetter: false);
     _sensitiveQueriesRegExp =
         _getRegExp(_sensitiveQueries, waitForFirstLetter: false);
     _sensitiveQueriesOptionsRegExp =

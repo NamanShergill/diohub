@@ -56,32 +56,32 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
         SizedBox(
           height: 8,
         ),
-        Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: InfiniteScrollWrapper<Label>(
-              firstDivider: false,
-              future: (pageNumber, pageSize, refresh, _) {
-                return IssuesService.listAvailableLabels(
-                    widget.repoURL, pageNumber, pageSize);
-              },
-              scrollController: widget.controller,
-              listEndIndicator: false,
-              builder: (context, item, index) {
-                return CheckboxListTile(
-                  activeColor: AppColor.accent,
-                  value: labels!.contains(item.name),
-                  onChanged: (value) {
-                    setState(() {
-                      if (labels!.contains(item.name))
-                        labels!.remove(item.name);
-                      else
-                        labels!.add(item.name);
-                    });
-                  },
-                  title: IssueLabel(item),
-                );
-              },
-            )),
+        Expanded(
+          child: InfiniteScrollWrapper<Label>(
+            firstDivider: false,
+            future: (pageNumber, pageSize, refresh, _) {
+              return IssuesService.listAvailableLabels(
+                  widget.repoURL, pageNumber, pageSize);
+            },
+            scrollController: widget.controller,
+            listEndIndicator: false,
+            builder: (context, item, index) {
+              return CheckboxListTile(
+                activeColor: AppColor.accent,
+                value: labels!.contains(item.name),
+                onChanged: (value) {
+                  setState(() {
+                    if (labels!.contains(item.name))
+                      labels!.remove(item.name);
+                    else
+                      labels!.add(item.name);
+                  });
+                },
+                title: IssueLabel(item),
+              );
+            },
+          ),
+        ),
       ],
     );
   }

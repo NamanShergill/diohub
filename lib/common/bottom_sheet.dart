@@ -116,7 +116,7 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
 typedef ScrollChild(BuildContext context, ScrollController scrollController);
 
 void showScrollableBottomActionsMenu(BuildContext context,
-    {ScrollChild? child, String? titleText, Widget? titleWidget}) {
+    {required ScrollChild child, String? titleText, Widget? titleWidget}) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -134,9 +134,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
         expand: false,
         minChildSize: 0.6,
         builder: (context, scrollController) {
-          return ListView(
-            shrinkWrap: true,
-            controller: scrollController,
+          return Column(
             children: [
               SizedBox(
                 height: 4,
@@ -172,10 +170,9 @@ void showScrollableBottomActionsMenu(BuildContext context,
                       )),
                     ),
               Divider(),
-              SizedBox(
-                height: 16,
+              Expanded(
+                child: child(context, scrollController),
               ),
-              child!(context, scrollController),
             ],
           );
         },

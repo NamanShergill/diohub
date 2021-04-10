@@ -98,36 +98,36 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
           ),
         ),
         Divider(),
-        Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: InfiniteScrollWrapper<UserInfoModel>(
-              firstDivider: false,
-              future: (pageNumber, pageSize, refresh, _) {
-                return IssuesService.listAssignees(
-                    widget.repoURL, pageNumber, pageSize);
-              },
-              scrollController: widget.controller,
-              listEndIndicator: false,
-              builder: (context, item, index) {
-                return CheckboxListTile(
-                  activeColor: AppColor.accent,
-                  value: assignees.contains(item.login),
-                  onChanged: (value) {
-                    setState(() {
-                      if (assignees.contains(item.login))
-                        assignees.remove(item.login);
-                      else
-                        assignees.add(item.login);
-                    });
-                  },
-                  title: ProfileTile(
-                    item.avatarUrl,
-                    userLogin: item.login,
-                    showName: true,
-                  ),
-                );
-              },
-            )),
+        Expanded(
+          child: InfiniteScrollWrapper<UserInfoModel>(
+            firstDivider: false,
+            future: (pageNumber, pageSize, refresh, _) {
+              return IssuesService.listAssignees(
+                  widget.repoURL, pageNumber, pageSize);
+            },
+            scrollController: widget.controller,
+            listEndIndicator: false,
+            builder: (context, item, index) {
+              return CheckboxListTile(
+                activeColor: AppColor.accent,
+                value: assignees.contains(item.login),
+                onChanged: (value) {
+                  setState(() {
+                    if (assignees.contains(item.login))
+                      assignees.remove(item.login);
+                    else
+                      assignees.add(item.login);
+                  });
+                },
+                title: ProfileTile(
+                  item.avatarUrl,
+                  userLogin: item.login,
+                  showName: true,
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }

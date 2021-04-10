@@ -20,8 +20,7 @@ class BranchSelectSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    return Container(
-      height: _media.height * 0.85,
+    return Expanded(
       child: InfiniteScrollWrapper<RepoBranchListItemModel>(
         listEndIndicator: false,
         divider: false,

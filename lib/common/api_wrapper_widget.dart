@@ -48,25 +48,28 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
       await fetchData();
     else {
       data = widget.initialData;
-      setState(() {
-        loading = false;
-      });
+      if (mounted)
+        setState(() {
+          loading = false;
+        });
     }
   }
 
   Future fetchData() async {
-    setState(() {
-      loading = true;
-    });
+    if (mounted)
+      setState(() {
+        loading = true;
+      });
     try {
       error = null;
       data = await widget.getCall;
     } catch (e) {
       error = e.toString();
     }
-    setState(() {
-      loading = false;
-    });
+    if (mounted)
+      setState(() {
+        loading = false;
+      });
   }
 
   @override
