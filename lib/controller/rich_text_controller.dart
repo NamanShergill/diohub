@@ -101,6 +101,6 @@ class RichTextController extends TextEditingController {
       },
     );
 
-    return TextSpan(style: style, children: children);
+    return WidgetSpan(child: TextSpan(style: style, children: children));
   }
 }

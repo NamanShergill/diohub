@@ -54,21 +54,22 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
   @override
   Widget build(BuildContext context) {
     return PortalEntry(
+      visible: visible,
+      portal: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            visible = false;
+          });
+        },
+      ),
+      child: PortalEntry(
+        portal: SizeExpandedSection(child: widget.overlay),
         visible: visible,
-        portal: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            setState(() {
-              visible = false;
-            });
-          },
-        ),
-        child: PortalEntry(
-          portal: SizeExpandedSection(child: widget.overlay),
-          visible: visible,
-          portalAnchor: widget.portalAnchor,
-          childAnchor: widget.childAnchor,
-          child: widget.child,
-        ));
+        portalAnchor: widget.portalAnchor,
+        childAnchor: widget.childAnchor,
+        child: widget.child,
+      ),
+    );
   }
 }

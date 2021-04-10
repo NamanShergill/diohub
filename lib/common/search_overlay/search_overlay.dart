@@ -140,12 +140,12 @@ class _SearchBarState extends State<_SearchBar> {
   void initController() {
     controller = RichTextController(
       patternMap: {
-        widget.searchFilters.queriesRegExp: TextStyle(
+        widget.searchFilters.sensitiveQueriesOptionsRegExp: TextStyle(
           color: Colors.white,
           decoration: TextDecoration.underline,
           fontWeight: FontWeight.bold,
         ),
-        widget.searchFilters.sensitiveQueriesOptionsRegExp: TextStyle(
+        widget.searchFilters.queriesRegExp: TextStyle(
           color: Colors.white,
           decoration: TextDecoration.underline,
           fontWeight: FontWeight.bold,
@@ -171,9 +171,10 @@ class _SearchBarState extends State<_SearchBar> {
 
   void getFocus() async {
     await Future.delayed(Duration(milliseconds: 500));
-    setState(() {
-      searchNode.requestFocus();
-    });
+    if (mounted)
+      setState(() {
+        searchNode.requestFocus();
+      });
   }
 
   void addString(String data,
@@ -186,6 +187,19 @@ class _SearchBarState extends State<_SearchBar> {
       TextPosition(offset: controller.text.length),
     );
     searchNode.requestFocus();
+  }
+
+  bool isEndSame(String initial, String part) {
+    return initial.substring(initial.length - part.length) == part;
+  }
+
+  List<String> getMatches(RegExp regexp, String pattern) {
+    List<String> matches = [];
+    pattern.splitMapJoin(regexp, onMatch: (Match m) {
+      matches.add(m.group(0)!);
+      return m.group(0)!;
+    });
+    return matches;
   }
 
   Widget list(int length, builder) {
@@ -280,26 +294,29 @@ class _SearchBarState extends State<_SearchBar> {
             },
             suggestionsCallback: (pattern) {
               if (pattern.isEmpty) return [];
-              List<String?> matches = [];
               // Get matches on the option queries on the supplied text.
-              pattern.splitMapJoin(widget.searchFilters.sensitiveQueriesRegExp,
-                  onMatch: (Match m) {
-                matches.add(m.group(0));
-                return m.group(0)!;
-              });
+              List<String?> matches = getMatches(
+                  widget.searchFilters.sensitiveQueriesRegExp, pattern);
               String typedData = '';
               SearchQuery? query;
+              print(getMatches(widget.searchFilters.sensitiveQueriesOptionsRegExp, pattern));
               matches.forEach(
                 (element) {
-                  if (pattern.substring(pattern.length - element!.length) ==
-                      element) {
+                  if (isEndSame(pattern, element!)) {
                     typedData = element.split(':')[1];
                     query = widget.searchFilters
                         .queryFromString(element.split(':').first);
                   }
                 },
               );
-              if (query == null) {
+              List<String?> completedQueries = getMatches(
+                  RegExp(
+                      '${widget.searchFilters.sensitiveQueriesOptionsRegExp.pattern}|${widget.searchFilters.sensitiveQueriesRegExp.pattern}|${widget.searchFilters.queriesRegExp.pattern}'),
+                  pattern);
+              bool isLastQueryActive = completedQueries.isNotEmpty &&
+                  isEndSame(pattern, completedQueries.last!);
+
+              if (!isLastQueryActive) {
                 List<String> filteredOptions = [];
 
                 typedData = pattern.split(' ').last;
