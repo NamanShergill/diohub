@@ -15,7 +15,9 @@ class SizeExpandedSection extends StatefulWidget {
       this.axisAlignment = 1.0,
       this.axis = Axis.vertical,
       this.duration,
-      this.animationCurve});
+      this.animationCurve,
+      Key? key})
+      : super(key: key);
 
   @override
   _SizeExpandedSectionState createState() => _SizeExpandedSectionState();

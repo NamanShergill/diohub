@@ -57,11 +57,9 @@ class RichTextController extends TextEditingController {
           'even for readonly text fields',
         ),
         super.fromValue(value);
+
   @override
-  TextSpan buildTextSpan(
-      {required BuildContext context,
-      TextStyle? style,
-      required bool withComposing}) {
+  TextSpan buildTextSpan({TextStyle? style, required bool withComposing}) {
     List<TextSpan> children = [];
     List<String> matches = [];
     // Validating with REGEX
@@ -71,7 +69,6 @@ class RichTextController extends TextEditingController {
     Map<RegExp, TextStyle> combinedMap = {};
     combinedMap.addAll(patternMap);
     combinedMap.addAll(blacklistPatternMap);
-
     allRegex = RegExp('$wlRegex|$blRegex');
     if (wlMatches != null)
       wlMatches!(
@@ -101,6 +98,6 @@ class RichTextController extends TextEditingController {
       },
     );
 
-    return WidgetSpan(child: TextSpan(style: style, children: children));
+    return TextSpan(style: style, children: children);
   }
 }
