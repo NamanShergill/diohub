@@ -300,9 +300,11 @@ packages:
   extended_text_field:
     dependency: "direct main"
     description:
-      name: extended_text_field
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: d9d3c13236fc2b4142eb7ffbed74c4ecac71c3da
+      url: "https://github.com/NamanShergill/extended_text_field.git"
+    source: git
     version: "6.0.1"
   extended_text_library:
     dependency: transitive

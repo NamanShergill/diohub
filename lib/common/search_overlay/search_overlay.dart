@@ -40,8 +40,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         child: Material(
                           color: Colors.transparent,
                           child: _SearchBar(
-                            SearchFilters.repositories(
-                                blacklist: [SearchQueryStrings.repo]),
+                            SearchFilters.issuesPulls(
+                                blacklist: [SearchQueryStrings.topic]),
                             message: widget.message,
                           ),
                         ),
@@ -145,14 +145,21 @@ class _SearchBarState extends State<_SearchBar> {
       });
   }
 
-  void addString(String data,
-      {bool spaceAtEnd = true, bool spaceAtStart = false, String remove = ''}) {
+  void addString(
+    String data, {
+    bool addSpaceAtEnd = true,
+    bool spaceAtStart = false,
+    bool addQuotesAtEnd = false,
+    bool addQuotesAround = false,
+    String remove = '',
+  }) {
     controller.text =
         controller.text.substring(0, controller.text.length - remove.length);
     controller.text = controller.text +
-        '${spaceAtStart ? ' ' : ''}$data${spaceAtEnd ? ' ' : ''}';
+        '${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}' +
+        '${addQuotesAtEnd ? '""' : ''}';
     controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: controller.text.length),
+      TextPosition(offset: controller.text.length - (addQuotesAtEnd ? 1 : 0)),
     );
     searchNode.requestFocus();
     suggestions(controller.text);
@@ -215,72 +222,88 @@ class _SearchBarState extends State<_SearchBar> {
     closeOverlay();
     // if (pattern.isEmpty) return [];
     // Get matches on the option queries on the supplied text.
-    List<String?> matches =
-        getMatches(widget.searchFilters.sensitiveQueriesRegExp, pattern);
-    String typedData = '';
-    SearchQuery? query;
-    matches.forEach(
-      (element) {
-        if (isEndSame(pattern, element!)) {
-          typedData = element.split(':')[1];
-          query =
-              widget.searchFilters.queryFromString(element.split(':').first);
-        }
-      },
-    );
-    List<String?> completedQueries = getMatches(
-        RegExp(
-            '${widget.searchFilters.sensitiveQueriesOptionsRegExp.pattern}|${widget.searchFilters.sensitiveQueriesRegExp.pattern}|${widget.searchFilters.queriesRegExp.pattern}'),
-        pattern);
-    bool isLastQueryActive = completedQueries.isNotEmpty &&
-        isEndSame(pattern, completedQueries.last!);
-    if (!isLastQueryActive) {
-      List<String> filteredOptions = [];
+    if (controller.selection.baseOffset == controller.text.length) {
+      List<String> matches = getMatches(
+          RegExp(
+              '${widget.searchFilters.validSensitiveQueriesRegExp.pattern}|${widget.searchFilters.invalidSensitiveQueriesRegExp.pattern}'),
+          pattern);
+      String typedData = '';
+      SearchQuery? query;
+      matches.forEach(
+        (element) {
+          print('1' + element);
 
-      typedData = pattern.split(' ').last;
-      if (typedData.isNotEmpty) {
-        widget.searchFilters.whiteListedQueriesStrings.forEach((element) {
-          if (element.startsWith(typedData)) filteredOptions.add(element);
-        });
+          if (isEndSame(pattern, element!)) {
+            typedData = element.substring(0).split(':')[1];
+            String queryString = element.split(':').first;
+            if (queryString.startsWith('-'))
+              queryString = queryString.substring(1);
+            query = widget.searchFilters.queryFromString(queryString);
+          }
+        },
+      );
+      List<String?> completedQueries = getMatches(
+          RegExp(
+              '${widget.searchFilters.validSensitiveQueriesRegExp.pattern}|${widget.searchFilters.invalidSensitiveQueriesRegExp.pattern}|${widget.searchFilters.validBasicQueriesRegExp.pattern}'),
+          pattern);
+      bool isLastQueryActive = completedQueries.isNotEmpty &&
+          isEndSame(pattern, completedQueries.last!);
+      print(query?.type);
+      if (!isLastQueryActive) {
+        List<String> filteredOptions = [];
+        typedData = pattern.split(' ').last;
+        if (typedData.startsWith('-')) typedData = typedData.substring(1);
+        if (typedData.isNotEmpty) {
+          widget.searchFilters.whiteListedQueriesStrings.forEach((element) {
+            if (element.startsWith(typedData)) filteredOptions.add(element);
+          });
+
+          showOverlay(list(filteredOptions.length, (context, index) {
+            return ListTile(
+              onTap: () {
+                SearchQuery query = widget.searchFilters
+                    .queryFromString(filteredOptions[index])!;
+                addString(filteredOptions[index] + ':',
+                    addQuotesAtEnd: query.options == null &&
+                        (query.type == QueryType.basic ||
+                            query.type == QueryType.spacedString),
+                    addSpaceAtEnd: false,
+                    remove: typedData);
+              },
+              title: Text(
+                filteredOptions[index] + ':',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            );
+          }, key: Key(typedData)));
+        }
+      } else if (query?.type == QueryType.number && (typedData.isEmpty)) {
+        // return [0, typedData];
+      } else if (query?.type == QueryType.user && !typedData.endsWith(' ')) {
+        showOverlay(UserSearchDropdown(
+          typedData,
+          onSelected: (data) {
+            addString(data, remove: typedData, addQuotesAround: true);
+          },
+        ));
+      } else if (query?.options?.keys != null) {
+        List<String> filteredOptions = [];
+        query!.options?.keys.toList().forEach(
+          (element) {
+            if (element.startsWith(typedData)) filteredOptions.add(element);
+          },
+        );
         showOverlay(list(filteredOptions.length, (context, index) {
           return ListTile(
             onTap: () {
-              addString(filteredOptions[index] + ':',
-                  spaceAtEnd: false, remove: typedData);
+              addString(filteredOptions[index],
+                  addSpaceAtEnd: true, remove: typedData);
             },
-            title: Text(
-              filteredOptions[index] + ':',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            title: Text(filteredOptions[index]),
           );
         }, key: Key(typedData)));
+        // return [OptionsSuggestion(filteredOptions, typedData)];
       }
-    } else if (query?.type == QueryType.number && (typedData.isEmpty)) {
-      // return [0, typedData];
-    } else if (query?.type == QueryType.user && !typedData.endsWith(' ')) {
-      showOverlay(UserSearchDropdown(
-        typedData,
-        onSelected: (data) {
-          addString(data, remove: typedData);
-        },
-      ));
-    } else if (query?.options?.keys != null) {
-      List<String> filteredOptions = [];
-      query!.options?.keys.toList().forEach(
-        (element) {
-          if (element.startsWith(typedData)) filteredOptions.add(element);
-        },
-      );
-      showOverlay(list(filteredOptions.length, (context, index) {
-        return ListTile(
-          onTap: () {
-            addString(filteredOptions[index],
-                spaceAtEnd: true, remove: typedData);
-          },
-          title: Text(filteredOptions[index]),
-        );
-      }, key: Key(typedData)));
-      // return [OptionsSuggestion(filteredOptions, typedData)];
     }
     // return <String>[];
   }
@@ -299,10 +322,12 @@ class _SearchBarState extends State<_SearchBar> {
             focusNode: searchNode,
             minLines: 1,
             onChanged: (pattern) {
+              if (pattern.trim().isEmpty)
+                controller.text = controller.text.trim();
               suggestions(pattern);
             },
             specialTextSpanBuilder:
-                MySpecialTextSpanBuilder(widget.searchFilters),
+                TextSpanBuilder(widget.searchFilters, controller),
             decoration: TextFieldTheme.inputDecoration(
                 hintText: widget.message,
                 icon: LineIcons.search,
@@ -333,7 +358,7 @@ class _SearchBarState extends State<_SearchBar> {
                                     widget.searchFilters
                                             .whiteListedQueries[index].query +
                                         ':',
-                                    spaceAtEnd: false,
+                                    addSpaceAtEnd: false,
                                     spaceAtStart: true);
                                 filtersOverlayController.close();
                               },
@@ -365,42 +390,25 @@ class _SearchBarState extends State<_SearchBar> {
   }
 }
 
-class UserSuggestion extends SuggestionInfo {
-  final String query;
-  UserSuggestion(this.query, String typedData) : super(typedData);
-}
-
-class OptionsSuggestion extends SuggestionInfo {
-  final List<String> results;
-  OptionsSuggestion(this.results, String typedData) : super(typedData);
-}
-
-class FilterSuggestion extends SuggestionInfo {
-  final List<String> filters;
-  FilterSuggestion(this.filters, String typedData) : super(typedData);
-}
-
-abstract class SuggestionInfo {
-  final String typedData;
-  SuggestionInfo(this.typedData);
-}
-
-class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
-  MySpecialTextSpanBuilder(this.searchFilters)
+class TextSpanBuilder extends SpecialTextSpanBuilder {
+  TextSpanBuilder(this.searchFilters, this.controller)
       : patternMap = {
-          searchFilters.sensitiveQueriesOptionsRegExp: TextStyle(
+          searchFilters.validSensitiveQueriesRegExp: TextStyle(
             color: Colors.white,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
-          searchFilters.queriesRegExp: TextStyle(
+          searchFilters.validBasicQueriesRegExp: TextStyle(
             color: Colors.white,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
         },
         blacklistPatternMap = {
-          searchFilters.sensitiveQueriesRegExp: TextStyle(
+          searchFilters.invalidSensitiveQueriesRegExp: TextStyle(
+              color: AppColor.grey3,
+              decoration: TextDecoration.combine([TextDecoration.lineThrough])),
+          searchFilters.invalidBasicQueriesRegExp: TextStyle(
               color: AppColor.grey3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.blacklistRegExp: TextStyle(
@@ -411,6 +419,7 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
   final SearchFilters searchFilters;
   final Map<RegExp, TextStyle> patternMap;
   final Map<RegExp, TextStyle> blacklistPatternMap;
+  final TextEditingController controller;
   @override
   TextSpan build(String data, {TextStyle? textStyle, onTap}) {
     if (data == '') {
@@ -423,19 +432,24 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
       for (int i = 0; i < data.length; i++) {
         final String char = data[i];
         textStack += char;
-
+        // print(char);
         if (specialText != null) {
+          // print(textStack);
+          // print(specialText.isEnd(textStack));
           if (!specialText.isEnd(textStack)) {
             specialText.appendContent(char);
           } else {
             inlineList.add(specialText.finishText());
-            textStack = '';
+            textStack = char;
             specialText = null;
           }
         } else {
           specialText = createSpecialText(textStack,
               textStyle: textStyle, onTap: onTap, index: i);
           if (specialText != null) {
+            // print(textStack);
+            // print(textStack.substring(
+            //     0, textStack.length - specialText.startFlag.length));
             if (textStack.length - specialText.startFlag.length >= 0) {
               textStack = textStack.substring(
                   0, textStack.length - specialText.startFlag.length);
@@ -450,13 +464,12 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
       if (specialText != null) {
         inlineList.add(TextSpan(
             text: specialText.startFlag + specialText.getContent(),
-            style: const TextStyle(color: Colors.yellow)));
+            style: const TextStyle(color: AppColor.accent)));
       } else if (textStack.isNotEmpty) {
         inlineList.add(getSpan(textStack, textStyle));
       }
     } else {
-      inlineList.add(
-          TextSpan(text: data, style: const TextStyle(color: Colors.blue)));
+      inlineList.add(TextSpan(text: data, style: textStyle));
     }
     return TextSpan(children: inlineList, style: textStyle);
   }
@@ -464,7 +477,6 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
   TextSpan getSpan(String text, TextStyle? style) {
     List<TextSpan> children = [];
     List<String> matches = [];
-    // Validating with REGEX
     RegExp? allRegex;
     String wlRegex = patternMap.keys.map((e) => e.pattern).join('|');
     String blRegex = blacklistPatternMap.keys.map((e) => e.pattern).join('|');
@@ -485,7 +497,6 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
             style: combinedMap[k],
           ),
         );
-
         return '';
       },
       onNonMatch: (String span) {
@@ -493,7 +504,6 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
         return span.toString();
       },
     );
-
     return TextSpan(style: style, children: children);
   }
 
@@ -505,62 +515,87 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     if (flag == null || flag == '') {
       return null;
     }
-    // print(flag);
-    // print(searchFilters.queriesRegExp.firstMatch(flag)?.group(0)!);
-    // print(flag.endsWith(
-    //     searchFilters.queriesRegExp.firstMatch(flag)?.group(0)! ?? 'dhghgxh'));
-    if (searchFilters.sensitiveQueriesOptionsRegExp.hasMatch(flag))
-      return ValidQuery(
-          searchFilters.sensitiveQueriesOptionsRegExp
-              .firstMatch(flag)!
-              .group(0)!,
-          index!);
-    else if (searchFilters.queriesRegExp.hasMatch(flag)) {
-      SearchQuery query = searchFilters.queryFromString(searchFilters
-          .queriesRegExp
-          .firstMatch(flag)!
-          .group(0)!
-          .split(':')
-          .first)!;
-      if (query.type == QueryType.string)
-        return ValidQuery(
-            searchFilters.queriesRegExp.firstMatch(flag)!.group(0)!, index!,
-            multiStringQuery: false);
-      else if (query.type == QueryType.spacedString) {
-        return ValidQuery(
-          flag,
-          index!,
-          multiStringQuery: true,
-        );
-      }
+    String? string;
+    if (searchFilters.validSensitiveQueriesRegExp.hasMatch(flag)) {
+      string =
+          searchFilters.validSensitiveQueriesRegExp.firstMatch(flag)!.group(0)!;
+      return ValidQuery(string, index!, controller);
+    } else if (searchFilters.validBasicQueriesRegExp.hasMatch(flag)) {
+      string =
+          searchFilters.validBasicQueriesRegExp.firstMatch(flag)!.group(0)!;
+      return ValidQuery(string, index!, controller);
     }
     return null;
   }
 }
 
 class ValidQuery extends SpecialText {
-  ValidQuery(
-    String startFlag,
-    this.start, {
-    bool multiStringQuery = false,
-  }) : super(
+  ValidQuery(String startFlag, this.start, this.controller)
+      : super(
           startFlag,
-          multiStringQuery ? '"' : ' ',
+          '',
           TextStyle(),
         );
+
+  final TextEditingController controller;
+
+  @override
+  bool isEnd(String value) {
+    return toString().trim().endsWith('"');
+  }
 
   final int start;
 
   @override
   InlineSpan finishText() {
-    print(toString());
-    print(getContent());
-    print(endFlag);
-    print(startFlag);
     return ExtendedWidgetSpan(
+      alignment: PlaceholderAlignment.middle,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Material(child: Text(toString().trim())),
+        padding: const EdgeInsets.only(top: 4.0),
+        child: Material(
+            borderRadius: AppThemeBorderRadius.smallBorderRadius,
+            color: toString().startsWith('-') ? AppColor.red : AppColor.accent,
+            child: InkWell(
+              borderRadius: AppThemeBorderRadius.smallBorderRadius,
+              onTap: () {
+                int removeFrom = start - toString().length;
+                if (removeFrom < 0) removeFrom = 0;
+                controller.text =
+                    controller.text.replaceRange(removeFrom, start + 1, '');
+                controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length),
+                );
+                if (controller.text.trim().isEmpty)
+                  controller.text = controller.text.trim();
+                HapticFeedback.vibrate();
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 2.0, left: 6, right: 6, bottom: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(toString().trim().replaceAll('"', '')),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    ClipOval(
+                      child: Container(
+                        color: Colors.white,
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: toString().startsWith('-')
+                              ? AppColor.red
+                              : AppColor.accent,
+                          size: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )),
       ),
       start: start,
       actualText: toString(),
