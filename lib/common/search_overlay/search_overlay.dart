@@ -231,9 +231,7 @@ class _SearchBarState extends State<_SearchBar> {
       SearchQuery? query;
       matches.forEach(
         (element) {
-          print('1' + element);
-
-          if (isEndSame(pattern, element!)) {
+          if (isEndSame(pattern, element)) {
             typedData = element.substring(0).split(':')[1];
             String queryString = element.split(':').first;
             if (queryString.startsWith('-'))
@@ -248,7 +246,6 @@ class _SearchBarState extends State<_SearchBar> {
           pattern);
       bool isLastQueryActive = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
-      print(query?.type);
       if (!isLastQueryActive) {
         List<String> filteredOptions = [];
         typedData = pattern.split(' ').last;
@@ -427,47 +424,15 @@ class TextSpanBuilder extends SpecialTextSpanBuilder {
     }
     final List<InlineSpan> inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
-      SpecialText? specialText;
-      String textStack = '';
-      for (int i = 0; i < data.length; i++) {
-        final String char = data[i];
-        textStack += char;
-        // print(char);
-        if (specialText != null) {
-          // print(textStack);
-          // print(specialText.isEnd(textStack));
-          if (!specialText.isEnd(textStack)) {
-            specialText.appendContent(char);
-          } else {
-            inlineList.add(specialText.finishText());
-            textStack = char;
-            specialText = null;
-          }
-        } else {
-          specialText = createSpecialText(textStack,
-              textStyle: textStyle, onTap: onTap, index: i);
-          if (specialText != null) {
-            // print(textStack);
-            // print(textStack.substring(
-            //     0, textStack.length - specialText.startFlag.length));
-            if (textStack.length - specialText.startFlag.length >= 0) {
-              textStack = textStack.substring(
-                  0, textStack.length - specialText.startFlag.length);
-              if (textStack.isNotEmpty) {
-                inlineList.add(getSpan(textStack, textStyle));
-              }
-            }
-            textStack = '';
-          }
-        }
-      }
-      if (specialText != null) {
-        inlineList.add(TextSpan(
-            text: specialText.startFlag + specialText.getContent(),
-            style: const TextStyle(color: AppColor.accent)));
-      } else if (textStack.isNotEmpty) {
-        inlineList.add(getSpan(textStack, textStyle));
-      }
+      data.splitMapJoin(searchFilters.allValidQueriesRegexp,
+          onMatch: (Match m) {
+        inlineList
+            .add(ValidQuery(m[0]!, 1, controller, textStyle).finishText());
+        return '';
+      }, onNonMatch: (String string) {
+        inlineList.add(getSpan(string, textStyle));
+        return '';
+      });
     } else {
       inlineList.add(TextSpan(text: data, style: textStyle));
     }
@@ -508,33 +473,17 @@ class TextSpanBuilder extends SpecialTextSpanBuilder {
   }
 
   @override
-  SpecialText? createSpecialText(String? flag,
-      {TextStyle? textStyle,
-      SpecialTextGestureTapCallback? onTap,
-      int? index}) {
-    if (flag == null || flag == '') {
-      return null;
-    }
-    String? string;
-    if (searchFilters.validSensitiveQueriesRegExp.hasMatch(flag)) {
-      string =
-          searchFilters.validSensitiveQueriesRegExp.firstMatch(flag)!.group(0)!;
-      return ValidQuery(string, index!, controller);
-    } else if (searchFilters.validBasicQueriesRegExp.hasMatch(flag)) {
-      string =
-          searchFilters.validBasicQueriesRegExp.firstMatch(flag)!.group(0)!;
-      return ValidQuery(string, index!, controller);
-    }
-    return null;
-  }
+  SpecialText? createSpecialText(String flag,
+      {TextStyle? textStyle, onTap, required int index}) {}
 }
 
 class ValidQuery extends SpecialText {
-  ValidQuery(String startFlag, this.start, this.controller)
+  ValidQuery(
+      String startFlag, this.start, this.controller, TextStyle? textStyle)
       : super(
           startFlag,
           '',
-          TextStyle(),
+          textStyle ?? TextStyle(),
         );
 
   final TextEditingController controller;
@@ -558,10 +507,7 @@ class ValidQuery extends SpecialText {
             child: InkWell(
               borderRadius: AppThemeBorderRadius.smallBorderRadius,
               onTap: () {
-                int removeFrom = start - toString().length;
-                if (removeFrom < 0) removeFrom = 0;
-                controller.text =
-                    controller.text.replaceRange(removeFrom, start + 1, '');
+                controller.text = controller.text.replaceFirst(toString(), '');
                 controller.selection = TextSelection.fromPosition(
                   TextPosition(offset: controller.text.length),
                 );
@@ -576,7 +522,25 @@ class ValidQuery extends SpecialText {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(toString().trim().replaceAll('"', '')),
+                    Flexible(
+                        child: RichText(
+                      text: TextSpan(style: textStyle, children: [
+                        TextSpan(
+                            text: toString()
+                                    .trim()
+                                    .replaceAll('"', '')
+                                    .split(':')
+                                    .first +
+                                ':',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: toString()
+                                .trim()
+                                .replaceAll('"', '')
+                                .split(':')
+                                .last),
+                      ]),
+                    )),
                     SizedBox(
                       width: 4,
                     ),

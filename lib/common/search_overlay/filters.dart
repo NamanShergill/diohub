@@ -224,7 +224,7 @@ class SearchFilters {
     */
     List<String> spacedQs = spacedQ.map((e) => e.query + ':').toList();
     String spacedRegExp =
-        '(?:-)?(?:${spacedQs.join('|')})(?:")((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s)(${spacedQs.join('|')})?|\$)';
+        '(?:-)?(?:${spacedQs.join('|')})(?:")((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
 
     /*
         (?:-)? -> Optional [-] at start.
@@ -235,7 +235,7 @@ class SearchFilters {
             .map((option) => '${query.query}:$option')
             .join('|'))
         .toList();
-    String optionRegexp = '(?:-)?(?:${optionsQ.join('|')})';
+    String optionRegexp = '(?:-)?(?:${optionsQ.join('|')})(?=(\\s))';
 
     /*
     Common:
@@ -253,7 +253,7 @@ class SearchFilters {
     */
     List<String> numbersQ = numberQ.map((query) => '${query.query}:').toList();
     String numberRegexp =
-        '(?:-)?(?:${numbersQ.join('|')})(?:")([><][=]?)?([0-9]+)(?:")(?=(\\s)(${numbersQ.join('|')})?|\$)|(?:-)?(?:${numbersQ.join('|')})(?:")([0-9]+)([.][.][*])(?=(\\s)(?:")(${numbersQ.join('|')})?|\$)|(?:-)?(?:${numbersQ.join('|')})(?:")([*][.][.])([0-9]+)(?=(\\s)(?:")(${numbersQ.join('|')})?|\$)';
+        '(?:-)?(?:${numbersQ.join('|')})(?:")([><][=]?)?([0-9]+)(?:")(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})(?:")([0-9]+)([.][.][*])(?:")(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})(?:")([*][.][.])([0-9]+)(?:")(?=(\\s))';
 
     /*
         (?:-)? -> Optional [-] at start.
@@ -265,7 +265,7 @@ class SearchFilters {
     */
     List<String> usersQ = userQ.map((query) => '${query.query}:').toList();
     String userRegExp =
-        '(?:-)?(?:${usersQ.join('|')})(?:")(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s)(${usersQ.join('|')})?|\$)';
+        '(?:-)?(?:${usersQ.join('|')})(?:")(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
     // print(numberRegexp + '|' + userRegExp + '|' + boolRegexp);
 
     List<String> finalRegex = [];
@@ -289,8 +289,7 @@ class SearchFilters {
         ((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+) -> Any character following.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    String regex =
-        '(?:-)?(?:$filter)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s)($filter)?|\$)';
+    String regex = '(?:-)?(?:$filter)(?:")(.[^":]+)(?:")(?=(\\s))';
     if (queries.isEmpty) regex = '(?!x)x';
     return RegExp(regex);
   }
@@ -306,7 +305,7 @@ class SearchFilters {
         (.*) -> Any character following.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    String regex = '(?:-)?(?:$filter)(.*)(?=(\\s)($filter)?|\$)';
+    String regex = '(?:-)?(?:$filter)(.[^"]*)?(?:")?';
     if (queries.isEmpty) regex = '(?!x)x';
     return RegExp(regex);
   }
@@ -328,9 +327,9 @@ class SearchFilters {
 
 class SearchQueries {
   static const String _teamRegex =
-      '(?:-)?(?:${SearchQueryStrings.team}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s)(${SearchQueryStrings.team}:)?|\$)';
+      '(?:-)?(?:${SearchQueryStrings.team}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
   static const String _authorRegex =
-      '(?:-)?(?:${SearchQueryStrings.author}:)(?:")((app)(/))?((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,])+)(?:")(?=(\\s)(${SearchQueryStrings.author}:)?|\$)';
+      '(?:-)?(?:${SearchQueryStrings.author}:)(?:")((app)(/))?((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,])+)(?:")(?=(\\s))';
 
   /*
         (?:-)? -> Optional [-] at start.
@@ -342,7 +341,7 @@ class SearchQueries {
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
   static const String _projectRegex =
-      '(?:-)?(?:${SearchQueryStrings.project}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(((/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)){1,2})(?:")(?=(\\s)(${SearchQueryStrings.project}:)?|\$)';
+      '(?:-)?(?:${SearchQueryStrings.project}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(((/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)){1,2})(?:")(?=(\\s))';
 
   /*
         (?:-)? -> Optional [-] at start.
@@ -355,7 +354,7 @@ class SearchQueries {
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
   static const String _repoRegex =
-      '(?:-)?(?:${SearchQueryStrings.repo}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s)(${SearchQueryStrings.repo}:)?|\$)';
+      '(?:-)?(?:${SearchQueryStrings.repo}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
 
   SearchQuery archived =
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
@@ -403,7 +402,8 @@ class SearchQueries {
   SearchQuery involves =
       SearchQuery(SearchQueryStrings.involves, type: QueryType.user);
   SearchQuery iS = SearchQuery(SearchQueryStrings.iS);
-  SearchQuery label = SearchQuery(SearchQueryStrings.label);
+  SearchQuery label =
+      SearchQuery(SearchQueryStrings.label, type: QueryType.spacedString);
   SearchQuery language = SearchQuery(SearchQueryStrings.language);
   SearchQuery license = SearchQuery(SearchQueryStrings.license);
   SearchQuery linked = SearchQuery(SearchQueryStrings.linked);
