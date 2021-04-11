@@ -137,10 +137,16 @@ class SearchFilters {
   }
 
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
+    List<QueryType> sensQueries = [
+      QueryType.bool,
+      QueryType.number,
+      QueryType.user,
+      QueryType.date
+    ];
     original.forEach(
       (element) {
         if (!blacklist.contains(element.query)) {
-          if (element.type != QueryType.string || element.options != null)
+          if (sensQueries.contains(element.type) || element.options != null)
             _sensitiveQueries.add(element);
           else
             _queries.add(element);
@@ -178,7 +184,8 @@ class SearchQueries {
       options: {'true': 'Include forks.', 'only': 'Only show forks.'});
   SearchQuery forks =
       SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
-  SearchQuery fullName = SearchQuery(SearchQueryStrings.fullName);
+  SearchQuery fullName =
+      SearchQuery(SearchQueryStrings.fullName, type: QueryType.spacedString);
   SearchQuery goodFirstIssues = SearchQuery(SearchQueryStrings.goodFirstIssues);
   SearchQuery hash = SearchQuery(SearchQueryStrings.hash);
   SearchQuery head = SearchQuery(SearchQueryStrings.head);
@@ -223,7 +230,8 @@ class SearchQueries {
   SearchQuery state = SearchQuery(SearchQueryStrings.state);
   SearchQuery status = SearchQuery(SearchQueryStrings.status);
   SearchQuery team = SearchQuery(SearchQueryStrings.team);
-  SearchQuery topic = SearchQuery(SearchQueryStrings.topic);
+  SearchQuery topic =
+      SearchQuery(SearchQueryStrings.topic, type: QueryType.spacedString);
   SearchQuery topics =
       SearchQuery(SearchQueryStrings.topics, type: QueryType.number);
   SearchQuery tree = SearchQuery(SearchQueryStrings.tree);

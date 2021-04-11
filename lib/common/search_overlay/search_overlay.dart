@@ -429,8 +429,8 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
             specialText.appendContent(char);
           } else {
             inlineList.add(specialText.finishText());
-            specialText = null;
             textStack = '';
+            specialText = null;
           }
         } else {
           specialText = createSpecialText(textStack,
@@ -505,6 +505,7 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
     if (flag == null || flag == '') {
       return null;
     }
+    // print(flag);
     // print(searchFilters.queriesRegExp.firstMatch(flag)?.group(0)!);
     // print(flag.endsWith(
     //     searchFilters.queriesRegExp.firstMatch(flag)?.group(0)! ?? 'dhghgxh'));
@@ -514,22 +515,48 @@ class MySpecialTextSpanBuilder extends SpecialTextSpanBuilder {
               .firstMatch(flag)!
               .group(0)!,
           index!);
-    else if (searchFilters.queriesRegExp.hasMatch(flag))
-      return ValidQuery(
-          searchFilters.queriesRegExp.firstMatch(flag)!.group(0)!, index!,
-          basicQuery: true);
+    else if (searchFilters.queriesRegExp.hasMatch(flag)) {
+      SearchQuery query = searchFilters.queryFromString(searchFilters
+          .queriesRegExp
+          .firstMatch(flag)!
+          .group(0)!
+          .split(':')
+          .first)!;
+      if (query.type == QueryType.string)
+        return ValidQuery(
+            searchFilters.queriesRegExp.firstMatch(flag)!.group(0)!, index!,
+            multiStringQuery: false);
+      else if (query.type == QueryType.spacedString) {
+        return ValidQuery(
+          flag,
+          index!,
+          multiStringQuery: true,
+        );
+      }
+    }
     return null;
   }
 }
 
 class ValidQuery extends SpecialText {
-  ValidQuery(String startFlag, this.start, {bool basicQuery = false})
-      : super(startFlag, basicQuery ? '  ' : ' ', TextStyle());
+  ValidQuery(
+    String startFlag,
+    this.start, {
+    bool multiStringQuery = false,
+  }) : super(
+          startFlag,
+          multiStringQuery ? '"' : ' ',
+          TextStyle(),
+        );
 
   final int start;
+
   @override
   InlineSpan finishText() {
     print(toString());
+    print(getContent());
+    print(endFlag);
+    print(startFlag);
     return ExtendedWidgetSpan(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
