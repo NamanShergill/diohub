@@ -152,12 +152,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
       // If the last page, set refresh value to false,
       // as all pages have been refreshed.
       if (isLastPage) {
-        _pagingController.appendLastPage(filteredItems);
+        if (mounted) _pagingController.appendLastPage(filteredItems);
         refresh = false;
       } else {
         pageNumber++;
         final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(filteredItems, nextPageKey as int?);
+        if (mounted)
+          _pagingController.appendPage(filteredItems, nextPageKey as int?);
       }
     } catch (error) {
       Global.log.e(error);

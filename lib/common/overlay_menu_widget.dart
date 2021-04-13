@@ -13,14 +13,19 @@ class OverlayMenuWidget extends StatefulWidget {
   final bool initiallyVisible;
   final Alignment childAnchor;
   final Alignment portalAnchor;
+  final double heightMultiplier;
   final OverlayController controller;
+  final double offSet;
   OverlayMenuWidget(
       {required this.child,
       required this.overlay,
       required this.controller,
+      this.heightMultiplier = 0.7,
+      this.offSet = 0,
       this.initiallyVisible = false,
       this.childAnchor = Alignment.bottomCenter,
-      this.portalAnchor = Alignment.topCenter});
+      this.portalAnchor = Alignment.topCenter})
+      : assert(heightMultiplier <= 1);
 
   @override
   _OverlayMenuWidgetState createState() =>
@@ -53,6 +58,7 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final _media = MediaQuery.of(context).size;
     return PortalEntry(
       visible: visible,
       portal: GestureDetector(
@@ -64,7 +70,18 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
         },
       ),
       child: PortalEntry(
-        portal: SizeExpandedSection(child: widget.overlay),
+        portal: SizeExpandedSection(
+            child: Container(
+          height: (_media.height - widget.offSet) * widget.heightMultiplier,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Flexible(child: widget.overlay),
+              ],
+            ),
+          ),
+        )),
         visible: visible,
         portalAnchor: widget.portalAnchor,
         childAnchor: widget.childAnchor,

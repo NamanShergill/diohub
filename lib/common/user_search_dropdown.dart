@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/profile_banner.dart';
+import 'package:onehub/common/search_overlay/filters.dart';
 import 'package:onehub/models/search/search_users_graphQL_model.dart';
 import 'package:onehub/services/search/search_service.dart';
 import 'package:onehub/style/borderRadiuses.dart';
@@ -10,11 +11,17 @@ import 'package:onehub/style/colors.dart';
 class UserSearchDropdown extends StatelessWidget {
   final String query;
   final ValueChanged<String>? onSelected;
-  UserSearchDropdown(this.query, {Key? key, this.onSelected}) : super(key: key);
+  final String _type;
+  UserSearchDropdown(this.query,
+      {Key? key, this.onSelected, QueryType type = QueryType.user})
+      : _type = type != QueryType.org ? 'user' : 'org',
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
+    String qType = 'User';
+    if (_type == 'org') qType = 'Organization';
     return Container(
       constraints: BoxConstraints(
         maxHeight: _media.height * 0.4,
@@ -36,7 +43,8 @@ class UserSearchDropdown extends StatelessWidget {
                     bottomSpacing: 8,
                     listEndIndicator: false,
                     future: (int pageNumber, int pageSize, refresh, _) {
-                      return SearchService.searchMentionUsers(query,
+                      return SearchService.searchMentionUsers(
+                          query, _type, qType,
                           cursor: _ != null ? _.cursor : null);
                     },
                     builder: (context, item, index) {
@@ -63,7 +71,7 @@ class UserSearchDropdown extends StatelessWidget {
               )
             : Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Text('Start typing a username to search users.'),
+                child: Text('Start typing to search ${qType.toLowerCase()}s.'),
               ),
       ),
     );

@@ -20,14 +20,14 @@ import 'package:onehub/view/repository/wiki/wiki_viewer.dart';
     CustomRoute(
         page: SearchOverlayScreen,
         transitionsBuilder: TransitionsBuilders.fadeIn),
+    AutoRoute(page: IssueScreen),
+    AutoRoute(page: PullScreen),
     AutoRoute(page: RepositoryScreen),
     AutoRoute(page: FileViewerAPI),
     AutoRoute(page: CommitInfoScreen),
     AutoRoute(page: WikiViewer),
     AutoRoute(page: ChangesViewer),
     AutoRoute(page: OtherUserProfileScreen),
-    AutoRoute(page: IssueScreen),
-    AutoRoute(page: PullScreen),
   ],
 )
 class $AppRouter {}

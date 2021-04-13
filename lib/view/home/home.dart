@@ -55,7 +55,12 @@ class _HomeScreenState extends State<HomeScreen>
                     minHeight: 155,
                     maxHeight: 300,
                     title: 'Home',
-                    child: SearchBar(),
+                    child: SearchBar(
+                      onSubmit: (data) {
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .animateToPage(1);
+                      },
+                    ),
                     trailing: ClipOval(
                       child: InkWell(
                         onTap: () {
@@ -185,7 +190,12 @@ class HomeScreenUnauthenticated extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                SearchBar(),
+                SearchBar(
+                  onSubmit: (data) {
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .animateToPage(1);
+                  },
+                ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

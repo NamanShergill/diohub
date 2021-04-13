@@ -22,14 +22,15 @@ class SearchService {
     return SearchUsersModel.fromJson(response.data).items;
   }
 
-  static Future<List<UserEdge>> searchMentionUsers(String query,
+  static Future<List<UserEdge>> searchMentionUsers(
+      String query, String type, String qType,
       {String? cursor}) async {
     String getUsers = '''
         query (\$query:String!${cursor != null ? ',\$cursor:String!' : ''}){
         search(query: \$query, type: USER, first: 20${cursor != null ? ', after:\$cursor' : ''}) {
           edges {
             node {
-              ... on User {
+              ... on $qType {
                 login
                 avatarUrl
               }
@@ -42,7 +43,7 @@ class SearchService {
     ''';
     final QueryOptions options =
         QueryOptions(document: gql(getUsers), variables: <String, dynamic>{
-      'query': query,
+      'query': query + ' type:$type',
       'cursor': cursor,
     });
     final QueryResult result = await GetGraphQL.client.query(options);

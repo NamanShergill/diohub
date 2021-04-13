@@ -2,13 +2,21 @@ class SearchFilters {
   List<SearchQuery> _basicQueries = [];
   List<SearchQuery> _sensitiveQueries = [];
   List<SearchQuery> _blackList = [];
+  final SearchType _searchType;
   final Map<String, String> _sortOptions;
   final SearchQueries searchQueries = SearchQueries();
+
+  /// Get search type.
+  SearchType get searchType => _searchType;
 
   /// Get regexp to match all valid queries in a string.
   RegExp get allValidQueriesRegexp => RegExp(validBasicQueriesRegExp.pattern +
       '|' +
       validSensitiveQueriesRegExp.pattern);
+
+  /// Get regexp to match all invalid queries in a string.
+  RegExp get allInvalidQueriesRegExp =>
+      _getIncompleteRegExp(_basicQueries + _sensitiveQueries + _blackList);
 
   /// Sort options for the given search filter.
   Map<String, String> get sortOptions => _sortOptions;
@@ -29,6 +37,14 @@ class SearchFilters {
   /// Get regexp to match invalid sensitive queries in a string.
   RegExp get invalidSensitiveQueriesRegExp =>
       _getIncompleteRegExp(_sensitiveQueries);
+
+  /// Get regexp to match NOT operators in a string.
+  static RegExp get notOperatorRegExp =>
+      RegExp('(?:NOT)(?:\\s)(?!(NOT|OR|AND))(\\w+)');
+
+  /// Get regexp to match AND/OR operators in a string.
+  static RegExp get andOrOperatorsRegExp =>
+      RegExp('(\\w+)(?:\\s)(?:(OR|AND))(?:\\s)(?!(NOT|OR|AND))(\\w+)');
 
   // List<SearchQuery> get queries => _queries;
   // List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
@@ -57,11 +73,14 @@ class SearchFilters {
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-for-repositories
   SearchFilters.repositories({List<String> blacklist = const []})
       : _sortOptions = {
-          'stars': 'Stars',
-          'Forks': 'forks',
-          'help-wanted-issues': 'Help Wanted Issues',
-          'updated': 'Updated'
-        } {
+          'stars-desc': 'Most stars',
+          'stars-asc': 'Fewest stars',
+          'forks-desc': 'Most forks',
+          'forks-asc': 'Least forks',
+          'updated-desc': 'Recently updated',
+          'updated-asc': 'Least Recently updated',
+        },
+        _searchType = SearchType.repositories {
     _filterQueries([
       searchQueries.archived,
       searchQueries.created,
@@ -99,12 +118,32 @@ class SearchFilters {
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
   SearchFilters.issuesPulls({List<String> blacklist = const []})
       : _sortOptions = {
-          'stars': 'Stars',
-          'Forks': 'forks',
-          'help-wanted-issues': 'Help Wanted Issues',
-          'updated': 'Updated'
-        } {
-    // Todo: Something about SHA.
+          'created-desc': 'Newest',
+          'created-asc': 'Oldest',
+          'comments-desc': 'Most comments',
+          'comments-asc': 'Least comments',
+          'updated-desc': 'Recently updated',
+          'updated-asc': 'Least recently updated',
+          'reactions-desc': 'Most reactions',
+          'reactions-asc': 'Least reactions',
+          'reactions-+1-desc': 'Most 👍',
+          // 'reactions-+1-asc': 'Least 👍',
+          'reactions--1-desc': 'Most 👎',
+          // 'reactions--1-asc': 'Least 👎',
+          'reactions-smile-desc': 'Most 😄',
+          // 'reactions-smile-asc': 'Least 😄',
+          'reactions-thinking_face-desc': 'Most 😕',
+          // 'reactions-thinking_face-asc': 'Least 😕',
+          'reactions-heart-desc': 'Most ❤️',
+          // 'reactions-heart-asc': 'Least ❤️',
+          'reactions-tada-desc': 'Most 🎉',
+          // 'reactions-tada-asc': 'Least 🎉',
+          'reactions-rocket-desc': 'Most 🚀',
+          // 'reactions-rocket-asc': 'Least 🚀',
+          'reactions-eyes-desc': 'Most 👀',
+          // 'reactions-eyes-asc': 'Least 👀',
+        },
+        _searchType = SearchType.issues_pulls {
     _filterQueries([
       searchQueries.author,
       searchQueries.assignee,
@@ -203,7 +242,8 @@ class SearchFilters {
           dateQ.add(element);
         else if (element.type == QueryType.number)
           numberQ.add(element);
-        else if (element.type == QueryType.user)
+        else if (element.type == QueryType.user ||
+            element.type == QueryType.org)
           userQ.add(element);
         else if (element.type == QueryType.spacedString)
           spacedQ.add(element);
@@ -311,6 +351,7 @@ class SearchFilters {
   }
 
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
+    List<SearchQuery> allQueries = searchQueries.allQueries;
     original.forEach(
       (element) {
         if (!blacklist.contains(element.query)) {
@@ -318,10 +359,14 @@ class SearchFilters {
             _sensitiveQueries.add(element);
           else
             _basicQueries.add(element);
-        } else
-          _blackList.add(element);
+        }
       },
     );
+    List<SearchQuery> filteredBlackList = [];
+    allQueries.forEach((e) {
+      if (!whiteListedQueries.contains(e)) filteredBlackList.add(e);
+    });
+    _blackList.addAll(filteredBlackList);
   }
 }
 
@@ -366,7 +411,8 @@ class SearchQueries {
   SearchQuery authorEmail = SearchQuery(SearchQueryStrings.authorEmail);
   SearchQuery authorDate = SearchQuery(SearchQueryStrings.authorDate);
   SearchQuery base = SearchQuery(SearchQueryStrings.base);
-  SearchQuery closed = SearchQuery(SearchQueryStrings.closed);
+  SearchQuery closed =
+      SearchQuery(SearchQueryStrings.closed, type: QueryType.date);
   SearchQuery commenter =
       SearchQuery(SearchQueryStrings.commenter, type: QueryType.user);
   SearchQuery comments = SearchQuery(SearchQueryStrings.comments);
@@ -396,12 +442,12 @@ class SearchQueries {
   SearchQuery head = SearchQuery(SearchQueryStrings.head);
   SearchQuery helpWantedIssues =
       SearchQuery(SearchQueryStrings.helpWantedIssues);
-  SearchQuery iN = SearchQuery(SearchQueryStrings.iN);
+  SearchQuery iN = SearchQuery(SearchQueryStrings.iN, qualifierQuery: false);
   SearchQuery interactions =
       SearchQuery(SearchQueryStrings.interactions, type: QueryType.number);
   SearchQuery involves =
       SearchQuery(SearchQueryStrings.involves, type: QueryType.user);
-  SearchQuery iS = SearchQuery(SearchQueryStrings.iS);
+  SearchQuery iS = SearchQuery(SearchQueryStrings.iS, qualifierQuery: false);
   SearchQuery label =
       SearchQuery(SearchQueryStrings.label, type: QueryType.spacedString);
   SearchQuery language = SearchQuery(SearchQueryStrings.language);
@@ -418,7 +464,7 @@ class SearchQueries {
   SearchQuery mirror =
       SearchQuery(SearchQueryStrings.mirror, type: QueryType.bool);
   SearchQuery no = SearchQuery(SearchQueryStrings.no);
-  SearchQuery org = SearchQuery(SearchQueryStrings.org, type: QueryType.user);
+  SearchQuery org = SearchQuery(SearchQueryStrings.org, type: QueryType.org);
   SearchQuery parent = SearchQuery(SearchQueryStrings.parent);
   SearchQuery path = SearchQuery(SearchQueryStrings.path);
   SearchQuery project =
@@ -437,6 +483,7 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.reviewRequested, type: QueryType.user);
   SearchQuery size =
       SearchQuery(SearchQueryStrings.size, type: QueryType.number);
+  SearchQuery sort = SearchQuery(SearchQueryStrings.sort);
   SearchQuery stars =
       SearchQuery(SearchQueryStrings.stars, type: QueryType.number);
   SearchQuery state = SearchQuery(SearchQueryStrings.state);
@@ -451,9 +498,79 @@ class SearchQueries {
   SearchQuery topics =
       SearchQuery(SearchQueryStrings.topics, type: QueryType.number);
   SearchQuery tree = SearchQuery(SearchQueryStrings.tree);
-  SearchQuery type = SearchQuery(SearchQueryStrings.type);
+  SearchQuery type =
+      SearchQuery(SearchQueryStrings.type, qualifierQuery: false);
   SearchQuery updated = SearchQuery(SearchQueryStrings.updated);
   SearchQuery user = SearchQuery(SearchQueryStrings.user, type: QueryType.user);
+
+  List<SearchQuery> get allQueries => [
+        archived,
+        assignee,
+        author,
+        authorName,
+        authorEmail,
+        authorDate,
+        base,
+        closed,
+        commenter,
+        comments,
+        committer,
+        committerName,
+        committerEmail,
+        committerDate,
+        created,
+        draft,
+        extension,
+        filename,
+        followers,
+        fork,
+        forks,
+        fullName,
+        goodFirstIssues,
+        hash,
+        head,
+        helpWantedIssues,
+        iN,
+        interactions,
+        involves,
+        iS,
+        label,
+        language,
+        license,
+        linked,
+        location,
+        merge,
+        merged,
+        mentions,
+        milestone,
+        mirror,
+        no,
+        org,
+        parent,
+        path,
+        project,
+        pushed,
+        reactions,
+        repo,
+        repos,
+        repositories,
+        review,
+        reviewedBy,
+        reviewRequested,
+        teamReviewRequested,
+        size,
+        sort,
+        stars,
+        state,
+        status,
+        team,
+        topic,
+        topics,
+        tree,
+        type,
+        updated,
+        user
+      ];
 }
 
 class SearchQueryStrings {
@@ -512,6 +629,7 @@ class SearchQueryStrings {
   static const String reviewRequested = 'review-requested';
   static const String teamReviewRequested = 'team-review-requested';
   static const String size = 'size';
+  static const String sort = 'sort';
   static const String stars = 'stars';
   static const String state = 'state';
   static const String status = 'status';
@@ -522,6 +640,75 @@ class SearchQueryStrings {
   static const String type = 'type';
   static const String updated = 'updated';
   static const String user = 'user';
+
+  static const List<String> allQueries = [
+    archived,
+    assignee,
+    author,
+    authorName,
+    authorEmail,
+    authorDate,
+    base,
+    closed,
+    commenter,
+    comments,
+    committer,
+    committerName,
+    committerEmail,
+    committerDate,
+    created,
+    draft,
+    extension,
+    filename,
+    followers,
+    fork,
+    forks,
+    fullName,
+    goodFirstIssues,
+    hash,
+    head,
+    helpWantedIssues,
+    iN,
+    interactions,
+    involves,
+    iS,
+    label,
+    language,
+    license,
+    linked,
+    location,
+    merge,
+    merged,
+    mentions,
+    milestone,
+    mirror,
+    no,
+    org,
+    parent,
+    path,
+    project,
+    pushed,
+    reactions,
+    repo,
+    repos,
+    repositories,
+    review,
+    reviewedBy,
+    reviewRequested,
+    teamReviewRequested,
+    size,
+    sort,
+    stars,
+    state,
+    status,
+    team,
+    topic,
+    topics,
+    tree,
+    type,
+    updated,
+    user
+  ];
 }
 
 class SearchQuery {
@@ -536,44 +723,43 @@ class SearchQuery {
       this.options,
       this.customRegex,
       QueryType type = QueryType.basic,
-      this.qualifierQuery = false})
+      this.qualifierQuery = true})
       : this.type = customRegex != null ? QueryType.custom : type {
     if (type == QueryType.bool && options == null)
-      options = {'"true"': '', '"false"': ''};
+      options = {'true': '', '"false"': ''};
   }
 
   void addOptions(Map<String, String> options) {
-    options.forEach((key, value) {
-      if (this.options == null) this.options = {};
-      this.options!.addAll({'"$key"': value});
-    });
+          if (this.options == null) this.options = {};
+
+   this.options!.addAll(options);
   }
 }
 
-enum QueryType { basic, spacedString, date, number, user, bool, custom }
+enum QueryType { basic, spacedString, date, number, user, org, bool, custom }
 
 enum SearchType {
   repositories,
-  topics,
-  code,
-  commits,
+  // topics,
+  // code,
+  // commits,
   issues_pulls,
-  discussions,
+  // discussions,
   users,
-  packages,
-  wiki
+  // packages,
+  // wiki
 }
 
 final searchTypeValues = EnumValues({
   "Repositories": SearchType.repositories,
-  "Topics": SearchType.topics,
-  "Code": SearchType.code,
-  "Commits": SearchType.commits,
+  // "Topics": SearchType.topics,
+  // "Code": SearchType.code,
+  // "Commits": SearchType.commits,
   "Issues and Pulls Requests": SearchType.issues_pulls,
-  "Discussions": SearchType.discussions,
+  // "Discussions": SearchType.discussions,
   "Users": SearchType.users,
-  "Packages": SearchType.packages,
-  "Wiki": SearchType.wiki,
+  // "Packages": SearchType.packages,
+  // "Wiki": SearchType.wiki,
 });
 
 class EnumValues<T> {

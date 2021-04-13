@@ -7,49 +7,240 @@ import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/overlay_menu_widget.dart';
 import 'package:onehub/common/search_overlay/filters.dart';
 import 'package:onehub/common/user_search_dropdown.dart';
-import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/text_field_themes.dart';
-import 'package:provider/provider.dart';
 
 class SearchOverlayScreen extends StatefulWidget {
   final String? message;
-  SearchOverlayScreen({this.message});
+  final ValueChanged<SearchData> onSubmit;
+  final SearchData searchData;
+  final SearchFilters? searchFilters;
+  SearchOverlayScreen(this.searchData,
+      {this.message, required this.onSubmit, this.searchFilters});
   @override
   _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
 }
 
 class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
+  late SearchData searchData;
+  late SearchFilters searchFilters;
+
+  @override
+  void initState() {
+    searchFilters = widget.searchFilters ?? SearchFilters.repositories();
+    searchData = widget.searchData;
+    super.initState();
+  }
+
+  bool get isValid {
+    bool isValid = false;
+    searchData.filters.forEach((element) {
+      if (element.qualifierQuery) isValid = true;
+    });
+
+    int numberOfAndOrNot = 0;
+    searchData.query.splitMapJoin(
+      RegExp(SearchFilters.notOperatorRegExp.pattern +
+          '|' +
+          SearchFilters.andOrOperatorsRegExp.pattern),
+      onMatch: (Match m) {
+        numberOfAndOrNot++;
+        return '';
+      },
+    );
+    return (isValid || searchData.query.trim().isNotEmpty) &&
+        numberOfAndOrNot <= 5;
+  }
+
+  SearchFilters getFilters(SearchType type) {
+    switch (type) {
+      case SearchType.repositories:
+        return SearchFilters.repositories();
+      case SearchType.issues_pulls:
+        return SearchFilters.issuesPulls();
+      default:
+        return SearchFilters.repositories();
+    }
+  }
+
+  bool expanded = false;
+
   @override
   Widget build(BuildContext context) {
-    final _navProvider = Provider.of<NavigationProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.background,
         body: Stack(
+          fit: StackFit.expand,
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 8),
-                  child: Column(
-                    children: [
-                      Hero(
-                        tag: 'search_bar',
-                        child: Material(
-                          color: Colors.transparent,
-                          child: _SearchBar(
-                            SearchFilters.issuesPulls(
-                                blacklist: [SearchQueryStrings.topic]),
-                            message: widget.message,
-                          ),
-                        ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: _SearchBar(
+                        widget.searchFilters ?? searchFilters,
+                        widget.searchData,
+                        onChanged: (data) {
+                          setState(() {
+                            searchData = data;
+                          });
+                        },
+                        message: widget.message,
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  if (widget.searchFilters == null)
+                    Divider(
+                      height: 0,
+                    ),
+                  if (widget.searchFilters == null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                                'Searching in ${searchTypeValues.reverse![searchFilters.searchType]}'),
+                            onTap: () {
+                              setState(() {
+                                expanded = !expanded;
+                              });
+                            },
+                            trailing: Icon(expanded
+                                ? Icons.keyboard_arrow_up_rounded
+                                : Icons.keyboard_arrow_down_rounded),
+                          ),
+                          SizeExpandedSection(
+                            expand: expanded,
+                            child: ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return RadioListTile(
+                                    activeColor: AppColor.accent,
+                                    groupValue: searchFilters.searchType,
+                                    value: searchTypeValues.map.values
+                                        .toList()[index],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        searchFilters = getFilters(
+                                            searchTypeValues.map.values
+                                                .toList()[index]);
+                                        expanded = !expanded;
+                                      });
+                                    },
+                                    title: Text(
+                                      searchTypeValues.map.keys.toList()[index],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => Divider(),
+                                itemCount: searchTypeValues.map.keys.length),
+                          ),
+                        ],
+                      ),
+                    ),
+                  Divider(
+                    height: 0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 8),
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        title: Text(
+                          'How to format your filters',
+                          style: TextStyle(fontSize: 14, color: AppColor.grey3),
+                        ),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              children: [
+                                Divider(),
+                                Text.rich(
+                                  TextSpan(children: [
+                                    TextSpan(
+                                        text:
+                                            'Search filters should be in the format '),
+                                    TextSpan(
+                                        text: 'filter:"data"',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '.\n'),
+                                    TextSpan(
+                                        text:
+                                            'Example, label:"enhancement" will include all results with a label named enhancement.',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic)),
+                                  ]),
+                                  style: TextStyle(
+                                      fontSize: 13, color: AppColor.grey3),
+                                ),
+                                Divider(),
+                                Text.rich(
+                                  TextSpan(children: [
+                                    TextSpan(text: 'Add a '),
+                                    TextSpan(
+                                        text: 'minus (-)',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(
+                                        text:
+                                            ' before a search filter to exclude it from the results.\n'),
+                                    TextSpan(
+                                        text:
+                                            'Example, -label:"enhancement" will exclude all results with a label named enhancement.',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic)),
+                                  ]),
+                                  style: TextStyle(
+                                      fontSize: 13, color: AppColor.grey3),
+                                ),
+                                Divider(),
+                                Text.rich(
+                                  TextSpan(children: [
+                                    TextSpan(text: 'You can use '),
+                                    TextSpan(
+                                        text: 'AND, OR, NOT',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(text: ' operators in your query '),
+                                    TextSpan(
+                                        text: '(upto a maximum of 5 times)',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '.\n'),
+                                    TextSpan(
+                                        text:
+                                            'Example, "jquery NOT bootstrap" matches results that do contain the word "jquery" but not "bootstrap".',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic)),
+                                  ]),
+                                  style: TextStyle(
+                                      fontSize: 13, color: AppColor.grey3),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Positioned(
               bottom: 16,
@@ -92,10 +283,12 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             padding: const EdgeInsets.all(12.0),
                             child: IconButton(
                               iconSize: 25,
-                              onPressed: () {
-                                _navProvider.animateToPage(1);
-                                Navigator.pop(context);
-                              },
+                              onPressed: isValid
+                                  ? () {
+                                      Navigator.pop(context);
+                                      widget.onSubmit(SearchData());
+                                    }
+                                  : null,
                               icon: Icon(LineIcons.search),
                               color: Colors.white,
                             ),
@@ -116,8 +309,12 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
 
 class _SearchBar extends StatefulWidget {
   final SearchFilters searchFilters;
+  final SearchData searchData;
+
   final String? message;
-  _SearchBar(this.searchFilters, {this.message});
+  final ValueChanged<SearchData> onChanged;
+  _SearchBar(this.searchFilters, this.searchData,
+      {this.message, required this.onChanged});
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -125,16 +322,139 @@ class _SearchBar extends StatefulWidget {
 class _SearchBarState extends State<_SearchBar> {
   FocusNode searchNode = FocusNode();
   late TextEditingController controller;
-  int qLength = 0;
-
+  late SearchData searchData;
   @override
   void initState() {
-    controller = TextEditingController();
+    searchData = widget.searchData;
+    controller = TextEditingController(text: widget.searchData.toString());
     getFocus();
     searchNode.addListener(() {
       setState(() {});
     });
     super.initState();
+  }
+
+  bool expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          OverlayMenuWidget(
+            controller: suggestionsOverlayController,
+            overlay: overlayWidget,
+            child: Hero(
+              tag: 'search_bar',
+              child: Material(
+                color: Colors.transparent,
+                child: ExtendedTextField(
+                  controller: controller,
+                  maxLines: 10,
+                  focusNode: searchNode,
+                  minLines: 2,
+                  onChanged: (pattern) {
+                    if (pattern.contains('\n')) {
+                      controller.text = controller.text.replaceAll('\n', '');
+                      if (controller.text.endsWith('"'))
+                        controller.text = controller.text + ' ';
+                      _moveControllerToEnd();
+                    }
+                    if (pattern.trim().isEmpty)
+                      controller.text = controller.text.trim();
+                    _parseQuery(pattern);
+                    _suggestions(pattern);
+                  },
+                  specialTextSpanBuilder:
+                      _TextSpanBuilder(widget.searchFilters, controller),
+                  decoration: TextFieldTheme.inputDecoration(
+                      hintText: widget.message,
+                      icon: LineIcons.search,
+                      labelText: 'Searching For',
+                      focusNode: searchNode),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  title: Text('All Queries'),
+                  onTap: () {
+                    setState(() {
+                      expanded = !expanded;
+                    });
+                  },
+                  trailing: Icon(expanded
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded),
+                ),
+                SizeExpandedSection(
+                  expand: expanded,
+                  child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            addString(
+                                widget.searchFilters.whiteListedQueries[index]
+                                        .query +
+                                    ':',
+                                addSpaceAtEnd: false,
+                                spaceAtStart: true);
+                            setState(() {
+                              expanded = false;
+                            });
+                            searchNode.requestFocus();
+                          },
+                          title: Text(
+                            widget
+                                .searchFilters.whiteListedQueries[index].query,
+                            // style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => Divider(),
+                      itemCount:
+                          widget.searchFilters.whiteListedQueries.length),
+                ),
+              ],
+            ),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
+          //   child: Material(
+          //     elevation: 2,
+          //     borderRadius: AppThemeBorderRadius.medBorderRadius,
+          //     color: AppColor.onBackground,
+          //     child: Padding(
+          //       padding:
+          //           const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
+          //       child: DropdownButton<String>(
+          //           isExpanded: true,
+          //           value: 'created-desc',
+          //           onChanged: (String? newValue) {
+          //             setState(() {});
+          //           },
+          //           dropdownColor: AppColor.onBackground,
+          //           underline: Container(),
+          //           items: widget.searchFilters.sortOptions.entries.map((e) {
+          //             return DropdownMenuItem<String>(
+          //               value: e.key,
+          //               child: Text(e.value),
+          //             );
+          //           }).toList()),
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
+    );
   }
 
   void getFocus() async {
@@ -158,11 +478,16 @@ class _SearchBarState extends State<_SearchBar> {
     controller.text = controller.text +
         '${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}' +
         '${addQuotesAtEnd ? '""' : ''}';
-    controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: controller.text.length - (addQuotesAtEnd ? 1 : 0)),
-    );
+    _moveControllerToEnd(addQuotesAtEnd ? 1 : 0);
     searchNode.requestFocus();
-    suggestions(controller.text);
+    _parseQuery(controller.text);
+    _suggestions(controller.text);
+  }
+
+  void _moveControllerToEnd([int offset = 0]) {
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length - offset),
+    );
   }
 
   bool isEndSame(String initial, String part) {
@@ -200,26 +525,42 @@ class _SearchBarState extends State<_SearchBar> {
     );
   }
 
-  OverlayController filtersOverlayController = OverlayController();
   OverlayController suggestionsOverlayController = OverlayController();
   Widget overlayWidget = Container();
 
-  void showOverlay(Widget widget) {
+  void _showOverlay(Widget widget) {
     setState(() {
       overlayWidget = widget;
       suggestionsOverlayController.open();
     });
   }
 
-  void closeOverlay() {
+  void _closeOverlay() {
     setState(() {
       overlayWidget = Container();
       suggestionsOverlayController.close();
     });
   }
 
-  void suggestions(String pattern) {
-    closeOverlay();
+  void _parseQuery(String pattern) {
+    List<String> filterStrings = [];
+    List<SearchQuery> filters = [];
+    pattern.splitMapJoin(widget.searchFilters.allValidQueriesRegexp,
+        onMatch: (Match m) {
+      filterStrings.add(m[0]!);
+      filters
+          .add(widget.searchFilters.queryFromString(m[0]!.split(':').first)!);
+      return '';
+    });
+    pattern =
+        pattern.replaceAll(widget.searchFilters.allInvalidQueriesRegExp, '');
+    pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
+    widget.onChanged(searchData.copyWith(
+        query: pattern, filterStrings: filterStrings, filters: filters));
+  }
+
+  void _suggestions(String pattern) {
+    _closeOverlay();
     // if (pattern.isEmpty) return [];
     // Get matches on the option queries on the supplied text.
     if (controller.selection.baseOffset == controller.text.length) {
@@ -255,7 +596,7 @@ class _SearchBarState extends State<_SearchBar> {
             if (element.startsWith(typedData)) filteredOptions.add(element);
           });
 
-          showOverlay(list(filteredOptions.length, (context, index) {
+          _showOverlay(list(filteredOptions.length, (context, index) {
             return ListTile(
               onTap: () {
                 SearchQuery query = widget.searchFilters
@@ -276,21 +617,24 @@ class _SearchBarState extends State<_SearchBar> {
         }
       } else if (query?.type == QueryType.number && (typedData.isEmpty)) {
         // return [0, typedData];
-      } else if (query?.type == QueryType.user && !typedData.endsWith(' ')) {
-        showOverlay(UserSearchDropdown(
+      } else if ((query?.type == QueryType.user ||
+              query?.type == QueryType.org) &&
+          !typedData.endsWith(' '))
+        _showOverlay(UserSearchDropdown(
           typedData,
           onSelected: (data) {
             addString(data, remove: typedData, addQuotesAround: true);
           },
+          type: query!.type,
         ));
-      } else if (query?.options?.keys != null) {
+      else if (query?.options?.keys != null) {
         List<String> filteredOptions = [];
         query!.options?.keys.toList().forEach(
           (element) {
             if (element.startsWith(typedData)) filteredOptions.add(element);
           },
         );
-        showOverlay(list(filteredOptions.length, (context, index) {
+        _showOverlay(list(filteredOptions.length, (context, index) {
           return ListTile(
             onTap: () {
               addString(filteredOptions[index],
@@ -304,91 +648,10 @@ class _SearchBarState extends State<_SearchBar> {
     }
     // return <String>[];
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        OverlayMenuWidget(
-          controller: suggestionsOverlayController,
-          overlay: overlayWidget,
-          child: ExtendedTextField(
-            controller: controller,
-            maxLines: 10,
-            focusNode: searchNode,
-            minLines: 1,
-            onChanged: (pattern) {
-              if (pattern.trim().isEmpty)
-                controller.text = controller.text.trim();
-              suggestions(pattern);
-            },
-            specialTextSpanBuilder:
-                TextSpanBuilder(widget.searchFilters, controller),
-            decoration: TextFieldTheme.inputDecoration(
-                hintText: widget.message,
-                icon: LineIcons.search,
-                labelText: 'Searching For',
-                focusNode: searchNode),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8),
-              child: OverlayMenuWidget(
-                  controller: filtersOverlayController,
-                  overlay: Container(
-                    width: _media.width * 0.6,
-                    padding:
-                        EdgeInsets.only(bottom: _media.height * 0.4, top: 16),
-                    child: Material(
-                      color: AppColor.onBackground,
-                      borderRadius: AppThemeBorderRadius.medBorderRadius,
-                      elevation: 8,
-                      child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              onTap: () {
-                                addString(
-                                    widget.searchFilters
-                                            .whiteListedQueries[index].query +
-                                        ':',
-                                    addSpaceAtEnd: false,
-                                    spaceAtStart: true);
-                                filtersOverlayController.close();
-                              },
-                              title: Text(
-                                widget.searchFilters.whiteListedQueries[index]
-                                        .query +
-                                    ':',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(),
-                          itemCount:
-                              widget.searchFilters.whiteListedQueries.length),
-                    ),
-                  ),
-                  childAnchor: Alignment.bottomLeft,
-                  portalAnchor: Alignment.topCenter,
-                  child: IconButton(
-                      onPressed: () {
-                        filtersOverlayController.open();
-                      },
-                      icon: Icon(LineIcons.filter))),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 }
 
-class TextSpanBuilder extends SpecialTextSpanBuilder {
-  TextSpanBuilder(this.searchFilters, this.controller)
+class _TextSpanBuilder extends SpecialTextSpanBuilder {
+  _TextSpanBuilder(this.searchFilters, this.controller)
       : patternMap = {
           searchFilters.validSensitiveQueriesRegExp: TextStyle(
             color: Colors.white,
@@ -427,10 +690,25 @@ class TextSpanBuilder extends SpecialTextSpanBuilder {
       data.splitMapJoin(searchFilters.allValidQueriesRegexp,
           onMatch: (Match m) {
         inlineList
-            .add(ValidQuery(m[0]!, 1, controller, textStyle).finishText());
+            .add(_ValidQuery(m[0]!, 1, controller, textStyle).finishText());
         return '';
       }, onNonMatch: (String string) {
-        inlineList.add(getSpan(string, textStyle));
+        string.splitMapJoin(
+            RegExp(SearchFilters.notOperatorRegExp.pattern +
+                '|' +
+                SearchFilters.andOrOperatorsRegExp.pattern),
+            onMatch: (Match m) {
+          inlineList.add(getSpan(
+              m[0]!,
+              textStyle!.copyWith(
+                  color:
+                      m[0]!.startsWith('NOT') ? AppColor.red : AppColor.accent,
+                  fontWeight: FontWeight.bold)));
+          return '';
+        }, onNonMatch: (String string) {
+          inlineList.add(getSpan(string, textStyle));
+          return '';
+        });
         return '';
       });
     } else {
@@ -477,8 +755,8 @@ class TextSpanBuilder extends SpecialTextSpanBuilder {
       {TextStyle? textStyle, onTap, required int index}) {}
 }
 
-class ValidQuery extends SpecialText {
-  ValidQuery(
+class _ValidQuery extends SpecialText {
+  _ValidQuery(
       String startFlag, this.start, this.controller, TextStyle? textStyle)
       : super(
           startFlag,
@@ -524,22 +802,24 @@ class ValidQuery extends SpecialText {
                   children: [
                     Flexible(
                         child: RichText(
-                      text: TextSpan(style: textStyle, children: [
-                        TextSpan(
-                            text: toString()
+                      text: TextSpan(
+                          style: textStyle.copyWith(fontSize: 14),
+                          children: [
+                            TextSpan(
+                                text: toString()
+                                        .trim()
+                                        .replaceAll('"', '')
+                                        .split(':')
+                                        .first +
+                                    ' ',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: toString()
                                     .trim()
                                     .replaceAll('"', '')
                                     .split(':')
-                                    .first +
-                                ':',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text: toString()
-                                .trim()
-                                .replaceAll('"', '')
-                                .split(':')
-                                .last),
-                      ]),
+                                    .last),
+                          ]),
                     )),
                     SizedBox(
                       width: 4,
@@ -565,5 +845,30 @@ class ValidQuery extends SpecialText {
       actualText: toString(),
       deleteAll: false,
     );
+  }
+}
+
+class SearchData {
+  final String query;
+  final List<String> filterStrings;
+  final List<SearchQuery> filters;
+  SearchData(
+      {this.query = '',
+      this.filterStrings = const [],
+      this.filters = const []});
+
+  @override
+  String toString() {
+    return query.trim() + ' ' + filterStrings.join(' ').trim();
+  }
+
+  SearchData copyWith(
+      {String? query,
+      List<String>? filterStrings,
+      List<SearchQuery>? filters}) {
+    return SearchData(
+        filters: filters ?? this.filters,
+        query: query ?? this.query,
+        filterStrings: filterStrings ?? this.filterStrings);
   }
 }
