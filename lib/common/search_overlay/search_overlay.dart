@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/common/custom_expand_tile.dart';
 import 'package:onehub/common/overlay_menu_widget.dart';
 import 'package:onehub/common/search_overlay/filters.dart';
 import 'package:onehub/common/user_search_dropdown.dart';
@@ -43,7 +44,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
     searchData.query.splitMapJoin(
       RegExp(SearchFilters.notOperatorRegExp.pattern +
           '|' +
-          SearchFilters.andOrOperatorsRegExp.pattern),
+          SearchFilters.andOperatorRegExp.pattern +
+          '|' +
+          SearchFilters.orOperatorRegExp.pattern),
       onMatch: (Match m) {
         numberOfAndOrNot++;
         return '';
@@ -103,51 +106,44 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 8),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                                'Searching in ${searchTypeValues.reverse![searchFilters.searchType]}'),
-                            onTap: () {
-                              setState(() {
-                                expanded = !expanded;
-                              });
-                            },
-                            trailing: Icon(expanded
-                                ? Icons.keyboard_arrow_up_rounded
-                                : Icons.keyboard_arrow_down_rounded),
-                          ),
-                          SizeExpandedSection(
-                            expand: expanded,
-                            child: ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                    activeColor: AppColor.accent,
-                                    groupValue: searchFilters.searchType,
-                                    value: searchTypeValues.map.values
-                                        .toList()[index],
-                                    onChanged: (value) {
-                                      setState(() {
-                                        searchFilters = getFilters(
-                                            searchTypeValues.map.values
-                                                .toList()[index]);
-                                        expanded = !expanded;
-                                      });
-                                    },
-                                    title: Text(
-                                      searchTypeValues.map.keys.toList()[index],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  );
+                      child: CustomExpandTile(
+                        title: Text(
+                          'Searching in ${searchTypeValues.reverse![searchFilters.searchType]}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            expanded = !expanded;
+                          });
+                        },
+                        child: ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                activeColor: AppColor.accent,
+                                groupValue: searchFilters.searchType,
+                                value:
+                                    searchTypeValues.map.values.toList()[index],
+                                onChanged: (value) {
+                                  setState(() {
+                                    searchFilters = getFilters(searchTypeValues
+                                        .map.values
+                                        .toList()[index]);
+                                    expanded = !expanded;
+                                  });
                                 },
-                                separatorBuilder: (context, index) => Divider(),
-                                itemCount: searchTypeValues.map.keys.length),
-                          ),
-                        ],
+                                title: Text(
+                                  searchTypeValues.map.keys.toList()[index],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) => Divider(),
+                            itemCount: searchTypeValues.map.keys.length),
+                        expanded: expanded,
                       ),
                     ),
                   Divider(
@@ -176,7 +172,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                         text:
                                             'Search filters should be in the format '),
                                     TextSpan(
-                                        text: 'filter:"data"',
+                                        text: 'filter:data',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     TextSpan(text: '.\n'),
@@ -226,6 +222,26 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                     TextSpan(
                                         text:
                                             'Example, "jquery NOT bootstrap" matches results that do contain the word "jquery" but not "bootstrap".',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic)),
+                                  ]),
+                                  style: TextStyle(
+                                      fontSize: 13, color: AppColor.grey3),
+                                ),
+                                Divider(),
+                                Text.rich(
+                                  TextSpan(children: [
+                                    TextSpan(
+                                        text:
+                                            'Data containing whitespaces must be wrapped in quotes like '),
+                                    TextSpan(
+                                        text: 'filter:"filter info"',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '.\n'),
+                                    TextSpan(
+                                        text:
+                                            'Example, label:"bug fix" will include all results with a label named bug fix.',
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic)),
                                   ]),
@@ -353,11 +369,11 @@ class _SearchBarState extends State<_SearchBar> {
                   controller: controller,
                   maxLines: 10,
                   focusNode: searchNode,
-                  minLines: 2,
+                  minLines: 1,
                   onChanged: (pattern) {
                     if (pattern.contains('\n')) {
                       controller.text = controller.text.replaceAll('\n', '');
-                      if (controller.text.endsWith('"'))
+                      if (!controller.text.endsWith(' '))
                         controller.text = controller.text + ' ';
                       _moveControllerToEnd();
                     }
@@ -379,51 +395,42 @@ class _SearchBarState extends State<_SearchBar> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  title: Text('All Queries'),
-                  onTap: () {
-                    setState(() {
-                      expanded = !expanded;
-                    });
-                  },
-                  trailing: Icon(expanded
-                      ? Icons.keyboard_arrow_up_rounded
-                      : Icons.keyboard_arrow_down_rounded),
-                ),
-                SizeExpandedSection(
-                  expand: expanded,
-                  child: ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            addString(
-                                widget.searchFilters.whiteListedQueries[index]
-                                        .query +
-                                    ':',
-                                addSpaceAtEnd: false,
-                                spaceAtStart: true);
-                            setState(() {
-                              expanded = false;
-                            });
-                            searchNode.requestFocus();
-                          },
-                          title: Text(
-                            widget
-                                .searchFilters.whiteListedQueries[index].query,
-                            // style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        );
+            child: CustomExpandTile(
+              title: Text(
+                'All Queries',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                setState(() {
+                  expanded = !expanded;
+                });
+              },
+              expanded: expanded,
+              child: ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () {
+                        addString(
+                            widget.searchFilters.whiteListedQueries[index]
+                                    .query +
+                                ':',
+                            addSpaceAtEnd: false,
+                            spaceAtStart: true);
+                        setState(() {
+                          expanded = false;
+                        });
+                        searchNode.requestFocus();
                       },
-                      separatorBuilder: (context, index) => Divider(),
-                      itemCount:
-                          widget.searchFilters.whiteListedQueries.length),
-                ),
-              ],
+                      title: Text(
+                        widget.searchFilters.whiteListedQueries[index].query,
+                        // style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Divider(),
+                  itemCount: widget.searchFilters.whiteListedQueries.length),
             ),
           ),
           // Padding(
@@ -566,7 +573,7 @@ class _SearchBarState extends State<_SearchBar> {
     if (controller.selection.baseOffset == controller.text.length) {
       List<String> matches = getMatches(
           RegExp(
-              '${widget.searchFilters.validSensitiveQueriesRegExp.pattern}|${widget.searchFilters.invalidSensitiveQueriesRegExp.pattern}'),
+              '${widget.searchFilters.allValidQueriesRegexp.pattern}|${widget.searchFilters.allInvalidQueriesRegExp.pattern}'),
           pattern);
       String typedData = '';
       SearchQuery? query;
@@ -603,13 +610,12 @@ class _SearchBarState extends State<_SearchBar> {
                     .queryFromString(filteredOptions[index])!;
                 addString(filteredOptions[index] + ':',
                     addQuotesAtEnd: query.options == null &&
-                        (query.type == QueryType.basic ||
-                            query.type == QueryType.spacedString),
+                        query.type == QueryType.spacedString,
                     addSpaceAtEnd: false,
                     remove: typedData);
               },
               title: Text(
-                filteredOptions[index] + ':',
+                filteredOptions[index],
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             );
@@ -623,7 +629,7 @@ class _SearchBarState extends State<_SearchBar> {
         _showOverlay(UserSearchDropdown(
           typedData,
           onSelected: (data) {
-            addString(data, remove: typedData, addQuotesAround: true);
+            addString(data, remove: typedData);
           },
           type: query!.type,
         ));
@@ -687,23 +693,36 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
     }
     final List<InlineSpan> inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
-      data.splitMapJoin(searchFilters.allValidQueriesRegexp,
-          onMatch: (Match m) {
+      data.splitMapJoin(
+          RegExp(searchFilters.allValidQueriesRegexp.pattern
+              // +
+              //     '|' +
+              //     searchFilters.allInvalidQueriesRegExp.pattern
+              ), onMatch: (Match m) {
+        // if (searchFilters.allValidQueriesRegexp.hasMatch(m[0]!))
         inlineList
             .add(_ValidQuery(m[0]!, 1, controller, textStyle).finishText());
+        // else if (searchFilters.allInvalidQueriesRegExp.hasMatch(m[0]!))
+        //   inlineList.add(_InValidQuery(m[0]!, 1, controller, textStyle,
+        //           searchFilters.blacklistRegExp.hasMatch(m[0]!))
+        //       .finishText());
         return '';
       }, onNonMatch: (String string) {
         string.splitMapJoin(
             RegExp(SearchFilters.notOperatorRegExp.pattern +
                 '|' +
-                SearchFilters.andOrOperatorsRegExp.pattern),
-            onMatch: (Match m) {
-          inlineList.add(getSpan(
-              m[0]!,
-              textStyle!.copyWith(
-                  color:
-                      m[0]!.startsWith('NOT') ? AppColor.red : AppColor.accent,
-                  fontWeight: FontWeight.bold)));
+                SearchFilters.andOperatorRegExp.pattern +
+                '|' +
+                SearchFilters.orOperatorRegExp.pattern), onMatch: (Match m) {
+          TextStyle _textStyle = textStyle!;
+          if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!))
+            _textStyle = _textStyle.copyWith(color: AppColor.red);
+          else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!))
+            _textStyle = _textStyle.copyWith(color: Colors.amber);
+          else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!))
+            _textStyle = _textStyle.copyWith(color: AppColor.accent);
+          inlineList.add(
+              getSpan(m[0]!, _textStyle.copyWith(fontWeight: FontWeight.bold)));
           return '';
         }, onNonMatch: (String string) {
           inlineList.add(getSpan(string, textStyle));
@@ -766,11 +785,6 @@ class _ValidQuery extends SpecialText {
 
   final TextEditingController controller;
 
-  @override
-  bool isEnd(String value) {
-    return toString().trim().endsWith('"');
-  }
-
   final int start;
 
   @override
@@ -785,7 +799,12 @@ class _ValidQuery extends SpecialText {
             child: InkWell(
               borderRadius: AppThemeBorderRadius.smallBorderRadius,
               onTap: () {
-                controller.text = controller.text.replaceFirst(toString(), '');
+                if (!toString().trim().startsWith('-'))
+                  controller.text = controller.text.replaceFirst(
+                      RegExp('(?!-)(?:(${toString().trim()}))'), '');
+                else
+                  controller.text =
+                      controller.text.replaceFirst(toString().trim(), '');
                 controller.selection = TextSelection.fromPosition(
                   TextPosition(offset: controller.text.length),
                 );
@@ -847,6 +866,98 @@ class _ValidQuery extends SpecialText {
     );
   }
 }
+
+// class _InValidQuery extends SpecialText {
+//   _InValidQuery(String startFlag, this.start, this.controller,
+//       TextStyle? textStyle, this.blacklisted)
+//       : super(
+//           startFlag,
+//           '',
+//           textStyle!.copyWith(decoration: TextDecoration.lineThrough) ??
+//               TextStyle(),
+//         );
+//
+//   final TextEditingController controller;
+//   final bool blacklisted;
+//   final int start;
+//
+//   @override
+//   InlineSpan finishText() {
+//     return ExtendedWidgetSpan(
+//       alignment: PlaceholderAlignment.middle,
+//       child: Padding(
+//         padding: const EdgeInsets.only(top: 4.0),
+//         child: Material(
+//             borderRadius: AppThemeBorderRadius.smallBorderRadius,
+//             color: blacklisted ? Colors.red : AppColor.grey3,
+//             child: InkWell(
+//               borderRadius: AppThemeBorderRadius.smallBorderRadius,
+//               onTap: () {
+//                 if (!toString().trim().startsWith('-'))
+//                   controller.text = controller.text.replaceFirst(
+//                       RegExp('(?!-)(?:(${toString().trim()}))'), '');
+//                 else
+//                   controller.text =
+//                       controller.text.replaceFirst(toString().trim(), '');
+//                 controller.selection = TextSelection.fromPosition(
+//                   TextPosition(offset: controller.text.length),
+//                 );
+//                 if (controller.text.trim().isEmpty)
+//                   controller.text = controller.text.trim();
+//                 HapticFeedback.vibrate();
+//               },
+//               child: Padding(
+//                 padding: const EdgeInsets.only(
+//                     top: 2.0, left: 6, right: 6, bottom: 4),
+//                 child: Row(
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     Flexible(
+//                         child: RichText(
+//                       text: TextSpan(
+//                           style: textStyle.copyWith(fontSize: 14),
+//                           children: [
+//                             TextSpan(
+//                                 text: toString()
+//                                         .trim()
+//                                         .replaceAll('"', '')
+//                                         .split(':')
+//                                         .first +
+//                                     ' ',
+//                                 style: TextStyle(fontWeight: FontWeight.bold)),
+//                             TextSpan(
+//                                 text: toString()
+//                                     .trim()
+//                                     .replaceAll('"', '')
+//                                     .split(':')
+//                                     .last),
+//                           ]),
+//                     )),
+//                     SizedBox(
+//                       width: 4,
+//                     ),
+//                     ClipOval(
+//                       child: Container(
+//                         color: Colors.white,
+//                         child: Icon(
+//                           Icons.close_rounded,
+//                           color: blacklisted ? Colors.red : AppColor.grey3,
+//                           size: 12,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             )),
+//       ),
+//       start: start,
+//       actualText: toString(),
+//       deleteAll: false,
+//     );
+//   }
+// }
 
 class SearchData {
   final String query;

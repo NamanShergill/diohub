@@ -43,8 +43,12 @@ class SearchFilters {
       RegExp('(?:NOT)(?:\\s)(?!(NOT|OR|AND))(\\w+)');
 
   /// Get regexp to match AND/OR operators in a string.
-  static RegExp get andOrOperatorsRegExp =>
-      RegExp('(\\w+)(?:\\s)(?:(OR|AND))(?:\\s)(?!(NOT|OR|AND))(\\w+)');
+  static RegExp get andOperatorRegExp => RegExp(
+      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:AND)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
+
+  /// Get regexp to matchOR operators in a string.
+  static RegExp get orOperatorRegExp => RegExp(
+      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:OR)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
 
   // List<SearchQuery> get queries => _queries;
   // List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
@@ -63,6 +67,7 @@ class SearchFilters {
   /// Get the corresponding [SearchQuery] instance in the lists from a given string.
   SearchQuery? queryFromString(String query) {
     SearchQuery? value;
+    if (query.startsWith('-')) query = query.substring(1);
     (_basicQueries + _sensitiveQueries + _blackList).forEach((element) {
       if (element.query == query) value = element;
     });
@@ -264,7 +269,7 @@ class SearchFilters {
     */
     List<String> spacedQs = spacedQ.map((e) => e.query + ':').toList();
     String spacedRegExp =
-        '(?:-)?(?:${spacedQs.join('|')})(?:")((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
+        '(?:-)?(?:${spacedQs.join('|')})(((?:")((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:"))|((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+))(?=(\\s))';
 
     /*
         (?:-)? -> Optional [-] at start.
@@ -272,7 +277,7 @@ class SearchFilters {
     */
     List<String> optionsQ = optionQ
         .map((query) => query.options!.keys
-            .map((option) => '${query.query}:$option')
+            .map((option) => '${query.query}:($option|"$option")')
             .join('|'))
         .toList();
     String optionRegexp = '(?:-)?(?:${optionsQ.join('|')})(?=(\\s))';
@@ -293,7 +298,7 @@ class SearchFilters {
     */
     List<String> numbersQ = numberQ.map((query) => '${query.query}:').toList();
     String numberRegexp =
-        '(?:-)?(?:${numbersQ.join('|')})(?:")([><][=]?)?([0-9]+)(?:")(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})(?:")([0-9]+)([.][.][*])(?:")(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})(?:")([*][.][.])([0-9]+)(?:")(?=(\\s))';
+        '(?:-)?(?:${numbersQ.join('|')})${optionalQuotes('([><][=]?)?([0-9]+)')}(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})${optionalQuotes('([0-9]+)([.][.][*])')}(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})${optionalQuotes('([*][.][.])([0-9]+)')}(?=(\\s))';
 
     /*
         (?:-)? -> Optional [-] at start.
@@ -305,7 +310,7 @@ class SearchFilters {
     */
     List<String> usersQ = userQ.map((query) => '${query.query}:').toList();
     String userRegExp =
-        '(?:-)?(?:${usersQ.join('|')})(?:")(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
+        '(?:-)?(?:${usersQ.join('|')})${optionalQuotes('(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
     // print(numberRegexp + '|' + userRegExp + '|' + boolRegexp);
 
     List<String> finalRegex = [];
@@ -329,7 +334,7 @@ class SearchFilters {
         ((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+) -> Any character following.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    String regex = '(?:-)?(?:$filter)(?:")(.[^":]+)(?:")(?=(\\s))';
+    String regex = '(?:-)?(?:$filter)${optionalQuotes('(.[^":]+)')}(?=(\\s))';
     if (queries.isEmpty) regex = '(?!x)x';
     return RegExp(regex);
   }
@@ -368,13 +373,19 @@ class SearchFilters {
     });
     _blackList.addAll(filteredBlackList);
   }
+
+  static String optionalQuotes(String string,
+      {bool allowSpace = false, String? spacedRegex}) {
+    if (allowSpace) return '(((?:")$spacedRegex(?:"))|($string))';
+    return '(((?:")$string(?:"))|($string))';
+  }
 }
 
 class SearchQueries {
-  static const String _teamRegex =
-      '(?:-)?(?:${SearchQueryStrings.team}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
-  static const String _authorRegex =
-      '(?:-)?(?:${SearchQueryStrings.author}:)(?:")((app)(/))?((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,])+)(?:")(?=(\\s))';
+  static String _teamRegex =
+      '(?:-)?(?:${SearchQueryStrings.team}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
+  static String _authorRegex =
+      '(?:-)?(?:${SearchQueryStrings.author}:)${SearchFilters.optionalQuotes('((app)(/))?((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,])+)')}(?=(\\s))';
 
   /*
         (?:-)? -> Optional [-] at start.
@@ -385,8 +396,8 @@ class SearchQueries {
         (?:") -> Checks for end quote.
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
-  static const String _projectRegex =
-      '(?:-)?(?:${SearchQueryStrings.project}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(((/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)){1,2})(?:")(?=(\\s))';
+  static String _projectRegex =
+      '(?:-)?(?:${SearchQueryStrings.project}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(((/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)){1,2})')}(?=(\\s))';
 
   /*
         (?:-)? -> Optional [-] at start.
@@ -398,8 +409,8 @@ class SearchQueries {
         (?:") -> Checks for end quote.
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
-  static const String _repoRegex =
-      '(?:-)?(?:${SearchQueryStrings.repo}:)(?:")((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:")(?=(\\s))';
+  static String _repoRegex =
+      '(?:-)?(?:${SearchQueryStrings.repo}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
 
   SearchQuery archived =
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
@@ -730,9 +741,9 @@ class SearchQuery {
   }
 
   void addOptions(Map<String, String> options) {
-          if (this.options == null) this.options = {};
+    if (this.options == null) this.options = {};
 
-   this.options!.addAll(options);
+    this.options!.addAll(options);
   }
 }
 
