@@ -86,7 +86,6 @@ class AuthService {
         throw Exception(response.data['error_description']);
       return response;
     } catch (e) {
-      print(e);
       throw Exception(e);
     }
   }

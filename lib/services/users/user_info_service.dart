@@ -21,12 +21,20 @@ class UserInfoService {
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
-      int perPage, int pageNumber, bool refresh) async {
+    int perPage,
+    int pageNumber,
+    bool refresh, {
+    String? sort,
+    bool? ascending = false,
+  }) async {
+    print(sort);
     Response response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/user/repos', queryParameters: {
-      'sort': 'updated',
+      if (sort != null) 'sort': sort,
+      if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       'per_page': perPage,
+      'type': 'owner',
       'page': pageNumber
     });
     List unParsedData = response.data;
@@ -35,8 +43,8 @@ class UserInfoService {
     return data;
   }
 
-  static Future<List<RepositoryModel>> getUserRepos(
-      String? username, int perPage, int pageNumber, bool refresh) async {
+  static Future<List<RepositoryModel>> getUserRepos(String? username,
+      int perPage, int pageNumber, bool refresh, String? sort) async {
     Response response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
@@ -44,7 +52,8 @@ class UserInfoService {
       queryParameters: {
         'sort': 'updated',
         'per_page': perPage,
-        'page': pageNumber
+        'page': pageNumber,
+        if (sort != null) 'sort': sort,
       },
     );
     List unParsedData = response.data;

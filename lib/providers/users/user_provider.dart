@@ -39,8 +39,7 @@ class UserProvider extends BaseProvider {
       _currentUserInfo = await UserInfoService.getUserInfo(_userName);
       statusController.add(Status.loaded);
     } catch (e) {
-      error = e.toString();
-      statusController.add(Status.error);
+      providerError(message: e.toString());
     }
     return _currentUserInfo;
   }

@@ -149,7 +149,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
         AboutUser(data),
         if (data!.type == Type.user) UserOverviewScreen(data),
         UserRepositories(
-          data,
+          data!,
           currentUser: widget.isCurrentUser,
         ),
         if (data!.type == Type.user)

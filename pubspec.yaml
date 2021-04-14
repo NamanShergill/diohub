@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.0.4-04042021.internal+4
+version: 0.1.0-15042021.internal+4
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -17,7 +17,9 @@ dependencies:
   connectivity: ^3.0.3
   dio: ^4.0.0
   dio_cache_interceptor: ^2.0.0
-  equatable: ^2.0.0
+  extended_text_field:
+    git:
+      url: https://github.com/NamanShergill/extended_text_field.git
   flutter_bloc: ^7.0.0
   flutter_countdown_timer: ^4.0.2
   flutter_datetime_picker: ^1.5.0
@@ -32,10 +34,11 @@ dependencies:
       url: https://github.com/Sub6Resources/flutter_html.git
       ref: 4688f1a91421a76ea5c27e29889fadce6b6b4102
   flutter_icons: ^1.1.0
+  flutter_keyboard_visibility: ^5.0.0
+  flutter_portal: ^0.4.0-nullsafety.0
   flutter_reaction_button: ^1.0.8
   flutter_secure_storage: ^4.1.0
   flutter_slidable: ^0.6.0-nullsafety.0
-  flutter_signin_button: ^2.0.0-nullsafety.0
   flutter_spinkit: ^5.0.0
   flutter_svg: ^0.21.0-nullsafety.0
   google_nav_bar:
@@ -53,8 +56,6 @@ dependencies:
       url: https://github.com/NamanShergill/onehub_markdown-editable-textinput
       ref: master
   mime: ^1.0.0
-  page_transition: ^1.1.7+6
-  path: ^1.8.0
   path_provider: ^2.0.1
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0
@@ -62,7 +63,7 @@ dependencies:
   shimmer: ^2.0.0-nullsafety.0
   sqlite3_flutter_libs: ^0.4.1
   url_launcher: ^6.0.2
-  webview_flutter: ^2.0.3
+  webview_flutter: ^2.0.4
 
   cupertino_icons: ^1.0.2
 
@@ -70,16 +71,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^1.0.2
-  build_runner: ^1.11.5
+  build_runner: ^1.12.2
   flutter_launcher_icons: ^0.9.0
+  dependency_validator:
+    git:
+      url: https://github.com/Workiva/dependency_validator.git
+      ref: nnbd
 
 flutter_icons:
   android: "launcher_icon"
   ios: false
   image_path: "assets/icon/icon.png"
-
-dependency_overrides:
-  web_socket_channel: ^2.0.0
 
 flutter:
   uses-material-design: true

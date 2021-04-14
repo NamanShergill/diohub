@@ -18,13 +18,15 @@ class RepositoryCard extends StatelessWidget {
   final RepositoryModel? repo;
   final bool isThemed;
   final String? branch;
-  RepositoryCard(this.repo, {this.isThemed = true, this.branch});
+  final EdgeInsets padding;
+  RepositoryCard(this.repo,
+      {this.isThemed = true,
+      this.branch,
+      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: isThemed
-          ? const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)
-          : EdgeInsets.zero,
+      padding: isThemed ? padding : EdgeInsets.zero,
       child: Material(
         elevation: isThemed ? 2 : 0,
         color: isThemed ? AppColor.background : Colors.transparent,

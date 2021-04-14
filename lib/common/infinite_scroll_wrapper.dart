@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onehub/app/global.dart';
+import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/style/colors.dart';
 
 import 'loading_indicator.dart';
@@ -11,7 +14,7 @@ class InfiniteScrollWrapperController {
 }
 
 typedef ScrollWrapperFuture<T>(
-    int pageNumber, int pageSize, bool refresh, T lastItem);
+    int pageNumber, int pageSize, bool refresh, T? lastItem);
 typedef ScrollWrapperBuilder<T>(BuildContext context, T item, int index);
 typedef FilterFn<T>(List<T> items);
 
@@ -65,6 +68,14 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// ListView ScrollController.
   final ScrollController? scrollController;
 
+  // Disable refreshing.
+  final bool disableRefresh;
+
+  // Show header on no items.
+  final bool showHeaderOnNoItems;
+
+  final bool shrinkWrap;
+
   InfiniteScrollWrapper(
       {Key? key,
       required this.future,
@@ -77,9 +88,12 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
+      this.disableRefresh = false,
       this.firstDivider = true,
       this.firstPageLoadingBuilder,
       this.scrollController,
+      this.showHeaderOnNoItems = true,
+      this.shrinkWrap = false,
       this.listEndIndicator = true,
       this.spacing = 16})
       : super(key: key);
@@ -144,39 +158,44 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
       // If the last page, set refresh value to false,
       // as all pages have been refreshed.
       if (isLastPage) {
-        _pagingController.appendLastPage(filteredItems);
+        if (mounted) _pagingController.appendLastPage(filteredItems);
         refresh = false;
       } else {
         pageNumber++;
         final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(filteredItems, nextPageKey as int?);
+        if (mounted)
+          _pagingController.appendPage(filteredItems, nextPageKey as int?);
       }
     } catch (error) {
-      Global.log.e(error);
-      _pagingController.error = error;
+      if (error is DioError) {
+        Global.log.e(error.response?.data);
+        _pagingController.error = error.response?.data;
+      } else {
+        Global.log.e(error.toString());
+        _pagingController.error = error;
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      color: Colors.white,
-      onRefresh: () => Future.sync(() async {
-        resetAndRefresh();
-      }),
+    Widget child = SizeExpandedSection(
       child: PagedListView<int, T>(
         scrollController: widget.scrollController,
         physics: BouncingScrollPhysics(),
         pagingController: _pagingController,
+        shrinkWrap: widget.shrinkWrap,
         builderDelegate: PagedChildBuilderDelegate<T>(
           itemBuilder: (context, T item, index) => Column(children: [
             if (index == 0)
               Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     height: widget.topSpacing,
                   ),
-                  if (widget.header != null) widget.header!(context),
+                  if (widget.header != null)
+                    Flexible(child: widget.header!(context)),
                 ],
               ),
             Visibility(
@@ -207,12 +226,20 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
           noItemsFoundIndicatorBuilder: (context) => Center(
               child: Column(
             children: [
-              if (widget.header != null) widget.header!(context),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'And then there were none.',
-                  style: TextStyle(color: AppColor.grey3),
+              SizedBox(
+                height: widget.topSpacing,
+              ),
+              if (widget.header != null && widget.showHeaderOnNoItems)
+                Flexible(child: widget.header!(context)),
+              Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'And then there were none.',
+                      style: TextStyle(color: AppColor.grey3),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -233,9 +260,22 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
                     ],
                   ),
                 ))
-              : Container(),
+              : Padding(
+                  padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                  child: Container(),
+                ),
         ),
       ),
     );
+
+    return widget.disableRefresh
+        ? child
+        : RefreshIndicator(
+            color: Colors.white,
+            onRefresh: () => Future.sync(() async {
+              resetAndRefresh();
+            }),
+            child: child,
+          );
   }
 }

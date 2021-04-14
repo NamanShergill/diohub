@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:onehub/view/home/widgets/search_overlay.dart';
+import 'package:onehub/common/search_overlay/search_overlay.dart';
 import 'package:onehub/view/issues_pulls/issue_screen.dart';
 import 'package:onehub/view/issues_pulls/pull_screen.dart';
 import 'package:onehub/view/landing/widgets/landing_auth_wrapper.dart';
@@ -20,14 +20,14 @@ import 'package:onehub/view/repository/wiki/wiki_viewer.dart';
     CustomRoute(
         page: SearchOverlayScreen,
         transitionsBuilder: TransitionsBuilders.fadeIn),
+    AutoRoute(page: IssueScreen),
+    AutoRoute(page: PullScreen),
     AutoRoute(page: RepositoryScreen),
     AutoRoute(page: FileViewerAPI),
     AutoRoute(page: CommitInfoScreen),
     AutoRoute(page: WikiViewer),
     AutoRoute(page: ChangesViewer),
     AutoRoute(page: OtherUserProfileScreen),
-    AutoRoute(page: IssueScreen),
-    AutoRoute(page: PullScreen),
   ],
 )
 class $AppRouter {}

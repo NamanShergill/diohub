@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onehub/common/issues/issue_label.dart';
+import 'package:onehub/common/pulls/pull_loading_card.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
@@ -23,6 +24,8 @@ class IssueListCard extends StatelessWidget {
       this.commentsSince});
   @override
   Widget build(BuildContext context) {
+    if (item.pullRequest != null)
+      return PullLoadingCard(item.pullRequest!.url!);
     return Padding(
       padding: padding,
       child: Material(
@@ -32,7 +35,6 @@ class IssueListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {
-            // Todo: Add case to send to linked PR if one exists.
             AutoRouter.of(context).push(IssueScreenRoute(
                 issueURL: item.url,
                 repoURL: item.repositoryUrl,
@@ -111,7 +113,7 @@ class IssueListCard extends StatelessWidget {
                       ),
                       Text(
                         item.state == IssueState.CLOSED
-                            ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString())}.'
+                            ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
                         style: TextStyle(color: AppColor.grey3, fontSize: 12),
                       ),

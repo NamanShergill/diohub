@@ -36,9 +36,9 @@ class PullsService {
         .get('$repoURL/pulls', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
-      'sort': 'popularity',
-      'state': 'all',
-      'direction': 'desc',
+      // 'sort': 'popularity',
+      // 'state': 'all',
+      // 'direction': 'desc',
     });
     List unParsedData = response.data;
     List<PullRequestModel> parsedData =

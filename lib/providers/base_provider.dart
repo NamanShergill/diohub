@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-class BaseProvider extends ChangeNotifier {
+abstract class BaseProvider extends ChangeNotifier {
   BaseProvider() {
     // Update provider status based on the data sent to the stream.
     statusStream.listen((event) {
@@ -37,13 +37,19 @@ class BaseProvider extends ChangeNotifier {
   /// Show a popup notification on [ScaffoldBody] listening
   /// to the global stream if a [ScaffoldBodyController] is not provided.
   void showPopup(Widget? data) {
-    notificationController.add(data);
+    _notificationController.add(data);
   }
 
   /// Dispose the stream.
   disposeStreams() {
     _statusController.close();
     _notificationController.close();
+  }
+
+  // Set provider status to [Status.error] with a custom message.
+  void providerError({String? message}) {
+    error = message;
+    statusController.add(Status.error);
   }
 
   // Reset the provider.

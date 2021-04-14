@@ -6,13 +6,14 @@ import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/events/events.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/common/provider_loading_progress_wrapper.dart';
+import 'package:onehub/common/search_overlay/search_bar.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
+import 'package:onehub/providers/search_data_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/widgets/issues_tab.dart';
 import 'package:onehub/view/home/widgets/pulls_tab.dart';
-import 'package:onehub/view/home/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _search = Provider.of<SearchDataProvider>(context);
+
     super.build(context);
     return LoginCheckWrapper(
       replacement: HomeScreenUnauthenticated(),
@@ -55,7 +58,14 @@ class _HomeScreenState extends State<HomeScreen>
                     minHeight: 155,
                     maxHeight: 300,
                     title: 'Home',
-                    child: SearchBar(),
+                    child: SearchBar(
+                      updateBarOnChange: false,
+                      onSubmit: (data) {
+                        _search.updateSearchData(data);
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .animateToPage(1);
+                      },
+                    ),
                     trailing: ClipOval(
                       child: InkWell(
                         onTap: () {
@@ -157,6 +167,8 @@ class _HomeScreenState extends State<HomeScreen>
 class HomeScreenUnauthenticated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _search = Provider.of<SearchDataProvider>(context);
+
     final _media = MediaQuery.of(context).size;
     return Column(
       children: [
@@ -185,7 +197,15 @@ class HomeScreenUnauthenticated extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                SearchBar(),
+                SearchBar(
+                  updateBarOnChange: false,
+                  onSubmit: (data) {
+                    _search.updateSearchData(data);
+
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .animateToPage(1);
+                  },
+                ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

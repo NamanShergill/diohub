@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/issues/issue_label.dart';
 import 'package:onehub/common/issues/issue_list_card.dart';
-import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/common/pulls/pull_list_card.dart';
+import 'package:onehub/common/pulls/pull_loading_card.dart';
 import 'package:onehub/models/events/events_model.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/models/pull_requests/pull_request_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/services/pulls/pulls_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/textStyles.dart';
 import 'package:onehub/utils/get_date.dart';
@@ -310,28 +305,9 @@ class BasicPullCrossReferencedCard extends StatelessWidget {
             'Mentioned this.',
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
-          APIWrapper<PullRequestModel>(
-            getCall: PullsService.getPullInformation(
-                fullUrl: fixURL(content!.issue!.pullRequest!.url!)),
-            loadingBuilder: (context) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Material(
-                  elevation: 2,
-                  color: AppColor.background,
-                  borderRadius: AppThemeBorderRadius.medBorderRadius,
-                  child: Container(
-                      height: 80, child: Center(child: LoadingIndicator())),
-                ),
-              );
-            },
-            responseBuilder: (context, data) {
-              return PullListCard(
-                data,
-                compact: true,
-                padding: EdgeInsets.only(top: 8),
-              );
-            },
+          PullLoadingCard(
+            fixURL(content!.issue!.pullRequest!.url!),
+            compact: true,
           ),
         ],
       ),

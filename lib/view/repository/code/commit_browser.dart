@@ -122,10 +122,10 @@ class _CommitBrowserState extends State<CommitBrowser> {
               ],
             ),
           ),
-          Container(
-            height: _media.height * 0.8,
+          Expanded(
             child: InfiniteScrollWrapper<CommitListModel>(
               controller: controller,
+              shrinkWrap: true,
               scrollController: widget.controller,
               future: (pageNumber, pageSize, refresh, _) {
                 return RepositoryServices.getCommitsList(
