@@ -471,33 +471,8 @@ class _SearchBarState extends State<_SearchBar> {
               ),
             ),
           ),
-          SizeExpandedSection(
-            expand: controller.text.trim().isNotEmpty,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        controller.text = '';
-                      });
-                    },
-                    child: Center(
-                        child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text('Tap to clear.'),
-                    )),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                ),
-              ],
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.only(top: 8),
             child: CustomExpandTile(
               title: Text(
                 'All Filters',
@@ -534,6 +509,32 @@ class _SearchBarState extends State<_SearchBar> {
                   },
                   separatorBuilder: (context, index) => Divider(),
                   itemCount: widget._searchFilters.whiteListedQueries.length),
+            ),
+          ),
+          SizeExpandedSection(
+            expand: controller.text.trim().isNotEmpty,
+            child: Column(
+              children: [
+                Divider(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: MaterialButton(
+                    color: AppColor.onBackground,
+                    onPressed: () {
+                      setState(() {
+                        controller.text = '';
+                      });
+                    },
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text('Tap to Clear'),
+                    )),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

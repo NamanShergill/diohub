@@ -68,9 +68,12 @@ class _SearchBarState extends State<SearchBar> {
           children: [
             Material(
               elevation: 2,
-              borderRadius: BorderRadius.only(
-                  topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
-                  topRight: AppThemeBorderRadius.medBorderRadius.topRight),
+              borderRadius: searchData?.searchFilters != null
+                  // && searchData?.isActive == true
+                  ? BorderRadius.only(
+                      topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
+                      topRight: AppThemeBorderRadius.medBorderRadius.topRight)
+                  : AppThemeBorderRadius.medBorderRadius,
               color: searchData?.isActive ?? false
                   ? AppColor.accent
                   : widget.backgroundColor,
