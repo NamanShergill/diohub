@@ -3,7 +3,7 @@ import 'package:onehub/common/search_overlay/filters.dart';
 import 'package:onehub/common/search_overlay/search_overlay.dart';
 import 'package:onehub/common/search_scroll_wrapper.dart';
 import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/providers/users/current_user_providerervice.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatelessWidget {
