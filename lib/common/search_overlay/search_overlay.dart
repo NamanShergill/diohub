@@ -526,6 +526,7 @@ class _SearchBarState extends State<_SearchBar> {
                       setState(() {
                         controller.text = '';
                       });
+                      _parseQuery(controller.text);
                     },
                     child: Center(
                         child: Padding(
