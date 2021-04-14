@@ -36,17 +36,17 @@ class IssuesList extends StatelessWidget {
           if (item.pullRequest == null) filteredData.add(item);
         return filteredData;
       },
-      nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, isAsc) {
-        return IssuesService.getRepoIssues(
-            Provider.of<RepositoryProvider>(context, listen: false)
-                .repositoryModel!
-                .url,
-            pageNumber: pageNumber,
-            perPage: pageSize,
-            refresh: refresh,
-            ascending: isAsc,
-            sort: sort);
-      },
+      // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, isAsc) {
+      //   return IssuesService.getRepoIssues(
+      //       Provider.of<RepositoryProvider>(context, listen: false)
+      //           .repositoryModel!
+      //           .url,
+      //       pageNumber: pageNumber,
+      //       perPage: pageSize,
+      //       refresh: refresh,
+      //       ascending: isAsc,
+      //       sort: sort);
+      // },
     );
     return InfiniteScrollWrapper<IssueModel>(
       future: (pageNumber, pageSize, refresh, _) {

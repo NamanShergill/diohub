@@ -17,7 +17,6 @@ typedef SearchScrollWrapperFuture<T>(int pageNumber, int pageSize, bool refresh,
 
 class SearchScrollWrapper extends StatefulWidget {
   final SearchData searchData;
-  final SearchScrollWrapperFuture? nonSearchFuture;
   final FilterFn? filterFn;
   final String? searchBarMessage;
   final String? searchHeroTag;
@@ -30,8 +29,7 @@ class SearchScrollWrapper extends StatefulWidget {
   final WidgetBuilder? nonSearchBuilder;
   final ValueChanged<SearchData>? onChanged;
   SearchScrollWrapper(this.searchData,
-      {this.nonSearchFuture,
-      this.searchBarMessage,
+      {this.searchBarMessage,
       this.applyFiltersOnOpen,
       this.header,
       this.backgroundBuilder,
@@ -44,8 +42,6 @@ class SearchScrollWrapper extends StatefulWidget {
       this.filterFn,
       Key? key})
       : _searchBarPadding = searchBarPadding ?? padding,
-        assert((nonSearchFuture == null) ==
-            (nonSearchBuilder != null || header != null)),
         super(key: key);
   @override
   _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
@@ -110,10 +106,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           return header(context);
         },
         searchData: searchData,
-        nonSearchFuture: (pageNumber, pageSize, refresh, _) {
-          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _,
-              searchData.getSort, searchData.isSortAsc);
-        },
         searchFuture: (pageNumber, pageSize, refresh, _) {
           return SearchService.searchRepos(searchData.toQuery(),
               perPage: pageSize,
@@ -140,10 +132,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           return header(context);
         },
         searchData: searchData,
-        nonSearchFuture: (pageNumber, pageSize, refresh, _) {
-          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _,
-              searchData.getSort, searchData.isSortAsc);
-        },
         searchFuture: (pageNumber, pageSize, refresh, _) {
           return SearchService.searchIssues(searchData.toQuery(),
               perPage: pageSize,
@@ -170,10 +158,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           return header(context);
         },
         searchData: searchData,
-        nonSearchFuture: (pageNumber, pageSize, refresh, _) {
-          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _,
-              searchData.getSort, searchData.isSortAsc);
-        },
         searchFuture: (pageNumber, pageSize, refresh, _) {
           return SearchService.searchUsers(searchData.toQuery(),
               perPage: pageSize,
@@ -198,7 +182,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
 class _InfiniteWrapper<T> extends StatelessWidget {
   final InfiniteScrollWrapperController controller;
   final WidgetBuilder header;
-  final ScrollWrapperFuture nonSearchFuture;
   final ScrollWrapperFuture searchFuture;
   final ScrollWrapperBuilder builder;
   final SearchData searchData;
@@ -209,7 +192,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       required this.header,
       required this.controller,
       this.filterFn,
-      required this.nonSearchFuture,
       required this.searchFuture,
       required this.searchData,
       Key? key})
@@ -222,8 +204,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       header: header,
       filterFn: filterFn,
       future: (pageNumber, pageSize, refresh, _) {
-        // if (!searchData.isActive)
-        //   return nonSearchFuture(pageNumber, pageSize, refresh, _);
         return searchFuture(pageNumber, pageSize, refresh, _);
       },
       divider: false,

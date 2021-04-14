@@ -3,8 +3,7 @@ import 'package:onehub/common/search_overlay/filters.dart';
 import 'package:onehub/common/search_overlay/search_overlay.dart';
 import 'package:onehub/common/search_scroll_wrapper.dart';
 import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/services/issues/issues_service.dart';
+import 'package:onehub/providers/users/current_user_providerervice.dart';
 import 'package:provider/provider.dart';
 
 class PullsTab extends StatelessWidget {
@@ -33,14 +32,14 @@ class PullsTab extends StatelessWidget {
           if (item.pullRequest != null) filteredData.add(item);
         return filteredData;
       },
-      nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, isAsc) {
-        return IssuesService.getUserIssues(
-            pageNumber: pageNumber,
-            perPage: pageSize,
-            refresh: refresh,
-            sort: sort,
-            ascending: isAsc);
-      },
+      // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, isAsc) {
+      //   return IssuesService.getUserIssues(
+      //       pageNumber: pageNumber,
+      //       perPage: pageSize,
+      //       refresh: refresh,
+      //       sort: sort,
+      //       ascending: isAsc);
+      // },
     );
   }
 }
