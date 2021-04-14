@@ -60,6 +60,8 @@ class IssuesService {
     int? perPage,
     int? pageNumber,
     required bool refresh,
+    bool? ascending = false,
+    String? sort,
   }) async {
     Response response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
@@ -68,7 +70,8 @@ class IssuesService {
       queryParameters: {
         'per_page': perPage,
         'page': pageNumber,
-        'state': 'all',
+        if (sort != null) 'sort': sort,
+        if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       },
     );
     List unParsedData = response.data;
@@ -82,6 +85,8 @@ class IssuesService {
     String? repoURL, {
     int? perPage,
     int? pageNumber,
+    String? sort,
+    bool? ascending = false,
     required bool refresh,
   }) async {
     Response response = await GetDio.getDio(
@@ -91,8 +96,8 @@ class IssuesService {
       queryParameters: {
         'per_page': perPage,
         'page': pageNumber,
-        // 'sort': 'comments',
-        // 'state': 'all',
+        if (sort != null) 'sort': sort,
+        if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       },
     );
     List unParsedData = response.data;

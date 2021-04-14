@@ -86,6 +86,7 @@ class SearchFilters {
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-for-repositories
   SearchFilters.repositories({List<String> blacklist = const []})
       : _sortOptions = {
+          'best': 'Best Match',
           'stars-desc': 'Most stars',
           'stars-asc': 'Fewest stars',
           'forks-desc': 'Most forks',
@@ -136,6 +137,8 @@ class SearchFilters {
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
   SearchFilters.issuesPulls({List<String> blacklist = const []})
       : _sortOptions = {
+          'best': 'Best Match',
+
           'created-desc': 'Newest',
           'created-asc': 'Oldest',
           'comments-desc': 'Most comments',
@@ -249,6 +252,7 @@ class SearchFilters {
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-users
   SearchFilters.users({List<String> blacklist = const []})
       : _sortOptions = {
+          'best': 'Best Match',
           'followers-desc': '',
           'followers-asc': '',
           'repositories-desc': '',

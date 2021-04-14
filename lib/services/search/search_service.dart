@@ -12,13 +12,13 @@ import 'package:onehub/models/users/user_info_model.dart';
 
 class SearchService {
   static Future<List<UserInfoModel>> searchUsers(String query,
-      {String? sort, bool ascending = false, int? perPage, int? page}) async {
+      {String? sort, bool? ascending = false, int? perPage, int? page}) async {
     Response response = await GetDio.getDio(debugLog: true).get(
       '/search/users',
       queryParameters: {
         'q': query,
-        'sort': sort,
-        'order': ascending ? 'asc' : 'desc',
+        if (sort != null) 'sort': sort,
+        if (ascending != null) 'order': ascending ? 'asc' : 'desc',
         'per_page': perPage,
         'page': page,
       },
@@ -27,13 +27,13 @@ class SearchService {
   }
 
   static Future<List<RepositoryModel>> searchRepos(String query,
-      {String? sort, bool ascending = false, int? perPage, int? page}) async {
+      {String? sort, bool? ascending, int? perPage, int? page}) async {
     Response response = await GetDio.getDio().get(
       '/search/repositories',
       queryParameters: {
         'q': query,
-        'sort': sort,
-        'order': ascending ? 'asc' : 'desc',
+        if (sort != null) 'sort': sort,
+        if (ascending != null) 'order': ascending ? 'asc' : 'desc',
         'per_page': perPage,
         'page': page,
       },
@@ -42,13 +42,13 @@ class SearchService {
   }
 
   static Future<List<IssueModel>> searchIssues(String query,
-      {String? sort, bool ascending = false, int? perPage, int? page}) async {
+      {String? sort, bool? ascending = false, int? perPage, int? page}) async {
     Response response = await GetDio.getDio().get(
       '/search/issues',
       queryParameters: {
         'q': query,
-        'sort': sort,
-        'order': ascending ? 'asc' : 'desc',
+        if (sort != null) 'sort': sort,
+        if (ascending != null) 'order': ascending ? 'asc' : 'desc',
         'per_page': perPage,
         'page': page,
       },

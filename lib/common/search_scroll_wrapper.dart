@@ -12,9 +12,12 @@ import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/services/search/search_service.dart';
 import 'package:onehub/style/colors.dart';
 
+typedef SearchScrollWrapperFuture<T>(int pageNumber, int pageSize, bool refresh,
+    T? lastItem, String? sort, bool? isAscending);
+
 class SearchScrollWrapper extends StatefulWidget {
   final SearchData searchData;
-  final ScrollWrapperFuture? nonSearchFuture;
+  final SearchScrollWrapperFuture? nonSearchFuture;
   final FilterFn? filterFn;
   final String? searchBarMessage;
   final String? searchHeroTag;
@@ -76,6 +79,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               searchData = data;
             });
             if (widget.onChanged != null) widget.onChanged!(data);
+            controller.refresh();
           },
         ),
       );
@@ -107,11 +111,15 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         },
         searchData: searchData,
         nonSearchFuture: (pageNumber, pageSize, refresh, _) {
-          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _);
+          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _,
+              searchData.getSort, searchData.isSortAsc);
         },
         searchFuture: (pageNumber, pageSize, refresh, _) {
           return SearchService.searchRepos(searchData.toQuery(),
-              perPage: pageSize, page: pageNumber);
+              perPage: pageSize,
+              page: pageNumber,
+              sort: searchData.getSort,
+              ascending: searchData.isSortAsc);
         },
         builder: (context, item, index) {
           return Padding(
@@ -133,11 +141,15 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         },
         searchData: searchData,
         nonSearchFuture: (pageNumber, pageSize, refresh, _) {
-          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _);
+          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _,
+              searchData.getSort, searchData.isSortAsc);
         },
         searchFuture: (pageNumber, pageSize, refresh, _) {
           return SearchService.searchIssues(searchData.toQuery(),
-              perPage: pageSize, page: pageNumber);
+              perPage: pageSize,
+              page: pageNumber,
+              sort: searchData.getSort,
+              ascending: searchData.isSortAsc);
         },
         builder: (context, item, index) {
           return Padding(
@@ -159,11 +171,15 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         },
         searchData: searchData,
         nonSearchFuture: (pageNumber, pageSize, refresh, _) {
-          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _);
+          return widget.nonSearchFuture!(pageNumber, pageSize, refresh, _,
+              searchData.getSort, searchData.isSortAsc);
         },
         searchFuture: (pageNumber, pageSize, refresh, _) {
           return SearchService.searchUsers(searchData.toQuery(),
-              perPage: pageSize, page: pageNumber);
+              perPage: pageSize,
+              page: pageNumber,
+              sort: searchData.getSort,
+              ascending: searchData.isSortAsc);
         },
         builder: (context, item, index) {
           return Padding(
@@ -206,8 +222,8 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       header: header,
       filterFn: filterFn,
       future: (pageNumber, pageSize, refresh, _) {
-        if (!searchData.isActive)
-          return nonSearchFuture(pageNumber, pageSize, refresh, _);
+        // if (!searchData.isActive)
+        //   return nonSearchFuture(pageNumber, pageSize, refresh, _);
         return searchFuture(pageNumber, pageSize, refresh, _);
       },
       divider: false,

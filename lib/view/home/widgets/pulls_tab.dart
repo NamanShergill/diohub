@@ -33,9 +33,13 @@ class PullsTab extends StatelessWidget {
           if (item.pullRequest != null) filteredData.add(item);
         return filteredData;
       },
-      nonSearchFuture: (pageNumber, pageSize, refresh, _) {
+      nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, isAsc) {
         return IssuesService.getUserIssues(
-            pageNumber: pageNumber, perPage: pageSize, refresh: refresh);
+            pageNumber: pageNumber,
+            perPage: pageSize,
+            refresh: refresh,
+            sort: sort,
+            ascending: isAsc);
       },
     );
   }

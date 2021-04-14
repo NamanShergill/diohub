@@ -32,9 +32,13 @@ class IssuesTab extends StatelessWidget {
           if (item.pullRequest == null) filteredData.add(item);
         return filteredData;
       },
-      nonSearchFuture: (pageNumber, pageSize, refresh, _) {
+      nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, isAsc) {
         return IssuesService.getUserIssues(
-            pageNumber: pageNumber, perPage: pageSize, refresh: refresh);
+            pageNumber: pageNumber,
+            perPage: pageSize,
+            refresh: refresh,
+            ascending: isAsc,
+            sort: sort);
       },
     );
   }

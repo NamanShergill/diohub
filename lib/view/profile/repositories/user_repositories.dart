@@ -25,12 +25,13 @@ class UserRepositories extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
         searchHeroTag: '${userInfoModel.login}Search',
-        nonSearchFuture: (pageNumber, pageSize, refresh, _) {
+        nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, order) {
           if (currentUser!)
             return UserInfoService.getCurrentUserRepos(
-                pageSize, pageNumber, refresh);
+                pageSize, pageNumber, refresh,
+                sort: sort, ascending: order);
           return UserInfoService.getUserRepos(
-              userInfoModel.login, pageSize, pageNumber, refresh);
+              userInfoModel.login, pageSize, pageNumber, refresh, sort);
         },
       ),
     );

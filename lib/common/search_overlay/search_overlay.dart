@@ -496,7 +496,6 @@ class _SearchBarState extends State<_SearchBar> {
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: CustomExpandTile(
@@ -537,32 +536,6 @@ class _SearchBarState extends State<_SearchBar> {
                   itemCount: widget._searchFilters.whiteListedQueries.length),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
-          //   child: Material(
-          //     elevation: 2,
-          //     borderRadius: AppThemeBorderRadius.medBorderRadius,
-          //     color: AppColor.onBackground,
-          //     child: Padding(
-          //       padding:
-          //           const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
-          //       child: DropdownButton<String>(
-          //           isExpanded: true,
-          //           value: 'created-desc',
-          //           onChanged: (String? newValue) {
-          //             setState(() {});
-          //           },
-          //           dropdownColor: AppColor.onBackground,
-          //           underline: Container(),
-          //           items: widget.searchFilters.sortOptions.entries.map((e) {
-          //             return DropdownMenuItem<String>(
-          //               value: e.key,
-          //               child: Text(e.value),
-          //             );
-          //           }).toList()),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -1117,10 +1090,12 @@ class SearchData {
   final SearchFilters? searchFilters;
   final List<String> _defaultFilters;
   final bool multiType;
+  final String sort;
   SearchData({
     this.query = '',
     this.filterStrings = const [],
     this.searchFilters,
+    this.sort = 'best',
     bool multiType = false,
     List<String> defaultHiddenFilters = const [],
   })  : _defaultFilters = defaultHiddenFilters,
@@ -1130,6 +1105,10 @@ class SearchData {
   String toString() {
     return query.trim() + ' ' + filterStrings.join(' ').trim() + ' ';
   }
+
+  String? get getSort => sort != 'best' ? sort.split('-').first : null;
+
+  bool? get isSortAsc => sort != 'best' ? sort.split('-').last == 'asc' : null;
 
   bool get isActive => toString().trim().isNotEmpty;
 
@@ -1141,23 +1120,21 @@ class SearchData {
         filterStrings.join(' ').trim();
   }
 
-  SearchData get cleared => SearchData(
-      query: '',
-      filterStrings: [],
-      multiType: multiType,
-      defaultHiddenFilters: _defaultFilters,
-      searchFilters: searchFilters);
+  SearchData get cleared => copyWith(
+      query: '', filterStrings: [], sort: 'best', searchFilters: searchFilters);
 
   SearchData copyWith(
       {String? query,
       List<String>? filterStrings,
       List<SearchQuery>? filters,
-      SearchFilters? searchFilters}) {
+      SearchFilters? searchFilters,
+      String? sort}) {
     return SearchData(
         query: query ?? this.query,
         filterStrings: filterStrings ?? this.filterStrings,
         defaultHiddenFilters: _defaultFilters,
         multiType: multiType,
+        sort: sort ?? this.sort,
         searchFilters: searchFilters ?? this.searchFilters);
   }
 }
