@@ -39,7 +39,9 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.CustomPage(
           entry: entry,
           child: _i3.SearchOverlayScreen(args.searchData,
-              message: args.message, onSubmit: args.onSubmit),
+              message: args.message,
+              heroTag: args.heroTag,
+              onSubmit: args.onSubmit),
           transitionsBuilder: _i1.TransitionsBuilders.fadeIn,
           opaque: true,
           barrierDismissible: false);
@@ -178,22 +180,31 @@ class SearchOverlayScreenRoute
   SearchOverlayScreenRoute(
       {required _i3.SearchData searchData,
       String? message,
+      String heroTag = 'search_bar',
       required void Function(_i3.SearchData) onSubmit})
       : super(name,
             path: '/search-overlay-screen',
             args: SearchOverlayScreenRouteArgs(
-                searchData: searchData, message: message, onSubmit: onSubmit));
+                searchData: searchData,
+                message: message,
+                heroTag: heroTag,
+                onSubmit: onSubmit));
 
   static const String name = 'SearchOverlayScreenRoute';
 }
 
 class SearchOverlayScreenRouteArgs {
   const SearchOverlayScreenRouteArgs(
-      {required this.searchData, this.message, required this.onSubmit});
+      {required this.searchData,
+      this.message,
+      this.heroTag = 'search_bar',
+      required this.onSubmit});
 
   final _i3.SearchData searchData;
 
   final String? message;
+
+  final String heroTag;
 
   final void Function(_i3.SearchData) onSubmit;
 }

@@ -5,14 +5,15 @@ import 'package:onehub/common/animations/size_expanded_widget.dart';
 class OverlayController {
   late void Function() open;
   late void Function() close;
+  late void Function() tapped;
 }
 
 class OverlayMenuWidget extends StatefulWidget {
   final Widget child;
   final Widget overlay;
   final bool initiallyVisible;
-  final Alignment childAnchor;
-  final Alignment portalAnchor;
+  final Alignment? childAnchor;
+  final Alignment? portalAnchor;
   final double heightMultiplier;
   final OverlayController controller;
   final double offSet;
@@ -25,7 +26,9 @@ class OverlayMenuWidget extends StatefulWidget {
       this.initiallyVisible = false,
       this.childAnchor = Alignment.bottomCenter,
       this.portalAnchor = Alignment.topCenter})
-      : assert(heightMultiplier <= 1);
+      : assert(heightMultiplier <= 1),
+        assert(childAnchor == null ? portalAnchor == null : true),
+        assert(portalAnchor == null ? childAnchor == null : true);
 
   @override
   _OverlayMenuWidgetState createState() =>
@@ -36,6 +39,7 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
   _OverlayMenuWidgetState(OverlayController controller) {
     controller.open = openOverlay;
     controller.close = closeOverlay;
+    controller.tapped = tapped;
   }
   late bool visible;
   @override
@@ -53,6 +57,12 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
   void closeOverlay() {
     setState(() {
       visible = false;
+    });
+  }
+
+  void tapped() {
+    setState(() {
+      visible = !visible;
     });
   }
 

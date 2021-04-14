@@ -2,6 +2,7 @@ import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
 import 'package:onehub/common/custom_expand_tile.dart';
@@ -15,10 +16,10 @@ import 'package:onehub/style/text_field_themes.dart';
 class SearchOverlayScreen extends StatefulWidget {
   final String? message;
   final ValueChanged<SearchData> onSubmit;
+  final String heroTag;
   final SearchData searchData;
-  final SearchFilters? searchFilters;
   SearchOverlayScreen(this.searchData,
-      {this.message, required this.onSubmit, this.searchFilters});
+      {this.message, this.heroTag = 'search_bar', required this.onSubmit});
   @override
   _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
 }
@@ -26,10 +27,12 @@ class SearchOverlayScreen extends StatefulWidget {
 class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
   late SearchData searchData;
   late SearchFilters searchFilters;
+  final OverlayController infoOverlay = OverlayController();
 
   @override
   void initState() {
-    searchFilters = widget.searchFilters ?? SearchFilters.repositories();
+    searchFilters =
+        widget.searchData.searchFilters ?? SearchFilters.repositories();
     searchData = widget.searchData;
     super.initState();
   }
@@ -62,6 +65,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
         return SearchFilters.repositories();
       case SearchType.issues_pulls:
         return SearchFilters.issuesPulls();
+      case SearchType.users:
+        return SearchFilters.users();
       default:
         return SearchFilters.repositories();
     }
@@ -87,8 +92,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     child: Material(
                       color: Colors.transparent,
                       child: _SearchBar(
-                        widget.searchFilters ?? searchFilters,
+                        searchFilters,
                         widget.searchData,
+                        heroTag: widget.heroTag,
                         onChanged: (data) {
                           setState(() {
                             searchData = data;
@@ -98,11 +104,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                       ),
                     ),
                   ),
-                  if (widget.searchFilters == null)
+                  if (widget.searchData.searchFilters == null)
                     Divider(
                       height: 0,
                     ),
-                  if (widget.searchFilters == null)
+                  if (widget.searchData.searchFilters == null)
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 8),
@@ -146,114 +152,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         expanded: expanded,
                       ),
                     ),
-                  Divider(
-                    height: 0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 8),
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(dividerColor: Colors.transparent),
-                      child: ExpansionTile(
-                        title: Text(
-                          'How to format your filters',
-                          style: TextStyle(fontSize: 14, color: AppColor.grey3),
-                        ),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              children: [
-                                Divider(),
-                                Text.rich(
-                                  TextSpan(children: [
-                                    TextSpan(
-                                        text:
-                                            'Search filters should be in the format '),
-                                    TextSpan(
-                                        text: 'filter:data',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(text: '.\n'),
-                                    TextSpan(
-                                        text:
-                                            'Example, label:"enhancement" will include all results with a label named enhancement.',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic)),
-                                  ]),
-                                  style: TextStyle(
-                                      fontSize: 13, color: AppColor.grey3),
-                                ),
-                                Divider(),
-                                Text.rich(
-                                  TextSpan(children: [
-                                    TextSpan(text: 'Add a '),
-                                    TextSpan(
-                                        text: 'minus (-)',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(
-                                        text:
-                                            ' before a search filter to exclude it from the results.\n'),
-                                    TextSpan(
-                                        text:
-                                            'Example, -label:"enhancement" will exclude all results with a label named enhancement.',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic)),
-                                  ]),
-                                  style: TextStyle(
-                                      fontSize: 13, color: AppColor.grey3),
-                                ),
-                                Divider(),
-                                Text.rich(
-                                  TextSpan(children: [
-                                    TextSpan(text: 'You can use '),
-                                    TextSpan(
-                                        text: 'AND, OR, NOT',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' operators in your query '),
-                                    TextSpan(
-                                        text: '(upto a maximum of 5 times)',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(text: '.\n'),
-                                    TextSpan(
-                                        text:
-                                            'Example, "jquery NOT bootstrap" matches results that do contain the word "jquery" but not "bootstrap".',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic)),
-                                  ]),
-                                  style: TextStyle(
-                                      fontSize: 13, color: AppColor.grey3),
-                                ),
-                                Divider(),
-                                Text.rich(
-                                  TextSpan(children: [
-                                    TextSpan(
-                                        text:
-                                            'Data containing whitespaces must be wrapped in quotes like '),
-                                    TextSpan(
-                                        text: 'filter:"filter info"',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(text: '.\n'),
-                                    TextSpan(
-                                        text:
-                                            'Example, label:"bug fix" will include all results with a label named bug fix.',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic)),
-                                  ]),
-                                  style: TextStyle(
-                                      fontSize: 13, color: AppColor.grey3),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  SizedBox(
+                    height: 150,
                   ),
                 ],
               ),
@@ -262,15 +162,157 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
               bottom: 16,
               left: 0,
               right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Hero(
-                      tag: 'homeNavButton',
-                      child: ClipOval(
+              child: KeyboardVisibilityBuilder(
+                  builder: (context, isKeyboardVisible) {
+                return OverlayMenuWidget(
+                  controller: infoOverlay,
+                  heightMultiplier: isKeyboardVisible ? 0.3 : 0.6,
+                  childAnchor: Alignment.topCenter,
+                  portalAnchor: Alignment.bottomCenter,
+                  overlay: Material(
+                    color: AppColor.onBackground,
+                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 8),
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(dividerColor: Colors.transparent),
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'How to format your filters',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Divider(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(children: [
+                                      TextSpan(
+                                          text:
+                                              'Search filters should be in the format '),
+                                      TextSpan(
+                                          text: 'filter:data',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(text: '.\n'),
+                                      TextSpan(
+                                          text:
+                                              'Example, label:enhancement will include all results with a label named enhancement.',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic)),
+                                    ]),
+                                  ),
+                                  Divider(),
+                                  Text.rich(
+                                    TextSpan(children: [
+                                      TextSpan(text: 'Add a '),
+                                      TextSpan(
+                                          text: 'minus (-)',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text:
+                                              ' before a search filter to exclude it from the results.\n'),
+                                      TextSpan(
+                                          text:
+                                              'Example, -label:"enhancement" will exclude all results with a label named enhancement.',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic)),
+                                    ]),
+                                  ),
+                                  Divider(),
+                                  Text.rich(
+                                    TextSpan(children: [
+                                      TextSpan(text: 'You can use '),
+                                      TextSpan(
+                                          text: 'AND, OR, NOT',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: ' operators in your query '),
+                                      TextSpan(
+                                          text: '(upto a maximum of 5 times)',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(text: '.\n'),
+                                      TextSpan(
+                                          text:
+                                              'Example, "jquery NOT bootstrap" matches results that do contain the word "jquery" but not "bootstrap".',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic)),
+                                    ]),
+                                  ),
+                                  Divider(),
+                                  Text.rich(
+                                    TextSpan(children: [
+                                      TextSpan(
+                                          text:
+                                              'Data containing whitespaces must be wrapped in quotes like '),
+                                      TextSpan(
+                                          text: 'filter:"filter info"',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(text: '.\n'),
+                                      TextSpan(
+                                          text:
+                                              'Example, label:"bug fix" will include all results with a label named bug fix.',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic)),
+                                    ]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Hero(
+                          tag: 'homeNavButton',
+                          child: Material(
+                            elevation: 2,
+                            type: MaterialType.circle,
+                            color: AppColor.onBackground,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: IconButton(
+                                iconSize: 25,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(LineIcons.arrowLeft),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Material(
+                          elevation: 2,
+                          type: MaterialType.circle,
                           color: AppColor.onBackground,
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -278,43 +320,62 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               iconSize: 25,
                               onPressed: () {
                                 Navigator.pop(context);
+                                widget.onSubmit(searchData.cleared);
                               },
-                              icon: Icon(LineIcons.times),
+                              icon: Icon(Icons.clear),
                               color: Colors.white,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Hero(
-                      tag: 'searchNavButton',
-                      child: ClipOval(
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Material(
                           elevation: 2,
+                          type: MaterialType.circle,
                           color: AppColor.onBackground,
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: IconButton(
                               iconSize: 25,
-                              onPressed: isValid
-                                  ? () {
-                                      Navigator.pop(context);
-                                      widget.onSubmit(SearchData());
-                                    }
-                                  : null,
-                              icon: Icon(LineIcons.search),
+                              onPressed: () {
+                                infoOverlay.tapped();
+                              },
+                              icon: Icon(LineIcons.info),
                               color: Colors.white,
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Hero(
+                          tag: 'searchNavButton',
+                          child: Material(
+                            elevation: isValid ? 2 : 0,
+                            type: MaterialType.circle,
+                            color: AppColor.onBackground,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: IconButton(
+                                iconSize: 25,
+                                onPressed: isValid
+                                    ? () {
+                                        Navigator.pop(context);
+                                        widget.onSubmit(searchData);
+                                      }
+                                    : null,
+                                icon: Icon(LineIcons.search),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              }),
             ),
           ],
         ),
@@ -324,13 +385,13 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
 }
 
 class _SearchBar extends StatefulWidget {
-  final SearchFilters searchFilters;
+  final SearchFilters _searchFilters;
   final SearchData searchData;
-
+  final String heroTag;
   final String? message;
   final ValueChanged<SearchData> onChanged;
-  _SearchBar(this.searchFilters, this.searchData,
-      {this.message, required this.onChanged});
+  _SearchBar(this._searchFilters, this.searchData,
+      {this.message, required this.onChanged, this.heroTag = 'search_bar'});
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -362,7 +423,7 @@ class _SearchBarState extends State<_SearchBar> {
             controller: suggestionsOverlayController,
             overlay: overlayWidget,
             child: Hero(
-              tag: 'search_bar',
+              tag: widget.heroTag,
               child: Material(
                 color: Colors.transparent,
                 child: ExtendedTextField(
@@ -383,7 +444,7 @@ class _SearchBarState extends State<_SearchBar> {
                     _suggestions(pattern);
                   },
                   specialTextSpanBuilder:
-                      _TextSpanBuilder(widget.searchFilters, controller),
+                      _TextSpanBuilder(widget._searchFilters, controller),
                   decoration: TextFieldTheme.inputDecoration(
                       hintText: widget.message,
                       icon: LineIcons.search,
@@ -393,11 +454,37 @@ class _SearchBarState extends State<_SearchBar> {
               ),
             ),
           ),
+          SizeExpandedSection(
+            expand: controller.text.trim().isNotEmpty,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: MaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.text = '';
+                      });
+                    },
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text('Tap to clear.'),
+                    )),
+                  ),
+                ),
+                Divider(
+                  height: 0,
+                ),
+              ],
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: CustomExpandTile(
               title: Text(
-                'All Queries',
+                'All Filters',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               onTap: () {
@@ -413,7 +500,7 @@ class _SearchBarState extends State<_SearchBar> {
                     return ListTile(
                       onTap: () {
                         addString(
-                            widget.searchFilters.whiteListedQueries[index]
+                            widget._searchFilters.whiteListedQueries[index]
                                     .query +
                                 ':',
                             addSpaceAtEnd: false,
@@ -424,13 +511,13 @@ class _SearchBarState extends State<_SearchBar> {
                         searchNode.requestFocus();
                       },
                       title: Text(
-                        widget.searchFilters.whiteListedQueries[index].query,
+                        widget._searchFilters.whiteListedQueries[index].query,
                         // style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     );
                   },
                   separatorBuilder: (context, index) => Divider(),
-                  itemCount: widget.searchFilters.whiteListedQueries.length),
+                  itemCount: widget._searchFilters.whiteListedQueries.length),
             ),
           ),
           // Padding(
@@ -552,15 +639,15 @@ class _SearchBarState extends State<_SearchBar> {
   void _parseQuery(String pattern) {
     List<String> filterStrings = [];
     List<SearchQuery> filters = [];
-    pattern.splitMapJoin(widget.searchFilters.allValidQueriesRegexp,
+    pattern.splitMapJoin(widget._searchFilters.allValidQueriesRegexp,
         onMatch: (Match m) {
       filterStrings.add(m[0]!);
       filters
-          .add(widget.searchFilters.queryFromString(m[0]!.split(':').first)!);
+          .add(widget._searchFilters.queryFromString(m[0]!.split(':').first)!);
       return '';
     });
     pattern =
-        pattern.replaceAll(widget.searchFilters.allInvalidQueriesRegExp, '');
+        pattern.replaceAll(widget._searchFilters.allInvalidQueriesRegExp, '');
     pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
     widget.onChanged(searchData.copyWith(
         query: pattern, filterStrings: filterStrings, filters: filters));
@@ -573,7 +660,7 @@ class _SearchBarState extends State<_SearchBar> {
     if (controller.selection.baseOffset == controller.text.length) {
       List<String> matches = getMatches(
           RegExp(
-              '${widget.searchFilters.allValidQueriesRegexp.pattern}|${widget.searchFilters.allInvalidQueriesRegExp.pattern}'),
+              '${widget._searchFilters.allValidQueriesRegexp.pattern}|${widget._searchFilters.allInvalidQueriesRegExp.pattern}'),
           pattern);
       String typedData = '';
       SearchQuery? query;
@@ -584,13 +671,13 @@ class _SearchBarState extends State<_SearchBar> {
             String queryString = element.split(':').first;
             if (queryString.startsWith('-'))
               queryString = queryString.substring(1);
-            query = widget.searchFilters.queryFromString(queryString);
+            query = widget._searchFilters.queryFromString(queryString);
           }
         },
       );
       List<String?> completedQueries = getMatches(
           RegExp(
-              '${widget.searchFilters.validSensitiveQueriesRegExp.pattern}|${widget.searchFilters.invalidSensitiveQueriesRegExp.pattern}|${widget.searchFilters.validBasicQueriesRegExp.pattern}'),
+              '${widget._searchFilters.validSensitiveQueriesRegExp.pattern}|${widget._searchFilters.invalidSensitiveQueriesRegExp.pattern}|${widget._searchFilters.validBasicQueriesRegExp.pattern}'),
           pattern);
       bool isLastQueryActive = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
@@ -599,14 +686,14 @@ class _SearchBarState extends State<_SearchBar> {
         typedData = pattern.split(' ').last;
         if (typedData.startsWith('-')) typedData = typedData.substring(1);
         if (typedData.isNotEmpty) {
-          widget.searchFilters.whiteListedQueriesStrings.forEach((element) {
+          widget._searchFilters.whiteListedQueriesStrings.forEach((element) {
             if (element.startsWith(typedData)) filteredOptions.add(element);
           });
 
           _showOverlay(list(filteredOptions.length, (context, index) {
             return ListTile(
               onTap: () {
-                SearchQuery query = widget.searchFilters
+                SearchQuery query = widget._searchFilters
                     .queryFromString(filteredOptions[index])!;
                 addString(filteredOptions[index] + ':',
                     addQuotesAtEnd: query.options == null &&
@@ -622,6 +709,8 @@ class _SearchBarState extends State<_SearchBar> {
           }, key: Key(typedData)));
         }
       } else if (query?.type == QueryType.number && (typedData.isEmpty)) {
+        // return [0, typedData];
+      } else if (query?.type == QueryType.date && (typedData.isEmpty)) {
         // return [0, typedData];
       } else if ((query?.type == QueryType.user ||
               query?.type == QueryType.org) &&
@@ -700,8 +789,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
               //     searchFilters.allInvalidQueriesRegExp.pattern
               ), onMatch: (Match m) {
         // if (searchFilters.allValidQueriesRegexp.hasMatch(m[0]!))
-        inlineList
-            .add(_ValidQuery(m[0]!, 1, controller, textStyle).finishText());
+        inlineList.add(_ValidQuery(m[0]!, controller, textStyle).finishText());
         // else if (searchFilters.allInvalidQueriesRegExp.hasMatch(m[0]!))
         //   inlineList.add(_InValidQuery(m[0]!, 1, controller, textStyle,
         //           searchFilters.blacklistRegExp.hasMatch(m[0]!))
@@ -775,8 +863,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
 }
 
 class _ValidQuery extends SpecialText {
-  _ValidQuery(
-      String startFlag, this.start, this.controller, TextStyle? textStyle)
+  _ValidQuery(String startFlag, this.controller, TextStyle? textStyle)
       : super(
           startFlag,
           '',
@@ -784,8 +871,6 @@ class _ValidQuery extends SpecialText {
         );
 
   final TextEditingController controller;
-
-  final int start;
 
   @override
   InlineSpan finishText() {
@@ -860,7 +945,6 @@ class _ValidQuery extends SpecialText {
               ),
             )),
       ),
-      start: start,
       actualText: toString(),
       deleteAll: false,
     );
@@ -963,15 +1047,37 @@ class SearchData {
   final String query;
   final List<String> filterStrings;
   final List<SearchQuery> filters;
+  final SearchFilters? searchFilters;
+  final List<String> _defaultFilters;
   SearchData(
       {this.query = '',
       this.filterStrings = const [],
-      this.filters = const []});
+      this.searchFilters,
+      List<String> defaultFilters = const [],
+      this.filters = const []})
+      : _defaultFilters = defaultFilters;
 
   @override
   String toString() {
-    return query.trim() + ' ' + filterStrings.join(' ').trim();
+    return query.trim() + ' ' + filterStrings.join(' ').trim() + ' ';
   }
+
+  bool get isActive => toString().trim().isNotEmpty;
+
+  String toQuery() {
+    return query.trim() +
+        ' ' +
+        _defaultFilters.join(' ').trim() +
+        ' ' +
+        filterStrings.join(' ').trim();
+  }
+
+  SearchData get cleared => SearchData(
+      filters: [],
+      query: '',
+      filterStrings: [],
+      defaultFilters: _defaultFilters,
+      searchFilters: searchFilters);
 
   SearchData copyWith(
       {String? query,
@@ -980,6 +1086,8 @@ class SearchData {
     return SearchData(
         filters: filters ?? this.filters,
         query: query ?? this.query,
-        filterStrings: filterStrings ?? this.filterStrings);
+        filterStrings: filterStrings ?? this.filterStrings,
+        defaultFilters: _defaultFilters,
+        searchFilters: searchFilters);
   }
 }

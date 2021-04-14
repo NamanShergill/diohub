@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:graphql/client.dart' hide Response;
 import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/app/graphQL/getGraphQl.dart';
+import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:onehub/models/search/searchReposModel.dart';
 import 'package:onehub/models/search/search_users_graphQL_model.dart';
 import 'package:onehub/models/search/search_users_model.dart';
 import 'package:onehub/models/users/user_info_model.dart';
@@ -20,6 +22,21 @@ class SearchService {
       },
     );
     return SearchUsersModel.fromJson(response.data).items;
+  }
+
+  static Future<List<RepositoryModel>> searchRepos(String query,
+      {String? sort, bool ascending = true, int? perPage, int? page}) async {
+    Response response = await GetDio.getDio().get(
+      '/search/repositories',
+      queryParameters: {
+        'q': query,
+        'sort': sort,
+        'order': ascending ? 'asc' : 'desc',
+        'per_page': perPage,
+        'page': page,
+      },
+    );
+    return SearchReposModel.fromJson(response.data).items;
   }
 
   static Future<List<UserEdge>> searchMentionUsers(

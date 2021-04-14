@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onehub/app/global.dart';
@@ -178,11 +179,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
           itemBuilder: (context, T item, index) => Column(children: [
             if (index == 0)
               Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     height: widget.topSpacing,
                   ),
-                  if (widget.header != null) widget.header!(context),
+                  if (widget.header != null)
+                    Flexible(child: widget.header!(context)),
                 ],
               ),
             Visibility(
@@ -213,7 +216,11 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
           noItemsFoundIndicatorBuilder: (context) => Center(
               child: Column(
             children: [
-              if (widget.header != null) widget.header!(context),
+              SizedBox(
+                height: widget.topSpacing,
+              ),
+              if (widget.header != null)
+                Flexible(child: widget.header!(context)),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(

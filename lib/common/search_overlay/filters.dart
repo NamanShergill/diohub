@@ -90,6 +90,11 @@ class SearchFilters {
       searchQueries.archived,
       searchQueries.created,
       searchQueries.followers,
+      searchQueries.fork
+        ..addOptions({
+          'true': '',
+          'only': '',
+        }),
       searchQueries.forks,
       searchQueries.goodFirstIssues,
       searchQueries.helpWantedIssues,
@@ -150,20 +155,24 @@ class SearchFilters {
         },
         _searchType = SearchType.issues_pulls {
     _filterQueries([
-      searchQueries.author,
-      searchQueries.assignee,
       searchQueries.archived,
+      searchQueries.assignee,
+      searchQueries.author,
+      searchQueries.base,
+      searchQueries.closed,
+      searchQueries.commenter,
+      searchQueries.comments,
+      searchQueries.created,
+      searchQueries.draft,
+      searchQueries.head,
       searchQueries.iN
         ..addOptions({
           'title': 'Name',
           'body': 'Description',
           'comments': 'Readme',
         }),
-      searchQueries.type
-        ..addOptions({
-          'pr': 'Pull Request',
-          'issue': 'Issue',
-        }),
+      searchQueries.interactions,
+      searchQueries.involves,
       searchQueries.iS
         ..addOptions({
           'open': '',
@@ -178,11 +187,16 @@ class SearchFilters {
           'locked': '',
           'unlocked': '',
         }),
-      searchQueries.state
+      searchQueries.label,
+      searchQueries.language,
+      searchQueries.linked
         ..addOptions({
-          'open': '',
-          'closed': '',
+          'pr': '',
+          'issue': '',
         }),
+      searchQueries.milestone,
+      searchQueries.mentions,
+      searchQueries.merged,
       searchQueries.no
         ..addOptions({
           'label': '',
@@ -190,15 +204,10 @@ class SearchFilters {
           'assignee': '',
           'project': '',
         }),
-      searchQueries.team,
-      searchQueries.head,
-      searchQueries.base,
-      searchQueries.language,
-      searchQueries.comments,
-      searchQueries.interactions,
+      searchQueries.org,
+      searchQueries.project,
       searchQueries.reactions,
-      searchQueries.draft,
-      searchQueries.commenter,
+      searchQueries.repo,
       searchQueries.review
         ..addOptions({
           'none': '',
@@ -207,30 +216,61 @@ class SearchFilters {
           'changes_requested': '',
         }),
       searchQueries.reviewRequested,
-      searchQueries.teamReviewRequested,
-      searchQueries.involves,
-      searchQueries.created,
-      searchQueries.updated,
-      searchQueries.closed,
-      searchQueries.merged,
-      searchQueries.linked
+      searchQueries.state
         ..addOptions({
-          'pr': '',
-          'issue': '',
+          'open': '',
+          'closed': '',
         }),
-      searchQueries.label,
-      searchQueries.milestone,
       searchQueries.status
         ..addOptions({
           'pending': '',
           'success': '',
           'failure': '',
         }),
-      searchQueries.mentions,
-      searchQueries.project,
+      searchQueries.team,
+      searchQueries.teamReviewRequested,
+      searchQueries.type
+        ..addOptions({
+          'pr': 'Pull Request',
+          'issue': 'Issue',
+        }),
+      searchQueries.updated,
       searchQueries.user,
+    ], blacklist);
+  }
+
+  /// Create a [SearchFilters] instance with data of users search.
+  /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-users
+  SearchFilters.users({List<String> blacklist = const []})
+      : _sortOptions = {
+          'followers-desc': '',
+          'followers-asc': '',
+          'repositories-desc': '',
+          'repositories-asc': '',
+          'joined-desc': '',
+          'joined-asc': '',
+        },
+        _searchType = SearchType.users {
+    _filterQueries([
+      searchQueries.created,
+      searchQueries.followers,
+      searchQueries.fullName,
+      searchQueries.iN
+        ..addOptions({
+          'login': '',
+          'name': '',
+          'email': '',
+        }),
+      searchQueries.language,
+      searchQueries.location,
       searchQueries.org,
-      searchQueries.repo,
+      searchQueries.repos,
+      searchQueries.type
+        ..addOptions({
+          'user': '',
+          'org': '',
+        }),
+      searchQueries.user,
     ], blacklist);
   }
 
@@ -350,7 +390,7 @@ class SearchFilters {
         (.*) -> Any character following.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    String regex = '(?:-)?(?:$filter)(.[^"]*)?(?:")?';
+    String regex = '(?:-)?(?:$filter)(((?:")(.[^"]*)(?:"))|(.[^"| ]*))?(?:")?';
     if (queries.isEmpty) regex = '(?!x)x';
     return RegExp(regex);
   }
@@ -426,7 +466,8 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.closed, type: QueryType.date);
   SearchQuery commenter =
       SearchQuery(SearchQueryStrings.commenter, type: QueryType.user);
-  SearchQuery comments = SearchQuery(SearchQueryStrings.comments);
+  SearchQuery comments =
+      SearchQuery(SearchQueryStrings.comments, type: QueryType.number);
   SearchQuery committer =
       SearchQuery(SearchQueryStrings.committer, type: QueryType.user);
   SearchQuery committerName = SearchQuery(SearchQueryStrings.committerName);
@@ -464,7 +505,8 @@ class SearchQueries {
   SearchQuery language = SearchQuery(SearchQueryStrings.language);
   SearchQuery license = SearchQuery(SearchQueryStrings.license);
   SearchQuery linked = SearchQuery(SearchQueryStrings.linked);
-  SearchQuery location = SearchQuery(SearchQueryStrings.location);
+  SearchQuery location =
+      SearchQuery(SearchQueryStrings.location, type: QueryType.spacedString);
   SearchQuery merge = SearchQuery(SearchQueryStrings.merge);
   SearchQuery merged =
       SearchQuery(SearchQueryStrings.merged, type: QueryType.date);
@@ -482,10 +524,12 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.project, customRegex: _projectRegex);
   SearchQuery pushed =
       SearchQuery(SearchQueryStrings.pushed, type: QueryType.date);
-  SearchQuery reactions = SearchQuery(SearchQueryStrings.reactions);
+  SearchQuery reactions =
+      SearchQuery(SearchQueryStrings.reactions, type: QueryType.number);
   SearchQuery repo =
       SearchQuery(SearchQueryStrings.repo, customRegex: _repoRegex);
-  SearchQuery repos = SearchQuery(SearchQueryStrings.repos);
+  SearchQuery repos =
+      SearchQuery(SearchQueryStrings.repos, type: QueryType.number);
   SearchQuery repositories = SearchQuery(SearchQueryStrings.repositories);
   SearchQuery review = SearchQuery(SearchQueryStrings.review);
   SearchQuery reviewedBy =
@@ -737,8 +781,10 @@ class SearchQuery {
       this.qualifierQuery = true})
       : this.type = customRegex != null ? QueryType.custom : type {
     if (type == QueryType.bool && options == null)
-      options = {'true': '', '"false"': ''};
+      options = {'true': '', 'false': ''};
   }
+
+  String toQueryString(String data) => '$query:"$data"';
 
   void addOptions(Map<String, String> options) {
     if (this.options == null) this.options = {};

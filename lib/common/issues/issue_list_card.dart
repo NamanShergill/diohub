@@ -111,7 +111,7 @@ class IssueListCard extends StatelessWidget {
                       ),
                       Text(
                         item.state == IssueState.CLOSED
-                            ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString())}.'
+                            ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
                         style: TextStyle(color: AppColor.grey3, fontSize: 12),
                       ),
