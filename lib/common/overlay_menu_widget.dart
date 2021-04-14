@@ -27,8 +27,7 @@ class OverlayMenuWidget extends StatefulWidget {
       this.childAnchor = Alignment.bottomCenter,
       this.portalAnchor = Alignment.topCenter})
       : assert(heightMultiplier <= 1),
-        assert(childAnchor == null ? portalAnchor == null : true),
-        assert(portalAnchor == null ? childAnchor == null : true);
+        assert((childAnchor == null) == (portalAnchor == null));
 
   @override
   _OverlayMenuWidgetState createState() =>

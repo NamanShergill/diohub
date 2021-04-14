@@ -7,7 +7,8 @@ class TextFieldTheme {
           {String? labelText,
           String? hintText,
           FocusNode? focusNode,
-          IconData? icon}) =>
+          IconData? icon,
+          Color? enabledBorderColor}) =>
       InputDecoration(
         contentPadding: EdgeInsets.all(16),
         labelText: labelText,
@@ -25,18 +26,20 @@ class TextFieldTheme {
         hintStyle:
             TextStyle(color: AppColor.grey3.withOpacity(0.7), fontSize: 12),
         filled: true,
-        enabledBorder: _enabledBorder,
+        enabledBorder: _enabledBorder(enabledBorderColor ?? Colors.transparent),
         focusedBorder: _focusedBorder,
         labelStyle: TextStyle(color: AppColor.grey3),
         border: _border,
       );
 
-  static OutlineInputBorder _border =
-      OutlineInputBorder(borderRadius: AppThemeBorderRadius.medBorderRadius);
+  static OutlineInputBorder _border = OutlineInputBorder(
+    borderRadius: AppThemeBorderRadius.medBorderRadius,
+  );
 
-  static OutlineInputBorder _enabledBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.transparent),
-      borderRadius: AppThemeBorderRadius.medBorderRadius);
+  static OutlineInputBorder _enabledBorder(Color borderColor) =>
+      OutlineInputBorder(
+          borderSide: BorderSide(color: borderColor),
+          borderRadius: AppThemeBorderRadius.medBorderRadius);
 
   static OutlineInputBorder _focusedBorder = OutlineInputBorder(
       borderSide: BorderSide(color: AppColor.grey3),

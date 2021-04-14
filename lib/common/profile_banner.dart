@@ -11,6 +11,7 @@ class ProfileTile extends StatelessWidget {
   final double size;
   final String? userLogin;
   final bool showName;
+  final String? fullName;
   final TextStyle textStyle;
   final EdgeInsets padding;
   final bool disableTap;
@@ -18,6 +19,7 @@ class ProfileTile extends StatelessWidget {
       {this.userLogin,
       this.padding = EdgeInsets.zero,
       this.size = 25,
+      this.fullName,
       this.disableTap = false,
       this.showName = false,
       this.textStyle = const TextStyle(color: Colors.white, fontSize: 15)});
@@ -61,14 +63,26 @@ class ProfileTile extends StatelessWidget {
                   },
                 ),
               ),
-              if (showName)
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    userLogin ?? 'N/A',
-                    style: textStyle,
-                  ),
-                ),
+              Column(
+                children: [
+                  if (fullName != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        fullName!,
+                        style: textStyle,
+                      ),
+                    ),
+                  if (showName)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        userLogin ?? 'N/A',
+                        style: textStyle,
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
         ),

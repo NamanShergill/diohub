@@ -91,8 +91,8 @@ class IssuesService {
       queryParameters: {
         'per_page': perPage,
         'page': pageNumber,
-        'sort': 'comments',
-        'state': 'all',
+        // 'sort': 'comments',
+        // 'state': 'all',
       },
     );
     List unParsedData = response.data;

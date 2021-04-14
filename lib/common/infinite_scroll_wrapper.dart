@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -70,6 +71,9 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   // Disable refreshing.
   final bool disableRefresh;
 
+  // Show header on no items.
+  final bool showHeaderOnNoItems;
+
   final bool shrinkWrap;
 
   InfiniteScrollWrapper(
@@ -88,6 +92,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.firstDivider = true,
       this.firstPageLoadingBuilder,
       this.scrollController,
+      this.showHeaderOnNoItems = true,
       this.shrinkWrap = false,
       this.listEndIndicator = true,
       this.spacing = 16})
@@ -162,8 +167,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
           _pagingController.appendPage(filteredItems, nextPageKey as int?);
       }
     } catch (error) {
-      Global.log.e(error);
-      _pagingController.error = error;
+      if (error is DioError) {
+        Global.log.e(error.response?.data);
+        _pagingController.error = error.response?.data;
+      } else {
+        Global.log.e(error.toString());
+        _pagingController.error = error;
+      }
     }
   }
 
@@ -219,13 +229,17 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
               SizedBox(
                 height: widget.topSpacing,
               ),
-              if (widget.header != null)
+              if (widget.header != null && widget.showHeaderOnNoItems)
                 Flexible(child: widget.header!(context)),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'And then there were none.',
-                  style: TextStyle(color: AppColor.grey3),
+              Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'And then there were none.',
+                      style: TextStyle(color: AppColor.grey3),
+                    ),
+                  ),
                 ),
               ),
             ],

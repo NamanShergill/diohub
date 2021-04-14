@@ -11,11 +11,14 @@ import 'package:onehub/style/textStyles.dart';
 class ProfileCard extends StatelessWidget {
   final UserInfoModel user;
   final bool compact;
-  ProfileCard(this.user, {this.compact = false});
+  final EdgeInsets padding;
+  ProfileCard(this.user,
+      {this.compact = false,
+      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+      padding: padding,
       child: Material(
         elevation: 2,
         color: AppColor.background,
@@ -27,12 +30,13 @@ class ProfileCard extends StatelessWidget {
                 .push(OtherUserProfileScreenRoute(login: user.login));
           },
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProfileTile(
                   user.avatarUrl,
+                  fullName: user.name,
                   showName: true,
                   userLogin: user.login,
                 ),

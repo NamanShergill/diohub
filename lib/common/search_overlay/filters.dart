@@ -4,6 +4,8 @@ class SearchFilters {
   List<SearchQuery> _blackList = [];
   final SearchType _searchType;
   final Map<String, String> _sortOptions;
+  RegExp? _numberQRegExp;
+  RegExp? _dateQRegExp;
   final SearchQueries searchQueries = SearchQueries();
 
   /// Get search type.
@@ -42,13 +44,19 @@ class SearchFilters {
   static RegExp get notOperatorRegExp =>
       RegExp('(?:NOT)(?:\\s)(?!(NOT|OR|AND))(\\w+)');
 
-  /// Get regexp to match AND/OR operators in a string.
+  /// Get regexp to match AND operators in a string.
   static RegExp get andOperatorRegExp => RegExp(
       '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:AND)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
 
-  /// Get regexp to matchOR operators in a string.
+  /// Get regexp to match OR operators in a string.
   static RegExp get orOperatorRegExp => RegExp(
       '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:OR)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
+
+  /// Get regexp to match number queries in a string.
+  RegExp? get numberQRegExp => _numberQRegExp;
+
+  /// Get regexp to match date queries in a string.
+  RegExp? get dateQRegExp => _dateQRegExp;
 
   // List<SearchQuery> get queries => _queries;
   // List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
@@ -177,8 +185,6 @@ class SearchFilters {
         ..addOptions({
           'open': '',
           'closed': '',
-          'pr': 'Pull Request',
-          'issue': 'Issue',
           'public': '',
           'internal': '',
           'private': '',
@@ -338,7 +344,13 @@ class SearchFilters {
     */
     List<String> numbersQ = numberQ.map((query) => '${query.query}:').toList();
     String numberRegexp =
-        '(?:-)?(?:${numbersQ.join('|')})${optionalQuotes('([><][=]?)?([0-9]+)')}(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})${optionalQuotes('([0-9]+)([.][.][*])')}(?=(\\s))|(?:-)?(?:${numbersQ.join('|')})${optionalQuotes('([*][.][.])([0-9]+)')}(?=(\\s))';
+        '(?:-)?(?:${numbersQ.join('|')})${optionalQuotes(rangeRegExp('([0-9]+)'))}(?=(\\s))';
+    _numberQRegExp = RegExp(numberRegexp.replaceAll('(?=(\\s))', ''));
+
+    List<String> datesQ = dateQ.map((query) => '${query.query}:').toList();
+    String dateRegexp =
+        '(?:-)?(?:${datesQ.join('|')})${optionalQuotes(rangeRegExp('([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))'))}(?=(\\s))';
+    _dateQRegExp = RegExp(dateRegexp.replaceAll('(?=(\\s))', ''));
 
     /*
         (?:-)? -> Optional [-] at start.
@@ -358,6 +370,7 @@ class SearchFilters {
     if (userQ.isNotEmpty) finalRegex.add(userRegExp);
     if (optionQ.isNotEmpty) finalRegex.add(optionRegexp);
     if (numberQ.isNotEmpty) finalRegex.add(numberRegexp);
+    if (dateQ.isNotEmpty) finalRegex.add(dateRegexp);
     if (customQ.isNotEmpty)
       customQ.forEach((element) {
         finalRegex.add(element.customRegex!);
@@ -419,6 +432,10 @@ class SearchFilters {
     if (allowSpace) return '(((?:")$spacedRegex(?:"))|($string))';
     return '(((?:")$string(?:"))|($string))';
   }
+
+  static String rangeRegExp(String string) {
+    return '(($string)([.][.])($string))|(($string)([.][.][*]))|(([*][.][.])($string))|(([><][=]?)?($string))';
+  }
 }
 
 class SearchQueries {
@@ -450,7 +467,7 @@ class SearchQueries {
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
   static String _repoRegex =
-      '(?:-)?(?:${SearchQueryStrings.repo}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
+      '(?:-)?(?:${SearchQueryStrings.repo}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(\/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
 
   SearchQuery archived =
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
@@ -499,7 +516,7 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.interactions, type: QueryType.number);
   SearchQuery involves =
       SearchQuery(SearchQueryStrings.involves, type: QueryType.user);
-  SearchQuery iS = SearchQuery(SearchQueryStrings.iS, qualifierQuery: false);
+  SearchQuery iS = SearchQuery(SearchQueryStrings.iS);
   SearchQuery label =
       SearchQuery(SearchQueryStrings.label, type: QueryType.spacedString);
   SearchQuery language = SearchQuery(SearchQueryStrings.language);
@@ -784,7 +801,8 @@ class SearchQuery {
       options = {'true': '', 'false': ''};
   }
 
-  String toQueryString(String data) => '$query:"$data"';
+  String toQueryString(String data) =>
+      data.contains(' ') ? '$query:"$data"' : '$query:$data';
 
   void addOptions(Map<String, String> options) {
     if (this.options == null) this.options = {};

@@ -6,6 +6,7 @@ import 'package:onehub/app/global.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:onehub/controller/internet_connectivity.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
+import 'package:onehub/providers/search_data_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         // Initialise Authentication Bloc and add event to check auth state.
         BlocProvider(
-          create: (_) => AuthenticationBloc()..add(CheckAuthState()),
+          create: (_) => AuthenticationBloc(),
           lazy: false,
         ),
       ],
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
               ),
               ChangeNotifierProvider(
                 create: (_) => NavigationProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => SearchDataProvider(),
               ),
             ],
             child: Portal(
