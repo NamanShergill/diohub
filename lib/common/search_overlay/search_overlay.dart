@@ -40,6 +40,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
     super.initState();
   }
 
+  bool get isEmpty =>
+      searchData.query.trim().isEmpty && searchData.filterStrings.isEmpty;
+
   bool get isValid {
     bool isValid = false;
     searchData.filterStrings.forEach((element) {
@@ -101,6 +104,12 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                           searchFilters,
                           widget.searchData,
                           heroTag: widget.heroTag,
+                          onSubmit: (data) {
+                            if (isValid) {
+                              Navigator.pop(context);
+                              widget.onSubmit(searchData);
+                            }
+                          },
                           onChanged: (data) {
                             setState(() {
                               searchData =
@@ -160,7 +169,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         ),
                       ),
                     SizedBox(
-                      height: 150,
+                      height: 250,
                     ),
                   ],
                 ),
@@ -173,7 +182,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     builder: (context, isKeyboardVisible) {
                   return OverlayMenuWidget(
                     controller: infoOverlay,
-                    heightMultiplier: isKeyboardVisible ? 0.3 : 0.6,
+                    heightMultiplier: isKeyboardVisible ? 0.3 : 0.5,
                     childAnchor: Alignment.topCenter,
                     portalAnchor: Alignment.bottomCenter,
                     overlay: Material(
@@ -293,90 +302,77 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         ),
                       ),
                     ),
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Material(
+                                elevation: 2,
+                                type: MaterialType.circle,
+                                color: AppColor.onBackground,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconButton(
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      infoOverlay.tapped();
+                                    },
+                                    icon: Icon(LineIcons.info),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           child: Hero(
                             tag: 'homeNavButton',
-                            child: Material(
+                            child: MaterialButton(
                               elevation: 2,
-                              type: MaterialType.circle,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                               color: AppColor.onBackground,
                               child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: IconButton(
-                                  iconSize: 25,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: Icon(LineIcons.arrowLeft),
-                                  color: Colors.white,
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Back'),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Material(
-                            elevation: 2,
-                            type: MaterialType.circle,
-                            color: AppColor.onBackground,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: IconButton(
-                                iconSize: 25,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  widget.onSubmit(searchData.cleared);
-                                },
-                                icon: Icon(Icons.clear),
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Material(
-                            elevation: 2,
-                            type: MaterialType.circle,
-                            color: AppColor.onBackground,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: IconButton(
-                                iconSize: 25,
-                                onPressed: () {
-                                  infoOverlay.tapped();
-                                },
-                                icon: Icon(LineIcons.info),
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           child: Hero(
                             tag: 'searchNavButton',
-                            child: Material(
-                              elevation: isValid ? 2 : 0,
-                              type: MaterialType.circle,
+                            child: MaterialButton(
+                              elevation: 2,
+                              onPressed: isValid || isEmpty
+                                  ? () {
+                                      Navigator.pop(context);
+                                      widget.onSubmit(searchData);
+                                    }
+                                  : null,
                               color: AppColor.onBackground,
                               child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: IconButton(
-                                  iconSize: 25,
-                                  onPressed: isValid
-                                      ? () {
-                                          Navigator.pop(context);
-                                          widget.onSubmit(searchData);
-                                        }
-                                      : null,
-                                  icon: Icon(LineIcons.search),
-                                  color: Colors.white,
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Search'),
+                                  ],
                                 ),
                               ),
                             ),
@@ -401,8 +397,12 @@ class _SearchBar extends StatefulWidget {
   final String heroTag;
   final String? message;
   final ValueChanged<SearchData> onChanged;
+  final ValueChanged<void> onSubmit;
   _SearchBar(this._searchFilters, this.searchData,
-      {this.message, required this.onChanged, this.heroTag = 'search_bar'});
+      {this.message,
+      required this.onChanged,
+      required this.onSubmit,
+      this.heroTag = 'search_bar'});
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -450,6 +450,10 @@ class _SearchBarState extends State<_SearchBar> {
                       controller.text = controller.text.replaceAll('\n', '');
                       if (!controller.text.endsWith(' '))
                         controller.text = controller.text + ' ';
+                      else {
+                        _parseQuery(pattern);
+                        widget.onSubmit(null);
+                      }
                       _moveControllerToEnd();
                     }
                     if (pattern.trim().isEmpty)
@@ -464,7 +468,6 @@ class _SearchBarState extends State<_SearchBar> {
                   }),
                   decoration: TextFieldTheme.inputDecoration(
                       hintText: widget.message,
-                      icon: LineIcons.search,
                       labelText: 'Searching For',
                       focusNode: searchNode),
                 ),
@@ -517,6 +520,8 @@ class _SearchBarState extends State<_SearchBar> {
               children: [
                 Divider(
                   height: 8,
+                  endIndent: 8,
+                  indent: 8,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -534,6 +539,9 @@ class _SearchBarState extends State<_SearchBar> {
                       child: Text('Tap to Clear'),
                     )),
                   ),
+                ),
+                SizedBox(
+                  height: 4,
                 ),
               ],
             ),
@@ -658,7 +666,6 @@ class _SearchBarState extends State<_SearchBar> {
       else if (widget._searchFilters.numberQRegExp!.hasMatch(string))
         string = string.splitMapJoin(widget._searchFilters.numberQRegExp!,
             onMatch: (Match m) {
-          print(m[0]!);
           String string = m[0]!.splitMapJoin(
               RegExp('((([0-9]+))([.][.])(([0-9]+)))'), onMatch: (Match m) {
             String data = m[0]!;
@@ -1123,7 +1130,10 @@ class SearchData {
   }
 
   SearchData get cleared => copyWith(
-      query: '', filterStrings: [], sort: 'best', searchFilters: searchFilters);
+      query: '',
+      filterStrings: [],
+      sort: 'best',
+      searchFilters: multiType ? null : searchFilters);
 
   SearchData copyWith(
       {String? query,

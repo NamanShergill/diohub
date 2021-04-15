@@ -72,7 +72,6 @@ class _SearchBarState extends State<SearchBar> {
         child: Column(
           children: [
             Material(
-              elevation: 2,
               borderRadius: searchData?.searchFilters != null
                   // && searchData?.isActive == true
                   ? BorderRadius.only(
@@ -235,38 +234,85 @@ class _SearchBarState extends State<SearchBar> {
             if (searchData?.searchFilters != null
             // && searchData?.isActive == true
             )
-              Material(
-                color: AppColor.background,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: AppThemeBorderRadius.medBorderRadius.bottomLeft,
-                    bottomRight:
-                        AppThemeBorderRadius.medBorderRadius.bottomRight),
-                child: CustomExpandTile(
-                  title: Text(searchData!
-                          .searchFilters!.sortOptions[searchData!.sort] ??
-                      'Best Match'),
-                  expanded: expanded,
-                  child: Column(
-                    children: getWithoutValue(searchData!.sort,
-                            widget.searchData!.searchFilters!.sortOptions)
-                        .entries
-                        .map((e) {
-                      return ListTile(
-                        title: Text(e.value),
-                        onTap: () {
-                          setState(() {
-                            searchData = searchData!.copyWith(sort: e.key);
-                          });
-                          widget.onSubmit(searchData!);
-                          changeExpanded();
-                        },
-                      );
-                    }).toList(),
+              Column(
+                children: [
+                  Divider(
+                    height: 0,
                   ),
-                  onTap: () {
-                    changeExpanded();
-                  },
-                ),
+                  Material(
+                    color: AppColor.background,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft:
+                            AppThemeBorderRadius.medBorderRadius.bottomLeft,
+                        bottomRight:
+                            AppThemeBorderRadius.medBorderRadius.bottomRight),
+                    child: CustomExpandTile(
+                      title: Text(
+                        searchData!
+                                .searchFilters!.sortOptions[searchData!.sort] ??
+                            'Best Match',
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: expanded ? AppColor.accent : Colors.white),
+                      ),
+                      expanded: expanded,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 1.0),
+                            child: Divider(
+                              height: 0,
+                            ),
+                          ),
+                          ListView.separated(
+                              separatorBuilder: (context, index) {
+                                return Divider(
+                                  height: 0,
+                                );
+                              },
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: getWithoutValue(
+                                      searchData!.sort,
+                                      widget.searchData!.searchFilters!
+                                          .sortOptions)
+                                  .length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(
+                                    getWithoutValue(
+                                            searchData!.sort,
+                                            widget.searchData!.searchFilters!
+                                                .sortOptions)
+                                        .values
+                                        .toList()[index],
+                                    style:
+                                        Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      searchData = searchData!.copyWith(
+                                          sort: getWithoutValue(
+                                                  searchData!.sort,
+                                                  widget
+                                                      .searchData!
+                                                      .searchFilters!
+                                                      .sortOptions)
+                                              .keys
+                                              .toList()[index]);
+                                    });
+                                    widget.onSubmit(searchData!);
+                                    changeExpanded();
+                                  },
+                                );
+                              }),
+                        ],
+                      ),
+                      onTap: () {
+                        changeExpanded();
+                      },
+                    ),
+                  ),
+                ],
               )
           ],
         ),

@@ -75,6 +75,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
   final bool shrinkWrap;
 
+  final bool isNestedScrollViewChild;
+
   InfiniteScrollWrapper(
       {Key? key,
       required this.future,
@@ -87,6 +89,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
+      this.isNestedScrollViewChild = false,
       this.disableScroll = false,
       this.disableRefresh = false,
       this.firstDivider = true,
@@ -186,6 +189,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
             : BouncingScrollPhysics(),
         shrinkWrap: widget.shrinkWrap,
         slivers: [
+          if (widget.isNestedScrollViewChild)
+            SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            ),
           if (widget.header != null)
             SliverToBoxAdapter(
               child: widget.header!(context),

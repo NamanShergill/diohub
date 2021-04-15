@@ -132,31 +132,28 @@ class _HomeScreenState extends State<HomeScreen>
         },
         body: Container(
           color: AppColor.onBackground,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 150),
-            child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-              childBuilder: (context, value) {
-                return Builder(
-                  builder: (context) {
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                    return LoginCheckWrapper(
-                      child: TabBarView(
-                        controller: _tabController,
-                        physics: BouncingScrollPhysics(),
-                        children: [
-                          Events(),
-                          IssuesTab(),
-                          PullsTab(),
-                          Events(
-                            privateEvents: false,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+          child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+            childBuilder: (context, value) {
+              return Builder(
+                builder: (context) {
+                  NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+                  return LoginCheckWrapper(
+                    child: TabBarView(
+                      controller: _tabController,
+                      physics: BouncingScrollPhysics(),
+                      children: [
+                        Events(),
+                        IssuesTab(),
+                        PullsTab(),
+                        Events(
+                          privateEvents: false,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ),
       ),
