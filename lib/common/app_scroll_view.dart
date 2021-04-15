@@ -6,8 +6,9 @@ import 'package:onehub/style/colors.dart';
 import 'app_tab_bar.dart';
 
 class AppScrollView extends StatelessWidget {
-  final ScrollViewAppBar? scrollViewAppBar;
+  final Widget? scrollViewAppBar;
   final List<Widget>? tabViews;
+  final Widget? child;
   final bool loading;
   final TabController? tabController;
   final Color childrenColor;
@@ -15,6 +16,7 @@ class AppScrollView extends StatelessWidget {
       {this.scrollViewAppBar,
       this.tabController,
       this.tabViews,
+      this.child,
       this.childrenColor = AppColor.onBackground,
       this.loading = false});
   @override
@@ -44,14 +46,16 @@ class AppScrollView extends StatelessWidget {
                     ),
                   ],
                 ))
-            : Container(
-                color: childrenColor,
-                child: TabBarView(
-                  controller: tabController,
-                  children: List.generate(
-                      tabViews!.length, (index) => tabViews![index]),
-                ),
-              ),
+            : child != null
+                ? child
+                : Container(
+                    color: childrenColor,
+                    child: TabBarView(
+                      controller: tabController,
+                      children: List.generate(
+                          tabViews!.length, (index) => tabViews![index]),
+                    ),
+                  ),
       );
     }));
   }
@@ -66,12 +70,16 @@ class ScrollViewAppBar extends StatelessWidget {
   final double? bottomPadding;
   final TabController? tabController;
   final Widget? bottomHeader;
+  final Color? backgroundColor;
+  final EdgeInsets? padding;
   ScrollViewAppBar(
       {this.tabs,
       this.appBarWidget,
       this.bottomHeader,
+      this.backgroundColor,
       this.tabController,
       this.bottomPadding,
+      this.padding,
       this.flexibleBackgroundWidget,
       this.collapsedHeight,
       this.expandedHeight});
@@ -86,36 +94,40 @@ class ScrollViewAppBar extends StatelessWidget {
               },
             )
           : null,
+      backgroundColor: backgroundColor,
       title: SliverAppBarTitle(child: appBarWidget),
       pinned: true,
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
-          padding:
-              const EdgeInsets.only(top: 16, right: 24, left: 24, bottom: 60),
+          padding: padding ??
+              EdgeInsets.only(
+                  top: 16, right: 24, left: 24, bottom: tabs != null ? 60 : 0),
           child: flexibleBackgroundWidget,
         ),
       ),
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(bottomPadding ?? 0),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: bottomHeader ?? Container(),
-            ),
-            AppTabBar(
-              controller: tabController,
-              tabs: List.generate(
-                  tabs!.length,
-                  (index) => AppTab(
-                        title: tabs![index],
-                      )),
-            ),
-          ],
-        ),
-      ),
+      bottom: tabs != null
+          ? PreferredSize(
+              preferredSize: Size.fromHeight(bottomPadding ?? 0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: bottomHeader ?? Container(),
+                  ),
+                  AppTabBar(
+                    controller: tabController,
+                    tabs: List.generate(
+                        tabs!.length,
+                        (index) => AppTab(
+                              title: tabs![index],
+                            )),
+                  ),
+                ],
+              ),
+            )
+          : null,
     );
   }
 }

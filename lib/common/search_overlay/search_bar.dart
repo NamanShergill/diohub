@@ -17,8 +17,6 @@ class SearchBar extends StatefulWidget {
   final String _heroTag;
   final List<String>? applyFiltersOnOpen;
   final ValueChanged<String>? onSortChanged;
-  final Map<String, String>? sortOptions;
-  // final ValueChanged
 
   SearchBar(
       {this.message,
@@ -26,13 +24,14 @@ class SearchBar extends StatefulWidget {
       this.searchData,
       String? heroTag,
       this.updateBarOnChange = true,
-      this.sortOptions,
       this.applyFiltersOnOpen,
       this.onSortChanged,
       this.backgroundColor = AppColor.onBackground,
-      required this.onSubmit})
+      required this.onSubmit,
+      Key? key})
       : _heroTag = heroTag ?? 'search_bar',
-        _prompt = prompt ?? 'Search or Jump to...';
+        _prompt = prompt ?? 'Search or Jump to...',
+        super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -53,6 +52,12 @@ class _SearchBarState extends State<SearchBar> {
       if (key != exclude) tMap.addAll({key: value});
     });
     return tMap;
+  }
+
+  void changeExpanded() {
+    setState(() {
+      expanded = !expanded;
+    });
   }
 
   bool expanded = false;
@@ -227,37 +232,6 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
             ),
-            if (widget.sortOptions != null && searchData?.isActive != true)
-              Material(
-                color: AppColor.background,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: AppThemeBorderRadius.medBorderRadius.bottomLeft,
-                    bottomRight:
-                        AppThemeBorderRadius.medBorderRadius.bottomRight),
-                child: CustomExpandTile(
-                  title: Text(
-                      widget.sortOptions![searchData!.sort] ?? 'Best Match'),
-                  expanded: expanded,
-                  child: Column(
-                    children: getWithoutValue(searchData!.sort,
-                            widget.searchData!.searchFilters!.sortOptions)
-                        .entries
-                        .map((e) {
-                      return ListTile(
-                        title: Text(e.value),
-                        onTap: () {
-                          widget.onSubmit(searchData!.copyWith(sort: e.key));
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      expanded = !expanded;
-                    });
-                  },
-                ),
-              ),
             if (searchData?.searchFilters != null
             // && searchData?.isActive == true
             )
@@ -280,15 +254,17 @@ class _SearchBarState extends State<SearchBar> {
                       return ListTile(
                         title: Text(e.value),
                         onTap: () {
-                          widget.onSubmit(searchData!.copyWith(sort: e.key));
+                          setState(() {
+                            searchData = searchData!.copyWith(sort: e.key);
+                          });
+                          widget.onSubmit(searchData!);
+                          changeExpanded();
                         },
                       );
                     }).toList(),
                   ),
                   onTap: () {
-                    setState(() {
-                      expanded = !expanded;
-                    });
+                    changeExpanded();
                   },
                 ),
               )

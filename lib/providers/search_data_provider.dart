@@ -6,7 +6,10 @@ class SearchDataProvider extends BaseProvider {
 
   SearchData get searchData => _searchData;
   void updateSearchData(SearchData searchData) {
-    this._searchData = searchData;
+    if (!searchData.isActive && _searchData.getSort == null)
+      _searchData = SearchData(multiType: true);
+    else
+      this._searchData = searchData;
     notifyListeners();
   }
 }

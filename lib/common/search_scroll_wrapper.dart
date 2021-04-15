@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/issues/issue_list_card.dart';
 import 'package:onehub/common/profile_card.dart';
@@ -26,6 +27,7 @@ class SearchScrollWrapper extends StatefulWidget {
   final Color searchBarColor;
   final WidgetBuilder? header;
   final List<String>? applyFiltersOnOpen;
+  // Todo: Remove this?
   final WidgetBuilder? nonSearchBuilder;
   final ValueChanged<SearchData>? onChanged;
   SearchScrollWrapper(this.searchData,
@@ -41,7 +43,7 @@ class SearchScrollWrapper extends StatefulWidget {
       this.searchHeroTag,
       this.filterFn,
       Key? key})
-      : _searchBarPadding = searchBarPadding ?? padding,
+      : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 16),
         super(key: key);
   @override
   _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
@@ -56,126 +58,255 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     super.initState();
   }
 
+  final GlobalKey searchBarKey = GlobalKey();
+  Size? size;
   InfiniteScrollWrapperController controller =
       InfiniteScrollWrapperController();
 
   @override
   Widget build(BuildContext context) {
-    Widget header(context) {
-      return Padding(
-        padding: widget._searchBarPadding,
-        child: SearchBar(
-          heroTag: widget.searchHeroTag,
-          searchData: searchData,
-          applyFiltersOnOpen: widget.applyFiltersOnOpen,
-          prompt: widget.searchBarMessage,
-          backgroundColor: widget.searchBarColor,
-          onSubmit: (data) {
-            setState(() {
-              searchData = data;
-            });
-            if (widget.onChanged != null) widget.onChanged!(data);
-            controller.refresh();
-          },
-        ),
-      );
-    }
+    Widget header(context) => Padding(
+          key: searchBarKey,
+          padding: widget._searchBarPadding,
+          child: SearchBar(
+            heroTag: widget.searchHeroTag,
+            searchData: searchData,
+            applyFiltersOnOpen: widget.applyFiltersOnOpen,
+            prompt: widget.searchBarMessage,
+            backgroundColor: widget.searchBarColor,
+            onSubmit: (data) {
+              setState(() {
+                searchData = data;
+              });
+              if (widget.onChanged != null) widget.onChanged!(data);
+              controller.refresh();
+            },
+          ),
+        );
 
-    if (searchData.searchFilters == null ||
-        (!searchData.isActive &&
-            (widget.nonSearchBuilder != null || widget.header != null)))
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (widget.header != null) widget.header!(context),
-          header(context),
-          if (widget.nonSearchBuilder != null)
-            Expanded(
-              child: Padding(
-                padding: widget.padding,
-                child: widget.nonSearchBuilder!(context),
-              ),
-            ),
-        ],
-      );
-    if (searchData.searchFilters!.searchType == SearchType.repositories)
-      return _InfiniteWrapper<RepositoryModel>(
-        key: Key(searchData.toQuery() + searchData.isActive.toString()),
-        controller: controller,
-        header: (context) {
-          return header(context);
+    return Container(
+      color: AppColor.onBackground,
+      child: Builder(
+        builder: (context) {
+          if (searchData.searchFilters == null ||
+              (!searchData.isActive &&
+                  (widget.nonSearchBuilder != null || widget.header != null)))
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (widget.nonSearchBuilder != null)
+                  Padding(
+                    padding: widget.padding,
+                    child: widget.nonSearchBuilder!(context),
+                  ),
+              ],
+            );
+          if (searchData.searchFilters!.searchType == SearchType.repositories)
+            return _InfiniteWrapper<RepositoryModel>(
+              key: Key(searchData.toQuery() + searchData.isActive.toString()),
+              controller: controller,
+              searchData: searchData,
+              searchFuture: (pageNumber, pageSize, refresh, _) {
+                return SearchService.searchRepos(searchData.toQuery(),
+                    perPage: pageSize,
+                    page: pageNumber,
+                    sort: searchData.getSort,
+                    ascending: searchData.isSortAsc);
+              },
+              header: (context) {
+                return header(context);
+              },
+              builder: (context, item, index) {
+                return Padding(
+                  padding: widget.padding,
+                  child: RepositoryCard(
+                    item,
+                    padding: EdgeInsets.zero,
+                  ),
+                );
+              },
+            );
+          else if (searchData.searchFilters!.searchType ==
+              SearchType.issues_pulls)
+            return _InfiniteWrapper<IssueModel>(
+              key: Key(searchData.toQuery() + searchData.isActive.toString()),
+              filterFn: widget.filterFn,
+              controller: controller,
+              searchData: searchData,
+              searchFuture: (pageNumber, pageSize, refresh, _) {
+                return SearchService.searchIssues(searchData.toQuery(),
+                    perPage: pageSize,
+                    page: pageNumber,
+                    sort: searchData.getSort,
+                    ascending: searchData.isSortAsc);
+              },
+              header: (context) {
+                return header(context);
+              },
+              builder: (context, item, index) {
+                return Padding(
+                  padding: widget.padding,
+                  child: IssueListCard(
+                    item,
+                    padding: EdgeInsets.zero,
+                  ),
+                );
+              },
+            );
+          else if (searchData.searchFilters!.searchType == SearchType.users)
+            return _InfiniteWrapper<UserInfoModel>(
+              key: Key(searchData.toQuery() + searchData.isActive.toString()),
+              filterFn: widget.filterFn,
+              controller: controller,
+              searchData: searchData,
+              header: (context) {
+                return header(context);
+              },
+              searchFuture: (pageNumber, pageSize, refresh, _) {
+                return SearchService.searchUsers(searchData.toQuery(),
+                    perPage: pageSize,
+                    page: pageNumber,
+                    sort: searchData.getSort,
+                    ascending: searchData.isSortAsc);
+              },
+              builder: (context, item, index) {
+                return Padding(
+                  padding: widget.padding,
+                  child: ProfileCard(
+                    item,
+                    padding: EdgeInsets.zero,
+                  ),
+                );
+              },
+            );
+          return Container();
         },
-        searchData: searchData,
-        searchFuture: (pageNumber, pageSize, refresh, _) {
-          return SearchService.searchRepos(searchData.toQuery(),
-              perPage: pageSize,
-              page: pageNumber,
-              sort: searchData.getSort,
-              ascending: searchData.isSortAsc);
-        },
-        builder: (context, item, index) {
-          return Padding(
-            padding: widget.padding,
-            child: RepositoryCard(
-              item,
-              padding: EdgeInsets.zero,
-            ),
-          );
-        },
-      );
-    else if (searchData.searchFilters!.searchType == SearchType.issues_pulls)
-      return _InfiniteWrapper<IssueModel>(
-        key: Key(searchData.toQuery() + searchData.isActive.toString()),
-        filterFn: widget.filterFn,
-        controller: controller,
-        header: (context) {
-          return header(context);
-        },
-        searchData: searchData,
-        searchFuture: (pageNumber, pageSize, refresh, _) {
-          return SearchService.searchIssues(searchData.toQuery(),
-              perPage: pageSize,
-              page: pageNumber,
-              sort: searchData.getSort,
-              ascending: searchData.isSortAsc);
-        },
-        builder: (context, item, index) {
-          return Padding(
-            padding: widget.padding,
-            child: IssueListCard(
-              item,
-              padding: EdgeInsets.zero,
-            ),
-          );
-        },
-      );
-    else if (searchData.searchFilters!.searchType == SearchType.users)
-      return _InfiniteWrapper<UserInfoModel>(
-        key: Key(searchData.toQuery() + searchData.isActive.toString()),
-        filterFn: widget.filterFn,
-        controller: controller,
-        header: (context) {
-          return header(context);
-        },
-        searchData: searchData,
-        searchFuture: (pageNumber, pageSize, refresh, _) {
-          return SearchService.searchUsers(searchData.toQuery(),
-              perPage: pageSize,
-              page: pageNumber,
-              sort: searchData.getSort,
-              ascending: searchData.isSortAsc);
-        },
-        builder: (context, item, index) {
-          return Padding(
-            padding: widget.padding,
-            child: ProfileCard(
-              item,
-              padding: EdgeInsets.zero,
-            ),
-          );
-        },
-      );
-    return Container();
+      ),
+    );
+
+    // return NestedScrollView(
+    //   headerSliverBuilder: (context, _) {
+    //     return [
+    //       SliverOverlapAbsorber(
+    //         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+    //         sliver: SliverAppBar(
+    //           expandedHeight: 150,
+    //           collapsedHeight: 100,
+    //           pinned: true,
+    //           elevation: 2,
+    //           backgroundColor: AppColor.onBackground,
+    //           flexibleSpace: Padding(
+    //             padding: const EdgeInsets.only(bottom: 30.0),
+    //             // child: CollapsibleAppBar(
+    //             //   minHeight: 100,
+    //             //   maxHeight: 150,
+    //             //   child: SearchBar(
+    //             //     updateBarOnChange: false,
+    //             //     onSubmit: (data) {},
+    //             //   ),
+    //             // ),
+    //           ),
+    //         ),
+    //       ),
+    //     ];
+    //   },
+    //   body: Container(
+    //     color: AppColor.onBackground,
+    //     child: Padding(
+    //       padding: const EdgeInsets.only(top: 70),
+    //       child: Builder(
+    //         builder: (context) {
+    //           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+    //           if (searchData.searchFilters == null ||
+    //               (!searchData.isActive &&
+    //                   (widget.nonSearchBuilder != null ||
+    //                       widget.header != null)))
+    //             return Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 if (widget.nonSearchBuilder != null)
+    //                   Padding(
+    //                     padding: widget.padding,
+    //                     child: widget.nonSearchBuilder!(context),
+    //                   ),
+    //               ],
+    //             );
+    //           if (searchData.searchFilters!.searchType ==
+    //               SearchType.repositories)
+    //             return _InfiniteWrapper<RepositoryModel>(
+    //               // key: Key(searchData.toQuery() + searchData.isActive.toString()),
+    //               controller: controller,
+    //               searchData: searchData,
+    //               searchFuture: (pageNumber, pageSize, refresh, _) {
+    //                 return SearchService.searchRepos(searchData.toQuery(),
+    //                     perPage: pageSize,
+    //                     page: pageNumber,
+    //                     sort: searchData.getSort,
+    //                     ascending: searchData.isSortAsc);
+    //               },
+    //               builder: (context, item, index) {
+    //                 return Padding(
+    //                   padding: widget.padding,
+    //                   child: RepositoryCard(
+    //                     item,
+    //                     padding: EdgeInsets.zero,
+    //                   ),
+    //                 );
+    //               },
+    //             );
+    //           else if (searchData.searchFilters!.searchType ==
+    //               SearchType.issues_pulls)
+    //             return _InfiniteWrapper<IssueModel>(
+    //               // key: Key(searchData.toQuery() + searchData.isActive.toString()),
+    //               filterFn: widget.filterFn,
+    //               controller: controller,
+    //               searchData: searchData,
+    //               searchFuture: (pageNumber, pageSize, refresh, _) {
+    //                 return SearchService.searchIssues(searchData.toQuery(),
+    //                     perPage: pageSize,
+    //                     page: pageNumber,
+    //                     sort: searchData.getSort,
+    //                     ascending: searchData.isSortAsc);
+    //               },
+    //               builder: (context, item, index) {
+    //                 return Padding(
+    //                   padding: widget.padding,
+    //                   child: IssueListCard(
+    //                     item,
+    //                     padding: EdgeInsets.zero,
+    //                   ),
+    //                 );
+    //               },
+    //             );
+    //           else if (searchData.searchFilters!.searchType == SearchType.users)
+    //             return _InfiniteWrapper<UserInfoModel>(
+    //               // key: Key(searchData.toQuery() + searchData.isActive.toString()),
+    //               filterFn: widget.filterFn,
+    //               controller: controller,
+    //               searchData: searchData,
+    //               searchFuture: (pageNumber, pageSize, refresh, _) {
+    //                 return SearchService.searchUsers(searchData.toQuery(),
+    //                     perPage: pageSize,
+    //                     page: pageNumber,
+    //                     sort: searchData.getSort,
+    //                     ascending: searchData.isSortAsc);
+    //               },
+    //               builder: (context, item, index) {
+    //                 return Padding(
+    //                   padding: widget.padding,
+    //                   child: ProfileCard(
+    //                     item,
+    //                     padding: EdgeInsets.zero,
+    //                   ),
+    //                 );
+    //               },
+    //             );
+    //           return Container();
+    //         },
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -207,9 +338,9 @@ class _InfiniteWrapper<T> extends StatelessWidget {
         return searchFuture(pageNumber, pageSize, refresh, _);
       },
       divider: false,
-      showHeaderOnNoItems: searchData.isActive,
+      shrinkWrap: true,
       spacing: 4,
-      topSpacing: 8,
+      topSpacing: 0,
       builder: builder,
     );
   }

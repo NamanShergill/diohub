@@ -71,8 +71,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   // Disable refreshing.
   final bool disableRefresh;
 
-  // Show header on no items.
-  final bool showHeaderOnNoItems;
+  final bool disableScroll;
 
   final bool shrinkWrap;
 
@@ -88,11 +87,11 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
+      this.disableScroll = false,
       this.disableRefresh = false,
       this.firstDivider = true,
       this.firstPageLoadingBuilder,
       this.scrollController,
-      this.showHeaderOnNoItems = true,
       this.shrinkWrap = false,
       this.listEndIndicator = true,
       this.spacing = 16})
@@ -180,91 +179,92 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
   @override
   Widget build(BuildContext context) {
     Widget child = SizeExpandedSection(
-      child: PagedListView<int, T>(
-        scrollController: widget.scrollController,
-        physics: BouncingScrollPhysics(),
-        pagingController: _pagingController,
+      child: CustomScrollView(
+        controller: widget.scrollController,
+        physics: widget.disableScroll
+            ? NeverScrollableScrollPhysics()
+            : BouncingScrollPhysics(),
         shrinkWrap: widget.shrinkWrap,
-        builderDelegate: PagedChildBuilderDelegate<T>(
-          itemBuilder: (context, T item, index) => Column(children: [
-            if (index == 0)
-              Column(
-                mainAxisSize: MainAxisSize.min,
+        slivers: [
+          if (widget.header != null)
+            SliverToBoxAdapter(
+              child: widget.header!(context),
+            ),
+          PagedSliverList<int, T>(
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<T>(
+              itemBuilder: (context, T item, index) => Column(children: [
+                if (index == 0)
+                  SizedBox(
+                    height: widget.topSpacing,
+                  ),
+                Visibility(
+                  visible: widget.divider &&
+                      (index == 0 ? widget.firstDivider : true),
+                  child: Divider(
+                    height: widget.spacing,
+                  ),
+                ),
+                Padding(
+                  padding: widget.divider
+                      ? EdgeInsets.all(0)
+                      : EdgeInsets.only(top: widget.spacing),
+                  child: widget.builder!(context, item, index),
+                ),
+              ]),
+              firstPageProgressIndicatorBuilder: (context) =>
+                  widget.firstPageLoadingBuilder != null
+                      ? widget.firstPageLoadingBuilder!(context)
+                      : Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: LoadingIndicator(),
+                        ),
+              newPageProgressIndicatorBuilder: (context) => Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: LoadingIndicator(),
+              ),
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                  child: Column(
                 children: [
                   SizedBox(
                     height: widget.topSpacing,
                   ),
-                  if (widget.header != null)
-                    Flexible(child: widget.header!(context)),
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'And then there were none.',
+                          style: TextStyle(color: AppColor.grey3),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-            Visibility(
-              visible:
-                  widget.divider && (index == 0 ? widget.firstDivider : true),
-              child: Divider(
-                height: widget.spacing,
-              ),
-            ),
-            Padding(
-              padding: widget.divider
-                  ? EdgeInsets.all(0)
-                  : EdgeInsets.only(top: widget.spacing),
-              child: widget.builder!(context, item, index),
-            ),
-          ]),
-          firstPageProgressIndicatorBuilder: (context) =>
-              widget.firstPageLoadingBuilder != null
-                  ? widget.firstPageLoadingBuilder!(context)
+              )),
+              noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'The end of the line.',
+                            style: TextStyle(color: AppColor.grey3),
+                          ),
+                          SizedBox(
+                            height: widget.bottomSpacing,
+                          ),
+                        ],
+                      ),
+                    ))
                   : Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: LoadingIndicator(),
+                      padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                      child: Container(),
                     ),
-          newPageProgressIndicatorBuilder: (context) => Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: LoadingIndicator(),
-          ),
-          noItemsFoundIndicatorBuilder: (context) => Center(
-              child: Column(
-            children: [
-              SizedBox(
-                height: widget.topSpacing,
-              ),
-              if (widget.header != null && widget.showHeaderOnNoItems)
-                Flexible(child: widget.header!(context)),
-              Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'And then there were none.',
-                      style: TextStyle(color: AppColor.grey3),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )),
-          noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
-              ? Center(
-                  child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        'The end of the line.',
-                        style: TextStyle(color: AppColor.grey3),
-                      ),
-                      SizedBox(
-                        height: widget.bottomSpacing,
-                      ),
-                    ],
-                  ),
-                ))
-              : Padding(
-                  padding: EdgeInsets.only(bottom: widget.bottomSpacing),
-                  child: Container(),
-                ),
-        ),
+            ),
+          )
+        ],
       ),
     );
 
