@@ -201,11 +201,13 @@ class _IssueScreenState extends State<IssueScreen>
                             commentsSince: widget.commentsSince,
                             isLocked: value.issueModel!.locked! &&
                                 !value.editingEnabled!,
+                            scrollController: scrollController,
                             createdAt: value.issueModel!.createdAt,
                             issueUrl: value.issueModel!.url!,
                             initialComment: TimelineEventModel(
                                 createdAt: value.issueModel!.createdAt,
                                 event: Event.commented,
+                                url: value.issueModel!.url,
                                 user: value.issueModel!.user,
                                 authorAssociation:
                                     value.issueModel!.authorAssociation,

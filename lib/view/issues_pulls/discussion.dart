@@ -18,6 +18,8 @@ import 'package:onehub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:onehub/view/issues_pulls/widgets/discussion_comment.dart';
 
 class Discussion extends StatefulWidget {
+  final ScrollController scrollController;
+
   /// Show  comments since.
   final DateTime? commentsSince;
   final String issueUrl;
@@ -28,6 +30,7 @@ class Discussion extends StatefulWidget {
       {this.commentsSince,
       required this.issueUrl,
       this.isLocked,
+      required this.scrollController,
       this.createdAt,
       this.initialComment});
 
@@ -79,8 +82,10 @@ class _DiscussionState extends State<Discussion>
                           .toUtc()
                           .toIso8601String());
                 },
+                isNestedScrollViewChild: true,
                 controller: commentsSinceController,
                 bottomSpacing: 60,
+                scrollController: widget.scrollController,
                 header: (context) {
                   return Column(
                     children: [
@@ -154,6 +159,8 @@ class _DiscussionState extends State<Discussion>
                     child: LoadingIndicator(),
                   );
                 },
+                isNestedScrollViewChild: true,
+                scrollController: widget.scrollController,
                 bottomSpacing: 60,
                 filterFn: (List<TimelineEventModel> list) {
                   List<Event> allowedEvents = [

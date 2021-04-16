@@ -205,6 +205,7 @@ class _PullScreenState extends State<PullScreen>
                         tabViews: [
                           PullInformation(),
                           Discussion(
+                            scrollController: scrollController,
                             commentsSince: widget.commentsSince,
                             isLocked: value.pullModel!.locked! &&
                                 !value.editingEnabled!,
@@ -214,6 +215,7 @@ class _PullScreenState extends State<PullScreen>
                                 createdAt: value.pullModel!.createdAt,
                                 event: Event.commented,
                                 user: value.pullModel!.user,
+                                url: value.pullModel!.url,
                                 authorAssociation:
                                     value.pullModel!.authorAssociation,
                                 body: value.pullModel!.body!.isNotEmpty
