@@ -21,8 +21,11 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin {
+  final ScrollController scrollController = ScrollController();
+
   @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -36,6 +39,7 @@ class _SearchScreenState extends State<SearchScreen>
               onChanged: (data) {
                 _search.updateSearchData(data);
               },
+              scrollController: scrollController,
               // searchBarColor: AppColor.onBackground,
               searchHeroTag: 'searchScreen',
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

@@ -197,7 +197,159 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
   bool scrollAtOffset = false;
   @override
   Widget build(BuildContext context) {
-    Widget child = SizeExpandedSection(
+    Widget child = CustomScrollView(
+      controller: widget.isNestedScrollViewChild ? null : scrollController,
+      physics: widget.disableScroll
+          ? NeverScrollableScrollPhysics()
+          : BouncingScrollPhysics(),
+      shrinkWrap: widget.shrinkWrap,
+      slivers: [
+        if (widget.isNestedScrollViewChild)
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+        if (widget.pinnedHeader != null)
+          SliverPinnedHeader(
+              child: SizeExpandedSection(
+            expand: scrollAtOffset,
+            child: widget.pinnedHeader!(context),
+          )),
+        SliverStack(
+          children: [
+            MultiSliver(
+              children: [
+                if (widget.header != null)
+                  SliverToBoxAdapter(
+                    child: widget.header!(context),
+                  ),
+                PagedSliverList<int, T>(
+                  pagingController: _pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<T>(
+                    itemBuilder: (context, T item, index) => Column(children: [
+                      if (index == 0)
+                        SizedBox(
+                          height: widget.topSpacing,
+                        ),
+                      Visibility(
+                        visible: widget.divider &&
+                            (index == 0 ? widget.firstDivider : true),
+                        child: Divider(
+                          height: widget.spacing,
+                        ),
+                      ),
+                      Padding(
+                        padding: widget.divider
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.only(top: widget.spacing),
+                        child: widget.builder!(context, item, index),
+                      ),
+                    ]),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        widget.firstPageLoadingBuilder != null
+                            ? widget.firstPageLoadingBuilder!(context)
+                            : Padding(
+                                padding: const EdgeInsets.all(32.0),
+                                child: LoadingIndicator(),
+                              ),
+                    newPageProgressIndicatorBuilder: (context) => Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: LoadingIndicator(),
+                    ),
+                    noItemsFoundIndicatorBuilder: (context) => Center(
+                        child: Column(
+                      children: [
+                        SizedBox(
+                          height: widget.topSpacing,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'And then there were none.',
+                                style: TextStyle(color: AppColor.grey3),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                    noMoreItemsIndicatorBuilder: (context) => widget
+                            .listEndIndicator
+                        ? Center(
+                            child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'The end of the line.',
+                                  style: TextStyle(color: AppColor.grey3),
+                                ),
+                                SizedBox(
+                                  height: widget.bottomSpacing,
+                                ),
+                              ],
+                            ),
+                          ))
+                        : Padding(
+                            padding:
+                                EdgeInsets.only(bottom: widget.bottomSpacing),
+                            child: Container(),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+            if (widget.showScrollToTopButton)
+              SliverPinnedHeader(
+                  child: SizeExpandedSection(
+                expand: scrollAtOffset,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ClipOval(
+                        child: Material(
+                          elevation: 2,
+                          type: MaterialType.circle,
+                          color: AppColor.accent,
+                          child: InkWell(
+                            onTap: () {
+                              scrollController.animateTo(0,
+                                  duration:
+                                      AppThemeAnimDurations.defaultAnimDuration,
+                                  curve: Curves.easeIn);
+                            },
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.arrow_drop_up),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+          ],
+        ),
+      ],
+    );
+
+    if (!widget.disableRefresh)
+      child = RefreshIndicator(
+        color: Colors.white,
+        onRefresh: () => Future.sync(() async {
+          resetAndRefresh();
+        }),
+        child: child,
+      );
+
+    child = SizeExpandedSection(
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           if (notification.metrics.pixels >
@@ -214,143 +366,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
             });
           return true;
         },
-        child: CustomScrollView(
-          controller: widget.isNestedScrollViewChild ? null : scrollController,
-          physics: widget.disableScroll
-              ? NeverScrollableScrollPhysics()
-              : BouncingScrollPhysics(),
-          shrinkWrap: widget.shrinkWrap,
-          slivers: [
-            if (widget.isNestedScrollViewChild)
-              SliverOverlapInjector(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              ),
-            SliverPinnedHeader(
-                child: SizeExpandedSection(
-              expand: scrollAtOffset,
-              child: Column(
-                children: [
-                  if (widget.pinnedHeader != null)
-                    widget.pinnedHeader!(context),
-                  if (widget.showScrollToTopButton)
-                    Material(
-                      color: AppColor.accent,
-                      child: InkWell(
-                        onTap: () {
-                          scrollController.animateTo(0,
-                              duration:
-                                  AppThemeAnimDurations.defaultAnimDuration,
-                              curve: Curves.easeIn);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Scroll to top'),
-                              Icon(Icons.arrow_drop_up),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            )),
-            if (widget.header != null)
-              SliverToBoxAdapter(
-                child: widget.header!(context),
-              ),
-            PagedSliverList<int, T>(
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<T>(
-                itemBuilder: (context, T item, index) => Column(children: [
-                  if (index == 0)
-                    SizedBox(
-                      height: widget.topSpacing,
-                    ),
-                  Visibility(
-                    visible: widget.divider &&
-                        (index == 0 ? widget.firstDivider : true),
-                    child: Divider(
-                      height: widget.spacing,
-                    ),
-                  ),
-                  Padding(
-                    padding: widget.divider
-                        ? EdgeInsets.all(0)
-                        : EdgeInsets.only(top: widget.spacing),
-                    child: widget.builder!(context, item, index),
-                  ),
-                ]),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    widget.firstPageLoadingBuilder != null
-                        ? widget.firstPageLoadingBuilder!(context)
-                        : Padding(
-                            padding: const EdgeInsets.all(32.0),
-                            child: LoadingIndicator(),
-                          ),
-                newPageProgressIndicatorBuilder: (context) => Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: LoadingIndicator(),
-                ),
-                noItemsFoundIndicatorBuilder: (context) => Center(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      height: widget.topSpacing,
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            'And then there were none.',
-                            style: TextStyle(color: AppColor.grey3),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-                noMoreItemsIndicatorBuilder: (context) => widget
-                        .listEndIndicator
-                    ? Center(
-                        child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'The end of the line.',
-                              style: TextStyle(color: AppColor.grey3),
-                            ),
-                            SizedBox(
-                              height: widget.bottomSpacing,
-                            ),
-                          ],
-                        ),
-                      ))
-                    : Padding(
-                        padding: EdgeInsets.only(bottom: widget.bottomSpacing),
-                        child: Container(),
-                      ),
-              ),
-            )
-          ],
-        ),
+        child: child,
       ),
     );
 
-    return widget.disableRefresh
-        ? child
-        : RefreshIndicator(
-            color: Colors.white,
-            onRefresh: () => Future.sync(() async {
-              resetAndRefresh();
-            }),
-            child: child,
-          );
+    return child;
   }
 }

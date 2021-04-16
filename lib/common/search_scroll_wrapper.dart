@@ -28,20 +28,19 @@ class SearchScrollWrapper extends StatefulWidget {
   final Color searchBarColor;
   final WidgetBuilder? header;
   final ScrollController? scrollController;
-
   final bool isNestedScrollViewChild;
+  final replacementBuilder;
   final List<String>? applyFiltersOnOpen;
   // Todo: Remove this?
-  final WidgetBuilder? nonSearchBuilder;
   final ValueChanged<SearchData>? onChanged;
   SearchScrollWrapper(this.searchData,
       {this.searchBarMessage,
       this.applyFiltersOnOpen,
       this.header,
+      this.replacementBuilder,
       this.scrollController,
       this.isNestedScrollViewChild = true,
       this.backgroundBuilder,
-      this.nonSearchBuilder,
       EdgeInsets? searchBarPadding,
       this.onChanged,
       this.searchBarColor = AppColor.background,
@@ -66,7 +65,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
   }
 
   bool searchBarHidden = false;
-  final GlobalKey searchBarKey = GlobalKey();
   Size? size;
   InfiniteScrollWrapperController controller =
       InfiniteScrollWrapperController();
@@ -74,24 +72,28 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
   @override
   Widget build(BuildContext context) {
     Widget header(context) {
-      return Padding(
-        key: searchBarKey,
-        padding: widget._searchBarPadding,
-        child: SearchBar(
-          key: Key(searchData.toQuery),
-          heroTag: widget.searchHeroTag,
-          searchData: searchData,
-          applyFiltersOnOpen: widget.applyFiltersOnOpen,
-          prompt: widget.searchBarMessage,
-          backgroundColor: widget.searchBarColor,
-          onSubmit: (data) {
-            setState(() {
-              searchData = data;
-            });
-            if (widget.onChanged != null) widget.onChanged!(data);
-            if (searchData.isValid) controller.refresh();
-          },
-        ),
+      return Column(
+        children: [
+          Padding(
+            padding: widget._searchBarPadding,
+            child: SearchBar(
+              key: Key(searchData.toQuery),
+              heroTag: widget.searchHeroTag,
+              searchData: searchData,
+              applyFiltersOnOpen: widget.applyFiltersOnOpen,
+              prompt: widget.searchBarMessage,
+              backgroundColor: widget.searchBarColor,
+              onSubmit: (data) {
+                setState(() {
+                  searchData = data;
+                });
+                if (widget.onChanged != null) widget.onChanged!(data);
+                if (searchData.isValid) controller.refresh();
+              },
+            ),
+          ),
+          if (widget.header != null) widget.header!(context),
+        ],
       );
     }
 
@@ -121,23 +123,10 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
       );
     }
 
-    return Container(
+    Widget child = Container(
       color: AppColor.onBackground,
       child: Builder(
         builder: (context) {
-          if (searchData.searchFilters == null ||
-              (!searchData.isActive &&
-                  (widget.nonSearchBuilder != null || widget.header != null)))
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (widget.nonSearchBuilder != null)
-                  Padding(
-                    padding: widget.padding,
-                    child: widget.nonSearchBuilder!(context),
-                  ),
-              ],
-            );
           if (searchData.searchFilters!.searchType == SearchType.repositories)
             return _InfiniteWrapper<RepositoryModel>(
               key: Key(searchData.toQuery + searchData.isActive.toString()),
@@ -223,7 +212,9 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         },
       ),
     );
-
+    if (widget.replacementBuilder != null)
+      return widget.replacementBuilder!(searchData, header, child);
+    return child;
     // return NestedScrollView(
     //   headerSliverBuilder: (context, _) {
     //     return [

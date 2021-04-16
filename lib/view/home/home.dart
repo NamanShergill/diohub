@@ -11,7 +11,6 @@ import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/search_data_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/widgets/issues_tab.dart';
 import 'package:onehub/view/home/widgets/pulls_tab.dart';
@@ -74,10 +73,9 @@ class _HomeScreenState extends State<HomeScreen>
                       trailing: ClipOval(
                         child: InkWell(
                           onTap: () {
-                            scrollController.animateTo(0,
-                                duration:
-                                    AppThemeAnimDurations.defaultAnimDuration,
-                                curve: Curves.easeIn);
+                            Provider.of<NavigationProvider>(context,
+                                    listen: false)
+                                .animateToPage(3);
                           },
                           child: ProviderLoadingProgressWrapper<
                               CurrentUserProvider>(

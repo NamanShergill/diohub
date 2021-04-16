@@ -32,7 +32,8 @@ class PullsList extends StatelessWidget {
       searchBarMessage: 'Search in ${_repo.repositoryModel!.name}\'s issues',
       searchHeroTag: 'repoIssueSearch',
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      nonSearchBuilder: (context) {
+      replacementBuilder: (SearchData data, header, child) {
+        if (data.getSort != null || data.isActive) return child;
         return InfiniteScrollWrapper<PullRequestModel>(
           future: (pageNumber, pageSize, refresh, _) {
             return PullsService.getRepoPulls(
@@ -43,12 +44,21 @@ class PullsList extends StatelessWidget {
                 perPage: pageSize,
                 refresh: refresh);
           },
+          header: header,
+          scrollController: scrollController,
+          isNestedScrollViewChild: true,
           divider: false,
+          spacing: 4,
+          topSpacing: 0,
+          shrinkWrap: true,
           builder: (context, item, index) {
-            return PullListCard(
-              item,
-              padding: EdgeInsets.zero,
-              showRepoName: false,
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: PullListCard(
+                item,
+                padding: EdgeInsets.zero,
+                showRepoName: false,
+              ),
             );
           },
         );
