@@ -11,6 +11,8 @@ import 'package:onehub/services/issues/issues_service.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
+  final ScrollController scrollController;
+  IssuesList({required this.scrollController});
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
@@ -27,6 +29,7 @@ class IssuesList extends StatelessWidget {
       applyFiltersOnOpen: [
         SearchQueries().iS.toQueryString('open'),
       ],
+      scrollController: scrollController,
       searchBarMessage: 'Search in ${_repo.repositoryModel!.name}\'s issues',
       searchHeroTag: 'repoIssueSearch',
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

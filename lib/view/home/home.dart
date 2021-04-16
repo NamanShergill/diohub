@@ -11,6 +11,7 @@ import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/search_data_provider.dart';
 import 'package:onehub/providers/users/current_user_provider.dart';
+import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/view/home/widgets/issues_tab.dart';
 import 'package:onehub/view/home/widgets/pulls_tab.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   bool get wantKeepAlive => true;
   TabController? _tabController;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -42,42 +44,61 @@ class _HomeScreenState extends State<HomeScreen>
     return LoginCheckWrapper(
       replacement: HomeScreenUnauthenticated(),
       child: NestedScrollView(
+        controller: scrollController,
         headerSliverBuilder: (context, _) {
           return [
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                expandedHeight: 300,
-                collapsedHeight: 155,
-                pinned: true,
-                elevation: 2,
-                backgroundColor: AppColor.background,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0),
-                  child: CollapsibleAppBar(
-                    minHeight: 155,
-                    maxHeight: 300,
-                    title: 'Home',
-                    child: SearchBar(
-                      updateBarOnChange: false,
-                      onSubmit: (data) {
-                        _search.updateSearchData(data);
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .animateToPage(1);
-                      },
-                    ),
-                    trailing: ClipOval(
-                      child: InkWell(
-                        onTap: () {
+              sliver: SliverSafeArea(
+                sliver: SliverAppBar(
+                  expandedHeight: 300,
+                  collapsedHeight: 155,
+                  pinned: true,
+                  elevation: 2,
+                  backgroundColor: AppColor.background,
+                  flexibleSpace: Padding(
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                    child: CollapsibleAppBar(
+                      minHeight: 155,
+                      maxHeight: 300,
+                      title: 'Home',
+                      child: SearchBar(
+                        updateBarOnChange: false,
+                        onSubmit: (data) {
+                          _search.updateSearchData(data);
                           Provider.of<NavigationProvider>(context,
                                   listen: false)
-                              .animateToPage(3);
+                              .animateToPage(1);
                         },
-                        child:
-                            ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                          childBuilder: (context, value) => CachedNetworkImage(
-                            imageUrl: value.currentUserInfo!.avatarUrl!,
-                            placeholder: (context, _) {
+                      ),
+                      trailing: ClipOval(
+                        child: InkWell(
+                          onTap: () {
+                            scrollController.animateTo(0,
+                                duration:
+                                    AppThemeAnimDurations.defaultAnimDuration,
+                                curve: Curves.easeIn);
+                          },
+                          child: ProviderLoadingProgressWrapper<
+                              CurrentUserProvider>(
+                            childBuilder: (context, value) =>
+                                CachedNetworkImage(
+                              imageUrl: value.currentUserInfo!.avatarUrl!,
+                              placeholder: (context, _) {
+                                return ShimmerWidget(
+                                  child: Container(
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              },
+                            ),
+                            errorBuilder: (context, error) {
+                              return Icon(
+                                LineIcons.exclamationCircle,
+                                size: 40,
+                              );
+                            },
+                            loadingBuilder: (context) {
                               return ShimmerWidget(
                                 child: Container(
                                   color: Colors.grey,
@@ -85,44 +106,31 @@ class _HomeScreenState extends State<HomeScreen>
                               );
                             },
                           ),
-                          errorBuilder: (context, error) {
-                            return Icon(
-                              LineIcons.exclamationCircle,
-                              size: 40,
-                            );
-                          },
-                          loadingBuilder: (context) {
-                            return ShimmerWidget(
-                              child: Container(
-                                color: Colors.grey,
-                              ),
-                            );
-                          },
                         ),
                       ),
                     ),
                   ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(0),
-                  child: Container(
-                    color: AppColor.background,
-                    child: AppTabBar(
-                      controller: _tabController,
-                      tabs: [
-                        AppTab(
-                          title: 'Activity',
-                        ),
-                        AppTab(
-                          title: 'Issues',
-                        ),
-                        AppTab(
-                          title: 'Pull Requests',
-                        ),
-                        AppTab(
-                          title: 'Public Activity',
-                        ),
-                      ],
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(0),
+                    child: Container(
+                      color: AppColor.background,
+                      child: AppTabBar(
+                        controller: _tabController,
+                        tabs: [
+                          AppTab(
+                            title: 'Activity',
+                          ),
+                          AppTab(
+                            title: 'Issues',
+                          ),
+                          AppTab(
+                            title: 'Pull Requests',
+                          ),
+                          AppTab(
+                            title: 'Public Activity',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -142,11 +150,18 @@ class _HomeScreenState extends State<HomeScreen>
                       controller: _tabController,
                       physics: BouncingScrollPhysics(),
                       children: [
-                        Events(),
-                        IssuesTab(),
-                        PullsTab(),
+                        Events(
+                          scrollController: scrollController,
+                        ),
+                        IssuesTab(
+                          scrollController: scrollController,
+                        ),
+                        PullsTab(
+                          scrollController: scrollController,
+                        ),
                         Events(
                           privateEvents: false,
+                          scrollController: scrollController,
                         ),
                       ],
                     ),

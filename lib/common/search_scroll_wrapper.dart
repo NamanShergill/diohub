@@ -26,6 +26,8 @@ class SearchScrollWrapper extends StatefulWidget {
   final backgroundBuilder;
   final Color searchBarColor;
   final WidgetBuilder? header;
+  final ScrollController? scrollController;
+
   final bool isNestedScrollViewChild;
   final List<String>? applyFiltersOnOpen;
   // Todo: Remove this?
@@ -35,6 +37,7 @@ class SearchScrollWrapper extends StatefulWidget {
       {this.searchBarMessage,
       this.applyFiltersOnOpen,
       this.header,
+      this.scrollController,
       this.isNestedScrollViewChild = true,
       this.backgroundBuilder,
       this.nonSearchBuilder,
@@ -46,6 +49,7 @@ class SearchScrollWrapper extends StatefulWidget {
       this.filterFn,
       Key? key})
       : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 16),
+        assert(isNestedScrollViewChild ? scrollController != null : true),
         super(key: key);
   @override
   _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
@@ -73,6 +77,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         key: searchBarKey,
         padding: widget._searchBarPadding,
         child: SearchBar(
+          key: Key(searchData.toQuery),
           heroTag: widget.searchHeroTag,
           searchData: searchData,
           applyFiltersOnOpen: widget.applyFiltersOnOpen,
@@ -83,13 +88,40 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               searchData = data;
             });
             if (widget.onChanged != null) widget.onChanged!(data);
-            controller.refresh();
+            if (searchData.isValid) controller.refresh();
           },
         ),
       );
     }
 
-    Widget stickyHeader = Text('sdfdf');
+    Widget pinnedHeader(context) {
+      return Column(
+        children: [
+          SearchBar(
+            key: Key(searchData.toQuery),
+            heroTag: (widget.searchHeroTag ?? 'search') + 'pinned',
+            searchData: searchData,
+            applyFiltersOnOpen: widget.applyFiltersOnOpen,
+            prompt: widget.searchBarMessage,
+            isPinned: true,
+            backgroundColor: widget.searchBarColor,
+            onSubmit: (data) {
+              setState(() {
+                searchData = data;
+              });
+              print(data.isActive);
+              if (widget.onChanged != null) widget.onChanged!(data);
+              controller.refresh();
+            },
+          ),
+          Divider(
+            height: 0,
+            color: Colors.white,
+            thickness: 0.5,
+          ),
+        ],
+      );
+    }
 
     return Container(
       color: AppColor.onBackground,
@@ -110,20 +142,20 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
             );
           if (searchData.searchFilters!.searchType == SearchType.repositories)
             return _InfiniteWrapper<RepositoryModel>(
-              key: Key(searchData.toQuery() + searchData.isActive.toString()),
+              key: Key(searchData.toQuery + searchData.isActive.toString()),
               controller: controller,
               searchData: searchData,
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
+              scrollController: widget.scrollController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchRepos(searchData.toQuery(),
+                return SearchService.searchRepos(searchData.toQuery,
                     perPage: pageSize,
                     page: pageNumber,
                     sort: searchData.getSort,
                     ascending: searchData.isSortAsc);
               },
-              header: (context) {
-                return header(context);
-              },
+              header: header,
+              pinnedHeader: searchData.isActive ? pinnedHeader : null,
               builder: (context, item, index) {
                 return Padding(
                   padding: widget.padding,
@@ -137,21 +169,21 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           else if (searchData.searchFilters!.searchType ==
               SearchType.issues_pulls)
             return _InfiniteWrapper<IssueModel>(
-              key: Key(searchData.toQuery() + searchData.isActive.toString()),
+              key: Key(searchData.toQuery + searchData.isActive.toString()),
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
+              scrollController: widget.scrollController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchIssues(searchData.toQuery(),
+                return SearchService.searchIssues(searchData.toQuery,
                     perPage: pageSize,
                     page: pageNumber,
                     sort: searchData.getSort,
                     ascending: searchData.isSortAsc);
               },
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
-              header: (context) {
-                return header(context);
-              },
+              header: header,
+              pinnedHeader: searchData.isActive ? pinnedHeader : null,
               builder: (context, item, index) {
                 return Padding(
                   padding: widget.padding,
@@ -164,15 +196,15 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
             );
           else if (searchData.searchFilters!.searchType == SearchType.users)
             return _InfiniteWrapper<UserInfoModel>(
-              key: Key(searchData.toQuery() + searchData.isActive.toString()),
+              key: Key(searchData.toQuery + searchData.isActive.toString()),
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
-              header: (context) {
-                return header(context);
-              },
+              scrollController: widget.scrollController,
+              header: header,
+              pinnedHeader: searchData.isActive ? pinnedHeader : null,
               searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchUsers(searchData.toQuery(),
+                return SearchService.searchUsers(searchData.toQuery,
                     perPage: pageSize,
                     page: pageNumber,
                     sort: searchData.getSort,
@@ -328,17 +360,22 @@ class _InfiniteWrapper<T> extends StatelessWidget {
   final SearchData searchData;
   final FilterFn? filterFn;
   final bool isNestedScrollViewChild;
+  final ScrollController? scrollController;
+  final WidgetBuilder? pinnedHeader;
 
   _InfiniteWrapper(
       {required this.builder,
       required this.header,
       this.isNestedScrollViewChild = true,
       required this.controller,
+      this.scrollController,
       this.filterFn,
+      this.pinnedHeader,
       required this.searchFuture,
       required this.searchData,
       Key? key})
-      : super(key: key);
+      : assert(isNestedScrollViewChild ? scrollController != null : true),
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<T>(
@@ -346,8 +383,10 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       controller: controller,
       header: header,
       filterFn: filterFn,
+      scrollController: scrollController,
       future: searchFuture,
       divider: false,
+      pinnedHeader: pinnedHeader,
       shrinkWrap: true,
       spacing: 4,
       isNestedScrollViewChild: isNestedScrollViewChild,

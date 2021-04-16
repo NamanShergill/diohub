@@ -31,6 +31,7 @@ class PullScreen extends StatefulWidget {
 class _PullScreenState extends State<PullScreen>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -62,6 +63,7 @@ class _PullScreenState extends State<PullScreen>
                   child: ProviderLoadingProgressWrapper<PullProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
+                        scrollController: scrollController,
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,

@@ -49,6 +49,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   late RepoReadmeProvider readmeProvider;
   late TabController tabController;
   late RepositoryProvider repositoryProvider;
+  final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     tabController =
@@ -133,6 +135,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                   childBuilder: (context, value) {
                     final _repo = value.repositoryModel!;
                     return AppScrollView(
+                      scrollController: scrollController,
                       scrollViewAppBar: ScrollViewAppBar(
                         expandedHeight: 340,
                         collapsedHeight: 150,
@@ -243,8 +246,12 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         AboutRepository(_repo),
                         RepositoryReadme(_repo.url),
                         CodeBrowser(),
-                        IssuesList(),
-                        PullsList(),
+                        IssuesList(
+                          scrollController: scrollController,
+                        ),
+                        PullsList(
+                          scrollController: scrollController,
+                        ),
                         Container(
                           child: Column(
                             children: [

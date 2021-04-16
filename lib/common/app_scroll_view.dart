@@ -12,52 +12,57 @@ class AppScrollView extends StatelessWidget {
   final bool loading;
   final TabController? tabController;
   final Color childrenColor;
+  final ScrollController scrollController;
   AppScrollView(
       {this.scrollViewAppBar,
       this.tabController,
       this.tabViews,
+      required this.scrollController,
       this.child,
       this.childrenColor = AppColor.onBackground,
       this.loading = false});
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(headerSliverBuilder: (context, value) {
-      return [
-        SliverOverlapAbsorber(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          sliver: SliverSafeArea(
-            sliver: scrollViewAppBar!,
-          ),
-        )
-      ];
-    }, body: Builder(builder: (context) {
-      NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+    return NestedScrollView(
+        controller: scrollController,
+        headerSliverBuilder: (context, value) {
+          return [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverSafeArea(
+                sliver: scrollViewAppBar!,
+              ),
+            )
+          ];
+        },
+        body: Builder(builder: (context) {
+          NestedScrollView.sliverOverlapAbsorberHandleFor(context);
 
-      return AnimatedSwitcher(
-        duration: Duration(milliseconds: 50),
-        child: loading
-            ? Container(
-                color: childrenColor,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 48.0),
-                      child: LoadingIndicator(),
-                    ),
-                  ],
-                ))
-            : child != null
-                ? child
-                : Container(
+          return AnimatedSwitcher(
+            duration: Duration(milliseconds: 50),
+            child: loading
+                ? Container(
                     color: childrenColor,
-                    child: TabBarView(
-                      controller: tabController,
-                      children: List.generate(
-                          tabViews!.length, (index) => tabViews![index]),
-                    ),
-                  ),
-      );
-    }));
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 48.0),
+                          child: LoadingIndicator(),
+                        ),
+                      ],
+                    ))
+                : child != null
+                    ? child
+                    : Container(
+                        color: childrenColor,
+                        child: TabBarView(
+                          controller: tabController,
+                          children: List.generate(
+                              tabViews!.length, (index) => tabViews![index]),
+                        ),
+                      ),
+          );
+        }));
   }
 }
 

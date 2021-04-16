@@ -27,13 +27,12 @@ class _SearchScreenState extends State<SearchScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final _search = Provider.of<SearchDataProvider>(context);
-    print(_search.searchData.getSort);
     return Container(
       color: AppColor.onBackground,
       child: _search.searchData.searchFilters != null
           ? SearchScrollWrapper(
               _search.searchData, isNestedScrollViewChild: false,
-              key: Key(_search.searchData.toQuery()),
+              key: Key(_search.searchData.toQuery),
               onChanged: (data) {
                 _search.updateSearchData(data);
               },

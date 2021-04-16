@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:onehub/app/global.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 import 'loading_indicator.dart';
 
@@ -77,6 +79,12 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
   final bool isNestedScrollViewChild;
 
+  final WidgetBuilder? pinnedHeader;
+
+  final bool showScrollToTopButton;
+
+  final double scrollOffsetForPinnedHeader;
+
   InfiniteScrollWrapper(
       {Key? key,
       required this.future,
@@ -85,11 +93,14 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.filterFn,
       this.bottomSpacing = 0,
       this.header,
+      this.pinnedHeader,
+      this.showScrollToTopButton = true,
       this.pageNumber = 1,
       this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
       this.isNestedScrollViewChild = false,
+      this.scrollOffsetForPinnedHeader = 300,
       this.disableScroll = false,
       this.disableRefresh = false,
       this.firstDivider = true,
@@ -98,7 +109,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.shrinkWrap = false,
       this.listEndIndicator = true,
       this.spacing = 16})
-      : super(key: key);
+      : assert(isNestedScrollViewChild ? scrollController != null : true),
+        super(key: key);
 
   @override
   _InfiniteScrollWrapperState<T> createState() =>
@@ -121,8 +133,11 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
   // or be fetched from cache, if available.
   bool refresh = false;
 
+  late ScrollController scrollController;
+
   @override
   void initState() {
+    scrollController = widget.scrollController ?? ScrollController();
     pageNumber = widget.pageNumber;
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
@@ -171,7 +186,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
     } catch (error) {
       if (error is DioError) {
         Global.log.e(error.response?.data);
-        _pagingController.error = error.response?.data;
+        if (mounted) _pagingController.error = error.response?.data;
       } else {
         Global.log.e(error.toString());
         _pagingController.error = error;
@@ -179,99 +194,149 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
     }
   }
 
+  bool scrollAtOffset = false;
   @override
   Widget build(BuildContext context) {
     Widget child = SizeExpandedSection(
-      child: CustomScrollView(
-        controller: widget.scrollController,
-        physics: widget.disableScroll
-            ? NeverScrollableScrollPhysics()
-            : BouncingScrollPhysics(),
-        shrinkWrap: widget.shrinkWrap,
-        slivers: [
-          if (widget.isNestedScrollViewChild)
-            SliverOverlapInjector(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            ),
-          if (widget.header != null)
-            SliverToBoxAdapter(
-              child: widget.header!(context),
-            ),
-          PagedSliverList<int, T>(
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<T>(
-              itemBuilder: (context, T item, index) => Column(children: [
-                if (index == 0)
-                  SizedBox(
-                    height: widget.topSpacing,
-                  ),
-                Visibility(
-                  visible: widget.divider &&
-                      (index == 0 ? widget.firstDivider : true),
-                  child: Divider(
-                    height: widget.spacing,
-                  ),
-                ),
-                Padding(
-                  padding: widget.divider
-                      ? EdgeInsets.all(0)
-                      : EdgeInsets.only(top: widget.spacing),
-                  child: widget.builder!(context, item, index),
-                ),
-              ]),
-              firstPageProgressIndicatorBuilder: (context) =>
-                  widget.firstPageLoadingBuilder != null
-                      ? widget.firstPageLoadingBuilder!(context)
-                      : Padding(
-                          padding: const EdgeInsets.all(32.0),
-                          child: LoadingIndicator(),
-                        ),
-              newPageProgressIndicatorBuilder: (context) => Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: LoadingIndicator(),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          if (notification.metrics.pixels >
+                  widget.scrollOffsetForPinnedHeader &&
+              !scrollAtOffset)
+            setState(() {
+              scrollAtOffset = true;
+            });
+          else if (notification.metrics.pixels <=
+                  widget.scrollOffsetForPinnedHeader &&
+              scrollAtOffset)
+            setState(() {
+              scrollAtOffset = false;
+            });
+          return true;
+        },
+        child: CustomScrollView(
+          controller: widget.isNestedScrollViewChild ? null : scrollController,
+          physics: widget.disableScroll
+              ? NeverScrollableScrollPhysics()
+              : BouncingScrollPhysics(),
+          shrinkWrap: widget.shrinkWrap,
+          slivers: [
+            if (widget.isNestedScrollViewChild)
+              SliverOverlapInjector(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               ),
-              noItemsFoundIndicatorBuilder: (context) => Center(
-                  child: Column(
+            SliverPinnedHeader(
+                child: SizeExpandedSection(
+              expand: scrollAtOffset,
+              child: Column(
                 children: [
-                  SizedBox(
-                    height: widget.topSpacing,
-                  ),
-                  Expanded(
-                    child: Center(
+                  if (widget.pinnedHeader != null)
+                    widget.pinnedHeader!(context),
+                  Material(
+                    color: AppColor.accent,
+                    child: InkWell(
+                      onTap: () {
+                        scrollController.animateTo(0,
+                            duration: AppThemeAnimDurations.defaultAnimDuration,
+                            curve: Curves.easeIn);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'And then there were none.',
-                          style: TextStyle(color: AppColor.grey3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Scroll to top'),
+                            Icon(Icons.arrow_drop_up),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ],
-              )),
-              noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
-                  ? Center(
-                      child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'The end of the line.',
+              ),
+            )),
+            if (widget.header != null)
+              SliverToBoxAdapter(
+                child: widget.header!(context),
+              ),
+            PagedSliverList<int, T>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<T>(
+                itemBuilder: (context, T item, index) => Column(children: [
+                  if (index == 0)
+                    SizedBox(
+                      height: widget.topSpacing,
+                    ),
+                  Visibility(
+                    visible: widget.divider &&
+                        (index == 0 ? widget.firstDivider : true),
+                    child: Divider(
+                      height: widget.spacing,
+                    ),
+                  ),
+                  Padding(
+                    padding: widget.divider
+                        ? EdgeInsets.all(0)
+                        : EdgeInsets.only(top: widget.spacing),
+                    child: widget.builder!(context, item, index),
+                  ),
+                ]),
+                firstPageProgressIndicatorBuilder: (context) =>
+                    widget.firstPageLoadingBuilder != null
+                        ? widget.firstPageLoadingBuilder!(context)
+                        : Padding(
+                            padding: const EdgeInsets.all(32.0),
+                            child: LoadingIndicator(),
+                          ),
+                newPageProgressIndicatorBuilder: (context) => Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: LoadingIndicator(),
+                ),
+                noItemsFoundIndicatorBuilder: (context) => Center(
+                    child: Column(
+                  children: [
+                    SizedBox(
+                      height: widget.topSpacing,
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'And then there were none.',
                             style: TextStyle(color: AppColor.grey3),
                           ),
-                          SizedBox(
-                            height: widget.bottomSpacing,
-                          ),
-                        ],
+                        ),
                       ),
-                    ))
-                  : Padding(
-                      padding: EdgeInsets.only(bottom: widget.bottomSpacing),
-                      child: Container(),
                     ),
-            ),
-          )
-        ],
+                  ],
+                )),
+                noMoreItemsIndicatorBuilder: (context) => widget
+                        .listEndIndicator
+                    ? Center(
+                        child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'The end of the line.',
+                              style: TextStyle(color: AppColor.grey3),
+                            ),
+                            SizedBox(
+                              height: widget.bottomSpacing,
+                            ),
+                          ],
+                        ),
+                      ))
+                    : Padding(
+                        padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                        child: Container(),
+                      ),
+              ),
+            )
+          ],
+        ),
       ),
     );
 

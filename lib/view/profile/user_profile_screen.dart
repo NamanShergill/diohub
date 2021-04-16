@@ -21,6 +21,8 @@ class _UserProfileScreenState<T extends UserInfoModel?>
     extends State<UserProfileScreen<T>> with SingleTickerProviderStateMixin {
   TabController? tabController;
   UserInfoModel? data;
+  final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     data = widget.userData;
@@ -32,6 +34,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
   @override
   Widget build(BuildContext context) {
     return AppScrollView(
+      scrollController: scrollController,
       childrenColor: AppColor.background,
       scrollViewAppBar: ScrollViewAppBar(
         tabController: tabController,
@@ -150,6 +153,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
         if (data!.type == Type.user) UserOverviewScreen(data),
         UserRepositories(
           data!,
+          scrollController: scrollController,
           currentUser: widget.isCurrentUser,
         ),
         if (data!.type == Type.user)
@@ -157,6 +161,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
             color: AppColor.onBackground,
             child: Events(
               specificUser: data!.login,
+              scrollController: scrollController,
             ),
           ),
       ],

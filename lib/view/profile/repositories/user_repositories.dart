@@ -8,7 +8,10 @@ import 'package:onehub/style/colors.dart';
 class UserRepositories extends StatelessWidget {
   final UserInfoModel userInfoModel;
   final bool? currentUser;
-  UserRepositories(this.userInfoModel, {this.currentUser = false});
+  final ScrollController scrollController;
+
+  UserRepositories(this.userInfoModel,
+      {this.currentUser = false, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,7 @@ class UserRepositories extends StatelessWidget {
             defaultHiddenFilters: [
               SearchQueries().user.toQueryString(userInfoModel.login!)
             ]),
+        scrollController: scrollController,
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
         searchHeroTag: '${userInfoModel.login}Search',

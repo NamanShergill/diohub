@@ -465,9 +465,11 @@ packages:
   flutter_secure_storage:
     dependency: "direct main"
     description:
-      name: flutter_secure_storage
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "2ad3cf2ea344b93742418af655537d2acc7043ec"
+      resolved-ref: "2ad3cf2ea344b93742418af655537d2acc7043ec"
+      url: "https://github.com/mogol/flutter_secure_storage.git"
+    source: git
     version: "4.1.0"
   flutter_slidable:
     dependency: "direct main"
@@ -937,12 +939,12 @@ packages:
     source: sdk
     version: "0.0.99"
   sliver_tools:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sliver_tools
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   source_gen:
     dependency: transitive
     description:

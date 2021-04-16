@@ -32,6 +32,7 @@ class IssueScreen extends StatefulWidget {
 class _IssueScreenState extends State<IssueScreen>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -64,6 +65,7 @@ class _IssueScreenState extends State<IssueScreen>
                   child: ProviderLoadingProgressWrapper<IssueProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
+                        scrollController: scrollController,
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,

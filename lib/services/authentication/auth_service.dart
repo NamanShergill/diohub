@@ -9,7 +9,7 @@ import 'package:onehub/models/authentication/device_code_model.dart';
 
 class AuthService {
   static final String _url = '/login/';
-  static final _storage = new FlutterSecureStorage();
+  static final _storage = FlutterSecureStorage();
 
   static Future<bool> isAuthenticated() async {
     var token = await _storage.read(key: 'accessToken');

@@ -1121,13 +1121,14 @@ class SearchData {
 
   bool get isActive => toString().trim().isNotEmpty;
 
-  String toQuery() {
-    return query.trim() +
-        ' ' +
-        _defaultFilters.join(' ').trim() +
-        ' ' +
-        filterStrings.join(' ').trim();
-  }
+  String get toQuery =>
+      query.trim() +
+      ' ' +
+      _defaultFilters.join(' ').trim() +
+      ' ' +
+      filterStrings.join(' ').trim();
+
+  bool get isValid => toQuery.trim().isNotEmpty;
 
   SearchData get cleared => copyWith(
       query: '',

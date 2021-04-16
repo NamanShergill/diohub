@@ -7,7 +7,8 @@ import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class PullsTab extends StatelessWidget {
-  @override
+  final ScrollController scrollController;
+  PullsTab({required this.scrollController});
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
@@ -23,6 +24,7 @@ class PullsTab extends StatelessWidget {
         SearchQueries().author.toQueryString(_user.login!),
         SearchQueries().iS.toQueryString('open'),
       ],
+      scrollController: scrollController,
       searchBarMessage: 'Search in your pull requests',
       searchHeroTag: '${_user.login}issueSearch',
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

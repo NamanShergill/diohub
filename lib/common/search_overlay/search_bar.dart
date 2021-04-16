@@ -17,6 +17,7 @@ class SearchBar extends StatefulWidget {
   final String _heroTag;
   final List<String>? applyFiltersOnOpen;
   final ValueChanged<String>? onSortChanged;
+  final bool isPinned;
 
   SearchBar(
       {this.message,
@@ -24,6 +25,7 @@ class SearchBar extends StatefulWidget {
       this.searchData,
       String? heroTag,
       this.updateBarOnChange = true,
+      this.isPinned = false,
       this.applyFiltersOnOpen,
       this.onSortChanged,
       this.backgroundColor = AppColor.onBackground,
@@ -66,18 +68,21 @@ class _SearchBarState extends State<SearchBar> {
     return Hero(
       tag: widget._heroTag,
       child: Padding(
-        padding: searchData?.isActive ?? false
+        padding: (searchData?.isActive ?? false) && !widget.isPinned
             ? const EdgeInsets.all(8.0)
             : EdgeInsets.zero,
         child: Column(
           children: [
             Material(
-              borderRadius: searchData?.searchFilters != null
-                  // && searchData?.isActive == true
-                  ? BorderRadius.only(
-                      topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
-                      topRight: AppThemeBorderRadius.medBorderRadius.topRight)
-                  : AppThemeBorderRadius.medBorderRadius,
+              borderRadius: widget.isPinned
+                  ? null
+                  : searchData?.searchFilters != null
+                      // && searchData?.isActive == true
+                      ? BorderRadius.only(
+                          topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
+                          topRight:
+                              AppThemeBorderRadius.medBorderRadius.topRight)
+                      : AppThemeBorderRadius.medBorderRadius,
               color: searchData?.isActive ?? false
                   ? AppColor.accent
                   : widget.backgroundColor,
@@ -103,7 +108,10 @@ class _SearchBarState extends State<SearchBar> {
                 },
                 child: Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: !widget.isPinned
+                        ? const EdgeInsets.all(8.0)
+                        : const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                     child: searchData?.isActive ?? false
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,7 +239,7 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
             ),
-            if (searchData?.searchFilters != null
+            if (searchData?.searchFilters != null && !widget.isPinned
             // && searchData?.isActive == true
             )
               Column(

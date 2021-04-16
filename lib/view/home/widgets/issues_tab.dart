@@ -7,6 +7,8 @@ import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatelessWidget {
+  final ScrollController scrollController;
+  IssuesTab({required this.scrollController});
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
@@ -22,6 +24,7 @@ class IssuesTab extends StatelessWidget {
         SearchQueries().author.toQueryString(_user.login!),
         SearchQueries().iS.toQueryString('open'),
       ],
+      scrollController: scrollController,
       searchBarMessage: 'Search in your issues',
       searchHeroTag: '${_user.login}issueSearch',
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
