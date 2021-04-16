@@ -17,14 +17,14 @@ class PullLoadingCard extends StatelessWidget {
   PullLoadingCard(this.url, {this.compact = false, this.issueModel});
   @override
   Widget build(BuildContext context) {
-    return APIWrapper<PullRequestModel>(
-      getCall: PullsService.getPullInformation(fullUrl: url),
-      loadingBuilder: (context) {
-        return Material(
-          elevation: 2,
-          color: AppColor.background,
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
-          child: InkWell(
+    return Material(
+      elevation: 2,
+      color: AppColor.background,
+      borderRadius: AppThemeBorderRadius.medBorderRadius,
+      child: APIWrapper<PullRequestModel>(
+        getCall: PullsService.getPullInformation(fullUrl: url),
+        loadingBuilder: (context) {
+          return InkWell(
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             onTap: () {
               AutoRouter.of(context).push(PullScreenRoute(pullURL: url));
@@ -84,16 +84,17 @@ class PullLoadingCard extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        );
-      },
-      responseBuilder: (context, data) {
-        return PullListCard(
-          data,
-          compact: compact,
-          padding: EdgeInsets.zero,
-        );
-      },
+          );
+        },
+        responseBuilder: (context, data) {
+          return PullListCard(
+            data,
+            compact: compact,
+            disableMaterial: true,
+            padding: EdgeInsets.zero,
+          );
+        },
+      ),
     );
   }
 }

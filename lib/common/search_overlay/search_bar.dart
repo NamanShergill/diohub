@@ -110,7 +110,14 @@ class _SearchBarState extends State<SearchBar> {
                 },
                 child: Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: widget.isPinned
+                        ? EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: searchData!.filterStrings.isNotEmpty &&
+                                    searchData!.query.trim().isNotEmpty
+                                ? 8
+                                : 4)
+                        : const EdgeInsets.all(8.0),
                     child: searchData?.isActive ?? false
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
