@@ -25,7 +25,10 @@ class IssueListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (item.pullRequest != null)
-      return PullLoadingCard(item.pullRequest!.url!);
+      return PullLoadingCard(
+        item.pullRequest!.url!,
+        issueModel: item,
+      );
     return Padding(
       padding: padding,
       child: Material(

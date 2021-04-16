@@ -136,6 +136,10 @@ Widget? getIcon(IssueState? state, DateTime? mergedAt) {
         size: 15,
       );
     default:
-      return null;
+      return Icon(
+        Octicons.git_pull_request,
+        color: AppColor.grey3,
+        size: 15,
+      );
   }
 }

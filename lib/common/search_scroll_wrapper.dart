@@ -132,6 +132,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               key: Key(searchData.toQuery + searchData.isActive.toString()),
               controller: controller,
               searchData: searchData,
+              filterFn: widget.filterFn,
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
               scrollController: widget.scrollController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
@@ -215,129 +216,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     if (widget.replacementBuilder != null)
       return widget.replacementBuilder!(searchData, header, child);
     return child;
-    // return NestedScrollView(
-    //   headerSliverBuilder: (context, _) {
-    //     return [
-    //       SliverOverlapAbsorber(
-    //         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-    //         sliver: SliverAppBar(
-    //           expandedHeight: 150,
-    //           collapsedHeight: 100,
-    //           pinned: true,
-    //           elevation: 2,
-    //           backgroundColor: AppColor.onBackground,
-    //           flexibleSpace: Padding(
-    //             padding: const EdgeInsets.only(bottom: 30.0),
-    //             // child: CollapsibleAppBar(
-    //             //   minHeight: 100,
-    //             //   maxHeight: 150,
-    //             //   child: SearchBar(
-    //             //     updateBarOnChange: false,
-    //             //     onSubmit: (data) {},
-    //             //   ),
-    //             // ),
-    //           ),
-    //         ),
-    //       ),
-    //     ];
-    //   },
-    //   body: Container(
-    //     color: AppColor.onBackground,
-    //     child: Padding(
-    //       padding: const EdgeInsets.only(top: 70),
-    //       child: Builder(
-    //         builder: (context) {
-    //           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-    //           if (searchData.searchFilters == null ||
-    //               (!searchData.isActive &&
-    //                   (widget.nonSearchBuilder != null ||
-    //                       widget.header != null)))
-    //             return Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 if (widget.nonSearchBuilder != null)
-    //                   Padding(
-    //                     padding: widget.padding,
-    //                     child: widget.nonSearchBuilder!(context),
-    //                   ),
-    //               ],
-    //             );
-    //           if (searchData.searchFilters!.searchType ==
-    //               SearchType.repositories)
-    //             return _InfiniteWrapper<RepositoryModel>(
-    //               // key: Key(searchData.toQuery() + searchData.isActive.toString()),
-    //               controller: controller,
-    //               searchData: searchData,
-    //               searchFuture: (pageNumber, pageSize, refresh, _) {
-    //                 return SearchService.searchRepos(searchData.toQuery(),
-    //                     perPage: pageSize,
-    //                     page: pageNumber,
-    //                     sort: searchData.getSort,
-    //                     ascending: searchData.isSortAsc);
-    //               },
-    //               builder: (context, item, index) {
-    //                 return Padding(
-    //                   padding: widget.padding,
-    //                   child: RepositoryCard(
-    //                     item,
-    //                     padding: EdgeInsets.zero,
-    //                   ),
-    //                 );
-    //               },
-    //             );
-    //           else if (searchData.searchFilters!.searchType ==
-    //               SearchType.issues_pulls)
-    //             return _InfiniteWrapper<IssueModel>(
-    //               // key: Key(searchData.toQuery() + searchData.isActive.toString()),
-    //               filterFn: widget.filterFn,
-    //               controller: controller,
-    //               searchData: searchData,
-    //               searchFuture: (pageNumber, pageSize, refresh, _) {
-    //                 return SearchService.searchIssues(searchData.toQuery(),
-    //                     perPage: pageSize,
-    //                     page: pageNumber,
-    //                     sort: searchData.getSort,
-    //                     ascending: searchData.isSortAsc);
-    //               },
-    //               builder: (context, item, index) {
-    //                 return Padding(
-    //                   padding: widget.padding,
-    //                   child: IssueListCard(
-    //                     item,
-    //                     padding: EdgeInsets.zero,
-    //                   ),
-    //                 );
-    //               },
-    //             );
-    //           else if (searchData.searchFilters!.searchType == SearchType.users)
-    //             return _InfiniteWrapper<UserInfoModel>(
-    //               // key: Key(searchData.toQuery() + searchData.isActive.toString()),
-    //               filterFn: widget.filterFn,
-    //               controller: controller,
-    //               searchData: searchData,
-    //               searchFuture: (pageNumber, pageSize, refresh, _) {
-    //                 return SearchService.searchUsers(searchData.toQuery(),
-    //                     perPage: pageSize,
-    //                     page: pageNumber,
-    //                     sort: searchData.getSort,
-    //                     ascending: searchData.isSortAsc);
-    //               },
-    //               builder: (context, item, index) {
-    //                 return Padding(
-    //                   padding: widget.padding,
-    //                   child: ProfileCard(
-    //                     item,
-    //                     padding: EdgeInsets.zero,
-    //                   ),
-    //                 );
-    //               },
-    //             );
-    //           return Container();
-    //         },
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
 
