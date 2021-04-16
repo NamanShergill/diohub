@@ -233,26 +233,28 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
                 children: [
                   if (widget.pinnedHeader != null)
                     widget.pinnedHeader!(context),
-                  Material(
-                    color: AppColor.accent,
-                    child: InkWell(
-                      onTap: () {
-                        scrollController.animateTo(0,
-                            duration: AppThemeAnimDurations.defaultAnimDuration,
-                            curve: Curves.easeIn);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Scroll to top'),
-                            Icon(Icons.arrow_drop_up),
-                          ],
+                  if (widget.showScrollToTopButton)
+                    Material(
+                      color: AppColor.accent,
+                      child: InkWell(
+                        onTap: () {
+                          scrollController.animateTo(0,
+                              duration:
+                                  AppThemeAnimDurations.defaultAnimDuration,
+                              curve: Curves.easeIn);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Scroll to top'),
+                              Icon(Icons.arrow_drop_up),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             )),

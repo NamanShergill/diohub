@@ -18,11 +18,13 @@ class SearchBar extends StatefulWidget {
   final List<String>? applyFiltersOnOpen;
   final ValueChanged<String>? onSortChanged;
   final bool isPinned;
+  final Widget? trailing;
 
   SearchBar(
       {this.message,
       String? prompt,
       this.searchData,
+      this.trailing,
       String? heroTag,
       this.updateBarOnChange = true,
       this.isPinned = false,
@@ -108,10 +110,7 @@ class _SearchBarState extends State<SearchBar> {
                 },
                 child: Container(
                   child: Padding(
-                    padding: !widget.isPinned
-                        ? const EdgeInsets.all(8.0)
-                        : const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.all(8.0),
                     child: searchData?.isActive ?? false
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -202,14 +201,15 @@ class _SearchBarState extends State<SearchBar> {
                                   ],
                                 ),
                               ),
-                              IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    setState(() {
-                                      searchData = searchData!.cleared;
-                                    });
-                                    widget.onSubmit(searchData!.cleared);
-                                  })
+                              widget.trailing ??
+                                  IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          searchData = searchData!.cleared;
+                                        });
+                                        widget.onSubmit(searchData!.cleared);
+                                      })
                             ],
                           )
                         : Row(

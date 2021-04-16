@@ -11,6 +11,7 @@ import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/repositories/repository_model.dart' hide Type;
 import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/services/search/search_service.dart';
+import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 
 typedef SearchScrollWrapperFuture<T>(int pageNumber, int pageSize, bool refresh,
@@ -95,31 +96,28 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     }
 
     Widget pinnedHeader(context) {
-      return Column(
-        children: [
-          SearchBar(
-            key: Key(searchData.toQuery),
-            heroTag: (widget.searchHeroTag ?? 'search') + 'pinned',
-            searchData: searchData,
-            applyFiltersOnOpen: widget.applyFiltersOnOpen,
-            prompt: widget.searchBarMessage,
-            isPinned: true,
-            backgroundColor: widget.searchBarColor,
-            onSubmit: (data) {
-              setState(() {
-                searchData = data;
-              });
-              print(data.isActive);
-              if (widget.onChanged != null) widget.onChanged!(data);
-              controller.refresh();
-            },
-          ),
-          Divider(
-            height: 0,
-            color: Colors.white,
-            thickness: 0.5,
-          ),
-        ],
+      return SearchBar(
+        key: Key(searchData.toQuery),
+        heroTag: (widget.searchHeroTag ?? 'search') + 'pinned',
+        searchData: searchData,
+        applyFiltersOnOpen: widget.applyFiltersOnOpen,
+        prompt: widget.searchBarMessage,
+        isPinned: true,
+        trailing: IconButton(
+            icon: Icon(Icons.arrow_drop_up),
+            onPressed: () {
+              widget.scrollController!.animateTo(0,
+                  duration: AppThemeAnimDurations.defaultAnimDuration,
+                  curve: Curves.easeIn);
+            }),
+        backgroundColor: widget.searchBarColor,
+        onSubmit: (data) {
+          setState(() {
+            searchData = data;
+          });
+          if (widget.onChanged != null) widget.onChanged!(data);
+          controller.refresh();
+        },
       );
     }
 
@@ -386,6 +384,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       scrollController: scrollController,
       future: searchFuture,
       divider: false,
+      showScrollToTopButton: pinnedHeader == null,
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,
       spacing: 4,
