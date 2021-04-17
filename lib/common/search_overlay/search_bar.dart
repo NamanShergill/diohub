@@ -20,7 +20,7 @@ class SearchBar extends StatefulWidget {
   final bool isPinned;
   final Widget? trailing;
 
-  SearchBar(
+  const SearchBar(
       {this.message,
       String? prompt,
       this.searchData,
@@ -58,10 +58,15 @@ class _SearchBarState extends State<SearchBar> {
     return tMap;
   }
 
-  void changeExpanded() {
-    setState(() {
-      expanded = !expanded;
-    });
+  void changeExpanded({bool? expand}) {
+    if (expand != null)
+      setState(() {
+        expanded = expand;
+      });
+    else
+      setState(() {
+        expanded = !expanded;
+      });
   }
 
   bool expanded = false;
@@ -304,6 +309,8 @@ class _SearchBarState extends State<SearchBar> {
                                         Theme.of(context).textTheme.subtitle2,
                                   ),
                                   onTap: () {
+                                    changeExpanded(expand: false);
+
                                     setState(() {
                                       searchData = searchData!.copyWith(
                                           sort: getWithoutValue(
@@ -316,7 +323,6 @@ class _SearchBarState extends State<SearchBar> {
                                               .toList()[index]);
                                     });
                                     widget.onSubmit(searchData!);
-                                    changeExpanded();
                                   },
                                 );
                               }),

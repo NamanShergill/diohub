@@ -25,7 +25,7 @@ class UserRepositories extends StatelessWidget {
               SearchQueries().user.toQueryString(userInfoModel.login!)
             ]),
         scrollController: scrollController,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
         searchHeroTag: '${userInfoModel.login}Search',
         // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, order) {

@@ -35,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen>
       child: _search.searchData.searchFilters != null
           ? SearchScrollWrapper(
               _search.searchData, isNestedScrollViewChild: false,
-              key: Key(_search.searchData.toQuery),
+              key: ValueKey(_search.searchData.toQuery),
               onChanged: (data) {
                 _search.updateSearchData(data);
               },

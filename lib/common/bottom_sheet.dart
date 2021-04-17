@@ -113,7 +113,8 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
   });
 }
 
-typedef ScrollChild(BuildContext context, ScrollController scrollController);
+typedef ScrollChild = Widget Function(
+    BuildContext context, ScrollController scrollController);
 
 void showScrollableBottomActionsMenu(BuildContext context,
     {required ScrollChild child, String? titleText, Widget? titleWidget}) {

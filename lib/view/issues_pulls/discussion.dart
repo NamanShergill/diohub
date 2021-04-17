@@ -309,22 +309,13 @@ class _DiscussionState extends State<Discussion>
                           content: item.assignee,
                         ));
                       else if (item.event == Event.cross_referenced) {
-                        if (item.source!.issue!.pullRequest != null)
-                          return paddingWrap(
-                              child: BasicPullCrossReferencedCard(
-                            user: item.actor,
-                            date: item.createdAt.toString(),
-                            leading: LineIcons.alternateComment,
-                            content: item.source,
-                          ));
-                        else
-                          return paddingWrap(
-                              child: BasicIssueCrossReferencedCard(
-                            user: item.actor,
-                            leading: LineIcons.alternateComment,
-                            date: item.createdAt.toString(),
-                            content: item.source,
-                          ));
+                        return paddingWrap(
+                            child: BasicIssueCrossReferencedCard(
+                          user: item.actor,
+                          leading: LineIcons.alternateComment,
+                          date: item.createdAt.toString(),
+                          content: item.source,
+                        ));
                       } else if (item.event == Event.labeled ||
                           item.event == Event.unlabeled) {
                         return paddingWrap(

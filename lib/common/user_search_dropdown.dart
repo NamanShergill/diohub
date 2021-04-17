@@ -36,7 +36,7 @@ class UserSearchDropdown extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: InfiniteScrollWrapper<UserEdge>(
                     shrinkWrap: true,
-                    key: Key(query),
+                    key: ValueKey(query),
                     disableRefresh: true,
                     firstDivider: false,
                     topSpacing: 8,

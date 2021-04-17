@@ -15,9 +15,10 @@ class InfiniteScrollWrapperController {
   void Function() refresh = () {};
 }
 
-typedef ScrollWrapperFuture<T>(
+typedef ScrollWrapperFuture<T> = Future Function(
     int pageNumber, int pageSize, bool refresh, T? lastItem);
-typedef ScrollWrapperBuilder<T>(BuildContext context, T item, int index);
+typedef ScrollWrapperBuilder<T> = Widget Function(
+    BuildContext context, T item, int index);
 typedef FilterFn<T>(List<T> items);
 
 /// A wrapper designed to show infinite pagination.
@@ -154,7 +155,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
   // Refresh everything and reload.
   void resetAndRefresh() {
     refresh = true;
-    pageNumber = 1;
+    pageNumber = widget.pageNumber;
     _pagingController.refresh();
   }
 
@@ -189,12 +190,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
         if (mounted) _pagingController.error = error.response?.data;
       } else {
         Global.log.e(error.toString());
-        _pagingController.error = error;
+        if (mounted) _pagingController.error = error;
       }
     }
   }
 
   bool scrollAtOffset = false;
+
   @override
   Widget build(BuildContext context) {
     Widget child = CustomScrollView(
@@ -325,7 +327,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.arrow_drop_up),
+                                child: Icon(Icons.keyboard_arrow_up_rounded),
                               ),
                             ),
                           ),

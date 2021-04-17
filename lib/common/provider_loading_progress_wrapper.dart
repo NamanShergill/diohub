@@ -3,8 +3,8 @@ import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:provider/provider.dart';
 
-typedef ErrorBuilder(BuildContext context, String error);
-typedef ChildBuilder<T>(BuildContext context, T value);
+typedef ErrorBuilder = Widget Function(BuildContext context, String error);
+typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
     extends StatelessWidget {

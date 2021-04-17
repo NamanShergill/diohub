@@ -744,7 +744,7 @@ class _SearchBarState extends State<_SearchBar> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             );
-          }, key: Key(typedData)));
+          }, key: ValueKey(typedData)));
         }
       } else if ((query?.type == QueryType.number ||
               query?.type == QueryType.date) &&
@@ -779,7 +779,7 @@ class _SearchBarState extends State<_SearchBar> {
             },
             title: Text(filteredOptions[index]),
           );
-        }, key: Key(typedData)));
+        }, key: ValueKey(typedData)));
         // return [OptionsSuggestion(filteredOptions, typedData)];
       }
     }

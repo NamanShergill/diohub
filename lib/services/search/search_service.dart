@@ -41,8 +41,13 @@ class SearchService {
     return SearchReposModel.fromJson(response.data).items;
   }
 
-  static Future<List<IssueModel>> searchIssues(String query,
-      {String? sort, bool? ascending = false, int? perPage, int? page}) async {
+  static Future<List<IssueModel>> searchIssues(
+    String query, {
+    String? sort,
+    bool? ascending = false,
+    int? perPage,
+    int? page,
+  }) async {
     Response response = await GetDio.getDio().get(
       '/search/issues',
       queryParameters: {
