@@ -21,7 +21,7 @@ packages:
       name: another_flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.17"
+    version: "1.10.18"
   archive:
     dependency: transitive
     description:
@@ -37,7 +37,7 @@ packages:
     source: hosted
     version: "2.0.0"
   async:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: async
       url: "https://pub.dartlang.org"
@@ -289,7 +289,7 @@ packages:
       name: dio_cache_interceptor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.1"
   effective_dart:
     dependency: transitive
     description:
@@ -419,7 +419,7 @@ packages:
       name: flutter_keyboard_visibility
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.1"
   flutter_keyboard_visibility_platform_interface:
     dependency: transitive
     description:
@@ -462,6 +462,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.8"
+  flutter_scroll_to_top:
+    dependency: "direct main"
+    description:
+      name: flutter_scroll_to_top
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -491,7 +498,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.21.0-nullsafety.0"
+    version: "0.21.0+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -594,7 +601,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.3"
   html:
     dependency: transitive
     description:
@@ -771,14 +778,14 @@ packages:
       name: path_drawing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0-nullsafety.0"
+    version: "0.5.0"
   path_parsing:
     dependency: transitive
     description:
       name: path_parsing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0-nullsafety.0"
+    version: "0.2.0"
   path_provider:
     dependency: "direct main"
     description:

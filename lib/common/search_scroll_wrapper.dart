@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
 import 'package:onehub/common/issues/issue_list_card.dart';
 import 'package:onehub/common/profile_card.dart';
@@ -11,7 +12,6 @@ import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/repositories/repository_model.dart' hide Type;
 import 'package:onehub/models/users/user_info_model.dart';
 import 'package:onehub/services/search/search_service.dart';
-import 'package:onehub/style/animDuartions.dart';
 import 'package:onehub/style/colors.dart';
 
 typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
@@ -97,7 +97,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
       );
     }
 
-    Widget pinnedHeader(context) {
+    Widget pinnedHeader(context, function) {
       return SearchBar(
         key: ValueKey(searchData.toQuery),
         heroTag: (widget.searchHeroTag ?? 'search') + 'pinned',
@@ -106,11 +106,9 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         prompt: widget.searchBarMessage,
         isPinned: true,
         trailing: IconButton(
-            icon: Icon(Icons.arrow_drop_up),
+            icon: Icon(Icons.keyboard_arrow_up_rounded),
             onPressed: () {
-              widget.scrollController!.animateTo(0,
-                  duration: AppThemeAnimDurations.defaultAnimDuration,
-                  curve: Curves.easeIn);
+              function();
             }),
         backgroundColor: widget.searchBarColor,
         onSubmit: (data) {
@@ -236,7 +234,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
   final FilterFn? filterFn;
   final bool isNestedScrollViewChild;
   final ScrollController? scrollController;
-  final WidgetBuilder? pinnedHeader;
+  final ReplacementBuilder? pinnedHeader;
 
   _InfiniteWrapper(
       {required this.builder,
@@ -261,7 +259,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       scrollController: scrollController,
       future: searchFuture,
       divider: false,
-      showScrollToTopButton: pinnedHeader == null,
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,
       spacing: 4,
