@@ -1098,10 +1098,12 @@ class SearchData {
   final List<String> filterStrings;
   final SearchFilters? searchFilters;
   final List<String> _defaultFilters;
+  final List<String> quickFilters;
   final bool multiType;
   final String sort;
   SearchData({
     this.query = '',
+    this.quickFilters = const [],
     this.filterStrings = const [],
     this.searchFilters,
     this.sort = 'best',
@@ -1112,7 +1114,12 @@ class SearchData {
 
   @override
   String toString() {
-    return query.trim() + ' ' + filterStrings.join(' ').trim() + ' ';
+    return query.trim() +
+        ' ' +
+        filterStrings.join(' ').trim() +
+        ' ' +
+        quickFilters.join(' ').trim() +
+        ' ';
   }
 
   String? get getSort => sort != 'best' ? sort.split('-').first : null;
@@ -1126,7 +1133,9 @@ class SearchData {
       ' ' +
       _defaultFilters.join(' ').trim() +
       ' ' +
-      filterStrings.join(' ').trim();
+      filterStrings.join(' ').trim() +
+      quickFilters.join(' ').trim() +
+      ' ';
 
   bool get isValid => toQuery.trim().isNotEmpty;
 
@@ -1134,11 +1143,13 @@ class SearchData {
       query: '',
       filterStrings: [],
       sort: 'best',
+      quickFilters: [],
       searchFilters: multiType ? null : searchFilters);
 
   SearchData copyWith(
       {String? query,
       List<String>? filterStrings,
+      List<String>? quickFilters,
       List<SearchQuery>? filters,
       SearchFilters? searchFilters,
       String? sort}) {
@@ -1147,6 +1158,7 @@ class SearchData {
         filterStrings: filterStrings ?? this.filterStrings,
         defaultHiddenFilters: _defaultFilters,
         multiType: multiType,
+        quickFilters: quickFilters ?? this.quickFilters,
         sort: sort ?? this.sort,
         searchFilters: searchFilters ?? this.searchFilters);
   }

@@ -46,7 +46,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.0.1
   flutter_portal: ^0.4.0-nullsafety.0
   flutter_reaction_button: ^1.0.8
-  flutter_scroll_to_top: ^1.0.6
+  flutter_scroll_to_top: ^1.1.0
 
   # Use this until official release that disables the logs.
   flutter_secure_storage:

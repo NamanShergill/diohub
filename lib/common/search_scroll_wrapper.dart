@@ -26,6 +26,7 @@ class SearchScrollWrapper extends StatefulWidget {
   final EdgeInsets _searchBarPadding;
   final backgroundBuilder;
   final Color searchBarColor;
+  final Map<String, List<String>>? quickFilters;
   final WidgetBuilder? header;
   final ScrollController? scrollController;
   final bool isNestedScrollViewChild;
@@ -37,6 +38,7 @@ class SearchScrollWrapper extends StatefulWidget {
       {this.searchBarMessage,
       this.applyFiltersOnOpen,
       this.header,
+      this.quickFilters,
       this.replacementBuilder,
       this.scrollController,
       this.isNestedScrollViewChild = true,
@@ -73,12 +75,14 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
   Widget build(BuildContext context) {
     Widget header(context) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: widget._searchBarPadding,
             child: SearchBar(
-              key: ValueKey(searchData.toQuery),
+              // key: ValueKey(searchData.toQuery),
               heroTag: widget.searchHeroTag,
+              quickFilters: widget.quickFilters,
               searchData: searchData,
               applyFiltersOnOpen: widget.applyFiltersOnOpen,
               prompt: widget.searchBarMessage,
@@ -99,7 +103,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
 
     Widget pinnedHeader(context, function) {
       return SearchBar(
-        key: ValueKey(searchData.toQuery),
+        // key: ValueKey(searchData.toQuery),
         heroTag: (widget.searchHeroTag ?? 'search') + 'pinned',
         searchData: searchData,
         applyFiltersOnOpen: widget.applyFiltersOnOpen,
@@ -127,9 +131,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
         builder: (context) {
           if (searchData.searchFilters!.searchType == SearchType.repositories)
             return _InfiniteWrapper<RepositoryModel>(
-              key: ValueKey(searchData.toQuery +
-                  searchData.isActive.toString() +
-                  searchData.sort),
               controller: controller,
               searchData: searchData,
               filterFn: widget.filterFn,
@@ -157,9 +158,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           else if (searchData.searchFilters!.searchType ==
               SearchType.issues_pulls)
             return _InfiniteWrapper<IssueModel>(
-              key: ValueKey(searchData.toQuery +
-                  searchData.isActive.toString() +
-                  searchData.sort),
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
@@ -258,6 +256,9 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       filterFn: filterFn,
       scrollController: scrollController,
       future: searchFuture,
+      // key: ValueKey(searchData.toQuery +
+      //     searchData.isActive.toString() +
+      //     searchData.sort),
       divider: false,
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,

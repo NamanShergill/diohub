@@ -20,10 +20,20 @@ class IssuesTab extends StatelessWidget {
             SearchQueries().involves.toQueryString(_user!.login!),
             SearchQueries().type.toQueryString('issue'),
           ]),
-      applyFiltersOnOpen: [
-        SearchQueries().author.toQueryString(_user.login!),
-        SearchQueries().iS.toQueryString('open'),
-      ],
+      quickFilters: {
+        'Assigned': [
+          SearchQueries().assignee.toQueryString(_user.login!),
+          SearchQueries().iS.toQueryString('open')
+        ],
+        'Created': [
+          SearchQueries().author.toQueryString(_user.login!),
+          SearchQueries().iS.toQueryString('open')
+        ],
+        'Mentioned': [
+          SearchQueries().mentions.toQueryString(_user.login!),
+          SearchQueries().iS.toQueryString('open')
+        ],
+      },
       scrollController: scrollController,
       searchBarMessage: 'Search in your issues',
       searchHeroTag: '${_user.login}issueSearch',
