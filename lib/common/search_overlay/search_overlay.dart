@@ -411,6 +411,9 @@ class _SearchBarState extends State<_SearchBar> {
   FocusNode searchNode = FocusNode();
   late TextEditingController controller;
   late SearchData searchData;
+  OverlayController suggestionsOverlayController = OverlayController();
+  Widget overlayWidget = Container();
+
   @override
   void initState() {
     searchData = widget.searchData;
@@ -446,19 +449,27 @@ class _SearchBarState extends State<_SearchBar> {
                   focusNode: searchNode,
                   minLines: 1,
                   onChanged: (pattern) {
+                    // Handle cases for when the enter key is pressed.
                     if (pattern.contains('\n')) {
+                      // Don't let {\n} enter the text.
                       controller.text = controller.text.replaceAll('\n', '');
+                      // If the last char is not a space, enter a space.
                       if (!controller.text.endsWith(' '))
                         controller.text = controller.text + ' ';
+                      // Otherwise submit the query.
                       else {
                         _parseQuery(pattern);
                         widget.onSubmit(null);
                       }
+                      // Move the text controller to end.
                       _moveControllerToEnd();
                     }
+                    // Trim any white spaces.
                     if (pattern.trim().isEmpty)
                       controller.text = controller.text.trim();
+                    // Parse query for filters.
                     _parseQuery(pattern);
+                    // Show suggestions to the user.
                     _suggestions(pattern);
                   },
                   specialTextSpanBuilder: _TextSpanBuilder(
@@ -552,6 +563,7 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void getFocus() async {
+    // Todo: Try new speed here.
     await Future.delayed(Duration(milliseconds: 500));
     if (mounted)
       setState(() {
@@ -567,11 +579,14 @@ class _SearchBarState extends State<_SearchBar> {
     bool addQuotesAround = false,
     String remove = '',
   }) {
+    // Remove the last [remove.length] numbers of chars.
     controller.text =
         controller.text.substring(0, controller.text.length - remove.length);
+    // Add new text according to the parameters.
     controller.text = controller.text +
         '${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}' +
         '${addQuotesAtEnd ? '""' : ''}';
+    // Move controller to end, or end-1 if quotes were added.
     _moveControllerToEnd(addQuotesAtEnd ? 1 : 0);
     searchNode.requestFocus();
     _parseQuery(controller.text);
@@ -584,10 +599,12 @@ class _SearchBarState extends State<_SearchBar> {
     );
   }
 
+  // Is the end the same as the given string.
   bool isEndSame(String initial, String part) {
     return initial.substring(initial.length - part.length) == part;
   }
 
+  // Get all matches in a string from a certain Regexp.
   List<String> getMatches(RegExp regexp, String pattern) {
     List<String> matches = [];
     pattern.splitMapJoin(regexp, onMatch: (Match m) {
@@ -597,6 +614,7 @@ class _SearchBarState extends State<_SearchBar> {
     return matches;
   }
 
+  // Show a list dropdown for suggestions.
   Widget list(int length, builder, {Key? key}) {
     return SizeExpandedSection(
       key: key,
@@ -619,9 +637,6 @@ class _SearchBarState extends State<_SearchBar> {
     );
   }
 
-  OverlayController suggestionsOverlayController = OverlayController();
-  Widget overlayWidget = Container();
-
   void _showOverlay(Widget widget) {
     setState(() {
       overlayWidget = widget;
@@ -640,7 +655,7 @@ class _SearchBarState extends State<_SearchBar> {
     List<String> filterStrings = [];
     List<SearchQuery> filters = [];
 
-    // Handle case of ranges with the bigger value before.
+    // Handle case of number and date ranges with the bigger value before.
     pattern.splitMapJoin(widget._searchFilters.allValidQueriesRegexp,
         onMatch: (Match m) {
       String string = m[0]!;
@@ -683,10 +698,13 @@ class _SearchBarState extends State<_SearchBar> {
       return '';
     });
 
-    // print(filterStrings);
+    // Remove all invalid queries from the string.
     pattern =
         pattern.replaceAll(widget._searchFilters.allInvalidQueriesRegExp, '');
+
+    // Convert all extra spaces to just a single space.
     pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
+    // Send the new [SearchData] back.
     widget.onChanged(searchData.copyWith(
       query: pattern,
       filterStrings: filterStrings,
@@ -694,16 +712,20 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void _suggestions(String pattern) {
+    // Close any previous overlays.
     _closeOverlay();
-    // if (pattern.isEmpty) return [];
     // Get matches on the option queries on the supplied text.
     if (controller.selection.baseOffset == controller.text.length) {
+      // Get all invalid or valid queries in the string.
       List<String> matches = getMatches(
           RegExp(
               '${widget._searchFilters.allValidQueriesRegexp.pattern}|${widget._searchFilters.allInvalidQueriesRegExp.pattern}'),
           pattern);
+      // Current typed data of the latest filter.
       String typedData = '';
+      // Current latest  query.
       SearchQuery? query;
+      // Check if any of the matches above are the query currently being typed.
       matches.forEach(
         (element) {
           if (isEndSame(pattern, element)) {
@@ -715,26 +737,34 @@ class _SearchBarState extends State<_SearchBar> {
           }
         },
       );
+      // Get all completed valid queries.
       List<String?> completedQueries = getMatches(
           RegExp(
               '${widget._searchFilters.validSensitiveQueriesRegExp.pattern}|${widget._searchFilters.invalidSensitiveQueriesRegExp.pattern}|${widget._searchFilters.validBasicQueriesRegExp.pattern}'),
           pattern);
-      bool isLastQueryActive = completedQueries.isNotEmpty &&
+      // Check if the last query has been completed.
+      bool isLastQueryComplete = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
-      if (!isLastQueryActive) {
+      // Show filter suggestions if the last filter was not complete.
+      if (!isLastQueryComplete) {
         List<String> filteredOptions = [];
+        // Last filter being typed.
         typedData = pattern.split(' ').last;
+        // Remove the '-' from the case.
         if (typedData.startsWith('-')) typedData = typedData.substring(1);
         if (typedData.isNotEmpty) {
           widget._searchFilters.whiteListedQueriesStrings.forEach((element) {
             if (element.startsWith(typedData)) filteredOptions.add(element);
           });
-
+          // Show overlay with the filtered options.
           _showOverlay(list(filteredOptions.length, (context, index) {
             return ListTile(
               onTap: () {
+                // Get query info from the string.
                 SearchQuery query = widget._searchFilters
                     .queryFromString(filteredOptions[index])!;
+                // Add string to text on tap, with quotes at the end if it is
+                // a spaced string with no auto complete options.
                 addString(filteredOptions[index] + ':',
                     addQuotesAtEnd: query.options == null &&
                         query.type == QueryType.spacedString,
@@ -759,12 +789,14 @@ class _SearchBarState extends State<_SearchBar> {
       } else if ((query?.type == QueryType.user ||
               query?.type == QueryType.org) &&
           !typedData.endsWith(' '))
-        _showOverlay(UserSearchDropdown(
-          typedData,
-          onSelected: (data) {
-            addString(data, remove: typedData);
-          },
-          type: query!.type,
+        _showOverlay(SizeExpandedSection(
+          child: UserSearchDropdown(
+            typedData,
+            onSelected: (data) {
+              addString(data, remove: typedData);
+            },
+            type: query!.type,
+          ),
         ));
       else if (query?.options?.keys != null) {
         List<String> filteredOptions = [];
@@ -782,10 +814,8 @@ class _SearchBarState extends State<_SearchBar> {
             title: Text(filteredOptions[index]),
           );
         }, key: ValueKey(typedData)));
-        // return [OptionsSuggestion(filteredOptions, typedData)];
       }
     }
-    // return <String>[];
   }
 }
 
@@ -828,22 +858,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
     }
     final List<InlineSpan> inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
-      data.splitMapJoin(
-          RegExp(searchFilters.allValidQueriesRegexp.pattern
-              // +
-              //     '|' +
-              //     searchFilters.allInvalidQueriesRegExp.pattern
-              ), onMatch: (Match m) {
-        // if (searchFilters.allValidQueriesRegexp.hasMatch(m[0]!))
+      data.splitMapJoin(RegExp(searchFilters.allValidQueriesRegexp.pattern),
+          onMatch: (Match m) {
         inlineList.add(
           _ValidQuery(m[0]!, controller, textStyle, onChanged: (string) {
             onChanged(string);
           }).finishText(),
         );
-        // else if (searchFilters.allInvalidQueriesRegExp.hasMatch(m[0]!))
-        //   inlineList.add(_InValidQuery(m[0]!, 1, controller, textStyle,
-        //           searchFilters.blacklistRegExp.hasMatch(m[0]!))
-        //       .finishText());
         return '';
       }, onNonMatch: (String string) {
         string.splitMapJoin(
@@ -1003,105 +1024,26 @@ class _ValidQuery extends SpecialText {
   }
 }
 
-// class _InValidQuery extends SpecialText {
-//   _InValidQuery(String startFlag, this.start, this.controller,
-//       TextStyle? textStyle, this.blacklisted)
-//       : super(
-//           startFlag,
-//           '',
-//           textStyle!.copyWith(decoration: TextDecoration.lineThrough) ??
-//               TextStyle(),
-//         );
-//
-//   final TextEditingController controller;
-//   final bool blacklisted;
-//   final int start;
-//
-//   @override
-//   InlineSpan finishText() {
-//     return ExtendedWidgetSpan(
-//       alignment: PlaceholderAlignment.middle,
-//       child: Padding(
-//         padding: const EdgeInsets.only(top: 4.0),
-//         child: Material(
-//             borderRadius: AppThemeBorderRadius.smallBorderRadius,
-//             color: blacklisted ? Colors.red : AppColor.grey3,
-//             child: InkWell(
-//               borderRadius: AppThemeBorderRadius.smallBorderRadius,
-//               onTap: () {
-//                 if (!toString().trim().startsWith('-'))
-//                   controller.text = controller.text.replaceFirst(
-//                       RegExp('(?!-)(?:(${toString().trim()}))'), '');
-//                 else
-//                   controller.text =
-//                       controller.text.replaceFirst(toString().trim(), '');
-//                 controller.selection = TextSelection.fromPosition(
-//                   TextPosition(offset: controller.text.length),
-//                 );
-//                 if (controller.text.trim().isEmpty)
-//                   controller.text = controller.text.trim();
-//                 HapticFeedback.vibrate();
-//               },
-//               child: Padding(
-//                 padding: const EdgeInsets.only(
-//                     top: 2.0, left: 6, right: 6, bottom: 4),
-//                 child: Row(
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     Flexible(
-//                         child: RichText(
-//                       text: TextSpan(
-//                           style: textStyle.copyWith(fontSize: 14),
-//                           children: [
-//                             TextSpan(
-//                                 text: toString()
-//                                         .trim()
-//                                         .replaceAll('"', '')
-//                                         .split(':')
-//                                         .first +
-//                                     ' ',
-//                                 style: TextStyle(fontWeight: FontWeight.bold)),
-//                             TextSpan(
-//                                 text: toString()
-//                                     .trim()
-//                                     .replaceAll('"', '')
-//                                     .split(':')
-//                                     .last),
-//                           ]),
-//                     )),
-//                     SizedBox(
-//                       width: 4,
-//                     ),
-//                     ClipOval(
-//                       child: Container(
-//                         color: Colors.white,
-//                         child: Icon(
-//                           Icons.close_rounded,
-//                           color: blacklisted ? Colors.red : AppColor.grey3,
-//                           size: 12,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             )),
-//       ),
-//       start: start,
-//       actualText: toString(),
-//       deleteAll: false,
-//     );
-//   }
-// }
-
 class SearchData {
+  /// Current query info without filters.
   final String query;
+
+  /// List of all applied filters.
   final List<String> filterStrings;
+
+  /// Info about the kind of [SearchFilters] this data associates with.
   final SearchFilters? searchFilters;
+
+  /// Default filters that will be applied to the query without being visible.
   final List<String> _defaultFilters;
+
+  /// Quick filters to show on the search bar.
   final List<String> quickFilters;
+
+  /// Multi type query for universal search bars.
   final bool multiType;
+
+  /// Current sort setting, defaults to 'best', which returns null on being queried.
   final String sort;
   SearchData({
     this.query = '',
@@ -1114,27 +1056,13 @@ class SearchData {
   })  : _defaultFilters = defaultHiddenFilters,
         this.multiType = searchFilters == null ? true : multiType;
 
+  /// Return string of the query without the default filters.
   @override
   String toString() {
     return query.trim() + ' ' + filterStrings.join(' ').trim() + ' ';
   }
 
-  String? get getSort => sort != 'best' ? sort.split('-').first : null;
-
-  bool? get isSortAsc => sort != 'best' ? sort.split('-').last == 'asc' : null;
-
-  bool get isActive => toString().trim().isNotEmpty;
-
-  List<String> get visibleStrings => filterStrings;
-
-  String? get activeQuickFilter {
-    List<String> active = [];
-    filterStrings.forEach((element) {
-      if (quickFilters.contains(element)) active.add(element);
-    });
-    if (active.length == 1) return active.first;
-  }
-
+  /// Return string of the query with the default filters.
   String get toQuery =>
       query.trim() +
       ' ' +
@@ -1142,15 +1070,42 @@ class SearchData {
       ' ' +
       filterStrings.join(' ').trim();
 
+  /// Get current sort setting. Returns null if it is "best".
+  String? get getSort => sort != 'best' ? sort.split('-').first : null;
+
+  /// Is sort setting ascending.
+  bool? get isSortAsc => sort != 'best' ? sort.split('-').last == 'asc' : null;
+
+  /// If search is active, i.e., [toString()] is not empty.
+  bool get isActive => toString().trim().isNotEmpty;
+
+  /// All current filter strings.
+  @Deprecated(
+      'Todo: Kind of redundant to have this. Remove and directly reference filterStrings?')
+  List<String> get visibleStrings => filterStrings;
+
+  /// Get if a quick filter is currently in the filters.
+  String? get activeQuickFilter {
+    List<String> active = [];
+    filterStrings.forEach((element) {
+      if (quickFilters.contains(element)) active.add(element);
+    });
+    // Return null if more than one.
+    if (active.length == 1) return active.first;
+  }
+
+  /// If current query is valid.
   bool get isValid => toQuery.trim().isNotEmpty;
 
+  /// Clear all search related data.
   SearchData get cleared => copyWith(
       query: '',
       filterStrings: [],
       sort: 'best',
       searchFilters: multiType ? null : searchFilters);
 
-  List<String> quickFilterChange(String quickFilter, List<String> allFilters) {
+  /// Replace the quick filters in all the filters and add a new one.
+  List<String> _quickFilterChange(String quickFilter, List<String> allFilters) {
     List<String> filters = allFilters.toList();
     filters.removeWhere((element) {
       return quickFilters.contains(element);
@@ -1159,6 +1114,7 @@ class SearchData {
     return filters;
   }
 
+  /// Copy search data with custom data.
   SearchData copyWith(
       {String? query,
       List<String>? filterStrings,
@@ -1167,7 +1123,8 @@ class SearchData {
       SearchFilters? searchFilters,
       String? sort}) {
     List<String> filters = filterStrings ?? this.filterStrings;
-    if (quickFilter != null) filters = quickFilterChange(quickFilter, filters);
+    // If a new quick filter is supplied, replace all current ones in the filters.
+    if (quickFilter != null) filters = _quickFilterChange(quickFilter, filters);
     return SearchData(
         query: query ?? this.query,
         filterStrings: filters,

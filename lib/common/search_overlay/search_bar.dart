@@ -408,7 +408,6 @@ class _SearchBarState extends State<SearchBar> {
                                   setState(() {
                                     searchData = data;
                                   });
-                                  print(searchData.toString());
                                   widget.onSubmit(searchData!);
                                 },
                                 key: Key(searchData.toString()),
