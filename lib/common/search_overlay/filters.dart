@@ -477,8 +477,8 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
   SearchQuery assignee =
       SearchQuery(SearchQueryStrings.assignee, type: QueryType.user);
-  SearchQuery author =
-      SearchQuery(SearchQueryStrings.author, customRegex: _authorRegex);
+  SearchQuery author = SearchQuery(SearchQueryStrings.author,
+      customRegex: _authorRegex, type: QueryType.user);
   SearchQuery authorName = SearchQuery(SearchQueryStrings.authorName);
   SearchQuery authorEmail = SearchQuery(SearchQueryStrings.authorEmail);
   SearchQuery authorDate = SearchQuery(SearchQueryStrings.authorDate);
@@ -798,9 +798,10 @@ class SearchQuery {
       {this.description,
       this.options,
       this.customRegex,
-      QueryType type = QueryType.basic,
+      QueryType? type,
       this.qualifierQuery = true})
-      : this.type = customRegex != null ? QueryType.custom : type {
+      : this.type =
+            type ?? (customRegex != null ? QueryType.custom : QueryType.basic) {
     if (type == QueryType.bool && options == null)
       options = {'true': '', 'false': ''};
   }

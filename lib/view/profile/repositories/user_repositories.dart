@@ -24,6 +24,15 @@ class UserRepositories extends StatelessWidget {
             defaultHiddenFilters: [
               SearchQueries().user.toQueryString(userInfoModel.login!)
             ]),
+        quickFilters: {
+          SearchQueries().iS.toQueryString('public'): 'Public',
+          SearchQueries().iS.toQueryString('private'): 'Private',
+          SearchQueries().archived.toQueryString('true'): 'Archived',
+          SearchQueries().mirror.toQueryString('true'): 'Mirrors',
+        },
+        quickOptions: {
+          SearchQueries().fork.toQueryString('true'): 'Include forks',
+        },
         scrollController: scrollController,
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',

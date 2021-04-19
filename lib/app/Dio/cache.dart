@@ -18,7 +18,7 @@ class CacheManager {
       CustomCacheOptions(refresh);
 
   static CustomCacheOptions search({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+      CustomCacheOptions(refresh, cachePolicy: CachePolicy.forceCache);
 
   static CustomCacheOptions events({bool refresh = false}) =>
       CustomCacheOptions(refresh);

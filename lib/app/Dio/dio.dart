@@ -56,7 +56,6 @@ class GetDio {
               debugPrint(error.toString());
             }
           }
-
           // Check cache first and return cached data if supplied maxAge
           // has not elapsed.
           if (cacheEnabled) {

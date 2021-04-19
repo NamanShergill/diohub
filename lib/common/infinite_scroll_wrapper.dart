@@ -24,7 +24,7 @@ typedef FilterFn<T>(List<T> items);
 /// [T] type is defined for the kind of elements to be displayed.
 class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// How to display the data. Give
-  final ScrollWrapperBuilder<T>? builder;
+  final ScrollWrapperBuilder<T> builder;
 
   /// The future to fetch data to display from.
   /// Gives you the current [pageNumber] and [pageSize], in that order.
@@ -85,12 +85,15 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
   final double scrollOffsetForPinnedHeader;
 
+  final Key? paginationKey;
+
   InfiniteScrollWrapper(
       {Key? key,
       required this.future,
-      this.builder,
+      required this.builder,
       this.controller,
       this.filterFn,
+      this.paginationKey,
       this.bottomSpacing = 0,
       this.header,
       this.pinnedHeader,
@@ -113,31 +116,161 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
         super(key: key);
 
   @override
-  _InfiniteScrollWrapperState<T> createState() =>
-      _InfiniteScrollWrapperState(controller);
+  _InfiniteScrollWrapperState<T> createState() => _InfiniteScrollWrapperState();
 }
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
-  _InfiniteScrollWrapperState(InfiniteScrollWrapperController? _controller) {
-    if (_controller != null) _controller.refresh = resetAndRefresh;
-  }
-
-  // Start off with the first page.
-  late int pageNumber;
-
-  // Define the paging controller.
-  final PagingController<int, T> _pagingController =
-      PagingController(firstPageKey: 0);
-
-  // If the API results are supposed to be refreshed
-  // or be fetched from cache, if available.
-  bool refresh = false;
-
+  late InfiniteScrollWrapperController controller;
   late ScrollController scrollController;
 
   @override
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
+    controller = widget.controller ?? InfiniteScrollWrapperController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget child = CustomScrollView(
+      controller: widget.isNestedScrollViewChild ? null : scrollController,
+      physics: widget.disableScroll
+          ? NeverScrollableScrollPhysics()
+          : BouncingScrollPhysics(),
+      shrinkWrap: widget.shrinkWrap,
+      slivers: [
+        if (widget.isNestedScrollViewChild)
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+        MultiSliver(
+          children: [
+            if (widget.header != null)
+              SliverToBoxAdapter(
+                child: widget.header!(context),
+              ),
+            _InfinitePagination<T>(
+                future: widget.future,
+                builder: widget.builder,
+                controller: controller,
+                key: widget.paginationKey,
+                filterFn: widget.filterFn,
+                firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
+                bottomSpacing: widget.bottomSpacing,
+                pageNumber: widget.pageNumber,
+                divider: widget.divider,
+                pageSize: widget.pageSize,
+                topSpacing: widget.topSpacing,
+                firstDivider: widget.firstDivider,
+                listEndIndicator: widget.listEndIndicator,
+                spacing: widget.spacing),
+          ],
+        ),
+      ],
+    );
+
+    if (!widget.disableRefresh)
+      child = RefreshIndicator(
+        color: Colors.white,
+        onRefresh: () => Future.sync(() async {
+          controller.refresh();
+        }),
+        child: child,
+      );
+
+    if (widget.showScrollToTopButton)
+      child = ScrollWrapper(
+        scrollController: scrollController,
+        child: child,
+        promptTheme: PromptButtonTheme(color: AppColor.accent),
+        promptReplacementBuilder: widget.pinnedHeader,
+      );
+
+    return child;
+  }
+}
+
+class _InfinitePagination<T> extends StatefulWidget {
+  /// How to display the data. Give
+  final ScrollWrapperBuilder<T> builder;
+
+  /// The future to fetch data to display from.
+  /// Gives you the current [pageNumber] and [pageSize], in that order.
+  final ScrollWrapperFuture<T> future;
+
+  /// Total number of elements in each page. Default value is **10**.
+  final int pageSize;
+
+  /// Page Number to start with. Default value is **1**.
+  final int pageNumber;
+
+  /// Show a divider between each element. Defaults to true.
+  final bool divider;
+
+  /// Show divider above the first item.
+  final bool firstDivider;
+
+  /// Filter the results before displaying them.
+  /// Gives the list of results that can be modified and returned.
+  final FilterFn<T>? filterFn;
+
+  /// A controller to call the refresh function if required.
+  final InfiniteScrollWrapperController controller;
+
+  /// Vertical spacing between each element.
+  final double spacing;
+
+  /// Spacing to add to the top of the list.
+  final double topSpacing;
+
+  /// Spacing to add to the bottom of the list.
+  final double bottomSpacing;
+
+  /// Show the list end indicator or not.
+  final bool listEndIndicator;
+
+  /// First page loading indicator.
+  final WidgetBuilder? firstPageLoadingBuilder;
+
+  _InfinitePagination(
+      {Key? key,
+      required this.future,
+      required this.builder,
+      this.filterFn,
+      required this.controller,
+      this.firstPageLoadingBuilder,
+      required this.bottomSpacing,
+      required this.pageNumber,
+      required this.divider,
+      required this.pageSize,
+      required this.topSpacing,
+      required this.firstDivider,
+      required this.listEndIndicator,
+      required this.spacing})
+      : super(key: key);
+
+  @override
+  _InfinitePaginationState<T> createState() =>
+      _InfinitePaginationState(controller);
+}
+
+class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
+  _InfinitePaginationState(InfiniteScrollWrapperController _controller) {
+    _controller.refresh = resetAndRefresh;
+  }
+  // Define the paging controller.
+  final PagingController<int, T> _pagingController =
+      PagingController(firstPageKey: 0);
+
+  // Start off with the first page.
+  late int pageNumber;
+
+  // If the API results are supposed to be refreshed
+  // or be fetched from cache, if available.
+  bool refresh = false;
+
+  @override
+  void initState() {
     pageNumber = widget.pageNumber;
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
@@ -196,120 +329,79 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = CustomScrollView(
-      controller: widget.isNestedScrollViewChild ? null : scrollController,
-      physics: widget.disableScroll
-          ? NeverScrollableScrollPhysics()
-          : BouncingScrollPhysics(),
-      shrinkWrap: widget.shrinkWrap,
-      slivers: [
-        if (widget.isNestedScrollViewChild)
-          SliverOverlapInjector(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+    return PagedSliverList<int, T>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<T>(
+        itemBuilder: (context, T item, index) => Column(children: [
+          if (index == 0)
+            SizedBox(
+              height: widget.topSpacing,
+            ),
+          Visibility(
+            visible:
+                widget.divider && (index == 0 ? widget.firstDivider : true),
+            child: Divider(
+              height: widget.spacing,
+            ),
           ),
-        MultiSliver(
+          Padding(
+            padding: widget.divider
+                ? EdgeInsets.all(0)
+                : EdgeInsets.only(top: widget.spacing),
+            child: widget.builder(context, item, index),
+          ),
+        ]),
+        firstPageProgressIndicatorBuilder: (context) =>
+            widget.firstPageLoadingBuilder != null
+                ? widget.firstPageLoadingBuilder!(context)
+                : Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: LoadingIndicator(),
+                  ),
+        newPageProgressIndicatorBuilder: (context) => Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: LoadingIndicator(),
+        ),
+        noItemsFoundIndicatorBuilder: (context) => Center(
+            child: Column(
           children: [
-            if (widget.header != null)
-              SliverToBoxAdapter(
-                child: widget.header!(context),
-              ),
-            PagedSliverList<int, T>(
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<T>(
-                itemBuilder: (context, T item, index) => Column(children: [
-                  if (index == 0)
-                    SizedBox(
-                      height: widget.topSpacing,
-                    ),
-                  Visibility(
-                    visible: widget.divider &&
-                        (index == 0 ? widget.firstDivider : true),
-                    child: Divider(
-                      height: widget.spacing,
-                    ),
+            SizedBox(
+              height: widget.topSpacing,
+            ),
+            Expanded(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'And then there were none.',
+                    style: TextStyle(color: AppColor.grey3),
                   ),
-                  Padding(
-                    padding: widget.divider
-                        ? EdgeInsets.all(0)
-                        : EdgeInsets.only(top: widget.spacing),
-                    child: widget.builder!(context, item, index),
-                  ),
-                ]),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    widget.firstPageLoadingBuilder != null
-                        ? widget.firstPageLoadingBuilder!(context)
-                        : Padding(
-                            padding: const EdgeInsets.all(32.0),
-                            child: LoadingIndicator(),
-                          ),
-                newPageProgressIndicatorBuilder: (context) => Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: LoadingIndicator(),
                 ),
-                noItemsFoundIndicatorBuilder: (context) => Center(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      height: widget.topSpacing,
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            'And then there were none.',
-                            style: TextStyle(color: AppColor.grey3),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-                noMoreItemsIndicatorBuilder: (context) => widget
-                        .listEndIndicator
-                    ? Center(
-                        child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'The end of the line.',
-                              style: TextStyle(color: AppColor.grey3),
-                            ),
-                            SizedBox(
-                              height: widget.bottomSpacing,
-                            ),
-                          ],
-                        ),
-                      ))
-                    : Padding(
-                        padding: EdgeInsets.only(bottom: widget.bottomSpacing),
-                        child: Container(),
-                      ),
               ),
             ),
           ],
-        ),
-      ],
+        )),
+        noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
+            ? Center(
+                child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'The end of the line.',
+                      style: TextStyle(color: AppColor.grey3),
+                    ),
+                    SizedBox(
+                      height: widget.bottomSpacing,
+                    ),
+                  ],
+                ),
+              ))
+            : Padding(
+                padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                child: Container(),
+              ),
+      ),
     );
-
-    if (!widget.disableRefresh)
-      child = RefreshIndicator(
-        color: Colors.white,
-        onRefresh: () => Future.sync(() async {
-          resetAndRefresh();
-        }),
-        child: child,
-      );
-
-    if (widget.showScrollToTopButton)
-      child = ScrollWrapper(
-        scrollController: scrollController,
-        child: child,
-        promptTheme: PromptButtonTheme(color: AppColor.accent),
-        promptReplacementBuilder: widget.pinnedHeader,
-      );
-
-    return child;
   }
 }

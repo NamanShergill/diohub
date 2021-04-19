@@ -41,11 +41,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
   }
 
   bool get isEmpty =>
-      searchData.query.trim().isEmpty && searchData.filterStrings.isEmpty;
+      searchData.query.trim().isEmpty && searchData.visibleStrings.isEmpty;
 
   bool get isValid {
     bool isValid = false;
-    searchData.filterStrings.forEach((element) {
+    searchData.visibleStrings.forEach((element) {
       SearchQuery query =
           searchData.searchFilters!.queryFromString(element.split(':').first)!;
       if (query.qualifierQuery) isValid = true;
@@ -531,7 +531,7 @@ class _SearchBarState extends State<_SearchBar> {
                       setState(() {
                         controller.text = '';
                       });
-                      _parseQuery(controller.text);
+                      widget.onChanged(searchData.cleared);
                     },
                     child: Center(
                         child: Padding(
@@ -688,7 +688,9 @@ class _SearchBarState extends State<_SearchBar> {
         pattern.replaceAll(widget._searchFilters.allInvalidQueriesRegExp, '');
     pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
     widget.onChanged(searchData.copyWith(
-        query: pattern, filterStrings: filterStrings, filters: filters));
+      query: pattern,
+      filterStrings: filterStrings,
+    ));
   }
 
   void _suggestions(String pattern) {
@@ -1114,12 +1116,7 @@ class SearchData {
 
   @override
   String toString() {
-    return query.trim() +
-        ' ' +
-        filterStrings.join(' ').trim() +
-        ' ' +
-        quickFilters.join(' ').trim() +
-        ' ';
+    return query.trim() + ' ' + filterStrings.join(' ').trim() + ' ';
   }
 
   String? get getSort => sort != 'best' ? sort.split('-').first : null;
@@ -1128,14 +1125,22 @@ class SearchData {
 
   bool get isActive => toString().trim().isNotEmpty;
 
+  List<String> get visibleStrings => filterStrings;
+
+  String? get activeQuickFilter {
+    List<String> active = [];
+    filterStrings.forEach((element) {
+      if (quickFilters.contains(element)) active.add(element);
+    });
+    if (active.length == 1) return active.first;
+  }
+
   String get toQuery =>
       query.trim() +
       ' ' +
       _defaultFilters.join(' ').trim() +
       ' ' +
-      filterStrings.join(' ').trim() +
-      quickFilters.join(' ').trim() +
-      ' ';
+      filterStrings.join(' ').trim();
 
   bool get isValid => toQuery.trim().isNotEmpty;
 
@@ -1143,19 +1148,29 @@ class SearchData {
       query: '',
       filterStrings: [],
       sort: 'best',
-      quickFilters: [],
       searchFilters: multiType ? null : searchFilters);
+
+  List<String> quickFilterChange(String quickFilter, List<String> allFilters) {
+    List<String> filters = allFilters.toList();
+    filters.removeWhere((element) {
+      return quickFilters.contains(element);
+    });
+    filters.add(quickFilter);
+    return filters;
+  }
 
   SearchData copyWith(
       {String? query,
       List<String>? filterStrings,
       List<String>? quickFilters,
-      List<SearchQuery>? filters,
+      String? quickFilter,
       SearchFilters? searchFilters,
       String? sort}) {
+    List<String> filters = filterStrings ?? this.filterStrings;
+    if (quickFilter != null) filters = quickFilterChange(quickFilter, filters);
     return SearchData(
         query: query ?? this.query,
-        filterStrings: filterStrings ?? this.filterStrings,
+        filterStrings: filters,
         defaultHiddenFilters: _defaultFilters,
         multiType: multiType,
         quickFilters: quickFilters ?? this.quickFilters,

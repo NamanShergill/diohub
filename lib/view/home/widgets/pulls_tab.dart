@@ -19,10 +19,14 @@ class PullsTab extends StatelessWidget {
             SearchQueries().involves.toQueryString(_user!.login!),
             SearchQueries().type.toQueryString('pr'),
           ]),
-      applyFiltersOnOpen: [
-        SearchQueries().author.toQueryString(_user.login!),
-        SearchQueries().iS.toQueryString('open'),
-      ],
+      quickFilters: {
+        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned',
+        SearchQueries().author.toQueryString(_user.login!): 'Created',
+        SearchQueries().mentions.toQueryString(_user.login!): 'Mentioned',
+      },
+      quickOptions: {
+        SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
+      },
       scrollController: scrollController,
       searchBarMessage: 'Search in your pull requests',
       searchHeroTag: '${_user.login}issueSearch',

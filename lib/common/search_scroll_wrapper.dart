@@ -26,20 +26,20 @@ class SearchScrollWrapper extends StatefulWidget {
   final EdgeInsets _searchBarPadding;
   final backgroundBuilder;
   final Color searchBarColor;
-  final Map<String, List<String>>? quickFilters;
+  final Map<String, String>? quickFilters;
+  final Map<String, String>? quickOptions;
+
   final WidgetBuilder? header;
   final ScrollController? scrollController;
   final bool isNestedScrollViewChild;
   final replacementBuilder;
-  final List<String>? applyFiltersOnOpen;
-  // Todo: Remove this?
   final ValueChanged<SearchData>? onChanged;
   SearchScrollWrapper(this.searchData,
       {this.searchBarMessage,
-      this.applyFiltersOnOpen,
       this.header,
       this.quickFilters,
       this.replacementBuilder,
+      this.quickOptions,
       this.scrollController,
       this.isNestedScrollViewChild = true,
       this.backgroundBuilder,
@@ -73,18 +73,29 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    Widget header(context) {
+    Widget header(context, function) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: widget._searchBarPadding,
+            padding:
+                function != null ? EdgeInsets.zero : widget._searchBarPadding,
             child: SearchBar(
               // key: ValueKey(searchData.toQuery),
-              heroTag: widget.searchHeroTag,
+              heroTag: widget.searchHeroTag != null
+                  ? widget.searchHeroTag! + (function != null).toString()
+                  : null,
               quickFilters: widget.quickFilters,
+              quickOptions: widget.quickOptions,
               searchData: searchData,
-              applyFiltersOnOpen: widget.applyFiltersOnOpen,
+              isPinned: function != null,
+              trailing: function != null
+                  ? IconButton(
+                      icon: Icon(Icons.keyboard_arrow_up_rounded),
+                      onPressed: () {
+                        function();
+                      })
+                  : null,
               prompt: widget.searchBarMessage,
               backgroundColor: widget.searchBarColor,
               onSubmit: (data) {
@@ -98,30 +109,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           ),
           if (widget.header != null) widget.header!(context),
         ],
-      );
-    }
-
-    Widget pinnedHeader(context, function) {
-      return SearchBar(
-        // key: ValueKey(searchData.toQuery),
-        heroTag: (widget.searchHeroTag ?? 'search') + 'pinned',
-        searchData: searchData,
-        applyFiltersOnOpen: widget.applyFiltersOnOpen,
-        prompt: widget.searchBarMessage,
-        isPinned: true,
-        trailing: IconButton(
-            icon: Icon(Icons.keyboard_arrow_up_rounded),
-            onPressed: () {
-              function();
-            }),
-        backgroundColor: widget.searchBarColor,
-        onSubmit: (data) {
-          setState(() {
-            searchData = data;
-          });
-          if (widget.onChanged != null) widget.onChanged!(data);
-          controller.refresh();
-        },
       );
     }
 
@@ -141,10 +128,11 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                     perPage: pageSize,
                     page: pageNumber,
                     sort: searchData.getSort,
-                    ascending: searchData.isSortAsc);
+                    ascending: searchData.isSortAsc,
+                    refresh: refresh);
               },
-              header: header,
-              pinnedHeader: searchData.isActive ? pinnedHeader : null,
+              header: (context) => header(context, null),
+              pinnedHeader: searchData.isActive ? header : null,
               builder: (context, item, index) {
                 return Padding(
                   padding: widget.padding,
@@ -163,17 +151,16 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               searchData: searchData,
               scrollController: widget.scrollController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchIssues(
-                  searchData.toQuery,
-                  perPage: pageSize,
-                  page: pageNumber,
-                  sort: searchData.getSort,
-                  ascending: searchData.isSortAsc,
-                );
+                return SearchService.searchIssues(searchData.toQuery,
+                    perPage: pageSize,
+                    page: pageNumber,
+                    sort: searchData.getSort,
+                    ascending: searchData.isSortAsc,
+                    refresh: refresh);
               },
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
-              header: header,
-              pinnedHeader: searchData.isActive ? pinnedHeader : null,
+              header: (context) => header(context, null),
+              pinnedHeader: searchData.isActive ? header : null,
               builder: (context, item, index) {
                 return Padding(
                   padding: widget.padding,
@@ -193,14 +180,15 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               controller: controller,
               searchData: searchData,
               scrollController: widget.scrollController,
-              header: header,
-              pinnedHeader: searchData.isActive ? pinnedHeader : null,
+              header: (context) => header(context, null),
+              pinnedHeader: searchData.isActive ? header : null,
               searchFuture: (pageNumber, pageSize, refresh, _) {
                 return SearchService.searchUsers(searchData.toQuery,
                     perPage: pageSize,
                     page: pageNumber,
                     sort: searchData.getSort,
-                    ascending: searchData.isSortAsc);
+                    ascending: searchData.isSortAsc,
+                    refresh: refresh);
               },
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
               builder: (context, item, index) {
@@ -256,9 +244,9 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       filterFn: filterFn,
       scrollController: scrollController,
       future: searchFuture,
-      // key: ValueKey(searchData.toQuery +
-      //     searchData.isActive.toString() +
-      //     searchData.sort),
+      paginationKey: ValueKey(searchData.toQuery +
+          searchData.isActive.toString() +
+          searchData.sort),
       divider: false,
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,

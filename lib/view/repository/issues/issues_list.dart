@@ -4,6 +4,7 @@ import 'package:onehub/common/search_overlay/search_overlay.dart';
 import 'package:onehub/common/search_scroll_wrapper.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
+import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
@@ -12,6 +13,7 @@ class IssuesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
+    final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
     return SearchScrollWrapper(
       SearchData(
           searchFilters:
@@ -22,9 +24,15 @@ class IssuesList extends StatelessWidget {
                 .repo
                 .toQueryString(_repo.repositoryModel!.fullName!),
           ]),
-      applyFiltersOnOpen: [
-        SearchQueries().iS.toQueryString('open'),
-      ],
+      quickFilters: {
+        SearchQueries().assignee.toQueryString(_user!.login!):
+            'Assigned to you',
+        SearchQueries().author.toQueryString(_user.login!): 'Your issues',
+        SearchQueries().mentions.toQueryString(_user.login!): 'Mentions you',
+      },
+      quickOptions: {
+        SearchQueries().iS.toQueryString('open'): 'Open issues only',
+      },
       scrollController: scrollController,
       searchBarMessage: 'Search in ${_repo.repositoryModel!.name}\'s issues',
       searchHeroTag: 'repoIssueSearch',

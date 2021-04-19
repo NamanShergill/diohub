@@ -14,25 +14,20 @@ class IssuesTab extends StatelessWidget {
     final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user!.login!),
-            SearchQueries().type.toQueryString('issue'),
-          ]),
+        searchFilters:
+            SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
+        defaultHiddenFilters: [
+          SearchQueries().involves.toQueryString(_user!.login!),
+          SearchQueries().type.toQueryString('issue'),
+        ],
+      ),
       quickFilters: {
-        'Assigned': [
-          SearchQueries().assignee.toQueryString(_user.login!),
-          SearchQueries().iS.toQueryString('open')
-        ],
-        'Created': [
-          SearchQueries().author.toQueryString(_user.login!),
-          SearchQueries().iS.toQueryString('open')
-        ],
-        'Mentioned': [
-          SearchQueries().mentions.toQueryString(_user.login!),
-          SearchQueries().iS.toQueryString('open')
-        ],
+        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned',
+        SearchQueries().author.toQueryString(_user.login!): 'Created',
+        SearchQueries().mentions.toQueryString(_user.login!): 'Mentioned',
+      },
+      quickOptions: {
+        SearchQueries().iS.toQueryString('open'): 'Open issues only',
       },
       scrollController: scrollController,
       searchBarMessage: 'Search in your issues',
