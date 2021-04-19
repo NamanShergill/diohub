@@ -89,6 +89,12 @@ class _SearchBarState extends State<SearchBar> {
       });
   }
 
+  @override
+  didUpdateWidget(oldWidget) {
+    searchData = widget.searchData;
+    super.didUpdateWidget(oldWidget);
+  }
+
   bool quickActionsAnim = false;
   bool sortExpanded = false;
   bool quickFiltersExpanded = false;
@@ -377,11 +383,13 @@ class _SearchBarState extends State<SearchBar> {
                       if (searchData != null && (searchData?.isActive ?? false))
                         Material(
                           color: AppColor.accent,
-                          borderRadius: BorderRadius.only(
-                              topRight: AppThemeBorderRadius
-                                  .medBorderRadius.bottomLeft,
-                              topLeft: AppThemeBorderRadius
-                                  .medBorderRadius.bottomRight),
+                          borderRadius: widget.isPinned
+                              ? null
+                              : BorderRadius.only(
+                                  topRight: AppThemeBorderRadius
+                                      .medBorderRadius.bottomLeft,
+                                  topLeft: AppThemeBorderRadius
+                                      .medBorderRadius.bottomRight),
                           child: Padding(
                             padding: widget.isPinned
                                 ? EdgeInsets.symmetric(
@@ -393,105 +401,17 @@ class _SearchBarState extends State<SearchBar> {
                                         : 4)
                                 : const EdgeInsets.all(8.0),
                             child: SizeExpandedSection(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        if (searchData!.query.trim().isNotEmpty)
-                                          Flexible(
-                                            child: Row(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
-                                                  child: Icon(
-                                                    LineIcons.search,
-                                                    color: Colors.white,
-                                                    size: 14,
-                                                  ),
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                      'Searching for "${searchData!.query.trim()}"'),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        if (searchData!
-                                                .visibleStrings.isNotEmpty &&
-                                            searchData!.query.trim().isNotEmpty)
-                                          Divider(
-                                            color: Colors.white,
-                                            thickness: 0.6,
-                                          ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8),
-                                          child: Wrap(
-                                            children: List.generate(
-                                                searchData!
-                                                    .visibleStrings.length,
-                                                (index) => Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        RichText(
-                                                          text: TextSpan(
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .subtitle1,
-                                                              children: [
-                                                                TextSpan(
-                                                                    text: searchData!
-                                                                            .visibleStrings[
-                                                                                index]
-                                                                            .trim()
-                                                                            .replaceAll('"',
-                                                                                '')
-                                                                            .split(
-                                                                                ':')
-                                                                            .first +
-                                                                        ' ',
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                                TextSpan(
-                                                                    text: searchData!
-                                                                            .visibleStrings[
-                                                                                index]
-                                                                            .trim()
-                                                                            .replaceAll('"',
-                                                                                '')
-                                                                            .split(':')
-                                                                            .last +
-                                                                        '${index == searchData!.visibleStrings.length - 1 ? '' : ', '} '),
-                                                              ]),
-                                                        ),
-                                                      ],
-                                                    )),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  widget.trailing ??
-                                      IconButton(
-                                          icon: Icon(Icons.close),
-                                          onPressed: () {
-                                            setState(() {
-                                              searchData = searchData!.cleared;
-                                            });
-                                            widget
-                                                .onSubmit(searchData!.cleared);
-                                          })
-                                ],
+                              child: _ActiveSearch(
+                                searchData: searchData!,
+                                trailing: widget.trailing,
+                                onSubmit: (data) {
+                                  setState(() {
+                                    searchData = data;
+                                  });
+                                  print(searchData.toString());
+                                  widget.onSubmit(searchData!);
+                                },
+                                key: Key(searchData.toString()),
                               ),
                             ),
                           ),
@@ -537,6 +457,100 @@ class _SearchBarState extends State<SearchBar> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ActiveSearch extends StatelessWidget {
+  final SearchData searchData;
+  final Widget? trailing;
+  final ValueChanged<SearchData> onSubmit;
+  _ActiveSearch(
+      {required this.searchData,
+      this.trailing,
+      required this.onSubmit,
+      Key? key})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (searchData.query.trim().isNotEmpty)
+                Flexible(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Icon(
+                          LineIcons.search,
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                      ),
+                      Flexible(
+                        child:
+                            Text('Searching for "${searchData.query.trim()}"'),
+                      ),
+                    ],
+                  ),
+                ),
+              if (searchData.visibleStrings.isNotEmpty &&
+                  searchData.query.trim().isNotEmpty)
+                Divider(
+                  color: Colors.white,
+                  thickness: 0.6,
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Wrap(
+                  children: List.generate(
+                      searchData.visibleStrings.length,
+                      (index) => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                    children: [
+                                      TextSpan(
+                                          text: searchData.visibleStrings[index]
+                                                  .trim()
+                                                  .replaceAll('"', '')
+                                                  .split(':')
+                                                  .first +
+                                              ' ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: searchData.visibleStrings[index]
+                                                  .trim()
+                                                  .replaceAll('"', '')
+                                                  .split(':')
+                                                  .last +
+                                              '${index == searchData.visibleStrings.length - 1 ? '' : ', '} '),
+                                    ]),
+                              ),
+                            ],
+                          )),
+                ),
+              ),
+            ],
+          ),
+        ),
+        trailing ??
+            IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  onSubmit(searchData.cleared);
+                })
+      ],
     );
   }
 }

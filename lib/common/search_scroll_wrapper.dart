@@ -28,15 +28,12 @@ class SearchScrollWrapper extends StatefulWidget {
   final Color searchBarColor;
   final Map<String, String>? quickFilters;
   final Map<String, String>? quickOptions;
-
-  final WidgetBuilder? header;
   final ScrollController? scrollController;
   final bool isNestedScrollViewChild;
   final replacementBuilder;
   final ValueChanged<SearchData>? onChanged;
   SearchScrollWrapper(this.searchData,
       {this.searchBarMessage,
-      this.header,
       this.quickFilters,
       this.replacementBuilder,
       this.quickOptions,
@@ -74,41 +71,33 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
   @override
   Widget build(BuildContext context) {
     Widget header(context, function) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding:
-                function != null ? EdgeInsets.zero : widget._searchBarPadding,
-            child: SearchBar(
-              // key: ValueKey(searchData.toQuery),
-              heroTag: widget.searchHeroTag != null
-                  ? widget.searchHeroTag! + (function != null).toString()
-                  : null,
-              quickFilters: widget.quickFilters,
-              quickOptions: widget.quickOptions,
-              searchData: searchData,
-              isPinned: function != null,
-              trailing: function != null
-                  ? IconButton(
-                      icon: Icon(Icons.keyboard_arrow_up_rounded),
-                      onPressed: () {
-                        function();
-                      })
-                  : null,
-              prompt: widget.searchBarMessage,
-              backgroundColor: widget.searchBarColor,
-              onSubmit: (data) {
-                setState(() {
-                  searchData = data;
-                });
-                if (widget.onChanged != null) widget.onChanged!(data);
-                controller.refresh();
-              },
-            ),
-          ),
-          if (widget.header != null) widget.header!(context),
-        ],
+      return Padding(
+        padding: function != null ? EdgeInsets.zero : widget.padding,
+        child: SearchBar(
+          heroTag: widget.searchHeroTag != null
+              ? widget.searchHeroTag! + (function != null).toString()
+              : null,
+          quickFilters: widget.quickFilters,
+          quickOptions: widget.quickOptions,
+          searchData: searchData,
+          isPinned: function != null,
+          trailing: function != null
+              ? IconButton(
+                  icon: Icon(Icons.keyboard_arrow_up_rounded),
+                  onPressed: () {
+                    function();
+                  })
+              : null,
+          prompt: widget.searchBarMessage,
+          backgroundColor: widget.searchBarColor,
+          onSubmit: (data) {
+            setState(() {
+              searchData = data;
+            });
+            if (widget.onChanged != null) widget.onChanged!(data);
+            controller.refresh();
+          },
+        ),
       );
     }
 
