@@ -389,49 +389,37 @@ class _SearchBarState extends State<SearchBar> {
                 child: Container(
                   child: Column(
                     children: [
-                      if (searchData != null)
-                        ClipRRect(
+                      if (searchData != null && (searchData?.isActive ?? false))
+                        Material(
+                          color: AppColor.accent,
                           borderRadius: widget.isPinned
-                              ? BorderRadius.all(Radius.circular(0))
+                              ? null
                               : BorderRadius.only(
                                   topRight: AppThemeBorderRadius
                                       .medBorderRadius.bottomLeft,
                                   topLeft: AppThemeBorderRadius
                                       .medBorderRadius.bottomRight),
-                          child: SizeExpandedSection(
-                            expand: (searchData?.isActive ?? false),
-                            child: Material(
-                              color: AppColor.accent,
-                              borderRadius: widget.isPinned
-                                  ? null
-                                  : BorderRadius.only(
-                                      topRight: AppThemeBorderRadius
-                                          .medBorderRadius.bottomLeft,
-                                      topLeft: AppThemeBorderRadius
-                                          .medBorderRadius.bottomRight),
-                              child: Padding(
-                                padding: widget.isPinned
-                                    ? EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: searchData!.visibleStrings
-                                                    .isNotEmpty &&
-                                                searchData!.query
-                                                    .trim()
-                                                    .isNotEmpty
-                                            ? 8
-                                            : 4)
-                                    : const EdgeInsets.all(8.0),
-                                child: _ActiveSearch(
-                                  searchData: searchData!,
-                                  trailing: widget.trailing,
-                                  onSubmit: (data) {
-                                    setState(() {
-                                      searchData = data;
-                                    });
-                                    widget.onSubmit(searchData!);
-                                  },
-                                  key: Key(searchData.toString()),
-                                ),
+                          child: Padding(
+                            padding: widget.isPinned
+                                ? EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: searchData!
+                                                .visibleStrings.isNotEmpty &&
+                                            searchData!.query.trim().isNotEmpty
+                                        ? 8
+                                        : 4)
+                                : const EdgeInsets.all(8.0),
+                            child: SizeExpandedSection(
+                              child: _ActiveSearch(
+                                searchData: searchData!,
+                                trailing: widget.trailing,
+                                onSubmit: (data) {
+                                  setState(() {
+                                    searchData = data;
+                                  });
+                                  widget.onSubmit(searchData!);
+                                },
+                                key: Key(searchData.toString()),
                               ),
                             ),
                           ),
