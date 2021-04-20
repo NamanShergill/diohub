@@ -58,9 +58,6 @@ class SearchFilters {
   /// Get regexp to match date queries in a string.
   RegExp? get dateQRegExp => _dateQRegExp;
 
-  // List<SearchQuery> get queries => _queries;
-  // List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
-
   /// Get all whitelisted queries for the [SearchFilters] instance.
   List<SearchQuery> get whiteListedQueries {
     List<SearchQuery> list = _sensitiveQueries + _basicQueries;
@@ -284,6 +281,7 @@ class SearchFilters {
     ], blacklist);
   }
 
+  /// Create regexp for sensitive queries.
   RegExp _getSensitiveQueryRegExp(List<SearchQuery> queries) {
     List<SearchQuery> optionQ = [];
     List<SearchQuery> dateQ = [];
@@ -412,6 +410,7 @@ class SearchFilters {
     return RegExp(regex);
   }
 
+  /// Filter queries into basic, sensitive, or blacklist groups.
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
     List<SearchQuery> allQueries = searchQueries.allQueries;
     original.forEach(
@@ -431,6 +430,7 @@ class SearchFilters {
     _blackList.addAll(filteredBlackList);
   }
 
+  /// Get regex for optional quotes around a string.
   static String optionalQuotes(String string,
       {bool allowSpace = false, String? spacedRegex}) {
     if (allowSpace) return '(((?:")$spacedRegex(?:"))|($string))';

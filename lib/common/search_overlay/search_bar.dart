@@ -67,6 +67,16 @@ class _SearchBarState extends State<SearchBar> {
     return tMap;
   }
 
+  String getQuickFilterTitle(
+      Map<String, String> qFilters, String? activeFilter) {
+    String qFilter = 'Quick Filters';
+    qFilters.forEach((key, value) {
+      if (key.toLowerCase() == activeFilter?.toLowerCase())
+        qFilter = qFilters[key]!;
+    });
+    return qFilter;
+  }
+
   void changeSortExpanded({bool? expand}) {
     if (expand != null)
       setState(() {
@@ -219,9 +229,8 @@ class _SearchBarState extends State<SearchBar> {
                               !sortExpanded,
                               CustomExpandTile(
                                 title: Text(
-                                  widget.quickFilters![
-                                          searchData!.activeQuickFilter] ??
-                                      'Quick Filters',
+                                  getQuickFilterTitle(widget.quickFilters!,
+                                      searchData!.activeQuickFilter),
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2!
@@ -380,37 +389,49 @@ class _SearchBarState extends State<SearchBar> {
                 child: Container(
                   child: Column(
                     children: [
-                      if (searchData != null && (searchData?.isActive ?? false))
-                        Material(
-                          color: AppColor.accent,
+                      if (searchData != null)
+                        ClipRRect(
                           borderRadius: widget.isPinned
-                              ? null
+                              ? BorderRadius.all(Radius.circular(0))
                               : BorderRadius.only(
                                   topRight: AppThemeBorderRadius
                                       .medBorderRadius.bottomLeft,
                                   topLeft: AppThemeBorderRadius
                                       .medBorderRadius.bottomRight),
-                          child: Padding(
-                            padding: widget.isPinned
-                                ? EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: searchData!
-                                                .visibleStrings.isNotEmpty &&
-                                            searchData!.query.trim().isNotEmpty
-                                        ? 8
-                                        : 4)
-                                : const EdgeInsets.all(8.0),
-                            child: SizeExpandedSection(
-                              child: _ActiveSearch(
-                                searchData: searchData!,
-                                trailing: widget.trailing,
-                                onSubmit: (data) {
-                                  setState(() {
-                                    searchData = data;
-                                  });
-                                  widget.onSubmit(searchData!);
-                                },
-                                key: Key(searchData.toString()),
+                          child: SizeExpandedSection(
+                            expand: (searchData?.isActive ?? false),
+                            child: Material(
+                              color: AppColor.accent,
+                              borderRadius: widget.isPinned
+                                  ? null
+                                  : BorderRadius.only(
+                                      topRight: AppThemeBorderRadius
+                                          .medBorderRadius.bottomLeft,
+                                      topLeft: AppThemeBorderRadius
+                                          .medBorderRadius.bottomRight),
+                              child: Padding(
+                                padding: widget.isPinned
+                                    ? EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: searchData!.visibleStrings
+                                                    .isNotEmpty &&
+                                                searchData!.query
+                                                    .trim()
+                                                    .isNotEmpty
+                                            ? 8
+                                            : 4)
+                                    : const EdgeInsets.all(8.0),
+                                child: _ActiveSearch(
+                                  searchData: searchData!,
+                                  trailing: widget.trailing,
+                                  onSubmit: (data) {
+                                    setState(() {
+                                      searchData = data;
+                                    });
+                                    widget.onSubmit(searchData!);
+                                  },
+                                  key: Key(searchData.toString()),
+                                ),
                               ),
                             ),
                           ),

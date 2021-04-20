@@ -1088,7 +1088,9 @@ class SearchData {
   String? get activeQuickFilter {
     List<String> active = [];
     filterStrings.forEach((element) {
-      if (quickFilters.contains(element)) active.add(element);
+      quickFilters.forEach((e) {
+        if (e.toLowerCase() == element.toLowerCase()) active.add(element);
+      });
     });
     // Return null if more than one.
     if (active.length == 1) return active.first;
@@ -1108,7 +1110,11 @@ class SearchData {
   List<String> _quickFilterChange(String quickFilter, List<String> allFilters) {
     List<String> filters = allFilters.toList();
     filters.removeWhere((element) {
-      return quickFilters.contains(element);
+      bool exists = false;
+      quickFilters.forEach((e) {
+        if (e.toLowerCase() == element.toLowerCase()) exists = true;
+      });
+      return exists;
     });
     filters.add(quickFilter);
     return filters;

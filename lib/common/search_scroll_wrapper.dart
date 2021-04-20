@@ -18,19 +18,41 @@ typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
     int pageSize, bool refresh, T? lastItem, String? sort, bool? isAscending);
 
 class SearchScrollWrapper extends StatefulWidget {
+  /// Search Data this search wrapper would be attached to.
   final SearchData searchData;
+
+  /// Filter function for the search results.
   final FilterFn? filterFn;
+
+  /// Message to show on the search bar.
   final String? searchBarMessage;
+
+  /// Hero tag of the search bar.
   final String? searchHeroTag;
+
+  /// Padding of wrapper.
   final EdgeInsets padding;
   final EdgeInsets _searchBarPadding;
-  final backgroundBuilder;
+
+  /// Background color of the search bar.
   final Color searchBarColor;
+
+  /// Quick filters to be shown in the search bar in a dropdown.
   final Map<String, String>? quickFilters;
+
+  /// Quick options to be shown in the search bar as a checkbox.
   final Map<String, String>? quickOptions;
+
+  /// Scroll controller of the infinite list.
   final ScrollController? scrollController;
+
+  /// Is the child of a nested scroll view.
   final bool isNestedScrollViewChild;
+
+  /// Replacement builder if search data is empty.
   final replacementBuilder;
+
+  /// Callback for when search data is changed.
   final ValueChanged<SearchData>? onChanged;
   SearchScrollWrapper(this.searchData,
       {this.searchBarMessage,
@@ -39,7 +61,6 @@ class SearchScrollWrapper extends StatefulWidget {
       this.quickOptions,
       this.scrollController,
       this.isNestedScrollViewChild = true,
-      this.backgroundBuilder,
       EdgeInsets? searchBarPadding,
       this.onChanged,
       this.searchBarColor = AppColor.background,
@@ -162,9 +183,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
             );
           else if (searchData.searchFilters!.searchType == SearchType.users)
             return _InfiniteWrapper<UserInfoModel>(
-              key: ValueKey(searchData.toQuery +
-                  searchData.isActive.toString() +
-                  searchData.sort),
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,

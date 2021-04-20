@@ -73,18 +73,22 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   // Disable refreshing.
   final bool disableRefresh;
 
+  /// Disable scrolling.
   final bool disableScroll;
 
   final bool shrinkWrap;
 
+  /// Is the child of a nested scroll view.
   final bool isNestedScrollViewChild;
 
+  /// Pinned header to show on scroll.
   final ReplacementBuilder? pinnedHeader;
 
+  /// Show scroll to top button.
   final bool showScrollToTopButton;
 
-  final double scrollOffsetForPinnedHeader;
-
+  /// [Key] to give the infinite scroll wrapper to force it to rebuild the list
+  /// on new data,
   final Key? paginationKey;
 
   InfiniteScrollWrapper(
@@ -103,7 +107,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.pageSize = 10,
       this.topSpacing = 0,
       this.isNestedScrollViewChild = false,
-      this.scrollOffsetForPinnedHeader = 300,
       this.disableScroll = false,
       this.disableRefresh = false,
       this.firstDivider = true,
