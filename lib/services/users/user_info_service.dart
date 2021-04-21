@@ -27,7 +27,6 @@ class UserInfoService {
     String? sort,
     bool? ascending = false,
   }) async {
-    print(sort);
     Response response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/user/repos', queryParameters: {

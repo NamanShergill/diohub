@@ -1,18 +1,6 @@
 import 'package:intl/intl.dart';
 
 String getDate(String date, {bool shorten = true}) {
-  // Todo: I can't figure out how GitHub decides the dates on notifications. Do this later.
-
-  //If notification reason is assign, it will show issue creation date.
-  // if (widget.notification.reason == 'assign')
-  //   date = widget.notification.updatedAt;
-  // else {
-  //   if (DateTime.parse(latestIssueEvent.createdAt)
-  //       .isAfter(DateTime.parse(latestComment.createdAt)))
-  //     date = latestIssueEvent.createdAt;
-  //   else
-  //     date = latestComment.createdAt;
-  // }
   DateTime _dateTime = DateTime.parse(date);
   Duration _difference = DateTime.now().difference(_dateTime);
   if (_difference.inMinutes < 1) {

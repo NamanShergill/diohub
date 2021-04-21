@@ -31,7 +31,7 @@ class AboutUser extends StatelessWidget {
             InfoCard(
               'Twitter',
               onTap: () {
-                showURLBottomActionsMenu(context,
+                linkHandler(context,
                     'https://twitter.com/${userInfoModel!.twitterUsername}');
               },
               child: Row(
@@ -51,8 +51,7 @@ class AboutUser extends StatelessWidget {
             InfoCard(
               'Email',
               onTap: () {
-                showURLBottomActionsMenu(
-                    context, 'mailto:${userInfoModel!.email}');
+                linkHandler(context, 'mailto:${userInfoModel!.email}');
               },
               child: Row(
                 children: [
@@ -71,7 +70,7 @@ class AboutUser extends StatelessWidget {
             InfoCard(
               'Blog',
               onTap: () {
-                showURLBottomActionsMenu(context, userInfoModel!.blog);
+                linkHandler(context, userInfoModel!.blog);
               },
               child: Row(
                 children: [

@@ -85,6 +85,9 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: widget.childAnchor == Alignment.topCenter
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
               children: [
                 Flexible(child: widget.overlay),
               ],

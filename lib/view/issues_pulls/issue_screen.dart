@@ -32,6 +32,7 @@ class IssueScreen extends StatefulWidget {
 class _IssueScreenState extends State<IssueScreen>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -64,6 +65,7 @@ class _IssueScreenState extends State<IssueScreen>
                   child: ProviderLoadingProgressWrapper<IssueProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
+                        scrollController: scrollController,
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
@@ -197,13 +199,17 @@ class _IssueScreenState extends State<IssueScreen>
                           IssueInformation(),
                           Discussion(
                             commentsSince: widget.commentsSince,
+                            repo: value.issueModel!.repositoryUrl!.replaceFirst(
+                                'https://api.github.com/repos/', ''),
                             isLocked: value.issueModel!.locked! &&
                                 !value.editingEnabled!,
+                            scrollController: scrollController,
                             createdAt: value.issueModel!.createdAt,
                             issueUrl: value.issueModel!.url!,
                             initialComment: TimelineEventModel(
                                 createdAt: value.issueModel!.createdAt,
                                 event: Event.commented,
+                                url: value.issueModel!.url,
                                 user: value.issueModel!.user,
                                 authorAssociation:
                                     value.issueModel!.authorAssociation,

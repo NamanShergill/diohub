@@ -58,9 +58,6 @@ class SearchFilters {
   /// Get regexp to match date queries in a string.
   RegExp? get dateQRegExp => _dateQRegExp;
 
-  // List<SearchQuery> get queries => _queries;
-  // List<SearchQuery> get sensitiveQueries => _sensitiveQueries;
-
   /// Get all whitelisted queries for the [SearchFilters] instance.
   List<SearchQuery> get whiteListedQueries {
     List<SearchQuery> list = _sensitiveQueries + _basicQueries;
@@ -284,6 +281,7 @@ class SearchFilters {
     ], blacklist);
   }
 
+  /// Create regexp for sensitive queries.
   RegExp _getSensitiveQueryRegExp(List<SearchQuery> queries) {
     List<SearchQuery> optionQ = [];
     List<SearchQuery> dateQ = [];
@@ -412,6 +410,7 @@ class SearchFilters {
     return RegExp(regex);
   }
 
+  /// Filter queries into basic, sensitive, or blacklist groups.
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
     List<SearchQuery> allQueries = searchQueries.allQueries;
     original.forEach(
@@ -431,6 +430,7 @@ class SearchFilters {
     _blackList.addAll(filteredBlackList);
   }
 
+  /// Get regex for optional quotes around a string.
   static String optionalQuotes(String string,
       {bool allowSpace = false, String? spacedRegex}) {
     if (allowSpace) return '(((?:")$spacedRegex(?:"))|($string))';
@@ -477,8 +477,8 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
   SearchQuery assignee =
       SearchQuery(SearchQueryStrings.assignee, type: QueryType.user);
-  SearchQuery author =
-      SearchQuery(SearchQueryStrings.author, customRegex: _authorRegex);
+  SearchQuery author = SearchQuery(SearchQueryStrings.author,
+      customRegex: _authorRegex, type: QueryType.user);
   SearchQuery authorName = SearchQuery(SearchQueryStrings.authorName);
   SearchQuery authorEmail = SearchQuery(SearchQueryStrings.authorEmail);
   SearchQuery authorDate = SearchQuery(SearchQueryStrings.authorDate);
@@ -798,9 +798,10 @@ class SearchQuery {
       {this.description,
       this.options,
       this.customRegex,
-      QueryType type = QueryType.basic,
+      QueryType? type,
       this.qualifierQuery = true})
-      : this.type = customRegex != null ? QueryType.custom : type {
+      : this.type =
+            type ?? (customRegex != null ? QueryType.custom : QueryType.basic) {
     if (type == QueryType.bool && options == null)
       options = {'true': '', 'false': ''};
   }

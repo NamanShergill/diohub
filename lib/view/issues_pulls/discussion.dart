@@ -18,16 +18,21 @@ import 'package:onehub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:onehub/view/issues_pulls/widgets/discussion_comment.dart';
 
 class Discussion extends StatefulWidget {
+  final ScrollController scrollController;
+
   /// Show  comments since.
   final DateTime? commentsSince;
   final String issueUrl;
   final bool? isLocked;
+  final String repo;
   final DateTime? createdAt;
   final TimelineEventModel? initialComment;
   Discussion(
       {this.commentsSince,
       required this.issueUrl,
       this.isLocked,
+      required this.repo,
+      required this.scrollController,
       this.createdAt,
       this.initialComment});
 
@@ -79,8 +84,10 @@ class _DiscussionState extends State<Discussion>
                           .toUtc()
                           .toIso8601String());
                 },
+                isNestedScrollViewChild: true,
                 controller: commentsSinceController,
                 bottomSpacing: 60,
+                scrollController: widget.scrollController,
                 header: (context) {
                   return Column(
                     children: [
@@ -122,7 +129,8 @@ class _DiscussionState extends State<Discussion>
                           commentsSince!.subtract(Duration(minutes: 5))))
                         paddingWrap(
                           child: TimelineDiscussionComment(
-                              widget.initialComment, widget.isLocked),
+                              widget.initialComment, widget.isLocked,
+                              repo: widget.repo),
                         ),
                     ],
                   );
@@ -137,7 +145,11 @@ class _DiscussionState extends State<Discussion>
                 builder: (context, item, index) {
                   return Builder(
                     builder: (context) {
-                      return paddingWrap(child: DiscussionComment(item));
+                      return paddingWrap(
+                          child: DiscussionComment(
+                        item,
+                        repo: widget.repo,
+                      ));
                     },
                   );
                 },
@@ -154,6 +166,8 @@ class _DiscussionState extends State<Discussion>
                     child: LoadingIndicator(),
                   );
                 },
+                isNestedScrollViewChild: true,
+                scrollController: widget.scrollController,
                 bottomSpacing: 60,
                 filterFn: (List<TimelineEventModel> list) {
                   List<Event> allowedEvents = [
@@ -228,7 +242,8 @@ class _DiscussionState extends State<Discussion>
                       ),
                       paddingWrap(
                         child: TimelineDiscussionComment(
-                            widget.initialComment, widget.isLocked),
+                            widget.initialComment, widget.isLocked,
+                            repo: widget.repo),
                       ),
                     ],
                   );
@@ -240,7 +255,8 @@ class _DiscussionState extends State<Discussion>
                       if (item.event == Event.commented)
                         return paddingWrap(
                             child: TimelineDiscussionComment(
-                                item, widget.isLocked));
+                                item, widget.isLocked,
+                                repo: widget.repo));
                       else if (item.event == Event.closed)
                         return paddingWrap(
                             child: BasicEventTextCard(
@@ -302,22 +318,13 @@ class _DiscussionState extends State<Discussion>
                           content: item.assignee,
                         ));
                       else if (item.event == Event.cross_referenced) {
-                        if (item.source!.issue!.pullRequest != null)
-                          return paddingWrap(
-                              child: BasicPullCrossReferencedCard(
-                            user: item.actor,
-                            date: item.createdAt.toString(),
-                            leading: LineIcons.alternateComment,
-                            content: item.source,
-                          ));
-                        else
-                          return paddingWrap(
-                              child: BasicIssueCrossReferencedCard(
-                            user: item.actor,
-                            leading: LineIcons.alternateComment,
-                            date: item.createdAt.toString(),
-                            content: item.source,
-                          ));
+                        return paddingWrap(
+                            child: BasicIssueCrossReferencedCard(
+                          user: item.actor,
+                          leading: LineIcons.alternateComment,
+                          date: item.createdAt.toString(),
+                          content: item.source,
+                        ));
                       } else if (item.event == Event.labeled ||
                           item.event == Event.unlabeled) {
                         return paddingWrap(

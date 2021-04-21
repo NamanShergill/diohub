@@ -66,6 +66,13 @@ void showBottomActionsMenu(BuildContext context,
           ));
 }
 
+void linkHandler(BuildContext context, String? url,
+    {String? shareDescription}) async {
+  bool canLaunchLink = await canLaunch(url!);
+  if (canLaunchLink)
+    showURLBottomActionsMenu(context, url, shareDescription: shareDescription);
+}
+
 void showURLBottomActionsMenu(BuildContext context, String? url,
     {String? shareDescription}) {
   showBottomActionsMenu(context, headerText: url, childWidget: (context) {
@@ -113,7 +120,8 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
   });
 }
 
-typedef ScrollChild(BuildContext context, ScrollController scrollController);
+typedef ScrollChild = Widget Function(
+    BuildContext context, ScrollController scrollController);
 
 void showScrollableBottomActionsMenu(BuildContext context,
     {required ScrollChild child, String? titleText, Widget? titleWidget}) {

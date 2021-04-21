@@ -105,7 +105,7 @@ class _WikiViewerState extends State<WikiViewer> {
                                 ' does not have a wiki yet.';
                           });
                         } else {
-                          showURLBottomActionsMenu(context, action.url);
+                          linkHandler(context, action.url);
                         }
                         return NavigationDecision.prevent;
                       },

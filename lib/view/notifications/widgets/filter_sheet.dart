@@ -77,7 +77,6 @@ class _FilterSheetState extends State<FilterSheet> {
     return Stack(
       children: [
         ListView(
-          physics: NeverScrollableScrollPhysics(),
           controller: widget.controller,
           shrinkWrap: true,
           children: [

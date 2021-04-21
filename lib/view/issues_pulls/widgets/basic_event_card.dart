@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:onehub/common/issues/issue_label.dart';
 import 'package:onehub/common/issues/issue_list_card.dart';
 import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/common/pulls/pull_loading_card.dart';
 import 'package:onehub/models/events/events_model.dart';
 import 'package:onehub/models/issues/issue_model.dart';
 import 'package:onehub/models/issues/issue_timeline_event_model.dart';
@@ -261,53 +260,6 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
                 eventsUrl: fixURL(content!.issue!.eventsUrl!)),
             compact: true,
             padding: EdgeInsets.only(top: 8),
-          ),
-        ],
-      ),
-      date: date,
-      user: user,
-      leading: leading,
-    );
-  }
-}
-
-class BasicPullCrossReferencedCard extends StatelessWidget {
-  final UserInfoModel? user;
-  final IconData? leading;
-  final Color? iconColor;
-  final String? date;
-  final Source? content;
-  final String _correctRepo;
-
-  BasicPullCrossReferencedCard(
-      {this.user, this.content, this.date, this.leading, this.iconColor})
-      : _correctRepo = content!.issue!.repository!.fullName!;
-
-  // GitHub API sends the wrong links to the issue where the reference was in.
-  // This is here to fix them.
-  // Ref: https://github.com/NamanShergill/onehub/issues/7
-  String fixURL(String url) {
-    List<String> components = url.split('/');
-    components[4] = _correctRepo.split('/').first;
-    components[5] = _correctRepo.split('/').last;
-    return components.join('/');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BasicEventCard(
-      iconColor: iconColor,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Mentioned this.',
-            style: AppThemeTextStyles.basicIssueEventCardText,
-          ),
-          PullLoadingCard(
-            fixURL(content!.issue!.pullRequest!.url!),
-            compact: true,
           ),
         ],
       ),

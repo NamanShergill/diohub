@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:graphql/client.dart' hide Response;
+import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/app/graphQL/getGraphQl.dart';
 import 'package:onehub/models/issues/issue_model.dart';
@@ -12,8 +13,14 @@ import 'package:onehub/models/users/user_info_model.dart';
 
 class SearchService {
   static Future<List<UserInfoModel>> searchUsers(String query,
-      {String? sort, bool? ascending = false, int? perPage, int? page}) async {
-    Response response = await GetDio.getDio(debugLog: true).get(
+      {String? sort,
+      bool? ascending = false,
+      int? perPage,
+      int? page,
+      bool refresh = false}) async {
+    Response response =
+        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
+            .get(
       '/search/users',
       queryParameters: {
         'q': query,
@@ -27,8 +34,14 @@ class SearchService {
   }
 
   static Future<List<RepositoryModel>> searchRepos(String query,
-      {String? sort, bool? ascending, int? perPage, int? page}) async {
-    Response response = await GetDio.getDio().get(
+      {String? sort,
+      bool? ascending,
+      int? perPage,
+      int? page,
+      bool refresh = false}) async {
+    Response response =
+        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
+            .get(
       '/search/repositories',
       queryParameters: {
         'q': query,
@@ -42,8 +55,14 @@ class SearchService {
   }
 
   static Future<List<IssueModel>> searchIssues(String query,
-      {String? sort, bool? ascending = false, int? perPage, int? page}) async {
-    Response response = await GetDio.getDio().get(
+      {String? sort,
+      bool? ascending = false,
+      int? perPage,
+      int? page,
+      bool refresh = false}) async {
+    Response response =
+        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
+            .get(
       '/search/issues',
       queryParameters: {
         'q': query,

@@ -34,6 +34,7 @@ class GetDio {
           if (applyBaseURL) options.baseUrl = baseURL;
           options.headers["Accept"] = acceptHeader ?? "application/json";
           options.headers["setContentType"] = "application/json";
+          options.headers['User-Agent'] = "com.felix.onehub";
           if (loggedIn == false) {
             if (loginRequired) throw Exception('Not authenticated.');
           } else {
@@ -55,7 +56,6 @@ class GetDio {
               debugPrint(error.toString());
             }
           }
-
           // Check cache first and return cached data if supplied maxAge
           // has not elapsed.
           if (cacheEnabled) {

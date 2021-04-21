@@ -34,7 +34,6 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
     prepareAnimations();
   }
 
-  //Setting up the animation
   void prepareAnimations() {
     expandController = AnimationController(
         vsync: this,

@@ -56,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                     onTap: () {
-                      showURLBottomActionsMenu(
+                      linkHandler(
                         context,
                         'https://github.com/NamanShergill/onehub/issues',
                       );

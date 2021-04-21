@@ -8,7 +8,8 @@ class TextFieldTheme {
           String? hintText,
           FocusNode? focusNode,
           IconData? icon,
-          Color? enabledBorderColor}) =>
+          Color? enabledBorderColor,
+          Widget? suffixIcon}) =>
       InputDecoration(
         contentPadding: EdgeInsets.all(16),
         labelText: labelText,
@@ -16,12 +17,13 @@ class TextFieldTheme {
         fillColor: AppColor.onBackground,
         suffixIcon: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Icon(
-            icon,
-            color: focusNode?.hasFocus ?? false
-                ? AppColor.grey3
-                : AppColor.grey3.withOpacity(0.7),
-          ),
+          child: suffixIcon ??
+              Icon(
+                icon,
+                color: focusNode?.hasFocus ?? false
+                    ? AppColor.grey3
+                    : AppColor.grey3.withOpacity(0.7),
+              ),
         ),
         hintStyle:
             TextStyle(color: AppColor.grey3.withOpacity(0.7), fontSize: 12),

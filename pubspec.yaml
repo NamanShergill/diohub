@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.1.0-15042021.internal+4
+version: 0.1.2-19042021.internal
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -12,55 +12,77 @@ dependencies:
   flutter:
     sdk: flutter
   auto_route: ^1.0.2
-  another_flushbar: ^1.10.17
+  another_flushbar: ^1.10.18
   cached_network_image: ^3.0.0-nullsafety
   connectivity: ^3.0.3
   dio: ^4.0.0
-  dio_cache_interceptor: ^2.0.0
+  dio_cache_interceptor: ^2.1.1
+
+  # Modified to remove the current typing word indicator.
   extended_text_field:
     git:
       url: https://github.com/NamanShergill/extended_text_field.git
+
   flutter_bloc: ^7.0.0
   flutter_countdown_timer: ^4.0.2
   flutter_datetime_picker: ^1.5.0
   flutter_emoji: ^2.2.1+1
+
+  # Modified to add background color option.
   flutter_highlight:
     git:
       url: https://github.com/NamanShergill/onehub_highlight.dart.git
       ref: master
       path: flutter_highlight
+
+  # Use until official release that fixes the lists.
   flutter_html:
     git:
       url: https://github.com/Sub6Resources/flutter_html.git
-      ref: 4688f1a91421a76ea5c27e29889fadce6b6b4102
+      ref: b7857050cc734844e334606dc1e6e5daac61a39e
+
   flutter_icons: ^1.1.0
-  flutter_keyboard_visibility: ^5.0.0
+  flutter_keyboard_visibility: ^5.0.1
   flutter_portal: ^0.4.0-nullsafety.0
   flutter_reaction_button: ^1.0.8
-  flutter_secure_storage: ^4.1.0
+  flutter_scroll_to_top: ^1.1.0
+
+  # Use this until official release that disables the logs.
+  flutter_secure_storage:
+    git:
+      url: https://github.com/mogol/flutter_secure_storage.git
+      ref: 2ad3cf2ea344b93742418af655537d2acc7043ec
+
   flutter_slidable: ^0.6.0-nullsafety.0
   flutter_spinkit: ^5.0.0
-  flutter_svg: ^0.21.0-nullsafety.0
+  flutter_svg: ^0.21.0+1
+
+  # Modified to support hero tags. Might remove.
   google_nav_bar:
     git:
       url: https://github.com/NamanShergill/onehub_google_nav_bar.git
       ref: master
+
   graphql: ^5.0.0-nullsafety.3
   infinite_scroll_pagination: ^3.0.1
   intl: ^0.17.0
   line_icons: ^2.0.1
   logger: ^1.0.0-nullsafety.0
   markdown: ^4.0.0
+
+  # Modified for additional markdown options.
   markdown_editable_textinput:
     git:
       url: https://github.com/NamanShergill/onehub_markdown-editable-textinput
       ref: master
+
   mime: ^1.0.0
   path_provider: ^2.0.1
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0
   share: ^2.0.1
   shimmer: ^2.0.0-nullsafety.0
+  sliver_tools: ^0.2.1
   sqlite3_flutter_libs: ^0.4.1
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.4

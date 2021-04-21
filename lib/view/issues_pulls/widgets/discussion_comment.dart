@@ -14,11 +14,13 @@ import 'package:provider/provider.dart';
 class TimelineDiscussionComment extends StatelessWidget {
   final TimelineEventModel? item;
   final bool? isLocked;
-  TimelineDiscussionComment(this.item, this.isLocked);
+  final String repo;
+  TimelineDiscussionComment(this.item, this.isLocked, {required this.repo});
   @override
   Widget build(BuildContext context) {
     return BaseComment(
       body: item!.body,
+      repo: repo,
       user: item!.user,
       url: item!.url,
       authorAssociation: item!.authorAssociation,
@@ -30,11 +32,13 @@ class TimelineDiscussionComment extends StatelessWidget {
 
 class DiscussionComment extends StatelessWidget {
   final IssueCommentsModel item;
-  DiscussionComment(this.item);
+  final String repo;
+  DiscussionComment(this.item, {required this.repo});
   @override
   Widget build(BuildContext context) {
     return BaseComment(
       body: item.body,
+      repo: repo,
       user: item.user,
       authorAssociation: item.authorAssociation,
       createdAt: item.createdAt,
@@ -48,11 +52,13 @@ class BaseComment extends StatelessWidget {
   final AuthorAssociation? authorAssociation;
   final DateTime? createdAt;
   final String? body;
+  final String repo;
   final bool? isLocked;
   final String? url;
   BaseComment(
       {this.authorAssociation,
       this.url,
+      required this.repo,
       this.user,
       this.createdAt,
       this.body,
@@ -120,7 +126,11 @@ class BaseComment extends StatelessWidget {
         Divider(),
         Row(
           children: [
-            Flexible(child: MarkdownBody(body)),
+            Flexible(
+                child: MarkdownBody(
+              body,
+              repo: repo,
+            )),
           ],
         ),
         if (url != null)

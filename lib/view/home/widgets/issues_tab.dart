@@ -7,21 +7,29 @@ import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatelessWidget {
+  final ScrollController scrollController;
+  IssuesTab({required this.scrollController});
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user!.login!),
-            SearchQueries().type.toQueryString('issue'),
-          ]),
-      applyFiltersOnOpen: [
-        SearchQueries().author.toQueryString(_user.login!),
-        SearchQueries().iS.toQueryString('open'),
-      ],
+        searchFilters:
+            SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
+        defaultHiddenFilters: [
+          SearchQueries().involves.toQueryString(_user!.login!),
+          SearchQueries().type.toQueryString('issue'),
+        ],
+      ),
+      quickFilters: {
+        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned',
+        SearchQueries().author.toQueryString(_user.login!): 'Created',
+        SearchQueries().mentions.toQueryString(_user.login!): 'Mentioned',
+      },
+      quickOptions: {
+        SearchQueries().iS.toQueryString('open'): 'Open issues only',
+      },
+      scrollController: scrollController,
       searchBarMessage: 'Search in your issues',
       searchHeroTag: '${_user.login}issueSearch',
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

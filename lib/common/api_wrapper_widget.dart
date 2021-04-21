@@ -7,8 +7,8 @@ class APIWrapperController {
   void Function()? refresh;
 }
 
-typedef ResponseBuilder<T>(BuildContext context, T data);
-typedef ErrorBuilder(BuildContext context, String? error);
+typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
+typedef ErrorBuilder = Widget Function(BuildContext context, String? error);
 
 class APIWrapper<T> extends StatefulWidget {
   final Future<T>? getCall;

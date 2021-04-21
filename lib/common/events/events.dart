@@ -13,7 +13,12 @@ import 'package:provider/provider.dart';
 class Events extends StatelessWidget {
   final bool privateEvents;
   final String? specificUser;
-  Events({this.privateEvents = true, this.specificUser});
+  final ScrollController scrollController;
+
+  Events(
+      {this.privateEvents = true,
+      this.specificUser,
+      required this.scrollController});
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context);
@@ -21,6 +26,8 @@ class Events extends StatelessWidget {
       firstDivider: false,
       topSpacing: 24,
       spacing: 32,
+      scrollController: scrollController,
+      isNestedScrollViewChild: true,
       future: (pageNumber, pageSize, refresh, _) {
         if (specificUser != null)
           return EventsService.getUserEvents(specificUser,

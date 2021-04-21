@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:onehub/common/animations/size_expanded_widget.dart';
+import 'package:onehub/common/code_block_view.dart';
 import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/models/repositories/blob_model.dart';
 import 'package:onehub/services/git_database/git_database_service.dart';
@@ -79,7 +78,7 @@ class _PatchViewerState extends State<PatchViewer> {
     BlobModel blob =
         await GitDatabaseService.getFileContents(widget.contentURL!);
     String data = blob.content!;
-    rawData = parseBase64(data);
+    rawData = parseBase64(data).split('\n');
     for (String str in rawData!)
       if (str.length > maxChars) maxChars = str.length;
   }
@@ -174,12 +173,10 @@ class _PatchViewerState extends State<PatchViewer> {
                   width: 20,
                 ),
                 Flexible(
-                  child: HighlightView(
+                  child: CodeBlockView(
                     displayCodeWithoutFirstLine[lineIndex].length > 0
                         ? displayCodeWithoutFirstLine[lineIndex].substring(1)
                         : " ",
-                    backgroundColor: Colors.transparent,
-                    theme: monokaiSublimeTheme,
                     language: widget.fileType,
                   ),
                 ),
@@ -387,10 +384,8 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                           width: 25,
                         ),
                         Flexible(
-                          child: HighlightView(
+                          child: CodeBlockView(
                             data[index],
-                            backgroundColor: Colors.transparent,
-                            theme: monokaiSublimeTheme,
                             language: widget.fileType,
                           ),
                         ),
