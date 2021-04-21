@@ -56,7 +56,7 @@ class AboutRepository extends StatelessWidget {
               InfoCard(
                 'Homepage',
                 onTap: () {
-                  showURLBottomActionsMenu(context, repo.homepage);
+                  linkHandler(context, repo.homepage);
                 },
                 child: Row(
                   children: [

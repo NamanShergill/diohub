@@ -401,8 +401,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "4688f1a91421a76ea5c27e29889fadce6b6b4102"
-      resolved-ref: "4688f1a91421a76ea5c27e29889fadce6b6b4102"
+      ref: b7857050cc734844e334606dc1e6e5daac61a39e
+      resolved-ref: b7857050cc734844e334606dc1e6e5daac61a39e
       url: "https://github.com/Sub6Resources/flutter_html.git"
     source: git
     version: "2.0.0-nullsafety.0"
@@ -448,6 +448,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0-nullsafety.6"
+  flutter_math_fork:
+    dependency: transitive
+    description:
+      name: flutter_math_fork
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0+2"
   flutter_portal:
     dependency: "direct main"
     description:
@@ -1043,6 +1050,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+3"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:

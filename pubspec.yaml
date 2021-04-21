@@ -39,7 +39,7 @@ dependencies:
   flutter_html:
     git:
       url: https://github.com/Sub6Resources/flutter_html.git
-      ref: 4688f1a91421a76ea5c27e29889fadce6b6b4102
+      ref: b7857050cc734844e334606dc1e6e5daac61a39e
 
   flutter_icons: ^1.1.0
   flutter_keyboard_visibility: ^5.0.1

@@ -206,6 +206,8 @@ class _PullScreenState extends State<PullScreen>
                           PullInformation(),
                           Discussion(
                             scrollController: scrollController,
+                            repo: value.repoURL!.replaceFirst(
+                                'https://api.github.com/repos/', ''),
                             commentsSince: widget.commentsSince,
                             isLocked: value.pullModel!.locked! &&
                                 !value.editingEnabled!,

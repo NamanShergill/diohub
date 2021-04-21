@@ -24,12 +24,14 @@ class Discussion extends StatefulWidget {
   final DateTime? commentsSince;
   final String issueUrl;
   final bool? isLocked;
+  final String repo;
   final DateTime? createdAt;
   final TimelineEventModel? initialComment;
   Discussion(
       {this.commentsSince,
       required this.issueUrl,
       this.isLocked,
+      required this.repo,
       required this.scrollController,
       this.createdAt,
       this.initialComment});
@@ -127,7 +129,8 @@ class _DiscussionState extends State<Discussion>
                           commentsSince!.subtract(Duration(minutes: 5))))
                         paddingWrap(
                           child: TimelineDiscussionComment(
-                              widget.initialComment, widget.isLocked),
+                              widget.initialComment, widget.isLocked,
+                              repo: widget.repo),
                         ),
                     ],
                   );
@@ -142,7 +145,11 @@ class _DiscussionState extends State<Discussion>
                 builder: (context, item, index) {
                   return Builder(
                     builder: (context) {
-                      return paddingWrap(child: DiscussionComment(item));
+                      return paddingWrap(
+                          child: DiscussionComment(
+                        item,
+                        repo: widget.repo,
+                      ));
                     },
                   );
                 },
@@ -235,7 +242,8 @@ class _DiscussionState extends State<Discussion>
                       ),
                       paddingWrap(
                         child: TimelineDiscussionComment(
-                            widget.initialComment, widget.isLocked),
+                            widget.initialComment, widget.isLocked,
+                            repo: widget.repo),
                       ),
                     ],
                   );
@@ -247,7 +255,8 @@ class _DiscussionState extends State<Discussion>
                       if (item.event == Event.commented)
                         return paddingWrap(
                             child: TimelineDiscussionComment(
-                                item, widget.isLocked));
+                                item, widget.isLocked,
+                                repo: widget.repo));
                       else if (item.event == Event.closed)
                         return paddingWrap(
                             child: BasicEventTextCard(

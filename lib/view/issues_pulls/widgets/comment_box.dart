@@ -22,7 +22,6 @@ class _CommentBoxState extends State<CommentBox> {
   late String commentBody;
   int index = 0;
   bool loading = false;
-  final MarkdownBodyController controller = MarkdownBodyController();
 
   @override
   void initState() {
@@ -37,8 +36,9 @@ class _CommentBoxState extends State<CommentBox> {
         initialValue: commentBody,
         maxLines: 999999,
         onTextChanged: (value) {
-          commentBody = value;
-          controller.update(value);
+          setState(() {
+            commentBody = value;
+          });
         },
         toolbarDecoration: BoxDecoration(color: AppColor.background),
         inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -69,7 +69,6 @@ class _CommentBoxState extends State<CommentBox> {
                     child: SingleChildScrollView(
                       child: MarkdownBody(
                         commentBody,
-                        controller: controller,
                       ),
                     ),
                   ),

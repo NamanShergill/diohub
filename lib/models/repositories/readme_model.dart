@@ -80,16 +80,10 @@ class RepositoryReadmeModel {
         gitUrl: json["git_url"] == null ? null : json["git_url"],
         downloadUrl: json["download_url"] == null ? null : json["download_url"],
         type: json["type"] == null ? null : json["type"],
-        content: json["content"] == null ? null : getContent(json["content"]),
+        content: json["content"] == null ? null : parseBase64(json["content"]),
         encoding: json["encoding"] == null ? null : json["encoding"],
         links: json["_links"] == null ? null : Links.fromJson(json["_links"]),
       );
-
-  // Todo: Decide where I want this to get parsed.
-  static String getContent(String source) {
-    List<String> listTemp = parseBase64(source, splitAtLineBreaks: false);
-    return listTemp.join();
-  }
 
   Map<String, dynamic> toJson() => {
         "name": name == null ? null : name,

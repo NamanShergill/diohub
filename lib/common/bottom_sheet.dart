@@ -66,6 +66,13 @@ void showBottomActionsMenu(BuildContext context,
           ));
 }
 
+void linkHandler(BuildContext context, String? url,
+    {String? shareDescription}) async {
+  bool canLaunchLink = await canLaunch(url!);
+  if (canLaunchLink)
+    showURLBottomActionsMenu(context, url, shareDescription: shareDescription);
+}
+
 void showURLBottomActionsMenu(BuildContext context, String? url,
     {String? shareDescription}) {
   showBottomActionsMenu(context, headerText: url, childWidget: (context) {

@@ -211,7 +211,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     ),
                   ),
                   onTap: () {
-                    showURLBottomActionsMenu(
+                    linkHandler(
                         context, widget.deviceCodeModel.verificationUri,
                         shareDescription:
                             'Enter the code ${widget.deviceCodeModel.userCode} on:');
