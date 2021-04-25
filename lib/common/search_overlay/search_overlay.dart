@@ -21,22 +21,26 @@ class SearchOverlayScreen extends StatefulWidget {
   final ValueChanged<SearchData> onSubmit;
   final String heroTag;
   final SearchData searchData;
+  final bool multiHero;
   SearchOverlayScreen(this.searchData,
-      {this.message, this.heroTag = 'search_bar', required this.onSubmit});
+      {this.message,
+      this.heroTag = 'search_bar',
+      required this.multiHero,
+      required this.onSubmit});
   @override
   _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
 }
 
 class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
   late SearchData searchData;
-  late SearchFilters searchFilters;
   final OverlayController infoOverlay = OverlayController();
 
   @override
   void initState() {
-    searchFilters =
-        widget.searchData.searchFilters ?? SearchFilters.repositories();
     searchData = widget.searchData;
+    if (searchData.searchFilters == null)
+      searchData =
+          searchData.copyWith(searchFilters: SearchFilters.repositories());
     super.initState();
   }
 
@@ -101,8 +105,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                       child: Material(
                         color: Colors.transparent,
                         child: _SearchBar(
-                          searchFilters,
-                          widget.searchData,
+                          searchData,
+                          multiHero: widget.multiHero,
                           heroTag: widget.heroTag,
                           onSubmit: (data) {
                             if (isValid) {
@@ -112,8 +116,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                           },
                           onChanged: (data) {
                             setState(() {
-                              searchData =
-                                  data.copyWith(searchFilters: searchFilters);
+                              searchData = data;
                             });
                           },
                           message: widget.message,
@@ -130,7 +133,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             horizontal: 8, vertical: 8),
                         child: CustomExpandTile(
                           title: Text(
-                            'Searching in ${searchTypeValues.reverse![searchFilters.searchType]}',
+                            'Searching in ${searchTypeValues.reverse![searchData.searchFilters!.searchType]}',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           onTap: () {
@@ -144,14 +147,16 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               itemBuilder: (context, index) {
                                 return RadioListTile(
                                   activeColor: AppColor.accent,
-                                  groupValue: searchFilters.searchType,
+                                  groupValue:
+                                      searchData.searchFilters!.searchType,
                                   value: searchTypeValues.map.values
                                       .toList()[index],
                                   onChanged: (value) {
                                     setState(() {
-                                      searchFilters = getFilters(
-                                          searchTypeValues.map.values
-                                              .toList()[index]);
+                                      searchData = searchData.copyWith(
+                                          searchFilters: getFilters(
+                                              searchTypeValues.map.values
+                                                  .toList()[index]));
                                       expanded = !expanded;
                                     });
                                   },
@@ -392,17 +397,18 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
 }
 
 class _SearchBar extends StatefulWidget {
-  final SearchFilters _searchFilters;
   final SearchData searchData;
   final String heroTag;
   final String? message;
   final ValueChanged<SearchData> onChanged;
   final ValueChanged<void> onSubmit;
-  _SearchBar(this._searchFilters, this.searchData,
+  final bool multiHero;
+  _SearchBar(this.searchData,
       {this.message,
+      required this.multiHero,
       required this.onChanged,
       required this.onSubmit,
-      this.heroTag = 'search_bar'});
+      required this.heroTag});
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -440,7 +446,9 @@ class _SearchBarState extends State<_SearchBar> {
             controller: suggestionsOverlayController,
             overlay: overlayWidget,
             child: Hero(
-              tag: widget.heroTag,
+              tag: widget.multiHero
+                  ? widget.heroTag + searchData.isActive.toString()
+                  : widget.heroTag,
               child: Material(
                 color: Colors.transparent,
                 child: ExtendedTextField(
@@ -473,7 +481,8 @@ class _SearchBarState extends State<_SearchBar> {
                     _suggestions(pattern);
                   },
                   specialTextSpanBuilder: _TextSpanBuilder(
-                      widget._searchFilters, controller, onChanged: (string) {
+                      widget.searchData.searchFilters!, controller,
+                      onChanged: (string) {
                     controller.text = string;
                     _parseQuery(string);
                   }),
@@ -505,8 +514,8 @@ class _SearchBarState extends State<_SearchBar> {
                     return ListTile(
                       onTap: () {
                         addString(
-                            widget._searchFilters.whiteListedQueries[index]
-                                    .query +
+                            widget.searchData.searchFilters!
+                                    .whiteListedQueries[index].query +
                                 ':',
                             addSpaceAtEnd: false,
                             spaceAtStart: true);
@@ -516,13 +525,15 @@ class _SearchBarState extends State<_SearchBar> {
                         searchNode.requestFocus();
                       },
                       title: Text(
-                        widget._searchFilters.whiteListedQueries[index].query,
+                        widget.searchData.searchFilters!
+                            .whiteListedQueries[index].query,
                         // style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     );
                   },
                   separatorBuilder: (context, index) => Divider(),
-                  itemCount: widget._searchFilters.whiteListedQueries.length),
+                  itemCount: widget
+                      .searchData.searchFilters!.whiteListedQueries.length),
             ),
           ),
           SizeExpandedSection(
@@ -656,12 +667,12 @@ class _SearchBarState extends State<_SearchBar> {
     List<SearchQuery> filters = [];
 
     // Handle case of number and date ranges with the bigger value before.
-    pattern.splitMapJoin(widget._searchFilters.allValidQueriesRegexp,
+    pattern.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
         onMatch: (Match m) {
       String string = m[0]!;
-      if (widget._searchFilters.dateQRegExp!.hasMatch(string))
-        string = m[0]!.splitMapJoin(widget._searchFilters.dateQRegExp!,
-            onMatch: (Match m) {
+      if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string))
+        string = m[0]!.splitMapJoin(
+            widget.searchData.searchFilters!.dateQRegExp!, onMatch: (Match m) {
           String string = m[0]!.splitMapJoin(
               RegExp(
                   '((([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])))([.][.])(([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))))'),
@@ -678,9 +689,10 @@ class _SearchBarState extends State<_SearchBar> {
           });
           return string;
         });
-      else if (widget._searchFilters.numberQRegExp!.hasMatch(string))
-        string = string.splitMapJoin(widget._searchFilters.numberQRegExp!,
-            onMatch: (Match m) {
+      else if (widget.searchData.searchFilters!.numberQRegExp!.hasMatch(string))
+        string = string
+            .splitMapJoin(widget.searchData.searchFilters!.numberQRegExp!,
+                onMatch: (Match m) {
           String string = m[0]!.splitMapJoin(
               RegExp('((([0-9]+))([.][.])(([0-9]+)))'), onMatch: (Match m) {
             String data = m[0]!;
@@ -693,14 +705,14 @@ class _SearchBarState extends State<_SearchBar> {
         });
 
       filterStrings.add(string);
-      filters
-          .add(widget._searchFilters.queryFromString(string.split(':').first)!);
+      filters.add(widget.searchData.searchFilters!
+          .queryFromString(string.split(':').first)!);
       return '';
     });
 
     // Remove all invalid queries from the string.
-    pattern =
-        pattern.replaceAll(widget._searchFilters.allInvalidQueriesRegExp, '');
+    pattern = pattern.replaceAll(
+        widget.searchData.searchFilters!.allInvalidQueriesRegExp, '');
 
     // Convert all extra spaces to just a single space.
     pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
@@ -719,7 +731,7 @@ class _SearchBarState extends State<_SearchBar> {
       // Get all invalid or valid queries in the string.
       List<String> matches = getMatches(
           RegExp(
-              '${widget._searchFilters.allValidQueriesRegexp.pattern}|${widget._searchFilters.allInvalidQueriesRegExp.pattern}'),
+              '${widget.searchData.searchFilters!.allValidQueriesRegexp.pattern}|${widget.searchData.searchFilters!.allInvalidQueriesRegExp.pattern}'),
           pattern);
       // Current typed data of the latest filter.
       String typedData = '';
@@ -733,14 +745,15 @@ class _SearchBarState extends State<_SearchBar> {
             String queryString = element.split(':').first;
             if (queryString.startsWith('-'))
               queryString = queryString.substring(1);
-            query = widget._searchFilters.queryFromString(queryString);
+            query =
+                widget.searchData.searchFilters!.queryFromString(queryString);
           }
         },
       );
       // Get all completed valid queries.
       List<String?> completedQueries = getMatches(
           RegExp(
-              '${widget._searchFilters.validSensitiveQueriesRegExp.pattern}|${widget._searchFilters.invalidSensitiveQueriesRegExp.pattern}|${widget._searchFilters.validBasicQueriesRegExp.pattern}'),
+              '${widget.searchData.searchFilters!.validSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.invalidSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.validBasicQueriesRegExp.pattern}'),
           pattern);
       // Check if the last query has been completed.
       bool isLastQueryComplete = completedQueries.isNotEmpty &&
@@ -753,7 +766,8 @@ class _SearchBarState extends State<_SearchBar> {
         // Remove the '-' from the case.
         if (typedData.startsWith('-')) typedData = typedData.substring(1);
         if (typedData.isNotEmpty) {
-          widget._searchFilters.whiteListedQueriesStrings.forEach((element) {
+          widget.searchData.searchFilters!.whiteListedQueriesStrings
+              .forEach((element) {
             if (element.startsWith(typedData)) filteredOptions.add(element);
           });
           // Show overlay with the filtered options.
@@ -761,7 +775,7 @@ class _SearchBarState extends State<_SearchBar> {
             return ListTile(
               onTap: () {
                 // Get query info from the string.
-                SearchQuery query = widget._searchFilters
+                SearchQuery query = widget.searchData.searchFilters!
                     .queryFromString(filteredOptions[index])!;
                 // Add string to text on tap, with quotes at the end if it is
                 // a spaced string with no auto complete options.

@@ -350,120 +350,128 @@ class _SearchBarState extends State<SearchBar> {
             ],
           ),
         );
-
-    return Hero(
-      tag: widget._heroTag,
-      child: Padding(
-        padding: (searchData?.isActive ?? false) && !widget.isPinned
-            ? const EdgeInsets.all(8.0)
-            : EdgeInsets.zero,
-        child: Column(
-          children: [
-            Material(
-              color: widget.backgroundColor,
-              borderRadius: widget.isPinned
-                  ? null
-                  : searchData?.searchFilters != null
-                      // && searchData?.isActive == true
-                      ? BorderRadius.only(
-                          topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
-                          topRight:
-                              AppThemeBorderRadius.medBorderRadius.topRight)
-                      : AppThemeBorderRadius.medBorderRadius,
-              child: InkWell(
-                borderRadius: AppThemeBorderRadius.medBorderRadius,
-                onTap: () {
-                  AutoRouter.of(context).push(SearchOverlayScreenRoute(
-                      message: widget.message,
-                      searchData:
-                          searchData != null ? searchData! : SearchData(),
-                      heroTag: widget._heroTag,
-                      onSubmit: (data) {
-                        if (widget.updateBarOnChange)
-                          setState(() {
-                            searchData = data;
-                          });
-                        widget.onSubmit(data);
-                      }));
-                },
-                child: Container(
-                  child: Column(
-                    children: [
-                      if (searchData != null && (searchData?.isActive ?? false))
-                        Material(
-                          color: AppColor.accent,
-                          borderRadius: widget.isPinned
-                              ? null
-                              : BorderRadius.only(
-                                  topRight: AppThemeBorderRadius
-                                      .medBorderRadius.bottomLeft,
-                                  topLeft: AppThemeBorderRadius
-                                      .medBorderRadius.bottomRight),
-                          child: Padding(
-                            padding: widget.isPinned
-                                ? EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: searchData!
-                                                .visibleStrings.isNotEmpty &&
-                                            searchData!.query.trim().isNotEmpty
-                                        ? 8
-                                        : 4)
-                                : const EdgeInsets.all(8.0),
-                            child: SizeExpandedSection(
-                              child: _ActiveSearch(
-                                searchData: searchData!,
-                                trailing: widget.trailing,
-                                onSubmit: (data) {
-                                  setState(() {
-                                    searchData = data;
-                                  });
-                                  widget.onSubmit(searchData!);
-                                },
-                                key: Key(searchData.toString()),
+    return Padding(
+      padding: (searchData?.isActive ?? false) && !widget.isPinned
+          ? const EdgeInsets.all(8.0)
+          : EdgeInsets.zero,
+      child: Column(
+        children: [
+          Material(
+            color: widget.backgroundColor,
+            borderRadius: widget.isPinned
+                ? null
+                : searchData?.searchFilters != null
+                    // && searchData?.isActive == true
+                    ? BorderRadius.only(
+                        topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
+                        topRight: AppThemeBorderRadius.medBorderRadius.topRight)
+                    : AppThemeBorderRadius.medBorderRadius,
+            child: InkWell(
+              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              onTap: () {
+                AutoRouter.of(context).push(SearchOverlayScreenRoute(
+                    message: widget.message,
+                    multiHero: widget.updateBarOnChange,
+                    searchData: searchData != null ? searchData! : SearchData(),
+                    heroTag: widget._heroTag,
+                    onSubmit: (data) {
+                      if (widget.updateBarOnChange)
+                        setState(() {
+                          searchData = data;
+                        });
+                      widget.onSubmit(data);
+                    }));
+              },
+              child: Container(
+                child: Column(
+                  children: [
+                    if (searchData != null && (searchData?.isActive ?? false))
+                      Material(
+                        color: AppColor.accent,
+                        borderRadius: widget.isPinned
+                            ? null
+                            : BorderRadius.only(
+                                topRight: AppThemeBorderRadius
+                                    .medBorderRadius.bottomLeft,
+                                topLeft: AppThemeBorderRadius
+                                    .medBorderRadius.bottomRight),
+                        child: Padding(
+                          padding: widget.isPinned
+                              ? EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: searchData!
+                                              .visibleStrings.isNotEmpty &&
+                                          searchData!.query.trim().isNotEmpty
+                                      ? 8
+                                      : 4)
+                              : const EdgeInsets.all(8.0),
+                          child: SizeExpandedSection(
+                            child: Hero(
+                              tag: widget._heroTag + 'true',
+                              child: Material(
+                                color: Colors.transparent,
+                                child: _ActiveSearch(
+                                  searchData: searchData!,
+                                  trailing: widget.trailing,
+                                  onSubmit: (data) {
+                                    setState(() {
+                                      searchData = data;
+                                    });
+                                    widget.onSubmit(searchData!);
+                                  },
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      SizeExpandedSection(
-                        expand: !(searchData?.isActive ?? false),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  LineIcons.search,
-                                  color: AppColor.grey3,
+                      ),
+                    SizeExpandedSection(
+                      expand: !(searchData?.isActive ?? false),
+                      child: Hero(
+                        tag: widget.updateBarOnChange
+                            ? widget._heroTag + 'false'
+                            : widget._heroTag,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    LineIcons.search,
+                                    color: AppColor.grey3,
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  widget._prompt,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                          color:
-                                              AppColor.grey3.withOpacity(0.7)),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    widget._prompt,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                            color: AppColor.grey3
+                                                .withOpacity(0.7)),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            if ((searchData?.searchFilters != null ||
-                    widget.quickFilters != null) &&
-                !widget.isPinned)
-              quickActions(context),
-          ],
-        ),
+          ),
+          if ((searchData?.searchFilters != null ||
+                  widget.quickFilters != null) &&
+              !widget.isPinned)
+            quickActions(context),
+        ],
       ),
     );
   }
@@ -512,7 +520,7 @@ class _ActiveSearch extends StatelessWidget {
                   searchData.query.trim().isNotEmpty)
                 Divider(
                   color: Colors.white,
-                  thickness: 0.6,
+                  thickness: 0.2,
                 ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -8,7 +8,6 @@ class SizeExpandedSection extends StatefulWidget {
   final double axisAlignment;
   final Curve? animationCurve;
   final Duration? duration;
-
   SizeExpandedSection(
       {this.expand = true,
       this.child,

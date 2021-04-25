@@ -35,13 +35,12 @@ class CommitProvider extends BaseProvider {
   }
 
   void _getCommit() async {
-    statusController.add(Status.loading);
+    loading();
     try {
       _commit = await RepositoryServices.getCommit(_commitURL!);
-      statusController.add(Status.loaded);
+      loaded();
     } catch (e) {
-      error = e.toString();
-      statusController.add(Status.error);
+      error(message: e.toString());
     }
   }
 }

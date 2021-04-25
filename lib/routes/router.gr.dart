@@ -41,6 +41,7 @@ class AppRouter extends _i1.RootStackRouter {
           child: _i3.SearchOverlayScreen(args.searchData,
               message: args.message,
               heroTag: args.heroTag,
+              multiHero: args.multiHero,
               onSubmit: args.onSubmit),
           transitionsBuilder: _i1.TransitionsBuilders.fadeIn,
           opaque: true,
@@ -181,6 +182,7 @@ class SearchOverlayScreenRoute
       {required _i3.SearchData searchData,
       String? message,
       String heroTag = 'search_bar',
+      required bool multiHero,
       required void Function(_i3.SearchData) onSubmit})
       : super(name,
             path: '/search-overlay-screen',
@@ -188,6 +190,7 @@ class SearchOverlayScreenRoute
                 searchData: searchData,
                 message: message,
                 heroTag: heroTag,
+                multiHero: multiHero,
                 onSubmit: onSubmit));
 
   static const String name = 'SearchOverlayScreenRoute';
@@ -198,6 +201,7 @@ class SearchOverlayScreenRouteArgs {
       {required this.searchData,
       this.message,
       this.heroTag = 'search_bar',
+      required this.multiHero,
       required this.onSubmit});
 
   final _i3.SearchData searchData;
@@ -205,6 +209,8 @@ class SearchOverlayScreenRouteArgs {
   final String? message;
 
   final String heroTag;
+
+  final bool multiHero;
 
   final void Function(_i3.SearchData) onSubmit;
 }

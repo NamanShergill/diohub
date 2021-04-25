@@ -34,8 +34,7 @@ class CurrentUserProvider extends BaseProvider {
         tryFetchUserInfo();
       } else if (authState is AuthenticationUnauthenticated) {
         // Reset provider if the user is unauthenticated.
-        if (status != Status.initialized)
-          statusController.add(Status.initialized);
+        if (status != Status.initialized) reset();
       }
     });
     // Request for user details again when back online,
@@ -69,11 +68,11 @@ class CurrentUserProvider extends BaseProvider {
 
   /// Get User information from the API.
   Future<CurrentUserInfoModel?> getUserInfo() async {
-    statusController.add(Status.loading);
+    loading();
     try {
       _currentUserInfo =
           await UserInfoService.getCurrentUserInfo().then((value) {
-        statusController.add(Status.loaded);
+        loaded();
         return value;
       });
     } catch (e) {
@@ -82,15 +81,15 @@ class CurrentUserProvider extends BaseProvider {
           e.response!.statusCode == 401 &&
           authenticationBloc!.state.authenticated)
         authenticationBloc!.add(LogOut());
-      error = e.toString();
-      statusController.add(Status.error);
+      errorInfo = e.toString();
+      error(message: errorInfo);
     }
     return _currentUserInfo;
   }
 
   @override
-  void resetProvider() {
+  void reset() {
+    super.reset();
     _currentUserInfo = null;
-    resetProvider();
   }
 }

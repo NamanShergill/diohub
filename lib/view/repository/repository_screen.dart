@@ -57,9 +57,9 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         TabController(length: 6, vsync: this, initialIndex: widget.index);
     waitForTransition();
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
-    repoBranchProvider = RepoBranchProvider(initialBranch: widget.branch);
-    codeProvider =
-        CodeProvider(repoURL: widget.repositoryURL, initialSHA: widget.initSHA);
+    repoBranchProvider = RepoBranchProvider(
+        initialBranch: widget.branch, initCommitSHA: widget.initSHA);
+    codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     super.initState();
   }

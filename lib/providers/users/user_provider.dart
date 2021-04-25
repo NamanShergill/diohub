@@ -34,19 +34,19 @@ class UserProvider extends BaseProvider {
 
   /// Get User information from the API.
   Future<UserInfoModel?> getUserInfo() async {
-    statusController.add(Status.loading);
+    loading();
     try {
       _currentUserInfo = await UserInfoService.getUserInfo(_userName);
-      statusController.add(Status.loaded);
+      loaded();
     } catch (e) {
-      providerError(message: e.toString());
+      error(message: e.toString());
     }
     return _currentUserInfo;
   }
 
   @override
-  void resetProvider() {
+  void reset() {
     _currentUserInfo = null;
-    resetProvider();
+    reset();
   }
 }

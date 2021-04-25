@@ -68,7 +68,7 @@ class SearchScrollWrapper extends StatefulWidget {
       this.searchHeroTag,
       this.filterFn,
       Key? key})
-      : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 16),
+      : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 8),
         assert(isNestedScrollViewChild ? scrollController != null : true),
         super(key: key);
   @override
@@ -93,7 +93,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
   Widget build(BuildContext context) {
     Widget header(context, function) {
       return Padding(
-        padding: function != null ? EdgeInsets.zero : widget.padding,
+        padding: function != null ? EdgeInsets.zero : widget._searchBarPadding,
         child: SearchBar(
           heroTag: widget.searchHeroTag != null
               ? widget.searchHeroTag! + (function != null).toString()

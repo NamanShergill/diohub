@@ -31,29 +31,7 @@ class CodeProvider extends BaseProvider {
   final StreamController<Tree> _treeController =
       StreamController<Tree>.broadcast();
 
-  /// SHA of the commit the code browsing is to be locked to.
-  String? _lockedCommitSHA;
-
-  /// The commit the code browsing is locked to.
-  CommitListModel? _lockedCommit;
-
-  /// Get the locked commit.
-  CommitListModel? get lockedCommit => _lockedCommit;
-
-  /// If the code browsing is locked to a specific commit.
-  bool _commitLock = false;
-
-  /// Check if the current code browsing view is locked to a specific commit.
-  bool get commitLock => _commitLock;
-
-  /// SHA the provider was initialized with.
-  String? _initialSHA;
-
-  CodeProvider({String? repoURL, String? initialSHA}) : _repoURL = repoURL {
-    // If an initial SHA is provided for browsing, the commit will be locked
-    // to it later when the [BranchProvider] is ready to supply data.
-    if (initialSHA != null) _initialSHA = initialSHA;
-  }
+  CodeProvider({String? repoURL}) : _repoURL = repoURL;
 
   /// Update the provider with new data.
   void updateProvider(RepoBranchProvider repoBranchProvider) async {
@@ -63,15 +41,11 @@ class CodeProvider extends BaseProvider {
       _branchProvider = repoBranchProvider;
       // Setup init functions and run them for fetching data.
       void setupAndRunFetch() {
-        // Lock code to commit if an initial SHA was provided.
-        if (_initialSHA != null) _lockCodeToCommit(_initialSHA);
-        // If an initial SHA was provided, load the tree from that SHA,
-        // otherwise use the default sha for the branch.
-        _fetchTree(Tree(
-          sha: _commitLock
-              ? _lockedCommitSHA
-              : _branchProvider!.branch!.commit!.sha,
-        ));
+        _fetchTree(
+            Tree(
+              sha: _branchProvider!.branch!.name!,
+            ),
+            branch: _branchProvider!.branch!.name!);
       }
 
       // In case the provider loads lazily and the event of load is
@@ -83,94 +57,48 @@ class CodeProvider extends BaseProvider {
         // This event happens whenever the branch is changed, so this provider
         // is reset and new data is fetched.
         if (event == Status.loaded) {
-          statusController.add(Status.initialized);
-          // Remove the commit lock if there was one.
-          if (_commitLock) unlockCodeFromCommit(fetchData: false);
+          reset();
           setupAndRunFetch();
         }
       });
       // Listen to tree pop and push events and fetch data accordingly.
       _treeController.stream.listen((event) async {
         // Fetch the last tree in the list after the pop/push events are done,
-        await _fetchTree(event);
+        await _fetchTree(event, branch: _branchProvider!.branch!.name!);
       });
     }
   }
 
   /// Fetch a [Tree] and load it in the provider.
-  Future _fetchTree(Tree tree) async {
-    statusController.add(Status.loading);
+  Future _fetchTree(Tree tree, {required String branch}) async {
+    loading();
     try {
       // Start with initial future to fetch code tree.
       List<Future> future = <Future>[
-        GitDatabaseService.getTree(repoURL: _repoURL, sha: tree.sha)
+        GitDatabaseService.getTree(repoURL: _repoURL, sha: tree.sha),
+        RepositoryServices.getCommitsList(
+            repoURL: _repoURL!,
+            sha: _branchProvider!.branch!.commit!.sha,
+            path: getPath(),
+            pageNumber: 1,
+            pageSize: 1),
       ];
-      // If commit lock is disabled or _lockedCommit has not been fetched yet
-      // add future to fetch them.
-      if (!_commitLock || _lockedCommit == null)
-        future.add(
-          RepositoryServices.getCommitsList(
-              repoURL: _repoURL!,
-              sha: _commitLock
-                  ? _lockedCommitSHA
-                  : _branchProvider!.branch!.name,
-              path: getPath(),
-              pageNumber: 1,
-              pageSize: 1),
-        );
       // Run the futures.
       List<dynamic> data = await Future.wait(future);
-      // Get _codeTree data from the completed futures.
-      CodeTreeModel _codeTree = data[0];
-      if (_commitLock) {
-        // If _lockedCommit was null, data for it has
-        // been fetched, assign it here.
-        if (_lockedCommit == null) _lockedCommit = data[1].first;
-        // Add data to tree.
-        _tree.add(_codeTree.copyWith(commit: _lockedCommit));
-      } else {
+      // Add data to tree if the selected branch has not been changed.
+      if (_branchProvider!.branch!.name == branch) {
+        // Get _codeTree data from the completed futures.
+        CodeTreeModel _codeTree = data[0];
         // Get _commit data from the completed future.
         CommitListModel? _commit = data[1].first;
         // Add data to tree.
         _tree.add(_codeTree.copyWith(commit: _commit));
+        loaded();
       }
-      // Set _initSHA to null if it is not as data using it has already
-      // been fetched and it is not required anymore.
-      if (_initialSHA != null) _initialSHA = null;
-      statusController.add(Status.loaded);
     } catch (e) {
       debugPrint(e.toString());
-      statusController.add(Status.error);
+      error(message: e.toString());
     }
-  }
-
-  // Reset provider and change base SHA, i.e,
-  // load the tree from a different commit.
-  void changeBaseSHA(String sha, {bool lockCommit = true}) {
-    statusController.add(Status.initialized);
-    if (lockCommit)
-      _lockCodeToCommit(sha);
-    else
-      unlockCodeFromCommit();
-    _fetchTree(Tree(sha: sha));
-  }
-
-  /// Lock the code viewer to a specific commit.
-  void _lockCodeToCommit(String? sha) {
-    _lockedCommit = null;
-    _commitLock = true;
-    _lockedCommitSHA = sha;
-  }
-
-  /// Unlock the code viewer from a specific commit and reload data.
-  void unlockCodeFromCommit({bool fetchData = true}) {
-    _commitLock = false;
-    _lockedCommit = null;
-    _lockedCommitSHA = null;
-    resetProvider();
-    if (fetchData)
-      _fetchTree(
-          Tree(sha: _branchProvider!.branch!.commit!.sha, url: _repoURL));
   }
 
   String getPath() {
@@ -182,10 +110,10 @@ class CodeProvider extends BaseProvider {
   }
 
   @override
-  void resetProvider() {
+  void reset() {
+    super.reset();
     _tree = [];
     _pathIndex = [];
-    super.resetProvider();
   }
 
   @override

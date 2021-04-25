@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.1.2-19042021.internal
+version: 0.1.2-22042021.internal
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -83,7 +83,6 @@ dependencies:
   share: ^2.0.1
   shimmer: ^2.0.0-nullsafety.0
   sliver_tools: ^0.2.1
-  sqlite3_flutter_libs: ^0.4.1
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.4
 

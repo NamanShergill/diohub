@@ -9,11 +9,13 @@ class BranchModel {
     this.name,
     this.commit,
     this.links,
+    this.isCommit = false,
     this.protected,
     this.protection,
     this.protectionUrl,
   });
 
+  bool isCommit;
   String? name;
   BranchModelCommit? commit;
   Links? links;
@@ -587,8 +589,9 @@ class Protection {
 
   Map<String, dynamic> toJson() => {
         "enabled": enabled == null ? null : enabled,
-        "required_status_checks":
-            requiredStatusChecks == null ? null : requiredStatusChecks!.toJson(),
+        "required_status_checks": requiredStatusChecks == null
+            ? null
+            : requiredStatusChecks!.toJson(),
       };
 }
 

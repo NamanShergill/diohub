@@ -30,7 +30,7 @@ class RepoReadmeProvider extends BaseProvider {
         // This event happens whenever the branch is changed, so this provider
         // is reset and new data is fetched.
         if (event == Status.loaded) {
-          statusController.add(Status.initialized);
+          reset();
           await _fetchReadme(_branchProvider!.branch!.commit!.sha);
         }
       });
@@ -39,12 +39,16 @@ class RepoReadmeProvider extends BaseProvider {
 
   /// Fetch a [RepositoryReadmeModel] and load it in the provider.
   Future _fetchReadme(String? branch) async {
-    statusController.add(Status.loading);
+    loading();
     try {
-      _readme = await RepositoryServices.fetchReadme(_repoURL!, branch: branch);
-      statusController.add(Status.loaded);
+      RepositoryReadmeModel readme =
+          await RepositoryServices.fetchReadme(_repoURL!, branch: branch);
+      if (_branchProvider!.branch!.name == branch) {
+        _readme = readme;
+        loaded();
+      }
     } catch (e) {
-      statusController.add(Status.error);
+      error(message: e.toString());
     }
   }
 }

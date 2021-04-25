@@ -20,6 +20,8 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
+  final ScrollController scrollController = ScrollController();
+
   /// Filters to be supplied to the API.
   Map<String, dynamic> apiFilters = {'all': true};
 
@@ -71,35 +73,38 @@ class _NotificationsScreenState extends State<NotificationsScreen>
       child: Stack(
         children: [
           NestedScrollView(
+            controller: scrollController,
             headerSliverBuilder: (context, _) {
               return [
                 SliverOverlapAbsorber(
                   handle:
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverAppBar(
-                    expandedHeight: 150,
-                    collapsedHeight: 100,
-                    pinned: true,
-                    elevation: 2,
-                    backgroundColor: AppColor.background,
-                    flexibleSpace: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          expanded = !expanded;
-                        });
-                      },
-                      child: CollapsibleAppBar(
-                        minHeight: 100,
-                        maxHeight: 150,
-                        expandedParentPadding: 0,
-                        title: 'Inbox',
-                        trailing: IconButton(
-                          icon: Icon(Icons.sort),
-                          onPressed: () {
-                            setState(() {
-                              expanded = !expanded;
-                            });
-                          },
+                  sliver: SliverSafeArea(
+                    sliver: SliverAppBar(
+                      expandedHeight: 150,
+                      collapsedHeight: 100,
+                      pinned: true,
+                      elevation: 2,
+                      backgroundColor: AppColor.background,
+                      flexibleSpace: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            expanded = !expanded;
+                          });
+                        },
+                        child: CollapsibleAppBar(
+                          minHeight: 100,
+                          maxHeight: 150,
+                          expandedParentPadding: 0,
+                          title: 'Inbox',
+                          trailing: IconButton(
+                            icon: Icon(Icons.sort),
+                            onPressed: () {
+                              setState(() {
+                                expanded = !expanded;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -110,115 +115,114 @@ class _NotificationsScreenState extends State<NotificationsScreen>
             body: Builder(
               builder: (context) {
                 NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                return Padding(
-                  padding: const EdgeInsets.only(top: 100.0),
-                  child: Column(
-                    children: [
-                      SizeExpandedSection(
-                        expand: expanded,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 8),
-                              child: Button(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 24),
-                                onTap: () async {
-                                  setState(() {
-                                    loadingButton = true;
-                                  });
-                                  await NotificationsService.markAllAsRead();
-                                  setState(() {
-                                    loadingButton = false;
-                                  });
-                                  _controller.refresh();
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Mark all as read',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                    Icon(
-                                      LineIcons.checkCircle,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                                enabled: !loadingButton,
-                                listenToLoadingController: false,
-                                color: AppColor.onBackground,
-                                elevation: 2,
+                return Column(
+                  children: [
+                    SizeExpandedSection(
+                      expand: expanded,
+                      child: Column(
+                        children: [
+                          Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8),
+                            child: Button(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 24),
+                              onTap: () async {
+                                setState(() {
+                                  loadingButton = true;
+                                });
+                                await NotificationsService.markAllAsRead();
+                                setState(() {
+                                  loadingButton = false;
+                                });
+                                _controller.refresh();
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Mark all as read',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  Icon(
+                                    LineIcons.checkCircle,
+                                    color: Colors.white,
+                                  ),
+                                ],
                               ),
+                              enabled: !loadingButton,
+                              listenToLoadingController: false,
+                              color: AppColor.onBackground,
+                              elevation: 2,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 8),
-                              child: Button(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 24),
-                                onTap: () {
-                                  showFilterSheet();
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Filter Inbox',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                    Icon(
-                                      LineIcons.filter,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                                listenToLoadingController: false,
-                                color: AppColor.onBackground,
-                                elevation: 2,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8),
+                            child: Button(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 24),
+                              onTap: () {
+                                showFilterSheet();
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Filter Inbox',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  Icon(
+                                    LineIcons.filter,
+                                    color: Colors.white,
+                                  ),
+                                ],
                               ),
+                              listenToLoadingController: false,
+                              color: AppColor.onBackground,
+                              elevation: 2,
                             ),
-                            Divider(),
-                          ],
-                        ),
+                          ),
+                          Divider(),
+                        ],
                       ),
-                      Expanded(
-                        child: InfiniteScrollWrapper<NotificationModel>(
-                          controller: _controller,
-                          spacing: 0,
-                          future: (pageNumber, pageSize, refresh, _) {
-                            return NotificationsService.getNotifications(
-                                page: pageNumber,
-                                perPage: pageSize,
-                                refresh: refresh,
-                                filters: apiFilters);
-                          },
-                          filterFn: (List<NotificationModel> list) {
-                            List<NotificationModel> filtered = [];
-                            list.forEach((element) {
-                              if (checkFilter(element)!) filtered.add(element);
-                            });
-                            return filtered;
-                          },
-                          builder: (context, NotificationModel item, index) {
-                            if (item.subject!.type == SubjectType.ISSUE)
-                              return IssueNotificationCard(item);
-                            else if (item.subject!.type ==
-                                SubjectType.PULL_REQUEST)
-                              return PullRequestNotificationCard(item);
-                            return Container();
-                          },
-                        ),
+                    ),
+                    Expanded(
+                      child: InfiniteScrollWrapper<NotificationModel>(
+                        controller: _controller,
+                        scrollController: scrollController,
+                        spacing: 0,
+                        isNestedScrollViewChild: true,
+                        future: (pageNumber, pageSize, refresh, _) {
+                          return NotificationsService.getNotifications(
+                              page: pageNumber,
+                              perPage: pageSize,
+                              refresh: refresh,
+                              filters: apiFilters);
+                        },
+                        filterFn: (List<NotificationModel> list) {
+                          List<NotificationModel> filtered = [];
+                          list.forEach((element) {
+                            if (checkFilter(element)!) filtered.add(element);
+                          });
+                          return filtered;
+                        },
+                        builder: (context, NotificationModel item, index) {
+                          if (item.subject!.type == SubjectType.ISSUE)
+                            return IssueNotificationCard(item);
+                          else if (item.subject!.type ==
+                              SubjectType.PULL_REQUEST)
+                            return PullRequestNotificationCard(item);
+                          return Container();
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               },
             ),

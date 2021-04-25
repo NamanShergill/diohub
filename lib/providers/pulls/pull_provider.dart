@@ -20,16 +20,18 @@ class PullProvider extends BaseProvider {
   }
 
   Future getPull({String? userLogin}) async {
-    statusController.add(Status.loading);
+    loading();
     List<String> urlChunks = _pullURL!.split('/');
     _repoURL = urlChunks.sublist(0, urlChunks.length - 2).join('/');
-    List<Future> futures = [PullsService.getPullInformation(fullUrl: _pullURL!)];
+    List<Future> futures = [
+      PullsService.getPullInformation(fullUrl: _pullURL!)
+    ];
     if (repoURL != null && userLogin != null)
       futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
     List<dynamic> data = await Future.wait(futures);
     _pullModel = data[0];
     if (repoURL != null && userLogin != null) _editingEnabled = data[1];
-    statusController.add(Status.loaded);
+    loaded();
   }
 
   void updateLabels(List<Label> labels) {

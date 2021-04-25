@@ -47,7 +47,7 @@ class BranchButton extends StatelessWidget {
                           context.read<RepoBranchProvider>().branch!.name;
                       void changeBranch(String branch) {
                         Provider.of<RepoBranchProvider>(context, listen: false)
-                            .changeBranch(branch);
+                            .setBranch(branch);
                       }
 
                       showScrollableBottomActionsMenu(context,
@@ -81,7 +81,11 @@ class BranchButton extends StatelessWidget {
                                   SizedBox(
                                     width: 8,
                                   ),
-                                  Flexible(child: Text(value.branch!.name!)),
+                                  Flexible(
+                                      child: Text(
+                                    value.branch!.name!,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
                                 ],
                               ),
                             ),
