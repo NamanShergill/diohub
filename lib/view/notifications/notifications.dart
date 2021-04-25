@@ -5,6 +5,7 @@ import 'package:onehub/common/bottom_sheet.dart';
 import 'package:onehub/common/button.dart';
 import 'package:onehub/common/collapsible_app_bar.dart';
 import 'package:onehub/common/infinite_scroll_wrapper.dart';
+import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/login_check_wrapper.dart';
 import 'package:onehub/models/events/notifications_model.dart';
 import 'package:onehub/services/activity/notifications_service.dart';
@@ -192,36 +193,40 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: InfiniteScrollWrapper<NotificationModel>(
-                        controller: _controller,
-                        scrollController: scrollController,
-                        spacing: 0,
-                        isNestedScrollViewChild: true,
-                        future: (pageNumber, pageSize, refresh, _) {
-                          return NotificationsService.getNotifications(
-                              page: pageNumber,
-                              perPage: pageSize,
-                              refresh: refresh,
-                              filters: apiFilters);
-                        },
-                        filterFn: (List<NotificationModel> list) {
-                          List<NotificationModel> filtered = [];
-                          list.forEach((element) {
-                            if (checkFilter(element)!) filtered.add(element);
-                          });
-                          return filtered;
-                        },
-                        builder: (context, NotificationModel item, index) {
-                          if (item.subject!.type == SubjectType.ISSUE)
-                            return IssueNotificationCard(item);
-                          else if (item.subject!.type ==
-                              SubjectType.PULL_REQUEST)
-                            return PullRequestNotificationCard(item);
-                          return Container();
-                        },
-                      ),
-                    ),
+                    true
+                        ? LoadingIndicator()
+                        : Expanded(
+                            child: InfiniteScrollWrapper<NotificationModel>(
+                              controller: _controller,
+                              scrollController: scrollController,
+                              spacing: 0,
+                              isNestedScrollViewChild: true,
+                              future: (pageNumber, pageSize, refresh, _) {
+                                return NotificationsService.getNotifications(
+                                    page: pageNumber,
+                                    perPage: pageSize,
+                                    refresh: refresh,
+                                    filters: apiFilters);
+                              },
+                              filterFn: (List<NotificationModel> list) {
+                                List<NotificationModel> filtered = [];
+                                list.forEach((element) {
+                                  if (checkFilter(element)!)
+                                    filtered.add(element);
+                                });
+                                return filtered;
+                              },
+                              builder:
+                                  (context, NotificationModel item, index) {
+                                if (item.subject!.type == SubjectType.ISSUE)
+                                  return IssueNotificationCard(item);
+                                else if (item.subject!.type ==
+                                    SubjectType.PULL_REQUEST)
+                                  return PullRequestNotificationCard(item);
+                                return Container();
+                              },
+                            ),
+                          ),
                   ],
                 );
               },

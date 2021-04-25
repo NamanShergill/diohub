@@ -93,16 +93,10 @@ dev_dependencies:
     sdk: flutter
   auto_route_generator: ^1.0.2
   build_runner: ^1.12.2
-  flutter_launcher_icons: ^0.9.0
   dependency_validator:
     git:
       url: https://github.com/Workiva/dependency_validator.git
       ref: nnbd
-
-flutter_icons:
-  android: "launcher_icon"
-  ios: false
-  image_path: "assets/icon/icon.png"
 
 flutter:
   uses-material-design: true

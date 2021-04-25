@@ -36,7 +36,7 @@ class Events extends StatelessWidget {
           return EventsService.getReceivedEvents(_user.currentUserInfo!.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         else
-          return EventsService.getPublicEvents(_user.currentUserInfo!.login,
+          return EventsService.getPublicEvents(
               page: pageNumber, perPage: pageSize, refresh: refresh);
       },
       builder: (context, EventsModel item, index) {
