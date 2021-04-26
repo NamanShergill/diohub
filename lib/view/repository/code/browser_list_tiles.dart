@@ -22,15 +22,14 @@ class BrowserListTile extends StatelessWidget {
         onTap: () {
           if (tree.type == Type.TREE)
             Provider.of<CodeProvider>(context, listen: false)
-                .pushTree(tree, index);
+                .pushTree(tree.sha!, index);
           else if (tree.type == Type.BLOB)
             AutoRouter.of(context).push(FileViewerAPIRoute(
                 repoURL: repoURL,
                 sha: tree.sha,
                 fileName: tree.path,
                 branch: Provider.of<RepoBranchProvider>(context, listen: false)
-                    .branch!
-                    .name,
+                    .currentSHA,
                 repoName:
                     Provider.of<RepositoryProvider>(context, listen: false)
                         .repositoryModel!

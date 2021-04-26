@@ -40,7 +40,7 @@ class _CodeBrowserState extends State<CodeBrowser>
           builder: (context, value, _) {
             return Column(
               children: [
-                context.read<RepoBranchProvider>().branch?.isCommit == true &&
+                context.read<RepoBranchProvider>().isCommit == true &&
                         value.tree.length != 0
                     ? SizeExpandedSection(
                         child: Padding(
@@ -53,7 +53,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).branch!.name!.substring(0, 6)}.',
+                                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA!.substring(0, 6)}.',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -97,18 +97,14 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 .repositoryModel!
                                 .url;
 
-                            String branchName = context
-                                .read<RepoBranchProvider>()
-                                .branch!
-                                .name!;
+                            String branchName =
+                                context.read<RepoBranchProvider>().currentSHA!;
 
                             String path =
                                 context.read<CodeProvider>().getPath();
 
-                            bool isLocked = context
-                                .read<RepoBranchProvider>()
-                                .branch!
-                                .isCommit;
+                            bool isLocked =
+                                context.read<RepoBranchProvider>().isCommit;
                             showScrollableBottomActionsMenu(context,
                                 titleWidget: Padding(
                                   padding: const EdgeInsets.all(8.0),

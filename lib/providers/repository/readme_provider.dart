@@ -24,14 +24,14 @@ class RepoReadmeProvider extends BaseProvider {
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
       if (_branchProvider!.status == Status.loaded)
-        _fetchReadme(_branchProvider!.branch!.commit!.sha);
+        _fetchReadme(_branchProvider!.currentSHA);
       _branchProvider!.statusStream.listen((event) async {
         // Fetch the root sha in the branch when the branch provider is loaded.
         // This event happens whenever the branch is changed, so this provider
         // is reset and new data is fetched.
         if (event == Status.loaded) {
           reset();
-          await _fetchReadme(_branchProvider!.branch!.commit!.sha);
+          await _fetchReadme(_branchProvider!.currentSHA);
         }
       });
     }
@@ -43,7 +43,7 @@ class RepoReadmeProvider extends BaseProvider {
     try {
       RepositoryReadmeModel readme =
           await RepositoryServices.fetchReadme(_repoURL!, branch: branch);
-      if (_branchProvider!.branch!.name == branch) {
+      if (_branchProvider!.currentSHA! == branch) {
         _readme = readme;
         loaded();
       }

@@ -1,35 +1,33 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/loading_indicator.dart';
 import 'package:onehub/common/shimmer_widget.dart';
 
 class ImageLoader extends StatelessWidget {
   final String url;
-  final double? size;
+  final double? height;
+  final double? width;
   final WidgetBuilder? errorBuilder;
-  ImageLoader(this.url, {this.size, this.errorBuilder});
+  ImageLoader(this.url, {this.height, this.errorBuilder, this.width});
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: url,
-      height: size,
+      height: height,
+      width: width,
       fit: BoxFit.fill,
       errorWidget: (context, _, __) {
         return errorBuilder != null ? errorBuilder!(context) : Container();
       },
       placeholder: (context, string) {
-        return size != null
+        return (height != null || width != null)
             ? ShimmerWidget(
                 child: Container(
-                  height: size,
-                  width: size,
+                  height: height,
+                  width: width,
                   color: Colors.grey,
                 ),
               )
-            : Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: LoadingIndicator(),
-              );
+            : Container();
       },
     );
   }

@@ -28,8 +28,8 @@ class CodeProvider extends BaseProvider {
   RepoBranchProvider? _branchProvider;
 
   /// Controller used to add events to.
-  final StreamController<Tree> _treeController =
-      StreamController<Tree>.broadcast();
+  final StreamController<String> _treeController =
+      StreamController<String>.broadcast();
 
   CodeProvider({String? repoURL}) : _repoURL = repoURL;
 
@@ -41,11 +41,8 @@ class CodeProvider extends BaseProvider {
       _branchProvider = repoBranchProvider;
       // Setup init functions and run them for fetching data.
       void setupAndRunFetch() {
-        _fetchTree(
-            Tree(
-              sha: _branchProvider!.branch!.name!,
-            ),
-            branch: _branchProvider!.branch!.name!);
+        _fetchTree(_branchProvider!.currentSHA!,
+            currentRootSHA: _branchProvider!.currentSHA!);
       }
 
       // In case the provider loads lazily and the event of load is
@@ -64,21 +61,21 @@ class CodeProvider extends BaseProvider {
       // Listen to tree pop and push events and fetch data accordingly.
       _treeController.stream.listen((event) async {
         // Fetch the last tree in the list after the pop/push events are done,
-        await _fetchTree(event, branch: _branchProvider!.branch!.name!);
+        await _fetchTree(event, currentRootSHA: _branchProvider!.currentSHA!);
       });
     }
   }
 
   /// Fetch a [Tree] and load it in the provider.
-  Future _fetchTree(Tree tree, {required String branch}) async {
+  Future _fetchTree(String treeSHA, {required String currentRootSHA}) async {
     loading();
     try {
       // Start with initial future to fetch code tree.
       List<Future> future = <Future>[
-        GitDatabaseService.getTree(repoURL: _repoURL, sha: tree.sha),
+        GitDatabaseService.getTree(repoURL: _repoURL, sha: treeSHA),
         RepositoryServices.getCommitsList(
             repoURL: _repoURL!,
-            sha: _branchProvider!.branch!.commit!.sha,
+            sha: _branchProvider!.currentSHA!,
             path: getPath(),
             pageNumber: 1,
             pageSize: 1),
@@ -86,7 +83,7 @@ class CodeProvider extends BaseProvider {
       // Run the futures.
       List<dynamic> data = await Future.wait(future);
       // Add data to tree if the selected branch has not been changed.
-      if (_branchProvider!.branch!.name == branch) {
+      if (_branchProvider!.currentSHA! == currentRootSHA) {
         // Get _codeTree data from the completed futures.
         CodeTreeModel _codeTree = data[0];
         // Get _commit data from the completed future.
@@ -145,8 +142,8 @@ class CodeProvider extends BaseProvider {
   }
 
   /// Push a new [Tree] to the provider.
-  void pushTree(Tree tree, int index) {
+  void pushTree(String sha, int index) {
     _pathIndex.add(index);
-    _treeController.add(tree);
+    _treeController.add(sha);
   }
 }

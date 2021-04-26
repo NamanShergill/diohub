@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:onehub/models/repositories/branch_model.dart';
 import 'package:onehub/providers/base_provider.dart';
 import 'package:onehub/providers/repository/repository_provider.dart';
 
@@ -10,9 +9,10 @@ class RepoBranchProvider extends BaseProvider {
   final String? _initCommitSHA;
   final StreamController<String> _loadBranch =
       StreamController<String>.broadcast();
-  BranchModel? _branch;
+  String? _currentSHA;
   String? _currentBranch;
-  BranchModel? get branch => _branch;
+  String? get currentSHA => _currentSHA;
+  bool isCommit = false;
 
   void disposeStream() {
     _loadBranch.close();
@@ -55,10 +55,8 @@ class RepoBranchProvider extends BaseProvider {
   }
 
   void setBranch(String branchName, {bool isCommitSha = false}) async {
-    _branch = BranchModel(
-        name: branchName,
-        commit: BranchModelCommit(sha: branchName),
-        isCommit: isCommitSha);
+    _currentSHA = branchName;
+    isCommit = isCommitSha;
     if (!isCommitSha) _currentBranch = branchName;
     loaded();
   }

@@ -193,9 +193,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         ],
                       ),
                     ),
-                    true
-                        ? LoadingIndicator()
-                        : Expanded(
+                    Expanded(
                             child: InfiniteScrollWrapper<NotificationModel>(
                               controller: _controller,
                               scrollController: scrollController,

@@ -39,7 +39,7 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
             },
             childBuilder: (context, value) {
               return MarkdownBody(value.readme!.content,
-                  branch: Provider.of<RepoBranchProvider>(context).branch!.name,
+                  branch: Provider.of<RepoBranchProvider>(context).currentSHA!,
                   repo: Provider.of<RepositoryProvider>(context)
                       .repositoryModel!
                       .fullName);

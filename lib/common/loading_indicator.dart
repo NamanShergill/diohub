@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoadingIndicator extends StatefulWidget {
   const LoadingIndicator({
@@ -27,7 +26,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
     super.initState();
 
     _controller = (AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500)))
+        vsync: this, duration: Duration(milliseconds: 1000)))
       ..addListener(() => setState(() {}))
       ..repeat();
     _animation = Tween(begin: 0.0, end: 4.0).animate(CurvedAnimation(

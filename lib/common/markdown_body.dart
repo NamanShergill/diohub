@@ -222,47 +222,21 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             src = src.replaceFirst('https://github.com/${widget.repo}/blob/',
                 'https://raw.githubusercontent.com/${widget.repo}/');
           if (src.split('.').last.contains('svg'))
-            return SvgPicture.network(
-              src,
-              placeholderBuilder: (renderContext) {
-                return ShimmerWidget(
-                  borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                  child: Container(
-                    height: 20,
-                    width: 80,
-                    color: Colors.grey,
-                  ),
-                );
-              },
-            );
+            return SvgPicture.network(src);
           return Padding(
             padding: const EdgeInsets.all(4.0),
-            child: Container(
-              width: double.tryParse(
-                  renderContext.tree.element?.attributes['width'] ?? ''),
+            child: ImageLoader(
+              src,
               height: double.tryParse(
                   renderContext.tree.element?.attributes['height'] ?? ''),
-              child: ImageLoader(
-                src,
-                // Some SVGs don't have svg in their URL so will miss the
-                // if check above. They will fail in the image loader
-                // so will build here.
-                errorBuilder: (renderContext) {
-                  return SvgPicture.network(
-                    src,
-                    placeholderBuilder: (renderContext) {
-                      return ShimmerWidget(
-                        borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                        child: Container(
-                          height: 20,
-                          width: 80,
-                          color: Colors.grey,
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              width: double.tryParse(
+                  renderContext.tree.element?.attributes['width'] ?? ''),
+              // Some SVGs don't have svg in their URL so will miss the
+              // if check above. They will fail in the image loader
+              // so will build here.
+              errorBuilder: (context) {
+                return SvgPicture.network(src);
+              },
             ),
           );
         },

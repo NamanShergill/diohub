@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  auto_route: ^1.0.2
+  auto_route: ^2.0.0
   another_flushbar: ^1.10.18
   cached_network_image: ^3.0.0-nullsafety
   connectivity: ^3.0.3
@@ -54,7 +54,6 @@ dependencies:
       ref: 2ad3cf2ea344b93742418af655537d2acc7043ec
 
   flutter_slidable: ^0.6.0-nullsafety.0
-  flutter_spinkit: ^5.0.0
   flutter_svg: ^0.21.0+1
 
   # Modified to support hero tags. Might remove.
@@ -91,12 +90,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^1.0.2
-  build_runner: ^1.12.2
-  dependency_validator:
-    git:
-      url: https://github.com/Workiva/dependency_validator.git
-      ref: nnbd
+  auto_route_generator: ^2.0.0
+  build_runner: ^2.0.1
+  dependency_validator: ^3.1.0
+  flutter_native_splash: ^1.1.8+4
+
+flutter_native_splash:
+  color: '#17181c'
+  image: assets/logo.png
 
 flutter:
   uses-material-design: true
