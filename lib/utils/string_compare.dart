@@ -1,8 +1,11 @@
 class StringFunctions {
   final String string;
   StringFunctions(this.string);
-  bool isStringEqual(String string2) {
-    return string.toLowerCase() == string2.toLowerCase();
+
+  toString() => string;
+
+  bool isStringEqual(String? string2) {
+    return string.toLowerCase() == string2?.toLowerCase();
   }
 
   bool isStringStartingWith(String string2) {

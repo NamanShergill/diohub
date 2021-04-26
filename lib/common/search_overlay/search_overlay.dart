@@ -15,6 +15,7 @@ import 'package:onehub/common/user_search_dropdown.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/style/text_field_themes.dart';
+import 'package:onehub/utils/string_compare.dart';
 
 class SearchOverlayScreen extends StatefulWidget {
   final String? message;
@@ -1103,7 +1104,7 @@ class SearchData {
     List<String> active = [];
     filterStrings.forEach((element) {
       quickFilters.forEach((e) {
-        if (e.toLowerCase() == element.toLowerCase()) active.add(element);
+        if (StringFunctions(e).isStringEqual(element)) active.add(element);
       });
     });
     // Return null if more than one.
@@ -1126,7 +1127,7 @@ class SearchData {
     filters.removeWhere((element) {
       bool exists = false;
       quickFilters.forEach((e) {
-        if (e.toLowerCase() == element.toLowerCase()) exists = true;
+        if (StringFunctions(e).isStringEqual(element)) exists = true;
       });
       return exists;
     });

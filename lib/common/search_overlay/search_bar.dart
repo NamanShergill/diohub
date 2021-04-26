@@ -7,6 +7,7 @@ import 'package:onehub/common/search_overlay/search_overlay.dart';
 import 'package:onehub/routes/router.gr.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
+import 'package:onehub/utils/string_compare.dart';
 
 class SearchBar extends StatefulWidget {
   final String? message;
@@ -55,6 +56,7 @@ class _SearchBarState extends State<SearchBar> {
     if (widget.quickFilters != null)
       searchData = searchData?.copyWith(
           quickFilters: widget.quickFilters?.keys.toList());
+    quickActionsVisible = widget.quickOptions == null;
     super.initState();
   }
 
@@ -71,7 +73,7 @@ class _SearchBarState extends State<SearchBar> {
       Map<String, String> qFilters, String? activeFilter) {
     String qFilter = 'Quick Filters';
     qFilters.forEach((key, value) {
-      if (key.toLowerCase() == activeFilter?.toLowerCase())
+      if (StringFunctions(key).isStringEqual(activeFilter))
         qFilter = qFilters[key]!;
     });
     return qFilter;
@@ -106,6 +108,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   bool quickActionsAnim = false;
+  late bool quickActionsVisible;
   bool sortExpanded = false;
   bool quickFiltersExpanded = false;
   @override
@@ -123,230 +126,283 @@ class _SearchBarState extends State<SearchBar> {
               bottomLeft: AppThemeBorderRadius.medBorderRadius.bottomLeft,
               bottomRight: AppThemeBorderRadius.medBorderRadius.bottomRight),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               Divider(
                 height: 0,
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: !quickFiltersExpanded ? 1 : 0,
-                    child: Container(
-                        constraints: BoxConstraints(
-                            maxWidth: !quickFiltersExpanded
-                                ? 1000
-                                : MediaQuery.of(context).size.width * 0.45),
-                        child: quickActionsExpandAnim(
-                            context,
-                            !quickFiltersExpanded,
-                            CustomExpandTile(
-                              title: Text(
-                                searchData!.searchFilters!
-                                        .sortOptions[searchData!.sort] ??
-                                    'Best Match',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .copyWith(
-                                        color: sortExpanded
-                                            ? AppColor.accent
-                                            : Colors.white),
-                              ),
-                              expanded: sortExpanded,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 1.0),
-                                    child: Divider(
-                                      height: 0,
-                                    ),
-                                  ),
-                                  ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return Divider(
-                                          height: 0,
-                                        );
-                                      },
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: getWithoutValue(
-                                              searchData!.sort,
-                                              widget.searchData!.searchFilters!
-                                                  .sortOptions)
-                                          .length,
-                                      itemBuilder: (context, index) {
-                                        return ListTile(
-                                          title: Text(
-                                            getWithoutValue(
-                                                    searchData!.sort,
-                                                    widget
-                                                        .searchData!
-                                                        .searchFilters!
-                                                        .sortOptions)
-                                                .values
-                                                .toList()[index],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2,
-                                          ),
-                                          onTap: () {
-                                            changeSortExpanded(expand: false);
-                                            setState(() {
-                                              searchData = searchData!.copyWith(
-                                                  sort: getWithoutValue(
-                                                          searchData!.sort,
-                                                          widget
-                                                              .searchData!
-                                                              .searchFilters!
-                                                              .sortOptions)
-                                                      .keys
-                                                      .toList()[index]);
-                                            });
-                                            widget.onSubmit(searchData!);
-                                          },
-                                        );
-                                      }),
-                                ],
-                              ),
-                              onTap: () {
-                                changeSortExpanded();
-                              },
-                            ))),
+              Visibility(
+                visible: quickActionsVisible,
+                replacement: ListTile(
+                  title: Text(
+                    'Sort & Quick Filters',
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        color: sortExpanded ? AppColor.accent : Colors.white),
                   ),
-                  if (widget.quickFilters != null)
-                    Flexible(
-                      flex: !sortExpanded ? 1 : 0,
-                      child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: !sortExpanded
-                                  ? 1000
-                                  : MediaQuery.of(context).size.width * 0.45),
-                          child: quickActionsExpandAnim(
-                              context,
-                              !sortExpanded,
-                              CustomExpandTile(
-                                title: Text(
-                                  getQuickFilterTitle(widget.quickFilters!,
-                                      searchData!.activeQuickFilter),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2!
-                                      .copyWith(
-                                          color: quickFiltersExpanded
-                                              ? AppColor.accent
-                                              : Colors.white),
-                                ),
-                                expanded: quickFiltersExpanded,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 1.0),
-                                      child: Divider(
-                                        height: 0,
+                  onTap: () {
+                    setState(() {
+                      quickActionsVisible = true;
+                    });
+                  },
+                  trailing: Icon(
+                    Icons.arrow_drop_down,
+                    color: AppColor.grey3,
+                  ),
+                ),
+                child: SizeExpandedSection(
+                  expand: quickActionsVisible,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            flex: !quickFiltersExpanded ? 1 : 0,
+                            child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: !quickFiltersExpanded
+                                        ? 1000
+                                        : MediaQuery.of(context).size.width *
+                                            0.45),
+                                child: quickActionsExpandAnim(
+                                    context,
+                                    !quickFiltersExpanded,
+                                    CustomExpandTile(
+                                      title: Text(
+                                        searchData!.searchFilters!.sortOptions[
+                                                searchData!.sort] ??
+                                            'Best Match',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2!
+                                            .copyWith(
+                                                color: sortExpanded
+                                                    ? AppColor.accent
+                                                    : Colors.white),
                                       ),
-                                    ),
-                                    ListView.separated(
-                                        separatorBuilder: (context, index) {
-                                          return Divider(
-                                            height: 0,
-                                          );
+                                      expanded: sortExpanded,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 1.0),
+                                            child: Divider(
+                                              height: 0,
+                                            ),
+                                          ),
+                                          ListView.separated(
+                                              separatorBuilder:
+                                                  (context, index) {
+                                                return Divider(
+                                                  height: 0,
+                                                );
+                                              },
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount: getWithoutValue(
+                                                      searchData!.sort,
+                                                      widget
+                                                          .searchData!
+                                                          .searchFilters!
+                                                          .sortOptions)
+                                                  .length,
+                                              itemBuilder: (context, index) {
+                                                return ListTile(
+                                                  title: Text(
+                                                    getWithoutValue(
+                                                            searchData!.sort,
+                                                            widget
+                                                                .searchData!
+                                                                .searchFilters!
+                                                                .sortOptions)
+                                                        .values
+                                                        .toList()[index],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle2,
+                                                  ),
+                                                  onTap: () {
+                                                    changeSortExpanded(
+                                                        expand: false);
+                                                    setState(() {
+                                                      searchData = searchData!.copyWith(
+                                                          sort: getWithoutValue(
+                                                                  searchData!
+                                                                      .sort,
+                                                                  widget
+                                                                      .searchData!
+                                                                      .searchFilters!
+                                                                      .sortOptions)
+                                                              .keys
+                                                              .toList()[index]);
+                                                    });
+                                                    widget
+                                                        .onSubmit(searchData!);
+                                                  },
+                                                );
+                                              }),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        changeSortExpanded();
+                                      },
+                                    ))),
+                          ),
+                          if (widget.quickFilters != null)
+                            Flexible(
+                              flex: !sortExpanded ? 1 : 0,
+                              child: Container(
+                                  constraints: BoxConstraints(
+                                      maxWidth: !sortExpanded
+                                          ? 1000
+                                          : MediaQuery.of(context).size.width *
+                                              0.45),
+                                  child: quickActionsExpandAnim(
+                                      context,
+                                      !sortExpanded,
+                                      CustomExpandTile(
+                                        title: Text(
+                                          getQuickFilterTitle(
+                                              widget.quickFilters!,
+                                              searchData!.activeQuickFilter),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2!
+                                              .copyWith(
+                                                  color: quickFiltersExpanded
+                                                      ? AppColor.accent
+                                                      : Colors.white),
+                                        ),
+                                        expanded: quickFiltersExpanded,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 1.0),
+                                              child: Divider(
+                                                height: 0,
+                                              ),
+                                            ),
+                                            ListView.separated(
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return Divider(
+                                                    height: 0,
+                                                  );
+                                                },
+                                                shrinkWrap: true,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemCount: getWithoutValue(
+                                                        searchData!
+                                                            .activeQuickFilter,
+                                                        widget.quickFilters!)
+                                                    .length,
+                                                itemBuilder: (context, index) {
+                                                  return ListTile(
+                                                    title: Text(
+                                                      getWithoutValue(
+                                                              searchData!
+                                                                  .activeQuickFilter,
+                                                              widget
+                                                                  .quickFilters!)
+                                                          .values
+                                                          .toList()[index],
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle2,
+                                                    ),
+                                                    onTap: () {
+                                                      changeQuickFiltersExpanded(
+                                                          expand: false);
+                                                      setState(() {
+                                                        searchData = searchData!.copyWith(
+                                                            quickFilter: getWithoutValue(
+                                                                    searchData!
+                                                                        .activeQuickFilter,
+                                                                    widget
+                                                                        .quickFilters!)
+                                                                .keys
+                                                                .toList()[index]);
+                                                      });
+                                                      widget.onSubmit(
+                                                          searchData!);
+                                                    },
+                                                  );
+                                                }),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          changeQuickFiltersExpanded();
                                         },
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: getWithoutValue(
-                                                searchData!.activeQuickFilter,
-                                                widget.quickFilters!)
-                                            .length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
+                                      ))),
+                            ),
+                        ],
+                      ),
+                      if (widget.quickOptions != null)
+                        Flexible(
+                          child: SizeExpandedSection(
+                            expand: !quickFiltersExpanded && !sortExpanded,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: 1,
+                                ),
+                                Divider(
+                                  height: 0,
+                                ),
+                                Flexible(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: widget.quickOptions!.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                        CheckboxListTile(
                                             title: Text(
-                                              getWithoutValue(
-                                                      searchData!
-                                                          .activeQuickFilter,
-                                                      widget.quickFilters!)
-                                                  .values
+                                              widget.quickOptions!.values
                                                   .toList()[index],
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2,
                                             ),
-                                            onTap: () {
-                                              changeQuickFiltersExpanded(
-                                                  expand: false);
+                                            activeColor: AppColor.accent,
+                                            value: searchData!.filterStrings
+                                                .contains(widget
+                                                    .quickOptions!.keys
+                                                    .toList()[index]),
+                                            onChanged: (value) {
+                                              List<String> filters = searchData!
+                                                  .visibleStrings
+                                                  .toList();
+                                              if (value!)
+                                                filters.add(widget
+                                                    .quickOptions!.keys
+                                                    .toList()[index]);
+                                              else
+                                                filters.remove(widget
+                                                    .quickOptions!.keys
+                                                    .toList()[index]);
                                               setState(() {
-                                                searchData = searchData!.copyWith(
-                                                    quickFilter: getWithoutValue(
-                                                            searchData!
-                                                                .activeQuickFilter,
-                                                            widget
-                                                                .quickFilters!)
-                                                        .keys
-                                                        .toList()[index]);
+                                                searchData = searchData!
+                                                    .copyWith(
+                                                        filterStrings: filters);
                                               });
                                               widget.onSubmit(searchData!);
-                                            },
-                                          );
-                                        }),
-                                  ],
-                                ),
-                                onTap: () {
-                                  changeQuickFiltersExpanded();
-                                },
-                              ))),
-                    ),
-                ],
-              ),
-              if (widget.quickOptions != null)
-                Flexible(
-                  child: SizeExpandedSection(
-                    expand: !quickFiltersExpanded && !sortExpanded,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Divider(
-                          height: 0,
-                        ),
-                        Flexible(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: widget.quickOptions!.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) => CheckboxListTile(
-                                title: Text(
-                                  widget.quickOptions!.values.toList()[index],
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                ),
-                                activeColor: AppColor.accent,
-                                value: searchData!.filterStrings.contains(
-                                    widget.quickOptions!.keys.toList()[index]),
-                                onChanged: (value) {
-                                  List<String> filters =
-                                      searchData!.visibleStrings.toList();
-                                  if (value!)
-                                    filters.add(widget.quickOptions!.keys
-                                        .toList()[index]);
-                                  else
-                                    filters.remove(widget.quickOptions!.keys
-                                        .toList()[index]);
-                                  setState(() {
-                                    searchData = searchData!
-                                        .copyWith(filterStrings: filters);
-                                  });
-                                  widget.onSubmit(searchData!);
-                                }),
+                                            }),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
                 ),
+              ),
             ],
           ),
         );
