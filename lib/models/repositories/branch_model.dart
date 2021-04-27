@@ -587,8 +587,9 @@ class Protection {
 
   Map<String, dynamic> toJson() => {
         "enabled": enabled == null ? null : enabled,
-        "required_status_checks":
-            requiredStatusChecks == null ? null : requiredStatusChecks!.toJson(),
+        "required_status_checks": requiredStatusChecks == null
+            ? null
+            : requiredStatusChecks!.toJson(),
       };
 }
 

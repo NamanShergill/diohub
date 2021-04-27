@@ -10,7 +10,7 @@ import 'package:onehub/view/repository/commits/widgets/changes_viewer.dart';
 import 'package:onehub/view/repository/repository_screen.dart';
 import 'package:onehub/view/repository/wiki/wiki_viewer.dart';
 
-// flutter packages pub run build_runner watch --delete-conflicting-outputs
+// flutter packages pub run --no-sound-null-safety build_runner watch --delete-conflicting-outputs
 
 @CustomAutoRouter(
   transitionsBuilder: TransitionsBuilders.slideBottom,

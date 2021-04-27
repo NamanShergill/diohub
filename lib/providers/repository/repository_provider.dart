@@ -36,13 +36,13 @@ class RepositoryProvider extends BaseProvider {
   /// Get Repository information from the API.
   void _getRepository(String url) async {
     _url = url;
-    statusController.add(Status.loading);
+    loading();
     try {
       _repository = await RepositoryServices.fetchRepository(url);
-      statusController.add(Status.loaded);
+      loaded();
     } catch (e) {
-      error = e.toString();
-      statusController.add(Status.error);
+      errorInfo = e.toString();
+      error(message: errorInfo);
     }
   }
 }

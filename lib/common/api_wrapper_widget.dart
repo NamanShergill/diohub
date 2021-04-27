@@ -18,10 +18,12 @@ class APIWrapper<T> extends StatefulWidget {
   final ErrorBuilder? errorBuilder;
   final T? initialData;
   final APIWrapperController? apiWrapperController;
+  final bool fadeIntoView;
   APIWrapper({
     Key? key,
     this.getCall,
     this.postCall,
+    this.fadeIntoView = true,
     this.apiWrapperController,
     this.initialData,
     this.responseBuilder,
@@ -93,8 +95,10 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
               child: Text('Some error occured.'),
             );
 
-    return FadeAnimationSection(
-      child: widget.responseBuilder!(context, data),
-    );
+    if (widget.fadeIntoView)
+      return FadeAnimationSection(
+        child: widget.responseBuilder!(context, data),
+      );
+    return widget.responseBuilder!(context, data);
   }
 }

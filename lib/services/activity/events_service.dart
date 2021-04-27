@@ -35,7 +35,7 @@ class EventsService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-public-events
-  static Future<List<EventsModel>> getPublicEvents(String? user,
+  static Future<List<EventsModel>> getPublicEvents(
       {bool refresh = false, int? perPage, int? page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
     Response response =

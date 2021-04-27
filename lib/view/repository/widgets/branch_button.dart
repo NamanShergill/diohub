@@ -44,10 +44,10 @@ class BranchButton extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       String? currentBranch =
-                          context.read<RepoBranchProvider>().branch!.name;
+                          context.read<RepoBranchProvider>().currentSHA!;
                       void changeBranch(String branch) {
                         Provider.of<RepoBranchProvider>(context, listen: false)
-                            .changeBranch(branch);
+                            .setBranch(branch);
                       }
 
                       showScrollableBottomActionsMenu(context,
@@ -81,7 +81,11 @@ class BranchButton extends StatelessWidget {
                                   SizedBox(
                                     width: 8,
                                   ),
-                                  Flexible(child: Text(value.branch!.name!)),
+                                  Flexible(
+                                      child: Text(
+                                    value.currentSHA!,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
                                 ],
                               ),
                             ),

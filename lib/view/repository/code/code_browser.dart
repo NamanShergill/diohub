@@ -40,7 +40,8 @@ class _CodeBrowserState extends State<CodeBrowser>
           builder: (context, value, _) {
             return Column(
               children: [
-                value.commitLock && value.tree.length != 0
+                context.read<RepoBranchProvider>().isCommit == true &&
+                        value.tree.length != 0
                     ? SizeExpandedSection(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -52,7 +53,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Currently browsing commit ${value.tree.last.commit!.sha!.substring(0, 6)}.',
+                                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA!.substring(0, 6)}.',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -69,7 +70,9 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 ),
                                 onTap: value.status == Status.loaded
                                     ? () {
-                                        value.unlockCodeFromCommit();
+                                        context
+                                            .read<RepoBranchProvider>()
+                                            .reloadBranch();
                                       }
                                     : null,
                               ),
@@ -95,13 +98,13 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 .url;
 
                             String branchName =
-                                context.read<RepoBranchProvider>().branch!.name!;
+                                context.read<RepoBranchProvider>().currentSHA!;
 
                             String path =
                                 context.read<CodeProvider>().getPath();
 
                             bool isLocked =
-                                context.read<CodeProvider>().commitLock;
+                                context.read<RepoBranchProvider>().isCommit;
                             showScrollableBottomActionsMenu(context,
                                 titleWidget: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -141,16 +144,16 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 path: path,
                                 branchName: branchName,
                                 onSelected: (String sha) {
-                                  return Provider.of<CodeProvider>(context,
+                                  return Provider.of<RepoBranchProvider>(
+                                          context,
                                           listen: false)
-                                      .changeBaseSHA(sha);
+                                      .setBranch(sha, isCommitSha: true);
                                 },
                               );
                             });
                           }
                         : null,
-                    child: value.status == Status.loaded ||
-                            (value.commitLock && value.tree.length > 0)
+                    child: value.status == Status.loaded
                         ? CommitInfoButton()
                         : LoadingIndicator(),
                   ),

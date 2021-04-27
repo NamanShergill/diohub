@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:onehub/app/Dio/cache.dart';
 import 'package:onehub/app/Dio/dio.dart';
 import 'package:onehub/common/api_wrapper_widget.dart';
 import 'package:onehub/common/bottom_sheet.dart';
@@ -12,17 +13,12 @@ import 'package:onehub/common/shimmer_widget.dart';
 import 'package:onehub/style/borderRadiuses.dart';
 import 'package:onehub/style/colors.dart';
 import 'package:onehub/utils/copy_to_clipboard.dart';
-import 'package:onehub/utils/markdown_to_html,dart.dart';
-
-// class MarkdownBodyController {
-//   late void Function(String string) update;
-// }
+import 'package:onehub/utils/markdown_to_html.dart';
 
 class MarkdownBody extends StatefulWidget {
   final String? content;
   final String? repo;
   final String? branch;
-  // final MarkdownBodyController? controller;
   MarkdownBody(this.content, {this.branch, this.repo});
 
   @override
@@ -30,9 +26,6 @@ class MarkdownBody extends StatefulWidget {
 }
 
 class _MarkdownBodyState extends State<MarkdownBody> {
-  // _MarkdownBodyState(MarkdownBodyController? controller) {
-  //   if (controller != null) controller.update = updateData;
-  // }
   late String content;
 
   @override
@@ -148,8 +141,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             link = link.replaceAll(
                 'https://github.com', 'https://api.github.com/repos');
           return APIWrapper(
-            getCall:
-                GetDio.getDio(applyBaseURL: false, acceptHeader: '').get(link),
+            getCall: GetDio.getDio(
+                    applyBaseURL: false,
+                    acceptHeader: '',
+                    cacheOptions: CacheManager.defaultCache())
+                .get(link),
+            fadeIntoView: false,
             loadingBuilder: (context) {
               return ShimmerWidget(
                 child: IgnorePointer(child: child),
@@ -225,47 +222,21 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             src = src.replaceFirst('https://github.com/${widget.repo}/blob/',
                 'https://raw.githubusercontent.com/${widget.repo}/');
           if (src.split('.').last.contains('svg'))
-            return SvgPicture.network(
-              src,
-              placeholderBuilder: (renderContext) {
-                return ShimmerWidget(
-                  borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                  child: Container(
-                    height: 20,
-                    width: 80,
-                    color: Colors.grey,
-                  ),
-                );
-              },
-            );
+            return SvgPicture.network(src);
           return Padding(
             padding: const EdgeInsets.all(4.0),
-            child: Container(
-              width: double.tryParse(
-                  renderContext.tree.element?.attributes['width'] ?? ''),
+            child: ImageLoader(
+              src,
               height: double.tryParse(
                   renderContext.tree.element?.attributes['height'] ?? ''),
-              child: ImageLoader(
-                src,
-                // Some SVGs don't have svg in their URL so will miss the
-                // if check above. They will fail in the image loader
-                // so will build here.
-                errorBuilder: (renderContext) {
-                  return SvgPicture.network(
-                    src,
-                    placeholderBuilder: (renderContext) {
-                      return ShimmerWidget(
-                        borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                        child: Container(
-                          height: 20,
-                          width: 80,
-                          color: Colors.grey,
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              width: double.tryParse(
+                  renderContext.tree.element?.attributes['width'] ?? ''),
+              // Some SVGs don't have svg in their URL so will miss the
+              // if check above. They will fail in the image loader
+              // so will build here.
+              errorBuilder: (context) {
+                return SvgPicture.network(src);
+              },
             ),
           );
         },

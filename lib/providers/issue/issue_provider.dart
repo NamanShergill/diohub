@@ -18,14 +18,14 @@ class IssueProvider extends BaseProvider {
   }
 
   Future getIssue({String? repoURL, String? userLogin}) async {
-    statusController.add(Status.loading);
+    loading();
     List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL!)];
     if (repoURL != null && userLogin != null)
       futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
     List<dynamic> data = await Future.wait(futures);
     _issueModel = data[0];
     if (repoURL != null && userLogin != null) _editingEnabled = data[1];
-    statusController.add(Status.loaded);
+    loaded();
   }
 
   void updateLabels(List<Label> labels) {
