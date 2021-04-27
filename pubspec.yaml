@@ -31,7 +31,7 @@ dependencies:
   # Modified to add background color option.
   flutter_highlight:
     git:
-      url: https://github.com/NamanShergill/dio_hub_highlight.dart.git
+      url: https://github.com/NamanShergill/onehub_highlight.dart.git
       ref: master
       path: flutter_highlight
 
@@ -59,7 +59,7 @@ dependencies:
   # Modified to support hero tags. Might remove.
   google_nav_bar:
     git:
-      url: https://github.com/NamanShergill/dio_hub_google_nav_bar.git
+      url: https://github.com/NamanShergill/onehub_google_nav_bar.git
       ref: master
 
   graphql: ^5.0.0-nullsafety.3
@@ -72,7 +72,7 @@ dependencies:
   # Modified for additional markdown options.
   markdown_editable_textinput:
     git:
-      url: https://github.com/NamanShergill/dio_hub_markdown-editable-textinput
+      url: https://github.com/NamanShergill/onehub_markdown-editable-textinput
       ref: master
 
   mime: ^1.0.0
