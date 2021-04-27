@@ -4,6 +4,7 @@ import 'package:flutter_portal/flutter_portal.dart';
 import 'package:onehub/app/Dio/response_handler.dart';
 import 'package:onehub/app/global.dart';
 import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:onehub/controller/deep_linking_handler.dart';
 import 'package:onehub/controller/internet_connectivity.dart';
 import 'package:onehub/providers/landing_navigation_provider.dart';
 import 'package:onehub/providers/search_data_provider.dart';
@@ -21,10 +22,14 @@ void main() async {
   // Connectivity check stream initialised.
   InternetConnectivity.networkStatusService();
   await Global.setupAppCache();
-  runApp(MyApp());
+  String? initLink = await DeepLinkHandler.initUniLink();
+  DeepLinkHandler.uniLinkStream();
+  runApp(MyApp(initLink));
 }
 
 class MyApp extends StatelessWidget {
+  final String? initLink;
+  MyApp(this.initLink);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -111,7 +116,9 @@ class MyApp extends StatelessWidget {
                     dividerTheme:
                         DividerThemeData(color: Colors.white, thickness: 0.04),
                     fontFamily: 'Montserrat'),
-                routerDelegate: Global.customRouter.delegate(),
+                routerDelegate: Global.customRouter.delegate(
+                    initialRoutes: DeepLinkHandler.getRoutes(initLink ?? '',
+                        isInitial: true)),
                 routeInformationParser:
                     Global.customRouter.defaultRouteParser(),
               ),

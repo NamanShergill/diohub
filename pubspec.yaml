@@ -82,6 +82,9 @@ dependencies:
   share: ^2.0.1
   shimmer: ^2.0.0-nullsafety.0
   sliver_tools: ^0.2.1
+  uni_links:
+    git:
+      url: https://github.com/objectivecosta/uni_links_simplified
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.4
 
@@ -93,7 +96,8 @@ dev_dependencies:
   auto_route_generator: ^2.0.0
   build_runner: ^2.0.1
   dependency_validator: ^3.1.0
-  flutter_native_splash: ^1.1.8+4
+#  flutter_native_splash: ^1.1.8+4
+#  change_app_package_name: ^1.0.0
 
 flutter_native_splash:
   color: '#17181c'

@@ -8,6 +8,12 @@ class StringFunctions {
     return string.toLowerCase() == string2?.toLowerCase();
   }
 
+  bool regexCompleteMatch(String pattern) {
+    RegExp regexp = RegExp(pattern);
+    String? match = regexp.firstMatch(string)?.group(0);
+    return match != null && match == string;
+  }
+
   bool isStringStartingWith(String string2) {
     return string.toLowerCase().startsWith(string2.toLowerCase());
   }
