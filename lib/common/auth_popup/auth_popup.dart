@@ -1,13 +1,13 @@
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/auth_popup/widgets/auth_progress_notification.dart';
+import 'package:dio_hub/common/auth_popup/widgets/codeInfoBox.dart';
+import 'package:dio_hub/common/auth_popup/widgets/error_popup.dart';
+import 'package:dio_hub/common/auth_popup/widgets/login_popup.dart';
+import 'package:dio_hub/common/auth_popup/widgets/success_popup.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/common/auth_popup/widgets/auth_progress_notification.dart';
-import 'package:onehub/common/auth_popup/widgets/codeInfoBox.dart';
-import 'package:onehub/common/auth_popup/widgets/error_popup.dart';
-import 'package:onehub/common/auth_popup/widgets/login_popup.dart';
-import 'package:onehub/common/auth_popup/widgets/success_popup.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
 import 'package:provider/provider.dart';
 
 class AuthPopup extends StatefulWidget {

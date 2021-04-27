@@ -1,8 +1,8 @@
+import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/models/popup/popup_type.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/app/Dio/response_handler.dart';
-import 'package:onehub/models/popup/popup_type.dart';
-import 'package:onehub/style/colors.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 

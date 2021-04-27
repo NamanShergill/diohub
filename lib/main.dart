@@ -1,16 +1,16 @@
+import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
+import 'package:dio_hub/controller/internet_connectivity.dart';
+import 'package:dio_hub/providers/landing_navigation_provider.dart';
+import 'package:dio_hub/providers/search_data_provider.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:onehub/app/Dio/response_handler.dart';
-import 'package:onehub/app/global.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/controller/deep_linking_handler.dart';
-import 'package:onehub/controller/internet_connectivity.dart';
-import 'package:onehub/providers/landing_navigation_provider.dart';
-import 'package:onehub/providers/search_data_provider.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

@@ -1,6 +1,6 @@
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/providers/base_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/providers/base_provider.dart';
 import 'package:provider/provider.dart';
 
 typedef ErrorBuilder = Widget Function(BuildContext context, String error);

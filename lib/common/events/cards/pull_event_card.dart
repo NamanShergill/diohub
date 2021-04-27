@@ -1,7 +1,7 @@
+import 'package:dio_hub/common/events/cards/base_card.dart';
+import 'package:dio_hub/common/pulls/pull_list_card.dart';
+import 'package:dio_hub/models/events/events_model.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/events/cards/base_card.dart';
-import 'package:onehub/common/pulls/pull_list_card.dart';
-import 'package:onehub/models/events/events_model.dart';
 
 class PullEventCard extends StatelessWidget {
   final EventsModel event;

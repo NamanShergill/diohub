@@ -1,6 +1,6 @@
+import 'package:dio_hub/common/patch_viewer.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/patch_viewer.dart';
-import 'package:onehub/style/colors.dart';
 
 class ChangesViewer extends StatefulWidget {
   final String? patch;

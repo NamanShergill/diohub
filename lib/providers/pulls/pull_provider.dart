@@ -1,9 +1,9 @@
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/pull_requests/pull_request_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/services/pulls/pulls_service.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/services/pulls/pulls_service.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class PullProvider extends BaseProvider {
   final String? _pullURL;

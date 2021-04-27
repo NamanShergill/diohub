@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:onehub/app/global.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/utils/string_compare.dart';
+import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/utils/string_compare.dart';
 import 'package:uni_links/uni_links.dart';
 
 class DeepLinkHandler {

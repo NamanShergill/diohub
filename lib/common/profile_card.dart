@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/style/textStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/style/textStyles.dart';
 
 class ProfileCard extends StatelessWidget {
   final UserInfoModel user;

@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/graphQL/getGraphQl.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/models/users/current_user_info_model.dart';
+import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:graphql/client.dart' hide Response;
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/app/graphQL/getGraphQl.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/models/users/current_user_info_model.dart';
-import 'package:onehub/models/users/pinned_repos_graphql_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
 
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user

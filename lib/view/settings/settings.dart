@@ -1,11 +1,11 @@
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/bottom_sheet.dart';
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/common/bottom_sheet.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/common/info_card.dart';
-import 'package:onehub/style/colors.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -46,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         children: [
                           Flexible(
                             child: Text(
-                              'https://github.com/NamanShergill/onehub/issues',
+                              'https://github.com/NamanShergill/dio_hub/issues',
                               style: TextStyle(
                                   color: Colors.blue,
                                   decoration: TextDecoration.underline),
@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () {
                       linkHandler(
                         context,
-                        'https://github.com/NamanShergill/onehub/issues',
+                        'https://github.com/NamanShergill/dio_hub/issues',
                       );
                     },
                   ),

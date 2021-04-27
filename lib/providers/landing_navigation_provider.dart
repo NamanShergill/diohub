@@ -1,6 +1,6 @@
+import 'package:dio_hub/providers/base_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:onehub/providers/base_provider.dart';
 
 class NavigationProvider extends BaseProvider {
   int _currentIndex = 0;

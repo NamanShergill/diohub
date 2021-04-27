@@ -1,9 +1,9 @@
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/style/textStyles.dart';
+import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/style/textStyles.dart';
-import 'package:onehub/utils/get_date.dart';
 
 class BaseEventCard extends StatelessWidget {
   final Widget? child;

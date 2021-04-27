@@ -1,5 +1,5 @@
+import 'package:dio_hub/style/animDuartions.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/style/animDuartions.dart';
 
 class ScaleExpandedSection extends StatefulWidget {
   final Widget? child;

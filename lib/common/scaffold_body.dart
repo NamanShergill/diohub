@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/controller/internet_connectivity.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/controller/internet_connectivity.dart';
-import 'package:onehub/style/colors.dart';
 
 class ScaffoldBody extends StatefulWidget {
   final Widget? child;

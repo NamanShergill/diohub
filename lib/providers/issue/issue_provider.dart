@@ -1,8 +1,8 @@
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/services/issues/issues_service.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class IssueProvider extends BaseProvider {
   final String? _issueURL;

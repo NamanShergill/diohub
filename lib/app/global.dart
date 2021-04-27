@@ -1,7 +1,7 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:onehub/routes/router.gr.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Global {

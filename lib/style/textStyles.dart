@@ -1,5 +1,5 @@
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/style/colors.dart';
 
 class AppThemeTextStyles {
   static const TextStyle appBarTitle =

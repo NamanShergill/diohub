@@ -1,13 +1,13 @@
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/auth_popup/auth_popup.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/auth_popup/auth_popup.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 
 class AuthProgressNotification extends StatelessWidget {
   @override

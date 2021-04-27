@@ -1,10 +1,10 @@
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/auth_popup/auth_popup.dart';
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/common/auth_popup/auth_popup.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/style/colors.dart';
 
 class LoginCheckWrapper extends StatelessWidget {
   final Widget? child;

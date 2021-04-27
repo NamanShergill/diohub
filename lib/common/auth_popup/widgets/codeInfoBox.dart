@@ -1,20 +1,20 @@
 import 'dart:async';
 
+import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/common/auth_popup/widgets/base_auth_dialog.dart';
+import 'package:dio_hub/common/bottom_sheet.dart';
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/models/authentication/device_code_model.dart';
+import 'package:dio_hub/models/popup/popup_type.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:onehub/app/Dio/response_handler.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/common/animations/scale_expanded_widget.dart';
-import 'package:onehub/common/auth_popup/widgets/base_auth_dialog.dart';
-import 'package:onehub/common/bottom_sheet.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/models/authentication/device_code_model.dart';
-import 'package:onehub/models/popup/popup_type.dart';
-import 'package:onehub/style/colors.dart';
 
 class CodeInfoBox extends StatefulWidget {
   final DeviceCodeModel deviceCodeModel;
@@ -211,8 +211,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     ),
                   ),
                   onTap: () {
-                    linkHandler(
-                        context, widget.deviceCodeModel.verificationUri,
+                    linkHandler(context, widget.deviceCodeModel.verificationUri,
                         shareDescription:
                             'Enter the code ${widget.deviceCodeModel.userCode} on:');
                   },

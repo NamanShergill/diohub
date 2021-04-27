@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/users/user_info_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 
 class ReactionsModel {
   ReactionsModel({

@@ -1,17 +1,17 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/services/users/user_info_service.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/api_wrapper_widget.dart';
-import 'package:onehub/common/info_card.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/common/repository_card.dart';
-import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/models/users/pinned_repos_graphql_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/services/users/user_info_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 
 class UserOverviewScreen extends StatelessWidget {
   final UserInfoModel? userInfoModel;

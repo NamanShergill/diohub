@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/events/events_model.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/models/events/events_model.dart';
 
 class EventsService {
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-for-the-authenticated-user

@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_hub/common/app_tab_bar.dart';
+import 'package:dio_hub/common/collapsible_app_bar.dart';
+import 'package:dio_hub/common/events/events.dart';
+import 'package:dio_hub/common/login_check_wrapper.dart';
+import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/common/search_overlay/search_bar.dart';
+import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/providers/landing_navigation_provider.dart';
+import 'package:dio_hub/providers/search_data_provider.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/home/widgets/issues_tab.dart';
+import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/common/app_tab_bar.dart';
-import 'package:onehub/common/collapsible_app_bar.dart';
-import 'package:onehub/common/events/events.dart';
-import 'package:onehub/common/login_check_wrapper.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/common/search_overlay/search_bar.dart';
-import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/providers/landing_navigation_provider.dart';
-import 'package:onehub/providers/search_data_provider.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/home/widgets/issues_tab.dart';
-import 'package:onehub/view/home/widgets/pulls_tab.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {

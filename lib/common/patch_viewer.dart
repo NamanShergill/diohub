@@ -1,11 +1,11 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/code_block_view.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/models/repositories/blob_model.dart';
+import 'package:dio_hub/services/git_database/git_database_service.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/parse_base64.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/code_block_view.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/models/repositories/blob_model.dart';
-import 'package:onehub/services/git_database/git_database_service.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/parse_base64.dart';
 
 class PatchViewController {
   late bool? Function() wrap;

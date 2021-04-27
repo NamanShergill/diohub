@@ -1,12 +1,12 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/search_overlay/filters.dart';
+import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
+import 'package:dio_hub/services/search/search_service.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/common/search_overlay/filters.dart';
-import 'package:onehub/models/search/search_users_graphQL_model.dart';
-import 'package:onehub/services/search/search_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 
 class UserSearchDropdown extends StatelessWidget {
   final String query;

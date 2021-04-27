@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/commits/commit_model.dart';
-import 'package:onehub/models/repositories/branch_list_model.dart';
-import 'package:onehub/models/repositories/branch_model.dart';
-import 'package:onehub/models/repositories/commit_list_model.dart';
-import 'package:onehub/models/repositories/readme_model.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/models/commits/commit_model.dart';
+import 'package:dio_hub/models/repositories/branch_list_model.dart';
+import 'package:dio_hub/models/repositories/branch_model.dart';
+import 'package:dio_hub/models/repositories/commit_list_model.dart';
+import 'package:dio_hub/models/repositories/readme_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
 
 class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository

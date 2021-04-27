@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:onehub/app/global.dart';
-import 'package:onehub/common/popup/popup_helper.dart';
-import 'package:onehub/models/popup/popup_type.dart';
+import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/common/popup/popup_helper.dart';
+import 'package:dio_hub/models/popup/popup_type.dart';
 
 class ResponseHandler {
   ResponseHandler._();

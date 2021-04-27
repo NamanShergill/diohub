@@ -1,11 +1,11 @@
+import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/providers/users/user_provider.dart';
+import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
+import 'package:dio_hub/view/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/common/scaffold_body.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/providers/users/user_provider.dart';
-import 'package:onehub/view/profile/current_user_profile_screen.dart';
-import 'package:onehub/view/profile/user_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {

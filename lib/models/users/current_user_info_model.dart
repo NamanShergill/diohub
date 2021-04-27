@@ -1,6 +1,6 @@
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
-import 'package:onehub/models/users/user_info_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 
 class CurrentUserInfoModel extends UserInfoModel {
   int? privateGists;

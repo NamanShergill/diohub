@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/reactions/reactions_model.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/models/reactions/reactions_model.dart';
 
 class ReactionsService {
 // Ref: https://docs.github.com/en/rest/reference/reactions#list-reactions-for-an-issue-comment

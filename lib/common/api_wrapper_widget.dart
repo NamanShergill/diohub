@@ -1,5 +1,5 @@
+import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/loading_indicator.dart';
 
 import 'animations/fade_animation_widget.dart';
 

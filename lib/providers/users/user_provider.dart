@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:onehub/common/base_popup_notification.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/services/users/user_info_service.dart';
+import 'package:dio_hub/common/base_popup_notification.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/services/users/user_info_service.dart';
 
 class UserProvider extends BaseProvider {
   UserInfoModel? _currentUserInfo;

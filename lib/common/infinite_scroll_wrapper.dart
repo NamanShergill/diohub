@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:onehub/app/global.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/style/colors.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 /// Controller for [InfiniteScrollWrapper].

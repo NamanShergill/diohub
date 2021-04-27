@@ -1,9 +1,9 @@
+import 'package:dio_hub/common/changed_files_list_card.dart';
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/models/commits/commit_model.dart';
+import 'package:dio_hub/providers/pulls/pull_provider.dart';
+import 'package:dio_hub/services/pulls/pulls_service.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/changed_files_list_card.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/models/commits/commit_model.dart';
-import 'package:onehub/providers/pulls/pull_provider.dart';
-import 'package:onehub/services/pulls/pulls_service.dart';
 import 'package:provider/provider.dart';
 
 class PullChangedFilesList extends StatelessWidget {

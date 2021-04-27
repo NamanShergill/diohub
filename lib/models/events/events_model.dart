@@ -5,10 +5,10 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/pull_requests/pull_request_model.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 
 class EventsModel {
   EventsModel({

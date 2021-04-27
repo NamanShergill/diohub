@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/repositories/blob_model.dart';
-import 'package:onehub/models/repositories/code_tree_model.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/models/repositories/blob_model.dart';
+import 'package:dio_hub/models/repositories/code_tree_model.dart';
 
 class GitDatabaseService {
   // Ref: https://docs.github.com/en/rest/reference/git#get-a-tree

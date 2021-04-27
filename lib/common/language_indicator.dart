@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/utils/lang_colors/get_language_color.dart';
+import 'package:dio_hub/utils/lang_colors/get_language_color.dart';
 
 class LanguageIndicator extends StatelessWidget {
   final String? language;

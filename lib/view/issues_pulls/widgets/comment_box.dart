@@ -1,10 +1,10 @@
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/common/markdown_body.dart';
-import 'package:onehub/services/issues/issues_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 
 class CommentBox extends StatefulWidget {
   final String issueURL;

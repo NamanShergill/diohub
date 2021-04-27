@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/issues/issue_label.dart';
-import 'package:onehub/common/issues/issue_list_card.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/models/events/events_model.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/style/textStyles.dart';
-import 'package:onehub/utils/get_date.dart';
-import 'package:onehub/view/repository/commits/widgets/commit_s_h_a_button.dart';
+import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/common/issues/issue_list_card.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/style/textStyles.dart';
+import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/view/repository/commits/widgets/commit_s_h_a_button.dart';
 
 class BasicEventCard extends StatelessWidget {
   final UserInfoModel? user;
@@ -231,7 +231,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
 
   // GitHub API sends the wrong links to the issue where the reference was in.
   // This is here to fix them.
-  // Ref: https://github.com/NamanShergill/onehub/issues/7
+  // Ref: https://github.com/NamanShergill/dio_hub/issues/7
   String fixURL(String url) {
     List<String> components = url.split('/');
     components[4] = _correctRepo.split('/').first;

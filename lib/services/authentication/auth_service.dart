@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/keys.dart';
+import 'package:dio_hub/models/authentication/access_token_model.dart';
+import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/app/keys.dart';
-import 'package:onehub/models/authentication/access_token_model.dart';
-import 'package:onehub/models/authentication/device_code_model.dart';
 
 class AuthService {
   static final String _url = '/login/';

@@ -1,7 +1,7 @@
+import 'package:dio_hub/common/events/cards/base_card.dart';
+import 'package:dio_hub/common/issues/issue_list_card.dart';
+import 'package:dio_hub/models/events/events_model.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/events/cards/base_card.dart';
-import 'package:onehub/common/issues/issue_list_card.dart';
-import 'package:onehub/models/events/events_model.dart';
 
 class IssuesEventCard extends StatelessWidget {
   final EventsModel event;
@@ -13,9 +13,7 @@ class IssuesEventCard extends StatelessWidget {
     return BaseEventCard(
       actor: event.actor!.login,
       headerText: [
-        TextSpan(
-            text:
-                ' ${event.payload.action} $trailingHeaderText '),
+        TextSpan(text: ' ${event.payload.action} $trailingHeaderText '),
         TextSpan(
           text: event.repo!.name,
           style: TextStyle(fontWeight: FontWeight.bold),

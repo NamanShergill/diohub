@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/models/repositories/branch_list_model.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/models/repositories/branch_list_model.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 
 class BranchSelectSheet extends StatelessWidget {
   final String repoURL;

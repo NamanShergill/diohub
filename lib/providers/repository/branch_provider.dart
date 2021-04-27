@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/repository/repository_provider.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/repository/repository_provider.dart';
 
 class RepoBranchProvider extends BaseProvider {
   RepositoryProvider? _repositoryProvider;

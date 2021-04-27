@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/graphQL/getGraphQl.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/models/search/searchReposModel.dart';
+import 'package:dio_hub/models/search/search_issues_model.dart';
+import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
+import 'package:dio_hub/models/search/search_users_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:graphql/client.dart' hide Response;
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/app/graphQL/getGraphQl.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/models/search/searchReposModel.dart';
-import 'package:onehub/models/search/search_issues_model.dart';
-import 'package:onehub/models/search/search_users_graphQL_model.dart';
-import 'package:onehub/models/search/search_users_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
 
 class SearchService {
   static Future<List<UserInfoModel>> searchUsers(String query,

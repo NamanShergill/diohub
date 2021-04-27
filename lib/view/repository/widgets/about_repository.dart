@@ -1,11 +1,11 @@
+import 'package:dio_hub/common/bottom_sheet.dart';
+import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/common/language_indicator.dart';
+import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/markdown_emoji.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/bottom_sheet.dart';
-import 'package:onehub/common/info_card.dart';
-import 'package:onehub/common/language_indicator.dart';
-import 'package:onehub/common/repository_card.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/markdown_emoji.dart';
 
 class AboutRepository extends StatelessWidget {
   final RepositoryModel repo;

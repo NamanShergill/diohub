@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/models/repositories/code_tree_model.dart';
-import 'package:onehub/providers/repository/branch_provider.dart';
-import 'package:onehub/providers/repository/code_provider.dart';
-import 'package:onehub/providers/repository/repository_provider.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/style/colors.dart';
+import 'package:dio_hub/models/repositories/code_tree_model.dart';
+import 'package:dio_hub/providers/repository/branch_provider.dart';
+import 'package:dio_hub/providers/repository/code_provider.dart';
+import 'package:dio_hub/providers/repository/repository_provider.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {

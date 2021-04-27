@@ -1,11 +1,10 @@
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/providers/repository/branch_provider.dart';
+import 'package:dio_hub/providers/repository/readme_provider.dart';
+import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/common/markdown_body.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/providers/repository/branch_provider.dart';
-import 'package:onehub/providers/repository/readme_provider.dart';
-import 'package:onehub/providers/repository/repository_provider.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {

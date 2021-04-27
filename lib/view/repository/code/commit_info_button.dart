@@ -1,9 +1,9 @@
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/providers/repository/code_provider.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/providers/repository/code_provider.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/get_date.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoButton extends StatelessWidget {

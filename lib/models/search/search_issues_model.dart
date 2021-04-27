@@ -5,7 +5,7 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
 
 class SearchIssuesModel {
   SearchIssuesModel({

@@ -1,8 +1,8 @@
+import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/common/auth_popup/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onehub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:onehub/common/animations/scale_expanded_widget.dart';
-import 'package:onehub/common/auth_popup/widgets/base_auth_dialog.dart';
 
 class ErrorPopup extends StatelessWidget {
   final String error;

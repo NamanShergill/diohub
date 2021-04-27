@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/pulls/pull_list_card.dart';
+import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/pulls/pulls_service.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/api_wrapper_widget.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/common/pulls/pull_list_card.dart';
-import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/pull_requests/pull_request_model.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/services/pulls/pulls_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 
 class PullLoadingCard extends StatelessWidget {
   final String url;

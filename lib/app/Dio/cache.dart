@@ -1,5 +1,5 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:onehub/app/global.dart';
+import 'package:dio_hub/app/global.dart';
 
 class CacheManager {
   static CustomCacheOptions notifications({bool refresh = false}) =>

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/shimmer_widget.dart';
 
 class ImageLoader extends StatelessWidget {
   final String url;

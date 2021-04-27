@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/common/pulls/pull_loading_card.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:onehub/common/issues/issue_label.dart';
-import 'package:onehub/common/pulls/pull_loading_card.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/get_date.dart';
 
 class IssueListCard extends StatelessWidget {
   final IssueModel item;

@@ -1,17 +1,17 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/search_overlay/filters.dart';
+import 'package:dio_hub/common/search_overlay/search_bar.dart';
+import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/providers/search_data_provider.dart';
+import 'package:dio_hub/services/search/search_service.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/api_wrapper_widget.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/common/repository_card.dart';
-import 'package:onehub/common/search_overlay/filters.dart';
-import 'package:onehub/common/search_overlay/search_bar.dart';
-import 'package:onehub/common/search_scroll_wrapper.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/providers/search_data_provider.dart';
-import 'package:onehub/services/search/search_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {

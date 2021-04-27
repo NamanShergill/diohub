@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/commits/commit_model.dart';
-import 'package:onehub/models/pull_requests/pull_request_model.dart';
-import 'package:onehub/models/pull_requests/review_model.dart';
-import 'package:onehub/models/repositories/commit_list_model.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/models/commits/commit_model.dart';
+import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
+import 'package:dio_hub/models/pull_requests/review_model.dart';
+import 'package:dio_hub/models/repositories/commit_list_model.dart';
 
 class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request

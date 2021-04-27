@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/style/borderRadiuses.dart';
 
 class ProfileTile extends StatelessWidget {
   final String? avatarUrl;

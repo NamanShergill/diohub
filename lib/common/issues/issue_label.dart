@@ -1,6 +1,6 @@
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/style/borderRadiuses.dart';
 
 class IssueLabel extends StatelessWidget {
   final Label? label;

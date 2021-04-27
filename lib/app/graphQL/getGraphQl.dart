@@ -1,5 +1,5 @@
+import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:graphql/client.dart';
-import 'package:onehub/services/authentication/auth_service.dart';
 
 class GetGraphQL {
   static final _httpLink = HttpLink(

@@ -5,7 +5,7 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/repositories/repository_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
 
 class SearchReposModel {
   SearchReposModel({

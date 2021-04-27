@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:dio_hub/models/repositories/code_tree_model.dart';
+import 'package:dio_hub/models/repositories/commit_list_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/repository/branch_provider.dart';
+import 'package:dio_hub/services/git_database/git_database_service.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/models/repositories/code_tree_model.dart';
-import 'package:onehub/models/repositories/commit_list_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/repository/branch_provider.dart';
-import 'package:onehub/services/git_database/git_database_service.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
 
 class CodeProvider extends BaseProvider {
   List<CodeTreeModel> _tree = [];

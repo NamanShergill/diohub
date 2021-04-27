@@ -1,5 +1,5 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
 
 class CollapsibleAppBar extends StatelessWidget {
   final double? maxHeight;

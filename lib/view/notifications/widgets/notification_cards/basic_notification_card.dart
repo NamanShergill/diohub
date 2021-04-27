@@ -1,14 +1,14 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/models/events/notifications_model.dart';
+import 'package:dio_hub/services/activity/notifications_service.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/shimmer_widget.dart';
-import 'package:onehub/models/events/notifications_model.dart';
-import 'package:onehub/services/activity/notifications_service.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/get_date.dart';
 
 class BasicNotificationCard extends StatefulWidget {
   final WidgetBuilder? iconBuilder;

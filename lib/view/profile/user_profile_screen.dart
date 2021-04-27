@@ -1,13 +1,13 @@
+import 'package:dio_hub/common/app_scroll_view.dart';
+import 'package:dio_hub/common/events/events.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/profile/about/about_user.dart';
+import 'package:dio_hub/view/profile/overview/user_overview_screen.dart';
+import 'package:dio_hub/view/profile/repositories/user_repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/common/app_scroll_view.dart';
-import 'package:onehub/common/events/events.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/profile/about/about_user.dart';
-import 'package:onehub/view/profile/overview/user_overview_screen.dart';
-import 'package:onehub/view/profile/repositories/user_repositories.dart';
 
 class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
   final bool? isCurrentUser;

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/style/colors.dart';
 
 class BaseAuthDialog extends StatelessWidget {
   final Widget? child;

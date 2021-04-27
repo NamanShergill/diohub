@@ -1,20 +1,20 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/bottom_sheet.dart';
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/repository/branch_provider.dart';
+import 'package:dio_hub/providers/repository/code_provider.dart';
+import 'package:dio_hub/providers/repository/repository_provider.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/repository/code/browser_list_tiles.dart';
+import 'package:dio_hub/view/repository/code/commit_browser.dart';
+import 'package:dio_hub/view/repository/code/commit_info_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/bottom_sheet.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/repository/branch_provider.dart';
-import 'package:onehub/providers/repository/code_provider.dart';
-import 'package:onehub/providers/repository/repository_provider.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/repository/code/browser_list_tiles.dart';
-import 'package:onehub/view/repository/code/commit_browser.dart';
-import 'package:onehub/view/repository/code/commit_info_button.dart';
 import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {

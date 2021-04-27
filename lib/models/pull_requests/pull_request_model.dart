@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 
 class PullRequestModel {
   PullRequestModel(
@@ -1010,7 +1010,8 @@ class Links {
         "comments": comments == null ? null : comments!.toJson(),
         "review_comments":
             reviewComments == null ? null : reviewComments!.toJson(),
-        "review_comment": reviewComment == null ? null : reviewComment!.toJson(),
+        "review_comment":
+            reviewComment == null ? null : reviewComment!.toJson(),
         "commits": commits == null ? null : commits!.toJson(),
         "statuses": statuses == null ? null : statuses!.toJson(),
       };

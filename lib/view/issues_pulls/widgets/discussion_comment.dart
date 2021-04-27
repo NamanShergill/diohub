@@ -1,14 +1,14 @@
+import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/reaction_bar.dart';
+import 'package:dio_hub/models/issues/issue_comments_model.dart';
+import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/markdown_body.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/common/reaction_bar.dart';
-import 'package:onehub/models/issues/issue_comments_model.dart';
-import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/get_date.dart';
 import 'package:provider/provider.dart';
 
 class TimelineDiscussionComment extends StatelessWidget {

@@ -1,7 +1,7 @@
+import 'package:dio_hub/common/changed_files_list_card.dart';
+import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/changed_files_list_card.dart';
-import 'package:onehub/providers/commits/commit_provider.dart';
 import 'package:provider/provider.dart';
 
 class ChangedFiles extends StatefulWidget {

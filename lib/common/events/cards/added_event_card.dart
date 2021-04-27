@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/events/cards/base_card.dart';
-import 'package:onehub/common/profile_card.dart';
-import 'package:onehub/common/repository_card.dart';
-import 'package:onehub/models/events/events_model.dart';
-import 'package:onehub/models/repositories/repository_model.dart';
-import 'package:onehub/style/colors.dart';
+import 'package:dio_hub/common/events/cards/base_card.dart';
+import 'package:dio_hub/common/profile_card.dart';
+import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/style/colors.dart';
 
 class AddedEventCard extends StatelessWidget {
   final EventsModel event;

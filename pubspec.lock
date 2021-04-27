@@ -399,7 +399,7 @@ packages:
       path: flutter_highlight
       ref: master
       resolved-ref: "6d982b74e50ca18e7be712971fd42ab5e96ae1fb"
-      url: "https://github.com/NamanShergill/onehub_highlight.dart.git"
+      url: "https://github.com/NamanShergill/dio_hub_highlight.dart.git"
     source: git
     version: "0.7.0"
   flutter_html:
@@ -453,13 +453,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0+2"
-  flutter_native_splash:
-    dependency: "direct dev"
-    description:
-      name: flutter_native_splash
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.8+4"
   flutter_portal:
     dependency: "direct main"
     description:
@@ -527,7 +520,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: "1e1aa3b2fa3a5e94b81cea94d9ad44cecf6e6ef9"
-      url: "https://github.com/NamanShergill/onehub_google_nav_bar.git"
+      url: "https://github.com/NamanShergill/dio_hub_google_nav_bar.git"
     source: git
     version: "4.0.2"
   gql:
@@ -711,7 +704,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: "6f8fe436a457323d42bf100b0b4d51b170a8839c"
-      url: "https://github.com/NamanShergill/onehub_markdown-editable-textinput"
+      url: "https://github.com/NamanShergill/dio_hub_markdown-editable-textinput"
     source: git
     version: "1.0.2"
   matcher:
@@ -1064,13 +1057,6 @@ packages:
       url: "https://github.com/objectivecosta/uni_links_simplified"
     source: git
     version: "0.5.0"
-  universal_io:
-    dependency: transitive
-    description:
-      name: universal_io
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.4"
   url_launcher:
     dependency: "direct main"
     description:

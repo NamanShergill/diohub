@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/controller/button/button_controller.dart';
+import 'package:dio_hub/models/popup/popup_type.dart';
+import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/response_handler.dart';
-import 'package:onehub/app/global.dart';
-import 'package:onehub/controller/button/button_controller.dart';
-import 'package:onehub/models/popup/popup_type.dart';
-import 'package:onehub/services/authentication/auth_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class GetDio {

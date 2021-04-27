@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:onehub/utils/parse_base64.dart';
+import 'package:dio_hub/utils/parse_base64.dart';
 
 class RepositoryReadmeModel {
   RepositoryReadmeModel({

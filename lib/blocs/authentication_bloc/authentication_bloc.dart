@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_hub/models/authentication/device_code_model.dart';
+import 'package:dio_hub/services/authentication/auth_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:onehub/models/authentication/device_code_model.dart';
-import 'package:onehub/services/authentication/auth_service.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';

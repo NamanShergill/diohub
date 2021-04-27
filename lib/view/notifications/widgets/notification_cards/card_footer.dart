@@ -1,7 +1,7 @@
+import 'package:dio_hub/common/animations/fade_animation_widget.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/fade_animation_widget.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/style/colors.dart';
 
 class CardFooter extends StatelessWidget {
   final String? avatarUrl;

@@ -1,20 +1,20 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/app_scroll_view.dart';
+import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/issue/issue_provider.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/view/issues_pulls/discussion.dart';
+import 'package:dio_hub/view/issues_pulls/issue_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:onehub/common/app_scroll_view.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/common/scaffold_body.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/issue/issue_provider.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/utils/get_date.dart';
-import 'package:onehub/view/issues_pulls/discussion.dart';
-import 'package:onehub/view/issues_pulls/issue_information.dart';
 import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {

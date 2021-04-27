@@ -1,12 +1,12 @@
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/models/repositories/commit_list_model.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/models/repositories/commit_list_model.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
-import 'package:onehub/style/borderRadiuses.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/repository/code/commit_browser_tiles.dart';
 
 class CommitBrowser extends StatefulWidget {
   final ScrollController? controller;

@@ -1,18 +1,18 @@
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/common/issues/issue_list_card.dart';
+import 'package:dio_hub/common/profile_card.dart';
+import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/search_overlay/filters.dart';
+import 'package:dio_hub/common/search_overlay/search_bar.dart';
+import 'package:dio_hub/common/search_overlay/search_overlay.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart' hide Type;
+import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/services/search/search_service.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/common/issues/issue_list_card.dart';
-import 'package:onehub/common/profile_card.dart';
-import 'package:onehub/common/repository_card.dart';
-import 'package:onehub/common/search_overlay/filters.dart';
-import 'package:onehub/common/search_overlay/search_bar.dart';
-import 'package:onehub/common/search_overlay/search_overlay.dart';
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/repositories/repository_model.dart' hide Type;
-import 'package:onehub/models/users/user_info_model.dart';
-import 'package:onehub/services/search/search_service.dart';
-import 'package:onehub/style/colors.dart';
 
 typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
     int pageSize, bool refresh, T? lastItem, String? sort, bool? isAscending);

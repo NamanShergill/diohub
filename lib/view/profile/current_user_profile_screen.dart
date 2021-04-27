@@ -1,9 +1,9 @@
+import 'package:dio_hub/common/login_check_wrapper.dart';
+import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/models/users/current_user_info_model.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/view/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/login_check_wrapper.dart';
-import 'package:onehub/common/provider_loading_progress_wrapper.dart';
-import 'package:onehub/models/users/current_user_info_model.dart';
-import 'package:onehub/providers/users/current_user_provider.dart';
-import 'package:onehub/view/profile/user_profile_screen.dart';
 
 class CurrentUserProfileScreen extends StatelessWidget {
   @override

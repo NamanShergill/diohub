@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/style/colors.dart';
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/style/colors.dart';
 
 import 'app_tab_bar.dart';
 

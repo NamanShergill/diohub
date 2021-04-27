@@ -1,18 +1,17 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/bottom_sheet.dart';
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/collapsible_app_bar.dart';
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/common/login_check_wrapper.dart';
+import 'package:dio_hub/models/events/notifications_model.dart';
+import 'package:dio_hub/services/activity/notifications_service.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/notifications/widgets/filter_sheet.dart';
+import 'package:dio_hub/view/notifications/widgets/notification_cards/issue_notification_card.dart';
+import 'package:dio_hub/view/notifications/widgets/notification_cards/pull_request_notification_card.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:onehub/common/animations/size_expanded_widget.dart';
-import 'package:onehub/common/bottom_sheet.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/common/collapsible_app_bar.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/common/loading_indicator.dart';
-import 'package:onehub/common/login_check_wrapper.dart';
-import 'package:onehub/models/events/notifications_model.dart';
-import 'package:onehub/services/activity/notifications_service.dart';
-import 'package:onehub/style/colors.dart';
-import 'package:onehub/view/notifications/widgets/filter_sheet.dart';
-import 'package:onehub/view/notifications/widgets/notification_cards/issue_notification_card.dart';
-import 'package:onehub/view/notifications/widgets/notification_cards/pull_request_notification_card.dart';
 
 class NotificationsScreen extends StatefulWidget {
   @override
@@ -194,37 +193,35 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                       ),
                     ),
                     Expanded(
-                            child: InfiniteScrollWrapper<NotificationModel>(
-                              controller: _controller,
-                              scrollController: scrollController,
-                              spacing: 0,
-                              isNestedScrollViewChild: true,
-                              future: (pageNumber, pageSize, refresh, _) {
-                                return NotificationsService.getNotifications(
-                                    page: pageNumber,
-                                    perPage: pageSize,
-                                    refresh: refresh,
-                                    filters: apiFilters);
-                              },
-                              filterFn: (List<NotificationModel> list) {
-                                List<NotificationModel> filtered = [];
-                                list.forEach((element) {
-                                  if (checkFilter(element)!)
-                                    filtered.add(element);
-                                });
-                                return filtered;
-                              },
-                              builder:
-                                  (context, NotificationModel item, index) {
-                                if (item.subject!.type == SubjectType.ISSUE)
-                                  return IssueNotificationCard(item);
-                                else if (item.subject!.type ==
-                                    SubjectType.PULL_REQUEST)
-                                  return PullRequestNotificationCard(item);
-                                return Container();
-                              },
-                            ),
-                          ),
+                      child: InfiniteScrollWrapper<NotificationModel>(
+                        controller: _controller,
+                        scrollController: scrollController,
+                        spacing: 0,
+                        isNestedScrollViewChild: true,
+                        future: (pageNumber, pageSize, refresh, _) {
+                          return NotificationsService.getNotifications(
+                              page: pageNumber,
+                              perPage: pageSize,
+                              refresh: refresh,
+                              filters: apiFilters);
+                        },
+                        filterFn: (List<NotificationModel> list) {
+                          List<NotificationModel> filtered = [];
+                          list.forEach((element) {
+                            if (checkFilter(element)!) filtered.add(element);
+                          });
+                          return filtered;
+                        },
+                        builder: (context, NotificationModel item, index) {
+                          if (item.subject!.type == SubjectType.ISSUE)
+                            return IssueNotificationCard(item);
+                          else if (item.subject!.type ==
+                              SubjectType.PULL_REQUEST)
+                            return PullRequestNotificationCard(item);
+                          return Container();
+                        },
+                      ),
+                    ),
                   ],
                 );
               },

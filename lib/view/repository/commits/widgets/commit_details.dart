@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/providers/commits/commit_provider.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/view/repository/commits/widgets/commit_s_h_a_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/button.dart';
-import 'package:onehub/common/info_card.dart';
-import 'package:onehub/common/profile_banner.dart';
-import 'package:onehub/providers/commits/commit_provider.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/utils/get_date.dart';
-import 'package:onehub/view/repository/commits/widgets/commit_s_h_a_button.dart';
 import 'package:provider/provider.dart';
 
 class CommitDetails extends StatelessWidget {

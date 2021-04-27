@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:onehub/app/Dio/cache.dart';
-import 'package:onehub/app/Dio/dio.dart';
-import 'package:onehub/models/issues/issue_comments_model.dart';
-import 'package:onehub/models/issues/issue_event_model.dart' hide Label;
-import 'package:onehub/models/issues/issue_model.dart';
-import 'package:onehub/models/issues/issue_timeline_event_model.dart';
-import 'package:onehub/models/users/user_info_model.dart';
+import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/models/issues/issue_comments_model.dart';
+import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
+import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 
 class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue

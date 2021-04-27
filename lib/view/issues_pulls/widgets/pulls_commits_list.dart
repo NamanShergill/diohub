@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/models/repositories/commit_list_model.dart';
+import 'package:dio_hub/providers/pulls/pull_provider.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/pulls/pulls_service.dart';
+import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/material.dart';
-import 'package:onehub/common/infinite_scroll_wrapper.dart';
-import 'package:onehub/models/repositories/commit_list_model.dart';
-import 'package:onehub/providers/pulls/pull_provider.dart';
-import 'package:onehub/routes/router.gr.dart';
-import 'package:onehub/services/pulls/pulls_service.dart';
-import 'package:onehub/view/repository/code/commit_browser_tiles.dart';
 import 'package:provider/provider.dart';
 
 class PullsCommitsList extends StatelessWidget {

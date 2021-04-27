@@ -1,3 +1,3 @@
-import 'package:onehub/providers/base_provider.dart';
+import 'package:dio_hub/providers/base_provider.dart';
 
 class RepoIssuesProvider extends BaseProvider {}

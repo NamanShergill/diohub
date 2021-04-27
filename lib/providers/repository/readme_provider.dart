@@ -1,7 +1,7 @@
-import 'package:onehub/models/repositories/readme_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/providers/repository/branch_provider.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
+import 'package:dio_hub/models/repositories/readme_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/repository/branch_provider.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class RepoReadmeProvider extends BaseProvider {
   /// [RepoBranchProvider] this provider will depend on.

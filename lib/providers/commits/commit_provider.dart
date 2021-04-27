@@ -1,7 +1,7 @@
-import 'package:onehub/common/base_popup_notification.dart';
-import 'package:onehub/models/commits/commit_model.dart';
-import 'package:onehub/providers/base_provider.dart';
-import 'package:onehub/services/repositories/repo_services.dart';
+import 'package:dio_hub/common/base_popup_notification.dart';
+import 'package:dio_hub/models/commits/commit_model.dart';
+import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class CommitProvider extends BaseProvider {
   final String? _commitURL;
