@@ -1,15 +1,29 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PullsTab extends StatelessWidget {
+class PullsTab extends StatefulWidget {
   final ScrollController scrollController;
-  PullsTab({required this.scrollController});
+  final DeepLinkData? deepLinkData;
+
+  PullsTab({required this.scrollController, this.deepLinkData});
+
+  @override
+  _PullsTabState createState() => _PullsTabState();
+}
+
+class _PullsTabState extends State<PullsTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
     return SearchScrollWrapper(
       SearchData(
@@ -18,6 +32,12 @@ class PullsTab extends StatelessWidget {
           defaultHiddenFilters: [
             SearchQueries().involves.toQueryString(_user!.login!),
             SearchQueries().type.toQueryString('pr'),
+          ],
+          filterStrings: [
+            if (widget.deepLinkData?.components[1] == 'assigned')
+              SearchQueries().assignee.toQueryString(_user.login!),
+            if (widget.deepLinkData?.components[1] == 'mentioned')
+              SearchQueries().mentions.toQueryString(_user.login!),
           ]),
       quickFilters: {
         SearchQueries().assignee.toQueryString(_user.login!): 'Assigned',
@@ -27,7 +47,7 @@ class PullsTab extends StatelessWidget {
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
-      scrollController: scrollController,
+      scrollController: widget.scrollController,
       searchBarMessage: 'Search in your pull requests',
       searchHeroTag: '${_user.login}issueSearch',
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

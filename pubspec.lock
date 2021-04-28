@@ -21,7 +21,7 @@ packages:
       name: another_flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.18"
+    version: "1.10.20"
   archive:
     dependency: transitive
     description:
@@ -49,14 +49,14 @@ packages:
       name: auto_route
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.2"
   auto_route_generator:
     dependency: "direct dev"
     description:
       name: auto_route_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.2"
   bloc:
     dependency: transitive
     description:
@@ -84,35 +84,35 @@ packages:
       name: build_config
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "0.4.7"
   build_daemon:
     dependency: transitive
     description:
       name: build_daemon
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.1.10"
   build_resolvers:
     dependency: transitive
     description:
       name: build_resolvers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.0"
   build_runner:
     dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "1.12.2"
   build_runner_core:
     dependency: transitive
     description:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.0.0"
+    version: "6.1.12"
   built_collection:
     dependency: transitive
     description:
@@ -196,7 +196,7 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "3.7.0"
   collection:
     dependency: transitive
     description:
@@ -273,7 +273,7 @@ packages:
       name: dart_style
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   dependency_validator:
     dependency: "direct dev"
     description:
@@ -294,7 +294,7 @@ packages:
       name: dio_cache_interceptor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.0"
   effective_dart:
     dependency: transitive
     description:
@@ -378,14 +378,14 @@ packages:
       name: flutter_countdown_timer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.2"
+    version: "4.1.0"
   flutter_datetime_picker:
     dependency: "direct main"
     description:
       name: flutter_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   flutter_emoji:
     dependency: "direct main"
     description:
@@ -399,7 +399,7 @@ packages:
       path: flutter_highlight
       ref: master
       resolved-ref: "6d982b74e50ca18e7be712971fd42ab5e96ae1fb"
-      url: "https://github.com/NamanShergill/onehub_highlight.dart.git"
+      url: "https://github.com/NamanShergill/highlight.dart.git"
     source: git
     version: "0.7.0"
   flutter_html:
@@ -520,7 +520,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: "1e1aa3b2fa3a5e94b81cea94d9ad44cecf6e6ef9"
-      url: "https://github.com/NamanShergill/onehub_google_nav_bar.git"
+      url: "https://github.com/NamanShergill/google_nav_bar.git"
     source: git
     version: "4.0.2"
   gql:
@@ -585,7 +585,7 @@ packages:
       name: graphs
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.0"
   highlight:
     dependency: transitive
     description:
@@ -704,7 +704,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: "6f8fe436a457323d42bf100b0b4d51b170a8839c"
-      url: "https://github.com/NamanShergill/onehub_markdown-editable-textinput"
+      url: "https://github.com/NamanShergill/markdown-editable-textinput"
     source: git
     version: "1.0.2"
   matcher:

@@ -1,4 +1,4 @@
-package com.felix.dio_hub
+package com.felix.diohub
 
 import io.flutter.embedding.android.FlutterActivity
 

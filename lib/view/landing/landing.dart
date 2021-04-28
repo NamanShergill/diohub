@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/auth_popup/auth_popup.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/style/colors.dart';
@@ -19,6 +21,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
+  final DeepLinkData? deepLinkData;
+  LandingScreen({this.deepLinkData});
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -28,12 +32,15 @@ class _LandingScreenState extends State<LandingScreen> {
   void initState() {
     //Show auth popup if user is not authenticated.
     showAuthPopup();
+    context.read<NavigationProvider>().setPath(widget.deepLinkData?.path);
     super.initState();
   }
 
   void showAuthPopup() async {
     await Future.delayed(Duration(seconds: 1));
-    if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
+    if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated &&
+        !popupShown) {
+      popupShown = true;
       showDialog(
           context: context,
           builder: (_) {
@@ -42,83 +49,98 @@ class _LandingScreenState extends State<LandingScreen> {
     }
   }
 
+  bool popupShown = false;
+
   @override
   Widget build(BuildContext context) {
     final _navProvider = Provider.of<NavigationProvider>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColor.background,
-        body: ScaffoldBody(
-          notificationController:
-              Provider.of<CurrentUserProvider>(context).notificationController,
-          child: PageView(
-            controller: _navProvider.controller,
-            onPageChanged: (index) {
-              _navProvider.setCurrentIndex(index);
-            },
-            physics: NeverScrollableScrollPhysics(),
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+        listener: (context, state) {
+      if (!(state is AuthenticationInitial)) showAuthPopup();
+    }, builder: (context, state) {
+      if (state is AuthenticationInitial)
+        return Scaffold(
+          body: Center(
+            child: LoadingIndicator(),
+          ),
+        );
+      return SafeArea(
+        child: Scaffold(
+          backgroundColor: AppColor.background,
+          body: ScaffoldBody(
+            notificationController: Provider.of<CurrentUserProvider>(context)
+                .notificationController,
+            child: PageView(
+              controller: _navProvider.controller,
+              onPageChanged: (index) {
+                _navProvider.setCurrentIndex(index);
+              },
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                HomeScreen(
+                  deepLinkData: widget.deepLinkData,
+                ),
+                SearchScreen(),
+                NotificationsScreen(),
+                CurrentUserProfileScreen(),
+                SettingsScreen(),
+              ],
+            ),
+          ),
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              HomeScreen(),
-              SearchScreen(),
-              NotificationsScreen(),
-              CurrentUserProfileScreen(),
-              SettingsScreen(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GNav(
+                  backgroundColor: AppColor.background,
+                  selectedIndex: _navProvider.currentIndex,
+                  onTabChange: (index) {
+                    _navProvider.animateToPage(index);
+                  },
+                  gap: 10,
+                  color: AppColor.grey,
+                  activeColor: Colors.white,
+                  rippleColor: Colors.grey[800]!,
+                  hoverColor: Colors.grey[700]!,
+                  iconSize: 20,
+                  textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                  tabBackgroundColor: Colors.grey[900]!,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
+                  duration: Duration(milliseconds: 250),
+                  tabs: [
+                    GButton(
+                      icon: LineIcons.home,
+                      text: 'Home',
+                      heroTag: 'homeNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.search,
+                      text: 'Search',
+                      heroTag: 'searchNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.bell,
+                      text: 'Inbox',
+                      heroTag: 'notificationsNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.user,
+                      text: 'Profile',
+                      heroTag: 'settingsNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.infoCircle,
+                      text: 'About',
+                      heroTag: 'aboutNavButton',
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GNav(
-                backgroundColor: AppColor.background,
-                selectedIndex: _navProvider.currentIndex,
-                onTabChange: (index) {
-                  _navProvider.animateToPage(index);
-                },
-                gap: 10,
-                color: AppColor.grey,
-                activeColor: Colors.white,
-                rippleColor: Colors.grey[800]!,
-                hoverColor: Colors.grey[700]!,
-                iconSize: 20,
-                textStyle: TextStyle(fontSize: 16, color: Colors.white),
-                tabBackgroundColor: Colors.grey[900]!,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
-                duration: Duration(milliseconds: 250),
-                tabs: [
-                  GButton(
-                    icon: LineIcons.home,
-                    text: 'Home',
-                    heroTag: 'homeNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.search,
-                    text: 'Search',
-                    heroTag: 'searchNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.bell,
-                    text: 'Inbox',
-                    heroTag: 'notificationsNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.user,
-                    text: 'Profile',
-                    heroTag: 'settingsNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.infoCircle,
-                    text: 'About',
-                    heroTag: 'aboutNavButton',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+      );
+    });
   }
 }

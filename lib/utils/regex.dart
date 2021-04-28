@@ -1,3 +1,15 @@
+String regexORCases(List<String> cases) =>
+    '(${cases.map((e) => '($e)').toList().join('|')})';
+
+String regexPattern(List<String> cases, [String joinWith = '']) =>
+    '(${cases.join(joinWith)})';
+
+String optionalRegex(String pattern) => '($pattern)?';
+
+String negativeLookAhead(String pattern) => '(?!$pattern)';
+String lookAhead(String pattern) => '(?=$pattern)';
+String nonCapturingGroup(String pattern) => '(?:$pattern)';
+
 extension RegExpExtension on RegExp {
   List<String?> allMatchesWithSep(String input, [int start = 0]) {
     var result = <String?>[];
@@ -16,6 +28,6 @@ extension RegExpExtension on RegExp {
 }
 
 extension StringExtension on String {
-  List<String?> splitWithDelim(RegExp pattern) =>
+  List<String?> splitWithDelimiter(RegExp pattern) =>
       pattern.allMatchesWithSep(this);
 }

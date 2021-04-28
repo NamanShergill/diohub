@@ -3,24 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NavigationProvider extends BaseProvider {
-  int _currentIndex = 0;
-  PageController _controller = PageController(
-    initialPage: 0,
-  );
+  late int _currentLandingIndex;
+  late PageController _landingController;
 
-  int get currentIndex => _currentIndex;
-  PageController get controller => _controller;
+  NavigationProvider(String? deepLinkPath) {
+    setPath(deepLinkPath);
+  }
+
+  int get currentIndex => _currentLandingIndex;
+  PageController get controller => _landingController;
 
   void animateToPage(int index) async {
-    await _controller.animateToPage(index,
+    await _landingController.animateToPage(index,
         duration: Duration(milliseconds: 250), curve: Curves.decelerate);
-    _currentIndex = index;
+    _currentLandingIndex = index;
     notifyListeners();
   }
 
   void setCurrentIndex(int index) async {
-    _currentIndex = index;
+    _currentLandingIndex = index;
     HapticFeedback.selectionClick();
     notifyListeners();
+  }
+
+  void setupLandingController(int index) async {
+    _landingController = PageController(initialPage: index);
+    _currentLandingIndex = index;
+  }
+
+  void setPath(String? path) {
+    if (path == 'search')
+      setupLandingController(1);
+    else if (path == 'notifications')
+      setupLandingController(2);
+    else {
+      setupLandingController(0);
+    }
   }
 }

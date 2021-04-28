@@ -28,8 +28,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final String? initLink;
-  MyApp(this.initLink);
+  final String? initDeepLink;
+  MyApp(this.initDeepLink);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                         BlocProvider.of<AuthenticationBloc>(context)),
               ),
               ChangeNotifierProvider(
-                create: (_) => NavigationProvider(),
+                create: (_) => NavigationProvider(''),
               ),
               ChangeNotifierProvider(
                 create: (_) => SearchDataProvider(),
@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
                         DividerThemeData(color: Colors.white, thickness: 0.04),
                     fontFamily: 'Montserrat'),
                 routerDelegate: Global.customRouter.delegate(
-                    initialRoutes: DeepLinkHandler.getRoutes(initLink ?? '',
+                    initialRoutes: DeepLinkHandler.getRoutes(initDeepLink ?? '',
                         isInitial: true)),
                 routeInformationParser:
                     Global.customRouter.defaultRouteParser(),

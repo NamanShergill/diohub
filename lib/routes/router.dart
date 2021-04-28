@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
-import 'package:dio_hub/view/landing/widgets/landing_auth_wrapper.dart';
+import 'package:dio_hub/view/landing/landing.dart';
+import 'package:dio_hub/view/landing/widgets/place_holder_screen.dart';
 import 'package:dio_hub/view/profile/other_user_profile_screen.dart';
 import 'package:dio_hub/view/repository/code/file_viewer.dart';
 import 'package:dio_hub/view/repository/commits/commit_info_screen.dart';
@@ -10,13 +11,14 @@ import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart';
 import 'package:dio_hub/view/repository/repository_screen.dart';
 import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart';
 
-// flutter packages pub run --no-sound-null-safety build_runner watch --delete-conflicting-outputs
+// flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 @CustomAutoRouter(
   transitionsBuilder: TransitionsBuilders.slideBottom,
   durationInMilliseconds: 250,
   routes: <AutoRoute>[
-    AutoRoute(page: LandingAuthWrapperScreen, initial: true),
+    AutoRoute(page: LandingScreen, initial: true),
+    AutoRoute(page: PlaceHolderScreen),
     CustomRoute(
         page: SearchOverlayScreen,
         transitionsBuilder: TransitionsBuilders.fadeIn),

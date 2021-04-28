@@ -46,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         children: [
                           Flexible(
                             child: Text(
-                              'https://github.com/NamanShergill/dio_hub/issues',
+                              'https://github.com/NamanShergill/diohub/issues',
                               style: TextStyle(
                                   color: Colors.blue,
                                   decoration: TextDecoration.underline),

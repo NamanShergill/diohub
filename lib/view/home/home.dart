@@ -6,6 +6,7 @@ import 'package:dio_hub/common/login_check_wrapper.dart';
 import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
@@ -17,7 +18,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key});
+  final DeepLinkData? deepLinkData;
+  HomeScreen({Key? key, this.deepLinkData});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -26,12 +28,16 @@ class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
-  TabController? _tabController;
+  late TabController _tabController;
   final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
+    if (widget.deepLinkData?.components.first == 'issues')
+      _tabController.index = 1;
+    else if (widget.deepLinkData?.components.first == 'pulls')
+      _tabController.index = 2;
     super.initState();
   }
 
@@ -153,9 +159,17 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                         IssuesTab(
                           scrollController: scrollController,
+                          deepLinkData:
+                              widget.deepLinkData?.components.first == 'issues'
+                                  ? widget.deepLinkData
+                                  : null,
                         ),
                         PullsTab(
                           scrollController: scrollController,
+                          deepLinkData:
+                              widget.deepLinkData?.components.first == 'pulls'
+                                  ? widget.deepLinkData
+                                  : null,
                         ),
                         Events(
                           privateEvents: false,

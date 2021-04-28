@@ -5,6 +5,7 @@ import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
@@ -33,8 +34,9 @@ class RepositoryScreen extends StatefulWidget {
   final String? branch;
   final int index;
   final String? initSHA;
+  final DeepLinkData? deepLinkData;
   RepositoryScreen(this.repositoryURL,
-      {this.branch, this.index = 0, Key? key, this.initSHA})
+      {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
       : super(key: key);
 
   @override
@@ -55,6 +57,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   void initState() {
     tabController =
         TabController(length: 6, vsync: this, initialIndex: widget.index);
+
     waitForTransition();
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
@@ -62,6 +65,10 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     super.initState();
+  }
+
+  void deepLinkHandler(){
+    if(widget.deepLinkData?.components[3]=='')
   }
 
   // To stop the transition from lagging on big readme files in the repo
