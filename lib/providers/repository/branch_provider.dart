@@ -58,7 +58,7 @@ class RepoBranchProvider extends BaseProvider {
     _currentSHA = branchName;
     isCommit = isCommitSha;
     if (!isCommitSha) _currentBranch = branchName;
-    // loaded();
+    loaded();
   }
 
   // void _fetchBranch(String branch, {bool isInitial = true}) async {
