@@ -3,6 +3,7 @@ import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/regex.dart';
 import 'package:dio_hub/utils/string_compare.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:uni_links/uni_links.dart';
 
 String get _chars => '([^/\\s]+)';
@@ -45,30 +46,34 @@ class DeepLinkHandler {
     if (string.regexCompleteMatch(landingPageURLPattern)) {
       isInitial = false;
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
-    } else if (string.regexCompleteMatch(issuePullPageURLPattern))
+    } else if (string.regexCompleteMatch(issuePullPageURLPattern)) {
       temp.add(IssueScreenRoute(
           issueURL: urlWithPrefix('repos/' + string.string),
           repoURL: urlWithPrefix('repos/' +
               DeepLinkData(string.string).components.sublist(0, 2).join('/'))));
-    else if (string.regexCompleteMatch(commitPageURLPattern)) {
-      print(DeepLinkData(string.string).components);
-      temp.add(CommitInfoScreenRoute(
-          commitURL: urlWithPrefix('repos/' +
-                  DeepLinkData(string.string)
-                      .components
-                      .sublist(0, 2)
-                      .join('/')) +
-              '/commits/' +
-              DeepLinkData(string.string).component(3)!));
-    } else if (string.regexCompleteMatch(repoPageURLPattern))
+    } else if (string.regexCompleteMatch(commitPageURLPattern)) {
+      {
+        temp.add(CommitInfoScreenRoute(
+            commitURL: urlWithPrefix('repos/' +
+                    DeepLinkData(string.string)
+                        .components
+                        .sublist(0, 2)
+                        .join('/')) +
+                '/commits/' +
+                DeepLinkData(string.string).component(3)!));
+      }
+    } else if (string.regexCompleteMatch(repoPageURLPattern)) {
       temp.add(RepositoryScreenRoute(
           repositoryURL: urlWithPrefix('repos/' +
               DeepLinkData(string.string).components.sublist(0, 2).join('/')),
           deepLinkData: DeepLinkData(string.string)));
-    else if (string.regexCompleteMatch('$_chars'))
+    } else if (string.regexCompleteMatch('$_chars')) {
       temp.add(OtherUserProfileScreenRoute(
         login: string.string,
       ));
+    } else {
+      ChromeSafariBrowser().open(url: Uri.parse(link));
+    }
     if (isInitial) return [LandingScreenRoute()]..addAll(temp);
     return temp;
   }
