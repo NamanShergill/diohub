@@ -18,6 +18,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {
+  final bool showCommitHistory;
+  CodeBrowser({this.showCommitHistory = false});
   @override
   _CodeBrowserState createState() => _CodeBrowserState();
 }
@@ -26,6 +28,17 @@ class _CodeBrowserState extends State<CodeBrowser>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (widget.showCommitHistory)
+        showCommitHistory(
+            context, context.read<RepoBranchProvider>().currentSHA);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -92,65 +105,8 @@ class _CodeBrowserState extends State<CodeBrowser>
                     listenToLoadingController: false,
                     onTap: value.status == Status.loaded
                         ? () {
-                            String? repoUrl = context
-                                .read<RepositoryProvider>()
-                                .repositoryModel!
-                                .url;
-
-                            String branchName =
-                                context.read<RepoBranchProvider>().currentSHA!;
-
-                            String path =
-                                context.read<CodeProvider>().getPath();
-
-                            bool isLocked =
-                                context.read<RepoBranchProvider>().isCommit;
-                            showScrollableBottomActionsMenu(context,
-                                titleWidget: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Commit History',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Octicons.git_branch,
-                                            size: 14,
-                                          ),
-                                          SizedBox(
-                                            width: 4,
-                                          ),
-                                          Text(branchName),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ), child: (sheetContext, controller) {
-                              return CommitBrowser(
-                                controller: controller,
-                                currentSHA: value.tree.last.commit!.sha,
-                                isLocked: isLocked,
-                                repoURL: repoUrl,
-                                path: path,
-                                branchName: branchName,
-                                onSelected: (String sha) {
-                                  return Provider.of<RepoBranchProvider>(
-                                          context,
-                                          listen: false)
-                                      .setBranch(sha, isCommitSha: true);
-                                },
-                              );
-                            });
+                            showCommitHistory(
+                                context, value.tree.last.commit!.sha);
                           }
                         : null,
                     child: value.status == Status.loaded
@@ -275,4 +231,58 @@ class _CodeBrowserState extends State<CodeBrowser>
       ],
     );
   }
+}
+
+void showCommitHistory(BuildContext context, String? currentSHA) {
+  String? repoUrl = context.read<RepositoryProvider>().repositoryModel!.url;
+
+  String branchName = context.read<RepoBranchProvider>().currentSHA!;
+
+  String path = context.read<CodeProvider>().getPath();
+
+  bool isLocked = context.read<RepoBranchProvider>().isCommit;
+  showScrollableBottomActionsMenu(
+    context,
+    titleWidget: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Text(
+            'Commit History',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Octicons.git_branch,
+                size: 14,
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              Text(branchName),
+            ],
+          ),
+        ],
+      ),
+    ),
+    child: (sheetContext, controller) {
+      return CommitBrowser(
+        controller: controller,
+        currentSHA: currentSHA,
+        isLocked: isLocked,
+        repoURL: repoUrl,
+        path: path,
+        branchName: branchName,
+        onSelected: (String sha) {
+          return Provider.of<RepoBranchProvider>(context, listen: false)
+              .setBranch(sha, isCommitSha: true);
+        },
+      );
+    },
+  );
 }

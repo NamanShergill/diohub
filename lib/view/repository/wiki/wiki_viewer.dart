@@ -95,12 +95,16 @@ class _WikiViewerState extends State<WikiViewer> {
                         });
                       },
                       navigationDelegate: (action) {
-                        if (action.url.startsWith(wikiLink!))
+                        if (action.url
+                            .toLowerCase()
+                            .startsWith(wikiLink!.toLowerCase()))
                           return NavigationDecision.navigate;
-                        else if (action.url == repoLink) {
+                        else if (action.url.toLowerCase() ==
+                                repoLink?.toLowerCase() &&
+                            loading) {
                           setState(() {
                             error = 'Seems like ' +
-                                repoLink!
+                                action.url
                                     .replaceAll('https://github.com/', '') +
                                 ' does not have a wiki yet.';
                           });

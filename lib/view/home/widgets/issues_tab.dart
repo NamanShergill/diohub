@@ -35,9 +35,9 @@ class _IssuesTabState extends State<IssuesTab>
             SearchQueries().type.toQueryString('issue'),
           ],
           filterStrings: [
-            if (widget.deepLinkData?.components[1] == 'assigned')
+            if (widget.deepLinkData?.component(1) == 'assigned')
               SearchQueries().assignee.toQueryString(_user.login!),
-            if (widget.deepLinkData?.components[1] == 'mentioned')
+            if (widget.deepLinkData?.component(1) == 'mentioned')
               SearchQueries().mentions.toQueryString(_user.login!),
           ]),
       quickFilters: {

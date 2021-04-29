@@ -45,7 +45,8 @@ class DeepLinkHandler {
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
     } else if (string.regexCompleteMatch(repoPageURLPattern))
       temp.add(RepositoryScreenRoute(
-          repositoryURL: _urlWithPrefix('repos/' + string.string),
+          repositoryURL: _urlWithPrefix('repos/' +
+              DeepLinkData(string.string).components.sublist(0, 2).join('/')),
           deepLinkData: DeepLinkData(string.string)));
     else if (string.regexCompleteMatch('$_char'))
       temp.add(OtherUserProfileScreenRoute(
@@ -112,5 +113,9 @@ class DeepLinkData {
   final Map? extData;
 
   List<String> get components => path.split('/');
+  String? component(int index) {
+    if (components.length > index) return components[index];
+  }
+
   DeepLinkData(this.path, {this.extData, this.parameters});
 }

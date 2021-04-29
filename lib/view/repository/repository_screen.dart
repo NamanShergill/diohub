@@ -52,23 +52,39 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   late TabController tabController;
   late RepositoryProvider repositoryProvider;
   final ScrollController scrollController = ScrollController();
-
+  late String? initBranch;
   @override
   void initState() {
     tabController =
         TabController(length: 6, vsync: this, initialIndex: widget.index);
-
+    initBranch = widget.initSHA;
+    if (widget.deepLinkData != null) deepLinkHandler();
     waitForTransition();
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
-        initialBranch: widget.branch, initCommitSHA: widget.initSHA);
+        initialBranch: initBranch, initCommitSHA: widget.initSHA);
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     super.initState();
   }
 
-  void deepLinkHandler(){
-    if(widget.deepLinkData?.components[3]=='')
+  void deepLinkHandler() {
+    DeepLinkData data = widget.deepLinkData!;
+    if (data.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
+        true) {
+      tabController.index = 2;
+      initBranch = widget.deepLinkData?.component(3);
+    } else if (data.component(2) == 'issues')
+      tabController.index = 3;
+    else if (data.component(2) == 'pulls')
+      tabController.index = 4;
+    else if (data.component(2) == 'wiki') {
+      tabController.index = 5;
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        AutoRouter.of(context)
+            .push(WikiViewerRoute(repoURL: widget.repositoryURL));
+      });
+    }
   }
 
   // To stop the transition from lagging on big readme files in the repo
@@ -252,7 +268,10 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       tabViews: [
                         AboutRepository(_repo),
                         RepositoryReadme(_repo.url),
-                        CodeBrowser(),
+                        CodeBrowser(
+                          showCommitHistory:
+                              widget.deepLinkData?.component(2) == 'commits',
+                        ),
                         IssuesList(
                           scrollController: scrollController,
                         ),

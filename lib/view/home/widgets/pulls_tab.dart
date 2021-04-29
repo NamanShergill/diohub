@@ -34,9 +34,9 @@ class _PullsTabState extends State<PullsTab>
             SearchQueries().type.toQueryString('pr'),
           ],
           filterStrings: [
-            if (widget.deepLinkData?.components[1] == 'assigned')
+            if (widget.deepLinkData?.component(1) == 'assigned')
               SearchQueries().assignee.toQueryString(_user.login!),
-            if (widget.deepLinkData?.components[1] == 'mentioned')
+            if (widget.deepLinkData?.component(1) == 'mentioned')
               SearchQueries().mentions.toQueryString(_user.login!),
           ]),
       quickFilters: {
