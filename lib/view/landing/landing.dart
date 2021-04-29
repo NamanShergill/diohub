@@ -56,7 +56,8 @@ class _LandingScreenState extends State<LandingScreen> {
     final _navProvider = Provider.of<NavigationProvider>(context);
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
-      if (!(state is AuthenticationInitial)) showAuthPopup();
+      if (!(state is AuthenticationInitial ||
+          state is AuthenticationSuccessful)) showAuthPopup();
     }, builder: (context, state) {
       if (state is AuthenticationInitial)
         return Scaffold(

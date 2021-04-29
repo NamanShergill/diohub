@@ -20,6 +20,7 @@ class CommitInfoScreen extends StatefulWidget {
 class _CommitInfoScreenState extends State<CommitInfoScreen> {
   @override
   Widget build(BuildContext context) {
+    print(widget.commitURL);
     return ChangeNotifierProvider(
       create: (_) => CommitProvider(widget.commitURL),
       builder: (context, value) {

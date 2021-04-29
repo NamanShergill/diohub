@@ -74,7 +74,16 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         true) {
       tabController.index = 2;
       initBranch = widget.deepLinkData?.component(3);
-    } else if (data.component(2) == 'issues')
+    }
+    // else if (data.component(2) == 'commit') {
+    //   tabController.index = 2;
+    //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    //     AutoRouter.of(context).push(CommitInfoScreenRoute(
+    //         commitURL:
+    //             widget.repositoryURL! + '/commits/' + data.component(3)!));
+    //   });
+    // }
+    else if (data.component(2) == 'issues')
       tabController.index = 3;
     else if (data.component(2) == 'pulls')
       tabController.index = 4;

@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 
@@ -24,6 +27,9 @@ class IssueProvider extends BaseProvider {
       futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
     List<dynamic> data = await Future.wait(futures);
     _issueModel = data[0];
+    if (_issueModel!.pullRequest != null)
+      AutoRouter.of(Global.currentContext)
+          .replace(PullScreenRoute(pullURL: _issueModel!.pullRequest!.url));
     if (repoURL != null && userLogin != null) _editingEnabled = data[1];
     loaded();
   }

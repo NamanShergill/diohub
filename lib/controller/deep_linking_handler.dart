@@ -12,6 +12,7 @@ String get _digit => '(\\d+)';
 
 class DeepLinkHandler {
   static Future<String?> initUniLink() async {
+    print(issuePullPageURLPattern);
     final initialLink = await getInitialLink();
     return initialLink;
   }
@@ -43,9 +44,24 @@ class DeepLinkHandler {
     if (string.regexCompleteMatch(landingPageURLPattern)) {
       isInitial = false;
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
+    } else if (string.regexCompleteMatch(issuePullPageURLPattern))
+      temp.add(IssueScreenRoute(
+          issueURL: urlWithPrefix('repos/' + string.string),
+          repoURL: urlWithPrefix('repos/' +
+              DeepLinkData(string.string).components.sublist(0, 2).join('/'))));
+    else if (string.regexCompleteMatch(commitPageURLPattern)) {
+      print(DeepLinkData(string.string).components);
+      temp.add(CommitInfoScreenRoute(
+          commitURL: urlWithPrefix('repos/' +
+                  DeepLinkData(string.string)
+                      .components
+                      .sublist(0, 2)
+                      .join('/')) +
+              '/commits/' +
+              DeepLinkData(string.string).component(3)!));
     } else if (string.regexCompleteMatch(repoPageURLPattern))
       temp.add(RepositoryScreenRoute(
-          repositoryURL: _urlWithPrefix('repos/' +
+          repositoryURL: urlWithPrefix('repos/' +
               DeepLinkData(string.string).components.sublist(0, 2).join('/')),
           deepLinkData: DeepLinkData(string.string)));
     else if (string.regexCompleteMatch('$_char'))
@@ -56,7 +72,7 @@ class DeepLinkHandler {
     return temp;
   }
 
-  static String _urlWithPrefix(String url) => 'https://api.github.com/' + url;
+  static String urlWithPrefix(String url) => 'https://api.github.com/' + url;
 
   static String get landingPageURLPattern => regexORCases(
         [
@@ -73,6 +89,24 @@ class DeepLinkHandler {
           ),
         ],
       );
+
+  static String get issuePullPageURLPattern => regexPattern([
+        _char,
+        _bracket,
+        _char,
+        _bracket,
+        regexORCases(['issues', 'pulls']),
+        _bracket,
+        _digit,
+      ]);
+
+  static String get commitPageURLPattern => regexPattern([
+        _char,
+        _bracket,
+        _char,
+        '/commit/',
+        _char,
+      ]);
 
   static String get repoPageURLPattern => regexPattern([
         _char,
