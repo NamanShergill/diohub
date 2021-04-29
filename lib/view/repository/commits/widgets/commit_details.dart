@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/repository_card.dart';
 import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/get_date.dart';
@@ -105,14 +106,18 @@ class CommitDetails extends StatelessWidget {
                   ),
                 ],
               )),
+          InfoCard(
+            'Repo',
+            child: RepoCardLoading(_repoURLFromCommitURL(_commit.commit!.url!),
+                _repoNameFromCommitURL(_commit.commit!.url!)),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
             child: Button(
                 onTap: () {
-                  List<String> url = _commit.commit!.url!.split('/');
-                  String repoURL = url.sublist(0, url.length - 2).join('/');
                   AutoRouter.of(context).push(RepositoryScreenRoute(
-                      repositoryURL: repoURL,
+                      repositoryURL:
+                          _repoURLFromCommitURL(_commit.commit!.url!),
                       initSHA: _commit.commit!.sha,
                       index: 2));
                 },
@@ -123,4 +128,14 @@ class CommitDetails extends StatelessWidget {
       ),
     );
   }
+}
+
+String _repoURLFromCommitURL(String commitURL) {
+  List<String> url = commitURL.split('/');
+  return url.sublist(0, url.length - 2).join('/');
+}
+
+String _repoNameFromCommitURL(String commitURL) {
+  List<String> url = commitURL.split('/');
+  return url.sublist(url.length - 3, url.length - 2).join('/');
 }
