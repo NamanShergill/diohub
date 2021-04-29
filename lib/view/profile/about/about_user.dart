@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/utils/link_handler.dart';
+import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class AboutUser extends StatelessWidget {
   final UserInfoModel? userInfoModel;

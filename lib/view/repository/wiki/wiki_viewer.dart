@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

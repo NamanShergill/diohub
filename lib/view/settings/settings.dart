@@ -1,9 +1,9 @@
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () {
                       linkHandler(
                         context,
-                        'https://github.com/NamanShergill/dio_hub/issues',
+                        'https://github.com/NamanShergill/diohub/issues',
                       );
                     },
                   ),

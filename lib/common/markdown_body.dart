@@ -1,13 +1,13 @@
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/common/api_wrapper_widget.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/image_loader.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:dio_hub/style/borderRadiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
+import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/utils/markdown_to_html.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -135,6 +135,10 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                     renderContext,
                     renderContext.tree.attributes,
                     renderContext.tree.element),
+                onLongPress: () {
+                  linkHandler(context, renderContext.tree.attributes['href']!,
+                      showSheetOnDeepLink: true);
+                },
                 child: child);
           String link = renderContext.tree.attributes['href']!;
           if (renderContext.tree.element!.text.startsWith('#'))
@@ -154,12 +158,16 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               );
             },
             responseBuilder: (context, response) {
-              return GestureDetector(
+              return InkWell(
                   onTap: () => renderContext.parser.onLinkTap!(
                       renderContext.tree.attributes['href']!,
                       renderContext,
                       renderContext.tree.attributes,
                       renderContext.tree.element),
+                  onLongPress: () {
+                    linkHandler(context, renderContext.tree.attributes['href']!,
+                        showSheetOnDeepLink: true);
+                  },
                   child: child);
             },
             errorBuilder: (context, error) {

@@ -20,17 +20,21 @@ class DeepLinkHandler {
   static void uniLinkStream() {
     linkStream.listen(
       (String? link) {
-        if (link != null && getRoutes(link)?.isNotEmpty == true) {
-          if (getRoutes(link)?.first is LandingScreenRoute) {
-            AutoRouter.of(Global.currentContext).popUntil((route) {
-              return false;
-            });
-            AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
-          } else
-            AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
-        }
+        if (link != null) deepLinkNavigate(link);
       },
     );
+  }
+
+  static void deepLinkNavigate(String link) {
+    if (getRoutes(link)?.isNotEmpty == true) {
+      if (getRoutes(link)?.first is LandingScreenRoute) {
+        AutoRouter.of(Global.currentContext).popUntil((route) {
+          return false;
+        });
+        AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
+      } else
+        AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
+    }
   }
 
   static String _cleanURL(String link) {
@@ -38,6 +42,13 @@ class DeepLinkHandler {
     return link.toLowerCase().replaceFirst(
         RegExp('((http(s)?)(:(\/\/)))?(www.)?(github.com\/)'), '');
   }
+
+  static bool isDeepLink(String link) {
+    return link.startsWith(deepLinkPattern);
+  }
+
+  static RegExp get deepLinkPattern =>
+      RegExp('((http(s)?)(:(\/\/)))?(www.)?(github.com\/)');
 
   static List<PageRouteInfo>? getRoutes(String link, {bool isInitial = false}) {
     if (link.isEmpty) return null;
@@ -72,7 +83,12 @@ class DeepLinkHandler {
         login: string.string,
       ));
     } else {
-      ChromeSafariBrowser().open(url: Uri.parse(link));
+      ChromeSafariBrowser.isAvailable().then((value) {
+        if (value)
+          ChromeSafariBrowser().open(url: Uri.parse(link));
+        else
+          InAppBrowser.openWithSystemBrowser(url: Uri.parse(link));
+      });
     }
     if (isInitial) return [LandingScreenRoute()]..addAll(temp);
     return temp;
