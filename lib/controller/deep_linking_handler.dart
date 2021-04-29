@@ -131,6 +131,7 @@ class DeepLinkHandler {
       ]);
 
   static String get repoPageURLPattern => regexPattern([
+        negativeLookAhead('login/device'),
         _chars,
         _slash,
         _chars,
