@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
+import 'package:dio_hub/common/api_error.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-typedef ErrorBuilder = Widget Function(BuildContext context, String error);
+typedef ErrorBuilder = Widget Function(BuildContext context, Object error);
 typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
@@ -30,11 +32,22 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
             return errorBuilder != null
                 ? errorBuilder!(
                     context, value.errorInfo ?? 'Something went wrong.')
-                : Center(
-                    child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(value.errorInfo ?? 'Something went wrong.'),
-                  ));
+                : Builder(
+                    builder: (context) {
+                      if (value.errorInfo is DioError) {
+                        DioError err = value.errorInfo as DioError;
+                        if (err.response != null)
+                          return Center(
+                              child: APIError(err.response!.statusCode!,
+                                  err.response!.statusMessage!));
+                      }
+                      return Center(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(value.errorInfo.toString()),
+                      ));
+                    },
+                  );
           return loadingBuilder != null
               ? loadingBuilder!(context)
               : LoadingIndicator();

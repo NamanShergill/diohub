@@ -41,8 +41,7 @@ class RepositoryProvider extends BaseProvider {
       _repository = await RepositoryServices.fetchRepository(url);
       loaded();
     } catch (e) {
-      errorInfo = e.toString();
-      error(message: errorInfo);
+      error(error: e);
     }
   }
 }

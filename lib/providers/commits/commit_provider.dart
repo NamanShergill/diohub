@@ -40,7 +40,7 @@ class CommitProvider extends BaseProvider {
       _commit = await RepositoryServices.getCommit(_commitURL!);
       loaded();
     } catch (e) {
-      error(message: e.toString());
+      error(error: e);
     }
   }
 }

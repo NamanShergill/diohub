@@ -48,7 +48,7 @@ class RepoReadmeProvider extends BaseProvider {
         loaded();
       }
     } catch (e) {
-      error(message: e.toString());
+      error(error: e);
     }
   }
 }

@@ -5,30 +5,31 @@ import 'package:dio_hub/utils/regex.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:uni_links/uni_links.dart';
 
-String get _char => '([^/\\s]+)';
+String get _chars => '([^/\\s]+)';
 String get _any => '([^\\s]+)';
-String get _bracket => '(\/)';
+String get _slash => '(\/)';
 String get _digit => '(\\d+)';
 
 class DeepLinkHandler {
   static Future<String?> initUniLink() async {
-    print(issuePullPageURLPattern);
     final initialLink = await getInitialLink();
     return initialLink;
   }
 
   static void uniLinkStream() {
-    linkStream.listen((String? link) {
-      if (link != null && getRoutes(link)?.isNotEmpty == true) {
-        if (getRoutes(link)?.first is LandingScreenRoute) {
-          AutoRouter.of(Global.currentContext).popUntil((route) {
-            return false;
-          });
-          AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
-        } else
-          AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
-      }
-    }, onError: (err) {});
+    linkStream.listen(
+      (String? link) {
+        if (link != null && getRoutes(link)?.isNotEmpty == true) {
+          if (getRoutes(link)?.first is LandingScreenRoute) {
+            AutoRouter.of(Global.currentContext).popUntil((route) {
+              return false;
+            });
+            AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
+          } else
+            AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
+        }
+      },
+    );
   }
 
   static String _cleanURL(String link) {
@@ -64,7 +65,7 @@ class DeepLinkHandler {
           repositoryURL: urlWithPrefix('repos/' +
               DeepLinkData(string.string).components.sublist(0, 2).join('/')),
           deepLinkData: DeepLinkData(string.string)));
-    else if (string.regexCompleteMatch('$_char'))
+    else if (string.regexCompleteMatch('$_chars'))
       temp.add(OtherUserProfileScreenRoute(
         login: string.string,
       ));
@@ -82,7 +83,7 @@ class DeepLinkHandler {
             [
               regexORCases(['issues', 'pulls']),
               optionalRegex(regexPattern([
-                _bracket,
+                _slash,
                 regexORCases(['assigned', 'mentioned'])
               ]))
             ],
@@ -91,44 +92,44 @@ class DeepLinkHandler {
       );
 
   static String get issuePullPageURLPattern => regexPattern([
-        _char,
-        _bracket,
-        _char,
-        _bracket,
+        _chars,
+        _slash,
+        _chars,
+        _slash,
         regexORCases(['issues', 'pulls']),
-        _bracket,
+        _slash,
         _digit,
       ]);
 
   static String get commitPageURLPattern => regexPattern([
-        _char,
-        _bracket,
-        _char,
+        _chars,
+        _slash,
+        _chars,
         '/commit/',
-        _char,
+        _chars,
       ]);
 
   static String get repoPageURLPattern => regexPattern([
-        _char,
-        _bracket,
-        _char,
+        _chars,
+        _slash,
+        _chars,
         optionalRegex(
           regexORCases([
             regexPattern(
               [
                 '/commits',
-                optionalRegex(regexPattern([_bracket, _char])),
+                optionalRegex(regexPattern([_slash, _chars])),
               ],
             ),
             regexPattern(
               [
-                _bracket,
+                _slash,
                 regexORCases(['tree', 'blob']),
-                _bracket,
-                _char,
+                _slash,
+                _chars,
                 optionalRegex(
                   regexPattern(
-                    [_bracket, _any],
+                    [_slash, _any],
                   ),
                 ),
               ],

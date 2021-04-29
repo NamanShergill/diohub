@@ -176,12 +176,6 @@ class RepoCardLoading extends StatelessWidget {
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<RepositoryModel>(
           getCall: RepositoryServices.fetchRepository(repoURL!),
-          errorBuilder: (context, error) {
-            return Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Text('Something went wrong.'),
-            );
-          },
           loadingBuilder: (context) {
             return Padding(
               padding: const EdgeInsets.all(24.0),

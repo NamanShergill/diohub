@@ -39,7 +39,7 @@ class UserProvider extends BaseProvider {
       _currentUserInfo = await UserInfoService.getUserInfo(_userName);
       loaded();
     } catch (e) {
-      error(message: e.toString());
+      error(error: e);
     }
     return _currentUserInfo;
   }

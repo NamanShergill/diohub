@@ -82,7 +82,7 @@ class CurrentUserProvider extends BaseProvider {
           authenticationBloc!.state.authenticated)
         authenticationBloc!.add(LogOut());
       errorInfo = e.toString();
-      error(message: errorInfo);
+      error(error: e);
     }
     return _currentUserInfo;
   }

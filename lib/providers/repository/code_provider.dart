@@ -94,7 +94,7 @@ class CodeProvider extends BaseProvider {
       }
     } catch (e) {
       debugPrint(e.toString());
-      error(message: e.toString());
+      error(error: e);
     }
   }
 

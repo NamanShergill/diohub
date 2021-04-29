@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class APIWrapperController {
 }
 
 typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
-typedef ErrorBuilder = Widget Function(BuildContext context, String? error);
+typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 
 class APIWrapper<T> extends StatefulWidget {
   final Future<T>? getCall;
@@ -41,7 +42,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
   }
   T? data;
   bool loading = true;
-  String? error;
+  Object? error;
 
   // Doing it this way instead of a future builder for better error handling.
   // And to add a refresh controller in the future.
@@ -66,7 +67,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
       error = null;
       data = await widget.getCall;
     } catch (e) {
-      error = e.toString();
+      error = e;
     }
     if (mounted)
       setState(() {
@@ -90,10 +91,23 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
       return widget.errorBuilder != null
           ? widget.errorBuilder!(context, error)
           // : Text(error!);
-          : Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text('Some error occured.'),
-            );
+          : Builder(builder: (context) {
+              if (error is DioError) {
+                DioError err = error as DioError;
+
+                return Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Text(
+                    '${err.response!.statusCode}. ${err.response!.statusMessage}.',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                );
+              }
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text('Something went wrong.'),
+              );
+            });
 
     if (widget.fadeIntoView)
       return FadeAnimationSection(

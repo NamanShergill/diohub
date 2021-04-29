@@ -43,8 +43,8 @@ abstract class BaseProvider extends ChangeNotifier {
   }
 
   // Set provider status to [Status.error] with a custom message.
-  void error({String? message}) {
-    errorInfo = message;
+  void error({Object? error}) {
+    errorInfo = error;
     _statusController.add(Status.error);
   }
 
@@ -65,7 +65,7 @@ abstract class BaseProvider extends ChangeNotifier {
   }
 
   /// Error information, if any.
-  String? errorInfo;
+  Object? errorInfo;
 }
 
 enum Status { initialized, loading, loaded, error }
