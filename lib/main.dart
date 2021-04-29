@@ -6,6 +6,7 @@ import 'package:dio_hub/controller/internet_connectivity.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/borderRadiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -116,9 +117,9 @@ class MyApp extends StatelessWidget {
                     dividerTheme:
                         DividerThemeData(color: Colors.white, thickness: 0.04),
                     fontFamily: 'Montserrat'),
-                routerDelegate: Global.customRouter.delegate(
-                    initialRoutes: DeepLinkHandler.getRoutes(initDeepLink ?? '',
-                        isInitial: true)),
+                routerDelegate: Global.customRouter.delegate(initialRoutes: [
+                  LandingAuthWrapperScreenRoute(initLink: initDeepLink ?? '')
+                ]),
                 routeInformationParser:
                     Global.customRouter.defaultRouteParser(),
               ),

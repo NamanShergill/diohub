@@ -46,8 +46,8 @@ class _PullScreenState extends State<PullScreen>
       create: (_) => PullProvider(
           widget.pullURL,
           Provider.of<CurrentUserProvider>(context, listen: false)
-              .currentUserInfo!
-              .login),
+              .currentUserInfo
+              ?.login),
       builder: (context, child) {
         return SafeArea(
           child: Consumer<PullProvider>(
@@ -210,7 +210,7 @@ class _PullScreenState extends State<PullScreen>
                                 'https://api.github.com/repos/', ''),
                             commentsSince: widget.commentsSince,
                             isLocked: value.pullModel!.locked! &&
-                                !value.editingEnabled!,
+                                !value.editingEnabled,
                             createdAt: value.pullModel!.createdAt,
                             issueUrl: value.pullModel!.issueUrl!,
                             initialComment: TimelineEventModel(

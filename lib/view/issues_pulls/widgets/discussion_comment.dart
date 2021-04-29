@@ -137,8 +137,8 @@ class BaseComment extends StatelessWidget {
           ReactionBar(
               url,
               Provider.of<CurrentUserProvider>(context, listen: false)
-                  .currentUserInfo!
-                  .login,
+                  .currentUserInfo
+                  ?.login,
               !isLocked!),
       ],
     );

@@ -8,10 +8,10 @@ import 'package:dio_hub/services/repositories/repo_services.dart';
 class PullProvider extends BaseProvider {
   final String? _pullURL;
   PullRequestModel? _pullModel;
-  bool? _editingEnabled;
+  bool _editingEnabled = false;
   String? _repoURL;
   String? get repoURL => _repoURL;
-  bool? get editingEnabled => _editingEnabled;
+  bool get editingEnabled => _editingEnabled;
 
   PullRequestModel? get pullModel => _pullModel;
 

@@ -50,47 +50,41 @@ class DeepLinkHandler {
   static RegExp get deepLinkPattern =>
       RegExp('((http(s)?)(:(\/\/)))?(www.)?(github.com\/)');
 
-  static List<PageRouteInfo>? getRoutes(String link, {bool isInitial = false}) {
+  static List<PageRouteInfo>? getRoutes(String link) {
     if (link.isEmpty) return null;
     StringFunctions string = StringFunctions(_cleanURL(link));
     List<PageRouteInfo> temp = [];
-    if (string.regexCompleteMatch(landingPageURLPattern)) {
-      isInitial = false;
+    if (string.regexCompleteMatch(landingPageURLPattern))
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
-    } else if (string.regexCompleteMatch(issuePullPageURLPattern)) {
+    else if (string.regexCompleteMatch(issuePullPageURLPattern))
       temp.add(IssueScreenRoute(
-          issueURL: urlWithPrefix('repos/' + string.string),
-          repoURL: urlWithPrefix('repos/' +
-              DeepLinkData(string.string).components.sublist(0, 2).join('/'))));
-    } else if (string.regexCompleteMatch(commitPageURLPattern)) {
-      {
-        temp.add(CommitInfoScreenRoute(
-            commitURL: urlWithPrefix('repos/' +
-                    DeepLinkData(string.string)
-                        .components
-                        .sublist(0, 2)
-                        .join('/')) +
-                '/commits/' +
-                DeepLinkData(string.string).component(3)!));
-      }
-    } else if (string.regexCompleteMatch(repoPageURLPattern)) {
+        issueURL: urlWithPrefix('repos/' + string.string),
+      ));
+    else if (string.regexCompleteMatch(commitPageURLPattern))
+      temp.add(CommitInfoScreenRoute(
+          commitURL: urlWithPrefix('repos/' +
+                  DeepLinkData(string.string)
+                      .components
+                      .sublist(0, 2)
+                      .join('/')) +
+              '/commits/' +
+              DeepLinkData(string.string).component(3)!));
+    else if (string.regexCompleteMatch(repoPageURLPattern))
       temp.add(RepositoryScreenRoute(
           repositoryURL: urlWithPrefix('repos/' +
               DeepLinkData(string.string).components.sublist(0, 2).join('/')),
           deepLinkData: DeepLinkData(string.string)));
-    } else if (string.regexCompleteMatch('$_chars')) {
+    else if (string.regexCompleteMatch('$_chars'))
       temp.add(OtherUserProfileScreenRoute(
         login: string.string,
       ));
-    } else {
+    else
       ChromeSafariBrowser.isAvailable().then((value) {
         if (value)
           ChromeSafariBrowser().open(url: Uri.parse(link));
         else
           InAppBrowser.openWithSystemBrowser(url: Uri.parse(link));
       });
-    }
-    if (isInitial) return [LandingScreenRoute()]..addAll(temp);
     return temp;
   }
 

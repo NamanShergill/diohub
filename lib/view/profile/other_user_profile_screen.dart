@@ -13,7 +13,7 @@ class OtherUserProfileScreen extends StatelessWidget {
   OtherUserProfileScreen(this.login);
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<CurrentUserProvider>(context).currentUserInfo!.login ==
+    if (Provider.of<CurrentUserProvider>(context).currentUserInfo?.login ==
         login)
       return SafeArea(
           child: Scaffold(

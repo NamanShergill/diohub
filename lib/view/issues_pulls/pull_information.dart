@@ -20,7 +20,7 @@ class PullInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pull = Provider.of<PullProvider>(context).pullModel!;
-    final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled!;
+    final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return SingleChildScrollView(
       child: Column(
         children: [

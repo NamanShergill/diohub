@@ -19,11 +19,9 @@ import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {
   final String? issueURL;
-  final String? repoURL;
   final DateTime? commentsSince;
   final int initialIndex;
-  IssueScreen(this.issueURL, this.repoURL,
-      {this.initialIndex = 0, this.commentsSince});
+  IssueScreen(this.issueURL, {this.initialIndex = 0, this.commentsSince});
 
   @override
   _IssueScreenState createState() => _IssueScreenState();
@@ -45,11 +43,11 @@ class _IssueScreenState extends State<IssueScreen>
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => IssueProvider(
-          widget.issueURL,
-          Provider.of<CurrentUserProvider>(context, listen: false)
-              .currentUserInfo!
-              .login,
-          widget.repoURL),
+        widget.issueURL,
+        Provider.of<CurrentUserProvider>(context, listen: false)
+            .currentUserInfo
+            ?.login,
+      ),
       builder: (context, child) {
         return SafeArea(
           child: Consumer<IssueProvider>(
@@ -202,7 +200,7 @@ class _IssueScreenState extends State<IssueScreen>
                             repo: value.issueModel!.repositoryUrl!.replaceFirst(
                                 'https://api.github.com/repos/', ''),
                             isLocked: value.issueModel!.locked! &&
-                                !value.editingEnabled!,
+                                !value.editingEnabled,
                             scrollController: scrollController,
                             createdAt: value.issueModel!.createdAt,
                             issueUrl: value.issueModel!.url!,

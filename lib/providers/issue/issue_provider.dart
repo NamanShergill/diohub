@@ -10,27 +10,27 @@ import 'package:dio_hub/services/repositories/repo_services.dart';
 class IssueProvider extends BaseProvider {
   final String? _issueURL;
   IssueModel? _issueModel;
-  bool? _editingEnabled;
-  bool? get editingEnabled => _editingEnabled;
+  bool _editingEnabled = false;
+  bool get editingEnabled => _editingEnabled;
 
   IssueModel? get issueModel => _issueModel;
 
-  IssueProvider(String? issueURL, String? userLogin, String? repoURL)
-      : _issueURL = issueURL {
-    getIssue(repoURL: repoURL, userLogin: userLogin);
+  IssueProvider(String? issueURL, String? userLogin) : _issueURL = issueURL {
+    getIssue(userLogin: userLogin);
   }
 
-  Future getIssue({String? repoURL, String? userLogin}) async {
+  Future getIssue({String? userLogin}) async {
     loading();
     List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL!)];
-    if (repoURL != null && userLogin != null)
-      futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
+    if (userLogin != null)
+      futures.add(RepositoryServices.checkUserRepoPerms(
+          userLogin, _repoURLFromIssueURL(_issueURL!)));
     List<dynamic> data = await Future.wait(futures);
     _issueModel = data[0];
     if (_issueModel!.pullRequest != null)
       AutoRouter.of(Global.currentContext)
           .replace(PullScreenRoute(pullURL: _issueModel!.pullRequest!.url));
-    if (repoURL != null && userLogin != null) _editingEnabled = data[1];
+    if (userLogin != null) _editingEnabled = data[1];
     loaded();
   }
 
@@ -48,4 +48,9 @@ class IssueProvider extends BaseProvider {
     _issueModel = issue;
     notifyListeners();
   }
+}
+
+String _repoURLFromIssueURL(String link) {
+  List<String> url = link.split('/');
+  return url.sublist(0, url.length - 2).join('/');
 }

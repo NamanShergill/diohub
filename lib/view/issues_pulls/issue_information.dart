@@ -23,7 +23,7 @@ class IssueInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _issue = Provider.of<IssueProvider>(context).issueModel!;
-    final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled!;
+    final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -32,14 +32,14 @@ class IssueInformation extends StatelessWidget {
           ),
           if (_editingEnabled ||
               (Provider.of<CurrentUserProvider>(context)
-                          .currentUserInfo!
-                          .login ==
+                          .currentUserInfo
+                          ?.login ==
                       _issue.user!.login &&
                   (_issue.state == IssueState.CLOSED
                       ? _issue.closedBy!.login ==
                           Provider.of<CurrentUserProvider>(context)
-                              .currentUserInfo!
-                              .login
+                              .currentUserInfo
+                              ?.login
                       : true)))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

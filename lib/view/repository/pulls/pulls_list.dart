@@ -23,13 +23,16 @@ class PullsList extends StatelessWidget {
                 .repo
                 .toQueryString(_repo.repositoryModel!.fullName!),
           ]),
-      quickFilters: {
-        SearchQueries().assignee.toQueryString(_user!.login!):
-            'Assigned to you',
-        SearchQueries().author.toQueryString(_user.login!):
-            'Your pull requests',
-        SearchQueries().mentions.toQueryString(_user.login!): 'Mentions you',
-      },
+      quickFilters: _user != null
+          ? {
+              SearchQueries().assignee.toQueryString(_user.login!):
+                  'Assigned to you',
+              SearchQueries().author.toQueryString(_user.login!):
+                  'Your pull requests',
+              SearchQueries().mentions.toQueryString(_user.login!):
+                  'Mentions you',
+            }
+          : null,
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },

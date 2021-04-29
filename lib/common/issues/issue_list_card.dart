@@ -42,7 +42,6 @@ class IssueListCard extends StatelessWidget {
           onTap: () {
             AutoRouter.of(context).push(IssueScreenRoute(
                 issueURL: item.url,
-                repoURL: item.repositoryUrl,
                 commentsSince: commentsSince,
                 initialIndex: commentsSince != null ? 1 : 0));
           },
