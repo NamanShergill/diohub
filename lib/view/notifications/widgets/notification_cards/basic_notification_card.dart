@@ -28,7 +28,7 @@ class BasicNotificationCard extends StatefulWidget {
 }
 
 class _BasicNotificationCardState extends State<BasicNotificationCard> {
-  // Need to add a key to Slidable's child widget
+  // Need to add a key to [Slidable] child widget
   // to prevent unnecessary rebuilds.
   GlobalKey key = GlobalKey();
 

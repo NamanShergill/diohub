@@ -5,168 +5,169 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/material.dart' as _i14;
+import 'package:flutter/material.dart' as _i2;
 
-import '../common/search_overlay/search_overlay.dart' as _i5;
+import '../common/search_overlay/search_overlay.dart' as _i6;
 import '../controller/deep_linking_handler.dart' as _i15;
-import '../view/issues_pulls/issue_screen.dart' as _i6;
-import '../view/issues_pulls/pull_screen.dart' as _i7;
-import '../view/landing/landing.dart' as _i3;
-import '../view/landing/widgets/landing_auth_wrapper_screen.dart' as _i2;
-import '../view/landing/widgets/place_holder_screen.dart' as _i4;
-import '../view/profile/other_user_profile_screen.dart' as _i13;
-import '../view/repository/code/file_viewer.dart' as _i9;
-import '../view/repository/commits/commit_info_screen.dart' as _i10;
-import '../view/repository/commits/widgets/changes_viewer.dart' as _i12;
-import '../view/repository/repository_screen.dart' as _i8;
-import '../view/repository/wiki/wiki_viewer.dart' as _i11;
+import '../view/issues_pulls/issue_screen.dart' as _i7;
+import '../view/issues_pulls/pull_screen.dart' as _i8;
+import '../view/landing/landing.dart' as _i4;
+import '../view/landing/widgets/landing_auth_wrapper_screen.dart' as _i3;
+import '../view/landing/widgets/place_holder_screen.dart' as _i5;
+import '../view/profile/other_user_profile_screen.dart' as _i14;
+import '../view/repository/code/file_viewer.dart' as _i10;
+import '../view/repository/commits/commit_info_screen.dart' as _i11;
+import '../view/repository/commits/widgets/changes_viewer.dart' as _i13;
+import '../view/repository/repository_screen.dart' as _i9;
+import '../view/repository/wiki/wiki_viewer.dart' as _i12;
 
 class AppRouter extends _i1.RootStackRouter {
-  AppRouter();
+  AppRouter([_i2.GlobalKey<_i2.NavigatorState>? navigatorKey])
+      : super(navigatorKey);
 
   @override
   final Map<String, _i1.PageFactory> pagesMap = {
-    LandingAuthWrapperScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<LandingAuthWrapperScreenRouteArgs>(
-          orElse: () => LandingAuthWrapperScreenRouteArgs());
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i2.LandingAuthWrapperScreen(
-              key: args.key, initLink: args.initLink),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    LandingScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<LandingScreenRouteArgs>(
-          orElse: () => LandingScreenRouteArgs());
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i3.LandingScreen(deepLinkData: args.deepLinkData),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    PlaceHolderScreenRoute.name: (entry) {
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i4.PlaceHolderScreen(),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    SearchOverlayScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<SearchOverlayScreenRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i5.SearchOverlayScreen(args.searchData,
+    LandingAuthWrapperScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<LandingAuthWrapperScreenRouteArgs>(
+              orElse: () => const LandingAuthWrapperScreenRouteArgs());
+          return _i3.LandingAuthWrapperScreen(
+              key: args.key, initLink: args.initLink);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    LandingScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<LandingScreenRouteArgs>(
+              orElse: () => const LandingScreenRouteArgs());
+          return _i4.LandingScreen(deepLinkData: args.deepLinkData);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    PlaceHolderScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return _i5.PlaceHolderScreen();
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    SearchOverlayScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<SearchOverlayScreenRouteArgs>();
+          return _i6.SearchOverlayScreen(args.searchData,
               message: args.message,
               heroTag: args.heroTag,
               multiHero: args.multiHero,
-              onSubmit: args.onSubmit),
-          transitionsBuilder: _i1.TransitionsBuilders.fadeIn,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    IssueScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<IssueScreenRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i6.IssueScreen(args.issueURL,
+              onSubmit: args.onSubmit);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.fadeIn,
+        opaque: true,
+        barrierDismissible: false),
+    IssueScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<IssueScreenRouteArgs>();
+          return _i7.IssueScreen(args.issueURL,
               initialIndex: args.initialIndex,
-              commentsSince: args.commentsSince),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    PullScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<PullScreenRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i7.PullScreen(args.pullURL,
+              commentsSince: args.commentsSince);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    PullScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<PullScreenRouteArgs>();
+          return _i8.PullScreen(args.pullURL,
               initialIndex: args.initialIndex,
-              commentsSince: args.commentsSince),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    RepositoryScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<RepositoryScreenRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i8.RepositoryScreen(args.repositoryURL,
+              commentsSince: args.commentsSince);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    RepositoryScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<RepositoryScreenRouteArgs>();
+          return _i9.RepositoryScreen(args.repositoryURL,
               branch: args.branch,
               index: args.index,
               deepLinkData: args.deepLinkData,
               key: args.key,
-              initSHA: args.initSHA),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    FileViewerAPIRoute.name: (entry) {
-      var args = entry.routeData.argsAs<FileViewerAPIRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i9.FileViewerAPI(args.sha,
+              initSHA: args.initSHA);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    FileViewerAPIRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<FileViewerAPIRouteArgs>();
+          return _i10.FileViewerAPI(args.sha,
               repoURL: args.repoURL,
               fileName: args.fileName,
               branch: args.branch,
-              repoName: args.repoName),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    CommitInfoScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<CommitInfoScreenRouteArgs>(
-          orElse: () => CommitInfoScreenRouteArgs());
-      return _i1.CustomPage(
-          entry: entry,
-          child:
-              _i10.CommitInfoScreen(key: args.key, commitURL: args.commitURL),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    WikiViewerRoute.name: (entry) {
-      var args = entry.routeData
-          .argsAs<WikiViewerRouteArgs>(orElse: () => WikiViewerRouteArgs());
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i11.WikiViewer(key: args.key, repoURL: args.repoURL),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    ChangesViewerRoute.name: (entry) {
-      var args = entry.routeData.argsAs<ChangesViewerRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i12.ChangesViewer(args.patch, args.contentURL, args.fileType),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    },
-    OtherUserProfileScreenRoute.name: (entry) {
-      var args = entry.routeData.argsAs<OtherUserProfileScreenRouteArgs>();
-      return _i1.CustomPage(
-          entry: entry,
-          child: _i13.OtherUserProfileScreen(args.login),
-          transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-          durationInMilliseconds: 250,
-          opaque: true,
-          barrierDismissible: false);
-    }
+              repoName: args.repoName);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    CommitInfoScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<CommitInfoScreenRouteArgs>(
+              orElse: () => const CommitInfoScreenRouteArgs());
+          return _i11.CommitInfoScreen(
+              key: args.key, commitURL: args.commitURL);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    WikiViewerRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<WikiViewerRouteArgs>(
+              orElse: () => const WikiViewerRouteArgs());
+          return _i12.WikiViewer(key: args.key, repoURL: args.repoURL);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    ChangesViewerRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<ChangesViewerRouteArgs>();
+          return _i13.ChangesViewer(args.patch, args.contentURL, args.fileType);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false),
+    OtherUserProfileScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<OtherUserProfileScreenRouteArgs>();
+          return _i14.OtherUserProfileScreen(args.login);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
+        barrierDismissible: false)
   };
 
   @override
@@ -192,7 +193,7 @@ class AppRouter extends _i1.RootStackRouter {
 
 class LandingAuthWrapperScreenRoute
     extends _i1.PageRouteInfo<LandingAuthWrapperScreenRouteArgs> {
-  LandingAuthWrapperScreenRoute({_i14.Key? key, String? initLink})
+  LandingAuthWrapperScreenRoute({_i2.Key? key, String? initLink})
       : super(name,
             path: '/',
             args: LandingAuthWrapperScreenRouteArgs(
@@ -204,7 +205,7 @@ class LandingAuthWrapperScreenRoute
 class LandingAuthWrapperScreenRouteArgs {
   const LandingAuthWrapperScreenRouteArgs({this.key, this.initLink});
 
-  final _i14.Key? key;
+  final _i2.Key? key;
 
   final String? initLink;
 }
@@ -233,11 +234,11 @@ class PlaceHolderScreenRoute extends _i1.PageRouteInfo {
 class SearchOverlayScreenRoute
     extends _i1.PageRouteInfo<SearchOverlayScreenRouteArgs> {
   SearchOverlayScreenRoute(
-      {required _i5.SearchData searchData,
+      {required _i6.SearchData searchData,
       String? message,
       String heroTag = 'search_bar',
       required bool multiHero,
-      required void Function(_i5.SearchData) onSubmit})
+      required void Function(_i6.SearchData) onSubmit})
       : super(name,
             path: '/search-overlay-screen',
             args: SearchOverlayScreenRouteArgs(
@@ -258,7 +259,7 @@ class SearchOverlayScreenRouteArgs {
       required this.multiHero,
       required this.onSubmit});
 
-  final _i5.SearchData searchData;
+  final _i6.SearchData searchData;
 
   final String? message;
 
@@ -266,7 +267,7 @@ class SearchOverlayScreenRouteArgs {
 
   final bool multiHero;
 
-  final void Function(_i5.SearchData) onSubmit;
+  final void Function(_i6.SearchData) onSubmit;
 }
 
 class IssueScreenRoute extends _i1.PageRouteInfo<IssueScreenRouteArgs> {
@@ -326,7 +327,7 @@ class RepositoryScreenRoute
       String? branch,
       int index = 0,
       _i15.DeepLinkData? deepLinkData,
-      _i14.Key? key,
+      _i2.Key? key,
       String? initSHA})
       : super(name,
             path: '/repository-screen',
@@ -358,7 +359,7 @@ class RepositoryScreenRouteArgs {
 
   final _i15.DeepLinkData? deepLinkData;
 
-  final _i14.Key? key;
+  final _i2.Key? key;
 
   final String? initSHA;
 }
@@ -403,7 +404,7 @@ class FileViewerAPIRouteArgs {
 
 class CommitInfoScreenRoute
     extends _i1.PageRouteInfo<CommitInfoScreenRouteArgs> {
-  CommitInfoScreenRoute({_i14.Key? key, String? commitURL})
+  CommitInfoScreenRoute({_i2.Key? key, String? commitURL})
       : super(name,
             path: '/commit-info-screen',
             args: CommitInfoScreenRouteArgs(key: key, commitURL: commitURL));
@@ -414,13 +415,13 @@ class CommitInfoScreenRoute
 class CommitInfoScreenRouteArgs {
   const CommitInfoScreenRouteArgs({this.key, this.commitURL});
 
-  final _i14.Key? key;
+  final _i2.Key? key;
 
   final String? commitURL;
 }
 
 class WikiViewerRoute extends _i1.PageRouteInfo<WikiViewerRouteArgs> {
-  WikiViewerRoute({_i14.Key? key, String? repoURL})
+  WikiViewerRoute({_i2.Key? key, String? repoURL})
       : super(name,
             path: '/wiki-viewer',
             args: WikiViewerRouteArgs(key: key, repoURL: repoURL));
@@ -431,7 +432,7 @@ class WikiViewerRoute extends _i1.PageRouteInfo<WikiViewerRouteArgs> {
 class WikiViewerRouteArgs {
   const WikiViewerRouteArgs({this.key, this.repoURL});
 
-  final _i14.Key? key;
+  final _i2.Key? key;
 
   final String? repoURL;
 }

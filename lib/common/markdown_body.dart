@@ -88,7 +88,6 @@ class _MarkdownBodyState extends State<MarkdownBody> {
   //                         '<a href="https://github.com/${e.substring(1)}" style="color: #ffffff; font-weight:bold">$e</a>'),
   //                     childNode);
   //             }
-  //             // Todo: Add issue redirection case.
   //             // Change #<digits> to a URL to a repo issue. Will need issueURL.
   //             else if (e.startsWith('#')) {
   //               node.insertBefore(

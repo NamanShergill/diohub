@@ -215,6 +215,12 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                         shareDescription:
                             'Enter the code ${widget.deviceCodeModel.userCode} on:');
                   },
+                  onLongPress: () {
+                    linkHandler(context, widget.deviceCodeModel.verificationUri,
+                        showSheetOnDeepLink: true,
+                        shareDescription:
+                            'Enter the code ${widget.deviceCodeModel.userCode} on:');
+                  },
                 ),
               ),
             ),
