@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/utils/open_in_app_browser.dart';
 import 'package:dio_hub/utils/regex.dart';
 import 'package:dio_hub/utils/string_compare.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:uni_links/uni_links.dart';
 
 String get _chars => '([^/\\s]+)';
@@ -40,8 +40,9 @@ class DeepLinkHandler {
 
   static String _cleanURL(String link) {
     if (link.endsWith('/')) link = link.substring(0, link.length - 1);
-    return link.toLowerCase().replaceFirst(
-        RegExp('((http(s)?)(:(//)))?(www.)?(github.com/)'), '');
+    return link
+        .toLowerCase()
+        .replaceFirst(RegExp('((http(s)?)(:(//)))?(www.)?(github.com/)'), '');
   }
 
   static bool isDeepLink(String link) {
@@ -55,7 +56,9 @@ class DeepLinkHandler {
     if (link.isEmpty) return null;
     StringFunctions string = StringFunctions(_cleanURL(link));
     List<PageRouteInfo> temp = [];
-    if (string.regexCompleteMatch(landingPageURLPattern)) {
+    if (string.regexCompleteMatch(exceptionURLPatterns)) {
+      openInAppBrowser(link);
+    } else if (string.regexCompleteMatch(landingPageURLPattern)) {
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
     } else if (string.regexCompleteMatch(issuePullPageURLPattern)) {
       temp.add(IssueScreenRoute(
@@ -80,18 +83,17 @@ class DeepLinkHandler {
         login: string.string,
       ));
     } else {
-      ChromeSafariBrowser.isAvailable().then((value) {
-        if (value) {
-          ChromeSafariBrowser().open(url: Uri.parse(link));
-        } else {
-          InAppBrowser.openWithSystemBrowser(url: Uri.parse(link));
-        }
-      });
+      openInAppBrowser(link);
     }
     return temp;
   }
 
   static String urlWithPrefix(String url) => 'https://api.github.com/' + url;
+
+  static String get exceptionURLPatterns => regexORCases([
+        'login/device',
+        regexPattern(['settings/', _any]),
+      ]);
 
   static String get landingPageURLPattern => regexORCases(
         [
@@ -128,7 +130,6 @@ class DeepLinkHandler {
       ]);
 
   static String get repoPageURLPattern => regexPattern([
-        negativeLookAhead('login/device'),
         _chars,
         _slash,
         _chars,
