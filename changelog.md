@@ -1,4 +1,7 @@
 ## [0.3.0] - In Development
+**Enhancements**
+- Splash screen logo improvements.
+
 **Bug Fixes**
 - Settings URL exception added in deep-links. 
 ---

@@ -460,6 +460,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2+1"
+  flutter_native_splash:
+    dependency: "direct dev"
+    description:
+      name: flutter_native_splash
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.8+4"
   flutter_portal:
     dependency: "direct main"
     description:
@@ -1085,6 +1092,13 @@ packages:
       url: "https://github.com/objectivecosta/uni_links_simplified"
     source: git
     version: "0.5.0"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   url_launcher:
     dependency: "direct main"
     description:
