@@ -6,6 +6,7 @@ import 'package:dio_hub/view/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class CurrentUserProfileScreen extends StatelessWidget {
+  const CurrentUserProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return LoginCheckWrapper(

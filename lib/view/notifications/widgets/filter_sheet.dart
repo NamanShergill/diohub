@@ -22,7 +22,7 @@ class FilterSheet extends StatefulWidget {
   /// Controller to scroll the bottom sheet along with the [ListView].
   final ScrollController? controller;
 
-  FilterSheet(
+  const FilterSheet(
       {Key? key,
       required this.onFiltersChanged,
       this.apiFilters,
@@ -107,7 +107,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.bullseye,
                       color: Colors.white,
                     ),
@@ -128,7 +128,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.pen,
                       color: Colors.white,
                     ),
@@ -149,7 +149,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.comment,
                       color: Colors.white,
                     ),
@@ -170,7 +170,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.envelopeOpen,
                       color: Colors.white,
                     ),
@@ -191,7 +191,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.exclamationCircle,
                       color: Colors.white,
                     ),
@@ -212,7 +212,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.at,
                       color: Colors.white,
                     ),
@@ -233,7 +233,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.search,
                       color: Colors.white,
                     ),
@@ -255,7 +255,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.userSecret,
                       color: Colors.white,
                     ),
@@ -277,7 +277,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       Octicons.git_pull_request,
                       color: Colors.white,
                     ),
@@ -298,7 +298,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.envelope,
                       color: Colors.white,
                     ),
@@ -319,7 +319,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 },
                 child: CheckboxListTile(
-                    secondary: Icon(
+                    secondary: const Icon(
                       LineIcons.teamspeak,
                       color: Colors.white,
                     ),
@@ -394,7 +394,7 @@ class _FilterSheetState extends State<FilterSheet> {
           Column(
             children: contents,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
         ],

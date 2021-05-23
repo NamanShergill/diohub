@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class PullsList extends StatelessWidget {
   final ScrollController scrollController;
-  PullsList({required this.scrollController});
+  const PullsList({required this.scrollController, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
@@ -38,11 +38,11 @@ class PullsList extends StatelessWidget {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
       scrollController: scrollController,
-      searchBarPadding: EdgeInsets.only(top: 8, left: 8, right: 8),
+      searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),
       searchBarMessage:
           'Search in ${_repo.repositoryModel!.name}\'s pull requests',
       searchHeroTag: 'repoPRSearch',
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       // replacementBuilder: (SearchData data, header, child) {
       //   if (data.getSort != null || data.isActive) return child;
       //   return InfiniteScrollWrapper<PullRequestModel>(

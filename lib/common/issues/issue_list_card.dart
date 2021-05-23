@@ -16,12 +16,14 @@ class IssueListCard extends StatelessWidget {
   final bool disableMaterial;
   final DateTime? commentsSince;
   final bool showRepoName;
-  IssueListCard(this.item,
+  const IssueListCard(this.item,
       {this.compact = false,
       this.showRepoName = true,
       this.disableMaterial = false,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
-      this.commentsSince});
+      this.commentsSince,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (item.pullRequest != null) {
@@ -54,7 +56,7 @@ class IssueListCard extends StatelessWidget {
                 Row(
                   children: [
                     getIcon(item.state)!,
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     if (showRepoName)
@@ -68,38 +70,38 @@ class IssueListCard extends StatelessWidget {
                                 .sublist(0, 2)
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: AppColor.grey3),
+                            style: const TextStyle(color: AppColor.grey3),
                           ),
                         ),
                       ),
                     Text(
                       '#${item.number}',
-                      style: TextStyle(color: AppColor.grey3),
+                      style: const TextStyle(color: AppColor.grey3),
                     ),
                     if (item.comments != 0)
                       Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
-                          Icon(
+                          const Icon(
                             Octicons.comment,
                             color: AppColor.grey3,
                             size: 11,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
                           Text(
                             '${item.comments} comments',
-                            style:
-                                TextStyle(color: AppColor.grey3, fontSize: 12),
+                            style: const TextStyle(
+                                color: AppColor.grey3, fontSize: 12),
                           ),
                         ],
                       ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Text(
@@ -113,16 +115,17 @@ class IssueListCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
                         item.state == IssueState.CLOSED
                             ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                        style: const TextStyle(
+                            color: AppColor.grey3, fontSize: 12),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Wrap(
@@ -148,13 +151,13 @@ class IssueListCard extends StatelessWidget {
 Widget? getIcon(IssueState? state) {
   switch (state) {
     case IssueState.CLOSED:
-      return Icon(
+      return const Icon(
         Octicons.issue_closed,
         color: Colors.red,
         size: 15,
       );
     case IssueState.OPEN:
-      return Icon(
+      return const Icon(
         Octicons.issue_opened,
         color: Colors.green,
         size: 15,

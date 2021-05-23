@@ -10,7 +10,8 @@ class PullsTab extends StatefulWidget {
   final ScrollController scrollController;
   final DeepLinkData? deepLinkData;
 
-  PullsTab({required this.scrollController, this.deepLinkData});
+  const PullsTab({required this.scrollController, this.deepLinkData, Key? key})
+      : super(key: key);
 
   @override
   _PullsTabState createState() => _PullsTabState();
@@ -50,7 +51,7 @@ class _PullsTabState extends State<PullsTab>
       scrollController: widget.scrollController,
       searchBarMessage: 'Search in your pull requests',
       searchHeroTag: '${_user.login}issueSearch',
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     );
   }
 }

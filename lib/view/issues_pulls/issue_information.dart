@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
   final APIWrapperController labelController = APIWrapperController();
-  IssueInformation();
+  IssueInformation({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _issue = Provider.of<IssueProvider>(context).issueModel!;
@@ -27,7 +27,7 @@ class IssueInformation extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           if (_editingEnabled ||
@@ -47,7 +47,7 @@ class IssueInformation extends StatelessWidget {
                 child: _issue.state != IssueState.CLOSED
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text('Close issue'),
                           SizedBox(
                             width: 8,
@@ -57,7 +57,7 @@ class IssueInformation extends StatelessWidget {
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text('Reopen issue'),
                           SizedBox(
                             width: 8,
@@ -82,7 +82,7 @@ class IssueInformation extends StatelessWidget {
                     : AppColor.green,
               ),
             ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           InfoCard(
@@ -101,7 +101,7 @@ class IssueInformation extends StatelessWidget {
                   Flexible(
                     child: ProfileTile(
                       _issue.closedBy!.avatarUrl,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       userLogin: _issue.closedBy!.login,
                       showName: true,
                     ),
@@ -112,7 +112,7 @@ class IssueInformation extends StatelessWidget {
           InfoCard(
             'Assignees',
             headerTrailing: _editingEnabled
-                ? Text(
+                ? const Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
@@ -152,11 +152,11 @@ class IssueInformation extends StatelessWidget {
                                           .avatarUrl,
                                       userLogin: value
                                           .issueModel!.assignees![index].login,
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       showName: true,
                                     )),
                           ))
-                        : Text('No assignees.'),
+                        : const Text('No assignees.'),
                   ],
                 );
               },
@@ -165,7 +165,7 @@ class IssueInformation extends StatelessWidget {
           InfoCard(
             'Labels',
             headerTrailing: _editingEnabled
-                ? Text(
+                ? const Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
@@ -208,7 +208,7 @@ class IssueInformation extends StatelessWidget {
                                       )),
                             ),
                           )
-                        : Text("No labels."),
+                        : const Text("No labels."),
                   ],
                 );
               },
@@ -220,9 +220,9 @@ class IssueInformation extends StatelessWidget {
               children: [
                 Flexible(
                   child: _issue.body!.isEmpty
-                      ? Text('No description provided.')
+                      ? const Text('No description provided.')
                       : ExpansionTile(
-                          title: Text('Tap to Expand'),
+                          title: const Text('Tap to Expand'),
                           children: [
                             MarkdownBody(_issue.body),
                           ],
@@ -238,7 +238,7 @@ class IssueInformation extends StatelessWidget {
                 Flexible(
                   child: ProfileTile(
                     _issue.user!.avatarUrl,
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     userLogin: _issue.user!.login,
                     showName: true,
                   ),

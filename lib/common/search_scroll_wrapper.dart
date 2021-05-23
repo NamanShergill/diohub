@@ -17,8 +17,8 @@ import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
     int pageSize, bool refresh, T? lastItem, String? sort, bool? isAscending);
 
-typedef WrapperReplacementBuilder = Widget Function(
-    SearchData searchData, Widget Function(BuildContext, Function) header, Widget child);
+typedef WrapperReplacementBuilder = Widget Function(SearchData searchData,
+    Widget Function(BuildContext, Function) header, Widget child);
 
 class SearchScrollWrapper extends StatefulWidget {
   /// Search Data this search wrapper would be attached to.
@@ -107,7 +107,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           isPinned: function != null,
           trailing: function != null
               ? IconButton(
-                  icon: Icon(Icons.keyboard_arrow_up_rounded),
+                  icon: const Icon(Icons.keyboard_arrow_up_rounded),
                   onPressed: () {
                     function();
                   })
@@ -157,7 +157,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               },
             );
           } else if (searchData.searchFilters!.searchType ==
-              SearchType.issues_pulls) {
+              SearchType.issuesPulls) {
             return _InfiniteWrapper<IssueModel>(
               filterFn: widget.filterFn,
               controller: controller,
@@ -234,7 +234,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
   final ScrollController? scrollController;
   final ReplacementBuilder? pinnedHeader;
 
-  _InfiniteWrapper(
+  const _InfiniteWrapper(
       {required this.builder,
       required this.header,
       this.isNestedScrollViewChild = true,

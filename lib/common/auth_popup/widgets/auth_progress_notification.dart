@@ -10,6 +10,7 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:line_icons/line_icons.dart';
 
 class AuthProgressNotification extends StatelessWidget {
+  const AuthProgressNotification({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -26,7 +27,7 @@ class AuthProgressNotification extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (_) {
-                        return AuthPopup();
+                        return const AuthPopup();
                       });
                 },
                 borderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -55,8 +56,8 @@ class AuthProgressNotification extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(LineIcons.exclamationCircle),
-                                    SizedBox(
+                                    const Icon(LineIcons.exclamationCircle),
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
@@ -71,13 +72,14 @@ class AuthProgressNotification extends StatelessWidget {
                                 ),
                               ),
                               ClipRRect(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10)),
                                 child: LinearProgressIndicator(
                                   backgroundColor: AppColor.grey,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppColor.grey3),
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                          AppColor.grey3),
                                   value: ((time.min ?? 0) * 60 + time.sec!) /
                                       ((state.deviceCodeModel.expiresIn! -
                                               state.deviceCodeModel.parsedOn!) /

@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
-  static final String _url = '/login/';
-  static final _storage = FlutterSecureStorage();
+  static const String _url = '/login/';
+  static const _storage = FlutterSecureStorage();
 
   static Future<bool> isAuthenticated() async {
     var token = await _storage.read(key: 'accessToken');
@@ -56,7 +56,7 @@ class AuthService {
   //     'admin:org_hook gist user read:user user:email user:follow '
   //     'delete_repo write:discussion read:discussion write:packages read:packages'
   //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
-  static final String _scope = 'repo public_repo repo:invite '
+  static const String _scope = 'repo public_repo repo:invite '
       'security_events admin:org'
       ' gist notifications user '
       'delete_repo write:discussion write:packages read:packages'

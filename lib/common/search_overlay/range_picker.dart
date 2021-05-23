@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 class RangePicker extends StatefulWidget {
   final ValueChanged<String> onAdded;
   final QueryType queryType;
-  RangePicker({Key? key, required this.onAdded, required this.queryType})
+  const RangePicker({Key? key, required this.onAdded, required this.queryType})
       : assert(queryType == QueryType.date || queryType == QueryType.number),
         super(key: key);
 
@@ -110,7 +110,7 @@ class _RangePickerState extends State<RangePicker> {
             CustomExpandTile(
               title: Text(
                 currentType,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onTap: () {
                 setState(() {
@@ -118,7 +118,7 @@ class _RangePickerState extends State<RangePicker> {
                 });
               },
               child: ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return RadioListTile(
@@ -133,12 +133,12 @@ class _RangePickerState extends State<RangePicker> {
                       },
                       title: Text(
                         types[index],
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => Divider(),
+                  separatorBuilder: (context, index) => const Divider(),
                   itemCount: types.length),
               expanded: expanded,
             ),
@@ -164,8 +164,8 @@ class _RangePickerState extends State<RangePicker> {
                       ),
                     ),
                     if (isRanged)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text('-'),
                       ),
                     if (isRanged)
@@ -198,8 +198,8 @@ class _RangePickerState extends State<RangePicker> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (isRanged)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text('From'),
                       ),
                     if (isRanged)
@@ -212,7 +212,8 @@ class _RangePickerState extends State<RangePicker> {
                             focusNode: AlwaysDisabledFocusNode(),
                             onTap: () async {
                               date2 = await getDate(
-                                  lastDate: date1?.subtract(Duration(days: 1)));
+                                  lastDate:
+                                      date1?.subtract(const Duration(days: 1)));
                               setState(() {});
                             },
                             decoration: TextFieldTheme.inputDecoration(
@@ -221,8 +222,8 @@ class _RangePickerState extends State<RangePicker> {
                         ),
                       ),
                     if (isRanged)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text('To'),
                       ),
                     Padding(
@@ -234,7 +235,7 @@ class _RangePickerState extends State<RangePicker> {
                         onTap: () async {
                           date1 = await getDate(
                               firstDate: isRanged
-                                  ? date2?.add(Duration(days: 1))
+                                  ? date2?.add(const Duration(days: 1))
                                   : null);
                           setState(() {});
                         },
@@ -251,7 +252,7 @@ class _RangePickerState extends State<RangePicker> {
                     const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8),
                 child: CheckboxListTile(
                     value: inclusive,
-                    title: Text('Inclusive'),
+                    title: const Text('Inclusive'),
                     activeColor: AppColor.accent,
                     onChanged: (value) {
                       setState(() {
@@ -259,7 +260,7 @@ class _RangePickerState extends State<RangePicker> {
                       });
                     }),
               ),
-            Divider(
+            const Divider(
               height: 0,
             ),
             MaterialButton(
@@ -270,9 +271,9 @@ class _RangePickerState extends State<RangePicker> {
                   : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Text('Add'),
                   ),
                 ],

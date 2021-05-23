@@ -17,20 +17,21 @@ class Button extends StatefulWidget {
   final bool loading;
   final double elevation;
   final EdgeInsets padding;
-  Button({
-    this.listenToLoadingController = true,
-    required this.onTap,
-    required this.child,
-    this.enabled = true,
-    this.stretch = true,
-    this.color,
-    this.loading = false,
-    this.padding = const EdgeInsets.all(16),
-    this.elevation = 2,
-    this.borderRadius = 10,
-    this.leadingIcon,
-    this.loadingWidget,
-  });
+  const Button(
+      {this.listenToLoadingController = true,
+      required this.onTap,
+      required this.child,
+      this.enabled = true,
+      this.stretch = true,
+      this.color,
+      this.loading = false,
+      this.padding = const EdgeInsets.all(16),
+      this.elevation = 2,
+      this.borderRadius = 10,
+      this.leadingIcon,
+      this.loadingWidget,
+      Key? key})
+      : super(key: key);
 
   @override
   _ButtonState createState() => _ButtonState();
@@ -103,7 +104,7 @@ class _ButtonState extends State<Button> {
                     Visibility(
                         visible: widget.loadingWidget != null,
                         child: widget.loadingWidget ?? Container()),
-                    LoadingIndicator(),
+                    const LoadingIndicator(),
                   ],
                 ),
         ],
@@ -127,21 +128,22 @@ class StringButton extends StatelessWidget {
   final double elevation;
   final EdgeInsets padding;
 
-  StringButton({
-    this.listenToLoadingController = true,
-    required this.onTap,
-    required this.title,
-    this.enabled = true,
-    this.stretch = true,
-    this.color,
-    this.subtitle,
-    this.elevation = 2,
-    this.borderRadius = 10,
-    this.textSize,
-    this.leadingIcon,
-    this.padding = const EdgeInsets.all(16),
-    this.loadingText,
-  });
+  const StringButton(
+      {this.listenToLoadingController = true,
+      required this.onTap,
+      required this.title,
+      this.enabled = true,
+      this.stretch = true,
+      this.color,
+      this.subtitle,
+      this.elevation = 2,
+      this.borderRadius = 10,
+      this.textSize,
+      this.leadingIcon,
+      this.padding = const EdgeInsets.all(16),
+      this.loadingText,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Button(

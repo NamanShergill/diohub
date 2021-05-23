@@ -24,18 +24,20 @@ class BaseEventCard extends StatelessWidget {
       this.onTap,
       this.userLogin,
       this.date,
-      this.childPadding = const EdgeInsets.all(16.0)})
+      this.childPadding = const EdgeInsets.all(16.0),
+      Key? key})
       : _topText = [
               TextSpan(
                   text: actor, style: AppThemeTextStyles.eventCardHeaderMed)
             ] +
-            headerText;
+            headerText,
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Row(
@@ -50,7 +52,7 @@ class BaseEventCard extends StatelessWidget {
                     avatarUrl,
                     userLogin: userLogin,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Flexible(
@@ -68,11 +70,11 @@ class BaseEventCard extends StatelessWidget {
             ),
             Text(
               getDate(date!.toString()),
-              style: TextStyle(fontSize: 11, color: AppColor.grey3),
+              style: const TextStyle(fontSize: 11, color: AppColor.grey3),
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Padding(
@@ -84,7 +86,7 @@ class BaseEventCard extends StatelessWidget {
             child: InkWell(
               borderRadius: AppThemeBorderRadius.medBorderRadius,
               onTap: onTap as void Function()?,
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Padding(
                   padding: childPadding,

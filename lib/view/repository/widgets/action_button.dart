@@ -8,7 +8,7 @@ class ActionButton extends StatefulWidget {
   final Future<bool>? onTap;
   final String? action;
   final bool enabled;
-  ActionButton(
+  const ActionButton(
       {Key? key,
       this.count,
       this.action,
@@ -46,7 +46,7 @@ class _ActionButtonState extends State<ActionButton> {
     return Button(
       listenToLoadingController: false,
       stretch: false,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       color: AppColor.onBackground,
       onTap: () {},
       child: Row(
@@ -58,7 +58,7 @@ class _ActionButtonState extends State<ActionButton> {
             color: AppColor.grey3,
             size: 15,
           ),
-          SizedBox(
+          const SizedBox(
             width: 4,
           ),
           Padding(
@@ -69,14 +69,16 @@ class _ActionButtonState extends State<ActionButton> {
               color: AppColor.grey3,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 4,
           ),
           Text(
             widget.count! > 999
                 ? '${(widget.count! / 1000).toStringAsFixed(1)}k'
-                : (widget.count == 0) ? 'None' : widget.count.toString(),
-            style: TextStyle(
+                : (widget.count == 0)
+                    ? 'None'
+                    : widget.count.toString(),
+            style: const TextStyle(
               fontSize: 13,
             ),
           ),

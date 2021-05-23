@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommitDetails extends StatelessWidget {
+  const CommitDetails({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _commit = Provider.of<CommitProvider>(context);
@@ -20,7 +21,7 @@ class CommitDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           InfoCard(
@@ -42,7 +43,7 @@ class CommitDetails extends StatelessWidget {
                 Flexible(
                   child: ProfileTile(
                     _commit.commit!.author?.avatarUrl,
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     userLogin: _commit.commit!.author?.login,
                     showName: true,
                   ),
@@ -63,16 +64,16 @@ class CommitDetails extends StatelessWidget {
             'Parents',
             child: _commit.commit!.parents!.isEmpty
                 ? Row(
-                    children: [
+                    children: const [
                       Text('No parents.'),
                     ],
                   )
                 : ListView.separated(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: _commit.commit!.parents!.length,
                     separatorBuilder: (context, index) {
-                      return SizedBox(
+                      return const SizedBox(
                         height: 8,
                       );
                     },
@@ -90,15 +91,15 @@ class CommitDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Files Changed: ${_commit.commit!.files!.length}'),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text('Total Changes: ${_commit.commit!.stats!.total}'),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text('Additions: ${_commit.commit!.stats!.additions}'),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text('Deletions: ${_commit.commit!.stats!.deletions}'),
@@ -122,7 +123,7 @@ class CommitDetails extends StatelessWidget {
                       index: 2));
                 },
                 listenToLoadingController: false,
-                child: Text('Browse Files')),
+                child: const Text('Browse Files')),
           ),
         ],
       ),

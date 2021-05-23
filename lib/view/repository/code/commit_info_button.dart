@@ -7,6 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoButton extends StatelessWidget {
+  const CommitInfoButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<CodeProvider>(
@@ -14,7 +15,7 @@ class CommitInfoButton extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             Flexible(
@@ -24,12 +25,16 @@ class CommitInfoButton extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      value.tree.last.commit!.commit!.message!.length > 25 ? value.tree.last.commit!.commit!.message!.substring(0, 25) + '...' : value.tree.last.commit!.commit!.message!,
-                      style:
-                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      value.tree.last.commit!.commit!.message!.length > 25
+                          ? value.tree.last.commit!.commit!.message!
+                                  .substring(0, 25) +
+                              '...'
+                          : value.tree.last.commit!.commit!.message!,
+                      style: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -38,12 +43,12 @@ class CommitInfoButton extends StatelessWidget {
                         value.tree.last.commit!.author?.avatarUrl ?? '',
                         size: 13,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         value.tree.last.commit!.author?.login ?? 'N/A',
-                        style: TextStyle(fontSize: 11),
+                        style: const TextStyle(fontSize: 11),
                       ),
                     ],
                   ),
@@ -55,36 +60,37 @@ class CommitInfoButton extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Octicons.git_commit,
                       size: 11,
                       color: AppColor.grey3,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(
                       value.tree.last.commit!.sha!.substring(0, 6),
-                      style: TextStyle(fontSize: 11, color: AppColor.grey3),
+                      style:
+                          const TextStyle(fontSize: 11, color: AppColor.grey3),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_drop_down,
                       size: 13,
                       color: AppColor.grey3,
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.timelapse_outlined,
                       size: 11,
                       color: AppColor.grey3,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(
@@ -92,7 +98,7 @@ class CommitInfoButton extends StatelessWidget {
                           value.tree.last.commit!.commit!.committer!.date
                               .toString(),
                           shorten: false),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 11,
                         color: AppColor.grey3,
                       ),
@@ -101,7 +107,7 @@ class CommitInfoButton extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
           ],

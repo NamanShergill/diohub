@@ -8,11 +8,13 @@ class InfoCard extends StatelessWidget {
   final Function? onTap;
   final Color color;
   final Widget? headerTrailing;
-  InfoCard(this.title,
+  const InfoCard(this.title,
       {this.child,
       this.onTap,
       this.color = AppColor.onBackground,
-      this.headerTrailing});
+      this.headerTrailing,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,7 +50,7 @@ class InfoCard extends StatelessWidget {
                 // Divider(
                 //   height: 24,
                 // ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 child ?? Container(),

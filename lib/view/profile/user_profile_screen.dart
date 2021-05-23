@@ -12,7 +12,8 @@ import 'package:line_icons/line_icons.dart';
 class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
   final bool? isCurrentUser;
   final T userData;
-  UserProfileScreen(this.userData, {this.isCurrentUser});
+  const UserProfileScreen(this.userData, {this.isCurrentUser, Key? key})
+      : super(key: key);
   @override
   _UserProfileScreenState<T> createState() => _UserProfileScreenState<T>();
 }
@@ -52,7 +53,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
                   data!.avatarUrl,
                   size: 50,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Column(
@@ -75,14 +76,14 @@ class _UserProfileScreenState<T extends UserInfoModel?>
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(LineIcons.users),
-                SizedBox(
+                const Icon(LineIcons.users),
+                const SizedBox(
                   width: 8,
                 ),
                 RichText(
@@ -94,12 +95,12 @@ class _UserProfileScreenState<T extends UserInfoModel?>
                     children: [
                       TextSpan(
                           text: data!.followers.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: ' followers'),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: ' followers'),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 RichText(
@@ -111,8 +112,8 @@ class _UserProfileScreenState<T extends UserInfoModel?>
                     children: [
                       TextSpan(
                           text: data!.following.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: ' following'),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: ' following'),
                     ],
                   ),
                 ),
@@ -132,7 +133,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ProfileTile(data!.avatarUrl),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Flexible(

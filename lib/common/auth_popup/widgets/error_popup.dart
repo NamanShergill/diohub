@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ErrorPopup extends StatelessWidget {
   final String error;
-  ErrorPopup(this.error);
+  const ErrorPopup(this.error, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ScaleExpandedSection(
@@ -22,14 +22,14 @@ class ErrorPopup extends StatelessWidget {
                   .headline5!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             Text(
               error,
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             Center(
@@ -38,7 +38,7 @@ class ErrorPopup extends StatelessWidget {
                   BlocProvider.of<AuthenticationBloc>(context)
                       .add(ResetStates());
                 },
-                child: Text(
+                child: const Text(
                   'Retry',
                   style: TextStyle(color: Colors.white),
                 ),

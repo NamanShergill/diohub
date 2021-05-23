@@ -10,12 +10,12 @@ import 'package:provider/provider.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
   final String? login;
-  OtherUserProfileScreen(this.login);
+  const OtherUserProfileScreen(this.login, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (Provider.of<CurrentUserProvider>(context).currentUserInfo?.login ==
         login) {
-      return SafeArea(
+      return const SafeArea(
           child: Scaffold(
         body: CurrentUserProfileScreen(),
       ));

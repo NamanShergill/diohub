@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 class AboutRepository extends StatelessWidget {
   final RepositoryModel repo;
-  AboutRepository(this.repo);
+  const AboutRepository(this.repo, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,11 +81,11 @@ class AboutRepository extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Open issues: ${repo.openIssuesCount}'),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text('Forks: ${repo.forksCount}'),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text('Watchers: ${repo.watchersCount}'),

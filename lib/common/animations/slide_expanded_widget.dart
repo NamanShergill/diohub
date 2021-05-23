@@ -6,8 +6,13 @@ class SlideExpandedSection extends StatefulWidget {
   final bool expand;
   final Curve? animationCurve;
   final Duration? duration;
-  SlideExpandedSection(
-      {this.expand = true, this.child, this.animationCurve, this.duration});
+  const SlideExpandedSection(
+      {this.expand = true,
+      this.child,
+      this.animationCurve,
+      this.duration,
+      Key? key})
+      : super(key: key);
 
   @override
   _SlideExpandedSectionState createState() => _SlideExpandedSectionState();

@@ -11,7 +11,7 @@ class CollapsibleAppBar extends StatelessWidget {
   final double expandedParentPadding;
   final EdgeInsets padding;
   final double childHeight;
-  CollapsibleAppBar(
+  const CollapsibleAppBar(
       {this.title,
       this.child,
       this.childHeight = 60,
@@ -20,7 +20,9 @@ class CollapsibleAppBar extends StatelessWidget {
       this.expandedParentPadding = 8,
       this.padding = const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
       this.childCollapseValue = 0.75,
-      this.trailing});
+      this.trailing,
+      Key? key})
+      : super(key: key);
 
   double _calculateExpandRatio(BoxConstraints constraints) {
     var expandRatio =
@@ -74,7 +76,7 @@ class CollapsibleAppBar extends StatelessWidget {
                             fontSize: Tween<double>(begin: 26, end: 36)
                                 .evaluate(animation)),
                       ),
-                      Container(
+                      SizedBox(
                         height: Tween<double>(begin: 50, end: 60)
                             .evaluate(animation),
                         width: Tween<double>(begin: 50, end: 60)

@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Show loading indicator on app startup until authentication status is determined.
 class LandingAuthWrapperScreen extends StatefulWidget {
   final String? initLink;
-  LandingAuthWrapperScreen({Key? key, this.initLink}) : super(key: key);
+  const LandingAuthWrapperScreen({Key? key, this.initLink}) : super(key: key);
 
   @override
   _LandingAuthWrapperScreenState createState() =>
@@ -35,19 +35,19 @@ class _LandingAuthWrapperScreenState extends State<LandingAuthWrapperScreen> {
         }
       } else if (state is AuthenticationUnauthenticated) {
         if (!executed) {
-                executed = true;
-                DeepLinkHandler.deepLinkNavigate(widget.initLink!);
-              }
+          executed = true;
+          DeepLinkHandler.deepLinkNavigate(widget.initLink!);
+        }
       }
     }, builder: (context, state) {
       if (state is AuthenticationInitial) {
-        return Scaffold(
+        return const Scaffold(
           body: Center(
             child: LoadingIndicator(),
           ),
         );
       }
-      return LandingScreen();
+      return const LandingScreen();
     });
   }
 }

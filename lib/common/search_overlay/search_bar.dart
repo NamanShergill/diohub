@@ -132,7 +132,7 @@ class _SearchBarState extends State<SearchBar> {
               bottomRight: AppThemeBorderRadius.medBorderRadius.bottomRight),
           child: Column(
             children: [
-              Divider(
+              const Divider(
                 height: 0,
               ),
               Visibility(
@@ -148,7 +148,7 @@ class _SearchBarState extends State<SearchBar> {
                       quickActionsVisible = true;
                     });
                   },
-                  trailing: Icon(
+                  trailing: const Icon(
                     Icons.arrow_drop_down,
                     color: AppColor.grey3,
                   ),
@@ -189,9 +189,8 @@ class _SearchBarState extends State<SearchBar> {
                                       expanded: sortExpanded,
                                       child: Column(
                                         children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 1.0),
+                                          const Padding(
+                                            padding: EdgeInsets.only(top: 1.0),
                                             child: Divider(
                                               height: 0,
                                             ),
@@ -199,13 +198,13 @@ class _SearchBarState extends State<SearchBar> {
                                           ListView.separated(
                                               separatorBuilder:
                                                   (context, index) {
-                                                return Divider(
+                                                return const Divider(
                                                   height: 0,
                                                 );
                                               },
                                               shrinkWrap: true,
                                               physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                  const NeverScrollableScrollPhysics(),
                                               itemCount: getWithoutValue(
                                                       searchData!.sort,
                                                       widget
@@ -284,9 +283,9 @@ class _SearchBarState extends State<SearchBar> {
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 1.0),
+                                            const Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 1.0),
                                               child: Divider(
                                                 height: 0,
                                               ),
@@ -294,13 +293,13 @@ class _SearchBarState extends State<SearchBar> {
                                             ListView.separated(
                                                 separatorBuilder:
                                                     (context, index) {
-                                                  return Divider(
+                                                  return const Divider(
                                                     height: 0,
                                                   );
                                                 },
                                                 shrinkWrap: true,
                                                 physics:
-                                                    NeverScrollableScrollPhysics(),
+                                                    const NeverScrollableScrollPhysics(),
                                                 itemCount: getWithoutValue(
                                                         searchData!
                                                             .activeQuickFilter,
@@ -354,17 +353,18 @@ class _SearchBarState extends State<SearchBar> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 1,
                                 ),
-                                Divider(
+                                const Divider(
                                   height: 0,
                                 ),
                                 Flexible(
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: widget.quickOptions!.length,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) =>
                                         CheckboxListTile(
                                             title: Text(
@@ -445,88 +445,86 @@ class _SearchBarState extends State<SearchBar> {
                       widget.onSubmit(data);
                     }));
               },
-              child: Container(
-                child: Column(
-                  children: [
-                    if (searchData != null && (searchData?.isActive ?? false))
-                      Material(
-                        color: AppColor.accent,
-                        borderRadius: widget.isPinned
-                            ? null
-                            : BorderRadius.only(
-                                topRight: AppThemeBorderRadius
-                                    .medBorderRadius.bottomLeft,
-                                topLeft: AppThemeBorderRadius
-                                    .medBorderRadius.bottomRight),
-                        child: Padding(
-                          padding: widget.isPinned
-                              ? EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: searchData!
-                                              .visibleStrings.isNotEmpty &&
-                                          searchData!.query.trim().isNotEmpty
-                                      ? 8
-                                      : 4)
-                              : const EdgeInsets.all(8.0),
-                          child: SizeExpandedSection(
-                            child: Hero(
-                              tag: widget._heroTag + 'true',
-                              child: Material(
-                                color: Colors.transparent,
-                                child: _ActiveSearch(
-                                  searchData: searchData!,
-                                  trailing: widget.trailing,
-                                  onSubmit: (data) {
-                                    setState(() {
-                                      searchData = data;
-                                    });
-                                    widget.onSubmit(searchData!);
-                                  },
-                                ),
+              child: Column(
+                children: [
+                  if (searchData != null && (searchData?.isActive ?? false))
+                    Material(
+                      color: AppColor.accent,
+                      borderRadius: widget.isPinned
+                          ? null
+                          : BorderRadius.only(
+                              topRight: AppThemeBorderRadius
+                                  .medBorderRadius.bottomLeft,
+                              topLeft: AppThemeBorderRadius
+                                  .medBorderRadius.bottomRight),
+                      child: Padding(
+                        padding: widget.isPinned
+                            ? EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical:
+                                    searchData!.visibleStrings.isNotEmpty &&
+                                            searchData!.query.trim().isNotEmpty
+                                        ? 8
+                                        : 4)
+                            : const EdgeInsets.all(8.0),
+                        child: SizeExpandedSection(
+                          child: Hero(
+                            tag: widget._heroTag + 'true',
+                            child: Material(
+                              color: Colors.transparent,
+                              child: _ActiveSearch(
+                                searchData: searchData!,
+                                trailing: widget.trailing,
+                                onSubmit: (data) {
+                                  setState(() {
+                                    searchData = data;
+                                  });
+                                  widget.onSubmit(searchData!);
+                                },
                               ),
                             ),
                           ),
                         ),
                       ),
-                    SizeExpandedSection(
-                      expand: !(searchData?.isActive ?? false),
-                      child: Hero(
-                        tag: widget.updateBarOnChange
-                            ? widget._heroTag + 'false'
-                            : widget._heroTag,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    LineIcons.search,
-                                    color: AppColor.grey3,
-                                  ),
+                    ),
+                  SizeExpandedSection(
+                    expand: !(searchData?.isActive ?? false),
+                    child: Hero(
+                      tag: widget.updateBarOnChange
+                          ? widget._heroTag + 'false'
+                          : widget._heroTag,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  LineIcons.search,
+                                  color: AppColor.grey3,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    widget._prompt,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(
-                                            color: AppColor.grey3
-                                                .withOpacity(0.7)),
-                                  ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  widget._prompt,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .copyWith(
+                                          color:
+                                              AppColor.grey3.withOpacity(0.7)),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -544,7 +542,7 @@ class _ActiveSearch extends StatelessWidget {
   final SearchData searchData;
   final Widget? trailing;
   final ValueChanged<SearchData> onSubmit;
-  _ActiveSearch(
+  const _ActiveSearch(
       {required this.searchData,
       this.trailing,
       required this.onSubmit,
@@ -564,8 +562,8 @@ class _ActiveSearch extends StatelessWidget {
                 Flexible(
                   child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Icon(
                           LineIcons.search,
                           color: Colors.white,
@@ -581,7 +579,7 @@ class _ActiveSearch extends StatelessWidget {
                 ),
               if (searchData.visibleStrings.isNotEmpty &&
                   searchData.query.trim().isNotEmpty)
-                Divider(
+                const Divider(
                   color: Colors.white,
                   thickness: 0.2,
                 ),
@@ -605,7 +603,7 @@ class _ActiveSearch extends StatelessWidget {
                                                   .split(':')
                                                   .first +
                                               ' ',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
                                           text: searchData.visibleStrings[index]
@@ -625,7 +623,7 @@ class _ActiveSearch extends StatelessWidget {
         ),
         trailing ??
             IconButton(
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
                 onPressed: () {
                   onSubmit(searchData.cleared);
                 })

@@ -4,7 +4,9 @@ class CustomExpansionTile extends StatelessWidget {
   final bool? expanded;
   final List<Widget>? children;
   final Widget? title;
-  CustomExpansionTile({this.expanded, this.title, this.children});
+  const CustomExpansionTile(
+      {this.expanded, this.title, this.children, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Theme(

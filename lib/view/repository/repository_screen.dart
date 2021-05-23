@@ -35,7 +35,7 @@ class RepositoryScreen extends StatefulWidget {
   final int index;
   final String? initSHA;
   final DeepLinkData? deepLinkData;
-  RepositoryScreen(this.repositoryURL,
+  const RepositoryScreen(this.repositoryURL,
       {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
       : super(key: key);
 
@@ -142,7 +142,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       )
                     : PreferredSize(
                         child: Container(),
-                        preferredSize: Size(0, 0),
+                        preferredSize: const Size(0, 0),
                       ),
             body: WillPopScope(
               onWillPop: () async {
@@ -179,7 +179,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                               _repo.owner!.avatarUrl,
                               userLogin: _repo.owner!.login,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             Flexible(
@@ -194,7 +194,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                       TextSpan(text: '${_repo.owner!.login}/'),
                                       TextSpan(
                                           text: _repo.name,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                     ]),
                               ),
@@ -213,7 +213,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   userLogin: _repo.owner!.login,
                                   showName: true,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
                                 Text(
@@ -226,7 +226,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             Row(
@@ -237,7 +237,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   icon: Octicons.star,
                                   action: 'Star',
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 16,
                                 ),
                                 ActionButton(
@@ -245,7 +245,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   icon: Octicons.repo_forked,
                                   action: 'Fork',
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 16,
                                 ),
                                 ActionButton(
@@ -255,14 +255,14 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 60,
                             ),
                           ],
                         ),
                         bottomPadding: 60,
                         tabController: tabController,
-                        tabs: [
+                        tabs: const [
                           'About',
                           'Readme',
                           'Code',
@@ -289,32 +289,28 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         PullsList(
                           scrollController: scrollController,
                         ),
-                        Container(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Button(
-                                  child: Text('Open Wiki'),
-                                  onTap: () {
-                                    if (Provider.of<RepositoryProvider>(context,
-                                            listen: false)
-                                        .repositoryModel!
-                                        .hasWiki!) {
-                                      AutoRouter.of(context).push(
-                                          WikiViewerRoute(
-                                              repoURL: widget.repositoryURL));
-                                    } else {
-                                      ResponseHandler.setErrorMessage(
-                                          AppPopupData(
-                                              title:
-                                                  'Repository has no wiki.'));
-                                    }
-                                  },
-                                ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Button(
+                                child: const Text('Open Wiki'),
+                                onTap: () {
+                                  if (Provider.of<RepositoryProvider>(context,
+                                          listen: false)
+                                      .repositoryModel!
+                                      .hasWiki!) {
+                                    AutoRouter.of(context).push(WikiViewerRoute(
+                                        repoURL: widget.repositoryURL));
+                                  } else {
+                                    ResponseHandler.setErrorMessage(
+                                        AppPopupData(
+                                            title: 'Repository has no wiki.'));
+                                  }
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     );

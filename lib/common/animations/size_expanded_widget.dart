@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:dio_hub/style/anim_durations.dart';
+import 'package:flutter/material.dart';
 
 class SizeExpandedSection extends StatefulWidget {
   final Widget? child;
@@ -8,7 +8,7 @@ class SizeExpandedSection extends StatefulWidget {
   final double axisAlignment;
   final Curve? animationCurve;
   final Duration? duration;
-  SizeExpandedSection(
+  const SizeExpandedSection(
       {this.expand = true,
       this.child,
       this.axisAlignment = 1.0,

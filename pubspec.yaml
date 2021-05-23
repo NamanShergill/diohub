@@ -100,7 +100,7 @@ dev_dependencies:
   change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.0
 #  flutter_native_splash: ^1.1.8+4
-  lints: ^1.0.1
+  flutter_lints: ^1.0.2
 
 flutter_native_splash:
   color: '#17181c'

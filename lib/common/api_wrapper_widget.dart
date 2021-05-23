@@ -20,7 +20,7 @@ class APIWrapper<T> extends StatefulWidget {
   final T? initialData;
   final APIWrapperController? apiWrapperController;
   final bool fadeIntoView;
-  APIWrapper({
+  const APIWrapper({
     Key? key,
     this.getCall,
     this.postCall,
@@ -33,12 +33,12 @@ class APIWrapper<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _APIWrapperState<T> createState() => _APIWrapperState(apiWrapperController);
+  _APIWrapperState<T> createState() => _APIWrapperState();
 }
 
 class _APIWrapperState<T> extends State<APIWrapper<T?>> {
-  _APIWrapperState(APIWrapperController? controller) {
-    if (controller != null) controller.refresh = fetchData;
+  _APIWrapperState() {
+    widget.apiWrapperController?.refresh = fetchData;
   }
   T? data;
   bool loading = true;
@@ -89,7 +89,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     if (loading) {
       return widget.loadingBuilder != null
           ? widget.loadingBuilder!(context)
-          : LoadingIndicator();
+          : const LoadingIndicator();
     } else if (error != null) {
       return widget.errorBuilder != null
           ? widget.errorBuilder!(context, error)
@@ -102,12 +102,12 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
                   padding: const EdgeInsets.all(24.0),
                   child: Text(
                     '${err.response!.statusCode}. ${err.response!.statusMessage}.',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 );
               }
-              return Padding(
-                padding: const EdgeInsets.all(24.0),
+              return const Padding(
+                padding: EdgeInsets.all(24.0),
                 child: Text('Something went wrong.'),
               );
             });

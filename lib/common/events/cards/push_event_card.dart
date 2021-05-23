@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/branch_label.dart';
 import 'package:dio_hub/common/custom_expansion_tile.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
-import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class PushEventCard extends StatelessWidget {
   final EventsModel event;
   final Payload data;
-  PushEventCard(this.event, this.data);
+  const PushEventCard(this.event, this.data, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
@@ -24,10 +24,10 @@ class PushEventCard extends StatelessWidget {
       },
       userLogin: event.actor!.login,
       date: event.createdAt,
-      childPadding: EdgeInsets.all(8),
+      childPadding: const EdgeInsets.all(8),
       actor: event.actor!.login,
       headerText: [
-        TextSpan(
+        const TextSpan(
             text: ' pushed to ', style: AppThemeTextStyles.eventCardHeaderMed),
         TextSpan(
             text: event.repo!.name,
@@ -58,11 +58,11 @@ class PushEventCard extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: data.commits!.length,
                 separatorBuilder: (context, index) {
-                  return Divider(
+                  return const Divider(
                     height: 0,
                   );
                 },
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return InkWell(
                     borderRadius: AppThemeBorderRadius.smallBorderRadius,
@@ -87,7 +87,7 @@ class PushEventCard extends StatelessWidget {
                             TextSpan(
                                 text:
                                     '#${data.commits![index].sha!.substring(0, 6)}',
-                                style: TextStyle(color: AppColor.accent)),
+                                style: const TextStyle(color: AppColor.accent)),
                             TextSpan(text: '  ' + data.commits![index].message!)
                           ])),
                     ),

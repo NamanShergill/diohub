@@ -16,12 +16,14 @@ class BasicNotificationCard extends StatefulWidget {
   final bool loading;
   final NotificationModel? notification;
   final Function? onTap;
-  BasicNotificationCard(
+  const BasicNotificationCard(
       {this.footerBuilder,
       this.loading = false,
       this.onTap,
       this.iconBuilder,
-      this.notification});
+      this.notification,
+      Key? key})
+      : super(key: key);
 
   @override
   _BasicNotificationCardState createState() => _BasicNotificationCardState();
@@ -43,7 +45,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      actionPane: SlidableDrawerActionPane(),
+      actionPane: const SlidableDrawerActionPane(),
       enabled: widget.notification!.unread!,
       actions: [
         IconSlideAction(
@@ -73,7 +75,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           child: Container(
             height: 120,
             color: AppColor.green,
-            child: Center(
+            child: const Center(
               child: Text('Mark as read?'),
             ),
           ),
@@ -83,7 +85,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           return false;
         },
         closeOnCanceled: true,
-        dismissThresholds: {
+        dismissThresholds: const {
           SlideActionType.primary: 0.4,
           SlideActionType.secondary: 0.4
         },
@@ -123,7 +125,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                         )),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Flexible(
@@ -140,13 +142,13 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 widget.notification!.repository!.fullName!,
-                                style: TextStyle(color: AppColor.grey3),
+                                style: const TextStyle(color: AppColor.grey3),
                               ),
                             ),
                           ),
                           Text(
                             getDate(widget.notification!.updatedAt.toString()),
-                            style: TextStyle(color: AppColor.grey3),
+                            style: const TextStyle(color: AppColor.grey3),
                           ),
                         ],
                       ),
@@ -161,13 +163,13 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                               fontWeight: FontWeight.w600),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       !widget.loading
                           ? widget.footerBuilder!(context)
                           : footerLoading(),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                     ],
@@ -194,14 +196,14 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Expanded(
           child: ShimmerWidget(
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColor.grey,
               ),
               height: 20,

@@ -4,7 +4,7 @@ import 'package:dio_hub/common/events/cards/pull_event_card.dart';
 import 'package:dio_hub/common/events/cards/push_event_card.dart';
 import 'package:dio_hub/common/events/cards/watch_event_card.dart';
 import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/activity/events_service.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +15,12 @@ class Events extends StatelessWidget {
   final String? specificUser;
   final ScrollController scrollController;
 
-  Events(
+  const Events(
       {this.privateEvents = true,
       this.specificUser,
-      required this.scrollController});
+      required this.scrollController,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context);

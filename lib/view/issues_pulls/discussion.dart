@@ -27,14 +27,16 @@ class Discussion extends StatefulWidget {
   final String repo;
   final DateTime? createdAt;
   final TimelineEventModel? initialComment;
-  Discussion(
+  const Discussion(
       {this.commentsSince,
       required this.issueUrl,
       this.isLocked,
       required this.repo,
       required this.scrollController,
       this.createdAt,
-      this.initialComment});
+      this.initialComment,
+      Key? key})
+      : super(key: key);
 
   @override
   _DiscussionState createState() => _DiscussionState();
@@ -67,7 +69,7 @@ class _DiscussionState extends State<Discussion>
               width: MediaQuery.of(context).size.width * 0.1,
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border:
                     Border(left: BorderSide(color: AppColor.grey3, width: 0.2)),
               ),
@@ -83,7 +85,7 @@ class _DiscussionState extends State<Discussion>
                         return IssuesService.getIssueComments(
                             widget.issueUrl, pageNumber, pageSize, refresh,
                             since: commentsSince!
-                                .subtract(Duration(minutes: 5))
+                                .subtract(const Duration(minutes: 5))
                                 .toUtc()
                                 .toIso8601String());
                       },
@@ -98,21 +100,21 @@ class _DiscussionState extends State<Discussion>
                               child: Button(
                                 listenToLoadingController: false,
                                 color: AppColor.onBackground,
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Column(
                                   children: [
                                     Text(
                                       'Showing comments since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 4,
                                     ),
-                                    Text(
+                                    const Text(
                                       'Load the whole timeline?',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -128,7 +130,8 @@ class _DiscussionState extends State<Discussion>
                               ),
                             ),
                             if (widget.initialComment!.createdAt!.isAfter(
-                                commentsSince!.subtract(Duration(minutes: 5))))
+                                commentsSince!
+                                    .subtract(const Duration(minutes: 5))))
                               paddingWrap(
                                 child: TimelineDiscussionComment(
                                     widget.initialComment, widget.isLocked,
@@ -140,7 +143,7 @@ class _DiscussionState extends State<Discussion>
                       firstPageLoadingBuilder: (context) {
                         return Container(
                           color: AppColor.background,
-                          child: LoadingIndicator(),
+                          child: const LoadingIndicator(),
                         );
                       },
                       divider: false,
@@ -165,7 +168,7 @@ class _DiscussionState extends State<Discussion>
                       firstPageLoadingBuilder: (context) {
                         return Container(
                           color: AppColor.background,
-                          child: LoadingIndicator(),
+                          child: const LoadingIndicator(),
                         );
                       },
                       isNestedScrollViewChild: true,
@@ -196,10 +199,10 @@ class _DiscussionState extends State<Discussion>
                           Event.unpinned,
                         ];
                         List<TimelineEventModel> filtered = [];
-                        for(TimelineEventModel element in list){
+                        for (TimelineEventModel element in list) {
                           if (allowedEvents.contains(element.event)) {
-                                                      filtered.add(element);
-                                                    }
+                            filtered.add(element);
+                          }
                         }
                         return filtered;
                       },
@@ -211,8 +214,8 @@ class _DiscussionState extends State<Discussion>
                               child: Button(
                                 listenToLoadingController: false,
                                 color: AppColor.onBackground,
-                                padding: EdgeInsets.all(16),
-                                child: Text(
+                                padding: const EdgeInsets.all(16),
+                                child: const Text(
                                   'Show comments made after a specific time?',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -223,7 +226,7 @@ class _DiscussionState extends State<Discussion>
                                 onTap: () async {
                                   DatePicker.showDateTimePicker(context,
                                       showTitleActions: true,
-                                      theme: DatePickerTheme(
+                                      theme: const DatePickerTheme(
                                           cancelStyle: TextStyle(
                                             color: Colors.white,
                                           ),
@@ -241,7 +244,7 @@ class _DiscussionState extends State<Discussion>
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             paddingWrap(
@@ -284,10 +287,10 @@ class _DiscussionState extends State<Discussion>
                                           .merge(AppThemeTextStyles
                                               .basicIssueEventCardText),
                                       children: [
-                                        TextSpan(text: 'Renamed this.\n'),
+                                        const TextSpan(text: 'Renamed this.\n'),
                                         TextSpan(
                                             text: '${item.rename!.from}\n',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 decoration: TextDecoration
                                                     .lineThrough)),
                                         TextSpan(text: item.rename!.to),
@@ -383,7 +386,7 @@ class _DiscussionState extends State<Discussion>
                                                   .textTheme
                                                   .headline6,
                                             ),
-                                            Icon(Icons.arrow_drop_down),
+                                            const Icon(Icons.arrow_drop_down),
                                           ],
                                         ),
                                       ),
@@ -408,31 +411,29 @@ class _DiscussionState extends State<Discussion>
                           );
                         });
                       },
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Add a comment',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Add a comment',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          widget.isLocked!
+                              ? Octicons.lock
+                              : Icons.comment_rounded,
+                          size: 16,
                         ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            widget.isLocked!
-                                ? Octicons.lock
-                                : Icons.comment_rounded,
-                            size: 16,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               ),

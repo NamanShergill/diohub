@@ -10,8 +10,9 @@ class UserRepositories extends StatelessWidget {
   final bool? currentUser;
   final ScrollController scrollController;
 
-  UserRepositories(this.userInfoModel,
-      {this.currentUser = false, required this.scrollController});
+  const UserRepositories(this.userInfoModel,
+      {this.currentUser = false, required this.scrollController, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class UserRepositories extends StatelessWidget {
           SearchQueries().fork.toQueryString('true'): 'Include forks',
         },
         scrollController: scrollController,
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
         searchHeroTag: '${userInfoModel.login}Search',
         // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, order) {

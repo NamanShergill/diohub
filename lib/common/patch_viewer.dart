@@ -22,7 +22,7 @@ class PatchViewer extends StatefulWidget {
   /// Pass this as true before starting parsing to prevent lag.
   /// Todo: Remove?
   final bool waitBeforeLoad;
-  PatchViewer(
+  const PatchViewer(
       {Key? key,
       this.patch,
       this.wrap = false,
@@ -33,12 +33,12 @@ class PatchViewer extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PatchViewerState createState() => _PatchViewerState(controller);
+  _PatchViewerState createState() => _PatchViewerState();
 }
 
 class _PatchViewerState extends State<PatchViewer> {
-  _PatchViewerState(PatchViewController? controller) {
-    if (controller != null) controller.wrap = changeWrap;
+  _PatchViewerState() {
+    widget.controller?.wrap = changeWrap;
   }
   String? patch;
   int maxChars = 0;
@@ -137,13 +137,13 @@ class _PatchViewerState extends State<PatchViewer> {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: displayCodeWithoutFirstLine.length,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, lineIndex) {
           return Container(
             color: getColor(displayCodeWithoutFirstLine[lineIndex], lineIndex),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
@@ -153,7 +153,7 @@ class _PatchViewerState extends State<PatchViewer> {
                           ? ''
                           : '${getRemoveIndex++}',
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
@@ -170,7 +170,7 @@ class _PatchViewerState extends State<PatchViewer> {
                         : " ",
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Flexible(
@@ -196,19 +196,19 @@ class _PatchViewerState extends State<PatchViewer> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.3,
               ),
-              LoadingIndicator(),
+              const LoadingIndicator(),
             ],
           ))
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Container(
+            child: SizedBox(
               width: wrap!
                   ? MediaQuery.of(context).size.width
                   : maxChars.toDouble() * 10,
               child: ListView.builder(
                   itemCount: codeChunks.length,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     List<String> displayCode = codeChunks[index]['code'];
 
@@ -292,7 +292,7 @@ class ChunkHeader extends StatefulWidget {
   final List<String>? displayHeader;
   final PatchViewController? controller;
 
-  ChunkHeader(
+  const ChunkHeader(
       {this.codeChunks,
       this.startAdd,
       this.startRemove,
@@ -303,14 +303,16 @@ class ChunkHeader extends StatefulWidget {
       this.rawData,
       this.controller,
       this.maxChars,
-      this.displayCode});
+      this.displayCode,
+      Key? key})
+      : super(key: key);
   @override
-  _ChunkHeaderState createState() => _ChunkHeaderState(controller);
+  _ChunkHeaderState createState() => _ChunkHeaderState();
 }
 
 class _ChunkHeaderState extends State<ChunkHeader> {
-  _ChunkHeaderState(PatchViewController? controller) {
-    if (controller != null) controller.wrap = changeWrap;
+  _ChunkHeaderState() {
+    widget.controller?.wrap = changeWrap;
   }
   bool expanded = false;
   late List<String> data;
@@ -348,13 +350,13 @@ class _ChunkHeaderState extends State<ChunkHeader> {
   Widget build(BuildContext context) {
     if (expanded) {
       return SizeExpandedSection(
-        child: Container(
+        child: SizedBox(
           width: wrap!
               ? MediaQuery.of(context).size.width
               : widget.maxChars!.toDouble() * 10,
           child: ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return Container(
@@ -363,7 +365,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                         : AppColor.onBackground,
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         SizedBox(
@@ -372,7 +374,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                               ? '${index + 1}'
                               : '${widget.codeChunks![widget.index! - 1]['startRemove'] + widget.codeChunks![widget.index! - 1]['lengthRemove'] + index}'),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         SizedBox(
@@ -381,7 +383,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                               ? '${index + 1}'
                               : '${widget.codeChunks![widget.index! - 1]['startAdd'] + widget.codeChunks![widget.index! - 1]['lengthAdd'] + index}'),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 25,
                         ),
                         Flexible(
@@ -408,22 +410,22 @@ class _ChunkHeaderState extends State<ChunkHeader> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.expand,
                 color: Colors.white,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Text(
                 widget.displayHeader![widget.index!],
-                style: TextStyle(color: Colors.white, fontSize: 12),
+                style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
               Flexible(
                 child: Text(
                   widget.displayCode![0],
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
             ],

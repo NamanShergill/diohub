@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {
   final String? repoURL;
-  RepositoryReadme(this.repoURL);
+  const RepositoryReadme(this.repoURL, {Key? key}) : super(key: key);
 
   @override
   _RepositoryReadmeState createState() => _RepositoryReadmeState();
@@ -25,14 +25,14 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
     super.build(context);
     return ListView(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
             loadingBuilder: (context) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 48.0),
+              return const Padding(
+                padding: EdgeInsets.only(top: 48.0),
                 child: LoadingIndicator(),
               );
             },
@@ -45,7 +45,7 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
             },
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
       ],

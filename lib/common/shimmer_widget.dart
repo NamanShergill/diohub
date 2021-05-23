@@ -7,11 +7,13 @@ class ShimmerWidget extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color baseColor;
   final Color highlightColor;
-  ShimmerWidget(
+  const ShimmerWidget(
       {this.child,
       this.borderRadius,
       this.baseColor = AppColor.grey,
-      this.highlightColor = AppColor.grey2});
+      this.highlightColor = AppColor.grey2,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

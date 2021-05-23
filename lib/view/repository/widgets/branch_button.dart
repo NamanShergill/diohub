@@ -14,7 +14,9 @@ import 'package:provider/provider.dart';
 class BranchButton extends StatelessWidget {
   final RepositoryModel? _repo;
   final double height = 55;
-  BranchButton({RepositoryModel? repo}) : _repo = repo;
+  const BranchButton({RepositoryModel? repo, Key? key})
+      : _repo = repo,
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -77,8 +79,8 @@ class BranchButton extends StatelessWidget {
                             Flexible(
                               child: Row(
                                 children: [
-                                  Icon(Octicons.git_branch),
-                                  SizedBox(
+                                  const Icon(Octicons.git_branch),
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Flexible(
@@ -89,10 +91,10 @@ class BranchButton extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
-                            Icon(Icons.arrow_drop_down),
+                            const Icon(Icons.arrow_drop_down),
                           ],
                         ),
                       ),

@@ -18,7 +18,7 @@ class CommitBrowserTiles extends StatefulWidget {
   final bool highlighted;
   final ValueChanged<String>? onSelected;
 
-  CommitBrowserTiles(
+  const CommitBrowserTiles(
       {Key? key, this.item, this.highlighted = false, this.onSelected})
       : super(key: key);
 
@@ -50,7 +50,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
         },
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Padding(
@@ -58,7 +58,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   Flexible(
@@ -69,11 +69,11 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         Flexible(
                           child: Text(
                             widget.item!.commit!.message!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 13, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Row(
@@ -82,12 +82,12 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                               widget.item!.author?.avatarUrl,
                               size: 13,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
                               widget.item!.author?.login ?? 'N/A',
-                              style: TextStyle(fontSize: 11),
+                              style: const TextStyle(fontSize: 11),
                             ),
                           ],
                         ),
@@ -106,7 +106,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                                 ? Colors.white
                                 : AppColor.grey3,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
@@ -129,7 +129,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -141,7 +141,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                                 ? Colors.white
                                 : AppColor.grey3,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
@@ -159,7 +159,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                 ],
@@ -172,10 +172,10 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                 expand: expanded,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
-                    Divider(
+                    const Divider(
                       height: 0,
                     ),
                     InkWell(
@@ -186,7 +186,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text(
                               'View Code',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -199,7 +199,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       height: 0,
                     ),
                     InkWell(
@@ -211,7 +211,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text(
                               'Commit Details',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -224,7 +224,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       height: 0,
                     ),
                     InkWell(
@@ -235,7 +235,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text(
                               'Copy SHA',
                               style: TextStyle(fontWeight: FontWeight.bold),

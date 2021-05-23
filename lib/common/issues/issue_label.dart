@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class IssueLabel extends StatelessWidget {
   final Label? label;
-  IssueLabel(this.label);
+  const IssueLabel(this.label, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(

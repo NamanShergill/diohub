@@ -17,6 +17,7 @@ extension RegExpExtension on RegExp {
       // print(input);
       // print(element[0]);
     });
+
     for (var match in allMatches(input, start)) {
       result.add(input.substring(start, match.start));
       result.add(match[0]);

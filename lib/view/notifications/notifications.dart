@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class NotificationsScreen extends StatefulWidget {
+  const NotificationsScreen({Key? key}) : super(key: key);
   @override
   _NotificationsScreenState createState() => _NotificationsScreenState();
 }
@@ -99,7 +100,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                           expandedParentPadding: 0,
                           title: 'Inbox',
                           trailing: IconButton(
-                            icon: Icon(Icons.sort),
+                            icon: const Icon(Icons.sort),
                             onPressed: () {
                               setState(() {
                                 expanded = !expanded;
@@ -122,12 +123,12 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                       expand: expanded,
                       child: Column(
                         children: [
-                          Divider(),
+                          const Divider(),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 8),
                             child: Button(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 24),
                               onTap: () async {
                                 setState(() {
@@ -148,7 +149,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                     style:
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     LineIcons.checkCircle,
                                     color: Colors.white,
                                   ),
@@ -164,7 +165,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 8),
                             child: Button(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 24),
                               onTap: () {
                                 showFilterSheet();
@@ -178,7 +179,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                     style:
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     LineIcons.filter,
                                     color: Colors.white,
                                   ),
@@ -189,7 +190,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               elevation: 2,
                             ),
                           ),
-                          Divider(),
+                          const Divider(),
                         ],
                       ),
                     ),
@@ -208,9 +209,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         },
                         filterFn: (List<NotificationModel> list) {
                           List<NotificationModel> filtered = [];
-                         for(NotificationModel element in list){
+                          for (NotificationModel element in list) {
                             if (checkFilter(element)!) filtered.add(element);
-                         }
+                          }
                           return filtered;
                         },
                         builder: (context, NotificationModel item, index) {
@@ -231,12 +232,13 @@ class _NotificationsScreenState extends State<NotificationsScreen>
           ),
         ],
       ),
-      replacement: UnauthenticatedNotificationsReplacement(),
+      replacement: const UnauthenticatedNotificationsReplacement(),
     );
   }
 }
 
 class UnauthenticatedNotificationsReplacement extends StatelessWidget {
+  const UnauthenticatedNotificationsReplacement({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -254,7 +256,7 @@ class UnauthenticatedNotificationsReplacement extends StatelessWidget {
                     elevation: 2,
                     backgroundColor: AppColor.background,
                     flexibleSpace: GestureDetector(
-                      child: CollapsibleAppBar(
+                      child: const CollapsibleAppBar(
                         minHeight: 100,
                         maxHeight: 150,
                         expandedParentPadding: 0,
@@ -274,9 +276,9 @@ class UnauthenticatedNotificationsReplacement extends StatelessWidget {
             },
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: LoginPromptBox(),
                 ),
               ],

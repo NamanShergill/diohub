@@ -8,14 +8,14 @@ import 'package:line_icons/line_icons.dart';
 
 class AboutUser extends StatelessWidget {
   final UserInfoModel? userInfoModel;
-  AboutUser(this.userInfoModel);
+  const AboutUser(this.userInfoModel, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           if (userInfoModel!.bio != null)
@@ -36,11 +36,11 @@ class AboutUser extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     LineIcons.twitter,
                     color: AppColor.grey3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text('@${userInfoModel!.twitterUsername}'),
@@ -55,11 +55,11 @@ class AboutUser extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     LineIcons.at,
                     color: AppColor.grey3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(userInfoModel!.email!),
@@ -74,11 +74,11 @@ class AboutUser extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     LineIcons.blog,
                     color: AppColor.grey3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Flexible(child: Text(userInfoModel!.blog!)),
@@ -90,11 +90,11 @@ class AboutUser extends StatelessWidget {
               'Company',
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     LineIcons.building,
                     color: AppColor.grey3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(userInfoModel!.company!),
@@ -106,11 +106,11 @@ class AboutUser extends StatelessWidget {
               'Location',
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     LineIcons.locationArrow,
                     color: AppColor.grey3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(userInfoModel!.location!),
@@ -122,11 +122,11 @@ class AboutUser extends StatelessWidget {
               'Joined',
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     LineIcons.calendar,
                     color: AppColor.grey3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(getDate(userInfoModel!.createdAt.toString(),

@@ -23,11 +23,11 @@ class SearchOverlayScreen extends StatefulWidget {
   final String heroTag;
   final SearchData searchData;
   final bool multiHero;
-  SearchOverlayScreen(this.searchData,
+  const SearchOverlayScreen(this.searchData,
       {this.message,
       this.heroTag = 'search_bar',
       required this.multiHero,
-      required this.onSubmit});
+      required this.onSubmit, Key? key}):super(key:key);
   @override
   _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
 }
@@ -125,7 +125,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                       ),
                     ),
                     if (widget.searchData.multiType)
-                      Divider(
+                      const Divider(
                         height: 0,
                       ),
                     if (widget.searchData.multiType)
@@ -135,7 +135,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                         child: CustomExpandTile(
                           title: Text(
                             'Searching in ${searchTypeValues.reverse![searchData.searchFilters!.searchType]}',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           onTap: () {
                             setState(() {
@@ -143,7 +143,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             });
                           },
                           child: ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return RadioListTile(
@@ -163,18 +163,19 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                   },
                                   title: Text(
                                     searchTypeValues.map.keys.toList()[index],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
                                   ),
                                 );
                               },
-                              separatorBuilder: (context, index) => Divider(),
+                              separatorBuilder: (context, index) =>
+                                  const Divider(),
                               itemCount: searchTypeValues.map.keys.length),
                           expanded: expanded,
                         ),
                       ),
-                    SizedBox(
+                    const SizedBox(
                       height: 250,
                     ),
                   ],
@@ -201,13 +202,13 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               .copyWith(dividerColor: Colors.transparent),
                           child: ListView(
                             shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             children: [
-                              Center(
+                              const Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
+                                  padding: EdgeInsets.only(top: 8.0),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(8.0),
                                     child: Text(
                                       'How to format your filters',
                                       style: TextStyle(
@@ -217,14 +218,14 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                   ),
                                 ),
                               ),
-                              Divider(),
+                              const Divider(),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
-                                  children: [
+                                  children: const [
                                     Text.rich(
                                       TextSpan(children: [
                                         TextSpan(
@@ -327,7 +328,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                     onPressed: () {
                                       infoOverlay.tapped();
                                     },
-                                    icon: Icon(LineIcons.info),
+                                    icon: const Icon(LineIcons.info),
                                     color: Colors.white,
                                   ),
                                 ),
@@ -350,7 +351,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                  children: const [
                                     Text('Back'),
                                   ],
                                 ),
@@ -376,7 +377,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                  children: const [
                                     Text('Search'),
                                   ],
                                 ),
@@ -404,7 +405,7 @@ class _SearchBar extends StatefulWidget {
   final ValueChanged<SearchData> onChanged;
   final ValueChanged<void> onSubmit;
   final bool multiHero;
-  _SearchBar(this.searchData,
+  const _SearchBar(this.searchData,
       {this.message,
       required this.multiHero,
       required this.onChanged,
@@ -498,7 +499,7 @@ class _SearchBarState extends State<_SearchBar> {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: CustomExpandTile(
-              title: Text(
+              title: const Text(
                 'All Filters',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -509,7 +510,7 @@ class _SearchBarState extends State<_SearchBar> {
               },
               expanded: expanded,
               child: ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ListTile(
@@ -532,7 +533,7 @@ class _SearchBarState extends State<_SearchBar> {
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => Divider(),
+                  separatorBuilder: (context, index) => const Divider(),
                   itemCount: widget
                       .searchData.searchFilters!.whiteListedQueries.length),
             ),
@@ -541,7 +542,7 @@ class _SearchBarState extends State<_SearchBar> {
             expand: controller.text.trim().isNotEmpty,
             child: Column(
               children: [
-                Divider(
+                const Divider(
                   height: 8,
                   endIndent: 8,
                   indent: 8,
@@ -556,14 +557,14 @@ class _SearchBarState extends State<_SearchBar> {
                       });
                       widget.onChanged(searchData.cleared);
                     },
-                    child: Center(
+                    child: const Center(
                         child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.0),
                       child: Text('Tap to Clear'),
                     )),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
               ],
@@ -576,7 +577,7 @@ class _SearchBarState extends State<_SearchBar> {
 
   void getFocus() async {
     // Todo: Try new speed here.
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     if (mounted) {
       setState(() {
         searchNode.requestFocus();
@@ -641,7 +642,7 @@ class _SearchBarState extends State<_SearchBar> {
               return builder(context, index);
             },
             separatorBuilder: (context, index) {
-              return Divider(
+              return const Divider(
                 height: 0,
               );
             },
@@ -789,7 +790,7 @@ class _SearchBarState extends State<_SearchBar> {
               },
               title: Text(
                 filteredOptions[index],
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             );
           }, key: ValueKey(typedData)));
@@ -839,12 +840,12 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   _TextSpanBuilder(this.searchFilters, this.controller,
       {required this.onChanged})
       : patternMap = {
-          searchFilters.validSensitiveQueriesRegExp: TextStyle(
+          searchFilters.validSensitiveQueriesRegExp: const TextStyle(
             color: Colors.white,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
-          searchFilters.validBasicQueriesRegExp: TextStyle(
+          searchFilters.validBasicQueriesRegExp: const TextStyle(
             color: Colors.white,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
@@ -956,7 +957,7 @@ class _ValidQuery extends SpecialText {
       : super(
           startFlag,
           '',
-          textStyle ?? TextStyle(),
+          textStyle ?? const TextStyle(),
         );
   final ValueChanged<String> onChanged;
   final TextEditingController controller;
@@ -1008,7 +1009,8 @@ class _ValidQuery extends SpecialText {
                                         .split(':')
                                         .first +
                                     ' ',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
                             TextSpan(
                                 text: toString()
                                     .trim()
@@ -1017,7 +1019,7 @@ class _ValidQuery extends SpecialText {
                                     .last),
                           ]),
                     )),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     ClipOval(

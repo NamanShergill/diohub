@@ -7,11 +7,13 @@ class CustomExpandTile extends StatelessWidget {
   final bool expanded;
   final Widget child;
   final Function() onTap;
-  CustomExpandTile(
+  const CustomExpandTile(
       {this.expanded = false,
       required this.child,
       required this.onTap,
-      required this.title});
+      required this.title,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(

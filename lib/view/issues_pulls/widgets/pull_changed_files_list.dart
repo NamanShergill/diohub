@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullChangedFilesList extends StatelessWidget {
+  const PullChangedFilesList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<FileElement>(

@@ -2,9 +2,10 @@ import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 class PlaceHolderScreen extends StatelessWidget {
+  const PlaceHolderScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: LoadingIndicator(),
     );
   }

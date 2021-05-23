@@ -11,7 +11,8 @@ class IssuesTab extends StatefulWidget {
   final ScrollController scrollController;
   final DeepLinkData? deepLinkData;
 
-  IssuesTab({required this.scrollController, this.deepLinkData});
+  const IssuesTab({required this.scrollController, this.deepLinkData, Key? key})
+      : super(key: key);
 
   @override
   _IssuesTabState createState() => _IssuesTabState();
@@ -51,7 +52,7 @@ class _IssuesTabState extends State<IssuesTab>
       scrollController: widget.scrollController,
       searchBarMessage: 'Search in your issues',
       searchHeroTag: '${_user.login}issueSearch',
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       filterFn: (data) {
         List<IssueModel> filteredData = [];
         for (var item in data) {

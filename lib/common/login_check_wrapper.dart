@@ -10,10 +10,12 @@ class LoginCheckWrapper extends StatelessWidget {
   final Widget? child;
   final EdgeInsets loginBoxPadding;
   final Widget? replacement;
-  LoginCheckWrapper(
+  const LoginCheckWrapper(
       {this.child,
       this.loginBoxPadding = const EdgeInsets.all(24),
-      this.replacement});
+      this.replacement,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -27,7 +29,7 @@ class LoginCheckWrapper extends StatelessWidget {
               children: [
                 Padding(
                   padding: loginBoxPadding,
-                  child: LoginPromptBox(),
+                  child: const LoginPromptBox(),
                 ),
               ],
             );
@@ -37,6 +39,7 @@ class LoginCheckWrapper extends StatelessWidget {
 }
 
 class LoginPromptBox extends StatelessWidget {
+  const LoginPromptBox({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Button(
@@ -44,7 +47,7 @@ class LoginPromptBox extends StatelessWidget {
         showDialog(
             context: context,
             builder: (context) {
-              return AuthPopup();
+              return const AuthPopup();
             });
       },
       stretch: false,
@@ -66,7 +69,7 @@ class LoginPromptBox extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

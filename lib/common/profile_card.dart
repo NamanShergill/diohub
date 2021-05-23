@@ -12,9 +12,11 @@ class ProfileCard extends StatelessWidget {
   final UserInfoModel user;
   final bool compact;
   final EdgeInsets padding;
-  ProfileCard(this.user,
+  const ProfileCard(this.user,
       {this.compact = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)});
+      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,7 +42,7 @@ class ProfileCard extends StatelessWidget {
                   showName: true,
                   userLogin: user.login,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
@@ -60,18 +62,18 @@ class ProfileCard extends StatelessWidget {
                 if (!compact)
                   Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             LineIcons.users,
                             size: 12,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
                           Text(

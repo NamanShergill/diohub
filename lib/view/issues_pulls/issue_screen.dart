@@ -21,7 +21,9 @@ class IssueScreen extends StatefulWidget {
   final String? issueURL;
   final DateTime? commentsSince;
   final int initialIndex;
-  IssueScreen(this.issueURL, {this.initialIndex = 0, this.commentsSince});
+  const IssueScreen(this.issueURL,
+      {this.initialIndex = 0, this.commentsSince, Key? key})
+      : super(key: key);
 
   @override
   _IssueScreenState createState() => _IssueScreenState();
@@ -67,7 +69,7 @@ class _IssueScreenState extends State<IssueScreen>
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
-                          tabs: [
+                          tabs: const [
                             'Information',
                             'Discussion',
                           ],
@@ -76,7 +78,7 @@ class _IssueScreenState extends State<IssueScreen>
                           appBarWidget: Row(
                             children: [
                               getIcon(value.issueModel!.state, 15)!,
-                              SizedBox(
+                              const SizedBox(
                                 width: 4,
                               ),
                               Text(
@@ -90,12 +92,12 @@ class _IssueScreenState extends State<IssueScreen>
                                         : AppColor.red,
                                     fontSize: 14),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(
                                 '#${value.issueModel!.number}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
                             ],
@@ -107,7 +109,7 @@ class _IssueScreenState extends State<IssueScreen>
                               Row(
                                 children: [
                                   getIcon(value.issueModel!.state, 20)!,
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
@@ -122,39 +124,39 @@ class _IssueScreenState extends State<IssueScreen>
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
                                     '#${value.issueModel!.number}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 24,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Octicons.comment,
                                     color: AppColor.grey3,
                                     size: 11,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 4,
                                   ),
                                   Text(
                                     '${value.issueModel!.comments} comments',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Text(
                                 value.issueModel!.title!,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                               Material(
@@ -177,7 +179,7 @@ class _IssueScreenState extends State<IssueScreen>
                                               'https://api.github.com/repos/',
                                               ''),
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   ),
                                 ),
@@ -186,7 +188,7 @@ class _IssueScreenState extends State<IssueScreen>
                                 value.issueModel!.state == IssueState.CLOSED
                                     ? 'By ${value.issueModel!.user!.login}, closed ${getDate(value.issueModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.issueModel!.createdAt.toString(), shorten: false)} by ${value.issueModel!.user!.login}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
                             ],

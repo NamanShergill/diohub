@@ -16,12 +16,12 @@ class PullLoadingCard extends StatelessWidget {
   final bool compact;
   final IssueModel? issueModel;
   final EdgeInsets padding;
-  PullLoadingCard(
-    this.url, {
-    this.compact = false,
-    this.issueModel,
-    this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
-  });
+  const PullLoadingCard(this.url,
+      {this.compact = false,
+      this.issueModel,
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,7 +47,7 @@ class PullLoadingCard extends StatelessWidget {
                       Row(
                         children: [
                           getIcon(null, null)!,
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
                           Flexible(
@@ -61,17 +61,17 @@ class PullLoadingCard extends StatelessWidget {
                                     .sublist(0, 2)
                                     .join('/'),
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: AppColor.grey3),
+                                style: const TextStyle(color: AppColor.grey3),
                               ),
                             ),
                           ),
                           Text(
                             '#${issueModel!.number}',
-                            style: TextStyle(color: AppColor.grey3),
+                            style: const TextStyle(color: AppColor.grey3),
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -84,7 +84,7 @@ class PullLoadingCard extends StatelessWidget {
                       if (!compact)
                         Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             ShimmerWidget(
@@ -103,7 +103,7 @@ class PullLoadingCard extends StatelessWidget {
                 ),
               );
             }
-            return Container(
+            return const SizedBox(
                 height: 80, child: Center(child: LoadingIndicator()));
           },
           responseBuilder: (context, data) {

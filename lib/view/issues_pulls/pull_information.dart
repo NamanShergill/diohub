@@ -17,6 +17,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {
+  const PullInformation({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _pull = Provider.of<PullProvider>(context).pullModel!;
@@ -24,7 +25,7 @@ class PullInformation extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           InfoCard(
@@ -33,24 +34,24 @@ class PullInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _BranchButton(_pull.head!),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: 8),
-                    Icon(
+                    const SizedBox(width: 8),
+                    const Icon(
                       Icons.arrow_downward_rounded,
                       size: 14,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       _pull.commits.toString() + ' commits',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w300, fontSize: 12),
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 _BranchButton(_pull.base!),
               ],
             ),
@@ -58,7 +59,7 @@ class PullInformation extends StatelessWidget {
           InfoCard(
             'Requested Reviewers',
             headerTrailing: _editingEnabled
-                ? Text(
+                ? const Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
@@ -100,11 +101,11 @@ class PullInformation extends StatelessWidget {
                                           .avatarUrl,
                                       userLogin: pull.pullModel!
                                           .requestedReviewers![index].login,
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       showName: true,
                                     )),
                           ))
-                        : Text('No reviewers.'),
+                        : const Text('No reviewers.'),
                   ],
                 );
               },
@@ -113,7 +114,7 @@ class PullInformation extends StatelessWidget {
           InfoCard(
             'Assignees',
             headerTrailing: _editingEnabled
-                ? Text(
+                ? const Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
@@ -155,11 +156,11 @@ class PullInformation extends StatelessWidget {
                                           .avatarUrl,
                                       userLogin: pull
                                           .pullModel!.assignees![index].login,
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       showName: true,
                                     )),
                           ))
-                        : Text('No assignees.'),
+                        : const Text('No assignees.'),
                   ],
                 );
               },
@@ -168,7 +169,7 @@ class PullInformation extends StatelessWidget {
           InfoCard(
             'Labels',
             headerTrailing: _editingEnabled
-                ? Text(
+                ? const Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
@@ -213,7 +214,7 @@ class PullInformation extends StatelessWidget {
                                       )),
                             ),
                           )
-                        : Text("No labels."),
+                        : const Text("No labels."),
                   ],
                 );
               },
@@ -225,9 +226,9 @@ class PullInformation extends StatelessWidget {
               children: [
                 Flexible(
                   child: _pull.body!.isEmpty
-                      ? Text('No description provided.')
+                      ? const Text('No description provided.')
                       : ExpansionTile(
-                          title: Text('Tap to Expand'),
+                          title: const Text('Tap to Expand'),
                           children: [
                             MarkdownBody(_pull.body),
                           ],
@@ -243,7 +244,7 @@ class PullInformation extends StatelessWidget {
                 Flexible(
                   child: ProfileTile(
                     _pull.user!.avatarUrl,
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     userLogin: _pull.user!.login,
                     showName: true,
                   ),
@@ -267,7 +268,7 @@ class PullInformation extends StatelessWidget {
 
 class _BranchButton extends StatelessWidget {
   final Base base;
-  _BranchButton(this.base);
+  const _BranchButton(this.base);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -294,8 +295,8 @@ class _BranchButton extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [
-                    Icon(Octicons.git_branch),
-                    SizedBox(
+                    const Icon(Octicons.git_branch),
+                    const SizedBox(
                       width: 8,
                     ),
                     Flexible(child: Text(base.label!)),

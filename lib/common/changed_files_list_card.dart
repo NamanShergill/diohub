@@ -7,7 +7,7 @@ import 'package:line_icons/line_icons.dart';
 
 class ChangedFilesListCard extends StatelessWidget {
   final FileElement file;
-  ChangedFilesListCard(this.file);
+  const ChangedFilesListCard(this.file, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Widget getSubtitle(FileElement file) {
@@ -43,11 +43,12 @@ class ChangedFilesListCard extends StatelessWidget {
               ),
               TextSpan(
                   text: '+${file.additions} ',
-                  style: TextStyle(color: AppColor.green)),
-              TextSpan(text: '| ', style: TextStyle(color: AppColor.grey3)),
+                  style: const TextStyle(color: AppColor.green)),
+              const TextSpan(
+                  text: '| ', style: TextStyle(color: AppColor.grey3)),
               TextSpan(
                   text: '-${file.deletions}',
-                  style: TextStyle(color: AppColor.red)),
+                  style: const TextStyle(color: AppColor.red)),
             ]),
       );
     }
@@ -58,7 +59,7 @@ class ChangedFilesListCard extends StatelessWidget {
         color: AppColor.onBackground,
         elevation: 2,
         child: ExpansionTile(
-          tilePadding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+          tilePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
           title: Text(
             file.filename!,
             style: Theme.of(context)
@@ -71,7 +72,7 @@ class ChangedFilesListCard extends StatelessWidget {
             child: getSubtitle(file),
           ),
           children: [
-            Divider(
+            const Divider(
               color: Colors.white,
               height: 0,
             ),
@@ -96,7 +97,7 @@ class ChangedFilesListCard extends StatelessWidget {
                               ? Colors.white
                               : AppColor.grey3),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Icon(LineIcons.edit,

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class AppTabBar extends StatelessWidget {
   final TabController? _tabController;
   final List<AppTab>? tabs;
-  AppTabBar({TabController? controller, this.tabs})
-      : _tabController = controller;
+  const AppTabBar({TabController? controller, this.tabs, Key? key})
+      : _tabController = controller,
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +20,7 @@ class AppTabBar extends StatelessWidget {
           //   thickness: 0.2,
           // ),
           TabBar(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             isScrollable: true,
             controller: _tabController,
             indicator: BoxDecoration(
@@ -31,8 +32,9 @@ class AppTabBar extends StatelessWidget {
                 .headline6!
                 .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
             indicatorPadding:
-                EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
-            labelPadding: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
+                const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
+            labelPadding:
+                const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
             tabs: tabs!,
           ),
           // Divider(
@@ -48,7 +50,7 @@ class AppTabBar extends StatelessWidget {
 
 class AppTab extends StatelessWidget {
   final String? title;
-  AppTab({this.title});
+  const AppTab({this.title, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Tab(

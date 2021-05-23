@@ -26,7 +26,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
     super.initState();
 
     _controller = (AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000)))
+        vsync: this, duration: const Duration(milliseconds: 1000)))
       ..addListener(() => setState(() {}))
       ..repeat();
     _animation = Tween(begin: 0.0, end: 4.0).animate(CurvedAnimation(
@@ -46,7 +46,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
       child: Transform(
         transform: Matrix4.identity()..rotateZ((_animation.value) * math.pi),
         alignment: FractionalOffset.center,
-        child: Container(
+        child: SizedBox(
             height: widget.size,
             width: widget.size,
             child: Image.asset(

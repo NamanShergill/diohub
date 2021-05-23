@@ -13,14 +13,16 @@ class AppScrollView extends StatelessWidget {
   final TabController? tabController;
   final Color childrenColor;
   final ScrollController scrollController;
-  AppScrollView(
+  const AppScrollView(
       {this.scrollViewAppBar,
       this.tabController,
       this.tabViews,
       required this.scrollController,
       this.child,
       this.childrenColor = AppColor.onBackground,
-      this.loading = false});
+      this.loading = false,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
@@ -39,14 +41,14 @@ class AppScrollView extends StatelessWidget {
           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
 
           return AnimatedSwitcher(
-            duration: Duration(milliseconds: 50),
+            duration: const Duration(milliseconds: 50),
             child: loading
                 ? Container(
                     color: childrenColor,
                     child: Column(
-                      children: [
+                      children: const [
                         Padding(
-                          padding: const EdgeInsets.only(top: 48.0),
+                          padding: EdgeInsets.only(top: 48.0),
                           child: LoadingIndicator(),
                         ),
                       ],
@@ -76,7 +78,7 @@ class ScrollViewAppBar extends StatelessWidget {
   final Widget? bottomHeader;
   final Color? backgroundColor;
   final EdgeInsets? padding;
-  ScrollViewAppBar(
+  const ScrollViewAppBar(
       {this.tabs,
       this.appBarWidget,
       this.bottomHeader,
@@ -86,13 +88,15 @@ class ScrollViewAppBar extends StatelessWidget {
       this.padding,
       this.flexibleBackgroundWidget,
       this.collapsedHeight,
-      this.expandedHeight});
+      this.expandedHeight,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       leading: Navigator.canPop(context)
           ? IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -117,7 +121,7 @@ class ScrollViewAppBar extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: bottomHeader ?? Container(),
                   ),
                   AppTabBar(

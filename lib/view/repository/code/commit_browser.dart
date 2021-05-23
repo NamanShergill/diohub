@@ -16,14 +16,16 @@ class CommitBrowser extends StatefulWidget {
   final String? repoURL;
   final String? path;
   final String? branchName;
-  CommitBrowser(
+  const CommitBrowser(
       {this.controller,
       this.currentSHA,
       this.isLocked,
       this.onSelected,
       this.path,
       this.repoURL,
-      this.branchName});
+      this.branchName,
+      Key? key})
+      : super(key: key);
 
   @override
   _CommitBrowserState createState() => _CommitBrowserState();
@@ -54,7 +56,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
           Visibility(
               visible: isLocked!,
               child: Button(
-                child: Text('Load latest commits.'),
+                child: const Text('Load latest commits.'),
                 listenToLoadingController: false,
                 onTap: () {
                   setState(() {
@@ -68,19 +70,19 @@ class _CommitBrowserState extends State<CommitBrowser> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   ' Showing history for',
                   style: TextStyle(),
                 ),
-                Container(
+                SizedBox(
                   height: 30,
                   child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: path.length + 1,
                       separatorBuilder: (context, index) {
-                        return Center(child: Text(' /'));
+                        return const Center(child: Text(' /'));
                       },
                       itemBuilder: (context, index) {
                         return Material(
@@ -117,7 +119,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                         );
                       }),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
               ],

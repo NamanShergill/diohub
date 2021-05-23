@@ -5,7 +5,7 @@ import 'package:flutter_highlight/themes/monokai-sublime.dart';
 class CodeBlockView extends StatelessWidget {
   final String data;
   final String? language;
-  CodeBlockView(this.data, {this.language});
+  const CodeBlockView(this.data, {this.language, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return HighlightView(

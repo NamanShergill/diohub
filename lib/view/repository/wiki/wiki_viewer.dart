@@ -7,7 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WikiViewer extends StatefulWidget {
   final String? repoURL;
-  WikiViewer({Key? key, this.repoURL}) : super(key: key);
+  const WikiViewer({Key? key, this.repoURL}) : super(key: key);
 
   @override
   _WikiViewerState createState() => _WikiViewerState();
@@ -56,7 +56,7 @@ class _WikiViewerState extends State<WikiViewer> {
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -64,7 +64,7 @@ class _WikiViewerState extends State<WikiViewer> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: const [
                 Text(
                   'Wiki',
                   style: TextStyle(fontSize: 14),
@@ -135,7 +135,7 @@ class _WikiViewerState extends State<WikiViewer> {
                         await Future.wait(futures);
                         // Wait a few milliseconds so the elements are gone by
                         // the time the page becomes visible.
-                        await Future.delayed(Duration(milliseconds: 100));
+                        await Future.delayed(const Duration(milliseconds: 100));
                         setState(() {
                           loading = false;
                         });
@@ -150,7 +150,7 @@ class _WikiViewerState extends State<WikiViewer> {
                             visible: loading,
                             child: Container(
                               color: Colors.white,
-                              child: LoadingIndicator(
+                              child: const LoadingIndicator(
                                 color: AppColor.accent,
                               ),
                             ),

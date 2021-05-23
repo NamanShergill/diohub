@@ -12,7 +12,7 @@ class LabelSelectSheet extends StatefulWidget {
   final List<Label>? labels;
   final ScrollController? controller;
   final ValueChanged<List<Label>>? newLabels;
-  LabelSelectSheet(
+  const LabelSelectSheet(
       {Key? key,
       this.labels,
       this.issueUrl,
@@ -50,10 +50,10 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
                 widget.newLabels!(newLabels);
               } catch (e) {}
             },
-            child: Text('Apply'),
+            child: const Text('Apply'),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Expanded(

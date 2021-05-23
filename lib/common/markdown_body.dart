@@ -19,7 +19,8 @@ class MarkdownBody extends StatefulWidget {
   final String? content;
   final String? repo;
   final String? branch;
-  MarkdownBody(this.content, {this.branch, this.repo});
+  const MarkdownBody(this.content, {this.branch, this.repo, Key? key})
+      : super(key: key);
 
   @override
   _MarkdownBodyState createState() => _MarkdownBodyState();
@@ -265,7 +266,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
         },
         'pre': (RenderContext renderContext, Widget child) {
           return ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: renderContext.tree.children.length,
             itemBuilder: (context, index) {
@@ -280,7 +281,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
         },
         'blockquote': (RenderContext context, Widget child) {
           return Container(
-            padding: EdgeInsets.only(left: 12),
+            padding: const EdgeInsets.only(left: 12),
             decoration: BoxDecoration(
                 border: Border(
                     left: BorderSide(color: Colors.grey.shade400, width: 2))),
@@ -295,7 +296,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 class _CodeView extends StatefulWidget {
   final RenderContext renderContext;
   final int index;
-  _CodeView(this.renderContext, this.index);
+  const _CodeView(this.renderContext, this.index);
   @override
   __CodeViewState createState() => __CodeViewState();
 }
@@ -310,7 +311,7 @@ class __CodeViewState extends State<_CodeView> {
     });
     copyToClipboard(
         widget.renderContext.tree.children[widget.index].element!.text);
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 4));
     setState(() {
       copied = false;
     });

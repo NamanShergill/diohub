@@ -19,7 +19,8 @@ import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {
   final bool showCommitHistory;
-  CodeBrowser({this.showCommitHistory = false});
+  const CodeBrowser({this.showCommitHistory = false, Key? key})
+      : super(key: key);
   @override
   _CodeBrowserState createState() => _CodeBrowserState();
 }
@@ -44,10 +45,10 @@ class _CodeBrowserState extends State<CodeBrowser>
   Widget build(BuildContext context) {
     super.build(context);
     return ListView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Consumer<CodeProvider>(
@@ -63,18 +64,18 @@ class _CodeBrowserState extends State<CodeBrowser>
                             children: [
                               Button(
                                 listenToLoadingController: false,
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 child: Column(
                                   children: [
                                     Text(
                                       'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA!.substring(0, 6)}.',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
+                                    const Text(
                                       'Load the latest code?',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -90,7 +91,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                       }
                                     : null,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                             ],
@@ -101,7 +102,8 @@ class _CodeBrowserState extends State<CodeBrowser>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Button(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     color: AppColor.background,
                     listenToLoadingController: false,
                     onTap: value.status == Status.loaded
@@ -111,8 +113,8 @@ class _CodeBrowserState extends State<CodeBrowser>
                           }
                         : null,
                     child: value.status == Status.loaded
-                        ? CommitInfoButton()
-                        : LoadingIndicator(),
+                        ? const CommitInfoButton()
+                        : const LoadingIndicator(),
                   ),
                 ),
               ],
@@ -129,20 +131,20 @@ class _CodeBrowserState extends State<CodeBrowser>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Container(
+                        child: SizedBox(
                           height: 30,
                           child: ListView.separated(
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: value.tree.length,
                               separatorBuilder: (context, index) {
-                                return Center(child: Text(' /'));
+                                return const Center(child: Text(' /'));
                               },
                               itemBuilder: (context, index) {
                                 return Material(
@@ -202,7 +204,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                             border:
                                 Border.all(color: AppColor.grey, width: 0.5)),
                         child: ListView.separated(
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return BrowserListTile(
@@ -214,7 +216,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                   index);
                             },
                             separatorBuilder: (context, index) {
-                              return Divider(
+                              return const Divider(
                                 height: 0,
                               );
                             },
@@ -249,21 +251,21 @@ void showCommitHistory(BuildContext context, String? currentSHA) {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Commit History',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Octicons.git_branch,
                 size: 14,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 4,
               ),
               Text(branchName),

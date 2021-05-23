@@ -10,7 +10,7 @@ class CommentBox extends StatefulWidget {
   final String issueURL;
   final ValueChanged<bool> onSubmit;
   final String? initText;
-  CommentBox(
+  const CommentBox(
       {Key? key, required this.issueURL, this.initText, required this.onSubmit})
       : super(key: key);
 
@@ -40,9 +40,9 @@ class _CommentBoxState extends State<CommentBox> {
             commentBody = value;
           });
         },
-        toolbarDecoration: BoxDecoration(color: AppColor.background),
+        toolbarDecoration: const BoxDecoration(color: AppColor.background),
         inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
-        boxDecoration: BoxDecoration(
+        boxDecoration: const BoxDecoration(
           color: AppColor.onBackground,
         ),
       );
@@ -75,7 +75,7 @@ class _CommentBoxState extends State<CommentBox> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               height: 0,
             ),
             Button(
@@ -88,7 +88,7 @@ class _CommentBoxState extends State<CommentBox> {
                   }
                 });
               },
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -98,7 +98,7 @@ class _CommentBoxState extends State<CommentBox> {
               borderRadius: 0,
               listenToLoadingController: false,
             ),
-            Divider(
+            const Divider(
               height: 0,
             ),
             Button(
@@ -114,10 +114,10 @@ class _CommentBoxState extends State<CommentBox> {
                 widget.onSubmit(status);
                 Navigator.pop(context);
               },
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Text('Add Comment'),
               ),
               color: AppColor.background,

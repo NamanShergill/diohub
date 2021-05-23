@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -42,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen>
               scrollController: scrollController,
               // searchBarColor: AppColor.onBackground,
               searchHeroTag: 'searchScreen',
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             )
           : SizeExpandedSection(
               child: Column(
@@ -77,12 +78,12 @@ class _SearchScreenState extends State<SearchScreen>
                           getCall: SearchService.searchRepos(
                               SearchQueries().pushed.toQueryString('>' +
                                   DateFormat('yyyy-MM-dd').format(DateTime.now()
-                                      .subtract(Duration(days: 7)))),
+                                      .subtract(const Duration(days: 7)))),
                               page: 1,
                               perPage: 25),
                           loadingBuilder: (context) {
-                            return Padding(
-                              padding: const EdgeInsets.all(48.0),
+                            return const Padding(
+                              padding: EdgeInsets.all(48.0),
                               child: LoadingIndicator(),
                             );
                           },
@@ -130,15 +131,16 @@ class _SearchScreenState extends State<SearchScreen>
                                             child: RepositoryCard(
                                               data[index],
                                               isThemed: false,
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
                                             ),
                                           ),
                                         ],
                                       );
                                     },
                                     separatorBuilder: (context, index) =>
-                                        Divider(),
+                                        const Divider(),
                                     itemCount: data.length),
                               ),
                             );

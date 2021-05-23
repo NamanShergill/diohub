@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
@@ -10,6 +9,7 @@ import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/repository/commits/widgets/commit_s_h_a_button.dart';
+import 'package:flutter/material.dart';
 
 class BasicEventCard extends StatelessWidget {
   final UserInfoModel? user;
@@ -18,13 +18,15 @@ class BasicEventCard extends StatelessWidget {
   final Color? iconColor;
   final String? date;
   final Widget? content;
-  BasicEventCard(
+  const BasicEventCard(
       {this.user,
       this.content,
       this.date,
       this.leading,
       this.iconColor,
-      this.name});
+      this.name,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,7 +43,7 @@ class BasicEventCard extends StatelessWidget {
                 size: 16,
                 color: iconColor ?? AppColor.grey3,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 4,
               ),
               if (user != null)
@@ -49,11 +51,11 @@ class BasicEventCard extends StatelessWidget {
                   user!.avatarUrl,
                   showName: true,
                   size: 20,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 12,
                       color: AppColor.grey3,
                       fontWeight: FontWeight.bold),
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   userLogin: user!.login,
                 ),
               if (name != null)
@@ -61,7 +63,7 @@ class BasicEventCard extends StatelessWidget {
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
                     name!,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
                         color: AppColor.grey3,
                         fontWeight: FontWeight.bold),
@@ -69,12 +71,12 @@ class BasicEventCard extends StatelessWidget {
                 ),
               Text(
                 'on ${getDate(date!, shorten: false)}',
-                style: TextStyle(fontSize: 12, color: AppColor.grey3),
+                style: const TextStyle(fontSize: 12, color: AppColor.grey3),
               ),
             ],
           ),
-          Divider(),
-          SizedBox(
+          const Divider(),
+          const SizedBox(
             height: 4,
           ),
           Flexible(
@@ -93,21 +95,24 @@ class BasicEventTextCard extends StatelessWidget {
   final String? date;
   final Widget? content;
   final String? textContent;
-  BasicEventTextCard(
+  const BasicEventTextCard(
       {this.user,
       this.content,
       this.textContent,
       this.date,
       this.leading,
-      this.iconColor});
+      this.iconColor,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
       iconColor: iconColor,
-      content: content ?? Text(
-              textContent!,
-              style: AppThemeTextStyles.basicIssueEventCardText,
-            ),
+      content: content ??
+          Text(
+            textContent!,
+            style: AppThemeTextStyles.basicIssueEventCardText,
+          ),
       date: date,
       user: user,
       leading: leading,
@@ -122,13 +127,15 @@ class BasicEventAssignedCard extends StatelessWidget {
   final String? date;
   final bool? isAssigned;
   final UserInfoModel? content;
-  BasicEventAssignedCard(
+  const BasicEventAssignedCard(
       {this.user,
       this.content,
       this.isAssigned,
       this.date,
       this.leading,
-      this.iconColor});
+      this.iconColor,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -139,23 +146,23 @@ class BasicEventAssignedCard extends StatelessWidget {
             isAssigned! ? 'Assigned' : 'Unassigned',
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
-          SizedBox(
+          const SizedBox(
             width: 4,
           ),
           content!.login != user!.login
               ? ProfileTile(
                   content!.avatarUrl,
                   showName: true,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontWeight: FontWeight.bold, color: AppColor.grey3),
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   userLogin: content!.login,
                 )
-              : Text(
+              : const Text(
                   'themselves',
                   style: AppThemeTextStyles.basicIssueEventCardText,
                 ),
-          SizedBox(
+          const SizedBox(
             width: 4,
           ),
           Text(
@@ -178,13 +185,15 @@ class BasicEventLabeledCard extends StatelessWidget {
   final String? date;
   final Label? content;
   final bool? added;
-  BasicEventLabeledCard(
+  const BasicEventLabeledCard(
       {this.user,
       this.content,
       this.added,
       this.date,
       this.leading,
-      this.iconColor});
+      this.iconColor,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -196,11 +205,11 @@ class BasicEventLabeledCard extends StatelessWidget {
             '${added! ? 'Added' : 'Removed'} the',
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           IssueLabel(content),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Text(
@@ -224,8 +233,14 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
   final Source? content;
   final String _correctRepo;
   BasicIssueCrossReferencedCard(
-      {this.user, this.content, this.date, this.leading, this.iconColor})
-      : _correctRepo = content!.issue!.repository!.fullName!;
+      {this.user,
+      this.content,
+      this.date,
+      this.leading,
+      this.iconColor,
+      Key? key})
+      : _correctRepo = content!.issue!.repository!.fullName!,
+        super(key: key);
 
   // GitHub API sends the wrong links to the issue where the reference was in.
   // This is here to fix them.
@@ -245,7 +260,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Mentioned this.',
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
@@ -257,7 +272,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
                 commentsUrl: fixURL(content!.issue!.commentsUrl!),
                 eventsUrl: fixURL(content!.issue!.eventsUrl!)),
             compact: true,
-            padding: EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 8),
           ),
         ],
       ),
@@ -276,14 +291,16 @@ class BasicEventCommitCard extends StatelessWidget {
   final String? sha;
   final String? message;
   final String? commitURL;
-  BasicEventCommitCard(
+  const BasicEventCommitCard(
       {this.user,
       this.sha,
       this.commitURL,
       this.date,
       this.message,
       this.leading,
-      this.iconColor});
+      this.iconColor,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -297,14 +314,14 @@ class BasicEventCommitCard extends StatelessWidget {
             style: AppThemeTextStyles.basicIssueEventCardText
                 .copyWith(fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
             message!,
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           CommitSHAButton(sha, commitURL),

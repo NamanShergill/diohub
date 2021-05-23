@@ -30,7 +30,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final String? initDeepLink;
-  MyApp(this.initDeepLink);
+  const MyApp(this.initDeepLink, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -71,10 +71,10 @@ class MyApp extends StatelessWidget {
                             AppColor.onBackground),
                       ),
                     ),
-                    appBarTheme:
-                        AppBarTheme(color: AppColor.background, elevation: 5),
-                    iconTheme: IconThemeData(color: Colors.white),
-                    textTheme: TextTheme(
+                    appBarTheme: const AppBarTheme(
+                        color: AppColor.background, elevation: 5),
+                    iconTheme: const IconThemeData(color: Colors.white),
+                    textTheme: const TextTheme(
                       bodyText1: TextStyle(),
                       bodyText2: TextStyle(),
                       headline1: TextStyle(fontWeight: FontWeight.bold),
@@ -98,24 +98,25 @@ class MyApp extends StatelessWidget {
                       backgroundColor: AppColor.background,
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
-                      titleTextStyle: TextStyle(color: Colors.white),
-                      contentTextStyle: TextStyle(color: Colors.white),
+                      titleTextStyle: const TextStyle(color: Colors.white),
+                      contentTextStyle: const TextStyle(color: Colors.white),
                     ),
                     scaffoldBackgroundColor: AppColor.background,
-                    primaryIconTheme: IconThemeData(color: Colors.white),
-                    accentIconTheme: IconThemeData(color: AppColor.accent),
+                    primaryIconTheme: const IconThemeData(color: Colors.white),
+                    accentIconTheme:
+                        const IconThemeData(color: AppColor.accent),
                     dividerColor: Colors.grey.withOpacity(0.7),
                     brightness: Brightness.dark,
                     backgroundColor: AppColor.background,
                     buttonTheme: ButtonThemeData(
                       textTheme: ButtonTextTheme.primary,
                       padding: EdgeInsets.zero,
-                      colorScheme: ColorScheme.dark(),
+                      colorScheme: const ColorScheme.dark(),
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
                     ),
-                    dividerTheme:
-                        DividerThemeData(color: Colors.white, thickness: 0.04),
+                    dividerTheme: const DividerThemeData(
+                        color: Colors.white, thickness: 0.04),
                     fontFamily: 'Montserrat'),
                 routerDelegate: Global.customRouter.delegate(initialRoutes: [
                   LandingAuthWrapperScreenRoute(initLink: initDeepLink ?? '')

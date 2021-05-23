@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class CommitInfoScreen extends StatefulWidget {
   final String? commitURL;
-  CommitInfoScreen({Key? key, this.commitURL}) : super(key: key);
+  const CommitInfoScreen({Key? key, this.commitURL}) : super(key: key);
 
   @override
   _CommitInfoScreenState createState() => _CommitInfoScreenState();
@@ -35,11 +35,11 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                           title: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Octicons.git_commit,
                                 size: 15,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(
@@ -47,7 +47,7 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                                     .commit!
                                     .sha!
                                     .substring(0, 6),
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ],
                           ),
@@ -63,7 +63,7 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                           initialIndex: 0,
                           child: Column(
                             children: [
-                              AppTabBar(tabs: [
+                              const AppTabBar(tabs: [
                                 AppTab(
                                   title: 'Commit Information',
                                 ),
@@ -76,8 +76,8 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                               ]),
                               Expanded(
                                 child: TabBarView(children: [
-                                  CommitDetails(),
-                                  ChangedFiles(),
+                                  const CommitDetails(),
+                                  const ChangedFiles(),
                                   Container(),
                                 ]),
                               ),

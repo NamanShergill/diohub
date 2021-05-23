@@ -7,8 +7,13 @@ class ScaleExpandedSection extends StatefulWidget {
   final Curve? animationCurve;
   final Duration? duration;
 
-  ScaleExpandedSection(
-      {this.expand = true, this.child, this.animationCurve, this.duration});
+  const ScaleExpandedSection(
+      {this.expand = true,
+      this.child,
+      this.animationCurve,
+      this.duration,
+      Key? key})
+      : super(key: key);
 
   @override
   _ScaleExpandedSectionState createState() => _ScaleExpandedSectionState();

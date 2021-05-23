@@ -13,13 +13,15 @@ class BasePopupNotification extends StatelessWidget {
   final Color? color;
   final bool dismissOnTap;
   final StreamController<Widget?>? notificationController;
-  BasePopupNotification(
+  const BasePopupNotification(
       {this.title,
       this.onTap,
       this.dismissOnTap = true,
       this.listenToLoadingController = true,
       this.color,
-      this.notificationController});
+      this.notificationController,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

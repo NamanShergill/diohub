@@ -90,7 +90,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// on new data,
   final Key? paginationKey;
 
-  InfiniteScrollWrapper(
+  const InfiniteScrollWrapper(
       {Key? key,
       required this.future,
       required this.builder,
@@ -137,8 +137,8 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
     Widget child = CustomScrollView(
       controller: widget.isNestedScrollViewChild ? null : scrollController,
       physics: widget.disableScroll
-          ? NeverScrollableScrollPhysics()
-          : BouncingScrollPhysics(),
+          ? const NeverScrollableScrollPhysics()
+          : const BouncingScrollPhysics(),
       shrinkWrap: widget.shrinkWrap,
       slivers: [
         if (widget.isNestedScrollViewChild)
@@ -236,7 +236,7 @@ class _InfinitePagination<T> extends StatefulWidget {
   /// First page loading indicator.
   final WidgetBuilder? firstPageLoadingBuilder;
 
-  _InfinitePagination(
+  const _InfinitePagination(
       {Key? key,
       required this.future,
       required this.builder,
@@ -254,13 +254,12 @@ class _InfinitePagination<T> extends StatefulWidget {
       : super(key: key);
 
   @override
-  _InfinitePaginationState<T> createState() =>
-      _InfinitePaginationState(controller);
+  _InfinitePaginationState<T> createState() => _InfinitePaginationState();
 }
 
 class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
-  _InfinitePaginationState(InfiniteScrollWrapperController _controller) {
-    _controller.refresh = resetAndRefresh;
+  _InfinitePaginationState() {
+    widget.controller.refresh = resetAndRefresh;
   }
   // Define the paging controller.
   final PagingController<int, T> _pagingController =
@@ -352,7 +351,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
           ),
           Padding(
             padding: widget.divider
-                ? EdgeInsets.all(0)
+                ? const EdgeInsets.all(0)
                 : EdgeInsets.only(top: widget.spacing),
             child: widget.builder(context, item, index),
           ),
@@ -360,12 +359,12 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         firstPageProgressIndicatorBuilder: (context) =>
             widget.firstPageLoadingBuilder != null
                 ? widget.firstPageLoadingBuilder!(context)
-                : Padding(
-                    padding: const EdgeInsets.all(32.0),
+                : const Padding(
+                    padding: EdgeInsets.all(32.0),
                     child: LoadingIndicator(),
                   ),
-        newPageProgressIndicatorBuilder: (context) => Padding(
-          padding: const EdgeInsets.all(32.0),
+        newPageProgressIndicatorBuilder: (context) => const Padding(
+          padding: EdgeInsets.all(32.0),
           child: LoadingIndicator(),
         ),
         noItemsFoundIndicatorBuilder: (context) => Center(
@@ -374,10 +373,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             SizedBox(
               height: widget.topSpacing,
             ),
-            Expanded(
+            const Expanded(
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     'And then there were none.',
                     style: TextStyle(color: AppColor.grey3),
@@ -393,7 +392,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       'The end of the line.',
                       style: TextStyle(color: AppColor.grey3),
                     ),

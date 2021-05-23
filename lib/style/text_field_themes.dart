@@ -11,7 +11,7 @@ class TextFieldTheme {
           Color? enabledBorderColor,
           Widget? suffixIcon}) =>
       InputDecoration(
-        contentPadding: EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(16),
         labelText: labelText,
         hintText: hintText?.replaceRange(0, 0, ' '),
         fillColor: AppColor.onBackground,
@@ -30,7 +30,7 @@ class TextFieldTheme {
         filled: true,
         enabledBorder: _enabledBorder(enabledBorderColor ?? Colors.transparent),
         focusedBorder: _focusedBorder,
-        labelStyle: TextStyle(color: AppColor.grey3),
+        labelStyle: const TextStyle(color: AppColor.grey3),
         border: _border,
       );
 
@@ -44,6 +44,6 @@ class TextFieldTheme {
           borderRadius: AppThemeBorderRadius.medBorderRadius);
 
   static final OutlineInputBorder _focusedBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: AppColor.grey3),
+      borderSide: const BorderSide(color: AppColor.grey3),
       borderRadius: AppThemeBorderRadius.medBorderRadius);
 }

@@ -15,14 +15,16 @@ class ProfileTile extends StatelessWidget {
   final TextStyle textStyle;
   final EdgeInsets padding;
   final bool disableTap;
-  ProfileTile(this.avatarUrl,
+  const ProfileTile(this.avatarUrl,
       {this.userLogin,
       this.padding = EdgeInsets.zero,
       this.size = 25,
       this.fullName,
       this.disableTap = false,
       this.showName = false,
-      this.textStyle = const TextStyle(color: Colors.white, fontSize: 15)});
+      this.textStyle = const TextStyle(color: Colors.white, fontSize: 15),
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(

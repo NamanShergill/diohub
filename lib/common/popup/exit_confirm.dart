@@ -2,6 +2,7 @@ import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {
+  const ExitConfirmationDialog({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -14,7 +15,7 @@ class ExitConfirmationDialog extends StatelessWidget {
 
   _buildChild(BuildContext context) => Container(
         height: MediaQuery.of(context).size.height * 0.5,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Stack(
@@ -31,7 +32,7 @@ class ExitConfirmationDialog extends StatelessWidget {
                 //   ),
                 // ),
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
@@ -49,15 +50,15 @@ class ExitConfirmationDialog extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Do you want to exit?',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16, left: 16),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 16, left: 16),
                       child: Text(
                         'If back button is pressed by mistake then click on No to cancel.',
                         style: TextStyle(color: AppColor.onPrimary),
@@ -66,7 +67,7 @@ class ExitConfirmationDialog extends StatelessWidget {
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
+                      children: const <Widget>[
                         // FlatButton(
                         //   onPressed: () {
                         //     Navigator.of(context).pop();

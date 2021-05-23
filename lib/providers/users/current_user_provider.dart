@@ -21,7 +21,7 @@ class CurrentUserProvider extends BaseProvider {
           // Fetch user info.
           await getUserInfo();
           // Wait a short duration.
-          await Future.delayed(Duration(seconds: 10));
+          await Future.delayed(const Duration(seconds: 10));
           // If internet is available and user still not fetched,
           // call this function again.
           if (status != Status.loaded &&

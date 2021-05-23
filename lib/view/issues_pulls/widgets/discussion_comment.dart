@@ -15,7 +15,9 @@ class TimelineDiscussionComment extends StatelessWidget {
   final TimelineEventModel? item;
   final bool? isLocked;
   final String repo;
-  TimelineDiscussionComment(this.item, this.isLocked, {required this.repo});
+  const TimelineDiscussionComment(this.item, this.isLocked,
+      {required this.repo, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseComment(
@@ -33,7 +35,8 @@ class TimelineDiscussionComment extends StatelessWidget {
 class DiscussionComment extends StatelessWidget {
   final IssueCommentsModel item;
   final String repo;
-  DiscussionComment(this.item, {required this.repo});
+  const DiscussionComment(this.item, {required this.repo, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseComment(
@@ -55,14 +58,16 @@ class BaseComment extends StatelessWidget {
   final String repo;
   final bool? isLocked;
   final String? url;
-  BaseComment(
+  const BaseComment(
       {this.authorAssociation,
       this.url,
       required this.repo,
       this.user,
       this.createdAt,
       this.body,
-      this.isLocked = false});
+      this.isLocked = false,
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -78,7 +83,7 @@ class BaseComment extends StatelessWidget {
                   userLogin: user!.login,
                   size: 30,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
@@ -86,7 +91,7 @@ class BaseComment extends StatelessWidget {
                   children: [
                     Text(
                       user!.login!,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     if (authorAssociation != AuthorAssociation.MEMBER &&
@@ -100,14 +105,15 @@ class BaseComment extends StatelessWidget {
                           } else if (authorAssociation ==
                               AuthorAssociation.CONTRIBUTOR) {
                             str = 'Contributor';
-                          } else if (authorAssociation == AuthorAssociation.OWNER) {
+                          } else if (authorAssociation ==
+                              AuthorAssociation.OWNER) {
                             str = 'Owner';
                           }
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
                               str ?? '',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 12, color: AppColor.grey3),
                             ),
                           );
@@ -119,12 +125,12 @@ class BaseComment extends StatelessWidget {
             ),
             Text(
               getDate(createdAt.toString(), shorten: false),
-              style: TextStyle(color: AppColor.grey3, fontSize: 12),
+              style: const TextStyle(color: AppColor.grey3, fontSize: 12),
             ),
           ],
         ),
-        SizedBox(height: 8),
-        Divider(),
+        const SizedBox(height: 8),
+        const Divider(),
         Row(
           children: [
             Flexible(
@@ -136,11 +142,12 @@ class BaseComment extends StatelessWidget {
         ),
         if (url != null)
           ReactionBar(
-              url,
-              Provider.of<CurrentUserProvider>(context, listen: false)
-                  .currentUserInfo
-                  ?.login,
-              !isLocked!),
+            url,
+            Provider.of<CurrentUserProvider>(context, listen: false)
+                .currentUserInfo
+                ?.login,
+            isEnabled: !isLocked!,
+          ),
       ],
     );
   }

@@ -23,7 +23,9 @@ class PullScreen extends StatefulWidget {
   final String? pullURL;
   final DateTime? commentsSince;
   final int initialIndex;
-  PullScreen(this.pullURL, {this.initialIndex = 0, this.commentsSince});
+  const PullScreen(this.pullURL,
+      {this.initialIndex = 0, this.commentsSince, Key? key})
+      : super(key: key);
   @override
   _PullScreenState createState() => _PullScreenState();
 }
@@ -67,7 +69,7 @@ class _PullScreenState extends State<PullScreen>
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
-                          tabs: [
+                          tabs: const [
                             'Information',
                             'Discussion',
                             'Commits',
@@ -79,7 +81,7 @@ class _PullScreenState extends State<PullScreen>
                             children: [
                               getIcon(value.pullModel!.state,
                                   value.pullModel!.merged!, 15)!,
-                              SizedBox(
+                              const SizedBox(
                                 width: 4,
                               ),
                               Text(
@@ -97,12 +99,12 @@ class _PullScreenState extends State<PullScreen>
                                             : AppColor.red,
                                     fontSize: 14),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(
                                 '#${value.pullModel!.number}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
                             ],
@@ -115,7 +117,7 @@ class _PullScreenState extends State<PullScreen>
                                 children: [
                                   getIcon(value.pullModel!.state,
                                       value.pullModel!.merged!, 20)!,
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
@@ -134,39 +136,39 @@ class _PullScreenState extends State<PullScreen>
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
                                     '#${value.pullModel!.number}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 24,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Octicons.comment,
                                     color: AppColor.grey3,
                                     size: 11,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 4,
                                   ),
                                   Text(
                                     '${value.pullModel!.comments} comments',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Text(
                                 value.pullModel!.title!,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                               Material(
@@ -186,7 +188,7 @@ class _PullScreenState extends State<PullScreen>
                                       value.repoURL!.replaceFirst(
                                           'https://api.github.com/repos/', ''),
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   ),
                                 ),
@@ -195,7 +197,7 @@ class _PullScreenState extends State<PullScreen>
                                 value.pullModel!.state == IssueState.CLOSED
                                     ? 'By ${value.pullModel!.user!.login}, closed ${getDate(value.pullModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.pullModel!.createdAt.toString(), shorten: false)} by ${value.pullModel!.user!.login}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
                             ],
@@ -203,7 +205,7 @@ class _PullScreenState extends State<PullScreen>
                         ),
                         tabController: tabController,
                         tabViews: [
-                          PullInformation(),
+                          const PullInformation(),
                           Discussion(
                             scrollController: scrollController,
                             repo: value.repoURL!.replaceFirst(
@@ -224,8 +226,8 @@ class _PullScreenState extends State<PullScreen>
                                     ? value.pullModel!.body
                                     : "No description provided."),
                           ),
-                          PullsCommitsList(),
-                          PullChangedFilesList(),
+                          const PullsCommitsList(),
+                          const PullChangedFilesList(),
                         ],
                       );
                     },

@@ -15,7 +15,7 @@ class NavigationProvider extends BaseProvider {
 
   void animateToPage(int index) async {
     await _landingController.animateToPage(index,
-        duration: Duration(milliseconds: 250), curve: Curves.decelerate);
+        duration: const Duration(milliseconds: 250), curve: Curves.decelerate);
     _currentLandingIndex = index;
     notifyListeners();
   }

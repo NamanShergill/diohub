@@ -15,7 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class UserOverviewScreen extends StatelessWidget {
   final UserInfoModel? userInfoModel;
-  UserOverviewScreen(this.userInfoModel);
+  const UserOverviewScreen(this.userInfoModel, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,11 +29,11 @@ class UserOverviewScreen extends StatelessWidget {
                   UserInfoService.getUserPinnedRepos(userInfoModel!.login, 6),
               responseBuilder: (context, data) {
                 return data.user!.pinnedItems!.edges!.isEmpty
-                    ? Text('No Pinned items.')
+                    ? const Text('No Pinned items.')
                     : SizeExpandedSection(
                         child: ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: data.user!.pinnedItems!.edges!.length,
                           itemBuilder: (context, index) {
                             final PurpleNode node =
@@ -56,8 +56,8 @@ class UserOverviewScreen extends StatelessWidget {
                       );
               },
               loadingBuilder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
                   child: LoadingIndicator(),
                 );
               },

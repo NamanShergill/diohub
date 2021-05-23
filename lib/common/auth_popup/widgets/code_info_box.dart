@@ -18,7 +18,7 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 class CodeInfoBox extends StatefulWidget {
   final DeviceCodeModel deviceCodeModel;
-  CodeInfoBox(this.deviceCodeModel);
+  const CodeInfoBox(this.deviceCodeModel, {Key? key}) : super(key: key);
   @override
   _CodeInfoBoxState createState() => _CodeInfoBoxState();
 }
@@ -49,7 +49,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
     if (pop) {
       Navigator.pop(context);
     } else {
-      await Future.delayed(Duration(milliseconds: 250));
+      await Future.delayed(const Duration(milliseconds: 250));
     }
     ResponseHandler.setSuccessMessage(
         AppPopupData(title: 'Copied Code ${widget.deviceCodeModel.userCode}'));
@@ -66,7 +66,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
             Center(
               child: CountdownTimer(
                 controller: timerController,
-                endWidget: Text('Time Expired.'),
+                endWidget: const Text('Time Expired.'),
                 widgetBuilder: (_, CurrentRemainingTime? time) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +78,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                             .headline5!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Divider(
+                      const Divider(
                         height: 32,
                       ),
                       Center(
@@ -89,8 +89,8 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                         padding: const EdgeInsets.all(8.0),
                         child: LinearProgressIndicator(
                           backgroundColor: AppColor.grey,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(AppColor.grey3),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              AppColor.grey3),
                           value: ((time.min ?? 0) * 60 + time.sec!) /
                               ((widget.deviceCodeModel.expiresIn! -
                                       widget.deviceCodeModel.parsedOn!) /
@@ -102,7 +102,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Center(
@@ -112,7 +112,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                   setState(() {
                     copied = true;
                   });
-                  await Future.delayed(Duration(seconds: 4));
+                  await Future.delayed(const Duration(seconds: 4));
                   setState(() {
                     copied = false;
                   });
@@ -129,7 +129,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                           .headline5!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Row(
@@ -137,30 +137,30 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                       children: [
                         Visibility(
                           visible: !copied,
-                          child: Icon(
+                          child: const Icon(
                             Icons.copy,
                             color: Colors.grey,
                             size: 13,
                           ),
-                          replacement: Icon(
+                          replacement: const Icon(
                             Icons.check,
                             color: Colors.grey,
                             size: 13,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Visibility(
                           visible: !copied,
-                          child: Text(
+                          child: const Text(
                             'TAP TO COPY',
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white),
                           ),
-                          replacement: Text(
+                          replacement: const Text(
                             'COPIED',
                             style: TextStyle(
                                 fontSize: 13,
@@ -174,7 +174,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Center(
@@ -183,7 +183,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Flexible(
@@ -202,7 +202,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                         Flexible(
                           child: Text(
                             widget.deviceCodeModel.verificationUri!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline),
                           ),
@@ -224,12 +224,12 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 ),
               ),
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             Center(
               child: MaterialButton(
-                child: Text(
+                child: const Text(
                   'Tap here to cancel',
                   style: TextStyle(color: Colors.white),
                 ),

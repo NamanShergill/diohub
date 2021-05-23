@@ -61,7 +61,9 @@ class ReactionBar extends StatefulWidget {
   final String? url;
   final String? currentUser;
   final bool isEnabled;
-  ReactionBar(this.url, this.currentUser, [this.isEnabled = true]);
+  const ReactionBar(this.url, this.currentUser,
+      {this.isEnabled = true, Key? key})
+      : super(key: key);
 
   @override
   _ReactionBarState createState() => _ReactionBarState();
@@ -101,7 +103,7 @@ class _ReactionBarState extends State<ReactionBar> {
                 child: IgnorePointer(
                   child: FlutterReactionButton(
                       splashColor: Colors.transparent,
-                      boxPadding: EdgeInsets.all(16),
+                      boxPadding: const EdgeInsets.all(16),
                       shouldChangeReaction: false,
                       boxColor: AppColor.background,
                       onReactionChanged: (reaction, index) {},
@@ -113,16 +115,15 @@ class _ReactionBarState extends State<ReactionBar> {
                               color: AppColor.background,
                               borderRadius:
                                   AppThemeBorderRadius.bigBorderRadius,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Container(
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: SizedBox(
                                     height: 36,
                                     child: Center(child: Icon(Icons.add))),
                               )),
                         ),
                       ),
-                      reactions: []),
+                      reactions: const []),
                 ),
               ),
             ),
@@ -163,7 +164,7 @@ class _ReactionBarState extends State<ReactionBar> {
             if (widget.isEnabled)
               FlutterReactionButton(
                 splashColor: Colors.transparent,
-                boxPadding: EdgeInsets.all(16),
+                boxPadding: const EdgeInsets.all(16),
                 shouldChangeReaction: false,
                 boxColor: AppColor.background,
                 onReactionChanged: (reaction, index) async {
@@ -189,9 +190,9 @@ class _ReactionBarState extends State<ReactionBar> {
                         elevation: 2,
                         color: AppColor.background,
                         borderRadius: AppThemeBorderRadius.bigBorderRadius,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Container(
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: SizedBox(
                               height: 36,
                               child: Center(
                                   child: Icon(
@@ -206,7 +207,7 @@ class _ReactionBarState extends State<ReactionBar> {
                     (index) => Reaction(
                             icon: Text(
                           reactions[index].emoji!,
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ))),
               ),
           ],
@@ -302,8 +303,9 @@ class ReactionButton extends StatefulWidget {
   final String? url;
   final bool isEnabled;
   final ValueChanged<CommentReaction>? onChanged;
-  ReactionButton(this.commentReaction,
-      {this.url, this.onChanged, this.isEnabled = true});
+  const ReactionButton(this.commentReaction,
+      {this.url, this.onChanged, this.isEnabled = true, Key? key})
+      : super(key: key);
 
   @override
   _ReactionButtonState createState() => _ReactionButtonState();
@@ -362,9 +364,9 @@ class _ReactionButtonState extends State<ReactionButton> {
                     child: (context, scrollController) {
                   return ListView.separated(
                       separatorBuilder: (context, index) {
-                        return Divider();
+                        return const Divider();
                       },
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       controller: scrollController,
                       itemCount: _reaction.users.length,
@@ -373,7 +375,7 @@ class _ReactionButtonState extends State<ReactionButton> {
                           padding: const EdgeInsets.all(8.0),
                           child: ProfileTile(
                             _reaction.users[index]!.avatarUrl,
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             userLogin: _reaction.users[index]!.login,
                             showName: true,
                           ),
@@ -384,11 +386,11 @@ class _ReactionButtonState extends State<ReactionButton> {
               borderRadius: AppThemeBorderRadius.bigBorderRadius,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Container(
+                child: SizedBox(
                   height: 36,
                   child: loading
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
+                      ? const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: LoadingIndicator(
                             size: 15,
                           ),
@@ -397,11 +399,11 @@ class _ReactionButtonState extends State<ReactionButton> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             Text(_reaction.emoji!),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             Padding(
@@ -409,10 +411,10 @@ class _ReactionButtonState extends State<ReactionButton> {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 _reaction.count.toString(),
-                                style: TextStyle(fontSize: 12),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                           ],

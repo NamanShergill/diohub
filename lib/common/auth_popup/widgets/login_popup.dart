@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class LoginPopup extends StatelessWidget {
+  const LoginPopup({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ScaleExpandedSection(
@@ -23,19 +24,19 @@ class LoginPopup extends StatelessWidget {
                   .headline5!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             Text(
               'You need to login using your GitHub account for the full experience.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             StringButton(
               title: 'Login with GitHub',
-              leadingIcon: Icon(
+              leadingIcon: const Icon(
                 Octicons.mark_github,
                 color: Colors.white,
               ),

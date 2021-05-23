@@ -14,7 +14,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
   final NotificationModel notification;
-  PullRequestNotificationCard(this.notification);
+  const PullRequestNotificationCard(this.notification, {Key? key})
+      : super(key: key);
   @override
   _PullRequestNotificationCardState createState() =>
       _PullRequestNotificationCardState();

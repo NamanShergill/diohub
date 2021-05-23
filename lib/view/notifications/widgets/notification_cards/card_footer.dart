@@ -7,7 +7,8 @@ class CardFooter extends StatelessWidget {
   final String? avatarUrl;
   final String? text;
   final bool? unread;
-  CardFooter(this.avatarUrl, this.text, this.unread);
+  const CardFooter(this.avatarUrl, this.text, this.unread, {Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FadeAnimationSection(
@@ -21,7 +22,7 @@ class CardFooter extends StatelessWidget {
               size: 20,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Flexible(

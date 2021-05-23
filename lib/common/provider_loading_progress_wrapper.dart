@@ -13,8 +13,9 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
   final ChildBuilder<T>? childBuilder;
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
-  ProviderLoadingProgressWrapper(
-      {this.childBuilder, this.errorBuilder, this.loadingBuilder});
+  const ProviderLoadingProgressWrapper(
+      {this.childBuilder, this.errorBuilder, this.loadingBuilder, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
@@ -28,7 +29,7 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
           if (snapshot.data == Status.loading) {
             return loadingBuilder != null
                 ? loadingBuilder!(context)
-                : LoadingIndicator();
+                : const LoadingIndicator();
           }
           if (snapshot.data == Status.error) {
             return errorBuilder != null
@@ -54,7 +55,7 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
           }
           return loadingBuilder != null
               ? loadingBuilder!(context)
-              : LoadingIndicator();
+              : const LoadingIndicator();
         });
   }
 }

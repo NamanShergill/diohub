@@ -17,8 +17,9 @@ class FileViewerAPI extends StatefulWidget {
   final String? repoName;
   final String? fileName;
   final String? sha;
-  FileViewerAPI(this.sha,
-      {this.repoURL, this.fileName, this.branch, this.repoName});
+  const FileViewerAPI(this.sha,
+      {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
+      : super(key: key);
 
   @override
   _FileViewerAPIState createState() => _FileViewerAPIState();
@@ -55,7 +56,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
       appBar: AppBar(
         title: Text(
           widget.fileName!,
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
         ),
         actions: [
           // IconButton(
@@ -127,18 +128,16 @@ class TextViewer extends StatefulWidget {
   final ContentViewController? contentViewController;
   final String? branch;
   final String? repoName;
-  TextViewer(this.blob, this.fileName,
-      {this.contentViewController, this.branch, this.repoName});
+  const TextViewer(this.blob, this.fileName,
+      {this.contentViewController, this.branch, this.repoName, Key? key})
+      : super(key: key);
   @override
-  _TextViewerState createState() => _TextViewerState(contentViewController);
+  _TextViewerState createState() => _TextViewerState();
 }
 
 class _TextViewerState extends State<TextViewer> {
-  _TextViewerState(ContentViewController? contentViewController) {
-    if (contentViewController != null) {
-      contentViewController.wrap = changeWrap;
-      // contentViewController.edit = edit;
-    }
+  _TextViewerState() {
+    widget.contentViewController?.wrap = changeWrap;
   }
   bool loading = true;
   late List<String> content;
@@ -184,7 +183,7 @@ class _TextViewerState extends State<TextViewer> {
         }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Container(
+          child: SizedBox(
             width: wrapText
                 ? MediaQuery.of(context).size.width
                 : numberOfMaxChars.toDouble() * 10 >
@@ -202,13 +201,13 @@ class _TextViewerState extends State<TextViewer> {
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Text(
                             (index + 1).toString(),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 12,
                           ),
                           Flexible(

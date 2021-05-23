@@ -16,11 +16,13 @@ class PullListCard extends StatelessWidget {
   final EdgeInsets padding;
   final bool showRepoName;
 
-  PullListCard(this.item,
+  const PullListCard(this.item,
       {this.compact = false,
       this.disableMaterial = false,
       this.showRepoName = true,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8.0)});
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +44,7 @@ class PullListCard extends StatelessWidget {
                 Row(
                   children: [
                     getIcon(item.state, item.mergedAt)!,
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     if (showRepoName)
@@ -56,17 +58,17 @@ class PullListCard extends StatelessWidget {
                                 .sublist(0, 2)
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: AppColor.grey3),
+                            style: const TextStyle(color: AppColor.grey3),
                           ),
                         ),
                       ),
                     Text(
                       '#${item.number}',
-                      style: TextStyle(color: AppColor.grey3),
+                      style: const TextStyle(color: AppColor.grey3),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Text(
@@ -80,7 +82,7 @@ class PullListCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -89,9 +91,10 @@ class PullListCard extends StatelessWidget {
                                 ? 'By ${item.user!.login}, merged ${getDate(item.mergedAt.toString(), shorten: false)}.'
                                 : 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                        style: const TextStyle(
+                            color: AppColor.grey3, fontSize: 12),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Wrap(
@@ -118,26 +121,26 @@ Widget? getIcon(IssueState? state, DateTime? mergedAt) {
   switch (state) {
     case IssueState.CLOSED:
       if (mergedAt == null) {
-        return Icon(
+        return const Icon(
           Octicons.git_pull_request,
           color: Colors.red,
           size: 15,
         );
       } else {
-        return Icon(
+        return const Icon(
           Octicons.git_merge,
           color: Colors.deepPurple,
           size: 15,
         );
       }
     case IssueState.OPEN:
-      return Icon(
+      return const Icon(
         Octicons.git_pull_request,
         color: Colors.green,
         size: 15,
       );
     default:
-      return Icon(
+      return const Icon(
         Octicons.git_pull_request,
         color: AppColor.grey3,
         size: 15,

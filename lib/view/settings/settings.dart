@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -20,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           InfoCard(
@@ -28,8 +29,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Let me know at'),
                 ),
                 Material(
@@ -43,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Flexible(
                             child: Text(
                               'https://github.com/NamanShergill/diohub/issues',
@@ -66,7 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Visibility(
@@ -92,7 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('Cancel'),
+                              child: const Text('Cancel'),
                             ),
                             MaterialButton(
                               onPressed: () {
@@ -100,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     .add(LogOut());
                                 Navigator.pop(context);
                               },
-                              child: Text(
+                              child: const Text(
                                 'Confirm',
                               ),
                             ),

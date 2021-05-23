@@ -21,7 +21,7 @@ import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
   final DeepLinkData? deepLinkData;
-  LandingScreen({this.deepLinkData});
+  const LandingScreen({this.deepLinkData, Key? key}) : super(key: key);
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -36,12 +36,12 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void showAuthPopup() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
       showDialog(
           context: context,
           builder: (_) {
-            return AuthPopup();
+            return const AuthPopup();
           });
     }
   }
@@ -60,15 +60,15 @@ class _LandingScreenState extends State<LandingScreen> {
             onPageChanged: (index) {
               _navProvider.setCurrentIndex(index);
             },
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(
                 deepLinkData: widget.deepLinkData,
               ),
-              SearchScreen(),
-              NotificationsScreen(),
-              CurrentUserProfileScreen(),
-              SettingsScreen(),
+              const SearchScreen(),
+              const NotificationsScreen(),
+              const CurrentUserProfileScreen(),
+              const SettingsScreen(),
             ],
           ),
         ),
@@ -89,11 +89,12 @@ class _LandingScreenState extends State<LandingScreen> {
                 rippleColor: Colors.grey[800]!,
                 hoverColor: Colors.grey[700]!,
                 iconSize: 20,
-                textStyle: TextStyle(fontSize: 16, color: Colors.white),
+                textStyle: const TextStyle(fontSize: 16, color: Colors.white),
                 tabBackgroundColor: Colors.grey[900]!,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
-                duration: Duration(milliseconds: 250),
-                tabs: [
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
+                duration: const Duration(milliseconds: 250),
+                tabs: const [
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',

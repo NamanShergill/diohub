@@ -1,13 +1,15 @@
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:flutter/material.dart';
 
 class IssuesEventCard extends StatelessWidget {
   final EventsModel event;
   final DateTime? time;
   final String trailingHeaderText;
-  IssuesEventCard(this.event, this.trailingHeaderText, {this.time});
+  const IssuesEventCard(this.event, this.trailingHeaderText,
+      {this.time, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
@@ -16,7 +18,7 @@ class IssuesEventCard extends StatelessWidget {
         TextSpan(text: ' ${event.payload.action} $trailingHeaderText '),
         TextSpan(
           text: event.repo!.name,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ],
       userLogin: event.actor!.login,

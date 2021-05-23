@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsCommitsList extends StatelessWidget {
+  const PullsCommitsList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<CommitListModel>(

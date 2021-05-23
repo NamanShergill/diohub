@@ -9,7 +9,8 @@ import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
   final ScrollController scrollController;
-  IssuesList({required this.scrollController});
+  const IssuesList({required this.scrollController, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
@@ -39,7 +40,7 @@ class IssuesList extends StatelessWidget {
       scrollController: scrollController,
       searchBarMessage: 'Search in ${_repo.repositoryModel!.name}\'s issues',
       searchHeroTag: 'repoIssueSearch',
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       filterFn: (data) {
         List<IssueModel> filteredData = [];
         for (var item in data) {

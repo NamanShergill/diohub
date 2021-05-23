@@ -17,7 +17,7 @@ void showBottomActionsMenu(BuildContext context,
     double titlePadding = 16.0}) {
   final _media = MediaQuery.of(context).size;
   showModalBottomSheet<void>(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topRight: Radius.circular(20),
         topLeft: Radius.circular(20),
@@ -29,7 +29,7 @@ void showBottomActionsMenu(BuildContext context,
       builder: (context) => Column(
             mainAxisSize: shrink ? MainAxisSize.min : MainAxisSize.max,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               Padding(
@@ -47,19 +47,19 @@ void showBottomActionsMenu(BuildContext context,
                     child: header ??
                         Text(
                           headerText!,
-                          style: TextStyle(
+                          style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)
                               .merge(headerTextStyle),
                         )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
-              Divider(
+              const Divider(
                 height: 0,
               ),
               childWidget(context),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
             ],
@@ -85,8 +85,8 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
                 }
               });
             },
-            title: Text("Open"),
-            trailing: Icon(
+            title: const Text("Open"),
+            trailing: const Icon(
               LineIcons.link,
               color: Colors.white,
             ),
@@ -102,8 +102,8 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
                 Share.share(url!);
               }
             },
-            title: Text("Share"),
-            trailing: Icon(
+            title: const Text("Share"),
+            trailing: const Icon(
               LineIcons.share,
               color: Colors.white,
             ),
@@ -121,7 +121,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
     {required ScrollChild child, String? titleText, Widget? titleWidget}) {
   showModalBottomSheet(
     context: context,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
       topRight: Radius.circular(20),
       topLeft: Radius.circular(20),
@@ -138,7 +138,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
         builder: (context, scrollController) {
           return Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               Row(
@@ -160,7 +160,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
               ),
               titleWidget ??
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Center(
                         child: Text(
                       titleText!,
@@ -170,7 +170,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
                           .copyWith(fontWeight: FontWeight.bold),
                     )),
                   ),
-              Divider(),
+              const Divider(),
               Expanded(
                 child: child(context, scrollController),
               ),

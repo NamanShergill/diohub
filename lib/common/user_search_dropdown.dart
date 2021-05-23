@@ -12,7 +12,7 @@ class UserSearchDropdown extends StatelessWidget {
   final String query;
   final ValueChanged<String>? onSelected;
   final String _type;
-  UserSearchDropdown(this.query,
+  const UserSearchDropdown(this.query,
       {Key? key, this.onSelected, QueryType type = QueryType.user})
       : _type = type != QueryType.org ? 'user' : 'org',
         super(key: key);
@@ -59,7 +59,7 @@ class UserSearchDropdown extends StatelessWidget {
                             ProfileTile(
                               item.node.avatarUrl,
                               disableTap: true,
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               showName: true,
                               userLogin: item.node.login,
                             ),

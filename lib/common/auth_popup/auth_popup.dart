@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class AuthPopup extends StatefulWidget {
-  AuthPopup({Key? key}) : super(key: key);
+  const AuthPopup({Key? key}) : super(key: key);
 
   @override
   _AuthPopupState createState() => _AuthPopupState();
@@ -27,7 +27,7 @@ class _AuthPopupState extends State<AuthPopup> {
               state.deviceCodeModel.deviceCode,
               state.deviceCodeModel.interval));
           Provider.of<CurrentUserProvider>(context, listen: false)
-              .showPopup(AuthProgressNotification());
+              .showPopup(const AuthProgressNotification());
         } else {
           Provider.of<CurrentUserProvider>(context, listen: false)
               .showPopup(null);
@@ -35,11 +35,11 @@ class _AuthPopupState extends State<AuthPopup> {
       },
       builder: (context, state) {
         if (state is AuthenticationUnauthenticated) {
-          return LoginPopup();
+          return const LoginPopup();
         } else if (state is AuthenticationInitialized) {
           return CodeInfoBox(state.deviceCodeModel);
         } else if (state is AuthenticationSuccessful) {
-          return SuccessPopup();
+          return const SuccessPopup();
         } else if (state is AuthenticationError) {
           return ErrorPopup(state.error);
         }

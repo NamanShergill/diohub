@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class BranchLabel extends StatelessWidget {
   final String name;
   final double size;
-  BranchLabel(this.name, {this.size = 16});
+  const BranchLabel(this.name, {this.size = 16, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

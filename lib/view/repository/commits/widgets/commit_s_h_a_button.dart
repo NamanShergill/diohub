@@ -8,7 +8,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 class CommitSHAButton extends StatelessWidget {
   final String? sha;
   final String? commitURL;
-  CommitSHAButton(this.sha, this.commitURL);
+  const CommitSHAButton(this.sha, this.commitURL, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -25,11 +25,11 @@ class CommitSHAButton extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Octicons.git_commit,
                 size: 16,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Text(sha!.substring(0, 6))

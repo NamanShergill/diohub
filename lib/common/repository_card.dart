@@ -19,10 +19,12 @@ class RepositoryCard extends StatelessWidget {
   final bool isThemed;
   final String? branch;
   final EdgeInsets padding;
-  RepositoryCard(this.repo,
+  const RepositoryCard(this.repo,
       {this.isThemed = true,
       this.branch,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8)});
+      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,7 +46,7 @@ class RepositoryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Wrap(
@@ -52,8 +54,8 @@ class RepositoryCard extends StatelessWidget {
                   children: [
                     Visibility(
                         visible: repo!.private!,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: 8.0),
                           child: Icon(
                             Octicons.lock,
                             color: AppColor.grey3,
@@ -64,14 +66,14 @@ class RepositoryCard extends StatelessWidget {
                       repo!.name!,
                       style: AppThemeTextStyles.eventCardChildTitle,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Visibility(
                         visible: repo!.fork ?? false,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
+                          children: const [
                             Icon(
                               Octicons.repo_forked,
                               size: 12,
@@ -89,7 +91,7 @@ class RepositoryCard extends StatelessWidget {
                         )),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
@@ -106,7 +108,7 @@ class RepositoryCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   height: 24,
                 ),
                 Wrap(
@@ -117,19 +119,19 @@ class RepositoryCard extends StatelessWidget {
                       size: 11,
                       textStyle: AppThemeTextStyles.eventCardChildFooter,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Octicons.star,
                           size: 12,
                           color: AppColor.grey3,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 4,
                         ),
                         Text(
@@ -138,7 +140,7 @@ class RepositoryCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Text(
@@ -162,10 +164,12 @@ class RepoCardLoading extends StatelessWidget {
   final EdgeInsets padding;
   final double elevation;
   final String? branch;
-  RepoCardLoading(this.repoURL, this.repoName,
+  const RepoCardLoading(this.repoURL, this.repoName,
       {this.elevation = 2,
       this.branch,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0)});
+      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+      Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -186,7 +190,7 @@ class RepoCardLoading extends StatelessWidget {
                     repoName!.split('/').last,
                     style: AppThemeTextStyles.eventCardChildTitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   ShimmerWidget(
@@ -197,7 +201,7 @@ class RepoCardLoading extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
                   ShimmerWidget(

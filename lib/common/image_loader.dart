@@ -7,7 +7,9 @@ class ImageLoader extends StatelessWidget {
   final double? height;
   final double? width;
   final WidgetBuilder? errorBuilder;
-  ImageLoader(this.url, {this.height, this.errorBuilder, this.width});
+  const ImageLoader(this.url,
+      {this.height, this.errorBuilder, this.width, Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(

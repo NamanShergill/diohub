@@ -12,7 +12,7 @@ class ScaffoldBody extends StatefulWidget {
   final bool showHeader;
   final bool showFooter;
   final StreamController<Widget?>? notificationController;
-  ScaffoldBody(
+  const ScaffoldBody(
       {Key? key,
       this.child,
       this.header,

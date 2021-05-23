@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChangedFiles extends StatefulWidget {
-  ChangedFiles({Key? key}) : super(key: key);
+  const ChangedFiles({Key? key}) : super(key: key);
 
   @override
   _ChangedFilesState createState() => _ChangedFilesState();
@@ -26,11 +26,11 @@ class _ChangedFilesState extends State<ChangedFiles> {
           ),
         ),
         ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: _files.length,
             separatorBuilder: (context, index) {
-              return SizedBox(
+              return const SizedBox(
                 height: 12,
               );
             },

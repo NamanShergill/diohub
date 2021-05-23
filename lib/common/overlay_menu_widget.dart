@@ -17,7 +17,7 @@ class OverlayMenuWidget extends StatefulWidget {
   final double heightMultiplier;
   final OverlayController controller;
   final double offSet;
-  OverlayMenuWidget(
+  const OverlayMenuWidget(
       {required this.child,
       required this.overlay,
       required this.controller,
@@ -25,19 +25,21 @@ class OverlayMenuWidget extends StatefulWidget {
       this.offSet = 0,
       this.initiallyVisible = false,
       this.childAnchor = Alignment.bottomCenter,
-      this.portalAnchor = Alignment.topCenter})
+      this.portalAnchor = Alignment.topCenter,
+      Key? key})
       : assert(heightMultiplier <= 1),
-        assert((childAnchor == null) == (portalAnchor == null));
+        assert((childAnchor == null) == (portalAnchor == null)),
+        super(key: key);
 
   @override
-  _OverlayMenuWidgetState createState() => _OverlayMenuWidgetState(controller);
+  _OverlayMenuWidgetState createState() => _OverlayMenuWidgetState();
 }
 
 class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
-  _OverlayMenuWidgetState(OverlayController controller) {
-    controller.open = openOverlay;
-    controller.close = closeOverlay;
-    controller.tapped = tapped;
+  _OverlayMenuWidgetState() {
+    widget.controller.open = openOverlay;
+    widget.controller.close = closeOverlay;
+    widget.controller.tapped = tapped;
   }
   late bool visible;
   @override
@@ -79,7 +81,7 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
       ),
       child: PortalEntry(
         portal: SizeExpandedSection(
-            child: Container(
+            child: SizedBox(
           height: (_media.height - widget.offSet) * widget.heightMultiplier,
           child: Padding(
             padding: const EdgeInsets.all(8.0),

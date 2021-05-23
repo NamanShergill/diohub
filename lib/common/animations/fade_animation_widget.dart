@@ -7,8 +7,13 @@ class FadeAnimationSection extends StatefulWidget {
   final Curve? animationCurve;
   final Duration? duration;
 
-  FadeAnimationSection(
-      {this.expand = true, this.child, this.animationCurve, this.duration});
+  const FadeAnimationSection(
+      {this.expand = true,
+      this.child,
+      this.animationCurve,
+      this.duration,
+      Key? key})
+      : super(key: key);
 
   @override
   _FadeAnimationSectionState createState() => _FadeAnimationSectionState();

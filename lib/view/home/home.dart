@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final DeepLinkData? deepLinkData;
-  HomeScreen({Key? key, this.deepLinkData});
+  const HomeScreen({Key? key, this.deepLinkData}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     super.build(context);
     return LoginCheckWrapper(
-      replacement: HomeScreenUnauthenticated(),
+      replacement: const HomeScreenUnauthenticated(),
       child: NestedScrollView(
         controller: scrollController,
         headerSliverBuilder: (context, _) {
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen>
                               },
                             ),
                             errorBuilder: (context, error) {
-                              return Icon(
+                              return const Icon(
                                 LineIcons.exclamationCircle,
                                 size: 40,
                               );
@@ -116,12 +116,12 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(0),
+                    preferredSize: const Size.fromHeight(0),
                     child: Container(
                       color: AppColor.background,
                       child: AppTabBar(
                         controller: _tabController,
-                        tabs: [
+                        tabs: const [
                           AppTab(
                             title: 'Activity',
                           ),
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen>
                   return LoginCheckWrapper(
                     child: TabBarView(
                       controller: _tabController,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       children: [
                         Events(
                           scrollController: scrollController,
@@ -190,6 +190,7 @@ class _HomeScreenState extends State<HomeScreen>
 }
 
 class HomeScreenUnauthenticated extends StatelessWidget {
+  const HomeScreenUnauthenticated({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _search = Provider.of<SearchDataProvider>(context);
@@ -213,13 +214,13 @@ class HomeScreenUnauthenticated extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline4!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    Container(
+                    const SizedBox(
                       height: 60,
                       width: 60,
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SearchBar(
@@ -234,7 +235,7 @@ class HomeScreenUnauthenticated extends StatelessWidget {
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       LoginPromptBox(),
                     ],
                   ),

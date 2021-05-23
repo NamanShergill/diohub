@@ -13,7 +13,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class IssueNotificationCard extends StatefulWidget {
   final NotificationModel notification;
-  IssueNotificationCard(this.notification, {Key? key});
+  const IssueNotificationCard(this.notification, {Key? key}) : super(key: key);
 
   @override
   _IssueNotificationCardState createState() => _IssueNotificationCardState();

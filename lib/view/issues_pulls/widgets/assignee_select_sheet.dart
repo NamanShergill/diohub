@@ -12,7 +12,7 @@ class AssigneeSelectSheet extends StatefulWidget {
   final List<UserInfoModel>? assignees;
   final ScrollController? controller;
   final ValueChanged<List<UserInfoModel>?>? newAssignees;
-  AssigneeSelectSheet(
+  const AssigneeSelectSheet(
       {Key? key,
       this.assignees,
       this.issueUrl,
@@ -75,19 +75,19 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                 widget.newAssignees!(newAssignees);
               } catch (e) {}
             },
-            child: Text('Apply'),
+            child: const Text('Apply'),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
+          child: const ExpansionTile(
             title: Text('Note'),
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
                   style: TextStyle(color: AppColor.grey3),
@@ -99,7 +99,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         Expanded(
           child: InfiniteScrollWrapper<UserInfoModel>(
             firstDivider: false,

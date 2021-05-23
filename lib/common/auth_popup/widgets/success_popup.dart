@@ -3,6 +3,7 @@ import 'package:dio_hub/common/auth_popup/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
 
 class SuccessPopup extends StatelessWidget {
+  const SuccessPopup({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ScaleExpandedSection(
@@ -18,14 +19,14 @@ class SuccessPopup extends StatelessWidget {
                   .headline5!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             Text(
               'Authentication completed successfully.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            Divider(
+            const Divider(
               height: 32,
             ),
             Center(
@@ -33,7 +34,7 @@ class SuccessPopup extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'Tap here to close',
                   style: TextStyle(color: Colors.white),
                 ),

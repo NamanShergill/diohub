@@ -6,7 +6,8 @@ class ChangesViewer extends StatefulWidget {
   final String? patch;
   final String? contentURL;
   final String? fileType;
-  ChangesViewer(this.patch, this.contentURL, this.fileType);
+  const ChangesViewer(this.patch, this.contentURL, this.fileType, {Key? key})
+      : super(key: key);
 
   @override
   _ChangesViewerState createState() => _ChangesViewerState();
