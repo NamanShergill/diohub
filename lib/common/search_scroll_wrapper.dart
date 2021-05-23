@@ -157,7 +157,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               },
             );
           } else if (searchData.searchFilters!.searchType ==
-              SearchType.issuesPulls) {
+              SearchType.issues_pulls) {
             return _InfiniteWrapper<IssueModel>(
               filterFn: widget.filterFn,
               controller: controller,
