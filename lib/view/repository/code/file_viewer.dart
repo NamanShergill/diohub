@@ -136,9 +136,6 @@ class TextViewer extends StatefulWidget {
 }
 
 class _TextViewerState extends State<TextViewer> {
-  _TextViewerState() {
-    widget.contentViewController?.wrap = changeWrap;
-  }
   bool loading = true;
   late List<String> content;
   bool wrapText = false;
@@ -148,12 +145,17 @@ class _TextViewerState extends State<TextViewer> {
   // final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
+    setupController();
     content = parseBase64(widget.blob.content!).split('\n');
     for (String str in content) {
       if (str.length > numberOfMaxChars) numberOfMaxChars = str.length;
     }
     fileType = widget.fileName!.split('.').last;
     super.initState();
+  }
+
+  void setupController() {
+    widget.contentViewController?.wrap = changeWrap;
   }
 
   bool changeWrap() {
