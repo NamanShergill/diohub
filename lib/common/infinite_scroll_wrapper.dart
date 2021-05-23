@@ -258,9 +258,6 @@ class _InfinitePagination<T> extends StatefulWidget {
 }
 
 class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
-  _InfinitePaginationState() {
-    widget.controller.refresh = resetAndRefresh;
-  }
   // Define the paging controller.
   final PagingController<int, T> _pagingController =
       PagingController(firstPageKey: 0);
@@ -274,11 +271,16 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
 
   @override
   void initState() {
+    setupController();
     pageNumber = widget.pageNumber;
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
     super.initState();
+  }
+
+  void setupController() {
+    widget.controller.refresh = resetAndRefresh;
   }
 
   @override

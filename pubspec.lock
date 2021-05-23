@@ -299,18 +299,18 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: d9d3c13236fc2b4142eb7ffbed74c4ecac71c3da
+      ref: temp
+      resolved-ref: "56049edeb21b9c2c799646f6d8ee7dcab6397e78"
       url: "https://github.com/NamanShergill/extended_text_field.git"
     source: git
-    version: "6.0.1"
+    version: "7.0.1"
   extended_text_library:
     dependency: transitive
     description:
       name: extended_text_library
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.2"
+    version: "6.0.0"
   fake_async:
     dependency: transitive
     description:

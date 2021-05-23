@@ -37,9 +37,6 @@ class APIWrapper<T> extends StatefulWidget {
 }
 
 class _APIWrapperState<T> extends State<APIWrapper<T?>> {
-  _APIWrapperState() {
-    widget.apiWrapperController?.refresh = fetchData;
-  }
   T? data;
   bool loading = true;
   Object? error;
@@ -80,8 +77,13 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
 
   @override
   void initState() {
+    setupController();
     setupWidget();
     super.initState();
+  }
+
+  void setupController() {
+    widget.apiWrapperController?.refresh = fetchData;
   }
 
   @override

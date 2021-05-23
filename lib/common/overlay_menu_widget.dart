@@ -36,16 +36,18 @@ class OverlayMenuWidget extends StatefulWidget {
 }
 
 class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
-  _OverlayMenuWidgetState() {
-    widget.controller.open = openOverlay;
-    widget.controller.close = closeOverlay;
-    widget.controller.tapped = tapped;
-  }
   late bool visible;
   @override
   void initState() {
+    setupController();
     visible = widget.initiallyVisible;
     super.initState();
+  }
+
+  void setupController() {
+    widget.controller.open = openOverlay;
+    widget.controller.close = closeOverlay;
+    widget.controller.tapped = tapped;
   }
 
   void openOverlay() {
