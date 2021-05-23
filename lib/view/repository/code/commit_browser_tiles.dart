@@ -5,7 +5,7 @@ import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ class _CommitBrowserTilesState extends State<CommitBrowserTiles> {
                             width: 5,
                           ),
                           Text(
-                            '${widget.item!.sha!.substring(0, 6)}',
+                            widget.item!.sha!.substring(0, 6),
                             style: TextStyle(
                               fontSize: 11,
                               color: widget.highlighted

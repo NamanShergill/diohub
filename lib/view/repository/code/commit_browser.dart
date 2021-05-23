@@ -2,7 +2,7 @@ import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +64,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                 },
               )),
           Visibility(
-            visible: path.length > 0,
+            visible: path.isNotEmpty,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -90,10 +90,11 @@ class _CommitBrowserState extends State<CommitBrowser> {
                                 AppThemeBorderRadius.smallBorderRadius,
                             onTap: () {
                               setState(() {
-                                if (index == 0)
+                                if (index == 0) {
                                   path = [];
-                                else
+                                } else {
                                   path = path.sublist(0, index);
+                                }
                               });
                               controller.refresh();
                             },

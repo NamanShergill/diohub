@@ -7,7 +7,7 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/style/textStyles.dart';
+import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/repository/commits/widgets/commit_s_h_a_button.dart';
 
@@ -104,9 +104,7 @@ class BasicEventTextCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicEventCard(
       iconColor: iconColor,
-      content: content != null
-          ? content
-          : Text(
+      content: content ?? Text(
               textContent!,
               style: AppThemeTextStyles.basicIssueEventCardText,
             ),

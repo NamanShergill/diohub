@@ -2,6 +2,7 @@ class StringFunctions {
   final String string;
   StringFunctions(this.string);
 
+  @override
   toString() => string;
 
   bool isStringEqual(String? string2) {

@@ -12,6 +12,6 @@ String getDate(String date, {bool shorten = true}) {
   } else if (_difference.inDays < 31) {
     return '${_difference.inDays}${shorten ? 'd' : ' days ago'}';
   } else {
-    return '${shorten ? DateFormat('d MMM').format(_dateTime) : DateFormat('d MMM yyyy').format(_dateTime)}';
+    return shorten ? DateFormat('d MMM').format(_dateTime) : DateFormat('d MMM yyyy').format(_dateTime);
   }
 }

@@ -85,30 +85,32 @@ class _PullRequestNotificationCardState
   Widget getIcon() {
     if (!loading) {
       if (pullRequest.state == IssueState.CLOSED) {
-        if (pullRequest.merged!)
+        if (pullRequest.merged!) {
           return Icon(
             Octicons.git_merge,
             color: Colors.deepPurpleAccent,
             size: iconSize,
           );
-        else
+        } else {
           return Icon(
             Octicons.git_pull_request,
             color: AppColor.red,
             size: iconSize,
           );
-      } else if (pullRequest.state == IssueState.OPEN)
+        }
+      } else if (pullRequest.state == IssueState.OPEN) {
         return Icon(
           Octicons.git_pull_request,
           color: AppColor.green,
           size: iconSize,
         );
-      else
+      } else {
         return Icon(
           Octicons.git_pull_request,
           color: Colors.grey,
           size: iconSize,
         );
+      }
     }
     return ShimmerWidget(
       child: Icon(

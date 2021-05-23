@@ -22,7 +22,7 @@ class CodeProvider extends BaseProvider {
   List<int> get pathIndex => _pathIndex;
 
   /// Current repository's URL.
-  String? _repoURL;
+  final String? _repoURL;
 
   /// [RepoBranchProvider] this provider will depend on.
   RepoBranchProvider? _branchProvider;

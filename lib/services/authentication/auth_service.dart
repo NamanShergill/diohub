@@ -56,7 +56,7 @@ class AuthService {
   //     'admin:org_hook gist user read:user user:email user:follow '
   //     'delete_repo write:discussion read:discussion write:packages read:packages'
   //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
-  static String _scope = 'repo public_repo repo:invite '
+  static final String _scope = 'repo public_repo repo:invite '
       'security_events admin:org'
       ' gist notifications user '
       'delete_repo write:discussion write:packages read:packages'
@@ -82,8 +82,9 @@ class AuthService {
         return response;
       } else if (response.data['error'] != null &&
           response.data['error'] != "authorization_pending" &&
-          response.data['error'] != "slow_down")
+          response.data['error'] != "slow_down") {
         throw Exception(response.data['error_description']);
+      }
       return response;
     } catch (e) {
       throw Exception(e);

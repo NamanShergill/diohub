@@ -6,7 +6,7 @@ import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:dio_hub/models/reactions/reactions_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/reactions/reactions_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
@@ -88,7 +88,7 @@ class _ReactionBarState extends State<ReactionBar> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading)
+    if (loading) {
       return Row(
         children: [
           if (widget.isEnabled)
@@ -128,7 +128,7 @@ class _ReactionBarState extends State<ReactionBar> {
             ),
         ],
       );
-    else
+    } else {
       return SizeExpandedSection(
         axis: Axis.horizontal,
         child: Row(
@@ -171,12 +171,13 @@ class _ReactionBarState extends State<ReactionBar> {
                     await ReactionsService.deleteReaction(
                         widget.url, reactions[index].userReactionID);
                     reactions[index].removeReaction();
-                  } else
+                  } else {
                     await ReactionsService.createReaction(
                             widget.url, reactions[index].reaction)
                         .then((value) {
                       reactions[index].addUserReaction(value!.id);
                     });
+                  }
                   setState(() {});
                 },
                 boxItemsSpacing: 24,
@@ -211,6 +212,7 @@ class _ReactionBarState extends State<ReactionBar> {
           ],
         ),
       );
+    }
   }
 
   List<CommentReaction> getReactionStats(List<ReactionsModel> data) {
@@ -222,7 +224,7 @@ class _ReactionBarState extends State<ReactionBar> {
     CommentReaction hooray = CommentReaction(reaction: 'hooray');
     CommentReaction rocket = CommentReaction(reaction: 'rocket');
     CommentReaction eyes = CommentReaction(reaction: 'eyes');
-    data.forEach((element) {
+    for (ReactionsModel element in data) {
       if (element.content == plusOne.reaction) {
         plusOne.users.add(element.user);
         if (element.user!.login == widget.currentUser) {
@@ -280,7 +282,7 @@ class _ReactionBarState extends State<ReactionBar> {
         }
         eyes.count++;
       }
-    });
+    }
     List<CommentReaction> reactions = [
       plusOne,
       minusOne,
@@ -326,11 +328,12 @@ class _ReactionButtonState extends State<ReactionButton> {
         await ReactionsService.deleteReaction(
             widget.url, _reaction.userReactionID);
         _reaction.removeReaction();
-      } else
+      } else {
         await ReactionsService.createReaction(widget.url, _reaction.reaction)
             .then((value) {
           _reaction.addUserReaction(value!.id);
         });
+      }
       widget.onChanged!(_reaction);
     } catch (e) {}
     setState(() {

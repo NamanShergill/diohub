@@ -49,8 +49,9 @@ class _WikiViewerState extends State<WikiViewer> {
           if (canGoBack) {
             _webViewController.goBack();
             return false;
-          } else
+          } else {
             return true;
+          }
         },
         child: Scaffold(
           appBar: AppBar(
@@ -97,9 +98,9 @@ class _WikiViewerState extends State<WikiViewer> {
                       navigationDelegate: (action) {
                         if (action.url
                             .toLowerCase()
-                            .startsWith(wikiLink!.toLowerCase()))
+                            .startsWith(wikiLink!.toLowerCase())) {
                           return NavigationDecision.navigate;
-                        else if (action.url.toLowerCase() ==
+                        } else if (action.url.toLowerCase() ==
                                 repoLink?.toLowerCase() &&
                             loading) {
                           setState(() {

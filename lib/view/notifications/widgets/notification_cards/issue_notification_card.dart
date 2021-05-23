@@ -82,17 +82,18 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
     if (latestIssueEvent != null &&
         latestIssueEvent!.createdAt!.isAfter(latestComment.createdAt!)) {
       // Todo: Update issue event model and add more cases.
-      if (latestIssueEvent!.event == 'assigned')
+      if (latestIssueEvent!.event == 'assigned') {
         return CardFooter(
             latestIssueEvent!.actor!.avatarUrl,
             'Assigned #${issueInfo.number} to ${latestIssueEvent!.assignee!.login}',
             widget.notification.unread);
-      else if (latestIssueEvent!.event == 'reopened')
+      } else if (latestIssueEvent!.event == 'reopened') {
         return CardFooter(latestIssueEvent!.actor!.avatarUrl,
             'Reopened #${issueInfo.number}', widget.notification.unread);
-      else if (latestIssueEvent!.event == 'closed')
+      } else if (latestIssueEvent!.event == 'closed') {
         return CardFooter(latestIssueEvent!.actor!.avatarUrl,
             'Closed #${issueInfo.number}', widget.notification.unread);
+      }
     }
     // Return latest comment.
     return CardFooter(latestComment.user!.avatarUrl, latestComment.body,
@@ -101,30 +102,31 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
 
   Widget getIcon() {
     if (!loading) {
-      if (issueInfo.state == IssueState.CLOSED)
+      if (issueInfo.state == IssueState.CLOSED) {
         return Icon(
           Octicons.issue_closed,
           color: Colors.red,
           size: iconSize,
         );
-      else if (issueInfo.state == IssueState.OPEN)
+      } else if (issueInfo.state == IssueState.OPEN) {
         return Icon(
           Octicons.issue_opened,
           color: Colors.green,
           size: iconSize,
         );
-      else if (issueInfo.state == IssueState.REOPENED)
+      } else if (issueInfo.state == IssueState.REOPENED) {
         return Icon(
           Octicons.issue_reopened,
           color: Colors.green,
           size: iconSize,
         );
-      else
+      } else {
         return Icon(
           Octicons.issue_opened,
           color: Colors.grey,
           size: iconSize,
         );
+      }
     }
     return ShimmerWidget(
       child: Icon(

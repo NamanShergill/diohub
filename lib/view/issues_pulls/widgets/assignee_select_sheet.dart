@@ -46,11 +46,13 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         assigneesToAdd.remove(login);
       }
     }
-    if (assigneesToRemove.isNotEmpty)
+    if (assigneesToRemove.isNotEmpty) {
       futures.add(
           IssuesService.removeAssignees(widget.issueUrl, assigneesToRemove));
-    if (assigneesToAdd.isNotEmpty)
+    }
+    if (assigneesToAdd.isNotEmpty) {
       futures.add(IssuesService.addAssignees(widget.issueUrl, assigneesToAdd));
+    }
     if (futures.isNotEmpty) {
       List<dynamic> results = await Future.wait(futures);
       return results.last.assignees;
@@ -113,10 +115,11 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                 value: assignees.contains(item.login),
                 onChanged: (value) {
                   setState(() {
-                    if (assignees.contains(item.login))
+                    if (assignees.contains(item.login)) {
                       assignees.remove(item.login);
-                    else
+                    } else {
                       assignees.add(item.login);
+                    }
                   });
                 },
                 title: ProfileTile(

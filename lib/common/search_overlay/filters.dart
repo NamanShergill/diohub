@@ -1,7 +1,7 @@
 class SearchFilters {
-  List<SearchQuery> _basicQueries = [];
-  List<SearchQuery> _sensitiveQueries = [];
-  List<SearchQuery> _blackList = [];
+  final List<SearchQuery> _basicQueries = [];
+  final List<SearchQuery> _sensitiveQueries = [];
+  final List<SearchQuery> _blackList = [];
   final SearchType _searchType;
   final Map<String, String> _sortOptions;
   RegExp? _numberQRegExp;
@@ -73,9 +73,10 @@ class SearchFilters {
   SearchQuery? queryFromString(String query) {
     SearchQuery? value;
     if (query.startsWith('-')) query = query.substring(1);
-    (_basicQueries + _sensitiveQueries + _blackList).forEach((element) {
+    for (SearchQuery element
+        in _basicQueries + _sensitiveQueries + _blackList) {
       if (element.query == query) value = element;
-    });
+    }
     return value;
   }
 
@@ -161,7 +162,7 @@ class SearchFilters {
           'reactions-eyes-desc': 'Most 👀',
           // 'reactions-eyes-asc': 'Least 👀',
         },
-        _searchType = SearchType.issues_pulls {
+        _searchType = SearchType.issuesPulls {
     _filterQueries([
       searchQueries.archived,
       searchQueries.assignee,
@@ -289,23 +290,22 @@ class SearchFilters {
     List<SearchQuery> userQ = [];
     List<SearchQuery> spacedQ = [];
     List<SearchQuery> customQ = [];
-    queries.forEach(
-      (element) {
-        if (element.type == QueryType.date)
-          dateQ.add(element);
-        else if (element.type == QueryType.number)
-          numberQ.add(element);
-        else if (element.type == QueryType.user ||
-            element.type == QueryType.org)
-          userQ.add(element);
-        else if (element.type == QueryType.spacedString)
-          spacedQ.add(element);
-        else if (element.type == QueryType.custom)
-          customQ.add(element);
-        else
-          optionQ.add(element);
-      },
-    );
+    for (SearchQuery element in queries) {
+      if (element.type == QueryType.date) {
+        dateQ.add(element);
+      } else if (element.type == QueryType.number) {
+        numberQ.add(element);
+      } else if (element.type == QueryType.user ||
+          element.type == QueryType.org) {
+        userQ.add(element);
+      } else if (element.type == QueryType.spacedString) {
+        spacedQ.add(element);
+      } else if (element.type == QueryType.custom) {
+        customQ.add(element);
+      } else {
+        optionQ.add(element);
+      }
+    }
 
     /*
         (?:-)? -> Optional [-] at start.
@@ -373,10 +373,11 @@ class SearchFilters {
     if (optionQ.isNotEmpty) finalRegex.add(optionRegexp);
     if (numberQ.isNotEmpty) finalRegex.add(numberRegexp);
     if (dateQ.isNotEmpty) finalRegex.add(dateRegexp);
-    if (customQ.isNotEmpty)
-      customQ.forEach((element) {
+    if (customQ.isNotEmpty) {
+      for (SearchQuery element in customQ) {
         finalRegex.add(element.customRegex!);
-      });
+      }
+    }
     return RegExp(finalRegex.join('|'));
   }
 
@@ -413,20 +414,19 @@ class SearchFilters {
   /// Filter queries into basic, sensitive, or blacklist groups.
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
     List<SearchQuery> allQueries = searchQueries.allQueries;
-    original.forEach(
-      (element) {
-        if (!blacklist.contains(element.query)) {
-          if (element.type != QueryType.basic || element.options != null)
-            _sensitiveQueries.add(element);
-          else
-            _basicQueries.add(element);
+    for (SearchQuery element in original) {
+      if (!blacklist.contains(element.query)) {
+        if (element.type != QueryType.basic || element.options != null) {
+          _sensitiveQueries.add(element);
+        } else {
+          _basicQueries.add(element);
         }
-      },
-    );
+      }
+    }
     List<SearchQuery> filteredBlackList = [];
-    allQueries.forEach((e) {
+    for (SearchQuery e in allQueries) {
       if (!whiteListedQueries.contains(e)) filteredBlackList.add(e);
-    });
+    }
     _blackList.addAll(filteredBlackList);
   }
 
@@ -443,9 +443,9 @@ class SearchFilters {
 }
 
 class SearchQueries {
-  static String _teamRegex =
+  static final String _teamRegex =
       '(?:-)?(?:${SearchQueryStrings.team}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
-  static String _authorRegex =
+  static final String _authorRegex =
       '(?:-)?(?:${SearchQueryStrings.author}:)${SearchFilters.optionalQuotes('((app)(/))?((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,])+)')}(?=(\\s))';
 
   /*
@@ -457,7 +457,7 @@ class SearchQueries {
         (?:") -> Checks for end quote.
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
-  static String _projectRegex =
+  static final String _projectRegex =
       '(?:-)?(?:${SearchQueryStrings.project}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(((/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)){1,2})')}(?=(\\s))';
 
   /*
@@ -470,8 +470,8 @@ class SearchQueries {
         (?:") -> Checks for end quote.
         (?:${SearchQueryStrings.repo}:) ->  Ends with given queries or end of line.
   */
-  static String _repoRegex =
-      '(?:-)?(?:${SearchQueryStrings.repo}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(\/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
+  static final String _repoRegex =
+      '(?:-)?(?:${SearchQueryStrings.repo}:)${SearchFilters.optionalQuotes('((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(/)((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
 
   SearchQuery archived =
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
@@ -800,10 +800,11 @@ class SearchQuery {
       this.customRegex,
       QueryType? type,
       this.qualifierQuery = true})
-      : this.type =
+      : type =
             type ?? (customRegex != null ? QueryType.custom : QueryType.basic) {
-    if (type == QueryType.bool && options == null)
+    if (type == QueryType.bool && options == null) {
       options = {'true': '', 'false': ''};
+    }
   }
 
   String toQueryString(String data) =>
@@ -823,7 +824,7 @@ enum SearchType {
   // topics,
   // code,
   // commits,
-  issues_pulls,
+  issuesPulls,
   // discussions,
   users,
   // packages,
@@ -835,7 +836,7 @@ final searchTypeValues = EnumValues({
   // "Topics": SearchType.topics,
   // "Code": SearchType.code,
   // "Commits": SearchType.commits,
-  "Issues and Pulls Requests": SearchType.issues_pulls,
+  "Issues and Pulls Requests": SearchType.issuesPulls,
   // "Discussions": SearchType.discussions,
   "Users": SearchType.users,
   // "Packages": SearchType.packages,
@@ -849,9 +850,7 @@ class EnumValues<T> {
   EnumValues(this.map);
 
   Map<T, String>? get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
+    reverseMap ??= map.map((k, v) => MapEntry(v, k));
     return reverseMap;
   }
 }

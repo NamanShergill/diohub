@@ -3,7 +3,7 @@ import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
@@ -117,18 +117,19 @@ class PullListCard extends StatelessWidget {
 Widget? getIcon(IssueState? state, DateTime? mergedAt) {
   switch (state) {
     case IssueState.CLOSED:
-      if (mergedAt == null)
+      if (mergedAt == null) {
         return Icon(
           Octicons.git_pull_request,
           color: Colors.red,
           size: 15,
         );
-      else
+      } else {
         return Icon(
           Octicons.git_merge,
           color: Colors.deepPurple,
           size: 15,
         );
+      }
     case IssueState.OPEN:
       return Icon(
         Octicons.git_pull_request,

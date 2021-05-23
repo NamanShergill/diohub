@@ -71,10 +71,11 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
                 value: labels!.contains(item.name),
                 onChanged: (value) {
                   setState(() {
-                    if (labels!.contains(item.name))
+                    if (labels!.contains(item.name)) {
                       labels!.remove(item.name);
-                    else
+                    } else {
                       labels!.add(item.name);
+                    }
                   });
                 },
                 title: IssueLabel(item),

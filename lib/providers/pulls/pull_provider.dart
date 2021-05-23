@@ -26,8 +26,9 @@ class PullProvider extends BaseProvider {
     List<Future> futures = [
       PullsService.getPullInformation(fullUrl: _pullURL!)
     ];
-    if (repoURL != null && userLogin != null)
+    if (repoURL != null && userLogin != null) {
       futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
+    }
     List<dynamic> data = await Future.wait(futures);
     _pullModel = data[0];
     if (repoURL != null && userLogin != null) _editingEnabled = data[1];

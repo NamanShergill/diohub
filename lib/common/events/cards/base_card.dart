@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/style/textStyles.dart';
+import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 

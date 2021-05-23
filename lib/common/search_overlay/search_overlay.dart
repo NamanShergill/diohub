@@ -4,7 +4,7 @@ import 'package:dio_hub/common/overlay_menu_widget.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/range_picker.dart';
 import 'package:dio_hub/common/user_search_dropdown.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:dio_hub/utils/string_compare.dart';
@@ -39,9 +39,10 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
   @override
   void initState() {
     searchData = widget.searchData;
-    if (searchData.searchFilters == null)
+    if (searchData.searchFilters == null) {
       searchData =
           searchData.copyWith(searchFilters: SearchFilters.repositories());
+    }
     super.initState();
   }
 
@@ -50,12 +51,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
 
   bool get isValid {
     bool isValid = false;
-    searchData.visibleStrings.forEach((element) {
+    for (String element in searchData.visibleStrings) {
       SearchQuery query =
           searchData.searchFilters!.queryFromString(element.split(':').first)!;
       if (query.qualifierQuery) isValid = true;
-    });
-
+    }
     int numberOfAndOrNot = 0;
     searchData.query.splitMapJoin(
       RegExp(SearchFilters.notOperatorRegExp.pattern +
@@ -76,7 +76,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
     switch (type) {
       case SearchType.repositories:
         return SearchFilters.repositories();
-      case SearchType.issues_pulls:
+      case SearchType.issuesPulls:
         return SearchFilters.issuesPulls();
       case SearchType.users:
         return SearchFilters.users();
@@ -463,10 +463,9 @@ class _SearchBarState extends State<_SearchBar> {
                       // Don't let {\n} enter the text.
                       controller.text = controller.text.replaceAll('\n', '');
                       // If the last char is not a space, enter a space.
-                      if (!controller.text.endsWith(' '))
+                      if (!controller.text.endsWith(' ')) {
                         controller.text = controller.text + ' ';
-                      // Otherwise submit the query.
-                      else {
+                      } else {
                         _parseQuery(pattern);
                         widget.onSubmit(null);
                       }
@@ -474,8 +473,9 @@ class _SearchBarState extends State<_SearchBar> {
                       _moveControllerToEnd();
                     }
                     // Trim any white spaces.
-                    if (pattern.trim().isEmpty)
+                    if (pattern.trim().isEmpty) {
                       controller.text = controller.text.trim();
+                    }
                     // Parse query for filters.
                     _parseQuery(pattern);
                     // Show suggestions to the user.
@@ -577,10 +577,11 @@ class _SearchBarState extends State<_SearchBar> {
   void getFocus() async {
     // Todo: Try new speed here.
     await Future.delayed(Duration(milliseconds: 500));
-    if (mounted)
+    if (mounted) {
       setState(() {
         searchNode.requestFocus();
       });
+    }
   }
 
   void addString(
@@ -597,7 +598,7 @@ class _SearchBarState extends State<_SearchBar> {
     // Add new text according to the parameters.
     controller.text = controller.text +
         '${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}' +
-        '${addQuotesAtEnd ? '""' : ''}';
+        (addQuotesAtEnd ? '""' : '');
     // Move controller to end, or end-1 if quotes were added.
     _moveControllerToEnd(addQuotesAtEnd ? 1 : 0);
     searchNode.requestFocus();
@@ -671,7 +672,7 @@ class _SearchBarState extends State<_SearchBar> {
     pattern.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
         onMatch: (Match m) {
       String string = m[0]!;
-      if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string))
+      if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
         string = m[0]!.splitMapJoin(
             widget.searchData.searchFilters!.dateQRegExp!, onMatch: (Match m) {
           String string = m[0]!.splitMapJoin(
@@ -690,7 +691,8 @@ class _SearchBarState extends State<_SearchBar> {
           });
           return string;
         });
-      else if (widget.searchData.searchFilters!.numberQRegExp!.hasMatch(string))
+      } else if (widget.searchData.searchFilters!.numberQRegExp!
+          .hasMatch(string)) {
         string = string
             .splitMapJoin(widget.searchData.searchFilters!.numberQRegExp!,
                 onMatch: (Match m) {
@@ -704,6 +706,7 @@ class _SearchBarState extends State<_SearchBar> {
           });
           return string;
         });
+      }
 
       filterStrings.add(string);
       filters.add(widget.searchData.searchFilters!
@@ -739,18 +742,16 @@ class _SearchBarState extends State<_SearchBar> {
       // Current latest  query.
       SearchQuery? query;
       // Check if any of the matches above are the query currently being typed.
-      matches.forEach(
-        (element) {
-          if (isEndSame(pattern, element)) {
-            typedData = element.substring(0).split(':')[1];
-            String queryString = element.split(':').first;
-            if (queryString.startsWith('-'))
-              queryString = queryString.substring(1);
-            query =
-                widget.searchData.searchFilters!.queryFromString(queryString);
+      for (String element in matches) {
+        if (isEndSame(pattern, element)) {
+          typedData = element.substring(0).split(':')[1];
+          String queryString = element.split(':').first;
+          if (queryString.startsWith('-')) {
+            queryString = queryString.substring(1);
           }
-        },
-      );
+          query = widget.searchData.searchFilters!.queryFromString(queryString);
+        }
+      }
       // Get all completed valid queries.
       List<String?> completedQueries = getMatches(
           RegExp(
@@ -767,10 +768,10 @@ class _SearchBarState extends State<_SearchBar> {
         // Remove the '-' from the case.
         if (typedData.startsWith('-')) typedData = typedData.substring(1);
         if (typedData.isNotEmpty) {
-          widget.searchData.searchFilters!.whiteListedQueriesStrings
-              .forEach((element) {
+          for (String element
+              in widget.searchData.searchFilters!.whiteListedQueriesStrings) {
             if (element.startsWith(typedData)) filteredOptions.add(element);
-          });
+          }
           // Show overlay with the filtered options.
           _showOverlay(list(filteredOptions.length, (context, index) {
             return ListTile(
@@ -803,7 +804,7 @@ class _SearchBarState extends State<_SearchBar> {
             queryType: query!.type));
       } else if ((query?.type == QueryType.user ||
               query?.type == QueryType.org) &&
-          !typedData.endsWith(' '))
+          !typedData.endsWith(' ')) {
         _showOverlay(SizeExpandedSection(
           child: UserSearchDropdown(
             typedData,
@@ -813,7 +814,7 @@ class _SearchBarState extends State<_SearchBar> {
             type: query!.type,
           ),
         ));
-      else if (query?.options?.keys != null) {
+      } else if (query?.options?.keys != null) {
         List<String> filteredOptions = [];
         query!.options?.keys.toList().forEach(
           (element) {
@@ -889,12 +890,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
                 '|' +
                 SearchFilters.orOperatorRegExp.pattern), onMatch: (Match m) {
           TextStyle _textStyle = textStyle!;
-          if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!))
+          if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(color: AppColor.red);
-          else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!))
+          } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(color: Colors.amber);
-          else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!))
+          } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(color: AppColor.accent);
+          }
           inlineList.add(
               getSpan(m[0]!, _textStyle.copyWith(fontWeight: FontWeight.bold)));
           return '';
@@ -971,18 +973,20 @@ class _ValidQuery extends SpecialText {
             child: InkWell(
               borderRadius: AppThemeBorderRadius.smallBorderRadius,
               onTap: () {
-                if (!toString().trim().startsWith('-'))
+                if (!toString().trim().startsWith('-')) {
                   onChanged(controller.text.replaceFirst(
                       RegExp('(?!-)(?:(${toString().trim()}))'), ''));
-                else
+                } else {
                   onChanged(
                       controller.text.replaceFirst(toString().trim(), ''));
+                }
 
                 controller.selection = TextSelection.fromPosition(
                   TextPosition(offset: controller.text.length),
                 );
-                if (controller.text.trim().isEmpty)
+                if (controller.text.trim().isEmpty) {
                   onChanged(controller.text.trim());
+                }
                 HapticFeedback.vibrate();
               },
               child: Padding(
@@ -1069,7 +1073,7 @@ class SearchData {
     bool multiType = false,
     List<String> defaultHiddenFilters = const [],
   })  : _defaultFilters = defaultHiddenFilters,
-        this.multiType = searchFilters == null ? true : multiType;
+        multiType = searchFilters == null ? true : multiType;
 
   /// Return string of the query without the default filters.
   @override
@@ -1102,11 +1106,11 @@ class SearchData {
   /// Get if a quick filter is currently in the filters.
   String? get activeQuickFilter {
     List<String> active = [];
-    filterStrings.forEach((element) {
-      quickFilters.forEach((e) {
+    for (String element in filterStrings) {
+      for (String e in quickFilters) {
         if (StringFunctions(e).isStringEqual(element)) active.add(element);
-      });
-    });
+      }
+    }
     // Return null if more than one.
     if (active.length == 1) return active.first;
   }
@@ -1126,9 +1130,9 @@ class SearchData {
     List<String> filters = allFilters.toList();
     filters.removeWhere((element) {
       bool exists = false;
-      quickFilters.forEach((e) {
+      for (String e in quickFilters) {
         if (StringFunctions(e).isStringEqual(element)) exists = true;
-      });
+      }
       return exists;
     });
     filters.add(quickFilter);

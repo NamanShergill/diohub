@@ -48,7 +48,7 @@ class IssuesPullsNumberSyntax extends CustomInlineSyntax {
 
 class IssuesPullsRefSyntaxCurrentRepo extends CustomInlineSyntax {
   IssuesPullsRefSyntaxCurrentRepo(String currentRepo)
-      : super('(\/)(?:(issues))(\/)(?:(\\d+))(?!\\w)',
+      : super('(/)(?:(issues))(/)(?:(\\d+))(?!\\w)',
             currentRepo: currentRepo);
   @override
   bool onMatch(InlineParser parser, Match match) {
@@ -60,18 +60,19 @@ class IssuesPullsRefSyntaxCurrentRepo extends CustomInlineSyntax {
 
 class IssuesPullsRefSyntax extends CustomInlineSyntax {
   IssuesPullsRefSyntax({String? currentRepo})
-      : super('(?:\\w+)(\/)(?:\\w+)(\/)(?:(issues))(\/)(?:(\\d+))(?!\\w)',
+      : super('(?:\\w+)(/)(?:\\w+)(/)(?:(issues))(/)(?:(\\d+))(?!\\w)',
             currentRepo: currentRepo);
 
   @override
   bool onMatch(InlineParser parser, Match match) {
     if (currentRepo != null &&
-        StringFunctions(match[0]!).isStringStartingWith(currentRepo!))
+        StringFunctions(match[0]!).isStringStartingWith(currentRepo!)) {
       parser.addNode(Text(
           '<a href="https://github.com/${match[0]!}" style="font-weight:bold">${StringFunctions(match[0]!).replaceAllinString(currentRepo!)}</a>'));
-    else
+    } else {
       parser.addNode(Text(
           '<a href="https://github.com/${match[0]!}" style="font-weight:bold">${match[0]}</a>'));
+    }
     return true;
   }
 }

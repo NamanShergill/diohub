@@ -81,7 +81,7 @@ class AboutUser extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Flexible(child: Text('${userInfoModel!.blog}')),
+                  Flexible(child: Text(userInfoModel!.blog!)),
                 ],
               ),
             ),

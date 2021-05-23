@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio_hub/utils/lang_colors/colorsData.dart';
+import 'package:dio_hub/utils/lang_colors/colors_data.dart';
 
 String getLangColor(String? language) {
   Map langData = jsonDecode(colorsData);

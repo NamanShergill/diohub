@@ -32,11 +32,11 @@ class NavigationProvider extends BaseProvider {
   }
 
   void setPath(String? path) {
-    if (path == 'search')
+    if (path == 'search') {
       setupLandingController(1);
-    else if (path == 'notifications')
+    } else if (path == 'notifications') {
       setupLandingController(2);
-    else {
+    } else {
       setupLandingController(0);
     }
   }

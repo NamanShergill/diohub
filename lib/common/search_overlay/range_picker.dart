@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,24 +49,26 @@ class _RangePickerState extends State<RangePicker> {
     if (widget.queryType == QueryType.number) {
       String isInclusive() =>
           inclusive ? '=${controller1.text}' : controller1.text;
-      if (currentType == 'Greater than')
+      if (currentType == 'Greater than') {
         widget.onAdded('>${isInclusive()}');
-      else if (currentType == 'Less than')
+      } else if (currentType == 'Less than') {
         widget.onAdded('<${isInclusive()}');
-      else if (currentType == 'Only')
+      } else if (currentType == 'Only') {
         widget.onAdded(controller1.text);
-      else if (currentType == 'Range')
+      } else if (currentType == 'Range') {
         widget.onAdded('${controller1.text}..${controller2.text}');
+      }
     } else if (widget.queryType == QueryType.date) {
       String isInclusive() => inclusive ? '=${date(date1!)}' : date(date1!);
-      if (currentType == 'Greater than')
+      if (currentType == 'Greater than') {
         widget.onAdded('>${isInclusive()}');
-      else if (currentType == 'Less than')
+      } else if (currentType == 'Less than') {
         widget.onAdded('<${isInclusive()}');
-      else if (currentType == 'Only')
+      } else if (currentType == 'Only') {
         widget.onAdded(date(date1!));
-      else if (currentType == 'Range')
+      } else if (currentType == 'Range') {
         widget.onAdded('${date(date2!)}..${date(date1!)}');
+      }
     }
   }
 
@@ -87,10 +89,10 @@ class _RangePickerState extends State<RangePicker> {
   }
 
   bool get checkValid {
-    if (widget.queryType == QueryType.number)
+    if (widget.queryType == QueryType.number) {
       return controller1.text.isNotEmpty &&
           (isRanged ? controller2.text.isNotEmpty : true);
-    else if (widget.queryType == QueryType.date) {
+    } else if (widget.queryType == QueryType.date) {
       return date1 != null && (isRanged ? date2 != null : true);
     }
     return false;
@@ -150,10 +152,11 @@ class _RangePickerState extends State<RangePicker> {
                         controller: controller1,
                         focusNode: node1,
                         onSubmitted: (string) {
-                          if (isRanged ? controller2.text.isEmpty : false)
+                          if (isRanged ? controller2.text.isEmpty : false) {
                             node2.requestFocus();
-                          else
+                          } else {
                             submit();
+                          }
                         },
                         keyboardType: TextInputType.number,
                         decoration: TextFieldTheme.inputDecoration(
@@ -172,10 +175,11 @@ class _RangePickerState extends State<RangePicker> {
                             controller: controller2,
                             focusNode: node2,
                             onSubmitted: (string) {
-                              if (controller1.text.isEmpty)
+                              if (controller1.text.isEmpty) {
                                 node1.requestFocus();
-                              else
+                              } else {
                                 submit();
+                              }
                             },
                             keyboardType: TextInputType.number,
                             decoration: TextFieldTheme.inputDecoration(

@@ -98,8 +98,9 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
             onTap: () {
               if (shareDescription != null) {
                 Share.share('$shareDescription\n$url');
-              } else
+              } else {
                 Share.share(url!);
+              }
             },
             title: Text("Share"),
             trailing: Icon(
@@ -157,19 +158,18 @@ void showScrollableBottomActionsMenu(BuildContext context,
               SizedBox(
                 height: MediaQuery.of(context).padding.top + 16,
               ),
-              titleWidget != null
-                  ? titleWidget
-                  : Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Center(
-                          child: Text(
-                        titleText!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      )),
-                    ),
+              titleWidget ??
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(
+                        child: Text(
+                      titleText!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    )),
+                  ),
               Divider(),
               Expanded(
                 child: child(context, scrollController),

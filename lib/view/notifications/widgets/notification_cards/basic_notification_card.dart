@@ -2,7 +2,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';

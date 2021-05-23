@@ -42,8 +42,9 @@ class IssuesList extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       filterFn: (data) {
         List<IssueModel> filteredData = [];
-        for (var item in data)
+        for (var item in data) {
           if (item.pullRequest == null) filteredData.add(item);
+        }
         return filteredData;
       },
     );

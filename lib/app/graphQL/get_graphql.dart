@@ -14,7 +14,7 @@ class GetGraphQL {
     },
   );
 
-  static Link _link = _authLink.concat(_httpLink);
+  static final Link _link = _authLink.concat(_httpLink);
 
   static final GraphQLClient client = GraphQLClient(
     cache: GraphQLCache(),

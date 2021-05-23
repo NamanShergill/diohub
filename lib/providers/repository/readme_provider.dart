@@ -23,8 +23,9 @@ class RepoReadmeProvider extends BaseProvider {
       _branchProvider = repoBranchProvider;
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
-      if (_branchProvider!.status == Status.loaded)
+      if (_branchProvider!.status == Status.loaded) {
         _fetchReadme(_branchProvider!.currentSHA);
+      }
       _branchProvider!.statusStream.listen((event) async {
         // Fetch the root sha in the branch when the branch provider is loaded.
         // This event happens whenever the branch is changed, so this provider

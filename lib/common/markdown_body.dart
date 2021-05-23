@@ -4,7 +4,7 @@ import 'package:dio_hub/common/api_wrapper_widget.dart';
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/image_loader.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/link_handler.dart';
@@ -127,7 +127,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
       customRender: {
         'a': (RenderContext renderContext, Widget child) {
           if (!(renderContext.tree.element!.text.startsWith('#') ||
-              renderContext.tree.element!.text.startsWith('@')))
+              renderContext.tree.element!.text.startsWith('@'))) {
             return GestureDetector(
                 onTap: () => renderContext.parser.onLinkTap!(
                     renderContext.tree.attributes['href']!,
@@ -139,10 +139,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                       showSheetOnDeepLink: true);
                 },
                 child: child);
+          }
           String link = renderContext.tree.attributes['href']!;
-          if (renderContext.tree.element!.text.startsWith('#'))
+          if (renderContext.tree.element!.text.startsWith('#')) {
             link = link.replaceAll(
                 'https://github.com', 'https://api.github.com/repos');
+          }
           return APIWrapper(
             getCall: GetDio.getDio(
                     applyBaseURL: false,
@@ -222,14 +224,17 @@ class _MarkdownBodyState extends State<MarkdownBody> {
         },
         'img': (RenderContext renderContext, Widget child) {
           String src = renderContext.tree.element!.attributes['src']!;
-          if ((!src.startsWith('https://') && !src.startsWith('http://')))
+          if ((!src.startsWith('https://') && !src.startsWith('http://'))) {
             src =
                 'https://raw.githubusercontent.com/${widget.repo}/${widget.branch}/$src';
-          else if (src.startsWith('https://github.com/${widget.repo}/blob/'))
+          } else if (src
+              .startsWith('https://github.com/${widget.repo}/blob/')) {
             src = src.replaceFirst('https://github.com/${widget.repo}/blob/',
                 'https://raw.githubusercontent.com/${widget.repo}/');
-          if (src.split('.').last.contains('svg'))
+          }
+          if (src.split('.').last.contains('svg')) {
             return SvgPicture.network(src);
+          }
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: ImageLoader(

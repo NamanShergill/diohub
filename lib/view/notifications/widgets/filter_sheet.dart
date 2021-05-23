@@ -1,15 +1,17 @@
 import 'package:collection/collection.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 
+typedef FilterChange = Function(Map, Map);
+
 class FilterSheet extends StatefulWidget {
   ///  Provides the selected filters, if any.
-  final onFiltersChanged;
+  final FilterChange onFiltersChanged;
 
   ///  Current API Filters.
   final Map? apiFilters;
@@ -22,7 +24,7 @@ class FilterSheet extends StatefulWidget {
 
   FilterSheet(
       {Key? key,
-      this.onFiltersChanged,
+      required this.onFiltersChanged,
       this.apiFilters,
       this.clientFilters,
       this.controller})
@@ -98,10 +100,11 @@ class _FilterSheetState extends State<FilterSheet> {
             section(title: 'Show only', contents: [
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('assign'))
+                  if (clientFilters['show_only'].contains('assign')) {
                     clientFilters['show_only'].remove('assign');
-                  else
+                  } else {
                     clientFilters['show_only'].add('assign');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -118,10 +121,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('author'))
+                  if (clientFilters['show_only'].contains('author')) {
                     clientFilters['show_only'].remove('author');
-                  else
+                  } else {
                     clientFilters['show_only'].add('author');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -138,10 +142,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('comment'))
+                  if (clientFilters['show_only'].contains('comment')) {
                     clientFilters['show_only'].remove('comment');
-                  else
+                  } else {
                     clientFilters['show_only'].add('comment');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -158,10 +163,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('invitation'))
+                  if (clientFilters['show_only'].contains('invitation')) {
                     clientFilters['show_only'].remove('invitation');
-                  else
+                  } else {
                     clientFilters['show_only'].add('invitation');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -178,10 +184,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('manual'))
+                  if (clientFilters['show_only'].contains('manual')) {
                     clientFilters['show_only'].remove('manual');
-                  else
+                  } else {
                     clientFilters['show_only'].add('manual');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -198,10 +205,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('mention'))
+                  if (clientFilters['show_only'].contains('mention')) {
                     clientFilters['show_only'].remove('mention');
-                  else
+                  } else {
                     clientFilters['show_only'].add('mention');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -218,10 +226,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('review_requested'))
+                  if (clientFilters['show_only'].contains('review_requested')) {
                     clientFilters['show_only'].remove('review_requested');
-                  else
+                  } else {
                     clientFilters['show_only'].add('review_requested');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -239,10 +248,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('security_alert'))
+                  if (clientFilters['show_only'].contains('security_alert')) {
                     clientFilters['show_only'].remove('security_alert');
-                  else
+                  } else {
                     clientFilters['show_only'].add('security_alert');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -260,10 +270,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('state_change'))
+                  if (clientFilters['show_only'].contains('state_change')) {
                     clientFilters['show_only'].remove('state_change');
-                  else
+                  } else {
                     clientFilters['show_only'].add('state_change');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -280,10 +291,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('subscribed'))
+                  if (clientFilters['show_only'].contains('subscribed')) {
                     clientFilters['show_only'].remove('subscribed');
-                  else
+                  } else {
                     clientFilters['show_only'].add('subscribed');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(
@@ -300,10 +312,11 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
               tileWrapper(
                 function: () {
-                  if (clientFilters['show_only'].contains('team_mention'))
+                  if (clientFilters['show_only'].contains('team_mention')) {
                     clientFilters['show_only'].remove('team_mention');
-                  else
+                  } else {
                     clientFilters['show_only'].add('team_mention');
+                  }
                 },
                 child: CheckboxListTile(
                     secondary: Icon(

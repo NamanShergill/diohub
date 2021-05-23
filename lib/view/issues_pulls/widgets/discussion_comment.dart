@@ -95,13 +95,14 @@ class BaseComment extends StatelessWidget {
                         builder: (context) {
                           String? str;
                           if (authorAssociation ==
-                              AuthorAssociation.COLLABORATOR)
+                              AuthorAssociation.COLLABORATOR) {
                             str = 'Collaborator';
-                          else if (authorAssociation ==
-                              AuthorAssociation.CONTRIBUTOR)
+                          } else if (authorAssociation ==
+                              AuthorAssociation.CONTRIBUTOR) {
                             str = 'Contributor';
-                          else if (authorAssociation == AuthorAssociation.OWNER)
+                          } else if (authorAssociation == AuthorAssociation.OWNER) {
                             str = 'Owner';
+                          }
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(

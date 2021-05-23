@@ -10,14 +10,14 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 /// Controller for [InfiniteScrollWrapper].
 class InfiniteScrollWrapperController {
-  void Function() refresh = () {};
+  late void Function() refresh;
 }
 
 typedef ScrollWrapperFuture<T> = Future Function(
     int pageNumber, int pageSize, bool refresh, T? lastItem);
 typedef ScrollWrapperBuilder<T> = Widget Function(
     BuildContext context, T item, int index);
-typedef FilterFn<T>(List<T> items);
+typedef FilterFn<T> = Function(List<T> items);
 
 /// A wrapper designed to show infinite pagination.
 /// [T] type is defined for the kind of elements to be displayed.
@@ -171,7 +171,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
       ],
     );
 
-    if (!widget.disableRefresh)
+    if (!widget.disableRefresh) {
       child = RefreshIndicator(
         color: Colors.white,
         onRefresh: () => Future.sync(() async {
@@ -179,14 +179,16 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
         }),
         child: child,
       );
+    }
 
-    if (widget.showScrollToTopButton)
+    if (widget.showScrollToTopButton) {
       child = ScrollWrapper(
         scrollController: scrollController,
         child: child,
         promptTheme: PromptButtonTheme(color: AppColor.accent),
         promptReplacementBuilder: widget.pinnedHeader,
       );
+    }
 
     return child;
   }
@@ -301,12 +303,13 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
           _pagingController.itemList?.last);
       // Check if it is the last page of results.
       final isLastPage = newItems.length < widget.pageSize;
-      var filteredItems;
+      List<T> filteredItems;
       // Filter items based on the provided filterFn.
-      if (widget.filterFn != null)
+      if (widget.filterFn != null) {
         filteredItems = widget.filterFn!(newItems) ?? <T>[];
-      else
+      } else {
         filteredItems = newItems;
+      }
       // If the last page, set refresh value to false,
       // as all pages have been refreshed.
       if (isLastPage) {
@@ -315,8 +318,9 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       } else {
         pageNumber++;
         final nextPageKey = pageKey + newItems.length;
-        if (mounted)
+        if (mounted) {
           _pagingController.appendPage(filteredItems, nextPageKey as int?);
+        }
       }
     } catch (error) {
       if (error is DioError) {

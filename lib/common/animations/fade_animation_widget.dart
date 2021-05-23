@@ -1,4 +1,4 @@
-import 'package:dio_hub/style/animDuartions.dart';
+import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class FadeAnimationSection extends StatefulWidget {

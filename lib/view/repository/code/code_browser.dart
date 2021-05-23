@@ -7,7 +7,7 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/code/browser_list_tiles.dart';
 import 'package:dio_hub/view/repository/code/commit_browser.dart';
@@ -33,9 +33,10 @@ class _CodeBrowserState extends State<CodeBrowser>
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      if (widget.showCommitHistory)
+      if (widget.showCommitHistory) {
         showCommitHistory(
             context, context.read<RepoBranchProvider>().currentSHA);
+      }
     });
   }
 
@@ -54,7 +55,7 @@ class _CodeBrowserState extends State<CodeBrowser>
             return Column(
               children: [
                 context.read<RepoBranchProvider>().isCommit == true &&
-                        value.tree.length != 0
+                        value.tree.isNotEmpty
                     ? SizeExpandedSection(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -150,10 +151,11 @@ class _CodeBrowserState extends State<CodeBrowser>
                                     borderRadius:
                                         AppThemeBorderRadius.smallBorderRadius,
                                     onTap: () {
-                                      if (index != value.tree.length - 1)
+                                      if (index != value.tree.length - 1) {
                                         Provider.of<CodeProvider>(context,
                                                 listen: false)
                                             .popTreeUntil(value.tree[index]);
+                                      }
                                     },
                                     child: Center(
                                       child: Text(

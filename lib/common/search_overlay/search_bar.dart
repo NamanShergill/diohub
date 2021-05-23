@@ -3,7 +3,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:flutter/material.dart';
@@ -51,11 +51,13 @@ class _SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     searchData = widget.searchData;
-    if (searchData?.searchFilters != null && widget.quickFilters != null)
+    if (searchData?.searchFilters != null && widget.quickFilters != null) {
       quickActionsAnim = true;
-    if (widget.quickFilters != null)
+    }
+    if (widget.quickFilters != null) {
       searchData = searchData?.copyWith(
           quickFilters: widget.quickFilters?.keys.toList());
+    }
     quickActionsVisible = widget.quickOptions == null;
     super.initState();
   }
@@ -73,32 +75,35 @@ class _SearchBarState extends State<SearchBar> {
       Map<String, String> qFilters, String? activeFilter) {
     String qFilter = 'Quick Filters';
     qFilters.forEach((key, value) {
-      if (StringFunctions(key).isStringEqual(activeFilter))
+      if (StringFunctions(key).isStringEqual(activeFilter)) {
         qFilter = qFilters[key]!;
+      }
     });
     return qFilter;
   }
 
   void changeSortExpanded({bool? expand}) {
-    if (expand != null)
+    if (expand != null) {
       setState(() {
         sortExpanded = expand;
       });
-    else
+    } else {
       setState(() {
         sortExpanded = !sortExpanded;
       });
+    }
   }
 
   void changeQuickFiltersExpanded({bool? expand}) {
-    if (expand != null)
+    if (expand != null) {
       setState(() {
         quickFiltersExpanded = expand;
       });
-    else
+    } else {
       setState(() {
         quickFiltersExpanded = !quickFiltersExpanded;
       });
+    }
   }
 
   @override
@@ -378,14 +383,15 @@ class _SearchBarState extends State<SearchBar> {
                                               List<String> filters = searchData!
                                                   .visibleStrings
                                                   .toList();
-                                              if (value!)
+                                              if (value!) {
                                                 filters.add(widget
                                                     .quickOptions!.keys
                                                     .toList()[index]);
-                                              else
+                                              } else {
                                                 filters.remove(widget
                                                     .quickOptions!.keys
                                                     .toList()[index]);
+                                              }
                                               setState(() {
                                                 searchData = searchData!
                                                     .copyWith(
@@ -431,10 +437,11 @@ class _SearchBarState extends State<SearchBar> {
                     searchData: searchData != null ? searchData! : SearchData(),
                     heroTag: widget._heroTag,
                     onSubmit: (data) {
-                      if (widget.updateBarOnChange)
+                      if (widget.updateBarOnChange) {
                         setState(() {
                           searchData = data;
                         });
+                      }
                       widget.onSubmit(data);
                     }));
               },

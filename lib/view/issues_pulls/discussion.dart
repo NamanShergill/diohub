@@ -6,7 +6,7 @@ import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/style/textStyles.dart';
+import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
@@ -196,10 +196,11 @@ class _DiscussionState extends State<Discussion>
                           Event.unpinned,
                         ];
                         List<TimelineEventModel> filtered = [];
-                        list.forEach((element) {
-                          if (allowedEvents.contains(element.event))
-                            filtered.add(element);
-                        });
+                        for(TimelineEventModel element in list){
+                          if (allowedEvents.contains(element.event)) {
+                                                      filtered.add(element);
+                                                    }
+                        }
                         return filtered;
                       },
                       header: (context) {
@@ -255,12 +256,12 @@ class _DiscussionState extends State<Discussion>
                       builder: (context, item, index) {
                         return Builder(
                           builder: (context) {
-                            if (item.event == Event.commented)
+                            if (item.event == Event.commented) {
                               return paddingWrap(
                                   child: TimelineDiscussionComment(
                                       item, widget.isLocked,
                                       repo: widget.repo));
-                            else if (item.event == Event.closed)
+                            } else if (item.event == Event.closed) {
                               return paddingWrap(
                                   child: BasicEventTextCard(
                                 user: item.actor,
@@ -269,7 +270,7 @@ class _DiscussionState extends State<Discussion>
                                 date: item.createdAt.toString(),
                                 textContent: 'Closed this.',
                               ));
-                            else if (item.event == Event.renamed)
+                            } else if (item.event == Event.renamed) {
                               return paddingWrap(
                                   child: BasicEventTextCard(
                                 user: item.actor,
@@ -289,11 +290,11 @@ class _DiscussionState extends State<Discussion>
                                             style: TextStyle(
                                                 decoration: TextDecoration
                                                     .lineThrough)),
-                                        TextSpan(text: '${item.rename!.to}'),
+                                        TextSpan(text: item.rename!.to),
                                       ]),
                                 ),
                               ));
-                            else if (item.event == Event.pinned)
+                            } else if (item.event == Event.pinned) {
                               return paddingWrap(
                                   child: BasicEventTextCard(
                                 user: item.actor,
@@ -301,7 +302,7 @@ class _DiscussionState extends State<Discussion>
                                 date: item.createdAt.toString(),
                                 textContent: 'Pinned this.',
                               ));
-                            else if (item.event == Event.reopened)
+                            } else if (item.event == Event.reopened) {
                               return paddingWrap(
                                   child: BasicEventTextCard(
                                 user: item.actor,
@@ -310,8 +311,8 @@ class _DiscussionState extends State<Discussion>
                                 date: item.createdAt.toString(),
                                 textContent: 'Reopened this.',
                               ));
-                            else if (item.event == Event.assigned ||
-                                item.event == Event.unassigned)
+                            } else if (item.event == Event.assigned ||
+                                item.event == Event.unassigned) {
                               return paddingWrap(
                                   child: BasicEventAssignedCard(
                                 user: item.actor,
@@ -320,7 +321,7 @@ class _DiscussionState extends State<Discussion>
                                 date: item.createdAt.toString(),
                                 content: item.assignee,
                               ));
-                            else if (item.event == Event.cross_referenced) {
+                            } else if (item.event == Event.cross_referenced) {
                               return paddingWrap(
                                   child: BasicIssueCrossReferencedCard(
                                 user: item.actor,
@@ -338,7 +339,7 @@ class _DiscussionState extends State<Discussion>
                                 content: item.label,
                                 added: item.event == Event.labeled,
                               ));
-                            } else if (item.event == Event.committed)
+                            } else if (item.event == Event.committed) {
                               return paddingWrap(
                                   child: BasicEventCommitCard(
                                 user: item.author,
@@ -349,6 +350,7 @@ class _DiscussionState extends State<Discussion>
                                 // Don't need a direct reference to the git database.
                                 commitURL: item.url!.split('/git').join(''),
                               ));
+                            }
                             return Text(eventValues.reverse![item.event!]!);
                           },
                         );
@@ -396,11 +398,12 @@ class _DiscussionState extends State<Discussion>
                           return CommentBox(
                             issueURL: widget.issueUrl,
                             onSubmit: (status) {
-                              if (status)
+                              if (status) {
                                 setState(() {
                                   commentsSince = DateTime.now();
                                   commentsSinceController.refresh();
                                 });
+                              }
                             },
                           );
                         });

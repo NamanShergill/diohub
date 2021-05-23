@@ -1,7 +1,7 @@
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/auth_popup/auth_popup.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,9 +40,10 @@ class AuthProgressNotification extends StatelessWidget {
                         onEnd: () {
                           if (!BlocProvider.of<AuthenticationBloc>(context)
                               .state
-                              .authenticated)
+                              .authenticated) {
                             BlocProvider.of<AuthenticationBloc>(context)
                                 .add(ResetStates());
+                          }
                         },
                         widgetBuilder: (_, CurrentRemainingTime? time) {
                           return Column(

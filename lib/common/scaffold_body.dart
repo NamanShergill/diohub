@@ -43,7 +43,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                         return Stack(
                           children: [
                             SizeExpandedSection(
-                              expand: snapshot.data == NetworkStatus.Offline,
+                              expand: snapshot.data == NetworkStatus.offline,
                               child: Container(
                                 width: double.infinity,
                                 color: Colors.redAccent,
@@ -59,7 +59,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                               ),
                             ),
                             SizeExpandedSection(
-                              expand: snapshot.data == NetworkStatus.Restored,
+                              expand: snapshot.data == NetworkStatus.restored,
                               child: Container(
                                 width: double.infinity,
                                 color: AppColor.green,

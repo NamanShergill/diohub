@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:flutter/material.dart';
 
 import 'button.dart';
 
 class BasePopupNotification extends StatelessWidget {
   final String? title;
-  final onTap;
+  final Function? onTap;
   final bool listenToLoadingController;
   final Color? color;
   final bool dismissOnTap;
@@ -30,9 +30,10 @@ class BasePopupNotification extends StatelessWidget {
           color: color ?? AppColor.red,
           onTap: onTap != null
               ? () async {
-                  await onTap(context);
-                  if (dismissOnTap && notificationController != null)
+                  await onTap!(context);
+                  if (dismissOnTap && notificationController != null) {
                     notificationController!.add(null);
+                  }
                 }
               : null,
           title: title,

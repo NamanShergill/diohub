@@ -138,10 +138,11 @@ class IssuesService {
             options: Options(validateStatus: (status) {
       return status! < 500;
     }));
-    if (response.statusCode == 204)
+    if (response.statusCode == 204) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-assignees
@@ -205,9 +206,9 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
-  static Future<IssueModel> updateIssue(String? issueURL, Map data) async {
+  static Future<IssueModel> updateIssue(String issueURL, Map data) async {
     Response response =
-        await GetDio.getDio(applyBaseURL: false).patch('$issueURL', data: data);
+        await GetDio.getDio(applyBaseURL: false).patch(issueURL, data: data);
     return IssueModel.fromJson(response.data);
   }
 

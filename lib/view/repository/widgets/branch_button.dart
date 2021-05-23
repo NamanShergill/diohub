@@ -4,7 +4,7 @@ import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/widgets/branch_select_sheet.dart';
 import 'package:flutter/material.dart';

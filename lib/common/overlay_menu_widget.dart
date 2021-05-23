@@ -30,8 +30,7 @@ class OverlayMenuWidget extends StatefulWidget {
         assert((childAnchor == null) == (portalAnchor == null));
 
   @override
-  _OverlayMenuWidgetState createState() =>
-      _OverlayMenuWidgetState(this.controller);
+  _OverlayMenuWidgetState createState() => _OverlayMenuWidgetState(controller);
 }
 
 class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {

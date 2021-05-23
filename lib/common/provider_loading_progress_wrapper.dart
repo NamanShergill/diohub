@@ -22,13 +22,15 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
         stream: value.statusStream,
         initialData: value.status,
         builder: (context, AsyncSnapshot<Status> snapshot) {
-          if (snapshot.data == Status.loaded)
+          if (snapshot.data == Status.loaded) {
             return childBuilder!(context, value as T);
-          if (snapshot.data == Status.loading)
+          }
+          if (snapshot.data == Status.loading) {
             return loadingBuilder != null
                 ? loadingBuilder!(context)
                 : LoadingIndicator();
-          if (snapshot.data == Status.error)
+          }
+          if (snapshot.data == Status.error) {
             return errorBuilder != null
                 ? errorBuilder!(
                     context, value.errorInfo ?? 'Something went wrong.')
@@ -36,10 +38,11 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
                     builder: (context) {
                       if (value.errorInfo is DioError) {
                         DioError err = value.errorInfo as DioError;
-                        if (err.response != null)
+                        if (err.response != null) {
                           return Center(
                               child: APIError(err.response!.statusCode!,
                                   err.response!.statusMessage!));
+                        }
                       }
                       return Center(
                           child: Padding(
@@ -48,6 +51,7 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
                       ));
                     },
                   );
+          }
           return loadingBuilder != null
               ? loadingBuilder!(context)
               : LoadingIndicator();

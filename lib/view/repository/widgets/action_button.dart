@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatefulWidget {
   final int? count;
   final IconData? icon;
-  final onTap;
+  final Future<bool>? onTap;
   final String? action;
   final bool enabled;
   ActionButton(
@@ -75,7 +75,7 @@ class _ActionButtonState extends State<ActionButton> {
           Text(
             widget.count! > 999
                 ? '${(widget.count! / 1000).toStringAsFixed(1)}k'
-                : '${(widget.count == 0) ? 'None' : widget.count.toString()}',
+                : (widget.count == 0) ? 'None' : widget.count.toString(),
             style: TextStyle(
               fontSize: 13,
             ),

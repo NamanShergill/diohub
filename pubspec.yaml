@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  auto_route: ^2.1.0
-  another_flushbar: ^1.10.20
+  auto_route: ^2.2.0
+  another_flushbar: ^1.10.22
   cached_network_image: ^3.0.0
-  connectivity: ^3.0.3
+  connectivity: ^3.0.4
   dio: ^4.0.0
-  dio_cache_interceptor: ^2.3.0
+  dio_cache_interceptor: ^2.3.1
 
   # Modified to remove the current typing word indicator.
   extended_text_field:
@@ -44,7 +44,7 @@ dependencies:
 
   flutter_icons: ^1.1.0
   flutter_inappwebview: ^5.3.2
-  flutter_keyboard_visibility: ^5.0.1
+  flutter_keyboard_visibility: ^5.0.2
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^1.0.8
   flutter_scroll_to_top: ^1.1.0
@@ -83,7 +83,7 @@ dependencies:
   provider: ^5.0.0
   share: ^2.0.1
   shimmer: ^2.0.0
-  sqlite3_flutter_libs: ^0.4.1
+  sqlite3_flutter_libs: ^0.4.3
   sliver_tools: ^0.2.2
   uni_links:
     git:
@@ -96,10 +96,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^2.1.0
-  build_runner: ^2.0.2
+  build_runner: ^2.0.3
+  change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.0
 #  flutter_native_splash: ^1.1.8+4
-  change_app_package_name: ^1.0.0
+  lints: ^1.0.1
 
 flutter_native_splash:
   color: '#17181c'

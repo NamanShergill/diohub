@@ -15,7 +15,7 @@ import 'package:dio_hub/providers/repository/pulls_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/animDuartions.dart';
+import 'package:dio_hub/style/anim_durations.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
@@ -83,11 +83,11 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     //             widget.repositoryURL! + '/commits/' + data.component(3)!));
     //   });
     // }
-    else if (data.component(2) == 'issues')
+    else if (data.component(2) == 'issues') {
       tabController.index = 3;
-    else if (data.component(2) == 'pulls')
+    } else if (data.component(2) == 'pulls') {
       tabController.index = 4;
-    else if (data.component(2) == 'wiki') {
+    } else if (data.component(2) == 'wiki') {
       tabController.index = 5;
       WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         AutoRouter.of(context)
@@ -154,11 +154,13 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                     tabController.index == 2)) {
                   if (Provider.of<CodeProvider>(context, listen: false)
                           .status !=
-                      Status.loading)
+                      Status.loading) {
                     Provider.of<CodeProvider>(context, listen: false).popTree();
+                  }
                   return false;
-                } else
+                } else {
                   return true;
+                }
               },
               child: ScaffoldBody(
                 notificationController: Provider.of<RepositoryProvider>(context)
@@ -298,15 +300,16 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                     if (Provider.of<RepositoryProvider>(context,
                                             listen: false)
                                         .repositoryModel!
-                                        .hasWiki!)
+                                        .hasWiki!) {
                                       AutoRouter.of(context).push(
                                           WikiViewerRoute(
                                               repoURL: widget.repositoryURL));
-                                    else
+                                    } else {
                                       ResponseHandler.setErrorMessage(
                                           AppPopupData(
                                               title:
                                                   'Repository has no wiki.'));
+                                    }
                                   },
                                 ),
                               ),

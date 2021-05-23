@@ -22,8 +22,9 @@ class ReactionsService {
       applyBaseURL: false,
       acceptHeader: 'application/vnd.github.squirrel-girl-preview',
     ).post('$fullURL/reactions', data: {'content': reaction});
-    if (response.statusCode == 201)
+    if (response.statusCode == 201) {
       return ReactionsModel.fromJson(response.data);
+    }
     return null;
   }
 

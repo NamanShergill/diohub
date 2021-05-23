@@ -26,8 +26,9 @@ class CurrentUserProvider extends BaseProvider {
           // call this function again.
           if (status != Status.loaded &&
               authState is AuthenticationSuccessful &&
-              InternetConnectivity.status != NetworkStatus.Offline)
+              InternetConnectivity.status != NetworkStatus.offline) {
             tryFetchUserInfo();
+          }
         }
 
         // Start the recursive function.
@@ -40,7 +41,7 @@ class CurrentUserProvider extends BaseProvider {
     // Request for user details again when back online,
     // if failed previously due to no connection.
     InternetConnectivity.networkStream.listen((event) async {
-      if (event != NetworkStatus.Online &&
+      if (event != NetworkStatus.online &&
           status == Status.error &&
           authenticationBloc!.state.authenticated) {
         await getUserInfo();
@@ -77,10 +78,13 @@ class CurrentUserProvider extends BaseProvider {
       });
     } catch (e) {
       // LogOut if auth credentials sent are incorrect.
-      if (e is DioError) if (e.response != null &&
-          e.response!.statusCode == 401 &&
-          authenticationBloc!.state.authenticated)
-        authenticationBloc!.add(LogOut());
+      if (e is DioError) {
+        if (e.response != null &&
+            e.response!.statusCode == 401 &&
+            authenticationBloc!.state.authenticated) {
+          authenticationBloc!.add(LogOut());
+        }
+      }
       errorInfo = e.toString();
       error(error: e);
     }

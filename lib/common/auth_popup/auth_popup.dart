@@ -1,6 +1,6 @@
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/auth_popup/widgets/auth_progress_notification.dart';
-import 'package:dio_hub/common/auth_popup/widgets/codeInfoBox.dart';
+import 'package:dio_hub/common/auth_popup/widgets/code_info_box.dart';
 import 'package:dio_hub/common/auth_popup/widgets/error_popup.dart';
 import 'package:dio_hub/common/auth_popup/widgets/login_popup.dart';
 import 'package:dio_hub/common/auth_popup/widgets/success_popup.dart';
@@ -36,9 +36,9 @@ class _AuthPopupState extends State<AuthPopup> {
       builder: (context, state) {
         if (state is AuthenticationUnauthenticated) {
           return LoginPopup();
-        } else if (state is AuthenticationInitialized)
+        } else if (state is AuthenticationInitialized) {
           return CodeInfoBox(state.deviceCodeModel);
-        else if (state is AuthenticationSuccessful) {
+        } else if (state is AuthenticationSuccessful) {
           return SuccessPopup();
         } else if (state is AuthenticationError) {
           return ErrorPopup(state.error);

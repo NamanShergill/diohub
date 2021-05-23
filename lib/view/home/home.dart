@@ -34,10 +34,11 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
-    if (widget.deepLinkData?.components.first == 'issues')
+    if (widget.deepLinkData?.components.first == 'issues') {
       _tabController.index = 1;
-    else if (widget.deepLinkData?.components.first == 'pulls')
+    } else if (widget.deepLinkData?.components.first == 'pulls') {
       _tabController.index = 2;
+    }
     super.initState();
   }
 

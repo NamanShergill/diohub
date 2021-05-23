@@ -9,8 +9,9 @@ void linkHandler(BuildContext context, String? url,
     DeepLinkHandler.deepLinkNavigate(url);
   } else {
     bool canLaunchLink = await canLaunch(url);
-    if (canLaunchLink)
+    if (canLaunchLink) {
       showURLBottomActionsMenu(context, url,
           shareDescription: shareDescription);
+    }
   }
 }

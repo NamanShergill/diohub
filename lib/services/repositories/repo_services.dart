@@ -103,9 +103,10 @@ class RepositoryServices {
         },
       ),
     );
-    if (response.statusCode == 200 || response.statusCode == 304)
+    if (response.statusCode == 200 || response.statusCode == 304) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 }

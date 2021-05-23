@@ -73,7 +73,7 @@ class IssueInformation extends StatelessWidget {
                     data['state'] = 'open';
                   }
                   IssueModel issue =
-                      await IssuesService.updateIssue(_issue.url, data);
+                      await IssuesService.updateIssue(_issue.url!, data);
                   Provider.of<IssueProvider>(context, listen: false)
                       .updateIssue(issue);
                 },

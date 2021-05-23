@@ -30,12 +30,13 @@ class RepoBranchProvider extends BaseProvider {
       _repositoryProvider = repositoryProvider;
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
-      if (_repositoryProvider!.status == Status.loaded)
+      if (_repositoryProvider!.status == Status.loaded) {
         setBranch(
             _initCommitSHA ??
                 _currentBranch ??
                 _repositoryProvider!.repositoryModel!.defaultBranch!,
             isCommitSha: _initCommitSHA != null);
+      }
       repositoryProvider.statusStream.listen((event) {
         if (event == Status.loaded) {
           setBranch(_currentBranch ??

@@ -61,7 +61,7 @@ class CommitDetails extends StatelessWidget {
               )),
           InfoCard(
             'Parents',
-            child: _commit.commit!.parents!.length == 0
+            child: _commit.commit!.parents!.isEmpty
                 ? Row(
                     children: [
                       Text('No parents.'),

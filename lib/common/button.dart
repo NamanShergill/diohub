@@ -52,8 +52,9 @@ class _ButtonState extends State<Button> {
           });
         }
       });
-    } else
+    } else {
       loading = widget.loading;
+    }
     super.initState();
   }
 

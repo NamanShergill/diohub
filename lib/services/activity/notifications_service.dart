@@ -3,7 +3,7 @@ import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 
 class NotificationsService {
-  static String _url = '/notifications';
+  static final String _url = '/notifications';
 
   // Fetch notifications. API Endpoint: '/notifications'.
   // Add notification filters in the [filters] parameter as a [Map].

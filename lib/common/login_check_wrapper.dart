@@ -18,9 +18,9 @@ class LoginCheckWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (_, state) {
-      if (state.authenticated)
+      if (state.authenticated) {
         return child ?? Container();
-      else
+      } else {
         return replacement ??
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -31,6 +31,7 @@ class LoginCheckWrapper extends StatelessWidget {
                 ),
               ],
             );
+      }
     });
   }
 }

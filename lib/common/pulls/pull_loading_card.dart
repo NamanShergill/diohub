@@ -7,7 +7,7 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +33,7 @@ class PullLoadingCard extends StatelessWidget {
         child: APIWrapper<PullRequestModel>(
           getCall: PullsService.getPullInformation(fullUrl: url),
           loadingBuilder: (context) {
-            if (issueModel != null)
+            if (issueModel != null) {
               return InkWell(
                 borderRadius: AppThemeBorderRadius.medBorderRadius,
                 onTap: () {
@@ -102,6 +102,7 @@ class PullLoadingCard extends StatelessWidget {
                   ),
                 ),
               );
+            }
             return Container(
                 height: 80, child: Center(child: LoadingIndicator()));
           },

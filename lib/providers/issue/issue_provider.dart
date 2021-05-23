@@ -22,14 +22,16 @@ class IssueProvider extends BaseProvider {
   Future getIssue({String? userLogin}) async {
     loading();
     List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL!)];
-    if (userLogin != null)
+    if (userLogin != null) {
       futures.add(RepositoryServices.checkUserRepoPerms(
           userLogin, _repoURLFromIssueURL(_issueURL!)));
+    }
     List<dynamic> data = await Future.wait(futures);
     _issueModel = data[0];
-    if (_issueModel!.pullRequest != null)
+    if (_issueModel!.pullRequest != null) {
       AutoRouter.of(Global.currentContext)
           .replace(PullScreenRoute(pullURL: _issueModel!.pullRequest!.url));
+    }
     if (userLogin != null) _editingEnabled = data[1];
     loaded();
   }

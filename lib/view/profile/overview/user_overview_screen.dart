@@ -8,7 +8,7 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

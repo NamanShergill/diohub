@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 class PullsList extends StatelessWidget {
   final ScrollController scrollController;
   PullsList({required this.scrollController});
+  @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
     final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;

@@ -11,7 +11,7 @@ class ChangedFilesListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget getSubtitle(FileElement file) {
-      if (file.status == CommitStatus.ADDED)
+      if (file.status == CommitStatus.ADDED) {
         return RichText(
           text: TextSpan(
             text: 'File added: +${file.additions}',
@@ -21,7 +21,7 @@ class ChangedFilesListCard extends StatelessWidget {
                 fontWeight: FontWeight.w500),
           ),
         );
-      else if (file.status == CommitStatus.REMOVED)
+      } else if (file.status == CommitStatus.REMOVED) {
         return RichText(
           text: TextSpan(
             text: 'File removed: -${file.deletions}',
@@ -29,6 +29,7 @@ class ChangedFilesListCard extends StatelessWidget {
                 fontSize: 12, color: AppColor.red, fontWeight: FontWeight.w500),
           ),
         );
+      }
 
       return RichText(
         text: TextSpan(

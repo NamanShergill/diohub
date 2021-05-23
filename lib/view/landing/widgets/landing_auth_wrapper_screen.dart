@@ -28,21 +28,25 @@ class _LandingAuthWrapperScreenState extends State<LandingAuthWrapperScreen> {
         if (!executed) {
           executed = true;
           context.read<CurrentUserProvider>().statusStream.listen((event) {
-            if (event == Status.loaded)
+            if (event == Status.loaded) {
               DeepLinkHandler.deepLinkNavigate(widget.initLink!);
+            }
           });
         }
-      } else if (state is AuthenticationUnauthenticated) if (!executed) {
-        executed = true;
-        DeepLinkHandler.deepLinkNavigate(widget.initLink!);
+      } else if (state is AuthenticationUnauthenticated) {
+        if (!executed) {
+                executed = true;
+                DeepLinkHandler.deepLinkNavigate(widget.initLink!);
+              }
       }
     }, builder: (context, state) {
-      if (state is AuthenticationInitial)
+      if (state is AuthenticationInitial) {
         return Scaffold(
           body: Center(
             child: LoadingIndicator(),
           ),
         );
+      }
       return LandingScreen();
     });
   }

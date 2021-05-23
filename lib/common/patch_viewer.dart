@@ -79,8 +79,9 @@ class _PatchViewerState extends State<PatchViewer> {
         await GitDatabaseService.getFileContents(widget.contentURL!);
     String data = blob.content!;
     rawData = parseBase64(data).split('\n');
-    for (String str in rawData!)
+    for (String str in rawData!) {
       if (str.length > maxChars) maxChars = str.length;
+    }
   }
 
   void regex() async {
@@ -103,7 +104,7 @@ class _PatchViewerState extends State<PatchViewer> {
     CodeChunk info = CodeChunk();
     displayHeader.add("@@ ${element.group(1)} @@");
     List<String> _splitHeader = element.group(1).split(' ');
-    _splitHeader.forEach((element) {
+    for (String element in _splitHeader) {
       List<String> _headerValuesString = [];
       List<int> _headerValues = [];
       _headerValuesString.addAll(element.split(','));
@@ -117,7 +118,7 @@ class _PatchViewerState extends State<PatchViewer> {
         info.addStartLine = _headerValues[0];
         info.addStartingLength = _headerValues[1];
       }
-    });
+    }
     codeChunks.add(info.getMap());
   }
 
@@ -174,7 +175,7 @@ class _PatchViewerState extends State<PatchViewer> {
                 ),
                 Flexible(
                   child: CodeBlockView(
-                    displayCodeWithoutFirstLine[lineIndex].length > 0
+                    displayCodeWithoutFirstLine[lineIndex].isNotEmpty
                         ? displayCodeWithoutFirstLine[lineIndex].substring(1)
                         : " ",
                     language: widget.fileType,

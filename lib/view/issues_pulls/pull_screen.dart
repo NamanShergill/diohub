@@ -8,7 +8,7 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/pulls/pull_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
@@ -242,18 +242,19 @@ class _PullScreenState extends State<PullScreen>
   Widget? getIcon(IssueState? state, bool merged, double size) {
     switch (state) {
       case IssueState.CLOSED:
-        if (merged)
+        if (merged) {
           return Icon(
             Octicons.git_merge,
             color: Colors.deepPurpleAccent,
             size: size,
           );
-        else
+        } else {
           return Icon(
             Octicons.git_pull_request,
             color: AppColor.red,
             size: size,
           );
+        }
       case IssueState.OPEN:
         return Icon(
           Octicons.git_pull_request,

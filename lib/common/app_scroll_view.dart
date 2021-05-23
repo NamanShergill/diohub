@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:flutter/material.dart';
 
 import 'app_tab_bar.dart';
 
@@ -51,16 +51,15 @@ class AppScrollView extends StatelessWidget {
                         ),
                       ],
                     ))
-                : child != null
-                    ? child
-                    : Container(
-                        color: childrenColor,
-                        child: TabBarView(
-                          controller: tabController,
-                          children: List.generate(
-                              tabViews!.length, (index) => tabViews![index]),
-                        ),
+                : child ??
+                    Container(
+                      color: childrenColor,
+                      child: TabBarView(
+                        controller: tabController,
+                        children: List.generate(
+                            tabViews!.length, (index) => tabViews![index]),
                       ),
+                    ),
           );
         }));
   }
@@ -145,7 +144,7 @@ class SliverAppBarTitle extends StatefulWidget {
   }) : super(key: key);
   @override
   _SliverAppBarTitleState createState() {
-    return new _SliverAppBarTitleState();
+    return _SliverAppBarTitleState();
   }
 }
 

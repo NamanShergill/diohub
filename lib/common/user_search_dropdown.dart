@@ -4,7 +4,7 @@ import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
 import 'package:dio_hub/services/search/search_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +46,7 @@ class UserSearchDropdown extends StatelessWidget {
                     future: (int pageNumber, int pageSize, refresh, _) {
                       return SearchService.searchMentionUsers(
                           query, _type, qType,
-                          cursor: _ != null ? _.cursor : null);
+                          cursor: _?.cursor);
                     },
                     builder: (context, item, index) {
                       return InkWell(

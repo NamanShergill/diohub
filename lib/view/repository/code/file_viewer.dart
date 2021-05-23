@@ -42,9 +42,9 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   }
 
   bool checkFileForWrap() {
-    if (fileType != null && fileType!.startsWith('image'))
+    if (fileType != null && fileType!.startsWith('image')) {
       return false;
-    else if (fileExtension == 'md') return false;
+    } else if (fileExtension == 'md') return false;
     return true;
   }
 
@@ -89,7 +89,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         getCall: GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
-          if (fileType != null && fileType!.startsWith('image'))
+          if (fileType != null && fileType!.startsWith('image')) {
             return Column(
               children: [
                 Expanded(
@@ -102,6 +102,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
                 ),
               ],
             );
+          }
           return TextViewer(
             blob,
             widget.fileName,
@@ -116,9 +117,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
 }
 
 class ContentViewController {
-  bool Function() wrap = () {
-    return false;
-  };
+  late bool Function() wrap;
   bool Function()? edit;
 }
 
@@ -151,8 +150,9 @@ class _TextViewerState extends State<TextViewer> {
   @override
   void initState() {
     content = parseBase64(widget.blob.content!).split('\n');
-    for (String str in content)
+    for (String str in content) {
       if (str.length > numberOfMaxChars) numberOfMaxChars = str.length;
+    }
     fileType = widget.fileName!.split('.').last;
     super.initState();
   }
@@ -176,11 +176,12 @@ class _TextViewerState extends State<TextViewer> {
     return Visibility(
       // visible: !editing,
       child: Builder(builder: (context) {
-        if (fileType == 'md')
+        if (fileType == 'md') {
           return SingleChildScrollView(
             child: MarkdownBody(content.join('\n'),
                 branch: widget.branch, repo: widget.repoName),
           );
+        }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Container(

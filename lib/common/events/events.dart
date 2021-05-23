@@ -29,25 +29,26 @@ class Events extends StatelessWidget {
       scrollController: scrollController,
       isNestedScrollViewChild: true,
       future: (pageNumber, pageSize, refresh, _) {
-        if (specificUser != null)
+        if (specificUser != null) {
           return EventsService.getUserEvents(specificUser,
               page: pageNumber, perPage: pageSize, refresh: refresh);
-        else if (privateEvents)
+        } else if (privateEvents) {
           return EventsService.getReceivedEvents(_user.currentUserInfo!.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
-        else
+        } else {
           return EventsService.getPublicEvents(
               page: pageNumber, perPage: pageSize, refresh: refresh);
+        }
       },
       builder: (context, EventsModel item, index) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(builder: (context) {
-            if (item.type == EventsType.PushEvent)
+            if (item.type == EventsType.PushEvent) {
               return PushEventCard(item, item.payload!);
-            else if (item.type == EventsType.WatchEvent)
+            } else if (item.type == EventsType.WatchEvent) {
               return RepoEventCard(item, 'starred');
-            else if (item.type == EventsType.CreateEvent) {
+            } else if (item.type == EventsType.CreateEvent) {
               if (item.payload.refType == RefType.REPOSITORY) {
                 return RepoEventCard(item, 'created');
               } else if (item.payload.refType == RefType.BRANCH) {
@@ -57,36 +58,37 @@ class Events extends StatelessWidget {
                   branch: item.payload.ref,
                 );
               }
-            } else if (item.type == EventsType.PublicEvent)
+            } else if (item.type == EventsType.PublicEvent) {
               return RepoEventCard(
                 item,
                 'made',
                 eventTextEnd: 'public',
               );
-            else if (item.type == EventsType.MemberEvent)
+            } else if (item.type == EventsType.MemberEvent) {
               return AddedEventCard(item,
                   '${item.payload.action} ${item.payload.member.login} to');
-            else if (item.type == EventsType.DeleteEvent)
+            } else if (item.type == EventsType.DeleteEvent) {
               return RepoEventCard(item,
                   'deleted a ${refTypeValues.reverse[item.payload.refType]} \'${item.payload.ref}\' in');
-            else if (item.type == EventsType.PullRequestEvent)
+            } else if (item.type == EventsType.PullRequestEvent) {
               return PullEventCard(
                 item,
               );
-            else if (item.type == EventsType.ForkEvent)
+            } else if (item.type == EventsType.ForkEvent) {
               return RepoEventCard(
                 item,
                 'forked',
                 repo: item.payload.forkee,
               );
-            else if (item.type == EventsType.IssuesEvent)
+            } else if (item.type == EventsType.IssuesEvent) {
               return IssuesEventCard(item, 'an issue in');
-            else if (item.type == EventsType.IssueCommentEvent)
+            } else if (item.type == EventsType.IssueCommentEvent) {
               return IssuesEventCard(
                 item,
                 'a comment in',
                 time: item.createdAt,
               );
+            }
             return Padding(
               padding: const EdgeInsets.all(
                 42.0,

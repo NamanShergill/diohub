@@ -8,7 +8,7 @@ import 'package:uni_links/uni_links.dart';
 
 String get _chars => '([^/\\s]+)';
 String get _any => '([^\\s]+)';
-String get _slash => '(\/)';
+String get _slash => '(/)';
 String get _digit => '(\\d+)';
 
 class DeepLinkHandler {
@@ -32,15 +32,16 @@ class DeepLinkHandler {
           return false;
         });
         AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
-      } else
+      } else {
         AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
+      }
     }
   }
 
   static String _cleanURL(String link) {
     if (link.endsWith('/')) link = link.substring(0, link.length - 1);
     return link.toLowerCase().replaceFirst(
-        RegExp('((http(s)?)(:(\/\/)))?(www.)?(github.com\/)'), '');
+        RegExp('((http(s)?)(:(//)))?(www.)?(github.com/)'), '');
   }
 
   static bool isDeepLink(String link) {
@@ -48,19 +49,19 @@ class DeepLinkHandler {
   }
 
   static RegExp get deepLinkPattern =>
-      RegExp('((http(s)?)(:(\/\/)))?(www.)?(github.com\/)');
+      RegExp('((http(s)?)(:(//)))?(www.)?(github.com/)');
 
   static List<PageRouteInfo>? getRoutes(String link) {
     if (link.isEmpty) return null;
     StringFunctions string = StringFunctions(_cleanURL(link));
     List<PageRouteInfo> temp = [];
-    if (string.regexCompleteMatch(landingPageURLPattern))
+    if (string.regexCompleteMatch(landingPageURLPattern)) {
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
-    else if (string.regexCompleteMatch(issuePullPageURLPattern))
+    } else if (string.regexCompleteMatch(issuePullPageURLPattern)) {
       temp.add(IssueScreenRoute(
         issueURL: urlWithPrefix('repos/' + string.string),
       ));
-    else if (string.regexCompleteMatch(commitPageURLPattern))
+    } else if (string.regexCompleteMatch(commitPageURLPattern)) {
       temp.add(CommitInfoScreenRoute(
           commitURL: urlWithPrefix('repos/' +
                   DeepLinkData(string.string)
@@ -69,22 +70,24 @@ class DeepLinkHandler {
                       .join('/')) +
               '/commits/' +
               DeepLinkData(string.string).component(3)!));
-    else if (string.regexCompleteMatch(repoPageURLPattern))
+    } else if (string.regexCompleteMatch(repoPageURLPattern)) {
       temp.add(RepositoryScreenRoute(
           repositoryURL: urlWithPrefix('repos/' +
               DeepLinkData(string.string).components.sublist(0, 2).join('/')),
           deepLinkData: DeepLinkData(string.string)));
-    else if (string.regexCompleteMatch('$_chars'))
+    } else if (string.regexCompleteMatch(_chars)) {
       temp.add(OtherUserProfileScreenRoute(
         login: string.string,
       ));
-    else
+    } else {
       ChromeSafariBrowser.isAvailable().then((value) {
-        if (value)
+        if (value) {
           ChromeSafariBrowser().open(url: Uri.parse(link));
-        else
+        } else {
           InAppBrowser.openWithSystemBrowser(url: Uri.parse(link));
+        }
       });
+    }
     return temp;
   }
 

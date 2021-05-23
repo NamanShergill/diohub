@@ -3,7 +3,7 @@ import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/pulls/pull_loading_card.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart' hide State;
@@ -24,13 +24,14 @@ class IssueListCard extends StatelessWidget {
       this.commentsSince});
   @override
   Widget build(BuildContext context) {
-    if (item.pullRequest != null)
+    if (item.pullRequest != null) {
       return PullLoadingCard(
         item.pullRequest!.url!,
         issueModel: item,
         compact: compact,
         padding: padding,
       );
+    }
     return Padding(
       padding: padding,
       child: Material(

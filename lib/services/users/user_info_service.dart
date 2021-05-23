@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/app/graphQL/getGraphQl.dart';
+import 'package:dio_hub/app/graphQL/get_graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';

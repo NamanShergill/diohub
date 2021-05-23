@@ -17,6 +17,9 @@ import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
     int pageSize, bool refresh, T? lastItem, String? sort, bool? isAscending);
 
+typedef WrapperReplacementBuilder = Widget Function(
+    SearchData searchData, Widget Function(BuildContext, Function) header, Widget child);
+
 class SearchScrollWrapper extends StatefulWidget {
   /// Search Data this search wrapper would be attached to.
   final SearchData searchData;
@@ -50,7 +53,7 @@ class SearchScrollWrapper extends StatefulWidget {
   final bool isNestedScrollViewChild;
 
   /// Replacement builder if search data is empty.
-  final replacementBuilder;
+  final WrapperReplacementBuilder? replacementBuilder;
 
   /// Callback for when search data is changed.
   final ValueChanged<SearchData>? onChanged;
@@ -126,7 +129,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
       color: AppColor.onBackground,
       child: Builder(
         builder: (context) {
-          if (searchData.searchFilters!.searchType == SearchType.repositories)
+          if (searchData.searchFilters!.searchType == SearchType.repositories) {
             return _InfiniteWrapper<RepositoryModel>(
               controller: controller,
               searchData: searchData,
@@ -153,8 +156,8 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                 );
               },
             );
-          else if (searchData.searchFilters!.searchType ==
-              SearchType.issues_pulls)
+          } else if (searchData.searchFilters!.searchType ==
+              SearchType.issuesPulls) {
             return _InfiniteWrapper<IssueModel>(
               filterFn: widget.filterFn,
               controller: controller,
@@ -181,7 +184,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                 );
               },
             );
-          else if (searchData.searchFilters!.searchType == SearchType.users)
+          } else if (searchData.searchFilters!.searchType == SearchType.users) {
             return _InfiniteWrapper<UserInfoModel>(
               filterFn: widget.filterFn,
               controller: controller,
@@ -208,12 +211,14 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                 );
               },
             );
+          }
           return Container();
         },
       ),
     );
-    if (widget.replacementBuilder != null)
+    if (widget.replacementBuilder != null) {
       return widget.replacementBuilder!(searchData, header, child);
+    }
     return child;
   }
 }

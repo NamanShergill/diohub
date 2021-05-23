@@ -4,9 +4,9 @@ import 'package:dio_hub/common/custom_expansion_tile.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/models/events/events_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/style/textStyles.dart';
+import 'package:dio_hub/style/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class PushEventCard extends StatelessWidget {

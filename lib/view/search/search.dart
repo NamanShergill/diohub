@@ -8,7 +8,7 @@ import 'package:dio_hub/common/search_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/services/search/search_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

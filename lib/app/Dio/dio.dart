@@ -23,7 +23,8 @@ class GetDio {
     String? acceptHeader,
     CustomCacheOptions? cacheOptions,
   }) {
-    // Makes the buttons listening to this stream get disabled to prevent multiple taps.
+    // Makes the buttons listening to this stream get disabled to prevent
+    // multiple taps.
     if (buttonLock) ButtonController.setButtonValue(true);
     Dio dio = Dio();
 
@@ -32,9 +33,9 @@ class GetDio {
         onRequest:
             (RequestOptions options, RequestInterceptorHandler handler) async {
           if (applyBaseURL) options.baseUrl = baseURL;
-          options.headers["Accept"] = acceptHeader ?? "application/json";
-          options.headers["setContentType"] = "application/json";
-          options.headers['User-Agent'] = "com.felix.hub";
+          options.headers['Accept'] = acceptHeader ?? 'application/json';
+          options.headers['setContentType'] = 'application/json';
+          options.headers['User-Agent'] = 'com.felix.diohub';
           if (loggedIn == false) {
             if (loginRequired) throw Exception('Not authenticated.');
           } else {
@@ -42,7 +43,8 @@ class GetDio {
             dio.interceptors.requestLock.lock();
             try {
               AuthService.getAccessTokenFromDevice().then((token) async {
-                // Throw error if request requires login and no token is found on device.
+                // Throw error if request requires login and no token is found
+                // on device.
                 if (token == null && loginRequired) {
                   throw Exception('Not authenticated.');
                 }
@@ -79,7 +81,8 @@ class GetDio {
             (Response response, ResponseInterceptorHandler handler) async {
           // Makes the buttons listening to this stream get enabled again.
           if (buttonLock) ButtonController.setButtonValue(false);
-          // If response contains a ['message'] key, show success popup to the user with the message.
+          // If response contains a ['message'] key, show success popup to the
+          // user with the message.
           if (response.data.runtimeType is Map &&
               response.data.containsKey("message") &&
               showPopup) {
@@ -107,17 +110,19 @@ class GetDio {
       ),
     );
     // If [cacheEnabled] is true, check the cache/cache the response.
-    if (cacheEnabled)
+    if (cacheEnabled) {
       dio.interceptors.add(
         DioCacheInterceptor(
             options: cacheOptions ??
                 CacheOptions(
                     policy: CachePolicy.refresh, store: Global.cacheStore)),
       );
+    }
     // Log the request in the console for debugging if [debugLog] is true.
-    if (debugLog)
+    if (debugLog) {
       dio.interceptors.add(PrettyDioLogger(
           requestHeader: true, requestBody: true, responseHeader: true));
+    }
     return dio;
   }
 }

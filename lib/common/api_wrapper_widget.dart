@@ -47,32 +47,35 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
   // Doing it this way instead of a future builder for better error handling.
   // And to add a refresh controller in the future.
   void setupWidget() async {
-    if (widget.initialData == null)
+    if (widget.initialData == null) {
       await fetchData();
-    else {
+    } else {
       data = widget.initialData;
-      if (mounted)
+      if (mounted) {
         setState(() {
           loading = false;
         });
+      }
     }
   }
 
   Future fetchData() async {
-    if (mounted)
+    if (mounted) {
       setState(() {
         loading = true;
       });
+    }
     try {
       error = null;
       data = await widget.getCall;
     } catch (e) {
       error = e;
     }
-    if (mounted)
+    if (mounted) {
       setState(() {
         loading = false;
       });
+    }
   }
 
   @override
@@ -83,11 +86,11 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading)
+    if (loading) {
       return widget.loadingBuilder != null
           ? widget.loadingBuilder!(context)
           : LoadingIndicator();
-    else if (error != null)
+    } else if (error != null) {
       return widget.errorBuilder != null
           ? widget.errorBuilder!(context, error)
           // : Text(error!);
@@ -108,11 +111,13 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
                 child: Text('Something went wrong.'),
               );
             });
+    }
 
-    if (widget.fadeIntoView)
+    if (widget.fadeIntoView) {
       return FadeAnimationSection(
         child: widget.responseBuilder!(context, data),
       );
+    }
     return widget.responseBuilder!(context, data);
   }
 }

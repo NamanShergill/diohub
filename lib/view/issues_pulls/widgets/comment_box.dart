@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/markdown_body.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
@@ -81,10 +81,11 @@ class _CommentBoxState extends State<CommentBox> {
             Button(
               onTap: () {
                 setState(() {
-                  if (index == 0)
+                  if (index == 0) {
                     index = 1;
-                  else
+                  } else {
                     index = 0;
+                  }
                 });
               },
               padding: EdgeInsets.all(0),

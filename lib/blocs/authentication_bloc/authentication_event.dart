@@ -25,7 +25,8 @@ class AuthError extends AuthenticationEvent {
 }
 
 /// Reset states to unauthenticated.
-/// To be used when the timer runs out or user cancels authentication, for example.
+/// To be used when the timer runs out or user cancels authentication, for
+/// example.
 class ResetStates extends AuthenticationEvent {}
 
 /// Successfully authenticated.

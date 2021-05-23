@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
 
-enum NetworkStatus { Online, Offline, Restored }
+enum NetworkStatus { online, offline, restored }
 
 class InternetConnectivity {
   static final StreamController _networkController =
@@ -10,7 +10,7 @@ class InternetConnectivity {
 
   static Stream<NetworkStatus> get networkStream => _networkController.stream as Stream<NetworkStatus>;
 
-  static NetworkStatus _status = NetworkStatus.Online;
+  static NetworkStatus _status = NetworkStatus.online;
   static NetworkStatus get status => _status;
 
   static networkStatusService() async {
@@ -18,19 +18,20 @@ class InternetConnectivity {
         .onConnectivityChanged
         .listen((ConnectivityResult status) async {
       if (status != ConnectivityResult.none) {
-        _networkController.add(NetworkStatus.Restored);
+        _networkController.add(NetworkStatus.restored);
         await Future.delayed(Duration(seconds: 5));
-        if (status != ConnectivityResult.none)
-          _networkController.add(NetworkStatus.Online);
+        if (status != ConnectivityResult.none) {
+          _networkController.add(NetworkStatus.online);
+        }
       } else {
-        _networkController.add(NetworkStatus.Offline);
+        _networkController.add(NetworkStatus.offline);
       }
     });
     _networkController.stream.listen((event) {
       _status = event;
     });
     if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
-      _networkController.add(NetworkStatus.Offline);
+      _networkController.add(NetworkStatus.offline);
     }
   }
 

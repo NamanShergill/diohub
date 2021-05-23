@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dio_hub/style/animDuartions.dart';
+import 'package:dio_hub/style/anim_durations.dart';
 
 class SizeExpandedSection extends StatefulWidget {
   final Widget? child;

@@ -1,5 +1,5 @@
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/style/borderRadiuses.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 
 class IssueLabel extends StatelessWidget {
