@@ -1,0 +1,11 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+      - graphql/**
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            -  schema: graphql/github.schema.graphql
+               queries_glob: graphql/queries/**.graphql
