@@ -8,7 +8,12 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import "package:gql/language.dart" as gql;
+import "package:gql_dio_link/gql_dio_link.dart";
+import 'package:gql_exec/gql_exec.dart' as gql_exec;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
+typedef GQLResponse = gql_exec.Response;
 
 class GetDio {
   static Dio getDio({
@@ -61,7 +66,9 @@ class GetDio {
           // Check cache first and return cached data if supplied maxAge
           // has not elapsed.
           if (cacheEnabled) {
-            final key = CacheOptions.defaultCacheKeyBuilder(options);
+            final key = cacheOptions?.allowPostMethod == true
+                ? options.data.toString()
+                : CacheOptions.defaultCacheKeyBuilder(options);
             final cache = await Global.cacheStore.get(key);
             if (cache != null &&
                 cacheOptions != null &&
@@ -124,5 +131,35 @@ class GetDio {
           requestHeader: true, requestBody: true, responseHeader: true));
     }
     return dio;
+  }
+
+  static Future<GQLResponse> gqlDio(
+    String query, {
+    bool loggedIn = true,
+    bool cacheEnabled = true,
+    bool applyBaseURL = true,
+    bool loginRequired = true,
+    bool debugLog = kReleaseMode,
+    bool buttonLock = true,
+    bool showPopup = true,
+    String? acceptHeader,
+    CustomCacheOptions? cacheOptions,
+  }) async {
+    return DioLink(Global.apiBaseURL + '/graphql',
+            client: getDio(
+                loggedIn: loggedIn,
+                baseURL: Global.apiBaseURL + '/graphql',
+                acceptHeader: acceptHeader,
+                debugLog: debugLog,
+                applyBaseURL: applyBaseURL,
+                buttonLock: buttonLock,
+                cacheEnabled: cacheEnabled,
+                cacheOptions: cacheOptions,
+                loginRequired: loginRequired,
+                showPopup: showPopup),
+            ignoreErrorCodes: [304])
+        .request(gql_exec.Request(
+            operation: gql_exec.Operation(document: gql.parseString(query))))
+        .first;
   }
 }

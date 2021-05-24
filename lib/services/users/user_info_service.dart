@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/app/graphQL/get_graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:graphql/client.dart' hide Response;
 
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
@@ -71,9 +69,9 @@ class UserInfoService {
 
   static Future<PinnedReposModel> getUserPinnedRepos(
       String? user, int first) async {
-    String getPinnedRepos = r'''
-          query ($user:String!, $first:Int!){ 
-                    user(login: $user) { 
+    String getPinnedRepos = '''
+          { 
+                    user(login: "$user") { 
                       pinnedItems(first: $first, types:[REPOSITORY]){
                         edges {
                                 node {
@@ -96,13 +94,8 @@ class UserInfoService {
                       }
                     }
                   }''';
-    final QueryOptions options = QueryOptions(
-        document: gql(getPinnedRepos),
-        variables: <String, dynamic>{
-          'user': user,
-          'first': first,
-        });
-    final QueryResult result = await GetGraphQL.client.query(options);
-    return PinnedReposModel.fromJson(result.data!);
+    final res = await GetDio.gqlDio(getPinnedRepos,
+        cacheOptions: CacheManager.defaultGQLCache());
+    return PinnedReposModel.fromJson(res.data!);
   }
 }

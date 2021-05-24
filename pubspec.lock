@@ -545,61 +545,35 @@ packages:
     source: git
     version: "4.0.2"
   gql:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gql
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0-nullsafety.2"
-  gql_dedupe_link:
-    dependency: transitive
+    version: "0.13.1-alpha+1621584656247"
+  gql_dio_link:
+    dependency: "direct main"
     description:
-      name: gql_dedupe_link
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0-nullsafety.1"
-  gql_error_link:
-    dependency: transitive
-    description:
-      name: gql_error_link
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0-nullsafety.1"
+      path: "links/gql_dio_link"
+      ref: HEAD
+      resolved-ref: "8009ed343e6411e15443ec242f84e15be3ec07fb"
+      url: "https://github.com/NamanShergill/gql"
+    source: git
+    version: "0.1.0"
   gql_exec:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gql_exec
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0-nullsafety.2"
-  gql_http_link:
-    dependency: transitive
-    description:
-      name: gql_http_link
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0-nullsafety.1"
+    version: "0.3.1-alpha+1621584656254"
   gql_link:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gql_link
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0-nullsafety.2"
-  gql_transform_link:
-    dependency: transitive
-    description:
-      name: gql_transform_link
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0-nullsafety.1"
-  graphql:
-    dependency: "direct main"
-    description:
-      name: graphql
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.0-nullsafety.3"
+    version: "0.4.1-alpha+1621584656261"
   graphs:
     dependency: transitive
     description:
@@ -770,13 +744,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  normalize:
-    dependency: transitive
-    description:
-      name: normalize
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0-nullsafety.0"
   octo_image:
     dependency: transitive
     description:
@@ -1254,5 +1221,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.13.0 <3.0.0"
   flutter: ">=2.0.0"

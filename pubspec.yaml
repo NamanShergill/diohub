@@ -3,10 +3,10 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.2.1-29042021.internal
+version: 0.3.0-dev.internal
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -66,7 +66,17 @@ dependencies:
       url: https://github.com/NamanShergill/google_nav_bar.git
       ref: master
 
-  graphql: ^5.0.0-nullsafety.3
+  gql: ^0.13.0
+  gql_exec: ^0.3.0
+
+  # Added exception status codes for errors.
+  gql_dio_link:
+    git:
+      url: https://github.com/NamanShergill/gql
+      path: links/gql_dio_link
+
+
+  gql_link: ^0.4.0
   infinite_scroll_pagination: ^3.0.1
   intl: ^0.17.0
   line_icons: ^2.0.1

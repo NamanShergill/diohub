@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/app/graphQL/get_graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/search/searchReposModel.dart';
@@ -9,7 +8,6 @@ import 'package:dio_hub/models/search/search_issues_model.dart';
 import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
 import 'package:dio_hub/models/search/search_users_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:graphql/client.dart' hide Response;
 
 class SearchService {
   static Future<List<UserInfoModel>> searchUsers(String query,
@@ -88,8 +86,8 @@ class SearchService {
       String query, String type, String qType,
       {String? cursor}) async {
     String getUsers = '''
-        query (\$query:String!${cursor != null ? ',\$cursor:String!' : ''}){
-        search(query: \$query, type: USER, first: 20${cursor != null ? ', after:\$cursor' : ''}) {
+        {
+        search(query: "$query", type: USER, first: 20${cursor != null ? ', after:"$cursor"' : ''}) {
           edges {
             node {
               ... on $qType {
@@ -101,16 +99,11 @@ class SearchService {
           }
         }
       }
-
     ''';
-    final QueryOptions options =
-        QueryOptions(document: gql(getUsers), variables: <String, dynamic>{
-      'query': query + ' type:$type',
-      'cursor': cursor,
-    });
-    final QueryResult result = await GetGraphQL.client.query(options);
+    final res = await GetDio.gqlDio(getUsers,
+        cacheOptions: CacheManager.defaultGQLCache());
     List<UserEdge> userEdges =
-        SearchUsersGraphQlModel.fromJson(result.data!).search.edges;
+        SearchUsersGraphQlModel.fromJson(res.data).search.edges;
     return userEdges;
   }
 }

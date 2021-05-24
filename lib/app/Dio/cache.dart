@@ -28,6 +28,16 @@ class CacheManager {
   static CustomCacheOptions defaultCache({bool refresh = false}) =>
       CustomCacheOptions(refresh);
 
+  static CustomCacheOptions defaultGQLCache({bool refresh = false}) =>
+      CustomCacheOptions(
+        refresh,
+        allowPostMethod: true,
+        cachePolicy: CachePolicy.forceCache,
+        keyBuilder: (request) {
+          return request.data.toString();
+        },
+      );
+
   static void clearCache() async {
     await Global.cacheStore.clean();
   }
@@ -43,6 +53,7 @@ class CustomCacheOptions extends CacheOptions {
     CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     Duration maxStale = const Duration(days: 7),
     CachePriority priority = CachePriority.normal,
+    bool allowPostMethod = false,
     CachePolicy cachePolicy = CachePolicy.request,
   }) : super(
             store: Global.cacheStore,
@@ -50,5 +61,6 @@ class CustomCacheOptions extends CacheOptions {
             hitCacheOnErrorExcept: hitCacheOnErrorExcept,
             keyBuilder: keyBuilder,
             maxStale: maxStale,
+            allowPostMethod: allowPostMethod,
             priority: priority);
 }
