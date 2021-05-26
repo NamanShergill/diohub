@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 
 class UserInfoService {
@@ -67,35 +67,25 @@ class UserInfoService {
     return UserInfoModel.fromJson(response.data);
   }
 
-  static Future<PinnedReposModel> getUserPinnedRepos(
-      String? user, int first) async {
-    String getPinnedRepos = '''
-          { 
-                    user(login: "$user") { 
-                      pinnedItems(first: $first, types:[REPOSITORY]){
-                        edges {
-                                node {
-                                  ... on Repository {
-                                    name
-                                    description
-                                    stargazerCount
-                                    updatedAt
-                                    url
-                                    languages(orderBy: {direction:DESC, field: SIZE}, first:1) {
-                                      edges {
-                                        node {
-                                          name
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                      }
-                    }
-                  }''';
-    final res = await GetDio.gqlDio(getPinnedRepos,
-        cacheOptions: CacheManager.defaultGQLCache());
-    return PinnedReposModel.fromJson(res.data!);
+  static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
+      getUserPinnedRepos(String user) async {
+    try {
+      print(GetUserPinnedReposQuery(
+              variables: GetUserPinnedReposArguments(user: user))
+          .runtimeType);
+      final res = await GetDio.gqlDio(
+          GetUserPinnedReposQuery(
+              variables: GetUserPinnedReposArguments(user: user)),
+          debugLog: true,
+          cacheOptions: CacheManager.defaultGQLCache());
+      print(res);
+      return GetUserPinnedRepos$Query.fromJson(res.data!)
+          .user!
+          .pinnedItems
+          .edges!;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 }

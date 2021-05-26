@@ -1,3 +1,4 @@
+import 'package:artemis/artemis.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
@@ -8,7 +9,6 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import "package:gql/language.dart" as gql;
 import "package:gql_dio_link/gql_dio_link.dart";
 import 'package:gql_exec/gql_exec.dart' as gql_exec;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -134,7 +134,7 @@ class GetDio {
   }
 
   static Future<GQLResponse> gqlDio(
-    String query, {
+    GraphQLQuery query, {
     bool loggedIn = true,
     bool cacheEnabled = true,
     bool applyBaseURL = true,
@@ -159,7 +159,9 @@ class GetDio {
                 showPopup: showPopup),
             ignoreErrorCodes: [304])
         .request(gql_exec.Request(
-            operation: gql_exec.Operation(document: gql.parseString(query))))
+          operation: gql_exec.Operation(document: query.document),
+          variables: query.variables!.toJson(),
+        ))
         .first;
   }
 }

@@ -6,6 +6,32 @@ targets:
     builders:
       artemis:
         options:
+          scalar_mapping:
+            - graphql_type: Date
+              dart_type: DateTime
+            - graphql_type: DateTime
+              dart_type: DateTime
+            - graphql_type: GitTimestamp
+              dart_type: DateTime
+            - graphql_type: PreciseDateTime
+              dart_type: DateTime
+            - graphql_type: X509Certificate
+              dart_type: DateTime
+            - graphql_type: GitRefname
+              dart_type: DateTime
+            - graphql_type: HTML
+              dart_type: String
+            - graphql_type: DeclineTopicSuggestionInput
+              dart_type: String
+            - graphql_type: GitObjectID
+              dart_type: String
+            - graphql_type: GitSignature
+              dart_type: String
+            - graphql_type: URI
+              dart_type: Uri
+#          fragments_glob: graphql/queries/**.fragment.graphql
           schema_mapping:
-            -  schema: graphql/github.schema.graphql
+            -  schema: graphql/schema.docs.graphql
                queries_glob: graphql/queries/**.graphql
+               output: lib/graphql/graphql.dart
+               naming_scheme: pathedWithFields

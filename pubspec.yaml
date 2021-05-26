@@ -78,7 +78,7 @@ dependencies:
 
 
   gql_link: ^0.4.0
-  infinite_scroll_pagination: ^3.0.1
+  infinite_scroll_pagination: ^3.0.1+1
   intl: ^0.17.0
   json_annotation: ^4.0.1
   line_icons: ^2.0.1
@@ -93,10 +93,10 @@ dependencies:
       ref: master
 
   mime: ^1.0.0
-  path_provider: ^2.0.1
+  path_provider: ^2.0.2
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0
-  share: ^2.0.1
+  share: ^2.0.2
   shimmer: ^2.0.0
   sqlite3_flutter_libs: ^0.4.3
   sliver_tools: ^0.2.2

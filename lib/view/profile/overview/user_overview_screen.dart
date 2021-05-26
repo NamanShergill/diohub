@@ -4,8 +4,8 @@ import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/repository_card.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -24,30 +24,32 @@ class UserOverviewScreen extends StatelessWidget {
         children: [
           InfoCard(
             'Pinned Repos',
-            child: APIWrapper<PinnedReposModel>(
+            child: APIWrapper<
+                List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
               getCall:
-                  UserInfoService.getUserPinnedRepos(userInfoModel!.login, 6),
+                  UserInfoService.getUserPinnedRepos(userInfoModel!.login!),
               responseBuilder: (context, data) {
-                return data.user!.pinnedItems!.edges!.isEmpty
+                return data.isEmpty
                     ? const Text('No Pinned items.')
                     : SizeExpandedSection(
                         child: ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: data.user!.pinnedItems!.edges!.length,
+                          itemCount: data.length,
                           itemBuilder: (context, index) {
-                            final PurpleNode node =
-                                data.user!.pinnedItems!.edges![index].node!;
+                            final GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
+                                node = data[index]!.node
+                                    as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
                             return RepositoryCard(RepositoryModel(
                                 stargazersCount: node.stargazerCount,
                                 description: node.description,
                                 language: node.languages!.edges!.isNotEmpty
-                                    ? node.languages?.edges?.first.node?.name ??
+                                    ? node.languages?.edges?.first!.node.name ??
                                         'N/A'
                                     : 'N/A',
                                 name: node.name,
                                 private: false,
-                                url: node.url!.replaceFirst(
+                                url: node.url.toString().replaceFirst(
                                     'https://github.com',
                                     'https://api.github.com/repos'),
                                 updatedAt: node.updatedAt));

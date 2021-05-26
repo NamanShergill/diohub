@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/search/searchReposModel.dart';
 import 'package:dio_hub/models/search/search_issues_model.dart';
-import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
 import 'package:dio_hub/models/search/search_users_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 
@@ -82,28 +82,17 @@ class SearchService {
   //   return data.map((e) => TrendingReposModel.fromJson(e)).toList();
   // }
 
-  static Future<List<UserEdge>> searchMentionUsers(
-      String query, String type, String qType,
-      {String? cursor}) async {
-    String getUsers = '''
-        {
-        search(query: "$query", type: USER, first: 20${cursor != null ? ', after:"$cursor"' : ''}) {
-          edges {
-            node {
-              ... on $qType {
-                login
-                avatarUrl
-              }
-            }
-            cursor
-          }
-        }
-      }
-    ''';
-    final res = await GetDio.gqlDio(getUsers,
+  static Future<List<SearchMentionUsers$Query$Search$Edges?>>
+      searchMentionUsers(String query, String type, {String? cursor}) async {
+    query = query + ' type:$type';
+    final res = await GetDio.gqlDio(
+        SearchMentionUsersQuery(
+            variables:
+                SearchMentionUsersArguments(query: query, after: cursor)),
+        debugLog: true,
         cacheOptions: CacheManager.defaultGQLCache());
-    List<UserEdge> userEdges =
-        SearchUsersGraphQlModel.fromJson(res.data).search.edges;
+    List<SearchMentionUsers$Query$Search$Edges?> userEdges =
+        SearchMentionUsers$Query.fromJson(res.data!).search.edges!;
     return userEdges;
   }
 }

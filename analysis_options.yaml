@@ -4,6 +4,7 @@ include:
 analyzer:
   exclude:
     - lib/models/**
+    - lib/graphql/**
 
 linter:
   rules:

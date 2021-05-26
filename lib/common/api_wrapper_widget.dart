@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'animations/fade_animation_widget.dart';
@@ -108,9 +109,10 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
                   ),
                 );
               }
-              return const Padding(
-                padding: EdgeInsets.all(24.0),
-                child: Text('Something went wrong.'),
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(
+                    kReleaseMode ? 'Something went wrong.' : error.toString()),
               );
             });
     }

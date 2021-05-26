@@ -2,7 +2,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/services/search/search_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
@@ -20,8 +20,6 @@ class UserSearchDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    String qType = 'User';
-    if (_type == 'org') qType = 'Organization';
     return Container(
       constraints: BoxConstraints(
         maxHeight: _media.height * 0.4,
@@ -34,7 +32,8 @@ class UserSearchDropdown extends StatelessWidget {
             ? SizeExpandedSection(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: InfiniteScrollWrapper<UserEdge>(
+                  child: InfiniteScrollWrapper<
+                      SearchMentionUsers$Query$Search$Edges>(
                     shrinkWrap: true,
                     showScrollToTopButton: false,
                     paginationKey: ValueKey(query),
@@ -44,24 +43,24 @@ class UserSearchDropdown extends StatelessWidget {
                     bottomSpacing: 8,
                     listEndIndicator: false,
                     future: (int pageNumber, int pageSize, refresh, _) {
-                      return SearchService.searchMentionUsers(
-                          query, _type, qType,
+                      return SearchService.searchMentionUsers(query, _type,
                           cursor: _?.cursor);
                     },
                     builder: (context, item, index) {
+                      dynamic data = item.node;
                       return InkWell(
                         borderRadius: AppThemeBorderRadius.medBorderRadius,
                         onTap: () {
-                          if (onSelected != null) onSelected!(item.node.login);
+                          if (onSelected != null) onSelected!(data.login);
                         },
                         child: Row(
                           children: [
                             ProfileTile(
-                              item.node.avatarUrl,
+                              data!.avatarUrl.toString(),
                               disableTap: true,
                               padding: const EdgeInsets.all(8),
                               showName: true,
-                              userLogin: item.node.login,
+                              userLogin: data.login,
                             ),
                           ],
                         ),
@@ -72,7 +71,8 @@ class UserSearchDropdown extends StatelessWidget {
               )
             : Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Text('Start typing to search ${qType.toLowerCase()}s.'),
+                child: Text(
+                    'Start typing to search ${_type == 'org' ? 'organizations' : 'users'}.'),
               ),
       ),
     );

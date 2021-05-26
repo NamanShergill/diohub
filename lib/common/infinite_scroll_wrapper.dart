@@ -331,6 +331,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         Global.log.e(error.toString());
         if (mounted) _pagingController.error = error;
       }
+      rethrow;
     }
   }
 

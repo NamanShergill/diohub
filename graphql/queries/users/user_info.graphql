@@ -1,0 +1,41 @@
+query searchMentionUsers($query: String!, $after: String){
+    search(query: $query, type: USER, first: 20, after: $after) {
+        edges {
+            node {
+                __typename ... on User{
+                    login
+                    avatarUrl
+                } ... on Organization{
+                    login
+                    avatarUrl
+                }
+            }
+            cursor
+        }
+    }
+}
+
+query getUserPinnedRepos($user: String!){
+    user(login: $user) {
+        pinnedItems(first: 6, types:[REPOSITORY]){
+            edges {
+                node {
+                   __typename ... on Repository {
+                        name
+                        description
+                        stargazerCount
+                        updatedAt
+                        url
+                        languages(orderBy: {direction:DESC, field: SIZE}, first:1) {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
