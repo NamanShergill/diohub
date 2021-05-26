@@ -10,8 +10,6 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/providers/repository/issues_provider.dart';
-import 'package:dio_hub/providers/repository/pulls_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -57,7 +55,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   void initState() {
     tabController =
         TabController(length: 6, vsync: this, initialIndex: widget.index);
-    initBranch = widget.initSHA;
+    initBranch = widget.branch;
     if (widget.deepLinkData != null) deepLinkHandler();
     waitForTransition();
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
@@ -119,12 +117,9 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
             create: (_) => readmeProvider,
             update: (_, branch, __) => readmeProvider..updateProvider(branch)),
-        ChangeNotifierProxyProvider<RepositoryProvider, RepoIssuesProvider>(
-            create: (_) => RepoIssuesProvider(),
-            update: (_, repo, __) => RepoIssuesProvider()),
-        ChangeNotifierProxyProvider<RepositoryProvider, RepoPullsProvider>(
-            create: (_) => RepoPullsProvider(),
-            update: (_, repo, __) => RepoPullsProvider()),
+        // ChangeNotifierProxyProvider<RepositoryProvider, RepoPullsProvider>(
+        //     create: (_) => RepoPullsProvider(),
+        //     update: (_, repo, __) => RepoPullsProvider()),
         ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
           create: (_) => codeProvider,
           update: (_, branch, __) => codeProvider..updateProvider(branch),

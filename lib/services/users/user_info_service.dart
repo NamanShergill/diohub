@@ -69,23 +69,14 @@ class UserInfoService {
 
   static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
       getUserPinnedRepos(String user) async {
-    try {
-      print(GetUserPinnedReposQuery(
-              variables: GetUserPinnedReposArguments(user: user))
-          .runtimeType);
-      final res = await GetDio.gqlDio(
-          GetUserPinnedReposQuery(
-              variables: GetUserPinnedReposArguments(user: user)),
-          debugLog: true,
-          cacheOptions: CacheManager.defaultGQLCache());
-      print(res);
-      return GetUserPinnedRepos$Query.fromJson(res.data!)
-          .user!
-          .pinnedItems
-          .edges!;
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+    final res = await GetDio.gqlDio(
+        GetUserPinnedReposQuery(
+            variables: GetUserPinnedReposArguments(user: user)),
+        debugLog: true,
+        cacheOptions: CacheManager.defaultGQLCache());
+    return GetUserPinnedRepos$Query.fromJson(res.data!)
+        .user!
+        .pinnedItems
+        .edges!;
   }
 }

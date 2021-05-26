@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/models/repositories/branch_list_model.dart';
 import 'package:dio_hub/models/repositories/branch_model.dart';
@@ -108,5 +109,12 @@ class RepositoryServices {
     } else {
       return false;
     }
+  }
+
+  static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
+      getIssueTemplates(String name, String owner) async {
+    final res = await GetDio.gqlDio(IssueTemplatesQuery(
+        variables: IssueTemplatesArguments(name: name, owner: owner)));
+    return IssueTemplates$Query.fromJson(res.data!).repository!.issueTemplates!;
   }
 }

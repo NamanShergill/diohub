@@ -1,0 +1,10 @@
+query issueTemplates($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+        issueTemplates {
+            name
+            title
+            body
+            about
+        }
+    }
+}

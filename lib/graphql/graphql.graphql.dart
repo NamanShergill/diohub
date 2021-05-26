@@ -319,6 +319,59 @@ class GetUserPinnedRepos$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class IssueTemplates$Query$Repository$IssueTemplates extends JsonSerializable
+    with EquatableMixin {
+  IssueTemplates$Query$Repository$IssueTemplates();
+
+  factory IssueTemplates$Query$Repository$IssueTemplates.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(json);
+
+  late String name;
+
+  String? title;
+
+  String? body;
+
+  String? about;
+
+  @override
+  List<Object?> get props => [name, title, body, about];
+  Map<String, dynamic> toJson() =>
+      _$IssueTemplates$Query$Repository$IssueTemplatesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplates$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  IssueTemplates$Query$Repository();
+
+  factory IssueTemplates$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$IssueTemplates$Query$RepositoryFromJson(json);
+
+  List<IssueTemplates$Query$Repository$IssueTemplates>? issueTemplates;
+
+  @override
+  List<Object?> get props => [issueTemplates];
+  Map<String, dynamic> toJson() =>
+      _$IssueTemplates$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
+  IssueTemplates$Query();
+
+  factory IssueTemplates$Query.fromJson(Map<String, dynamic> json) =>
+      _$IssueTemplates$QueryFromJson(json);
+
+  IssueTemplates$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  Map<String, dynamic> toJson() => _$IssueTemplates$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class SearchMentionUsersArguments extends JsonSerializable with EquatableMixin {
   SearchMentionUsersArguments({required this.query, this.after});
 
@@ -658,4 +711,110 @@ class GetUserPinnedReposQuery extends GraphQLQuery<GetUserPinnedRepos$Query,
   @override
   GetUserPinnedRepos$Query parse(Map<String, dynamic> json) =>
       GetUserPinnedRepos$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplatesArguments extends JsonSerializable with EquatableMixin {
+  IssueTemplatesArguments({required this.name, required this.owner});
+
+  @override
+  factory IssueTemplatesArguments.fromJson(Map<String, dynamic> json) =>
+      _$IssueTemplatesArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() => _$IssueTemplatesArgumentsToJson(this);
+}
+
+final ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'issueTemplates'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'issueTemplates'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'title'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'body'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'about'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class IssueTemplatesQuery
+    extends GraphQLQuery<IssueTemplates$Query, IssueTemplatesArguments> {
+  IssueTemplatesQuery({required this.variables});
+
+  @override
+  final DocumentNode document = ISSUE_TEMPLATES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'issueTemplates';
+
+  @override
+  final IssueTemplatesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  IssueTemplates$Query parse(Map<String, dynamic> json) =>
+      IssueTemplates$Query.fromJson(json);
 }

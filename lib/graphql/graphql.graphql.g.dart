@@ -260,6 +260,55 @@ Map<String, dynamic> _$GetUserPinnedRepos$QueryToJson(
       'user': instance.user?.toJson(),
     };
 
+IssueTemplates$Query$Repository$IssueTemplates
+    _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(
+        Map<String, dynamic> json) {
+  return IssueTemplates$Query$Repository$IssueTemplates()
+    ..name = json['name'] as String
+    ..title = json['title'] as String?
+    ..body = json['body'] as String?
+    ..about = json['about'] as String?;
+}
+
+Map<String, dynamic> _$IssueTemplates$Query$Repository$IssueTemplatesToJson(
+        IssueTemplates$Query$Repository$IssueTemplates instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'title': instance.title,
+      'body': instance.body,
+      'about': instance.about,
+    };
+
+IssueTemplates$Query$Repository _$IssueTemplates$Query$RepositoryFromJson(
+    Map<String, dynamic> json) {
+  return IssueTemplates$Query$Repository()
+    ..issueTemplates = (json['issueTemplates'] as List<dynamic>?)
+        ?.map((e) => IssueTemplates$Query$Repository$IssueTemplates.fromJson(
+            e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic> _$IssueTemplates$Query$RepositoryToJson(
+        IssueTemplates$Query$Repository instance) =>
+    <String, dynamic>{
+      'issueTemplates':
+          instance.issueTemplates?.map((e) => e.toJson()).toList(),
+    };
+
+IssueTemplates$Query _$IssueTemplates$QueryFromJson(Map<String, dynamic> json) {
+  return IssueTemplates$Query()
+    ..repository = json['repository'] == null
+        ? null
+        : IssueTemplates$Query$Repository.fromJson(
+            json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$IssueTemplates$QueryToJson(
+        IssueTemplates$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
 SearchMentionUsersArguments _$SearchMentionUsersArgumentsFromJson(
     Map<String, dynamic> json) {
   return SearchMentionUsersArguments(
@@ -286,4 +335,19 @@ Map<String, dynamic> _$GetUserPinnedReposArgumentsToJson(
         GetUserPinnedReposArguments instance) =>
     <String, dynamic>{
       'user': instance.user,
+    };
+
+IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return IssueTemplatesArguments(
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+  );
+}
+
+Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
+        IssueTemplatesArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
     };
