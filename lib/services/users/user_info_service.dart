@@ -72,7 +72,6 @@ class UserInfoService {
     final res = await GetDio.gqlDio(
         GetUserPinnedReposQuery(
             variables: GetUserPinnedReposArguments(user: user)),
-        debugLog: true,
         cacheOptions: CacheManager.defaultGQLCache());
     return GetUserPinnedRepos$Query.fromJson(res.data!)
         .user!

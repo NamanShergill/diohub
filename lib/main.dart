@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     unselectedWidgetColor: AppColor.grey,
-                    accentColor: Colors.white,
+                    accentColor: AppColor.accent,
                     cardColor: AppColor.background,
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ButtonStyle(

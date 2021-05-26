@@ -1,9 +1,16 @@
 ## [0.3.0] - In Development
+**Create Issues**
+- Ability to create issues on repositories.
+- Supports issue templates.
+- Markdown editor for description.
+- Supports previewing the text markdown.
+
 **Enhancements**
 - Splash screen logo improvements.
 
 **Bug Fixes**
 - Settings URL exception added in deep-links. 
+- Pull request deeplink fixed.
 ---
 ## [0.2.1] - 29 April 2021
 **Bug Fixes**

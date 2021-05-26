@@ -112,55 +112,25 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Html(
-      data: content,
-      onLinkTap: (String? url, RenderContext rContext,
-          Map<String, String> attributes, data) {
-        return linkHandler(context, url);
-      },
-      style: {
-        'a': Style(textDecoration: TextDecoration.none),
-        'blockquote': Style(
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.zero,
-        ),
-      },
-      customRender: {
-        'a': (RenderContext renderContext, Widget child) {
-          if (!(renderContext.tree.element!.text.startsWith('#') ||
-              renderContext.tree.element!.text.startsWith('@'))) {
-            return GestureDetector(
-                onTap: () => renderContext.parser.onLinkTap!(
-                    renderContext.tree.attributes['href']!,
-                    renderContext,
-                    renderContext.tree.attributes,
-                    renderContext.tree.element),
-                onLongPress: () {
-                  linkHandler(context, renderContext.tree.attributes['href']!,
-                      showSheetOnDeepLink: true);
-                },
-                child: child);
-          }
-          String link = renderContext.tree.attributes['href']!;
-          if (renderContext.tree.element!.text.startsWith('#')) {
-            link = link.replaceAll(
-                'https://github.com', 'https://api.github.com/repos');
-          }
-          return APIWrapper(
-            getCall: GetDio.getDio(
-                    applyBaseURL: false,
-                    acceptHeader: '',
-                    cacheOptions: CacheManager.defaultCache())
-                .get(link),
-            fadeIntoView: false,
-            loadingBuilder: (context) {
-              return ShimmerWidget(
-                child: IgnorePointer(child: child),
-                baseColor: Colors.white,
-              );
-            },
-            responseBuilder: (context, response) {
-              return InkWell(
+    return SingleChildScrollView(
+      child: Html(
+        data: content,
+        onLinkTap: (String? url, RenderContext rContext,
+            Map<String, String> attributes, data) {
+          return linkHandler(context, url);
+        },
+        style: {
+          'a': Style(textDecoration: TextDecoration.none),
+          'blockquote': Style(
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.zero,
+          ),
+        },
+        customRender: {
+          'a': (RenderContext renderContext, Widget child) {
+            if (!(renderContext.tree.element!.text.startsWith('#') ||
+                renderContext.tree.element!.text.startsWith('@'))) {
+              return GestureDetector(
                   onTap: () => renderContext.parser.onLinkTap!(
                       renderContext.tree.attributes['href']!,
                       renderContext,
@@ -171,124 +141,158 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                         showSheetOnDeepLink: true);
                   },
                   child: child);
-            },
-            errorBuilder: (context, error) {
-              return Text(
-                renderContext.tree.element!.text,
-                style: renderContext.tree.style
-                    .generateTextStyle()
-                    .copyWith(color: AppColor.grey3),
-              );
-            },
-          );
-        },
-        'table': (RenderContext renderContext, Widget child) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: (renderContext.tree as TableLayoutElement)
-                .toWidget(renderContext),
-          );
-        },
-        'th': (RenderContext renderContext, Widget child) {
-          return Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.grey3, width: 0.3),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: child,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-        'td': (RenderContext renderContext, Widget child) {
-          return Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.grey3, width: 0.3),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: child,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-        'img': (RenderContext renderContext, Widget child) {
-          String src = renderContext.tree.element!.attributes['src']!;
-          if ((!src.startsWith('https://') && !src.startsWith('http://'))) {
-            src =
-                'https://raw.githubusercontent.com/${widget.repo}/${widget.branch}/$src';
-          } else if (src
-              .startsWith('https://github.com/${widget.repo}/blob/')) {
-            src = src.replaceFirst('https://github.com/${widget.repo}/blob/',
-                'https://raw.githubusercontent.com/${widget.repo}/');
-          }
-          if (src.split('.').last.contains('svg')) {
-            return SvgPicture.network(src);
-          }
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: ImageLoader(
-              src,
-              height: double.tryParse(
-                  renderContext.tree.element?.attributes['height'] ?? ''),
-              width: double.tryParse(
-                  renderContext.tree.element?.attributes['width'] ?? ''),
-              // Some SVGs don't have svg in their URL so will miss the
-              // if check above. They will fail in the image loader
-              // so will build here.
-              errorBuilder: (context) {
-                return SvgPicture.network(src);
+            }
+            String link = renderContext.tree.attributes['href']!;
+            if (renderContext.tree.element!.text.startsWith('#')) {
+              link = link.replaceAll(
+                  'https://github.com', 'https://api.github.com/repos');
+            }
+            return APIWrapper(
+              getCall: GetDio.getDio(
+                      applyBaseURL: false,
+                      acceptHeader: '',
+                      cacheOptions: CacheManager.defaultCache())
+                  .get(link),
+              fadeIntoView: false,
+              loadingBuilder: (context) {
+                return ShimmerWidget(
+                  child: IgnorePointer(child: child),
+                  baseColor: Colors.white,
+                );
               },
-            ),
-          );
-        },
-        'code': (RenderContext context, Widget child) {
-          return Container(
-            decoration: BoxDecoration(
-                color: AppColor.grey,
-                borderRadius: AppThemeBorderRadius.smallBorderRadius),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
+              responseBuilder: (context, response) {
+                return InkWell(
+                    onTap: () => renderContext.parser.onLinkTap!(
+                        renderContext.tree.attributes['href']!,
+                        renderContext,
+                        renderContext.tree.attributes,
+                        renderContext.tree.element),
+                    onLongPress: () {
+                      linkHandler(
+                          context, renderContext.tree.attributes['href']!,
+                          showSheetOnDeepLink: true);
+                    },
+                    child: child);
+              },
+              errorBuilder: (context, error) {
+                return Text(
+                  renderContext.tree.element!.text,
+                  style: renderContext.tree.style
+                      .generateTextStyle()
+                      .copyWith(color: AppColor.grey3),
+                );
+              },
+            );
+          },
+          'table': (RenderContext renderContext, Widget child) {
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: (renderContext.tree as TableLayoutElement)
+                  .toWidget(renderContext),
+            );
+          },
+          'th': (RenderContext renderContext, Widget child) {
+            return Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.grey3, width: 0.3),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: child,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+          'td': (RenderContext renderContext, Widget child) {
+            return Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.grey3, width: 0.3),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: child,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+          'img': (RenderContext renderContext, Widget child) {
+            String src = renderContext.tree.element!.attributes['src']!;
+            if ((!src.startsWith('https://') && !src.startsWith('http://'))) {
+              src =
+                  'https://raw.githubusercontent.com/${widget.repo}/${widget.branch}/$src';
+            } else if (src
+                .startsWith('https://github.com/${widget.repo}/blob/')) {
+              src = src.replaceFirst('https://github.com/${widget.repo}/blob/',
+                  'https://raw.githubusercontent.com/${widget.repo}/');
+            }
+            if (src.split('.').last.contains('svg')) {
+              return SvgPicture.network(src);
+            }
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: ImageLoader(
+                src,
+                height: double.tryParse(
+                    renderContext.tree.element?.attributes['height'] ?? ''),
+                width: double.tryParse(
+                    renderContext.tree.element?.attributes['width'] ?? ''),
+                // Some SVGs don't have svg in their URL so will miss the
+                // if check above. They will fail in the image loader
+                // so will build here.
+                errorBuilder: (context) {
+                  return SvgPicture.network(src);
+                },
+              ),
+            );
+          },
+          'code': (RenderContext context, Widget child) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: AppColor.grey,
+                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
+                child: child,
+              ),
+            );
+          },
+          'pre': (RenderContext renderContext, Widget child) {
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: renderContext.tree.children.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: AppColor.background,
+                      borderRadius: AppThemeBorderRadius.smallBorderRadius),
+                  child: _CodeView(renderContext, index),
+                );
+              },
+            );
+          },
+          'blockquote': (RenderContext context, Widget child) {
+            return Container(
+              padding: const EdgeInsets.only(left: 12),
+              decoration: BoxDecoration(
+                  border: Border(
+                      left: BorderSide(color: Colors.grey.shade400, width: 2))),
               child: child,
-            ),
-          );
+            );
+          }
         },
-        'pre': (RenderContext renderContext, Widget child) {
-          return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: renderContext.tree.children.length,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                    color: AppColor.background,
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius),
-                child: _CodeView(renderContext, index),
-              );
-            },
-          );
-        },
-        'blockquote': (RenderContext context, Widget child) {
-          return Container(
-            padding: const EdgeInsets.only(left: 12),
-            decoration: BoxDecoration(
-                border: Border(
-                    left: BorderSide(color: Colors.grey.shade400, width: 2))),
-            child: child,
-          );
-        }
-      },
+      ),
     );
   }
 }

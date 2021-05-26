@@ -1,0 +1,227 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/custom_expand_tile.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/loading_wrapper.dart';
+import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/graphql/graphql.dart';
+import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/style/text_field_themes.dart';
+import 'package:dio_hub/style/text_styles.dart';
+import 'package:flutter/material.dart';
+import 'package:markdown_editable_textinput/markdown_text_input.dart';
+
+class NewIssueScreen extends StatefulWidget {
+  final IssueTemplates$Query$Repository$IssueTemplates? template;
+  final String owner;
+  final String repo;
+  const NewIssueScreen(
+      {Key? key, this.template, required this.repo, required this.owner})
+      : super(key: key);
+
+  @override
+  _NewIssueScreenState createState() => _NewIssueScreenState();
+}
+
+class _NewIssueScreenState extends State<NewIssueScreen> {
+  bool expanded = false;
+  bool markdownView = false;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController controller = TextEditingController();
+  String comment = '';
+  PageStatus status = PageStatus.loaded;
+  @override
+  void initState() {
+    if (widget.template?.body != null) {
+      comment = widget.template!.body!;
+    }
+    if (widget.template?.title != null) {
+      controller.text = widget.template!.title!;
+    }
+    super.initState();
+  }
+
+  Future createIssue() async {
+    try {
+      setState(() {
+        status = PageStatus.loading;
+      });
+      final res = await IssuesService.createIssue(
+          title: controller.text,
+          body: comment,
+          owner: widget.owner,
+          repo: widget.repo);
+      AutoRouter.of(context).replace(IssueScreenRoute(issueURL: res.url));
+      // setState(() {
+      //   status = PageStatus.loaded;
+      // });
+    } catch (e) {
+      setState(() {
+        status = PageStatus.error;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'New Issue',
+              style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              '${widget.owner}/${widget.repo}',
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: comment.isNotEmpty
+                ? () {
+                    setState(() {
+                      markdownView = !markdownView;
+                    });
+                  }
+                : null,
+            icon: const Icon(Icons.remove_red_eye_rounded),
+            disabledColor: AppColor.grey3.withOpacity(0.5),
+            color: markdownView ? Colors.white : AppColor.grey3,
+          ),
+          IconButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  createIssue();
+                }
+              },
+              icon: const Icon(
+                Icons.add,
+              )),
+        ],
+      ),
+      body: Form(
+        key: _formKey,
+        child: LoadingWrapper(
+          status: status,
+          loadingBuilder: (context) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              LoadingIndicator(),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Creating Issue'),
+              ),
+            ],
+          ),
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: !markdownView
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        if (widget.template != null)
+                          Column(
+                            children: [
+                              CustomExpandTile(
+                                expanded: expanded,
+                                child: Column(
+                                  children: [
+                                    if (widget.template!.about != null)
+                                      Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Text(widget.template!.about!),
+                                      ),
+                                  ],
+                                ),
+                                title: Text(
+                                  widget.template!.name,
+                                  overflow:
+                                      expanded ? null : TextOverflow.ellipsis,
+                                  style: AppThemeTextStyles.eventCardChildTitle,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    expanded = !expanded;
+                                  });
+                                },
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          ),
+                        TextFormField(
+                          decoration: TextFieldTheme.inputDecoration(
+                              labelText: 'Title'),
+                          controller: controller,
+                          validator: (value) {
+                            if (value!.isEmpty) return 'Title cannot be empty!';
+                          },
+                          maxLines: 5,
+                          minLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Expanded(
+                            child: MarkdownTextInput(
+                          maxLines: 99,
+                          initialValue: comment,
+                          onTextChanged: (value) {
+                            setState(() {
+                              comment = value;
+                            });
+                          },
+                          label: 'Leave a comment',
+                          boxDecoration: const BoxDecoration(
+                            color: AppColor.onBackground,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        )),
+                      ])
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          controller.text.isNotEmpty
+                              ? controller.text
+                              : 'No title yet.',
+                          style: AppThemeTextStyles.appBarTitle,
+                        ),
+                      ),
+                      const Divider(),
+                      Expanded(
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColor.onBackground,
+                              borderRadius:
+                                  AppThemeBorderRadius.medBorderRadius,
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: MarkdownBody(comment),
+                            )),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -116,7 +116,7 @@ class DeepLinkHandler {
         _slash,
         _chars,
         _slash,
-        regexORCases(['issues', 'pulls']),
+        regexORCases(['issues', 'pull']),
         _slash,
         _digit,
       ]);

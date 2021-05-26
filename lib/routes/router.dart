@@ -9,6 +9,7 @@ import 'package:dio_hub/view/profile/other_user_profile_screen.dart';
 import 'package:dio_hub/view/repository/code/file_viewer.dart';
 import 'package:dio_hub/view/repository/commits/commit_info_screen.dart';
 import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart';
+import 'package:dio_hub/view/repository/issues/new_issue_screen.dart';
 import 'package:dio_hub/view/repository/repository_screen.dart';
 import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart';
 
@@ -32,6 +33,7 @@ import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart';
     AutoRoute(page: WikiViewer),
     AutoRoute(page: ChangesViewer),
     AutoRoute(page: OtherUserProfileScreen),
+    AutoRoute(page: NewIssueScreen),
   ],
 )
 class $AppRouter {}

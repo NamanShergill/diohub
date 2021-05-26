@@ -213,9 +213,10 @@ class _IssueScreenState extends State<IssueScreen>
                                 user: value.issueModel!.user,
                                 authorAssociation:
                                     value.issueModel!.authorAssociation,
-                                body: value.issueModel!.body!.isNotEmpty
-                                    ? value.issueModel!.body
-                                    : "No description provided."),
+                                body: value.issueModel!.body == null ||
+                                        value.issueModel!.body!.isEmpty
+                                    ? "No description provided."
+                                    : value.issueModel!.body),
                           ),
                         ],
                       );

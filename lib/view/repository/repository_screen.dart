@@ -10,6 +10,7 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
+import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -48,6 +49,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   late CodeProvider codeProvider;
   late RepoReadmeProvider readmeProvider;
   late TabController tabController;
+  late IssueTemplateProvider issueTemplateProvider;
   late RepositoryProvider repositoryProvider;
   final ScrollController scrollController = ScrollController();
   late String? initBranch;
@@ -63,6 +65,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         initialBranch: initBranch, initCommitSHA: widget.initSHA);
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
+    issueTemplateProvider = IssueTemplateProvider();
     super.initState();
   }
 
@@ -114,12 +117,14 @@ class _RepositoryScreenState extends State<RepositoryScreen>
           create: (_) => repoBranchProvider,
           update: (_, repo, __) => repoBranchProvider..updateProvider(repo),
         ),
+        ChangeNotifierProxyProvider<RepositoryProvider, IssueTemplateProvider>(
+          create: (_) => issueTemplateProvider,
+          update: (_, repo, __) => issueTemplateProvider..updateProvider(repo),
+          lazy: false,
+        ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
             create: (_) => readmeProvider,
             update: (_, branch, __) => readmeProvider..updateProvider(branch)),
-        // ChangeNotifierProxyProvider<RepositoryProvider, RepoPullsProvider>(
-        //     create: (_) => RepoPullsProvider(),
-        //     update: (_, repo, __) => RepoPullsProvider()),
         ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
           create: (_) => codeProvider,
           update: (_, branch, __) => codeProvider..updateProvider(branch),

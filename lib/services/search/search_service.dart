@@ -89,7 +89,6 @@ class SearchService {
         SearchMentionUsersQuery(
             variables:
                 SearchMentionUsersArguments(query: query, after: cursor)),
-        debugLog: true,
         cacheOptions: CacheManager.defaultGQLCache());
     List<SearchMentionUsers$Query$Search$Edges?> userEdges =
         SearchMentionUsers$Query.fromJson(res.data!).search.edges!;

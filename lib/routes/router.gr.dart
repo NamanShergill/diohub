@@ -8,7 +8,8 @@ import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
 import '../common/search_overlay/search_overlay.dart' as _i6;
-import '../controller/deep_linking_handler.dart' as _i15;
+import '../controller/deep_linking_handler.dart' as _i16;
+import '../graphql/graphql.dart' as _i17;
 import '../view/issues_pulls/issue_screen.dart' as _i7;
 import '../view/issues_pulls/pull_screen.dart' as _i8;
 import '../view/landing/landing.dart' as _i4;
@@ -18,6 +19,7 @@ import '../view/profile/other_user_profile_screen.dart' as _i14;
 import '../view/repository/code/file_viewer.dart' as _i10;
 import '../view/repository/commits/commit_info_screen.dart' as _i11;
 import '../view/repository/commits/widgets/changes_viewer.dart' as _i13;
+import '../view/repository/issues/new_issue_screen.dart' as _i15;
 import '../view/repository/repository_screen.dart' as _i9;
 import '../view/repository/wiki/wiki_viewer.dart' as _i12;
 
@@ -173,6 +175,20 @@ class AppRouter extends _i1.RootStackRouter {
         transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 250,
         opaque: true,
+        barrierDismissible: false),
+    NewIssueScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<NewIssueScreenRouteArgs>();
+          return _i15.NewIssueScreen(
+              key: args.key,
+              template: args.template,
+              repo: args.repo,
+              owner: args.owner);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 250,
+        opaque: true,
         barrierDismissible: false)
   };
 
@@ -193,7 +209,8 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(WikiViewerRoute.name, path: '/wiki-viewer'),
         _i1.RouteConfig(ChangesViewerRoute.name, path: '/changes-viewer'),
         _i1.RouteConfig(OtherUserProfileScreenRoute.name,
-            path: '/other-user-profile-screen')
+            path: '/other-user-profile-screen'),
+        _i1.RouteConfig(NewIssueScreenRoute.name, path: '/new-issue-screen')
       ];
 }
 
@@ -217,7 +234,7 @@ class LandingAuthWrapperScreenRouteArgs {
 }
 
 class LandingScreenRoute extends _i1.PageRouteInfo<LandingScreenRouteArgs> {
-  LandingScreenRoute({_i15.DeepLinkData? deepLinkData, _i2.Key? key})
+  LandingScreenRoute({_i16.DeepLinkData? deepLinkData, _i2.Key? key})
       : super(name,
             path: '/landing-screen',
             args: LandingScreenRouteArgs(deepLinkData: deepLinkData, key: key));
@@ -228,7 +245,7 @@ class LandingScreenRoute extends _i1.PageRouteInfo<LandingScreenRouteArgs> {
 class LandingScreenRouteArgs {
   const LandingScreenRouteArgs({this.deepLinkData, this.key});
 
-  final _i15.DeepLinkData? deepLinkData;
+  final _i16.DeepLinkData? deepLinkData;
 
   final _i2.Key? key;
 }
@@ -355,7 +372,7 @@ class RepositoryScreenRoute
       {required String? repositoryURL,
       String? branch,
       int index = 0,
-      _i15.DeepLinkData? deepLinkData,
+      _i16.DeepLinkData? deepLinkData,
       _i2.Key? key,
       String? initSHA})
       : super(name,
@@ -386,7 +403,7 @@ class RepositoryScreenRouteArgs {
 
   final int index;
 
-  final _i15.DeepLinkData? deepLinkData;
+  final _i16.DeepLinkData? deepLinkData;
 
   final _i2.Key? key;
 
@@ -520,4 +537,31 @@ class OtherUserProfileScreenRouteArgs {
   final String? login;
 
   final _i2.Key? key;
+}
+
+class NewIssueScreenRoute extends _i1.PageRouteInfo<NewIssueScreenRouteArgs> {
+  NewIssueScreenRoute(
+      {_i2.Key? key,
+      _i17.IssueTemplates$Query$Repository$IssueTemplates? template,
+      required String repo,
+      required String owner})
+      : super(name,
+            path: '/new-issue-screen',
+            args: NewIssueScreenRouteArgs(
+                key: key, template: template, repo: repo, owner: owner));
+
+  static const String name = 'NewIssueScreenRoute';
+}
+
+class NewIssueScreenRouteArgs {
+  const NewIssueScreenRouteArgs(
+      {this.key, this.template, required this.repo, required this.owner});
+
+  final _i2.Key? key;
+
+  final _i17.IssueTemplates$Query$Repository$IssueTemplates? template;
+
+  final String repo;
+
+  final String owner;
 }

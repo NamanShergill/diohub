@@ -11,8 +11,9 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo({required String fullUrl}) async {
     Response response = await GetDio.getDio(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
-        .get(fullUrl);
+      applyBaseURL: false,
+      cacheOptions: CacheManager.defaultCache(),
+    ).get(fullUrl);
     return IssueModel.fromJson(response.data);
   }
 
@@ -222,4 +223,15 @@ class IssuesService {
 
   // // Ref: https://docs.github.com/en/rest/reference/issues#lock-an-issue
   // static Future<bool> lockIssue(String issueURL,)
+
+  // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue
+  static Future<IssueModel> createIssue(
+      {required String title,
+      required String body,
+      required String owner,
+      required String repo}) async {
+    final res = await GetDio.getDio().post('/repos/$owner/$repo/issues',
+        data: {'title': title, if (body.isNotEmpty) 'body': body});
+    return IssueModel.fromJson(res.data);
+  }
 }

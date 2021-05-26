@@ -89,7 +89,7 @@ dependencies:
   # Todo: Move to null safety.
   markdown_editable_textinput:
     git:
-      url: https://github.com/NamanShergill/markdown-editable-textinput
+      url: https://github.com/NamanShergill/markdown-editable-textinput.git
       ref: master
 
   mime: ^1.0.0
