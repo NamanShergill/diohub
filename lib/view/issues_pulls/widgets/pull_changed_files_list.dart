@@ -1,5 +1,5 @@
 import 'package:dio_hub/common/changed_files_list_card.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/providers/pulls/pull_provider.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';

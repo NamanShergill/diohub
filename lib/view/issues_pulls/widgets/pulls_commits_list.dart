@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/providers/pulls/pull_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';

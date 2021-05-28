@@ -510,11 +510,12 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
   SearchQuery fullName =
       SearchQuery(SearchQueryStrings.fullName, type: QueryType.spacedString);
-  SearchQuery goodFirstIssues = SearchQuery(SearchQueryStrings.goodFirstIssues);
+  SearchQuery goodFirstIssues =
+      SearchQuery(SearchQueryStrings.goodFirstIssues, type: QueryType.number);
   SearchQuery hash = SearchQuery(SearchQueryStrings.hash);
   SearchQuery head = SearchQuery(SearchQueryStrings.head);
   SearchQuery helpWantedIssues =
-      SearchQuery(SearchQueryStrings.helpWantedIssues);
+      SearchQuery(SearchQueryStrings.helpWantedIssues, type: QueryType.number);
   SearchQuery iN = SearchQuery(SearchQueryStrings.iN, qualifierQuery: false);
   SearchQuery interactions =
       SearchQuery(SearchQueryStrings.interactions, type: QueryType.number);

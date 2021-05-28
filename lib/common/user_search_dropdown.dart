@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/services/search/search_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';

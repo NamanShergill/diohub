@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';

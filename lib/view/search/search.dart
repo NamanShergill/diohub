@@ -1,10 +1,10 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/repository_card.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/services/search/search_service.dart';

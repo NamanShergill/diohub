@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/markdown_body.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';

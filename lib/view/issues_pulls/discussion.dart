@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/pulls/pull_list_card.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';

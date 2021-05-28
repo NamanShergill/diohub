@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';

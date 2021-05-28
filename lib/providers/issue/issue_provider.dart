@@ -20,7 +20,6 @@ class IssueProvider extends BaseProvider {
   }
 
   Future getIssue({String? userLogin}) async {
-    print('asdasd');
     loading();
     List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL!)];
     if (userLogin != null) {

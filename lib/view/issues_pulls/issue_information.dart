@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/info_card.dart';

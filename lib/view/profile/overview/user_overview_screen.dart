@@ -1,5 +1,5 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/repository_card.dart';

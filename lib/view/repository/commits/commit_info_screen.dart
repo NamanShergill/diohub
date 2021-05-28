@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/app_tab_bar.dart';
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:dio_hub/view/repository/commits/widgets/changed_files.dart';

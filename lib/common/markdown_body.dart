@@ -1,9 +1,9 @@
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/image_loader.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';

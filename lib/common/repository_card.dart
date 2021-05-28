@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
+import 'package:dio_hub/common/language_indicator.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import 'language_indicator.dart';
 
 class RepositoryCard extends StatelessWidget {
   final RepositoryModel? repo;

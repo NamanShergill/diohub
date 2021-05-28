@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/providers/repository/issue_templates_provider.dart';

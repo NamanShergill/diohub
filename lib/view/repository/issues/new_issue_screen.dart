@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/custom_expand_tile.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/loading_wrapper.dart';
 import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
@@ -83,7 +83,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: comment.isNotEmpty
+            onPressed: comment.isNotEmpty && status == PageStatus.loaded
                 ? () {
                     setState(() {
                       markdownView = !markdownView;
@@ -95,11 +95,14 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
             color: markdownView ? Colors.white : AppColor.grey3,
           ),
           IconButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  createIssue();
-                }
-              },
+              onPressed: status == PageStatus.loaded
+                  ? () {
+                      if (_formKey.currentState!.validate()) {
+                        createIssue();
+                      }
+                    }
+                  : null,
+              disabledColor: AppColor.grey3.withOpacity(0.5),
               icon: const Icon(
                 Icons.add,
               )),
