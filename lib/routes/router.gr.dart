@@ -261,7 +261,7 @@ class SearchOverlayScreenRoute
   SearchOverlayScreenRoute(
       {required _i6.SearchData searchData,
       String? message,
-      String heroTag = 'search_bar',
+      String heroTag,
       required bool multiHero,
       required void Function(_i6.SearchData) onSubmit,
       _i2.Key? key})
@@ -282,7 +282,7 @@ class SearchOverlayScreenRouteArgs {
   const SearchOverlayScreenRouteArgs(
       {required this.searchData,
       this.message,
-      this.heroTag = 'search_bar',
+      this.heroTag,
       required this.multiHero,
       required this.onSubmit,
       this.key});
@@ -303,7 +303,7 @@ class SearchOverlayScreenRouteArgs {
 class IssueScreenRoute extends _i1.PageRouteInfo<IssueScreenRouteArgs> {
   IssueScreenRoute(
       {required String? issueURL,
-      int initialIndex = 0,
+      int initialIndex,
       DateTime? commentsSince,
       _i2.Key? key})
       : super(name,
@@ -320,7 +320,7 @@ class IssueScreenRoute extends _i1.PageRouteInfo<IssueScreenRouteArgs> {
 class IssueScreenRouteArgs {
   const IssueScreenRouteArgs(
       {required this.issueURL,
-      this.initialIndex = 0,
+      this.initialIndex,
       this.commentsSince,
       this.key});
 
@@ -336,7 +336,7 @@ class IssueScreenRouteArgs {
 class PullScreenRoute extends _i1.PageRouteInfo<PullScreenRouteArgs> {
   PullScreenRoute(
       {required String? pullURL,
-      int initialIndex = 0,
+      int initialIndex,
       DateTime? commentsSince,
       _i2.Key? key})
       : super(name,
@@ -352,10 +352,7 @@ class PullScreenRoute extends _i1.PageRouteInfo<PullScreenRouteArgs> {
 
 class PullScreenRouteArgs {
   const PullScreenRouteArgs(
-      {required this.pullURL,
-      this.initialIndex = 0,
-      this.commentsSince,
-      this.key});
+      {required this.pullURL, this.initialIndex, this.commentsSince, this.key});
 
   final String? pullURL;
 
@@ -371,7 +368,7 @@ class RepositoryScreenRoute
   RepositoryScreenRoute(
       {required String? repositoryURL,
       String? branch,
-      int index = 0,
+      int index,
       _i16.DeepLinkData? deepLinkData,
       _i2.Key? key,
       String? initSHA})
@@ -392,7 +389,7 @@ class RepositoryScreenRouteArgs {
   const RepositoryScreenRouteArgs(
       {required this.repositoryURL,
       this.branch,
-      this.index = 0,
+      this.index,
       this.deepLinkData,
       this.key,
       this.initSHA});

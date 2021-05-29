@@ -2,7 +2,7 @@ import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/issues/issue_comments_model.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';
@@ -24,6 +24,7 @@ class Discussion extends StatefulWidget {
   final DateTime? commentsSince;
   final String issueUrl;
   final bool? isLocked;
+  final bool isPull;
   final String repo;
   final DateTime? createdAt;
   final TimelineEventModel? initialComment;
@@ -31,6 +32,7 @@ class Discussion extends StatefulWidget {
       {this.commentsSince,
       required this.issueUrl,
       this.isLocked,
+      required this.isPull,
       required this.repo,
       required this.scrollController,
       this.createdAt,
@@ -79,8 +81,9 @@ class _DiscussionState extends State<Discussion>
         Column(
           children: [
             Expanded(
-              child: commentsSince != null
-                  ? InfiniteScrollWrapper<IssueCommentsModel>(
+              child: widget.isPull
+                  ? InfiniteScrollWrapper<
+                      GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node>(
                       future: (pageNumber, pageSize, refresh, _) {
                         return IssuesService.getIssueComments(
                             widget.issueUrl, pageNumber, pageSize, refresh,
@@ -129,14 +132,14 @@ class _DiscussionState extends State<Discussion>
                                 },
                               ),
                             ),
-                            if (widget.initialComment!.createdAt!.isAfter(
-                                commentsSince!
-                                    .subtract(const Duration(minutes: 5))))
-                              paddingWrap(
-                                child: TimelineDiscussionComment(
-                                    widget.initialComment, widget.isLocked,
-                                    repo: widget.repo),
-                              ),
+                            // if (widget.initialComment!.createdAt!.isAfter(
+                            //     commentsSince!
+                            //         .subtract(const Duration(minutes: 5))))
+                            //   paddingWrap(
+                            //     child: BaseComment(
+                            //         widget.initialComment, widget.isLocked,
+                            //         repo: widget.repo),
+                            //   ),
                           ],
                         );
                       },
@@ -150,16 +153,18 @@ class _DiscussionState extends State<Discussion>
                       builder: (context, item, index) {
                         return Builder(
                           builder: (context) {
-                            return paddingWrap(
-                                child: DiscussionComment(
-                              item,
-                              repo: widget.repo,
-                            ));
+                            return Container();
+                            // return paddingWrap(
+                            //     child: DiscussionComment(
+                            //   item,
+                            //   repo: widget.repo,
+                            // ));
                           },
                         );
                       },
                     )
-                  : InfiniteScrollWrapper<TimelineEventModel>(
+                  : InfiniteScrollWrapper<
+                      GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node>(
                       future: (pageNumber, pageSize, refresh, _) {
                         return IssuesService.getIssueTimeline(
                             widget.issueUrl, pageSize, pageNumber, refresh);
@@ -173,39 +178,6 @@ class _DiscussionState extends State<Discussion>
                       },
                       isNestedScrollViewChild: true,
                       scrollController: widget.scrollController,
-                      filterFn: (List<TimelineEventModel> list) {
-                        List<Event> allowedEvents = [
-                          Event.assigned,
-                          Event.closed,
-                          Event.commented,
-                          Event.committed,
-                          Event.commit_commented,
-                          Event.convert_to_draft,
-                          Event.cross_referenced,
-                          Event.labeled,
-                          Event.locked,
-                          Event.merged,
-                          Event.pinned,
-                          Event.ready_for_review,
-                          Event.referenced,
-                          Event.renamed,
-                          Event.reopened,
-                          Event.reviewed,
-                          Event.review_requested,
-                          Event.review_request_removed,
-                          Event.unassigned,
-                          Event.unlabeled,
-                          Event.unlocked,
-                          Event.unpinned,
-                        ];
-                        List<TimelineEventModel> filtered = [];
-                        for (TimelineEventModel element in list) {
-                          if (allowedEvents.contains(element.event)) {
-                            filtered.add(element);
-                          }
-                        }
-                        return filtered;
-                      },
                       header: (context) {
                         return Column(
                           children: [
@@ -247,116 +219,115 @@ class _DiscussionState extends State<Discussion>
                             const SizedBox(
                               height: 16,
                             ),
-                            paddingWrap(
-                              child: TimelineDiscussionComment(
-                                  widget.initialComment, widget.isLocked,
-                                  repo: widget.repo),
-                            ),
+                            // paddingWrap(
+                            //   child: BaseComment(
+                            //       widget.initialComment, widget.isLocked,
+                            //       repo: widget.repo),
+                            // ),
                           ],
                         );
                       },
                       divider: false,
-                      builder: (context, item, index) {
-                        return Builder(
-                          builder: (context) {
-                            if (item.event == Event.commented) {
-                              return paddingWrap(
-                                  child: TimelineDiscussionComment(
-                                      item, widget.isLocked,
-                                      repo: widget.repo));
-                            } else if (item.event == Event.closed) {
-                              return paddingWrap(
-                                  child: BasicEventTextCard(
-                                user: item.actor,
-                                leading: Octicons.issue_closed,
-                                iconColor: AppColor.red,
-                                date: item.createdAt.toString(),
-                                textContent: 'Closed this.',
-                              ));
-                            } else if (item.event == Event.renamed) {
-                              return paddingWrap(
-                                  child: BasicEventTextCard(
-                                user: item.actor,
-                                leading: Octicons.pencil,
-                                date: item.createdAt.toString(),
-                                content: RichText(
-                                  text: TextSpan(
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1!
-                                          .merge(AppThemeTextStyles
-                                              .basicIssueEventCardText),
-                                      children: [
-                                        const TextSpan(text: 'Renamed this.\n'),
-                                        TextSpan(
-                                            text: '${item.rename!.from}\n',
-                                            style: const TextStyle(
-                                                decoration: TextDecoration
-                                                    .lineThrough)),
-                                        TextSpan(text: item.rename!.to),
-                                      ]),
-                                ),
-                              ));
-                            } else if (item.event == Event.pinned) {
-                              return paddingWrap(
-                                  child: BasicEventTextCard(
-                                user: item.actor,
-                                leading: LineIcons.thumbtack,
-                                date: item.createdAt.toString(),
-                                textContent: 'Pinned this.',
-                              ));
-                            } else if (item.event == Event.reopened) {
-                              return paddingWrap(
-                                  child: BasicEventTextCard(
-                                user: item.actor,
-                                leading: Octicons.issue_reopened,
-                                iconColor: AppColor.green,
-                                date: item.createdAt.toString(),
-                                textContent: 'Reopened this.',
-                              ));
-                            } else if (item.event == Event.assigned ||
-                                item.event == Event.unassigned) {
-                              return paddingWrap(
-                                  child: BasicEventAssignedCard(
-                                user: item.actor,
-                                leading: LineIcons.user,
-                                isAssigned: item.event == Event.assigned,
-                                date: item.createdAt.toString(),
-                                content: item.assignee,
-                              ));
-                            } else if (item.event == Event.cross_referenced) {
-                              return paddingWrap(
-                                  child: BasicIssueCrossReferencedCard(
-                                user: item.actor,
-                                leading: LineIcons.alternateComment,
-                                date: item.createdAt.toString(),
-                                content: item.source,
-                              ));
-                            } else if (item.event == Event.labeled ||
-                                item.event == Event.unlabeled) {
-                              return paddingWrap(
-                                  child: BasicEventLabeledCard(
-                                user: item.actor,
-                                leading: LineIcons.alternateComment,
-                                date: item.createdAt.toString(),
-                                content: item.label,
-                                added: item.event == Event.labeled,
-                              ));
-                            } else if (item.event == Event.committed) {
-                              return paddingWrap(
-                                  child: BasicEventCommitCard(
-                                user: item.author,
-                                leading: LineIcons.alternateComment,
-                                date: item.author!.date.toString(),
-                                message: item.message,
-                                sha: item.sha,
-                                // Don't need a direct reference to the git database.
-                                commitURL: item.url!.split('/git').join(''),
-                              ));
-                            }
-                            return Text(eventValues.reverse![item.event!]!);
-                          },
-                        );
+                      builder: (context, node, index) {
+                        return getTimeLineItem(node);
+                        // return Builder(
+                        //   builder: (context) {
+                        //     final item = node;
+                        //     if (item is IssueCommentMixin) {
+                        //       return paddingWrap(child: BaseComment(item));
+                        //     } else if (item.event == Event.closed) {
+                        //       return paddingWrap(
+                        //           child: BasicEventTextCard(
+                        //         user: item.actor,
+                        //         leading: Octicons.issue_closed,
+                        //         iconColor: AppColor.red,
+                        //         date: item.createdAt.toString(),
+                        //         textContent: 'Closed this.',
+                        //       ));
+                        //     } else if (item.event == Event.renamed) {
+                        //       return paddingWrap(
+                        //           child: BasicEventTextCard(
+                        //         user: item.actor,
+                        //         leading: Octicons.pencil,
+                        //         date: item.createdAt.toString(),
+                        //         content: RichText(
+                        //           text: TextSpan(
+                        //               style: Theme.of(context)
+                        //                   .textTheme
+                        //                   .subtitle1!
+                        //                   .merge(AppThemeTextStyles
+                        //                       .basicIssueEventCardText),
+                        //               children: [
+                        //                 const TextSpan(text: 'Renamed this.\n'),
+                        //                 TextSpan(
+                        //                     text: '${item.rename!.from}\n',
+                        //                     style: const TextStyle(
+                        //                         decoration: TextDecoration
+                        //                             .lineThrough)),
+                        //                 TextSpan(text: item.rename!.to),
+                        //               ]),
+                        //         ),
+                        //       ));
+                        //     } else if (item.event == Event.pinned) {
+                        //       return paddingWrap(
+                        //           child: BasicEventTextCard(
+                        //         user: item.actor,
+                        //         leading: LineIcons.thumbtack,
+                        //         date: item.createdAt.toString(),
+                        //         textContent: 'Pinned this.',
+                        //       ));
+                        //     } else if (item.event == Event.reopened) {
+                        //       return paddingWrap(
+                        //           child: BasicEventTextCard(
+                        //         user: item.actor,
+                        //         leading: Octicons.issue_reopened,
+                        //         iconColor: AppColor.green,
+                        //         date: item.createdAt.toString(),
+                        //         textContent: 'Reopened this.',
+                        //       ));
+                        //     } else if (item.event == Event.assigned ||
+                        //         item.event == Event.unassigned) {
+                        //       return paddingWrap(
+                        //           child: BasicEventAssignedCard(
+                        //         user: item.actor,
+                        //         leading: LineIcons.user,
+                        //         isAssigned: item.event == Event.assigned,
+                        //         date: item.createdAt.toString(),
+                        //         content: item.assignee,
+                        //       ));
+                        //     } else if (item.event == Event.cross_referenced) {
+                        //       return paddingWrap(
+                        //           child: BasicIssueCrossReferencedCard(
+                        //         user: item.actor,
+                        //         leading: LineIcons.alternateComment,
+                        //         date: item.createdAt.toString(),
+                        //         content: item.source,
+                        //       ));
+                        //     } else if (item.event == Event.labeled ||
+                        //         item.event == Event.unlabeled) {
+                        //       return paddingWrap(
+                        //           child: BasicEventLabeledCard(
+                        //         user: item.actor,
+                        //         leading: LineIcons.alternateComment,
+                        //         date: item.createdAt.toString(),
+                        //         content: item.label,
+                        //         added: item.event == Event.labeled,
+                        //       ));
+                        //     } else if (item.event == Event.committed) {
+                        //       return paddingWrap(
+                        //           child: BasicEventCommitCard(
+                        //         user: item.author,
+                        //         leading: LineIcons.alternateComment,
+                        //         date: item.author!.date.toString(),
+                        //         message: item.message,
+                        //         sha: item.sha,
+                        //         // Don't need a direct reference to the git database.
+                        //         commitURL: item.url!.split('/git').join(''),
+                        //       ));
+                        //     }
+                        //     return Text(eventValues.reverse![item.event!]!);
+                        //   },
+                        // );
                       },
                     ),
             ),
@@ -443,6 +414,13 @@ class _DiscussionState extends State<Discussion>
       ],
     );
   }
+}
+
+Widget getTimeLineItem(dynamic item){
+   if (item is IssueCommentMixin) {
+                                return paddingWrap(child: BaseComment(item));
+                              }
+   return Container();
 }
 
 Widget paddingWrap({Widget? child}) {

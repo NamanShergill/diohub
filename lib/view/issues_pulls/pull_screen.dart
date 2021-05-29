@@ -208,6 +208,7 @@ class _PullScreenState extends State<PullScreen>
                           const PullInformation(),
                           Discussion(
                             scrollController: scrollController,
+                            isPull: true,
                             repo: value.repoURL!.replaceFirst(
                                 'https://api.github.com/repos/', ''),
                             commentsSince: widget.commentsSince,

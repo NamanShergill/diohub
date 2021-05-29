@@ -249,7 +249,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   width: 16,
                                 ),
                                 ActionButton(
-                                  count: _repo.watchersCount,
+                                  count: _repo.subscribersCount,
                                   icon: Octicons.eye,
                                   action: 'Watch',
                                 ),

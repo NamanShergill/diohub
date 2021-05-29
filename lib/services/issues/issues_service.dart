@@ -6,6 +6,7 @@ import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 
 class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
@@ -108,24 +109,10 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<List<TimelineEventModel>> getIssueTimeline(
-    String? fullURL,
-    int perPage,
-    int pageNumber,
-    bool refresh,
-  ) async {
-    Response response = await GetDio.getDio(
-            applyBaseURL: false,
-            acceptHeader: 'application/vnd.github.mockingbird-preview',
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('$fullURL/timeline', queryParameters: {
-      'per_page': perPage,
-      'page': pageNumber,
-    });
-    List unParsedData = response.data;
-    List<TimelineEventModel> parsedData =
-        unParsedData.map((e) => TimelineEventModel.fromJson(e)).toList();
-    return parsedData;
+  static Future<List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node>> getIssueTimeline(
+    {required String repo, required String owner, required int number, required bool refresh, String? after, DateTime? since}) async {
+    final response = await GetDio.gqlDio(GetIssueTimelineQuery(variables: GetIssueTimelineArguments(after: after, owner: owner, number: number, repoName: repo, since: since)));
+    return GetIssueTimeline$Query.fromJson(response.data!).repository.issue.timelineItems.edges;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned

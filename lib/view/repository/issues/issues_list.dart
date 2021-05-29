@@ -82,11 +82,18 @@ class IssuesList extends StatelessWidget {
                                   listen: false),
                               child: ListView.separated(
                                   controller: scrollController,
-                                  itemBuilder: (context, index) =>
-                                      IssueTemplateCard(value.templates[index]),
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  itemBuilder: (context, index) {
+                                    if (value.templates.length == index) {
+                                      return const BlankIssueTemplate();
+                                    } else {
+                                      return IssueTemplateCard(
+                                          value.templates[index]);
+                                    }
+                                  },
                                   separatorBuilder: (context, index) =>
                                       const Divider(),
-                                  itemCount: value.templates.length),
+                                  itemCount: value.templates.length + 1),
                             ),
                         titleText: 'New Issue');
                   } else {
@@ -107,8 +114,10 @@ class IssuesList extends StatelessWidget {
 }
 
 class IssueTemplateCard extends StatelessWidget {
+  final bool isBlank;
   final IssueTemplates$Query$Repository$IssueTemplates template;
-  const IssueTemplateCard(this.template, {Key? key}) : super(key: key);
+  const IssueTemplateCard(this.template, {Key? key, this.isBlank = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +133,7 @@ class IssueTemplateCard extends StatelessWidget {
             AutoRouter.of(context).push(NewIssueScreenRoute(
                 owner: repo!.owner!.login!,
                 repo: repo.name!,
-                template: template));
+                template: isBlank ? null : template));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -145,6 +154,20 @@ class IssueTemplateCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class BlankIssueTemplate extends StatelessWidget {
+  const BlankIssueTemplate({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IssueTemplateCard(
+      IssueTemplates$Query$Repository$IssueTemplates()
+        ..name = 'Don’t see your issue here?'
+        ..about = 'Open a blank issue.',
+      isBlank: true,
     );
   }
 }
