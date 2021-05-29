@@ -217,7 +217,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
-                              child: MarkdownBody(comment),
+                              child: MarkdownRenderAPI(comment),
                             )),
                       ),
                     ],

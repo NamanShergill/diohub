@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/language_indicator.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
@@ -12,7 +12,6 @@ import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-
 
 class RepositoryCard extends StatelessWidget {
   final RepositoryModel? repo;
@@ -179,7 +178,7 @@ class RepoCardLoading extends StatelessWidget {
         color: AppColor.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<RepositoryModel>(
-          getCall: RepositoryServices.fetchRepository(repoURL!),
+          apiCall: RepositoryServices.fetchRepository(repoURL!),
           loadingBuilder: (context) {
             return Padding(
               padding: const EdgeInsets.all(24.0),

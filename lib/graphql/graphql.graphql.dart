@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
-// ignore_for_file: all
+// ignore_for_file: always_require_non_null_named_parameters, annotate_overrides, avoid_function_literals_in_foreach_calls, avoid_init_to_null, avoid_null_checks_in_equality_operators, avoid_renaming_method_parameters, avoid_return_types_on_setters, avoid_returning_null_for_void, avoid_single_cascade_in_expression_statements, constant_identifier_names, control_flow_in_finally, empty_constructor_bodies, empty_statements, exhaustive_cases, implementation_imports, library_names, library_prefixes, null_closures, overridden_fields, package_names, prefer_adjacent_string_concatenation, prefer_collection_literals, prefer_conditional_assignment, prefer_contains, prefer_equal_for_default_values, prefer_final_fields, prefer_for_elements_to_map_fromIterable, prefer_function_declarations_over_variables, prefer_if_null_operators, prefer_initializing_formals, prefer_inlined_adds, prefer_is_not_operator, prefer_null_aware_operators, prefer_spread_collections, prefer_void_to_null, recursive_getters, slash_for_doc_comments, type_init_formals, unnecessary_brace_in_string_interps, unnecessary_const, unnecessary_getters_setters, unnecessary_new, unnecessary_null_in_if_null_operators, unnecessary_string_escapes, unnecessary_string_interpolations, unnecessary_this, use_function_type_syntax_for_parameters, use_rethrow_when_possible, valid_regexps, always_use_package_imports, avoid_relative_lib_imports, avoid_print, avoid_unnecessary_containers, avoid_web_libraries_in_flutter, no_logic_in_create_state, prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, use_key_in_widget_constructors
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -44,10 +44,6 @@ mixin IssueMixin {
   @JsonKey(unknownEnumValue: IssueState.artemisUnknown)
   late IssueState issueState;
   late IssueMixin$Repository repository;
-}
-mixin RepoMixin {
-  late Uri url;
-  late String nameWithOwner;
 }
 mixin PullRequestMixin {
   late Uri url;
@@ -1114,28 +1110,30 @@ class CrossReferenceMixin$Source extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueMixin$Repository extends JsonSerializable
-    with EquatableMixin, RepoMixin {
+class IssueMixin$Repository extends JsonSerializable with EquatableMixin {
   IssueMixin$Repository();
 
   factory IssueMixin$Repository.fromJson(Map<String, dynamic> json) =>
       _$IssueMixin$RepositoryFromJson(json);
 
+  late String name;
+
   @override
-  List<Object?> get props => [url, nameWithOwner];
+  List<Object?> get props => [name];
   Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullRequestMixin$Repository extends JsonSerializable
-    with EquatableMixin, RepoMixin {
+class PullRequestMixin$Repository extends JsonSerializable with EquatableMixin {
   PullRequestMixin$Repository();
 
   factory PullRequestMixin$Repository.fromJson(Map<String, dynamic> json) =>
       _$PullRequestMixin$RepositoryFromJson(json);
 
+  late String name;
+
   @override
-  List<Object?> get props => [url, nameWithOwner];
+  List<Object?> get props => [name];
   Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
 }
 
@@ -4151,28 +4149,13 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'repo'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'Repository'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'nameWithOwner'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'pullRequest'),
@@ -4211,7 +4194,12 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
       ])),
   FragmentDefinitionNode(
@@ -6156,28 +6144,13 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'repo'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'Repository'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'nameWithOwner'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'pullRequest'),
@@ -6216,7 +6189,12 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
       ])),
   FragmentDefinitionNode(

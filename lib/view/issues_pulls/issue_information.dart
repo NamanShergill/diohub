@@ -1,10 +1,10 @@
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/bottom_sheet.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/markdown_body.dart';
 import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/providers/issue/issue_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
@@ -224,7 +224,11 @@ class IssueInformation extends StatelessWidget {
                       : ExpansionTile(
                           title: const Text('Tap to Expand'),
                           children: [
-                            MarkdownBody(_issue.body),
+                            MarkdownRenderAPI(
+                              _issue.body!,
+                              repoName: _issue.repositoryUrl!.replaceFirst(
+                                  'https://api.github.com/repos/', ''),
+                            ),
                           ],
                         ),
                 ),

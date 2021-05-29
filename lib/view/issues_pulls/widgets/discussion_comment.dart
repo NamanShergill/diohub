@@ -1,16 +1,10 @@
 import 'package:dio_hub/common/markdown_body.dart';
 import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/common/reaction_bar.dart';
 import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_comments_model.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BaseComment extends StatelessWidget {
   final IssueCommentMixin comment;
@@ -41,16 +35,21 @@ class BaseComment extends StatelessWidget {
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    if (comment.authorAssociation != CommentAuthorAssociation.member &&
-                        comment.authorAssociation != CommentAuthorAssociation.none)
+                    if (comment.authorAssociation !=
+                            CommentAuthorAssociation.member &&
+                        comment.authorAssociation !=
+                            CommentAuthorAssociation.none)
                       Builder(
                         builder: (context) {
                           String? str;
-                          if (comment.authorAssociation == CommentAuthorAssociation.collaborator) {
+                          if (comment.authorAssociation ==
+                              CommentAuthorAssociation.collaborator) {
                             str = 'Collaborator';
-                          } else if (comment.authorAssociation == CommentAuthorAssociation.contributor) {
+                          } else if (comment.authorAssociation ==
+                              CommentAuthorAssociation.contributor) {
                             str = 'Contributor';
-                          } else if (comment.authorAssociation == CommentAuthorAssociation.owner) {
+                          } else if (comment.authorAssociation ==
+                              CommentAuthorAssociation.owner) {
                             str = 'Owner';
                           }
                           return Padding(
@@ -78,7 +77,7 @@ class BaseComment extends StatelessWidget {
         Row(
           children: [
             Flexible(
-                child: MarkdownBody(
+                child: MarkdownRenderAPI(
               comment.bodyHTML,
             )),
           ],

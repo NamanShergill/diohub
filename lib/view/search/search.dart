@@ -75,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen>
                             top: AppThemeBorderRadius.medBorderRadius.topRight),
                         color: AppColor.background,
                         child: APIWrapper<List<RepositoryModel>>(
-                          getCall: SearchService.searchRepos(
+                          apiCall: SearchService.searchRepos(
                               SearchQueries().pushed.toQueryString('>' +
                                   DateFormat('yyyy-MM-dd').format(DateTime.now()
                                       .subtract(const Duration(days: 7)))),

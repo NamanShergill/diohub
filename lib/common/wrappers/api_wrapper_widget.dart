@@ -12,8 +12,7 @@ typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 
 class APIWrapper<T> extends StatefulWidget {
-  final Future<T>? getCall;
-  final Future<T>? postCall;
+  final Future<T>? apiCall;
   final ResponseBuilder<T>? responseBuilder;
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
@@ -22,8 +21,7 @@ class APIWrapper<T> extends StatefulWidget {
   final bool fadeIntoView;
   const APIWrapper({
     Key? key,
-    this.getCall,
-    this.postCall,
+    this.apiCall,
     this.fadeIntoView = true,
     this.apiWrapperController,
     this.initialData,
@@ -64,7 +62,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     }
     try {
       error = null;
-      data = await widget.getCall;
+      data = await widget.apiCall;
     } catch (e) {
       error = e;
     }

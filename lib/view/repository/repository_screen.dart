@@ -14,7 +14,6 @@ import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/anim_durations.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
@@ -44,7 +43,7 @@ class RepositoryScreen extends StatefulWidget {
 
 class _RepositoryScreenState extends State<RepositoryScreen>
     with TickerProviderStateMixin {
-  bool loading = true;
+  bool loading = false;
   late RepoBranchProvider repoBranchProvider;
   late CodeProvider codeProvider;
   late RepoReadmeProvider readmeProvider;
@@ -59,7 +58,6 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         TabController(length: 6, vsync: this, initialIndex: widget.index);
     initBranch = widget.branch;
     if (widget.deepLinkData != null) deepLinkHandler();
-    waitForTransition();
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
         initialBranch: initBranch, initCommitSHA: widget.initSHA);
@@ -95,15 +93,6 @@ class _RepositoryScreenState extends State<RepositoryScreen>
             .push(WikiViewerRoute(repoURL: widget.repositoryURL));
       });
     }
-  }
-
-  // To stop the transition from lagging on big readme files in the repo
-  // by delaying the parsing.
-  void waitForTransition() async {
-    await Future.delayed(AppThemeAnimDurations.transitionAnimDuration);
-    setState(() {
-      loading = false;
-    });
   }
 
   @override

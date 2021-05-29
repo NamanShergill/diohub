@@ -67,7 +67,7 @@ class _CommentBoxState extends State<CommentBox> {
                   Container(
                     color: AppColor.onBackground,
                     child: SingleChildScrollView(
-                      child: MarkdownBody(
+                      child: MarkdownRenderAPI(
                         commentBody,
                       ),
                     ),

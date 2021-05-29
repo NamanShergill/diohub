@@ -958,30 +958,24 @@ Map<String, dynamic> _$CrossReferenceMixin$SourceToJson(
 
 IssueMixin$Repository _$IssueMixin$RepositoryFromJson(
     Map<String, dynamic> json) {
-  return IssueMixin$Repository()
-    ..url = Uri.parse(json['url'] as String)
-    ..nameWithOwner = json['nameWithOwner'] as String;
+  return IssueMixin$Repository()..name = json['name'] as String;
 }
 
 Map<String, dynamic> _$IssueMixin$RepositoryToJson(
         IssueMixin$Repository instance) =>
     <String, dynamic>{
-      'url': instance.url.toString(),
-      'nameWithOwner': instance.nameWithOwner,
+      'name': instance.name,
     };
 
 PullRequestMixin$Repository _$PullRequestMixin$RepositoryFromJson(
     Map<String, dynamic> json) {
-  return PullRequestMixin$Repository()
-    ..url = Uri.parse(json['url'] as String)
-    ..nameWithOwner = json['nameWithOwner'] as String;
+  return PullRequestMixin$Repository()..name = json['name'] as String;
 }
 
 Map<String, dynamic> _$PullRequestMixin$RepositoryToJson(
         PullRequestMixin$Repository instance) =>
     <String, dynamic>{
-      'url': instance.url.toString(),
-      'nameWithOwner': instance.nameWithOwner,
+      'name': instance.name,
     };
 
 DeMileStonedMixin$Actor _$DeMileStonedMixin$ActorFromJson(

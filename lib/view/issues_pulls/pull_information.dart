@@ -230,7 +230,7 @@ class PullInformation extends StatelessWidget {
                       : ExpansionTile(
                           title: const Text('Tap to Expand'),
                           children: [
-                            MarkdownBody(_pull.body),
+                            MarkdownRenderAPI(_pull.body!),
                           ],
                         ),
                 ),

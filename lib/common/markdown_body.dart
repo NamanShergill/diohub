@@ -1,21 +1,52 @@
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/image_loader.dart';
+import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/services/markdown/markdown_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/link_handler.dart';
-import 'package:dio_hub/utils/markdown_to_html.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MarkdownBody extends StatefulWidget {
-  final String? content;
-  final String? repo;
+class MarkdownRenderAPI extends StatelessWidget {
+  final String data;
+  final String? repoName;
   final String? branch;
-  const MarkdownBody(this.content, {this.branch, this.repo, Key? key})
+  const MarkdownRenderAPI(this.data, {Key? key, this.repoName, this.branch})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return APIWrapper<String>(
+      apiCall: MarkdownService.renderMarkdown(data, context: repoName),
+      loadingBuilder: (context) {
+        return const Padding(
+          padding: EdgeInsets.only(top: 48.0),
+          child: LoadingIndicator(),
+        );
+      },
+      responseBuilder: (context, data) {
+        return MarkdownBody(
+          data,
+          context: repoName,
+          branch: branch,
+        );
+      },
+    );
+  }
+}
+
+class MarkdownBody extends StatefulWidget {
+  final String content;
+  final String? context;
+  final String? branch;
+
+  const MarkdownBody(this.content, {Key? key, this.context, this.branch})
       : super(key: key);
 
   @override
@@ -27,19 +58,19 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   void initState() {
-    updateData(widget.content!);
+    updateData(widget.content);
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant MarkdownBody oldWidget) {
-    updateData(widget.content!);
+    updateData(widget.content);
     super.didUpdateWidget(oldWidget);
   }
 
   void updateData(String data) {
     // data = emoteText(data);
-    data = mdToHtml(data, repo: widget.repo);
+    // data = mdToHtml(data, repo: widget.repo);
     // log(data);
 
     // log(data);
@@ -115,6 +146,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             Map<String, String> attributes, data) {
           return linkHandler(context, url);
         },
+        tagsList: Html.tags..add('g-emoji'),
         style: {
           'a': Style(textDecoration: TextDecoration.none),
           'blockquote': Style(
@@ -123,56 +155,50 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           ),
         },
         customRender: {
-          'table': (RenderContext renderContext, Widget child) {
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: (renderContext.tree as TableLayoutElement)
-                  .toWidget(renderContext),
+          'blockquote': (RenderContext context, Widget child) {
+            return Container(
+              padding: const EdgeInsets.only(left: 12),
+              decoration: BoxDecoration(
+                  border: Border(
+                      left: BorderSide(color: Colors.grey.shade400, width: 2))),
+              child: child,
             );
           },
-          'th': (RenderContext renderContext, Widget child) {
-            return Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.grey3, width: 0.3),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: child,
-                    ),
-                  ),
-                ),
-              ],
+          'code': (RenderContext context, Widget child) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: AppColor.grey,
+                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
+                child: child,
+              ),
             );
           },
-          'td': (RenderContext renderContext, Widget child) {
-            return Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.grey3, width: 0.3),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: child,
-                    ),
-                  ),
-                ),
-              ],
-            );
+          'div': (RenderContext context, Widget child) {
+            if (context.tree.children.first.name == 'pre') {
+              return _CodeView(
+                context.tree.children.first.element!.text,
+                language: context.tree.element?.attributes['class']
+                    ?.replaceAll('highlight highlight-source-', ''),
+              );
+            }
+            return child;
+          },
+          'g-emoji': (RenderContext renderContext, Widget child) {
+            return child;
           },
           'img': (RenderContext renderContext, Widget child) {
             String src = renderContext.tree.element!.attributes['src']!;
             if ((!src.startsWith('https://') && !src.startsWith('http://'))) {
               src =
-                  'https://raw.githubusercontent.com/${widget.repo}/${widget.branch}/$src';
+                  'https://raw.githubusercontent.com/${widget.context}/${widget.branch}/$src';
             } else if (src
-                .startsWith('https://github.com/${widget.repo}/blob/')) {
-              src = src.replaceFirst('https://github.com/${widget.repo}/blob/',
-                  'https://raw.githubusercontent.com/${widget.repo}/');
+                .startsWith('https://github.com/${widget.context}/blob/')) {
+              src = src.replaceFirst(
+                  'https://github.com/${widget.context}/blob/',
+                  'https://raw.githubusercontent.com/${widget.context}/');
             }
             if (src.split('.').last.contains('svg')) {
               return SvgPicture.network(src);
@@ -194,35 +220,54 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               ),
             );
           },
-          'code': (RenderContext context, Widget child) {
-            return Container(
-              decoration: BoxDecoration(
-                  color: AppColor.grey,
-                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
-                child: child,
-              ),
-            );
-          },
           'pre': (RenderContext renderContext, Widget child) {
-            return Container(
-              decoration: BoxDecoration(
-                  color: AppColor.background,
-                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
-              child: _CodeView(renderContext),
+            if (renderContext.tree.children.first.name == 'code') {
+              return _CodeView(renderContext.tree.element!.text);
+            }
+            return child;
+          },
+          'table': (RenderContext renderContext, Widget child) {
+            // print(renderContext.tree.children.first);
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: (renderContext.tree as TableLayoutElement)
+                  .toWidget(renderContext),
             );
           },
-          'blockquote': (RenderContext context, Widget child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 12),
-              decoration: BoxDecoration(
-                  border: Border(
-                      left: BorderSide(color: Colors.grey.shade400, width: 2))),
-              child: child,
+          'td': (RenderContext renderContext, Widget child) {
+            return Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.grey3, width: 0.3),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: child,
+                    ),
+                  ),
+                ),
+              ],
             );
-          }
+          },
+          'th': (RenderContext renderContext, Widget child) {
+            return Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.grey3, width: 0.3),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: child,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         },
       ),
     );
@@ -230,8 +275,9 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 }
 
 class _CodeView extends StatefulWidget {
-  final RenderContext renderContext;
-  const _CodeView(this.renderContext);
+  final String data;
+  final String? language;
+  const _CodeView(this.data, {this.language});
   @override
   __CodeViewState createState() => __CodeViewState();
 }
@@ -244,7 +290,7 @@ class __CodeViewState extends State<_CodeView> {
     setState(() {
       copied = true;
     });
-    copyToClipboard(widget.renderContext.tree.element!.text);
+    copyToClipboard(widget.data);
     await Future.delayed(const Duration(seconds: 4));
     setState(() {
       copied = false;
@@ -256,62 +302,73 @@ class __CodeViewState extends State<_CodeView> {
     Widget child = Padding(
       padding: const EdgeInsets.only(top: 32.0, right: 16, left: 16, bottom: 8),
       child: CodeBlockView(
-        widget.renderContext.tree.element!.text,
-        language: 'txt',
+        widget.data,
+        language: widget.language,
       ),
     );
-    return Stack(
+    return Row(
       children: [
-        if (!wrapText)
-          Scrollbar(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: child,
-            ),
-          ),
-        if (wrapText) child,
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Material(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: AppColor.background,
+                borderRadius: AppThemeBorderRadius.smallBorderRadius),
+            child: Stack(
               children: [
-                InkWell(
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        copied ? Icons.check_rounded : Icons.copy_rounded,
-                        size: 14,
-                        color: copied ? Colors.white : AppColor.grey3,
-                      ),
+                if (!wrapText)
+                  Scrollbar(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: child,
                     ),
-                    onTap: copied
-                        ? null
-                        : () {
-                            copy();
-                          }),
-                InkWell(
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.wrap_text_rounded,
-                        size: 14,
-                        color: wrapText ? Colors.white : AppColor.grey3,
-                      ),
+                  ),
+                if (wrapText) child,
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                            borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                copied ? Icons.check_rounded : Icons.copy_rounded,
+                                size: 14,
+                                color: copied ? Colors.white : AppColor.grey3,
+                              ),
+                            ),
+                            onTap: copied
+                                ? null
+                                : () {
+                                    copy();
+                                  }),
+                        InkWell(
+                            borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.wrap_text_rounded,
+                                size: 14,
+                                color: wrapText ? Colors.white : AppColor.grey3,
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                wrapText = !wrapText;
+                              });
+                            }),
+                      ],
                     ),
-                    onTap: () {
-                      setState(() {
-                        wrapText = !wrapText;
-                      });
-                    }),
+                  ),
+                )
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

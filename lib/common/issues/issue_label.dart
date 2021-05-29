@@ -8,19 +8,17 @@ class IssueLabel extends StatelessWidget {
   const IssueLabel(this.label, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return _IssueLabel();
+    return _IssueLabel(label!.name!, label!.color!);
   }
 }
 
 class IssueLabelGQL extends StatelessWidget {
-  final LabeledMixin label;
+  final LabelMixin label;
   const IssueLabelGQL(this.label, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return _IssueLabel(label.);
+    return _IssueLabel(label.name, label.color);
   }
 }
 

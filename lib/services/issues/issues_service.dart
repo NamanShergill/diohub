@@ -125,7 +125,6 @@ class IssuesService {
                 number: number,
                 repoName: repo,
                 since: since)),
-        debugLog: true,
         acceptHeader: 'application/vnd.github.starfox-preview+json');
     return GetIssueTimeline$Query.fromJson(response.data!)
         .repository!

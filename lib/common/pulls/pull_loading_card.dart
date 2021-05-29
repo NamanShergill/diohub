@@ -31,7 +31,7 @@ class PullLoadingCard extends StatelessWidget {
         color: AppColor.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<PullRequestModel>(
-          getCall: PullsService.getPullInformation(fullUrl: url),
+          apiCall: PullsService.getPullInformation(fullUrl: url),
           loadingBuilder: (context) {
             if (issueModel != null) {
               return InkWell(

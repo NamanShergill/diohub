@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
 import 'package:dio_hub/style/colors.dart';
@@ -87,7 +87,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         ],
       ),
       body: APIWrapper<BlobModel>(
-        getCall: GitDatabaseService.getBlob(
+        apiCall: GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
           if (fileType != null && fileType!.startsWith('image')) {
@@ -179,8 +179,8 @@ class _TextViewerState extends State<TextViewer> {
       child: Builder(builder: (context) {
         if (fileType == 'md') {
           return SingleChildScrollView(
-            child: MarkdownBody(content.join('\n'),
-                branch: widget.branch, repo: widget.repoName),
+            child: MarkdownRenderAPI(content.join('\n'),
+                repoName: widget.repoName),
           );
         }
         return SingleChildScrollView(

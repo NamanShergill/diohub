@@ -442,17 +442,17 @@ Widget getTimeLineItem(dynamic item) {
         } else if (item is ClosedMixin) {
           return BasicEventTextCard(
             textContent: 'Closed this.',
-            user: item.actor,
+            user: item.actor as ActorMixin,
             leading: Octicons.issue_closed,
             iconColor: AppColor.red,
-            date: item.createdAt.toString(),
+            date: item.createdAt,
           );
         } else if (item is ConvertedToDraftMixin) {
           return BasicEventTextCard(
             textContent: 'Converted to draft.',
-            user: item.actor,
+            user: item.actor as ActorMixin,
             leading: LineIcons.alternatePencil,
-            date: item.createdAt.toString(),
+            date: item.createdAt,
           );
         } else if (item is CrossReferenceMixin) {
         } else if (item is DeMileStonedMixin) {
@@ -462,12 +462,20 @@ Widget getTimeLineItem(dynamic item) {
         } else if (item is IssueCommentMixin) {
           return BaseComment(item);
         } else if (item is LabeledMixin) {
-          // return BasicEventLabeledCard(
-          //   actor: item.actor!,
-          //   added: true,
-          //   date: item.createdAt,
-          // );
+          return BasicEventLabeledCard(
+            actor: item.actor!,
+            content: item.label,
+            added: true,
+            date: item.createdAt,
+          );
         } else if (item is LockedMixin) {
+          return BasicEventTextCard(
+            textContent:
+                'Locked this ${item.lockReason != null ? 'as ${item.lockReason} ' : ''}and limited conversation to collaborators',
+            user: item.actor as ActorMixin,
+            date: item.createdAt,
+            leading: LineIcons.lock,
+          );
         } else if (item is MarkedAsDuplicateMixin) {
         } else if (item is MergedMixin) {
         } else if (item is MileStonedMixin) {
@@ -481,16 +489,28 @@ Widget getTimeLineItem(dynamic item) {
         } else if (item is ReopenedMixin) {
           return BasicEventTextCard(
             textContent: 'Reopened this.',
-            user: item.actor,
+            user: item.actor as ActorMixin,
             leading: Octicons.issue_reopened,
             iconColor: AppColor.green,
-            date: item.createdAt.toString(),
+            date: item.createdAt,
           );
         } else if (item is ReviewDismissedMixin) {
         } else if (item is ReviewRequestedMixin) {
         } else if (item is UnassignedMixin) {
         } else if (item is UnlabeledMixin) {
+          return BasicEventLabeledCard(
+            actor: item.actor!,
+            content: item.label,
+            added: false,
+            date: item.createdAt,
+          );
         } else if (item is UnlockedMixin) {
+          return BasicEventTextCard(
+            textContent: 'Unlocked this.',
+            user: item.actor as ActorMixin,
+            date: item.createdAt,
+            leading: LineIcons.unlock,
+          );
         } else if (item is UnmarkedAsDuplicateMixin) {
         } else if (item is UnpinnedMixin) {}
         return Container();
