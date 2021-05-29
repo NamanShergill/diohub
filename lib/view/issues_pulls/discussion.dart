@@ -6,8 +6,6 @@ import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/style/text_styles.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,25 +13,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
 
 class Discussion extends StatefulWidget {
   final ScrollController scrollController;
 
   /// Show  comments since.
   final DateTime? commentsSince;
+  final String repoName;
+  final String owner;
   final String issueUrl;
+  final int number;
   final bool? isLocked;
   final bool isPull;
-  final String repo;
   final DateTime? createdAt;
   final TimelineEventModel? initialComment;
   const Discussion(
       {this.commentsSince,
+      required this.number,
+      required this.owner,
+      required this.repoName,
       required this.issueUrl,
       this.isLocked,
       required this.isPull,
-      required this.repo,
       required this.scrollController,
       this.createdAt,
       this.initialComment,
@@ -86,7 +87,7 @@ class _DiscussionState extends State<Discussion>
                       GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node>(
                       future: (pageNumber, pageSize, refresh, _) {
                         return IssuesService.getIssueComments(
-                            widget.issueUrl, pageNumber, pageSize, refresh,
+                            '', pageNumber, pageSize, refresh,
                             since: commentsSince!
                                 .subtract(const Duration(minutes: 5))
                                 .toUtc()
@@ -164,10 +165,15 @@ class _DiscussionState extends State<Discussion>
                       },
                     )
                   : InfiniteScrollWrapper<
-                      GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node>(
+                      GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges>(
                       future: (pageNumber, pageSize, refresh, _) {
                         return IssuesService.getIssueTimeline(
-                            widget.issueUrl, pageSize, pageNumber, refresh);
+                            repo: widget.repoName,
+                            after: _?.cursor,
+                            number: widget.number,
+                            owner: widget.owner,
+                            refresh: refresh,
+                            since: commentsSince);
                       },
                       controller: commentsSinceController,
                       firstPageLoadingBuilder: (context) {
@@ -228,8 +234,8 @@ class _DiscussionState extends State<Discussion>
                         );
                       },
                       divider: false,
-                      builder: (context, node, index) {
-                        return getTimeLineItem(node);
+                      builder: (context, edge, index) {
+                        return getTimeLineItem(edge.node);
                         // return Builder(
                         //   builder: (context) {
                         //     final item = node;
@@ -416,11 +422,11 @@ class _DiscussionState extends State<Discussion>
   }
 }
 
-Widget getTimeLineItem(dynamic item){
-   if (item is IssueCommentMixin) {
-                                return paddingWrap(child: BaseComment(item));
-                              }
-   return Container();
+Widget getTimeLineItem(dynamic item) {
+  if (item is IssueCommentMixin) {
+    return paddingWrap(child: BaseComment(item));
+  }
+  return Container();
 }
 
 Widget paddingWrap({Widget? child}) {

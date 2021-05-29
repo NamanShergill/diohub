@@ -199,9 +199,18 @@ class _IssueScreenState extends State<IssueScreen>
                           IssueInformation(),
                           Discussion(
                             commentsSince: widget.commentsSince,
+                            number: value.issueModel!.number!,
+                            owner: value.issueModel!.repositoryUrl!
+                                .replaceFirst(
+                                    'https://api.github.com/repos/', '')
+                                .split('/')
+                                .first,
+                            repoName: value.issueModel!.repositoryUrl!
+                                .replaceFirst(
+                                    'https://api.github.com/repos/', '')
+                                .split('/')
+                                .last,
                             isPull: false,
-                            repo: value.issueModel!.repositoryUrl!.replaceFirst(
-                                'https://api.github.com/repos/', ''),
                             isLocked: value.issueModel!.locked! &&
                                 !value.editingEnabled,
                             scrollController: scrollController,

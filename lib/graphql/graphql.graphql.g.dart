@@ -383,12 +383,6 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInP
         ? null
         : MovedColumnsInProjectMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
-    ..previousProjectColumnName = json['previousProjectColumnName'] as String
-    ..projectColumnName = json['projectColumnName'] as String
-    ..project = json['project'] == null
-        ? null
-        : MovedColumnsInProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
     ..$$typename = json['__typename'] as String?;
 }
 
@@ -400,9 +394,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'previousProjectColumnName': instance.previousProjectColumnName,
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -465,10 +456,6 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProj
         ? null
         : RemovedFromProjectMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
-    ..project = json['project'] == null
-        ? null
-        : RemovedFromProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
     ..$$typename = json['__typename'] as String?;
 }
 
@@ -480,7 +467,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -785,6 +771,70 @@ Map<String, dynamic> _$AssignedMixin$ActorToJson(
       'login': instance.login,
     };
 
+AssignedMixin$Assignee$User _$AssignedMixin$Assignee$UserFromJson(
+    Map<String, dynamic> json) {
+  return AssignedMixin$Assignee$User()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$AssignedMixin$Assignee$UserToJson(
+        AssignedMixin$Assignee$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+AssignedMixin$Assignee$Bot _$AssignedMixin$Assignee$BotFromJson(
+    Map<String, dynamic> json) {
+  return AssignedMixin$Assignee$Bot()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$AssignedMixin$Assignee$BotToJson(
+        AssignedMixin$Assignee$Bot instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+AssignedMixin$Assignee$Mannequin _$AssignedMixin$Assignee$MannequinFromJson(
+    Map<String, dynamic> json) {
+  return AssignedMixin$Assignee$Mannequin()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$AssignedMixin$Assignee$MannequinToJson(
+        AssignedMixin$Assignee$Mannequin instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+AssignedMixin$Assignee$Organization
+    _$AssignedMixin$Assignee$OrganizationFromJson(Map<String, dynamic> json) {
+  return AssignedMixin$Assignee$Organization()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$AssignedMixin$Assignee$OrganizationToJson(
+        AssignedMixin$Assignee$Organization instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
 AssignedMixin$Assignee _$AssignedMixin$AssigneeFromJson(
     Map<String, dynamic> json) {
   return AssignedMixin$Assignee()..$$typename = json['__typename'] as String?;
@@ -796,48 +846,6 @@ Map<String, dynamic> _$AssignedMixin$AssigneeToJson(
       '__typename': instance.$$typename,
     };
 
-BaseRefChangedMixin$Actor _$BaseRefChangedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return BaseRefChangedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$BaseRefChangedMixin$ActorToJson(
-        BaseRefChangedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-BaseRefDeletedMixin$Actor _$BaseRefDeletedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return BaseRefDeletedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$BaseRefDeletedMixin$ActorToJson(
-        BaseRefDeletedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-BaseRefForcePushedMixin$Actor _$BaseRefForcePushedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return BaseRefForcePushedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$BaseRefForcePushedMixin$ActorToJson(
-        BaseRefForcePushedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
 ClosedMixin$Actor _$ClosedMixin$ActorFromJson(Map<String, dynamic> json) {
   return ClosedMixin$Actor()
     ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
@@ -845,20 +853,6 @@ ClosedMixin$Actor _$ClosedMixin$ActorFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ClosedMixin$ActorToJson(ClosedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ConvertedToDraftMixin$Actor _$ConvertedToDraftMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return ConvertedToDraftMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$ConvertedToDraftMixin$ActorToJson(
-        ConvertedToDraftMixin$Actor instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
@@ -877,6 +871,62 @@ Map<String, dynamic> _$CrossReferenceMixin$ActorToJson(
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
     };
+
+CrossReferenceMixin$Source$Issue _$CrossReferenceMixin$Source$IssueFromJson(
+    Map<String, dynamic> json) {
+  return CrossReferenceMixin$Source$Issue()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+        unknownValue: IssueState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$CrossReferenceMixin$Source$IssueToJson(
+        CrossReferenceMixin$Source$Issue instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'issueState': _$IssueStateEnumMap[instance.issueState],
+      '__typename': instance.$$typename,
+    };
+
+const _$IssueStateEnumMap = {
+  IssueState.closed: 'CLOSED',
+  IssueState.open: 'OPEN',
+  IssueState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+CrossReferenceMixin$Source$PullRequest
+    _$CrossReferenceMixin$Source$PullRequestFromJson(
+        Map<String, dynamic> json) {
+  return CrossReferenceMixin$Source$PullRequest()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..pullState = _$enumDecode(_$PullRequestStateEnumMap, json['pullState'],
+        unknownValue: PullRequestState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$CrossReferenceMixin$Source$PullRequestToJson(
+        CrossReferenceMixin$Source$PullRequest instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'pullState': _$PullRequestStateEnumMap[instance.pullState],
+      '__typename': instance.$$typename,
+    };
+
+const _$PullRequestStateEnumMap = {
+  PullRequestState.closed: 'CLOSED',
+  PullRequestState.merged: 'MERGED',
+  PullRequestState.open: 'OPEN',
+  PullRequestState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
 CrossReferenceMixin$Source _$CrossReferenceMixin$SourceFromJson(
     Map<String, dynamic> json) {
@@ -899,48 +949,6 @@ DeMileStonedMixin$Actor _$DeMileStonedMixin$ActorFromJson(
 
 Map<String, dynamic> _$DeMileStonedMixin$ActorToJson(
         DeMileStonedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-HeadRefDeletedMixin$Actor _$HeadRefDeletedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return HeadRefDeletedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$HeadRefDeletedMixin$ActorToJson(
-        HeadRefDeletedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-HeadRefForcePushedMixin$Actor _$HeadRefForcePushedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return HeadRefForcePushedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$HeadRefForcePushedMixin$ActorToJson(
-        HeadRefForcePushedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-HeadRefRestoredMixin$Actor _$HeadRefRestoredMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return HeadRefRestoredMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$HeadRefRestoredMixin$ActorToJson(
-        HeadRefRestoredMixin$Actor instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
@@ -1053,6 +1061,50 @@ Map<String, dynamic> _$MarkedAsDuplicateMixin$ActorToJson(
       'login': instance.login,
     };
 
+MarkedAsDuplicateMixin$Canonical$Issue
+    _$MarkedAsDuplicateMixin$Canonical$IssueFromJson(
+        Map<String, dynamic> json) {
+  return MarkedAsDuplicateMixin$Canonical$Issue()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+        unknownValue: IssueState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$MarkedAsDuplicateMixin$Canonical$IssueToJson(
+        MarkedAsDuplicateMixin$Canonical$Issue instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'issueState': _$IssueStateEnumMap[instance.issueState],
+      '__typename': instance.$$typename,
+    };
+
+MarkedAsDuplicateMixin$Canonical$PullRequest
+    _$MarkedAsDuplicateMixin$Canonical$PullRequestFromJson(
+        Map<String, dynamic> json) {
+  return MarkedAsDuplicateMixin$Canonical$PullRequest()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..pullState = _$enumDecode(_$PullRequestStateEnumMap, json['pullState'],
+        unknownValue: PullRequestState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$MarkedAsDuplicateMixin$Canonical$PullRequestToJson(
+        MarkedAsDuplicateMixin$Canonical$PullRequest instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'pullState': _$PullRequestStateEnumMap[instance.pullState],
+      '__typename': instance.$$typename,
+    };
+
 MarkedAsDuplicateMixin$Canonical _$MarkedAsDuplicateMixin$CanonicalFromJson(
     Map<String, dynamic> json) {
   return MarkedAsDuplicateMixin$Canonical()
@@ -1063,18 +1115,6 @@ Map<String, dynamic> _$MarkedAsDuplicateMixin$CanonicalToJson(
         MarkedAsDuplicateMixin$Canonical instance) =>
     <String, dynamic>{
       '__typename': instance.$$typename,
-    };
-
-MergedMixin$Actor _$MergedMixin$ActorFromJson(Map<String, dynamic> json) {
-  return MergedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$MergedMixin$ActorToJson(MergedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
     };
 
 MileStonedMixin$Actor _$MileStonedMixin$ActorFromJson(
@@ -1105,17 +1145,6 @@ Map<String, dynamic> _$MovedColumnsInProjectMixin$ActorToJson(
       'login': instance.login,
     };
 
-MovedColumnsInProjectMixin$Project _$MovedColumnsInProjectMixin$ProjectFromJson(
-    Map<String, dynamic> json) {
-  return MovedColumnsInProjectMixin$Project()..name = json['name'] as String;
-}
-
-Map<String, dynamic> _$MovedColumnsInProjectMixin$ProjectToJson(
-        MovedColumnsInProjectMixin$Project instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
-
 PinnedMixin$Actor _$PinnedMixin$ActorFromJson(Map<String, dynamic> json) {
   return PinnedMixin$Actor()
     ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
@@ -1123,77 +1152,6 @@ PinnedMixin$Actor _$PinnedMixin$ActorFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PinnedMixin$ActorToJson(PinnedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullRequestCommitMixin$Commit$Author$User
-    _$PullRequestCommitMixin$Commit$Author$UserFromJson(
-        Map<String, dynamic> json) {
-  return PullRequestCommitMixin$Commit$Author$User()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$PullRequestCommitMixin$Commit$Author$UserToJson(
-        PullRequestCommitMixin$Commit$Author$User instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullRequestCommitMixin$Commit$Author
-    _$PullRequestCommitMixin$Commit$AuthorFromJson(Map<String, dynamic> json) {
-  return PullRequestCommitMixin$Commit$Author()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..name = json['name'] as String?
-    ..user = json['user'] == null
-        ? null
-        : PullRequestCommitMixin$Commit$Author$User.fromJson(
-            json['user'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$PullRequestCommitMixin$Commit$AuthorToJson(
-        PullRequestCommitMixin$Commit$Author instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'name': instance.name,
-      'user': instance.user?.toJson(),
-    };
-
-PullRequestCommitMixin$Commit _$PullRequestCommitMixin$CommitFromJson(
-    Map<String, dynamic> json) {
-  return PullRequestCommitMixin$Commit()
-    ..additions = json['additions'] as int
-    ..authoredDate = DateTime.parse(json['authoredDate'] as String)
-    ..message = json['message'] as String
-    ..messageHeadline = json['messageHeadline'] as String
-    ..author = json['author'] == null
-        ? null
-        : PullRequestCommitMixin$Commit$Author.fromJson(
-            json['author'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$PullRequestCommitMixin$CommitToJson(
-        PullRequestCommitMixin$Commit instance) =>
-    <String, dynamic>{
-      'additions': instance.additions,
-      'authoredDate': instance.authoredDate.toIso8601String(),
-      'message': instance.message,
-      'messageHeadline': instance.messageHeadline,
-      'author': instance.author?.toJson(),
-    };
-
-ReadyForReviewMixin$Actor _$ReadyForReviewMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return ReadyForReviewMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$ReadyForReviewMixin$ActorToJson(
-        ReadyForReviewMixin$Actor instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
@@ -1211,6 +1169,48 @@ Map<String, dynamic> _$ReferencedMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
+    };
+
+ReferencedMixin$Subject$Issue _$ReferencedMixin$Subject$IssueFromJson(
+    Map<String, dynamic> json) {
+  return ReferencedMixin$Subject$Issue()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+        unknownValue: IssueState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$ReferencedMixin$Subject$IssueToJson(
+        ReferencedMixin$Subject$Issue instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'issueState': _$IssueStateEnumMap[instance.issueState],
+      '__typename': instance.$$typename,
+    };
+
+ReferencedMixin$Subject$PullRequest
+    _$ReferencedMixin$Subject$PullRequestFromJson(Map<String, dynamic> json) {
+  return ReferencedMixin$Subject$PullRequest()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..pullState = _$enumDecode(_$PullRequestStateEnumMap, json['pullState'],
+        unknownValue: PullRequestState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$ReferencedMixin$Subject$PullRequestToJson(
+        ReferencedMixin$Subject$PullRequest instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'pullState': _$PullRequestStateEnumMap[instance.pullState],
+      '__typename': instance.$$typename,
     };
 
 ReferencedMixin$Subject _$ReferencedMixin$SubjectFromJson(
@@ -1236,17 +1236,6 @@ Map<String, dynamic> _$RemovedFromProjectMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
-    };
-
-RemovedFromProjectMixin$Project _$RemovedFromProjectMixin$ProjectFromJson(
-    Map<String, dynamic> json) {
-  return RemovedFromProjectMixin$Project()..name = json['name'] as String;
-}
-
-Map<String, dynamic> _$RemovedFromProjectMixin$ProjectToJson(
-        RemovedFromProjectMixin$Project instance) =>
-    <String, dynamic>{
-      'name': instance.name,
     };
 
 RenamedTitleMixin$Actor _$RenamedTitleMixin$ActorFromJson(
@@ -1276,47 +1265,6 @@ Map<String, dynamic> _$ReopenedMixin$ActorToJson(
       'login': instance.login,
     };
 
-ReviewDismissedMixin$Actor _$ReviewDismissedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return ReviewDismissedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$ReviewDismissedMixin$ActorToJson(
-        ReviewDismissedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ReviewRequestedMixin$Actor _$ReviewRequestedMixin$ActorFromJson(
-    Map<String, dynamic> json) {
-  return ReviewRequestedMixin$Actor()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$ReviewRequestedMixin$ActorToJson(
-        ReviewRequestedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ReviewRequestedMixin$RequestedReviewer
-    _$ReviewRequestedMixin$RequestedReviewerFromJson(
-        Map<String, dynamic> json) {
-  return ReviewRequestedMixin$RequestedReviewer()
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewerToJson(
-        ReviewRequestedMixin$RequestedReviewer instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
 UnassignedMixin$Actor _$UnassignedMixin$ActorFromJson(
     Map<String, dynamic> json) {
   return UnassignedMixin$Actor()
@@ -1329,6 +1277,70 @@ Map<String, dynamic> _$UnassignedMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
+    };
+
+UnassignedMixin$Assignee$User _$UnassignedMixin$Assignee$UserFromJson(
+    Map<String, dynamic> json) {
+  return UnassignedMixin$Assignee$User()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnassignedMixin$Assignee$UserToJson(
+        UnassignedMixin$Assignee$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+UnassignedMixin$Assignee$Bot _$UnassignedMixin$Assignee$BotFromJson(
+    Map<String, dynamic> json) {
+  return UnassignedMixin$Assignee$Bot()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnassignedMixin$Assignee$BotToJson(
+        UnassignedMixin$Assignee$Bot instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+UnassignedMixin$Assignee$Mannequin _$UnassignedMixin$Assignee$MannequinFromJson(
+    Map<String, dynamic> json) {
+  return UnassignedMixin$Assignee$Mannequin()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnassignedMixin$Assignee$MannequinToJson(
+        UnassignedMixin$Assignee$Mannequin instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+UnassignedMixin$Assignee$Organization
+    _$UnassignedMixin$Assignee$OrganizationFromJson(Map<String, dynamic> json) {
+  return UnassignedMixin$Assignee$Organization()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnassignedMixin$Assignee$OrganizationToJson(
+        UnassignedMixin$Assignee$Organization instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
     };
 
 UnassignedMixin$Assignee _$UnassignedMixin$AssigneeFromJson(
@@ -1407,107 +1419,6 @@ Map<String, dynamic> _$UnpinnedMixin$ActorToJson(
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
     };
-
-AssigneeMixin$User _$AssigneeMixin$UserFromJson(Map<String, dynamic> json) {
-  return AssigneeMixin$User()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$AssigneeMixin$UserToJson(AssigneeMixin$User instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-AssigneeMixin$Bot _$AssigneeMixin$BotFromJson(Map<String, dynamic> json) {
-  return AssigneeMixin$Bot()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$AssigneeMixin$BotToJson(AssigneeMixin$Bot instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-AssigneeMixin$Mannequin _$AssigneeMixin$MannequinFromJson(
-    Map<String, dynamic> json) {
-  return AssigneeMixin$Mannequin()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$AssigneeMixin$MannequinToJson(
-        AssigneeMixin$Mannequin instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-AssigneeMixin$Organization _$AssigneeMixin$OrganizationFromJson(
-    Map<String, dynamic> json) {
-  return AssigneeMixin$Organization()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$AssigneeMixin$OrganizationToJson(
-        AssigneeMixin$Organization instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-SourceMixin$Issue _$SourceMixin$IssueFromJson(Map<String, dynamic> json) {
-  return SourceMixin$Issue()
-    ..url = Uri.parse(json['url'] as String)
-    ..title = json['title'] as String
-    ..number = json['number'] as int
-    ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
-        unknownValue: IssueState.artemisUnknown);
-}
-
-Map<String, dynamic> _$SourceMixin$IssueToJson(SourceMixin$Issue instance) =>
-    <String, dynamic>{
-      'url': instance.url.toString(),
-      'title': instance.title,
-      'number': instance.number,
-      'issueState': _$IssueStateEnumMap[instance.issueState],
-    };
-
-const _$IssueStateEnumMap = {
-  IssueState.closed: 'CLOSED',
-  IssueState.open: 'OPEN',
-  IssueState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-SourceMixin$PullRequest _$SourceMixin$PullRequestFromJson(
-    Map<String, dynamic> json) {
-  return SourceMixin$PullRequest()
-    ..url = Uri.parse(json['url'] as String)
-    ..title = json['title'] as String
-    ..number = json['number'] as int
-    ..pullState = _$enumDecode(_$PullRequestStateEnumMap, json['pullState'],
-        unknownValue: PullRequestState.artemisUnknown);
-}
-
-Map<String, dynamic> _$SourceMixin$PullRequestToJson(
-        SourceMixin$PullRequest instance) =>
-    <String, dynamic>{
-      'url': instance.url.toString(),
-      'title': instance.title,
-      'number': instance.number,
-      'pullState': _$PullRequestStateEnumMap[instance.pullState],
-    };
-
-const _$PullRequestStateEnumMap = {
-  PullRequestState.closed: 'CLOSED',
-  PullRequestState.merged: 'MERGED',
-  PullRequestState.open: 'OPEN',
-  PullRequestState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
     _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
@@ -2018,12 +1929,6 @@ GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColum
         ? null
         : MovedColumnsInProjectMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
-    ..previousProjectColumnName = json['previousProjectColumnName'] as String
-    ..projectColumnName = json['projectColumnName'] as String
-    ..project = json['project'] == null
-        ? null
-        : MovedColumnsInProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
     ..$$typename = json['__typename'] as String?;
 }
 
@@ -2035,9 +1940,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'previousProjectColumnName': instance.previousProjectColumnName,
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -2230,10 +2132,6 @@ GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFro
         ? null
         : RemovedFromProjectMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
-    ..project = json['project'] == null
-        ? null
-        : RemovedFromProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
     ..$$typename = json['__typename'] as String?;
 }
 
@@ -2245,7 +2143,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -2594,53 +2491,262 @@ Map<String, dynamic> _$GetPullTimeline$QueryToJson(
       'repository': instance.repository?.toJson(),
     };
 
-IssueTemplates$Query$Repository$IssueTemplates
-    _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(
-        Map<String, dynamic> json) {
-  return IssueTemplates$Query$Repository$IssueTemplates()
-    ..name = json['name'] as String
-    ..title = json['title'] as String?
-    ..body = json['body'] as String?
-    ..about = json['about'] as String?;
-}
-
-Map<String, dynamic> _$IssueTemplates$Query$Repository$IssueTemplatesToJson(
-        IssueTemplates$Query$Repository$IssueTemplates instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'title': instance.title,
-      'body': instance.body,
-      'about': instance.about,
-    };
-
-IssueTemplates$Query$Repository _$IssueTemplates$Query$RepositoryFromJson(
+BaseRefChangedMixin$Actor _$BaseRefChangedMixin$ActorFromJson(
     Map<String, dynamic> json) {
-  return IssueTemplates$Query$Repository()
-    ..issueTemplates = (json['issueTemplates'] as List<dynamic>?)
-        ?.map((e) => IssueTemplates$Query$Repository$IssueTemplates.fromJson(
-            e as Map<String, dynamic>))
-        .toList();
+  return BaseRefChangedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
 }
 
-Map<String, dynamic> _$IssueTemplates$Query$RepositoryToJson(
-        IssueTemplates$Query$Repository instance) =>
+Map<String, dynamic> _$BaseRefChangedMixin$ActorToJson(
+        BaseRefChangedMixin$Actor instance) =>
     <String, dynamic>{
-      'issueTemplates':
-          instance.issueTemplates?.map((e) => e.toJson()).toList(),
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
     };
 
-IssueTemplates$Query _$IssueTemplates$QueryFromJson(Map<String, dynamic> json) {
-  return IssueTemplates$Query()
-    ..repository = json['repository'] == null
-        ? null
-        : IssueTemplates$Query$Repository.fromJson(
-            json['repository'] as Map<String, dynamic>);
+BaseRefDeletedMixin$Actor _$BaseRefDeletedMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return BaseRefDeletedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
 }
 
-Map<String, dynamic> _$IssueTemplates$QueryToJson(
-        IssueTemplates$Query instance) =>
+Map<String, dynamic> _$BaseRefDeletedMixin$ActorToJson(
+        BaseRefDeletedMixin$Actor instance) =>
     <String, dynamic>{
-      'repository': instance.repository?.toJson(),
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+BaseRefForcePushedMixin$Actor _$BaseRefForcePushedMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return BaseRefForcePushedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$ActorToJson(
+        BaseRefForcePushedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ConvertedToDraftMixin$Actor _$ConvertedToDraftMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return ConvertedToDraftMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$ConvertedToDraftMixin$ActorToJson(
+        ConvertedToDraftMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+HeadRefDeletedMixin$Actor _$HeadRefDeletedMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return HeadRefDeletedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$HeadRefDeletedMixin$ActorToJson(
+        HeadRefDeletedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+HeadRefForcePushedMixin$Actor _$HeadRefForcePushedMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return HeadRefForcePushedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$ActorToJson(
+        HeadRefForcePushedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+HeadRefRestoredMixin$Actor _$HeadRefRestoredMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return HeadRefRestoredMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$HeadRefRestoredMixin$ActorToJson(
+        HeadRefRestoredMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+MergedMixin$Actor _$MergedMixin$ActorFromJson(Map<String, dynamic> json) {
+  return MergedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$MergedMixin$ActorToJson(MergedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+PullRequestCommitMixin$Commit$Author$User
+    _$PullRequestCommitMixin$Commit$Author$UserFromJson(
+        Map<String, dynamic> json) {
+  return PullRequestCommitMixin$Commit$Author$User()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$PullRequestCommitMixin$Commit$Author$UserToJson(
+        PullRequestCommitMixin$Commit$Author$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+PullRequestCommitMixin$Commit$Author
+    _$PullRequestCommitMixin$Commit$AuthorFromJson(Map<String, dynamic> json) {
+  return PullRequestCommitMixin$Commit$Author()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..name = json['name'] as String?
+    ..user = json['user'] == null
+        ? null
+        : PullRequestCommitMixin$Commit$Author$User.fromJson(
+            json['user'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$PullRequestCommitMixin$Commit$AuthorToJson(
+        PullRequestCommitMixin$Commit$Author instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'name': instance.name,
+      'user': instance.user?.toJson(),
+    };
+
+PullRequestCommitMixin$Commit _$PullRequestCommitMixin$CommitFromJson(
+    Map<String, dynamic> json) {
+  return PullRequestCommitMixin$Commit()
+    ..additions = json['additions'] as int
+    ..authoredDate = DateTime.parse(json['authoredDate'] as String)
+    ..message = json['message'] as String
+    ..messageHeadline = json['messageHeadline'] as String
+    ..author = json['author'] == null
+        ? null
+        : PullRequestCommitMixin$Commit$Author.fromJson(
+            json['author'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$PullRequestCommitMixin$CommitToJson(
+        PullRequestCommitMixin$Commit instance) =>
+    <String, dynamic>{
+      'additions': instance.additions,
+      'authoredDate': instance.authoredDate.toIso8601String(),
+      'message': instance.message,
+      'messageHeadline': instance.messageHeadline,
+      'author': instance.author?.toJson(),
+    };
+
+ReadyForReviewMixin$Actor _$ReadyForReviewMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return ReadyForReviewMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$ReadyForReviewMixin$ActorToJson(
+        ReadyForReviewMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ReviewDismissedMixin$Actor _$ReviewDismissedMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return ReviewDismissedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$ReviewDismissedMixin$ActorToJson(
+        ReviewDismissedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ReviewRequestedMixin$Actor _$ReviewRequestedMixin$ActorFromJson(
+    Map<String, dynamic> json) {
+  return ReviewRequestedMixin$Actor()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$ReviewRequestedMixin$ActorToJson(
+        ReviewRequestedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ReviewRequestedMixin$RequestedReviewer$User
+    _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(
+        Map<String, dynamic> json) {
+  return ReviewRequestedMixin$RequestedReviewer$User()
+    ..$$typename = json['__typename'] as String?
+    ..login = json['login'] as String
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
+}
+
+Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$UserToJson(
+        ReviewRequestedMixin$RequestedReviewer$User instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'login': instance.login,
+      'avatarUrl': instance.avatarUrl.toString(),
+    };
+
+ReviewRequestedMixin$RequestedReviewer$Team
+    _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(
+        Map<String, dynamic> json) {
+  return ReviewRequestedMixin$RequestedReviewer$Team()
+    ..$$typename = json['__typename'] as String?
+    ..avatarUrl = json['avatarUrl'] == null
+        ? null
+        : Uri.parse(json['avatarUrl'] as String)
+    ..name = json['name'] as String;
+}
+
+Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(
+        ReviewRequestedMixin$RequestedReviewer$Team instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'avatarUrl': instance.avatarUrl?.toString(),
+      'name': instance.name,
+    };
+
+ReviewRequestedMixin$RequestedReviewer
+    _$ReviewRequestedMixin$RequestedReviewerFromJson(
+        Map<String, dynamic> json) {
+  return ReviewRequestedMixin$RequestedReviewer()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewerToJson(
+        ReviewRequestedMixin$RequestedReviewer instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
     };
 
 SearchMentionUsers$Query$Search$Edges$Node$User
@@ -2896,6 +3002,55 @@ Map<String, dynamic> _$GetUserPinnedRepos$QueryToJson(
       'user': instance.user?.toJson(),
     };
 
+IssueTemplates$Query$Repository$IssueTemplates
+    _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(
+        Map<String, dynamic> json) {
+  return IssueTemplates$Query$Repository$IssueTemplates()
+    ..name = json['name'] as String
+    ..title = json['title'] as String?
+    ..body = json['body'] as String?
+    ..about = json['about'] as String?;
+}
+
+Map<String, dynamic> _$IssueTemplates$Query$Repository$IssueTemplatesToJson(
+        IssueTemplates$Query$Repository$IssueTemplates instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'title': instance.title,
+      'body': instance.body,
+      'about': instance.about,
+    };
+
+IssueTemplates$Query$Repository _$IssueTemplates$Query$RepositoryFromJson(
+    Map<String, dynamic> json) {
+  return IssueTemplates$Query$Repository()
+    ..issueTemplates = (json['issueTemplates'] as List<dynamic>?)
+        ?.map((e) => IssueTemplates$Query$Repository$IssueTemplates.fromJson(
+            e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic> _$IssueTemplates$Query$RepositoryToJson(
+        IssueTemplates$Query$Repository instance) =>
+    <String, dynamic>{
+      'issueTemplates':
+          instance.issueTemplates?.map((e) => e.toJson()).toList(),
+    };
+
+IssueTemplates$Query _$IssueTemplates$QueryFromJson(Map<String, dynamic> json) {
+  return IssueTemplates$Query()
+    ..repository = json['repository'] == null
+        ? null
+        : IssueTemplates$Query$Repository.fromJson(
+            json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$IssueTemplates$QueryToJson(
+        IssueTemplates$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
 GetIssueTimelineArguments _$GetIssueTimelineArgumentsFromJson(
     Map<String, dynamic> json) {
   return GetIssueTimelineArguments(
@@ -2940,21 +3095,6 @@ Map<String, dynamic> _$GetPullTimelineArgumentsToJson(
       'since': instance.since?.toIso8601String(),
     };
 
-IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
-    Map<String, dynamic> json) {
-  return IssueTemplatesArguments(
-    name: json['name'] as String,
-    owner: json['owner'] as String,
-  );
-}
-
-Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
-        IssueTemplatesArguments instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner,
-    };
-
 SearchMentionUsersArguments _$SearchMentionUsersArgumentsFromJson(
     Map<String, dynamic> json) {
   return SearchMentionUsersArguments(
@@ -2981,4 +3121,19 @@ Map<String, dynamic> _$GetUserPinnedReposArgumentsToJson(
         GetUserPinnedReposArguments instance) =>
     <String, dynamic>{
       'user': instance.user,
+    };
+
+IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return IssueTemplatesArguments(
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+  );
+}
+
+Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
+        IssueTemplatesArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
     };

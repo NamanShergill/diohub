@@ -6,6 +6,7 @@ targets:
     builders:
       artemis:
         options:
+          fragments_glob: graphql/**.fragment.graphql
           scalar_mapping:
             - graphql_type: Date
               dart_type: DateTime
@@ -32,6 +33,6 @@ targets:
 #          fragments_glob: graphql/queries/**.fragment.graphql
           schema_mapping:
             -  schema: graphql/schema.docs.graphql
-               queries_glob: graphql/queries/**.graphql
+               queries_glob: graphql/queries/**.query.graphql
                output: lib/graphql/graphql.dart
                naming_scheme: pathedWithFields

@@ -208,9 +208,18 @@ class _PullScreenState extends State<PullScreen>
                           const PullInformation(),
                           Discussion(
                             scrollController: scrollController,
+                            number: value.pullModel!.number!,
+                            owner: value.repoURL!
+                                .replaceFirst(
+                                    'https://api.github.com/repos/', '')
+                                .split('/')
+                                .first,
+                            repoName: value.repoURL!
+                                .replaceFirst(
+                                    'https://api.github.com/repos/', '')
+                                .split('/')
+                                .last,
                             isPull: true,
-                            repo: value.repoURL!.replaceFirst(
-                                'https://api.github.com/repos/', ''),
                             commentsSince: widget.commentsSince,
                             isLocked: value.pullModel!.locked! &&
                                 !value.editingEnabled,

@@ -1,9 +1,5 @@
-import 'package:dio_hub/app/Dio/cache.dart';
-import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/common/code_block_view.dart';
 import 'package:dio_hub/common/image_loader.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
@@ -127,63 +123,6 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           ),
         },
         customRender: {
-          'a': (RenderContext renderContext, Widget child) {
-            if (!(renderContext.tree.element!.text.startsWith('#') ||
-                renderContext.tree.element!.text.startsWith('@'))) {
-              return GestureDetector(
-                  onTap: () => renderContext.parser.onLinkTap!(
-                      renderContext.tree.attributes['href']!,
-                      renderContext,
-                      renderContext.tree.attributes,
-                      renderContext.tree.element),
-                  onLongPress: () {
-                    linkHandler(context, renderContext.tree.attributes['href']!,
-                        showSheetOnDeepLink: true);
-                  },
-                  child: child);
-            }
-            String link = renderContext.tree.attributes['href']!;
-            if (renderContext.tree.element!.text.startsWith('#')) {
-              link = link.replaceAll(
-                  'https://github.com', 'https://api.github.com/repos');
-            }
-            return APIWrapper(
-              getCall: GetDio.getDio(
-                      applyBaseURL: false,
-                      acceptHeader: '',
-                      cacheOptions: CacheManager.defaultCache())
-                  .get(link),
-              fadeIntoView: false,
-              loadingBuilder: (context) {
-                return ShimmerWidget(
-                  child: IgnorePointer(child: child),
-                  baseColor: Colors.white,
-                );
-              },
-              responseBuilder: (context, response) {
-                return InkWell(
-                    onTap: () => renderContext.parser.onLinkTap!(
-                        renderContext.tree.attributes['href']!,
-                        renderContext,
-                        renderContext.tree.attributes,
-                        renderContext.tree.element),
-                    onLongPress: () {
-                      linkHandler(
-                          context, renderContext.tree.attributes['href']!,
-                          showSheetOnDeepLink: true);
-                    },
-                    child: child);
-              },
-              errorBuilder: (context, error) {
-                return Text(
-                  renderContext.tree.element!.text,
-                  style: renderContext.tree.style
-                      .generateTextStyle()
-                      .copyWith(color: AppColor.grey3),
-                );
-              },
-            );
-          },
           'table': (RenderContext renderContext, Widget child) {
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -268,18 +207,11 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             );
           },
           'pre': (RenderContext renderContext, Widget child) {
-            return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: renderContext.tree.children.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: AppColor.background,
-                      borderRadius: AppThemeBorderRadius.smallBorderRadius),
-                  child: _CodeView(renderContext, index),
-                );
-              },
+            return Container(
+              decoration: BoxDecoration(
+                  color: AppColor.background,
+                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
+              child: _CodeView(renderContext),
             );
           },
           'blockquote': (RenderContext context, Widget child) {
@@ -299,8 +231,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
 class _CodeView extends StatefulWidget {
   final RenderContext renderContext;
-  final int index;
-  const _CodeView(this.renderContext, this.index);
+  const _CodeView(this.renderContext);
   @override
   __CodeViewState createState() => __CodeViewState();
 }
@@ -313,8 +244,7 @@ class __CodeViewState extends State<_CodeView> {
     setState(() {
       copied = true;
     });
-    copyToClipboard(
-        widget.renderContext.tree.children[widget.index].element!.text);
+    copyToClipboard(widget.renderContext.tree.element!.text);
     await Future.delayed(const Duration(seconds: 4));
     setState(() {
       copied = false;
@@ -326,10 +256,8 @@ class __CodeViewState extends State<_CodeView> {
     Widget child = Padding(
       padding: const EdgeInsets.only(top: 32.0, right: 16, left: 16, bottom: 8),
       child: CodeBlockView(
-        widget.renderContext.tree.children[widget.index].element!.text,
-        language: widget.renderContext.tree.children[widget.index].element
-            ?.attributes['class']
-            ?.substring(9),
+        widget.renderContext.tree.element!.text,
+        language: 'txt',
       ),
     );
     return Stack(

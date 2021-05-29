@@ -109,10 +109,10 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node>> getIssueTimeline(
+  static Future<List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges?>> getIssueTimeline(
     {required String repo, required String owner, required int number, required bool refresh, String? after, DateTime? since}) async {
-    final response = await GetDio.gqlDio(GetIssueTimelineQuery(variables: GetIssueTimelineArguments(after: after, owner: owner, number: number, repoName: repo, since: since)));
-    return GetIssueTimeline$Query.fromJson(response.data!).repository.issue.timelineItems.edges;
+    final response = await GetDio.gqlDio(GetIssueTimelineQuery(variables: GetIssueTimelineArguments(after: after, owner: owner, number: number, repoName: repo, since: since)), debugLog: true);
+    return GetIssueTimeline$Query.fromJson(response.data!).repository!.issue!.timelineItems.edges!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned
