@@ -4,6 +4,10 @@ fragment addedToProject on AddedToProjectEvent{
     actor{
         ...actor
     }
+    projectColumnName
+    project{
+        name
+    }
 }
 
 fragment assigned on AssignedEvent{
@@ -81,6 +85,7 @@ fragment crossReference on CrossReferencedEvent{
             ... pullRequest
         }
     }
+    isCrossRepository
 }
 
 fragment deMileStoned on DemilestonedEvent{
@@ -152,8 +157,7 @@ fragment labeled on LabeledEvent{
         ...actor
     }
     label{
-        color
-        name
+    ...label
     }
 }
 
@@ -206,6 +210,11 @@ fragment movedColumnsInProject on MovedColumnsInProjectEvent{
     actor{
         ...actor
     }
+    previousProjectColumnName
+    projectColumnName
+    project{
+        name
+    }
 }
 
 fragment pinned on PinnedEvent{
@@ -234,6 +243,18 @@ fragment pullRequestCommit on PullRequestCommit{
     }
 }
 
+fragment  pullRequestReview on PullRequestReview{
+    id
+    createdAt
+    author{
+        ...actor
+    }
+    authorAssociation
+    body
+    bodyHTML
+    bodyText
+}
+
 fragment  readyForReview on ReadyForReviewEvent{
     id
     createdAt
@@ -241,26 +262,17 @@ fragment  readyForReview on ReadyForReviewEvent{
         ...actor
     }
 }
-fragment  referenced on ReferencedEvent{
-    id
-    createdAt
-    actor{
-        ...actor
-    }
-    subject{
-        __typename  ... on Issue {
-            ... issue
-        } ... on PullRequest {
-            ... pullRequest
-        }
-    }
-}
+
 fragment removedFromProject on RemovedFromProjectEvent{
     id
     createdAt
     actor{
         ...actor
     }
+    project{
+        name
+    }
+    projectColumnName
 }
 
 fragment  renamedTitle on RenamedTitleEvent{
@@ -336,8 +348,7 @@ fragment unlabeled on UnlabeledEvent{
         ...actor
     }
     label{
-        color
-        name
+        ...label
     }
 }
 
@@ -376,6 +387,9 @@ fragment pullRequest on PullRequest{
     title
     number
     pullState: state
+    repository{
+
+name    }
 }
 
 fragment issue on Issue{
@@ -383,4 +397,18 @@ fragment issue on Issue{
     title
     number
     issueState: state
+   repository{
+       name
+    }
+}
+
+
+fragment repo on Repository{
+    url
+    nameWithOwner
+}
+
+fragment  label on Label{
+    color
+    name
 }

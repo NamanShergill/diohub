@@ -1,8 +1,8 @@
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
-import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/style/colors.dart';
@@ -10,9 +10,10 @@ import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/repository/commits/widgets/commit_s_h_a_button.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class BasicEventCard extends StatelessWidget {
-  final UserInfoModel? user;
+  final ActorMixin? user;
   final IconData? leading;
   final String? name;
   final Color? iconColor;
@@ -48,7 +49,7 @@ class BasicEventCard extends StatelessWidget {
               ),
               if (user != null)
                 ProfileTile(
-                  user!.avatarUrl,
+                  user?.avatarUrl.toString(),
                   showName: true,
                   size: 20,
                   textStyle: const TextStyle(
@@ -89,7 +90,7 @@ class BasicEventCard extends StatelessWidget {
 }
 
 class BasicEventTextCard extends StatelessWidget {
-  final UserInfoModel? user;
+  final ActorMixin? user;
   final IconData? leading;
   final Color? iconColor;
   final String? date;
@@ -121,42 +122,37 @@ class BasicEventTextCard extends StatelessWidget {
 }
 
 class BasicEventAssignedCard extends StatelessWidget {
-  final UserInfoModel? user;
-  final IconData? leading;
-  final Color? iconColor;
-  final String? date;
-  final bool? isAssigned;
-  final UserInfoModel? content;
+  final ActorMixin actor;
+  final ActorMixin assignee;
+  final DateTime createdAt;
+  final bool isAssigned;
   const BasicEventAssignedCard(
-      {this.user,
-      this.content,
-      this.isAssigned,
-      this.date,
-      this.leading,
-      this.iconColor,
+      {required this.actor,
+      required this.assignee,
+      required this.createdAt,
+      required this.isAssigned,
       Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
-      iconColor: iconColor,
       content: Row(
         children: [
           Text(
-            isAssigned! ? 'Assigned' : 'Unassigned',
+            isAssigned ? 'Assigned' : 'Unassigned',
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
           const SizedBox(
             width: 4,
           ),
-          content!.login != user!.login
+          actor.login != assignee.login
               ? ProfileTile(
-                  content!.avatarUrl,
+                  assignee.avatarUrl.toString(),
                   showName: true,
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.bold, color: AppColor.grey3),
                   padding: const EdgeInsets.all(4),
-                  userLogin: content!.login,
+                  userLogin: assignee.login,
                 )
               : const Text(
                   'themselves',
@@ -166,30 +162,30 @@ class BasicEventAssignedCard extends StatelessWidget {
             width: 4,
           ),
           Text(
-            '${isAssigned! ? 'to' : 'from'} the issue.',
+            '${isAssigned ? 'to' : 'from'} the issue.',
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
         ],
       ),
-      date: date,
-      user: user,
-      leading: leading,
+      date: createdAt.toString(),
+      user: actor,
+      leading: LineIcons.user,
     );
   }
 }
 
 class BasicEventLabeledCard extends StatelessWidget {
-  final UserInfoModel? user;
+  final ActorMixin actor;
   final IconData? leading;
   final Color? iconColor;
-  final String? date;
-  final Label? content;
+  final DateTime date;
+  final LabeledMixin content;
   final bool? added;
   const BasicEventLabeledCard(
-      {this.user,
-      this.content,
+      {required this.actor,
+      required this.content,
       this.added,
-      this.date,
+      required this.date,
       this.leading,
       this.iconColor,
       Key? key})
@@ -218,8 +214,8 @@ class BasicEventLabeledCard extends StatelessWidget {
           ),
         ],
       ),
-      date: date,
-      user: user,
+      date: date.toString(),
+      // user: user,
       leading: leading,
     );
   }
@@ -277,7 +273,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
         ],
       ),
       date: date,
-      user: user,
+      // user: user,
       leading: leading,
     );
   }

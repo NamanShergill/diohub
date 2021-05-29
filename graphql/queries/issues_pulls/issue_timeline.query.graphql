@@ -3,12 +3,12 @@ query getIssueTimeline($repoName: String!, $owner : String!, $number : Int!, $af
         issue(number: $number){
             timelineItems(first: 20, after: $after, since: $since, itemTypes:
             # Excludes: COMMENT_DELETED_EVENT, CONNECTED_EVENT, DISCONNECTED_EVENT, MENTIONED_EVENT,
-            # SUBSCRIBED_EVENT, TRANSFERRED_EVENT, UNSUBSCRIBED_EVENT, USER_BLOCKED_EVENT
+            # SUBSCRIBED_EVENT, TRANSFERRED_EVENT, UNSUBSCRIBED_EVENT, USER_BLOCKED_EVENT, REFERENCED_EVENT
             # Todo: Add CONVERTED_NOTE_TO_ISSUE_EVENT
             [ADDED_TO_PROJECT_EVENT, ASSIGNED_EVENT, CLOSED_EVENT,
                 CROSS_REFERENCED_EVENT, DEMILESTONED_EVENT, ISSUE_COMMENT, LABELED_EVENT,
                 LOCKED_EVENT, MARKED_AS_DUPLICATE_EVENT, MILESTONED_EVENT,
-                MOVED_COLUMNS_IN_PROJECT_EVENT, PINNED_EVENT, REFERENCED_EVENT,
+                MOVED_COLUMNS_IN_PROJECT_EVENT, PINNED_EVENT,
                 REMOVED_FROM_PROJECT_EVENT, RENAMED_TITLE_EVENT, REOPENED_EVENT, UNASSIGNED_EVENT,
                 UNLABELED_EVENT, UNLOCKED_EVENT, UNMARKED_AS_DUPLICATE_EVENT, UNPINNED_EVENT
             ]){
@@ -40,8 +40,6 @@ query getIssueTimeline($repoName: String!, $owner : String!, $number : Int!, $af
                             ...movedColumnsInProject
                         } ... on PinnedEvent{
                             ...pinned
-                        }... on ReferencedEvent{
-                            ...referenced
                         } ... on RemovedFromProjectEvent{
                             ...removedFromProject
                         } ... on RenamedTitleEvent{

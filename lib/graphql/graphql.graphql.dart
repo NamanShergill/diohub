@@ -1,5 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
+// ignore_for_file: all
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -11,6 +12,8 @@ mixin AddedToProjectMixin {
   late String id;
   late DateTime createdAt;
   AddedToProjectMixin$Actor? actor;
+  late String projectColumnName;
+  AddedToProjectMixin$Project? project;
 }
 mixin ActorMixin {
   late Uri avatarUrl;
@@ -32,6 +35,7 @@ mixin CrossReferenceMixin {
   late DateTime createdAt;
   CrossReferenceMixin$Actor? actor;
   late CrossReferenceMixin$Source source;
+  late bool isCrossRepository;
 }
 mixin IssueMixin {
   late Uri url;
@@ -39,6 +43,11 @@ mixin IssueMixin {
   late int number;
   @JsonKey(unknownEnumValue: IssueState.artemisUnknown)
   late IssueState issueState;
+  late IssueMixin$Repository repository;
+}
+mixin RepoMixin {
+  late Uri url;
+  late String nameWithOwner;
 }
 mixin PullRequestMixin {
   late Uri url;
@@ -46,6 +55,7 @@ mixin PullRequestMixin {
   late int number;
   @JsonKey(unknownEnumValue: PullRequestState.artemisUnknown)
   late PullRequestState pullState;
+  late PullRequestMixin$Repository repository;
 }
 mixin DeMileStonedMixin {
   late String id;
@@ -79,6 +89,10 @@ mixin LabeledMixin {
   LabeledMixin$Actor? actor;
   late LabeledMixin$Label label;
 }
+mixin LabelMixin {
+  late String color;
+  late String name;
+}
 mixin LockedMixin {
   late String id;
   late DateTime createdAt;
@@ -102,22 +116,21 @@ mixin MovedColumnsInProjectMixin {
   late String id;
   late DateTime createdAt;
   MovedColumnsInProjectMixin$Actor? actor;
+  late String previousProjectColumnName;
+  late String projectColumnName;
+  MovedColumnsInProjectMixin$Project? project;
 }
 mixin PinnedMixin {
   late String id;
   late DateTime createdAt;
   PinnedMixin$Actor? actor;
 }
-mixin ReferencedMixin {
-  late String id;
-  late DateTime createdAt;
-  ReferencedMixin$Actor? actor;
-  late ReferencedMixin$Subject subject;
-}
 mixin RemovedFromProjectMixin {
   late String id;
   late DateTime createdAt;
   RemovedFromProjectMixin$Actor? actor;
+  RemovedFromProjectMixin$Project? project;
+  late String projectColumnName;
 }
 mixin RenamedTitleMixin {
   late String id;
@@ -207,6 +220,16 @@ mixin PullRequestCommitMixin {
   late String id;
   late PullRequestCommitMixin$Commit commit;
 }
+mixin PullRequestReviewMixin {
+  late String id;
+  late DateTime createdAt;
+  PullRequestReviewMixin$Author? author;
+  @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
+  late CommentAuthorAssociation authorAssociation;
+  late String body;
+  late String bodyHTML;
+  late String bodyText;
+}
 mixin ReadyForReviewMixin {
   late String id;
   late DateTime createdAt;
@@ -240,7 +263,7 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToPr
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
   Map<String, dynamic> toJson() =>
       _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
           this);
@@ -294,7 +317,7 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossRefe
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, source];
+  List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
   Map<String, dynamic> toJson() =>
       _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
           this);
@@ -437,7 +460,14 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColu
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props => [
+        id,
+        createdAt,
+        actor,
+        previousProjectColumnName,
+        projectColumnName,
+        project
+      ];
   Map<String, dynamic> toJson() =>
       _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
           this);
@@ -462,24 +492,6 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEve
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
-    with EquatableMixin, ReferencedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEvent();
-
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, subject];
-  Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
     extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
     with EquatableMixin, RemovedFromProjectMixin {
@@ -491,7 +503,7 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFr
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
   Map<String, dynamic> toJson() =>
       _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
           this);
@@ -668,9 +680,6 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
       case r'PinnedEvent':
         return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent
             .fromJson(json);
-      case r'ReferencedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEvent
-            .fromJson(json);
       case r'RemovedFromProjectEvent':
         return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
             .fromJson(json);
@@ -755,10 +764,6 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
       case r'PinnedEvent':
         return (this
                 as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent)
-            .toJson();
-      case r'ReferencedEvent':
-        return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReferencedEvent)
             .toJson();
       case r'RemovedFromProjectEvent':
         return (this
@@ -895,6 +900,20 @@ class AddedToProjectMixin$Actor extends JsonSerializable
   @override
   List<Object?> get props => [avatarUrl, login];
   Map<String, dynamic> toJson() => _$AddedToProjectMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddedToProjectMixin$Project extends JsonSerializable with EquatableMixin {
+  AddedToProjectMixin$Project();
+
+  factory AddedToProjectMixin$Project.fromJson(Map<String, dynamic> json) =>
+      _$AddedToProjectMixin$ProjectFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  Map<String, dynamic> toJson() => _$AddedToProjectMixin$ProjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1042,7 +1061,7 @@ class CrossReferenceMixin$Source$Issue extends CrossReferenceMixin$Source
       _$CrossReferenceMixin$Source$IssueFromJson(json);
 
   @override
-  List<Object?> get props => [url, title, number, issueState];
+  List<Object?> get props => [url, title, number, issueState, repository];
   Map<String, dynamic> toJson() =>
       _$CrossReferenceMixin$Source$IssueToJson(this);
 }
@@ -1057,7 +1076,7 @@ class CrossReferenceMixin$Source$PullRequest extends CrossReferenceMixin$Source
       _$CrossReferenceMixin$Source$PullRequestFromJson(json);
 
   @override
-  List<Object?> get props => [url, title, number, pullState];
+  List<Object?> get props => [url, title, number, pullState, repository];
   Map<String, dynamic> toJson() =>
       _$CrossReferenceMixin$Source$PullRequestToJson(this);
 }
@@ -1092,6 +1111,32 @@ class CrossReferenceMixin$Source extends JsonSerializable with EquatableMixin {
     }
     return _$CrossReferenceMixin$SourceToJson(this);
   }
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueMixin$Repository extends JsonSerializable
+    with EquatableMixin, RepoMixin {
+  IssueMixin$Repository();
+
+  factory IssueMixin$Repository.fromJson(Map<String, dynamic> json) =>
+      _$IssueMixin$RepositoryFromJson(json);
+
+  @override
+  List<Object?> get props => [url, nameWithOwner];
+  Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestMixin$Repository extends JsonSerializable
+    with EquatableMixin, RepoMixin {
+  PullRequestMixin$Repository();
+
+  factory PullRequestMixin$Repository.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestMixin$RepositoryFromJson(json);
+
+  @override
+  List<Object?> get props => [url, nameWithOwner];
+  Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1176,15 +1221,12 @@ class LabeledMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class LabeledMixin$Label extends JsonSerializable with EquatableMixin {
+class LabeledMixin$Label extends JsonSerializable
+    with EquatableMixin, LabelMixin {
   LabeledMixin$Label();
 
   factory LabeledMixin$Label.fromJson(Map<String, dynamic> json) =>
       _$LabeledMixin$LabelFromJson(json);
-
-  late String color;
-
-  late String name;
 
   @override
   List<Object?> get props => [color, name];
@@ -1227,7 +1269,7 @@ class MarkedAsDuplicateMixin$Canonical$Issue
       _$MarkedAsDuplicateMixin$Canonical$IssueFromJson(json);
 
   @override
-  List<Object?> get props => [url, title, number, issueState];
+  List<Object?> get props => [url, title, number, issueState, repository];
   Map<String, dynamic> toJson() =>
       _$MarkedAsDuplicateMixin$Canonical$IssueToJson(this);
 }
@@ -1243,7 +1285,7 @@ class MarkedAsDuplicateMixin$Canonical$PullRequest
       _$MarkedAsDuplicateMixin$Canonical$PullRequestFromJson(json);
 
   @override
-  List<Object?> get props => [url, title, number, pullState];
+  List<Object?> get props => [url, title, number, pullState, repository];
   Map<String, dynamic> toJson() =>
       _$MarkedAsDuplicateMixin$Canonical$PullRequestToJson(this);
 }
@@ -1310,6 +1352,23 @@ class MovedColumnsInProjectMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class MovedColumnsInProjectMixin$Project extends JsonSerializable
+    with EquatableMixin {
+  MovedColumnsInProjectMixin$Project();
+
+  factory MovedColumnsInProjectMixin$Project.fromJson(
+          Map<String, dynamic> json) =>
+      _$MovedColumnsInProjectMixin$ProjectFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  Map<String, dynamic> toJson() =>
+      _$MovedColumnsInProjectMixin$ProjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class PinnedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   PinnedMixin$Actor();
@@ -1323,79 +1382,6 @@ class PinnedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReferencedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  ReferencedMixin$Actor();
-
-  factory ReferencedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$ReferencedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  Map<String, dynamic> toJson() => _$ReferencedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReferencedMixin$Subject$Issue extends ReferencedMixin$Subject
-    with EquatableMixin, IssueMixin {
-  ReferencedMixin$Subject$Issue();
-
-  factory ReferencedMixin$Subject$Issue.fromJson(Map<String, dynamic> json) =>
-      _$ReferencedMixin$Subject$IssueFromJson(json);
-
-  @override
-  List<Object?> get props => [url, title, number, issueState];
-  Map<String, dynamic> toJson() => _$ReferencedMixin$Subject$IssueToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReferencedMixin$Subject$PullRequest extends ReferencedMixin$Subject
-    with EquatableMixin, PullRequestMixin {
-  ReferencedMixin$Subject$PullRequest();
-
-  factory ReferencedMixin$Subject$PullRequest.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReferencedMixin$Subject$PullRequestFromJson(json);
-
-  @override
-  List<Object?> get props => [url, title, number, pullState];
-  Map<String, dynamic> toJson() =>
-      _$ReferencedMixin$Subject$PullRequestToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReferencedMixin$Subject extends JsonSerializable with EquatableMixin {
-  ReferencedMixin$Subject();
-
-  factory ReferencedMixin$Subject.fromJson(Map<String, dynamic> json) {
-    switch (json['__typename'].toString()) {
-      case r'Issue':
-        return ReferencedMixin$Subject$Issue.fromJson(json);
-      case r'PullRequest':
-        return ReferencedMixin$Subject$PullRequest.fromJson(json);
-      default:
-    }
-    return _$ReferencedMixin$SubjectFromJson(json);
-  }
-
-  @JsonKey(name: '__typename')
-  String? $$typename;
-
-  @override
-  List<Object?> get props => [$$typename];
-  Map<String, dynamic> toJson() {
-    switch ($$typename) {
-      case r'Issue':
-        return (this as ReferencedMixin$Subject$Issue).toJson();
-      case r'PullRequest':
-        return (this as ReferencedMixin$Subject$PullRequest).toJson();
-      default:
-    }
-    return _$ReferencedMixin$SubjectToJson(this);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class RemovedFromProjectMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   RemovedFromProjectMixin$Actor();
@@ -1406,6 +1392,22 @@ class RemovedFromProjectMixin$Actor extends JsonSerializable
   @override
   List<Object?> get props => [avatarUrl, login];
   Map<String, dynamic> toJson() => _$RemovedFromProjectMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class RemovedFromProjectMixin$Project extends JsonSerializable
+    with EquatableMixin {
+  RemovedFromProjectMixin$Project();
+
+  factory RemovedFromProjectMixin$Project.fromJson(Map<String, dynamic> json) =>
+      _$RemovedFromProjectMixin$ProjectFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  Map<String, dynamic> toJson() =>
+      _$RemovedFromProjectMixin$ProjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1557,15 +1559,12 @@ class UnlabeledMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class UnlabeledMixin$Label extends JsonSerializable with EquatableMixin {
+class UnlabeledMixin$Label extends JsonSerializable
+    with EquatableMixin, LabelMixin {
   UnlabeledMixin$Label();
 
   factory UnlabeledMixin$Label.fromJson(Map<String, dynamic> json) =>
       _$UnlabeledMixin$LabelFromJson(json);
-
-  late String color;
-
-  late String name;
 
   @override
   List<Object?> get props => [color, name];
@@ -1623,7 +1622,7 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Adde
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
   Map<String, dynamic> toJson() =>
       _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
           this);
@@ -1750,7 +1749,7 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Cros
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, source];
+  List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
   Map<String, dynamic> toJson() =>
       _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
           this);
@@ -1965,7 +1964,14 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Move
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props => [
+        id,
+        createdAt,
+        actor,
+        previousProjectColumnName,
+        projectColumnName,
+        project
+      ];
   Map<String, dynamic> toJson() =>
       _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
           this);
@@ -2028,48 +2034,15 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Pull
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview$Author
-    extends JsonSerializable with EquatableMixin, ActorMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview$Author();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview$Author.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview$AuthorFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview$AuthorToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview
     extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin {
+    with EquatableMixin, PullRequestReviewMixin {
   GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview();
 
   factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview.fromJson(
           Map<String, dynamic> json) =>
       _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewFromJson(
           json);
-
-  late String id;
-
-  late DateTime createdAt;
-
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview$Author?
-      author;
-
-  @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
-  late CommentAuthorAssociation authorAssociation;
-
-  late String body;
-
-  late String bodyHTML;
-
-  late String bodyText;
 
   @override
   List<Object?> get props =>
@@ -2118,24 +2091,6 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Read
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ReferencedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, subject];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
     extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
     with EquatableMixin, RemovedFromProjectMixin {
@@ -2147,7 +2102,7 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Remo
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
   Map<String, dynamic> toJson() =>
       _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
           this);
@@ -2406,9 +2361,6 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
       case r'ReadyForReviewEvent':
         return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
             .fromJson(json);
-      case r'ReferencedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEvent
-            .fromJson(json);
       case r'RemovedFromProjectEvent':
         return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
             .fromJson(json);
@@ -2551,10 +2503,6 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
       case r'ReadyForReviewEvent':
         return (this
                 as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent)
-            .toJson();
-      case r'ReferencedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReferencedEvent)
             .toJson();
       case r'RemovedFromProjectEvent':
         return (this
@@ -2860,6 +2808,19 @@ class PullRequestCommitMixin$Commit extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  PullRequestReviewMixin$Author();
+
+  factory PullRequestReviewMixin$Author.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$AuthorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReadyForReviewMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   ReadyForReviewMixin$Actor();
@@ -2968,6 +2929,59 @@ class ReviewRequestedMixin$RequestedReviewer extends JsonSerializable
     }
     return _$ReviewRequestedMixin$RequestedReviewerToJson(this);
   }
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplates$Query$Repository$IssueTemplates extends JsonSerializable
+    with EquatableMixin {
+  IssueTemplates$Query$Repository$IssueTemplates();
+
+  factory IssueTemplates$Query$Repository$IssueTemplates.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(json);
+
+  late String name;
+
+  String? title;
+
+  String? body;
+
+  String? about;
+
+  @override
+  List<Object?> get props => [name, title, body, about];
+  Map<String, dynamic> toJson() =>
+      _$IssueTemplates$Query$Repository$IssueTemplatesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplates$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  IssueTemplates$Query$Repository();
+
+  factory IssueTemplates$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$IssueTemplates$Query$RepositoryFromJson(json);
+
+  List<IssueTemplates$Query$Repository$IssueTemplates>? issueTemplates;
+
+  @override
+  List<Object?> get props => [issueTemplates];
+  Map<String, dynamic> toJson() =>
+      _$IssueTemplates$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
+  IssueTemplates$Query();
+
+  factory IssueTemplates$Query.fromJson(Map<String, dynamic> json) =>
+      _$IssueTemplates$QueryFromJson(json);
+
+  IssueTemplates$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  Map<String, dynamic> toJson() => _$IssueTemplates$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3281,59 +3295,6 @@ class GetUserPinnedRepos$Query extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetUserPinnedRepos$QueryToJson(this);
 }
 
-@JsonSerializable(explicitToJson: true)
-class IssueTemplates$Query$Repository$IssueTemplates extends JsonSerializable
-    with EquatableMixin {
-  IssueTemplates$Query$Repository$IssueTemplates();
-
-  factory IssueTemplates$Query$Repository$IssueTemplates.fromJson(
-          Map<String, dynamic> json) =>
-      _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(json);
-
-  late String name;
-
-  String? title;
-
-  String? body;
-
-  String? about;
-
-  @override
-  List<Object?> get props => [name, title, body, about];
-  Map<String, dynamic> toJson() =>
-      _$IssueTemplates$Query$Repository$IssueTemplatesToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueTemplates$Query$Repository extends JsonSerializable
-    with EquatableMixin {
-  IssueTemplates$Query$Repository();
-
-  factory IssueTemplates$Query$Repository.fromJson(Map<String, dynamic> json) =>
-      _$IssueTemplates$Query$RepositoryFromJson(json);
-
-  List<IssueTemplates$Query$Repository$IssueTemplates>? issueTemplates;
-
-  @override
-  List<Object?> get props => [issueTemplates];
-  Map<String, dynamic> toJson() =>
-      _$IssueTemplates$Query$RepositoryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
-  IssueTemplates$Query();
-
-  factory IssueTemplates$Query.fromJson(Map<String, dynamic> json) =>
-      _$IssueTemplates$QueryFromJson(json);
-
-  IssueTemplates$Query$Repository? repository;
-
-  @override
-  List<Object?> get props => [repository];
-  Map<String, dynamic> toJson() => _$IssueTemplates$QueryToJson(this);
-}
-
 enum CommentAuthorAssociation {
   @JsonValue('COLLABORATOR')
   collaborator,
@@ -3575,8 +3536,6 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                                 EnumValueNode(
                                     name: NameNode(value: 'PINNED_EVENT')),
                                 EnumValueNode(
-                                    name: NameNode(value: 'REFERENCED_EVENT')),
-                                EnumValueNode(
                                     name: NameNode(
                                         value: 'REMOVED_FROM_PROJECT_EVENT')),
                                 EnumValueNode(
@@ -3792,20 +3751,6 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                                           typeCondition: TypeConditionNode(
                                               on: NamedTypeNode(
                                                   name: NameNode(
-                                                      value: 'ReferencedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'referenced'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
                                                       value:
                                                           'RemovedFromProjectEvent'),
                                                   isNonNull: false)),
@@ -3957,6 +3902,25 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'projectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'project'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
       ])),
   FragmentDefinitionNode(
@@ -4143,7 +4107,13 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                     FragmentSpreadNode(
                         name: NameNode(value: 'pullRequest'), directives: [])
                   ]))
-            ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'issue'),
@@ -4172,6 +4142,34 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
         FieldNode(
             name: NameNode(value: 'state'),
             alias: NameNode(value: 'issueState'),
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'repo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Repository'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'nameWithOwner'),
+            alias: null,
             arguments: [],
             directives: [],
             selectionSet: null)
@@ -4206,7 +4204,15 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             alias: NameNode(value: 'pullState'),
             arguments: [],
             directives: [],
-            selectionSet: null)
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+            ]))
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'deMileStoned'),
@@ -4418,19 +4424,27 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'color'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'label'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'color'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'locked'),
@@ -4588,6 +4602,31 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'previousProjectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'projectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'project'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
       ])),
   FragmentDefinitionNode(
@@ -4619,66 +4658,6 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'referenced'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReferencedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'subject'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Issue'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'issue'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PullRequest'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'pullRequest'), directives: [])
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'removedFromProject'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -4705,7 +4684,26 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'project'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'projectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'renamedTitle'),
@@ -4887,18 +4885,7 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'color'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
             ]))
       ])),
   FragmentDefinitionNode(
@@ -5184,8 +5171,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                                 EnumValueNode(
                                     name: NameNode(
                                         value: 'READY_FOR_REVIEW_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'REFERENCED_EVENT')),
                                 EnumValueNode(
                                     name: NameNode(
                                         value: 'REMOVED_FROM_PROJECT_EVENT')),
@@ -5569,58 +5554,10 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                                           directives: [],
                                           selectionSet:
                                               SelectionSetNode(selections: [
-                                            FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null),
-                                            FieldNode(
+                                            FragmentSpreadNode(
                                                 name: NameNode(
-                                                    value: 'createdAt'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null),
-                                            FieldNode(
-                                                name: NameNode(value: 'author'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: SelectionSetNode(
-                                                    selections: [
-                                                      FragmentSpreadNode(
-                                                          name: NameNode(
-                                                              value: 'actor'),
-                                                          directives: [])
-                                                    ])),
-                                            FieldNode(
-                                                name: NameNode(
-                                                    value: 'authorAssociation'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null),
-                                            FieldNode(
-                                                name: NameNode(value: 'body'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null),
-                                            FieldNode(
-                                                name:
-                                                    NameNode(value: 'bodyHTML'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null),
-                                            FieldNode(
-                                                name:
-                                                    NameNode(value: 'bodyText'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null)
+                                                    value: 'pullRequestReview'),
+                                                directives: [])
                                           ])),
                                       InlineFragmentNode(
                                           typeCondition: TypeConditionNode(
@@ -5654,20 +5591,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                                                     value: 'readyForReview'),
                                                 directives: [])
                                           ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'ReferencedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'referenced'),
-                                                    directives: [])
-                                              ])),
                                       InlineFragmentNode(
                                           typeCondition: TypeConditionNode(
                                               on: NamedTypeNode(
@@ -5853,6 +5776,25 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'projectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'project'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
       ])),
   FragmentDefinitionNode(
@@ -6170,7 +6112,13 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                     FragmentSpreadNode(
                         name: NameNode(value: 'pullRequest'), directives: [])
                   ]))
-            ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'issue'),
@@ -6199,6 +6147,34 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
         FieldNode(
             name: NameNode(value: 'state'),
             alias: NameNode(value: 'issueState'),
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'repo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Repository'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'nameWithOwner'),
+            alias: null,
             arguments: [],
             directives: [],
             selectionSet: null)
@@ -6233,7 +6209,15 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             alias: NameNode(value: 'pullState'),
             arguments: [],
             directives: [],
-            selectionSet: null)
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'repo'), directives: [])
+            ]))
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'deMileStoned'),
@@ -6536,19 +6520,27 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'color'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'label'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'color'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'locked'),
@@ -6740,6 +6732,31 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'previousProjectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'projectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'project'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
             ]))
       ])),
   FragmentDefinitionNode(
@@ -6854,6 +6871,58 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
+      name: NameNode(value: 'pullRequestReview'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequestReview'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyText'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
       name: NameNode(value: 'readyForReview'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -6879,66 +6948,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'referenced'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReferencedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'subject'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Issue'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'issue'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PullRequest'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'pullRequest'), directives: [])
-                  ]))
             ]))
       ])),
   FragmentDefinitionNode(
@@ -6968,7 +6977,26 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'project'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'projectColumnName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'renamedTitle'),
@@ -7275,18 +7303,7 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'color'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
             ]))
       ])),
   FragmentDefinitionNode(
@@ -7394,6 +7411,112 @@ class GetPullTimelineQuery
   @override
   GetPullTimeline$Query parse(Map<String, dynamic> json) =>
       GetPullTimeline$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueTemplatesArguments extends JsonSerializable with EquatableMixin {
+  IssueTemplatesArguments({required this.name, required this.owner});
+
+  @override
+  factory IssueTemplatesArguments.fromJson(Map<String, dynamic> json) =>
+      _$IssueTemplatesArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() => _$IssueTemplatesArgumentsToJson(this);
+}
+
+final ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'issueTemplates'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'issueTemplates'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'title'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'body'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'about'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class IssueTemplatesQuery
+    extends GraphQLQuery<IssueTemplates$Query, IssueTemplatesArguments> {
+  IssueTemplatesQuery({required this.variables});
+
+  @override
+  final DocumentNode document = ISSUE_TEMPLATES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'issueTemplates';
+
+  @override
+  final IssueTemplatesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  IssueTemplates$Query parse(Map<String, dynamic> json) =>
+      IssueTemplates$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -7736,110 +7859,4 @@ class GetUserPinnedReposQuery extends GraphQLQuery<GetUserPinnedRepos$Query,
   @override
   GetUserPinnedRepos$Query parse(Map<String, dynamic> json) =>
       GetUserPinnedRepos$Query.fromJson(json);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueTemplatesArguments extends JsonSerializable with EquatableMixin {
-  IssueTemplatesArguments({required this.name, required this.owner});
-
-  @override
-  factory IssueTemplatesArguments.fromJson(Map<String, dynamic> json) =>
-      _$IssueTemplatesArgumentsFromJson(json);
-
-  late String name;
-
-  late String owner;
-
-  @override
-  List<Object?> get props => [name, owner];
-  @override
-  Map<String, dynamic> toJson() => _$IssueTemplatesArgumentsToJson(this);
-}
-
-final ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: [
-  OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'issueTemplates'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'name')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'owner')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'name'),
-                  value: VariableNode(name: NameNode(value: 'name'))),
-              ArgumentNode(
-                  name: NameNode(value: 'owner'),
-                  value: VariableNode(name: NameNode(value: 'owner')))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'issueTemplates'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'title'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'body'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'about'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]))
-      ]))
-]);
-
-class IssueTemplatesQuery
-    extends GraphQLQuery<IssueTemplates$Query, IssueTemplatesArguments> {
-  IssueTemplatesQuery({required this.variables});
-
-  @override
-  final DocumentNode document = ISSUE_TEMPLATES_QUERY_DOCUMENT;
-
-  @override
-  final String operationName = 'issueTemplates';
-
-  @override
-  final IssueTemplatesArguments variables;
-
-  @override
-  List<Object?> get props => [document, operationName, variables];
-  @override
-  IssueTemplates$Query parse(Map<String, dynamic> json) =>
-      IssueTemplates$Query.fromJson(json);
 }

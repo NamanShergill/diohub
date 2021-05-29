@@ -6,7 +6,7 @@ query getPullTimeline($repoName: String!, $owner : String!, $number : Int!, $aft
             # AUTO_MERGE_DISABLED_EVENT, AUTO_MERGE_ENABLED_EVENT, AUTO_REBASE_ENABLED_EVENT,
             # AUTO_SQUASH_ENABLED_EVENT, COMMENT_DELETED_EVENT, CONNECTED_EVENT, DEPLOYED_EVENT,
             # DEPLOYED_EVENT, DISCONNECTED_EVENT, PULL_REQUEST_REVISION_MARKER, SUBSCRIBED_EVENT,
-            # TRANSFERRED_EVENT, UNSUBSCRIBED_EVENT, USER_BLOCKED_EVENT
+            # TRANSFERRED_EVENT, UNSUBSCRIBED_EVENT, USER_BLOCKED_EVENT, REFERENCED_EVENT
             # Todo: Add CONVERTED_NOTE_TO_ISSUE_EVENT
             [ADDED_TO_PROJECT_EVENT, ASSIGNED_EVENT, BASE_REF_CHANGED_EVENT,BASE_REF_DELETED_EVENT,
                 BASE_REF_FORCE_PUSHED_EVENT, CLOSED_EVENT,CONVERT_TO_DRAFT_EVENT,
@@ -15,7 +15,7 @@ query getPullTimeline($repoName: String!, $owner : String!, $number : Int!, $aft
                 LOCKED_EVENT, MARKED_AS_DUPLICATE_EVENT, MERGED_EVENT, MILESTONED_EVENT,
                 MOVED_COLUMNS_IN_PROJECT_EVENT, PINNED_EVENT, PULL_REQUEST_COMMIT,
                 PULL_REQUEST_COMMIT_COMMENT_THREAD, PULL_REQUEST_REVIEW, PULL_REQUEST_REVIEW_THREAD,
-                READY_FOR_REVIEW_EVENT, REFERENCED_EVENT, REMOVED_FROM_PROJECT_EVENT,
+                READY_FOR_REVIEW_EVENT, REMOVED_FROM_PROJECT_EVENT,
                 RENAMED_TITLE_EVENT, REOPENED_EVENT, REVIEW_DISMISSED_EVENT, REVIEW_REQUESTED_EVENT,
                 REVIEW_REQUEST_REMOVED_EVENT, UNASSIGNED_EVENT,UNLABELED_EVENT, UNLOCKED_EVENT,
                 UNMARKED_AS_DUPLICATE_EVENT, UNPINNED_EVENT
@@ -68,21 +68,11 @@ query getPullTimeline($repoName: String!, $owner : String!, $number : Int!, $aft
                         } ... on PullRequestCommitCommentThread{
                             id
                         } ... on PullRequestReview{
-                            id
-                            createdAt
-                            author{
-                                ...actor
-                            }
-                            authorAssociation
-                            body
-                            bodyHTML
-                            bodyText
+                            ...pullRequestReview
                         } ... on PullRequestReviewThread{
                             id
                         } ... on ReadyForReviewEvent{
                             ...readyForReview
-                        }... on ReferencedEvent{
-                            ...referenced
                         } ... on RemovedFromProjectEvent{
                             ...removedFromProject
                         } ... on RenamedTitleEvent{

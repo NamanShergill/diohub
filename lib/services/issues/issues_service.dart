@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/graphql/graphql.dart';
 
 class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
@@ -109,10 +108,30 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges?>> getIssueTimeline(
-    {required String repo, required String owner, required int number, required bool refresh, String? after, DateTime? since}) async {
-    final response = await GetDio.gqlDio(GetIssueTimelineQuery(variables: GetIssueTimelineArguments(after: after, owner: owner, number: number, repoName: repo, since: since)), debugLog: true);
-    return GetIssueTimeline$Query.fromJson(response.data!).repository!.issue!.timelineItems.edges!;
+  static Future<
+          List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges?>>
+      getIssueTimeline(
+          {required String repo,
+          required String owner,
+          required int number,
+          required bool refresh,
+          String? after,
+          DateTime? since}) async {
+    final response = await GetDio.gqlDio(
+        GetIssueTimelineQuery(
+            variables: GetIssueTimelineArguments(
+                after: after,
+                owner: owner,
+                number: number,
+                repoName: repo,
+                since: since)),
+        debugLog: true,
+        acceptHeader: 'application/vnd.github.starfox-preview+json');
+    return GetIssueTimeline$Query.fromJson(response.data!)
+        .repository!
+        .issue!
+        .timelineItems
+        .edges!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned

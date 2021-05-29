@@ -7,6 +7,8 @@ targets:
       artemis:
         options:
           fragments_glob: graphql/**.fragment.graphql
+          ignore_for_file:
+            - all
           scalar_mapping:
             - graphql_type: Date
               dart_type: DateTime

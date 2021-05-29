@@ -4,7 +4,6 @@ include:
 analyzer:
   exclude:
     - lib/models/**
-    - lib/graphql/**
 linter:
   rules:
     - always_require_non_null_named_parameters

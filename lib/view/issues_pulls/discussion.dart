@@ -6,6 +6,7 @@ import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icons.dart';
 
 class Discussion extends StatefulWidget {
   final ScrollController scrollController;
@@ -423,10 +425,78 @@ class _DiscussionState extends State<Discussion>
 }
 
 Widget getTimeLineItem(dynamic item) {
-  if (item is IssueCommentMixin) {
-    return paddingWrap(child: BaseComment(item));
-  }
-  return Container();
+  return paddingWrap(
+    child: Builder(
+      builder: (context) {
+        if (item is AddedToProjectMixin) {
+        } else if (item is AssignedMixin) {
+          return BasicEventAssignedCard(
+            actor: item.actor!,
+            assignee: item.assignee as ActorMixin,
+            createdAt: item.createdAt,
+            isAssigned: true,
+          );
+        } else if (item is BaseRefChangedMixin) {
+        } else if (item is BaseRefDeletedMixin) {
+        } else if (item is BaseRefForcePushedMixin) {
+        } else if (item is ClosedMixin) {
+          return BasicEventTextCard(
+            textContent: 'Closed this.',
+            user: item.actor,
+            leading: Octicons.issue_closed,
+            iconColor: AppColor.red,
+            date: item.createdAt.toString(),
+          );
+        } else if (item is ConvertedToDraftMixin) {
+          return BasicEventTextCard(
+            textContent: 'Converted to draft.',
+            user: item.actor,
+            leading: LineIcons.alternatePencil,
+            date: item.createdAt.toString(),
+          );
+        } else if (item is CrossReferenceMixin) {
+        } else if (item is DeMileStonedMixin) {
+        } else if (item is HeadRefDeletedMixin) {
+        } else if (item is HeadRefForcePushedMixin) {
+        } else if (item is HeadRefRestoredMixin) {
+        } else if (item is IssueCommentMixin) {
+          return BaseComment(item);
+        } else if (item is LabeledMixin) {
+          // return BasicEventLabeledCard(
+          //   actor: item.actor!,
+          //   added: true,
+          //   date: item.createdAt,
+          // );
+        } else if (item is LockedMixin) {
+        } else if (item is MarkedAsDuplicateMixin) {
+        } else if (item is MergedMixin) {
+        } else if (item is MileStonedMixin) {
+        } else if (item is MovedColumnsInProjectMixin) {
+        } else if (item is PinnedMixin) {
+        } else if (item is PullRequestCommitMixin) {
+        } else if (item is PullRequestReviewMixin) {
+        } else if (item is ReadyForReviewMixin) {
+        } else if (item is RemovedFromProjectMixin) {
+        } else if (item is RenamedTitleMixin) {
+        } else if (item is ReopenedMixin) {
+          return BasicEventTextCard(
+            textContent: 'Reopened this.',
+            user: item.actor,
+            leading: Octicons.issue_reopened,
+            iconColor: AppColor.green,
+            date: item.createdAt.toString(),
+          );
+        } else if (item is ReviewDismissedMixin) {
+        } else if (item is ReviewRequestedMixin) {
+        } else if (item is UnassignedMixin) {
+        } else if (item is UnlabeledMixin) {
+        } else if (item is UnlockedMixin) {
+        } else if (item is UnmarkedAsDuplicateMixin) {
+        } else if (item is UnpinnedMixin) {}
+        return Container();
+      },
+    ),
+  );
 }
 
 Widget paddingWrap({Widget? child}) {
