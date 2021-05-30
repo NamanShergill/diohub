@@ -6,7 +6,7 @@ import 'package:dio_hub/common/markdown_body.dart';
 import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/providers/issue/issue_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';

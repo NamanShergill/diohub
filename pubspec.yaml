@@ -16,6 +16,7 @@ dependencies:
   another_flushbar: ^1.10.22
   cached_network_image: ^3.0.0
   connectivity: ^3.0.6
+  device_info_plus: ^1.0.1
   dio: ^4.0.0
   dio_cache_interceptor: ^2.3.1
   equatable: ^2.0.2
@@ -60,6 +61,7 @@ dependencies:
 
   flutter_slidable: ^0.6.0
   flutter_svg: ^0.22.0
+#  flutter_web_auth: ^0.3.0
 
   # Modified to support hero tags. Might remove.
   google_nav_bar:
@@ -93,6 +95,7 @@ dependencies:
       ref: master
 
   mime: ^1.0.0
+  package_info_plus: ^1.0.1
   path_provider: ^2.0.2
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0

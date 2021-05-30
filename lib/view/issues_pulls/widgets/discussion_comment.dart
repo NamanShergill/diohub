@@ -1,3 +1,4 @@
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/markdown_body.dart';
 import 'package:dio_hub/common/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -6,9 +7,16 @@ import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BaseComment extends StatelessWidget {
+class BaseComment extends StatefulWidget {
   final IssueCommentMixin comment;
   const BaseComment(this.comment, {Key? key}) : super(key: key);
+
+  @override
+  _BaseCommentState createState() => _BaseCommentState();
+}
+
+class _BaseCommentState extends State<BaseComment> {
+  bool optionsExpanded = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,8 +28,8 @@ class BaseComment extends StatelessWidget {
             Row(
               children: [
                 ProfileTile(
-                  comment.author!.avatarUrl.toString(),
-                  userLogin: comment.author!.login,
+                  widget.comment.author!.avatarUrl.toString(),
+                  userLogin: widget.comment.author!.login,
                   size: 30,
                 ),
                 const SizedBox(
@@ -31,24 +39,24 @@ class BaseComment extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      comment.author!.login,
+                      widget.comment.author!.login,
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    if (comment.authorAssociation !=
+                    if (widget.comment.authorAssociation !=
                             CommentAuthorAssociation.member &&
-                        comment.authorAssociation !=
+                        widget.comment.authorAssociation !=
                             CommentAuthorAssociation.none)
                       Builder(
                         builder: (context) {
                           String? str;
-                          if (comment.authorAssociation ==
+                          if (widget.comment.authorAssociation ==
                               CommentAuthorAssociation.collaborator) {
                             str = 'Collaborator';
-                          } else if (comment.authorAssociation ==
+                          } else if (widget.comment.authorAssociation ==
                               CommentAuthorAssociation.contributor) {
                             str = 'Contributor';
-                          } else if (comment.authorAssociation ==
+                          } else if (widget.comment.authorAssociation ==
                               CommentAuthorAssociation.owner) {
                             str = 'Owner';
                           }
@@ -66,19 +74,78 @@ class BaseComment extends StatelessWidget {
                 ),
               ],
             ),
-            Text(
-              getDate(comment.createdAt.toString(), shorten: false),
-              style: const TextStyle(color: AppColor.grey3, fontSize: 12),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      getDate(widget.comment.createdAt.toString(),
+                          shorten: false),
+                      style: const TextStyle(
+                          color: AppColor.grey3,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    if (widget.comment.lastEditedAt != null)
+                      Text(
+                        'Edited ' +
+                            getDate(widget.comment.createdAt.toString(),
+                                shorten: false),
+                        style: const TextStyle(
+                            color: AppColor.grey3, fontSize: 10),
+                      ),
+                  ],
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        optionsExpanded = !optionsExpanded;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.more_vert_rounded,
+                      color: AppColor.grey3,
+                    ))
+              ],
             ),
           ],
         ),
         const SizedBox(height: 8),
+        SizeExpandedSection(
+          expand: optionsExpanded,
+          child: Column(
+            children: [
+              const Divider(),
+              ListTile(
+                leading: Icon(
+                  Icons.format_quote,
+                ),
+                dense: true,
+                title: Text(
+                  'Quote Reply',
+                  // style: TextStyle(fontSize: 13),
+                ),
+              ),
+              const Divider(),
+              ListTile(
+                dense: true,
+                leading: Icon(Icons.content_copy),
+                title: Text('Select Text'),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => _SelectAndCopy(widget.comment.body),
+                ),
+              ),
+            ],
+          ),
+        ),
         const Divider(),
         Row(
           children: [
             Flexible(
-                child: MarkdownRenderAPI(
-              comment.bodyHTML,
+                child: MarkdownBody(
+              widget.comment.bodyHTML,
             )),
           ],
         ),
@@ -90,6 +157,62 @@ class BaseComment extends StatelessWidget {
         //         ?.login,
         //     isEnabled: !isLocked!,
         //   ),
+      ],
+    );
+  }
+}
+
+class _SelectAndCopy extends StatefulWidget {
+  final String data;
+  const _SelectAndCopy(this.data, {Key? key}) : super(key: key);
+
+  @override
+  __SelectAndCopyState createState() => __SelectAndCopyState();
+}
+
+class __SelectAndCopyState extends State<_SelectAndCopy> {
+  String selectedText = '';
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'Select and copy',
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      content: SingleChildScrollView(
+        child: SelectableText(
+          widget.data,
+          style: Theme.of(context).textTheme.bodyText2,
+          onSelectionChanged: (selection, cause) {
+            print(selection.textInside(widget.data));
+            selectedText = selection.textInside(widget.data);
+          },
+        ),
+      ),
+      actions: [
+        MaterialButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Cancel'),
+          ),
+        ),
+        MaterialButton(
+          onPressed: () {},
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Copy'),
+          ),
+        ),
+        MaterialButton(
+          onPressed: () {},
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Quote'),
+          ),
+        ),
       ],
     );
   }

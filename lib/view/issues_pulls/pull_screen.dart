@@ -5,7 +5,8 @@ import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/pulls/pull_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -44,12 +45,19 @@ class _PullScreenState extends State<PullScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => PullProvider(
-          widget.pullURL,
-          Provider.of<CurrentUserProvider>(context, listen: false)
-              .currentUserInfo
-              ?.login),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => PullProvider(
+              widget.pullURL,
+              Provider.of<CurrentUserProvider>(context, listen: false)
+                  .currentUserInfo
+                  ?.login),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(),
+        ),
+      ],
       builder: (context, child) {
         return SafeArea(
           child: Consumer<PullProvider>(

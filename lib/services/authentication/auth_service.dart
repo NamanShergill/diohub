@@ -60,10 +60,10 @@ class AuthService {
   //     'delete_repo write:discussion read:discussion write:packages read:packages'
   //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
   static const String _scope = 'repo public_repo repo:invite '
-      'security_events admin:org'
+      'write:org'
       ' gist notifications user '
-      'delete_repo write:discussion write:packages read:packages'
-      ' delete:packages workflow';
+      'delete_repo write:discussion read:packages'
+      ' delete:packages';
 
   static Future<Response> getAccessToken({String? deviceCode}) async {
     FormData formData = FormData.fromMap({

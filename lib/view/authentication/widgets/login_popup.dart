@@ -24,15 +24,16 @@ class LoginPopup extends StatelessWidget {
                   .headline5!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
-            const Divider(
-              height: 32,
+            const SizedBox(
+              height: 16,
             ),
             Text(
               'You need to login using your GitHub account.',
               style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.center,
             ),
-            const Divider(
-              height: 32,
+            const SizedBox(
+              height: 16,
             ),
             StringButton(
               title: 'Login with GitHub',

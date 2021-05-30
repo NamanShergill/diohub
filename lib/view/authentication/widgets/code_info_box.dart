@@ -181,6 +181,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
               child: Text(
                 'Input the code on the following link.',
                 style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(
@@ -229,9 +230,12 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
             ),
             Center(
               child: MaterialButton(
-                child: const Text(
-                  'Tap here to cancel',
-                  style: TextStyle(color: Colors.white),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Tap here to cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 onPressed: () {
                   BlocProvider.of<AuthenticationBloc>(context)

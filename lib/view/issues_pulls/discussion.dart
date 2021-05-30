@@ -4,6 +4,7 @@ import 'package:dio_hub/common/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
+import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class Discussion extends StatefulWidget {
   final ScrollController scrollController;
@@ -66,6 +68,98 @@ class _DiscussionState extends State<Discussion>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    Widget header = commentsSince != null
+        ? Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Button(
+                  listenToLoadingController: false,
+                  color: AppColor.onBackground,
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Showing timeline since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      const Text(
+                        'Load the whole timeline?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      commentsSince = null;
+                    });
+                    commentsSinceController.refresh();
+                  },
+                ),
+              ),
+              // if (widget.initialComment!.createdAt!.isAfter(
+              //     commentsSince!
+              //         .subtract(const Duration(minutes: 5))))
+              //   paddingWrap(
+              //     child: BaseComment(
+              //         widget.initialComment, widget.isLocked,
+              //         repo: widget.repo),
+              //   ),
+            ],
+          )
+        : Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Button(
+                  listenToLoadingController: false,
+                  color: AppColor.onBackground,
+                  padding: const EdgeInsets.all(16),
+                  child: const Text(
+                    'Show timeline from a specific time?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () async {
+                    DatePicker.showDateTimePicker(context,
+                        showTitleActions: true,
+                        theme: const DatePickerTheme(
+                            cancelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            doneStyle: TextStyle(color: AppColor.accent),
+                            itemStyle: TextStyle(color: Colors.white),
+                            backgroundColor: AppColor.background),
+                        maxTime: DateTime.now(), onConfirm: (date) {
+                      setState(() {
+                        commentsSince = date;
+                      });
+                      commentsSinceController.refresh();
+                    }, currentTime: widget.createdAt!);
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              // paddingWrap(
+              //   child: BaseComment(
+              //       widget.initialComment, widget.isLocked,
+              //       repo: widget.repo),
+              // ),
+            ],
+          );
     return Stack(
       children: [
         Row(
@@ -99,52 +193,7 @@ class _DiscussionState extends State<Discussion>
                       controller: commentsSinceController,
                       scrollController: widget.scrollController,
                       header: (context) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Button(
-                                listenToLoadingController: false,
-                                color: AppColor.onBackground,
-                                padding: const EdgeInsets.all(12),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Showing comments since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    const Text(
-                                      'Load the whole timeline?',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    commentsSince = null;
-                                  });
-                                },
-                              ),
-                            ),
-                            // if (widget.initialComment!.createdAt!.isAfter(
-                            //     commentsSince!
-                            //         .subtract(const Duration(minutes: 5))))
-                            //   paddingWrap(
-                            //     child: BaseComment(
-                            //         widget.initialComment, widget.isLocked,
-                            //         repo: widget.repo),
-                            //   ),
-                          ],
-                        );
+                        return header;
                       },
                       firstPageLoadingBuilder: (context) {
                         return Container(
@@ -187,53 +236,7 @@ class _DiscussionState extends State<Discussion>
                       isNestedScrollViewChild: true,
                       scrollController: widget.scrollController,
                       header: (context) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Button(
-                                listenToLoadingController: false,
-                                color: AppColor.onBackground,
-                                padding: const EdgeInsets.all(16),
-                                child: const Text(
-                                  'Show comments made after a specific time?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                onTap: () async {
-                                  DatePicker.showDateTimePicker(context,
-                                      showTitleActions: true,
-                                      theme: const DatePickerTheme(
-                                          cancelStyle: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          doneStyle:
-                                              TextStyle(color: AppColor.accent),
-                                          itemStyle:
-                                              TextStyle(color: Colors.white),
-                                          backgroundColor: AppColor.background),
-                                      maxTime: DateTime.now(),
-                                      onConfirm: (date) {
-                                    setState(() {
-                                      commentsSince = date;
-                                    });
-                                  }, currentTime: widget.createdAt!);
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            // paddingWrap(
-                            //   child: BaseComment(
-                            //       widget.initialComment, widget.isLocked,
-                            //       repo: widget.repo),
-                            // ),
-                          ],
-                        );
+                        return header;
                       },
                       divider: false,
                       builder: (context, edge, index) {
@@ -339,83 +342,17 @@ class _DiscussionState extends State<Discussion>
                       },
                     ),
             ),
-            Material(
-              elevation: 2,
-              color: widget.isLocked! ? AppColor.grey3 : AppColor.accent,
-              child: InkWell(
-                onTap: widget.isLocked!
-                    ? null
-                    : () {
-                        showBottomActionsMenu(context,
-                            fullScreen: true,
-                            header: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Comment',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6,
-                                            ),
-                                            const Icon(Icons.arrow_drop_down),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ), childWidget: (context) {
-                          return CommentBox(
-                            issueURL: widget.issueUrl,
-                            onSubmit: (status) {
-                              if (status) {
-                                setState(() {
-                                  commentsSince = DateTime.now();
-                                  commentsSinceController.refresh();
-                                });
-                              }
-                            },
-                          );
-                        });
-                      },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Add a comment',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          widget.isLocked!
-                              ? Octicons.lock
-                              : Icons.comment_rounded,
-                          size: 16,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+            _CommentButton(
+              issueUrl: widget.issueUrl,
+              onSubmit: () {
+                setState(() {
+                  commentsSince = DateTime.now();
+                  commentsSinceController.refresh();
+                });
+              },
+              owner: widget.owner,
+              repoName: widget.repoName,
+              isLocked: widget.isLocked!,
             )
           ],
         ),
@@ -524,8 +461,129 @@ Widget paddingWrap({Widget? child}) {
     elevation: 2,
     color: AppColor.onBackground,
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
       child: child,
     ),
   );
+}
+
+class _CommentButton extends StatefulWidget {
+  final bool isLocked;
+  final String issueUrl;
+  final String owner;
+  final String repoName;
+  final VoidCallback onSubmit;
+  const _CommentButton(
+      {Key? key,
+      this.isLocked = false,
+      required this.issueUrl,
+      required this.onSubmit,
+      required this.owner,
+      required this.repoName})
+      : super(key: key);
+
+  @override
+  __CommentButtonState createState() => __CommentButtonState();
+}
+
+class __CommentButtonState extends State<_CommentButton> {
+  bool markdownView = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 2,
+      color: widget.isLocked ? AppColor.grey3 : AppColor.accent,
+      child: InkWell(
+        onTap: widget.isLocked
+            ? null
+            : () {
+                showBottomActionsMenu(context,
+                    fullScreen: true,
+                    header: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              markdownView = !markdownView;
+                            });
+                          },
+                          icon: const Icon(Icons.remove_red_eye_rounded),
+                          color: markdownView ? Colors.white : AppColor.grey3,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Comment',
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
+                                    ),
+                                    const Icon(Icons.arrow_drop_down),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            disabledColor: AppColor.grey3.withOpacity(0.5),
+                            icon: const Icon(
+                              Icons.add,
+                            )),
+                      ],
+                    ), childWidget: (buildContext) {
+                  return ListenableProvider.value(
+                    value: Provider.of<CommentProvider>(
+                      context,
+                    ),
+                    child: CommentBox(
+                      issueURL: widget.issueUrl,
+                      repoName: widget.owner + '/' + widget.repoName,
+                      onSubmit: (status) {
+                        if (status) {
+                          widget.onSubmit();
+                        }
+                      },
+                      markdownView: markdownView,
+                    ),
+                  );
+                });
+              },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Add a comment',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  widget.isLocked! ? Octicons.lock : Icons.comment_rounded,
+                  size: 16,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

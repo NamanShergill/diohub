@@ -1,6 +1,7 @@
 ## [0.3.0] - In Development
 **Authentication**
 - Authentication to access the app made compulsory.
+- Removed a lot of the permissions the app requested for that it did not need currently.
 - If app was opened via a deeplink and user is unauthenticated, the deep link will be honored as
   soon as the authentication is completed.
  
