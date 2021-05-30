@@ -1,12 +1,9 @@
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/auth_popup/widgets/base_auth_dialog.dart';
+import 'package:dio_hub/view/authentication/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ErrorPopup extends StatelessWidget {
-  final String error;
-  const ErrorPopup(this.error, {Key? key}) : super(key: key);
+class SuccessPopup extends StatelessWidget {
+  const SuccessPopup({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ScaleExpandedSection(
@@ -16,7 +13,7 @@ class ErrorPopup extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Error.',
+              'Successful.',
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -26,7 +23,7 @@ class ErrorPopup extends StatelessWidget {
               height: 32,
             ),
             Text(
-              error,
+              'Authentication completed successfully.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const Divider(
@@ -35,11 +32,10 @@ class ErrorPopup extends StatelessWidget {
             Center(
               child: MaterialButton(
                 onPressed: () {
-                  BlocProvider.of<AuthenticationBloc>(context)
-                      .add(ResetStates());
+                  Navigator.pop(context);
                 },
                 child: const Text(
-                  'Retry',
+                  'Tap here to close',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

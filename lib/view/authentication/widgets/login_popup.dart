@@ -1,8 +1,8 @@
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/auth_popup/widgets/base_auth_dialog.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/view/authentication/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -15,10 +15,10 @@ class LoginPopup extends StatelessWidget {
       child: BaseAuthDialog(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Login.',
+              'Login'.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -28,7 +28,7 @@ class LoginPopup extends StatelessWidget {
               height: 32,
             ),
             Text(
-              'You need to login using your GitHub account for the full experience.',
+              'You need to login using your GitHub account.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const Divider(

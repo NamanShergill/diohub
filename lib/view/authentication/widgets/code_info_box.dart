@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/auth_popup/widgets/base_auth_dialog.dart';
 import 'package:dio_hub/common/button.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';
+import 'package:dio_hub/view/authentication/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +61,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
       child: BaseAuthDialog(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: CountdownTimer(
@@ -69,10 +69,10 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 endWidget: const Text('Time Expired.'),
                 widgetBuilder: (_, CurrentRemainingTime? time) {
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Verification.',
+                        'Verification'.toUpperCase(),
                         style: Theme.of(context)
                             .textTheme
                             .headline5!

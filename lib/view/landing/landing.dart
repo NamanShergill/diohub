@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/auth_popup/auth_popup.dart';
 import 'package:dio_hub/common/scaffold_body.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
@@ -29,21 +25,8 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
-    //Show auth popup if user is not authenticated.
-    showAuthPopup();
     context.read<NavigationProvider>().setPath(widget.deepLinkData?.path);
     super.initState();
-  }
-
-  void showAuthPopup() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
-      showDialog(
-          context: context,
-          builder: (_) {
-            return const AuthPopup();
-          });
-    }
   }
 
   @override

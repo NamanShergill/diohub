@@ -28,9 +28,7 @@ class DeepLinkHandler {
   static void deepLinkNavigate(String link) {
     if (getRoutes(link)?.isNotEmpty == true) {
       if (getRoutes(link)?.first is LandingScreenRoute) {
-        AutoRouter.of(Global.currentContext).popUntil((route) {
-          return false;
-        });
+        AutoRouter.of(Global.currentContext).replaceAll(getRoutes(link)!);
         AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
       } else {
         AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);

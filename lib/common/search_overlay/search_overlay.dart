@@ -1101,8 +1101,6 @@ class SearchData {
   bool get isActive => toString().trim().isNotEmpty;
 
   /// All current filter strings.
-  @Deprecated(
-      'Todo: Kind of redundant to have this. Remove and directly reference filterStrings?')
   List<String> get visibleStrings => filterStrings;
 
   /// Get if a quick filter is currently in the filters.

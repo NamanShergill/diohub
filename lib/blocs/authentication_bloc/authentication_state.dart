@@ -5,9 +5,6 @@ abstract class AuthenticationState {
   final bool authenticated = false;
 }
 
-/// Initial state.
-class AuthenticationInitial extends AuthenticationState {}
-
 /// User unauthenticated.
 class AuthenticationUnauthenticated extends AuthenticationState {}
 

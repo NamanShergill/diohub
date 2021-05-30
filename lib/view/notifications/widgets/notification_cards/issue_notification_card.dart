@@ -50,9 +50,11 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
     // Get latest event to compare with the latest comment.
     List issueEvents = results[2];
     if (issueEvents.isNotEmpty) latestIssueEvent = issueEvents.last;
-    setState(() {
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override

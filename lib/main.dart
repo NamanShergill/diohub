@@ -7,6 +7,7 @@ import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +26,25 @@ void main() async {
   await Global.setupAppCache();
   String? initLink = await DeepLinkHandler.initUniLink();
   DeepLinkHandler.uniLinkStream();
-  runApp(MyApp(initLink));
+  bool auth = await AuthService.isAuthenticated;
+  runApp(MyApp(
+    initLink,
+    authenticated: auth,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   final String? initDeepLink;
-  const MyApp(this.initDeepLink, {Key? key}) : super(key: key);
+  final bool authenticated;
+  const MyApp(this.initDeepLink, {Key? key, required this.authenticated})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         // Initialise Authentication Bloc and add event to check auth state.
         BlocProvider(
-          create: (_) => AuthenticationBloc(),
+          create: (_) => AuthenticationBloc(authenticated),
           lazy: false,
         ),
       ],
@@ -119,7 +126,7 @@ class MyApp extends StatelessWidget {
                         color: Colors.white, thickness: 0.04),
                     fontFamily: 'Montserrat'),
                 routerDelegate: Global.customRouter.delegate(initialRoutes: [
-                  LandingAuthWrapperScreenRoute(initLink: initDeepLink ?? '')
+                  LandingLoadingScreenRoute(initLink: initDeepLink)
                 ]),
                 routeInformationParser:
                     Global.customRouter.defaultRouteParser(),

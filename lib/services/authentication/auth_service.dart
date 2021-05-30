@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/keys.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
+import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -11,7 +14,7 @@ class AuthService {
   static const String _url = '/login/';
   static const _storage = FlutterSecureStorage();
 
-  static Future<bool> isAuthenticated() async {
+  static Future<bool> get isAuthenticated async {
     var token = await _storage.read(key: 'accessToken');
     debugPrint('Auth token ${token ?? 'not found.'}');
     if (token != null) {
@@ -104,5 +107,6 @@ class AuthService {
   static void logOut() async {
     CacheManager.clearCache();
     await _storage.deleteAll();
+    AutoRouter.of(Global.currentContext).replaceAll([AuthScreenRoute()]);
   }
 }

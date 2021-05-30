@@ -1,4 +1,11 @@
 ## [0.3.0] - In Development
+**Authentication**
+- Authentication to access the app made compulsory.
+- If app was opened via a deeplink and user is unauthenticated, the deep link will be honored as
+  soon as the authentication is completed.
+ 
+**Issue/Pull Request Screen enhancements** 
+
 **Create Issues**
 - Ability to create issues on repositories.
 - Supports issue templates.
@@ -7,6 +14,7 @@
 
 **Enhancements**
 - Splash screen logo improvements.
+- Complete Github Flavored Markdown support.
 
 **Bug Fixes**
 - Settings URL exception added in deep-links. 

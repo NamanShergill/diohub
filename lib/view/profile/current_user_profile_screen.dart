@@ -1,4 +1,3 @@
-import 'package:dio_hub/common/wrappers/login_check_wrapper.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
@@ -9,15 +8,13 @@ class CurrentUserProfileScreen extends StatelessWidget {
   const CurrentUserProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return LoginCheckWrapper(
-      child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-        childBuilder: (context, value) {
-          return UserProfileScreen<CurrentUserInfoModel?>(
-            value.currentUserInfo,
-            isCurrentUser: true,
-          );
-        },
-      ),
+    return ProviderLoadingProgressWrapper<CurrentUserProvider>(
+      childBuilder: (context, value) {
+        return UserProfileScreen<CurrentUserInfoModel?>(
+          value.currentUserInfo,
+          isCurrentUser: true,
+        );
+      },
     );
   }
 }

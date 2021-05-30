@@ -9,13 +9,36 @@ typedef ErrorBuilder = Widget Function(BuildContext context, Object error);
 typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
-    extends StatelessWidget {
+    extends StatefulWidget {
   final ChildBuilder<T>? childBuilder;
+  final ValueChanged<Status>? listener;
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
   const ProviderLoadingProgressWrapper(
-      {this.childBuilder, this.errorBuilder, this.loadingBuilder, Key? key})
+      {this.childBuilder,
+      this.errorBuilder,
+      this.loadingBuilder,
+      Key? key,
+      this.listener})
       : super(key: key);
+
+  @override
+  _ProviderLoadingProgressWrapperState<T> createState() =>
+      _ProviderLoadingProgressWrapperState<T>();
+}
+
+class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
+    extends State<ProviderLoadingProgressWrapper<T>> {
+  @override
+  void initState() {
+    if (widget.listener != null) {
+      context.read<T>().statusStream.listen((event) {
+        widget.listener!(event);
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
@@ -24,16 +47,16 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
         initialData: value.status,
         builder: (context, AsyncSnapshot<Status> snapshot) {
           if (snapshot.data == Status.loaded) {
-            return childBuilder!(context, value as T);
+            return widget.childBuilder!(context, value as T);
           }
           if (snapshot.data == Status.loading) {
-            return loadingBuilder != null
-                ? loadingBuilder!(context)
+            return widget.loadingBuilder != null
+                ? widget.loadingBuilder!(context)
                 : const LoadingIndicator();
           }
           if (snapshot.data == Status.error) {
-            return errorBuilder != null
-                ? errorBuilder!(
+            return widget.errorBuilder != null
+                ? widget.errorBuilder!(
                     context, value.errorInfo ?? 'Something went wrong.')
                 : Builder(
                     builder: (context) {
@@ -53,8 +76,8 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
                     },
                   );
           }
-          return loadingBuilder != null
-              ? loadingBuilder!(context)
+          return widget.loadingBuilder != null
+              ? widget.loadingBuilder!(context)
               : const LoadingIndicator();
         });
   }

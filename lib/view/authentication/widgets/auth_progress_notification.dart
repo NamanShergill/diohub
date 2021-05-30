@@ -1,6 +1,5 @@
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/auth_popup/auth_popup.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +23,11 @@ class AuthProgressNotification extends StatelessWidget {
               color: AppColor.onBackground,
               child: InkWell(
                 onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) {
-                        return const AuthPopup();
-                      });
+                  //   showDialog(
+                  //       context: context,
+                  //       builder: (_) {
+                  //         return const AuthScreen();
+                  //       });
                 },
                 borderRadius: AppThemeBorderRadius.medBorderRadius,
                 child: Container(
