@@ -11,24 +11,17 @@ class LoginPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaleExpandedSection(
-      child: Column(
-        children: [
-          const Divider(
-            height: 32,
-          ),
-          StringButton(
-            title: 'Login with GitHub',
-            leadingIcon: const Icon(
-              Octicons.mark_github,
-              color: Colors.white,
-            ),
-            color: AppColor.onBackground,
-            onTap: () async {
-              BlocProvider.of<AuthenticationBloc>(context)
-                  .add(RequestDeviceCode());
-            },
-          ),
-        ],
+      child: StringButton(
+        title: 'Login with GitHub',
+        leadingIcon: const Icon(
+          Octicons.mark_github,
+          color: Colors.white,
+        ),
+        color: AppColor.onBackground,
+        onTap: () async {
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(RequestDeviceCode());
+        },
       ),
     );
   }
