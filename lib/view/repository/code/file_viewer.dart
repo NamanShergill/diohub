@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dio_hub/common/code_block_view.dart';
-import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/misc/code_block_view.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';

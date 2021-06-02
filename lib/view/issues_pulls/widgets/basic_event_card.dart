@@ -1,5 +1,5 @@
 import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class BasicEventCard extends StatelessWidget {
-  final ActorMixin user;
+  final ActorMixin? user;
   final IconData leading;
   final String? name;
   final Color? iconColor;
@@ -46,7 +46,7 @@ class BasicEventCard extends StatelessWidget {
                 width: 4,
               ),
               ProfileTile(
-                user.avatarUrl.toString(),
+                user?.avatarUrl.toString(),
                 showName: true,
                 size: 20,
                 textStyle: const TextStyle(
@@ -54,7 +54,7 @@ class BasicEventCard extends StatelessWidget {
                     color: AppColor.grey3,
                     fontWeight: FontWeight.bold),
                 padding: const EdgeInsets.all(4),
-                userLogin: user.login,
+                userLogin: user?.login,
               ),
               if (name != null)
                 Padding(
@@ -87,7 +87,7 @@ class BasicEventCard extends StatelessWidget {
 }
 
 class BasicEventTextCard extends StatelessWidget {
-  final ActorMixin user;
+  final ActorMixin? user;
   final IconData leading;
   final Color? iconColor;
   final DateTime date;
@@ -119,8 +119,8 @@ class BasicEventTextCard extends StatelessWidget {
 }
 
 class BasicEventAssignedCard extends StatelessWidget {
-  final ActorMixin actor;
-  final ActorMixin assignee;
+  final ActorMixin? actor;
+  final ActorMixin? assignee;
   final DateTime createdAt;
   final bool isAssigned;
   const BasicEventAssignedCard(
@@ -142,14 +142,14 @@ class BasicEventAssignedCard extends StatelessWidget {
           const SizedBox(
             width: 4,
           ),
-          actor.login != assignee.login
+          actor?.login != null && actor?.login != assignee?.login
               ? ProfileTile(
-                  assignee.avatarUrl.toString(),
+                  assignee?.avatarUrl.toString(),
                   showName: true,
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.bold, color: AppColor.grey3),
                   padding: const EdgeInsets.all(4),
-                  userLogin: assignee.login,
+                  userLogin: assignee?.login,
                 )
               : const Text(
                   'themselves',
@@ -172,7 +172,7 @@ class BasicEventAssignedCard extends StatelessWidget {
 }
 
 class BasicEventLabeledCard extends StatelessWidget {
-  final ActorMixin actor;
+  final ActorMixin? actor;
   final Color? iconColor;
   final DateTime date;
   final LabelMixin content;

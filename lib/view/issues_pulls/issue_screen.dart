@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/app_scroll_view.dart';
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/common/misc/app_scroll_view.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';

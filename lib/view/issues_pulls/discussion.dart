@@ -1,11 +1,12 @@
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
@@ -483,10 +484,10 @@ class _CommentButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  __CommentButtonState createState() => __CommentButtonState();
+  _CommentButtonState createState() => _CommentButtonState();
 }
 
-class __CommentButtonState extends State<_CommentButton> {
+class _CommentButtonState extends State<_CommentButton> {
   bool markdownView = false;
 
   @override
@@ -498,22 +499,26 @@ class __CommentButtonState extends State<_CommentButton> {
         onTap: widget.isLocked
             ? null
             : () {
-                showBottomActionsMenu(context,
-                    fullScreen: true,
-                    header: Row(
+                showBottomActionsMenu(context, fullScreen: true,
+                    header: StatefulBuilder(
+                  builder: (context, state) {
+                    return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
                           onPressed: () {
-                            setState(() {
+                            print('adssd');
+                            state(() {
                               markdownView = !markdownView;
                             });
+                            print(markdownView);
                           },
                           icon: const Icon(Icons.remove_red_eye_rounded),
                           color: markdownView ? Colors.white : AppColor.grey3,
                         ),
                         Expanded(
                           child: InkWell(
+                            borderRadius: AppThemeBorderRadius.medBorderRadius,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
@@ -536,26 +541,32 @@ class __CommentButtonState extends State<_CommentButton> {
                           ),
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              print('dsfdsfsdf');
+                            },
                             disabledColor: AppColor.grey3.withOpacity(0.5),
                             icon: const Icon(
                               Icons.add,
                             )),
                       ],
-                    ), childWidget: (buildContext) {
-                  return ListenableProvider.value(
-                    value: Provider.of<CommentProvider>(
-                      context,
-                    ),
-                    child: CommentBox(
-                      issueURL: widget.issueUrl,
-                      repoName: widget.owner + '/' + widget.repoName,
-                      onSubmit: (status) {
-                        if (status) {
-                          widget.onSubmit();
-                        }
-                      },
-                      markdownView: markdownView,
+                    );
+                  },
+                ), childWidget: (buildContext) {
+                  return Expanded(
+                    child: ListenableProvider.value(
+                      value: Provider.of<CommentProvider>(
+                        context,
+                      ),
+                      child: CommentBox(
+                        issueURL: widget.issueUrl,
+                        repoName: widget.owner + '/' + widget.repoName,
+                        onSubmit: (status) {
+                          if (status) {
+                            widget.onSubmit();
+                          }
+                        },
+                        markdownView: markdownView,
+                      ),
                     ),
                   );
                 });
@@ -576,7 +587,7 @@ class __CommentButtonState extends State<_CommentButton> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
-                  widget.isLocked! ? Octicons.lock : Icons.comment_rounded,
+                  widget.isLocked ? Octicons.lock : Icons.comment_rounded,
                   size: 16,
                 ),
               )

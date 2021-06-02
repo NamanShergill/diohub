@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/code_block_view.dart';
-import 'package:dio_hub/common/image_loader.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/code_block_view.dart';
+import 'package:dio_hub/common/misc/image_loader.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/services/markdown/markdown_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -26,7 +26,7 @@ class MarkdownRenderAPI extends StatelessWidget {
       apiCall: MarkdownService.renderMarkdown(data, context: repoName),
       loadingBuilder: (context) {
         return const Padding(
-          padding: EdgeInsets.only(top: 48.0),
+          padding: EdgeInsets.symmetric(vertical: 48),
           child: LoadingIndicator(),
         );
       },
@@ -332,11 +332,14 @@ class __CodeViewState extends State<_CodeView> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         InkWell(
-                            borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                            borderRadius:
+                                AppThemeBorderRadius.smallBorderRadius,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(
-                                copied ? Icons.check_rounded : Icons.copy_rounded,
+                                copied
+                                    ? Icons.check_rounded
+                                    : Icons.copy_rounded,
                                 size: 14,
                                 color: copied ? Colors.white : AppColor.grey3,
                               ),
@@ -347,7 +350,8 @@ class __CodeViewState extends State<_CodeView> {
                                     copy();
                                   }),
                         InkWell(
-                            borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                            borderRadius:
+                                AppThemeBorderRadius.smallBorderRadius,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(

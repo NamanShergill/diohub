@@ -1,8 +1,8 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/info_card.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/repository_card.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/repository_card.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';

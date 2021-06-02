@@ -158,6 +158,7 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
         _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
         unknownValue: CommentAuthorAssociation.artemisUnknown)
     ..body = json['body'] as String
+    ..bodyText = json['bodyText'] as String
     ..bodyHTML = json['bodyHTML'] as String
     ..lastEditedAt = json['lastEditedAt'] == null
         ? null
@@ -192,6 +193,7 @@ Map<String, dynamic>
           'authorAssociation':
               _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
           'body': instance.body,
+          'bodyText': instance.bodyText,
           'bodyHTML': instance.bodyHTML,
           'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
           'isMinimized': instance.isMinimized,
@@ -1746,6 +1748,7 @@ GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComme
         _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
         unknownValue: CommentAuthorAssociation.artemisUnknown)
     ..body = json['body'] as String
+    ..bodyText = json['bodyText'] as String
     ..bodyHTML = json['bodyHTML'] as String
     ..lastEditedAt = json['lastEditedAt'] == null
         ? null
@@ -1780,6 +1783,7 @@ Map<String, dynamic>
           'authorAssociation':
               _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
           'body': instance.body,
+          'bodyText': instance.bodyText,
           'bodyHTML': instance.bodyHTML,
           'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
           'isMinimized': instance.isMinimized,

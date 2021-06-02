@@ -1,9 +1,9 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/custom_expand_tile.dart';
-import 'package:dio_hub/common/overlay_menu_widget.dart';
+import 'package:dio_hub/common/misc/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/overlay_menu_widget.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/range_picker.dart';
-import 'package:dio_hub/common/user_search_dropdown.dart';
+import 'package:dio_hub/common/misc/user_search_dropdown.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';

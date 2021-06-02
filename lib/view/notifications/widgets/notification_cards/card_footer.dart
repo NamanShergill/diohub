@@ -1,5 +1,5 @@
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 

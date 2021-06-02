@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/app_tab_bar.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/app_tab_bar.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 

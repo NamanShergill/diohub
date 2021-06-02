@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/controller/button/button_controller.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';

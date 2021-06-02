@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/app_scroll_view.dart';
 import 'package:dio_hub/common/events/events.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/app_scroll_view.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/profile/about/about_user.dart';

@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';

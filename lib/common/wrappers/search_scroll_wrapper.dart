@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/common/profile_card.dart';
-import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/misc/profile_card.dart';
+import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';

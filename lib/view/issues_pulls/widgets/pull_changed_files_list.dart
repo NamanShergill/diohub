@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/changed_files_list_card.dart';
+import 'package:dio_hub/common/misc/changed_files_list_card.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';

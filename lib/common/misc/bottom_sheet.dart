@@ -26,43 +26,45 @@ void showBottomActionsMenu(BuildContext context,
       isScrollControlled: fullScreen,
       backgroundColor: AppColor.background,
       context: context,
-      builder: (context) => Column(
-            mainAxisSize: shrink ? MainAxisSize.min : MainAxisSize.max,
-            children: [
-              const SizedBox(
-                height: 4,
-              ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.grey,
-                        borderRadius: BorderRadius.circular(15)),
-                    height: 4,
-                    width: _media.width * 0.1,
-                  )),
-              Padding(
-                padding: EdgeInsets.all(titlePadding),
-                child: Center(
-                    child: header ??
-                        Text(
-                          headerText!,
-                          style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)
-                              .merge(headerTextStyle),
-                        )),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              const Divider(
-                height: 0,
-              ),
-              childWidget(context),
-              const SizedBox(
-                height: 8,
-              ),
-            ],
+      builder: (context) => SafeArea(
+            child: Column(
+              mainAxisSize: shrink ? MainAxisSize.min : MainAxisSize.max,
+              children: [
+                const SizedBox(
+                  height: 4,
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: AppColor.grey,
+                          borderRadius: BorderRadius.circular(15)),
+                      height: 4,
+                      width: _media.width * 0.1,
+                    )),
+                Padding(
+                  padding: EdgeInsets.all(titlePadding),
+                  child: Center(
+                      child: header ??
+                          Text(
+                            headerText!,
+                            style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)
+                                .merge(headerTextStyle),
+                          )),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                const Divider(
+                  height: 0,
+                ),
+                childWidget(context),
+                const SizedBox(
+                  height: 8,
+                ),
+              ],
+            ),
           ));
 }
 

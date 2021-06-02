@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';

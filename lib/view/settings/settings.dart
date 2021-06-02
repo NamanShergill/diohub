@@ -1,7 +1,7 @@
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';

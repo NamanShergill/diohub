@@ -1,5 +1,5 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';

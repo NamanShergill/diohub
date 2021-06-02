@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/patch_viewer.dart';
+import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';

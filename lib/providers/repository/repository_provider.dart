@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/base_popup_notification.dart';
+import 'package:dio_hub/common/misc/base_popup_notification.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';

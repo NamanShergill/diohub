@@ -1,8 +1,8 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/models/reactions/reactions_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/reactions/reactions_service.dart';

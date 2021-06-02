@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio_hub/common/app_tab_bar.dart';
-import 'package:dio_hub/common/collapsible_app_bar.dart';
 import 'package:dio_hub/common/events/events.dart';
+import 'package:dio_hub/common/misc/app_tab_bar.dart';
+import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';

@@ -1,5 +1,5 @@
 import 'package:dio_hub/common/events/cards/base_card.dart';
-import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:flutter/cupertino.dart';

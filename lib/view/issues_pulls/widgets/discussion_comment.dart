@@ -1,11 +1,13 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/markdown_body.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
+import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BaseComment extends StatefulWidget {
   final IssueCommentMixin comment;
@@ -17,6 +19,12 @@ class BaseComment extends StatefulWidget {
 
 class _BaseCommentState extends State<BaseComment> {
   bool optionsExpanded = false;
+
+  void addQuote(String data) {
+    print(RegExp('\n').hasMatch('\\n'));
+    context.read<CommentProvider>().addQuote(widget.comment.bodyText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,7 +36,7 @@ class _BaseCommentState extends State<BaseComment> {
             Row(
               children: [
                 ProfileTile(
-                  widget.comment.author!.avatarUrl.toString(),
+                  widget.comment.author?.avatarUrl.toString(),
                   userLogin: widget.comment.author!.login,
                   size: 30,
                 ),
@@ -39,7 +47,7 @@ class _BaseCommentState extends State<BaseComment> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.comment.author!.login,
+                      widget.comment.author?.login ?? 'N/A',
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -121,6 +129,7 @@ class _BaseCommentState extends State<BaseComment> {
                 leading: Icon(
                   Icons.format_quote,
                 ),
+                onTap: () => addQuote(widget.comment.body),
                 dense: true,
                 title: Text(
                   'Quote Reply',
@@ -184,7 +193,6 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           widget.data,
           style: Theme.of(context).textTheme.bodyText2,
           onSelectionChanged: (selection, cause) {
-            print(selection.textInside(widget.data));
             selectedText = selection.textInside(widget.data);
           },
         ),
@@ -194,22 +202,22 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Cancel'),
           ),
         ),
         MaterialButton(
           onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Copy'),
           ),
         ),
         MaterialButton(
           onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Quote'),
           ),
         ),

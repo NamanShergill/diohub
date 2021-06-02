@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

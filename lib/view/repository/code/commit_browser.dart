@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';

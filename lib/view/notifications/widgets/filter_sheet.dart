@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';

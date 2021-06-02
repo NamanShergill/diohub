@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';

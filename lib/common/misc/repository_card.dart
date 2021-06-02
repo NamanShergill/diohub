@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/language_indicator.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/language_indicator.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';

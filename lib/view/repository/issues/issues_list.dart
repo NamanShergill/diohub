@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';

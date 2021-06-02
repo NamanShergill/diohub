@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/custom_expand_tile.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/common/misc/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/routes/router.gr.dart';

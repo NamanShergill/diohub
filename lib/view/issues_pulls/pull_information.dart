@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/info_card.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/markdown_body.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';

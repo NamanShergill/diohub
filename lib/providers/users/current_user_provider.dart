@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/base_popup_notification.dart';
+import 'package:dio_hub/common/misc/base_popup_notification.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';

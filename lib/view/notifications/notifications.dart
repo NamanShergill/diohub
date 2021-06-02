@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/collapsible_app_bar.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';

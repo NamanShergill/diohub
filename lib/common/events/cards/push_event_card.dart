@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/branch_label.dart';
-import 'package:dio_hub/common/custom_expansion_tile.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
+import 'package:dio_hub/common/misc/branch_label.dart';
+import 'package:dio_hub/common/misc/custom_expansion_tile.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';

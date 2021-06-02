@@ -9,7 +9,6 @@ import 'package:flutter/material.dart' as _i2;
 
 import '../common/search_overlay/search_overlay.dart' as _i8;
 import '../controller/deep_linking_handler.dart' as _i18;
-import '../graphql/graphql.dart' as _i19;
 import '../view/authentication/auth_screen.dart' as _i4;
 import '../view/issues_pulls/issue_screen.dart' as _i9;
 import '../view/issues_pulls/pull_screen.dart' as _i10;
@@ -587,7 +586,7 @@ class OtherUserProfileScreenRouteArgs {
 class NewIssueScreenRoute extends _i1.PageRouteInfo<NewIssueScreenRouteArgs> {
   NewIssueScreenRoute(
       {_i2.Key? key,
-      _i19.IssueTemplates$Query$Repository$IssueTemplates? template,
+      dynamic template,
       required String repo,
       required String owner})
       : super(name,
@@ -604,7 +603,7 @@ class NewIssueScreenRouteArgs {
 
   final _i2.Key? key;
 
-  final _i19.IssueTemplates$Query$Repository$IssueTemplates? template;
+  final dynamic template;
 
   final String repo;
 

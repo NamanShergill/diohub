@@ -66,6 +66,7 @@ mixin IssueCommentMixin {
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
   late CommentAuthorAssociation authorAssociation;
   late String body;
+  late String bodyText;
   late String bodyHTML;
   DateTime? lastEditedAt;
   late bool isMinimized;
@@ -355,6 +356,7 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComm
         author,
         authorAssociation,
         body,
+        bodyText,
         bodyHTML,
         lastEditedAt,
         isMinimized,
@@ -1843,6 +1845,7 @@ class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$Issu
         author,
         authorAssociation,
         body,
+        bodyText,
         bodyHTML,
         lastEditedAt,
         isMinimized,
@@ -4287,6 +4290,12 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
+            name: NameNode(value: 'bodyText'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
             name: NameNode(value: 'bodyHTML'),
             alias: null,
             arguments: [],
@@ -6368,6 +6377,12 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null),
         FieldNode(
             name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyText'),
             alias: null,
             arguments: [],
             directives: [],

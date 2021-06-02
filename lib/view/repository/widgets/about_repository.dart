@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/info_card.dart';
-import 'package:dio_hub/common/language_indicator.dart';
-import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
+import 'package:dio_hub/common/misc/language_indicator.dart';
+import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';

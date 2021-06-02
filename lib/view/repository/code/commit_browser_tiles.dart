@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';

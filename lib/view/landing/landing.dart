@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';

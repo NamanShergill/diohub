@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/changed_files_list_card.dart';
+import 'package:dio_hub/common/misc/changed_files_list_card.dart';
 import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
