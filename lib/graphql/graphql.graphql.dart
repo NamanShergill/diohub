@@ -61,8 +61,8 @@ mixin DeMileStonedMixin {
 }
 mixin IssueCommentMixin {
   late String id;
-  late DateTime createdAt;
   IssueCommentMixin$Author? author;
+  late DateTime createdAt;
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
   late CommentAuthorAssociation authorAssociation;
   late String body;
@@ -78,6 +78,12 @@ mixin IssueCommentMixin {
   @JsonKey(unknownEnumValue: CommentCannotUpdateReason.artemisUnknown)
   late List<CommentCannotUpdateReason> viewerCannotUpdateReasons;
   late bool viewerCanReact;
+}
+mixin ReactionsMixin {
+  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
+  late ReactionContent content;
+  late bool viewerHasReacted;
+  late ReactionsMixin$Users users;
 }
 mixin LabeledMixin {
   late String id;
@@ -227,13 +233,23 @@ mixin CommitMixin {
 }
 mixin PullRequestReviewMixin {
   late String id;
-  late DateTime createdAt;
   PullRequestReviewMixin$Author? author;
+  late DateTime createdAt;
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
   late CommentAuthorAssociation authorAssociation;
   late String body;
   late String bodyHTML;
-  late String bodyText;
+  DateTime? lastEditedAt;
+  @JsonKey(unknownEnumValue: PullRequestReviewState.artemisUnknown)
+  late PullRequestReviewState state;
+  late PullRequestReviewMixin$Comments comments;
+  List<PullRequestReviewMixin$ReactionGroups>? reactionGroups;
+  late bool viewerCanDelete;
+  late bool viewerCanUpdate;
+  late bool viewerDidAuthor;
+  @JsonKey(unknownEnumValue: CommentCannotUpdateReason.artemisUnknown)
+  late List<CommentCannotUpdateReason> viewerCannotUpdateReasons;
+  late bool viewerCanReact;
 }
 mixin ReadyForReviewMixin {
   late String id;
@@ -441,8 +457,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
   @override
   List<Object?> get props => [
         id,
-        createdAt,
         author,
+        createdAt,
         authorAssociation,
         body,
         bodyHTML,
@@ -1182,8 +1198,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   @override
   List<Object?> get props => [
         id,
-        createdAt,
         author,
+        createdAt,
         authorAssociation,
         body,
         bodyHTML,
@@ -1386,8 +1402,23 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props =>
-      [id, createdAt, author, authorAssociation, body, bodyHTML, bodyText];
+  List<Object?> get props => [
+        id,
+        author,
+        createdAt,
+        authorAssociation,
+        body,
+        bodyHTML,
+        lastEditedAt,
+        state,
+        comments,
+        reactionGroups,
+        viewerCanDelete,
+        viewerCanUpdate,
+        viewerDidAuthor,
+        viewerCannotUpdateReasons,
+        viewerCanReact
+      ];
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
           this);
@@ -2288,15 +2319,12 @@ class DeMileStonedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueCommentMixin$Author extends JsonSerializable with EquatableMixin {
+class IssueCommentMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
   IssueCommentMixin$Author();
 
   factory IssueCommentMixin$Author.fromJson(Map<String, dynamic> json) =>
       _$IssueCommentMixin$AuthorFromJson(json);
-
-  late Uri avatarUrl;
-
-  late String login;
 
   @override
   List<Object?> get props => [avatarUrl, login];
@@ -2304,42 +2332,32 @@ class IssueCommentMixin$Author extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueCommentMixin$ReactionGroups$Users extends JsonSerializable
-    with EquatableMixin {
-  IssueCommentMixin$ReactionGroups$Users();
-
-  factory IssueCommentMixin$ReactionGroups$Users.fromJson(
-          Map<String, dynamic> json) =>
-      _$IssueCommentMixin$ReactionGroups$UsersFromJson(json);
-
-  late int totalCount;
-
-  @override
-  List<Object?> get props => [totalCount];
-  Map<String, dynamic> toJson() =>
-      _$IssueCommentMixin$ReactionGroups$UsersToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class IssueCommentMixin$ReactionGroups extends JsonSerializable
-    with EquatableMixin {
+    with EquatableMixin, ReactionsMixin {
   IssueCommentMixin$ReactionGroups();
 
   factory IssueCommentMixin$ReactionGroups.fromJson(
           Map<String, dynamic> json) =>
       _$IssueCommentMixin$ReactionGroupsFromJson(json);
 
-  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
-  late ReactionContent content;
-
-  late bool viewerHasReacted;
-
-  late IssueCommentMixin$ReactionGroups$Users users;
-
   @override
   List<Object?> get props => [content, viewerHasReacted, users];
   Map<String, dynamic> toJson() =>
       _$IssueCommentMixin$ReactionGroupsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactionsMixin$Users extends JsonSerializable with EquatableMixin {
+  ReactionsMixin$Users();
+
+  factory ReactionsMixin$Users.fromJson(Map<String, dynamic> json) =>
+      _$ReactionsMixin$UsersFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  Map<String, dynamic> toJson() => _$ReactionsMixin$UsersToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2915,6 +2933,37 @@ class PullRequestReviewMixin$Author extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$Comments extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewMixin$Comments();
+
+  factory PullRequestReviewMixin$Comments.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$CommentsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewMixin$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
+    with EquatableMixin, ReactionsMixin {
+  PullRequestReviewMixin$ReactionGroups();
+
+  factory PullRequestReviewMixin$ReactionGroups.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$ReactionGroupsFromJson(json);
+
+  @override
+  List<Object?> get props => [content, viewerHasReacted, users];
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewMixin$ReactionGroupsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReadyForReviewMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   ReadyForReviewMixin$Actor();
@@ -2971,16 +3020,19 @@ class ReviewRequestedMixin$RequestedReviewer$User
 
 @JsonSerializable(explicitToJson: true)
 class ReviewRequestedMixin$RequestedReviewer$Team
-    extends ReviewRequestedMixin$RequestedReviewer
-    with EquatableMixin, ActorMixin {
+    extends ReviewRequestedMixin$RequestedReviewer with EquatableMixin {
   ReviewRequestedMixin$RequestedReviewer$Team();
 
   factory ReviewRequestedMixin$RequestedReviewer$Team.fromJson(
           Map<String, dynamic> json) =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(json);
 
+  Uri? avatarUrl;
+
+  late String name;
+
   @override
-  List<Object?> get props => [avatarUrl, login];
+  List<Object?> get props => [avatarUrl, name];
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
 }
@@ -5258,30 +5310,19 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
             name: NameNode(value: 'author'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'avatarUrl'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'login'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ])),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
         FieldNode(
             name: NameNode(value: 'authorAssociation'),
             alias: null,
@@ -5324,31 +5365,8 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'content'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'viewerHasReacted'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'users'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'totalCount'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactions'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'viewerCanMinimize'),
@@ -5386,6 +5404,39 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reactions'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'content'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerHasReacted'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'users'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'labeled'),
@@ -6333,12 +6384,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
             name: NameNode(value: 'author'),
             alias: null,
             arguments: [],
@@ -6346,6 +6391,12 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ])),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
         FieldNode(
             name: NameNode(value: 'authorAssociation'),
             alias: null,
@@ -6365,7 +6416,65 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'bodyText'),
+            name: NameNode(value: 'lastEditedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactions'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'viewerCanDelete'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerDidAuthor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCannotUpdateReasons'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
             alias: null,
             arguments: [],
             directives: [],
@@ -6499,8 +6608,18 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                           name: NameNode(value: 'Team'), isNonNull: false)),
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
+                    FieldNode(
+                        name: NameNode(value: 'avatarUrl'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
                   ]))
             ]))
       ]))

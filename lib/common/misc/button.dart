@@ -11,6 +11,7 @@ class Button extends StatefulWidget {
   final bool enabled;
   final Widget child;
   final Icon? leadingIcon;
+  final Icon? trailingIcon;
   final double borderRadius;
   final Widget? loadingWidget;
   final bool stretch;
@@ -22,6 +23,7 @@ class Button extends StatefulWidget {
       required this.onTap,
       required this.child,
       this.enabled = true,
+      this.trailingIcon,
       this.stretch = true,
       this.color,
       this.loading = false,
@@ -93,6 +95,12 @@ class _ButtonState extends State<Button> {
                           child: widget.leadingIcon ?? Container(),
                         )),
                     Flexible(child: widget.child),
+                    Visibility(
+                        visible: widget.trailingIcon != null,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: widget.trailingIcon ?? Container(),
+                        )),
                   ],
                 )
               : Row(
@@ -124,6 +132,8 @@ class StringButton extends StatelessWidget {
   final Icon? leadingIcon;
   final double borderRadius;
   final String? loadingText;
+  final Icon? trailingIcon;
+
   final bool stretch;
   final double elevation;
   final EdgeInsets padding;
@@ -134,6 +144,7 @@ class StringButton extends StatelessWidget {
       required this.title,
       this.enabled = true,
       this.stretch = true,
+      this.trailingIcon,
       this.color,
       this.subtitle,
       this.elevation = 2,
@@ -142,7 +153,8 @@ class StringButton extends StatelessWidget {
       this.leadingIcon,
       this.padding = const EdgeInsets.all(16),
       this.loadingText,
-      Key? key})
+      Key? key,
+      child})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -165,6 +177,7 @@ class StringButton extends StatelessWidget {
               )),
         ],
       ),
+      trailingIcon: trailingIcon,
       loadingWidget: Text(loadingText ?? '',
           style:
               Theme.of(context).textTheme.button!.copyWith(fontSize: textSize)),

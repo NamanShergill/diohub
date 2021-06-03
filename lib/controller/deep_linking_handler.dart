@@ -60,7 +60,9 @@ class DeepLinkHandler {
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
     } else if (string.regexCompleteMatch(issuePullPageURLPattern)) {
       temp.add(IssueScreenRoute(
-        issueURL: urlWithPrefix('repos/' + string.string),
+        // Todo: Temporary workaround for pulls deeplink to work.
+        issueURL:
+            urlWithPrefix('repos/' + string.string.replaceAll('pull', 'issue')),
       ));
     } else if (string.regexCompleteMatch(commitPageURLPattern)) {
       temp.add(CommitInfoScreenRoute(

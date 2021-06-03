@@ -124,11 +124,10 @@ fragment  headRefRestored on HeadRefRestoredEvent{
 
 fragment issueComment on IssueComment{
     id
-    createdAt
     author{
-        avatarUrl
-        login
+        ...actor
     }
+    createdAt
     authorAssociation
     body
     bodyHTML
@@ -136,11 +135,7 @@ fragment issueComment on IssueComment{
     isMinimized
     minimizedReason
     reactionGroups{
-        content
-        viewerHasReacted
-        users{
-            totalCount
-        }
+        ...reactions
     }
     viewerCanMinimize
     viewerCanDelete
@@ -234,14 +229,26 @@ fragment pullRequestCommit on PullRequestCommit{
 
 fragment  pullRequestReview on PullRequestReview{
     id
-    createdAt
     author{
         ...actor
     }
+    createdAt
     authorAssociation
     body
     bodyHTML
-    bodyText
+    lastEditedAt
+    state
+    comments{
+        totalCount
+    }
+    reactionGroups{
+        ...reactions
+    }
+    viewerCanDelete
+    viewerCanUpdate
+    viewerDidAuthor
+    viewerCannotUpdateReasons
+    viewerCanReact
 }
 
 fragment  readyForReview on ReadyForReviewEvent{
@@ -415,5 +422,15 @@ fragment commit on Commit{
         user{
            ...actor
         }
+    }
+}
+
+
+
+fragment  reactions on ReactionGroup{
+    content
+    viewerHasReacted
+    users{
+        totalCount
     }
 }

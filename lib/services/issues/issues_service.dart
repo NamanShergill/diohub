@@ -123,6 +123,7 @@ class IssuesService {
                 number: number,
                 repoName: repo,
                 since: since)),
+        debugLog: true,
         acceptHeader: 'application/vnd.github.starfox-preview+json');
     return (GetTimeline$Query.fromJson(response.data!) as dynamic)
         .repository!

@@ -1,24 +1,19 @@
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
-import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class Discussion extends StatefulWidget {
@@ -324,165 +319,6 @@ class _DiscussionState extends State<Discussion>
       ],
     );
   }
-}
-
-class GetTimelineItem extends StatelessWidget {
-  final dynamic timelineItem;
-  const GetTimelineItem(this.timelineItem, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final item = timelineItem;
-    return paddingWrap(
-      child: Builder(
-        builder: (context) {
-          if (item is AddedToProjectMixin) {
-          } else if (item is AssignedMixin) {
-            return BasicEventAssignedCard(
-              actor: item.actor,
-              assignee: item.assignee as ActorMixin,
-              createdAt: item.createdAt,
-              isAssigned: true,
-            );
-          } else if (item is BaseRefChangedMixin) {
-          } else if (item is BaseRefDeletedMixin) {
-          } else if (item is BaseRefForcePushedMixin) {
-          } else if (item is ClosedMixin) {
-            return BasicEventTextCard(
-              textContent: 'Closed this.',
-              user: item.actor,
-              leading: Octicons.issue_closed,
-              iconColor: AppColor.red,
-              date: item.createdAt,
-            );
-          } else if (item is ConvertedToDraftMixin) {
-            return BasicEventTextCard(
-              textContent: 'Marked this as draft.',
-              user: item.actor,
-              leading: LineIcons.alternatePencil,
-              date: item.createdAt,
-            );
-          } else if (item is CrossReferenceMixin) {
-          } else if (item is DeMileStonedMixin) {
-          } else if (item is HeadRefDeletedMixin) {
-          } else if (item is HeadRefForcePushedMixin) {
-          } else if (item is HeadRefRestoredMixin) {
-          } else if (item is IssueCommentMixin) {
-            return BaseComment(item);
-          } else if (item is LabeledMixin) {
-            return BasicEventLabeledCard(
-              actor: item.actor!,
-              content: item.label,
-              added: true,
-              date: item.createdAt,
-            );
-          } else if (item is LockedMixin) {
-            return BasicEventTextCard(
-              textContent:
-                  'Locked this ${item.lockReason != null ? 'as ${item.lockReason} ' : ''}and limited conversation to collaborators',
-              user: item.actor,
-              date: item.createdAt,
-              leading: LineIcons.lock,
-            );
-          } else if (item is MarkedAsDuplicateMixin) {
-          } else if (item is MergedMixin) {
-            return BasicEventTextCard(
-              user: item.actor,
-              date: item.createdAt,
-              leading: Octicons.git_merge,
-              iconColor: Colors.deepPurple,
-              textContent: 'Merged this.',
-            );
-          } else if (item is MileStonedMixin) {
-          } else if (item is MovedColumnsInProjectMixin) {
-          } else if (item is PinnedMixin) {
-          } else if (item is PullRequestCommitMixin) {
-            return BasicEventTextCard(
-              user: item.commit.author?.user,
-              date: item.commit.authoredDate,
-              leading: Octicons.git_commit,
-              footer: CommitTilesGQL(
-                item: item.commit,
-                backgroundColor: AppColor.background,
-                compact: true,
-              ),
-              textContent: 'Made a commit.',
-            );
-          } else if (item is PullRequestReviewMixin) {
-          } else if (item is ReadyForReviewMixin) {
-            return BasicEventTextCard(
-              user: item.actor,
-              date: item.createdAt,
-              leading: Icons.mark_chat_read_rounded,
-              textContent: 'Marked this as ready for review.',
-            );
-          } else if (item is RemovedFromProjectMixin) {
-          } else if (item is RenamedTitleMixin) {
-          } else if (item is ReopenedMixin) {
-            return BasicEventTextCard(
-              textContent: 'Reopened this.',
-              user: item.actor,
-              leading: Octicons.issue_reopened,
-              iconColor: AppColor.green,
-              date: item.createdAt,
-            );
-          } else if (item is ReviewDismissedMixin) {
-          } else if (item is ReviewRequestedMixin) {
-            return BasicEventCard(
-              user: item.actor,
-              date: item.createdAt,
-              leading: LineIcons.eye,
-              content: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  const Text('Requested a review from'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ProfileTile(
-                      (item.requestedReviewer as dynamic).avatarUrl.toString(),
-                      showName: true,
-                      size: 20,
-                      textStyle: const TextStyle(fontSize: 12),
-                      userLogin: (item.requestedReviewer as dynamic).login ??
-                          (item.requestedReviewer as dynamic).name,
-                    ),
-                  )
-                ],
-              ),
-            );
-          } else if (item is UnassignedMixin) {
-          } else if (item is UnlabeledMixin) {
-            return BasicEventLabeledCard(
-              actor: item.actor!,
-              content: item.label,
-              added: false,
-              date: item.createdAt,
-            );
-          } else if (item is UnlockedMixin) {
-            return BasicEventTextCard(
-              textContent: 'Unlocked this.',
-              user: item.actor,
-              date: item.createdAt,
-              leading: LineIcons.unlock,
-            );
-          } else if (item is UnmarkedAsDuplicateMixin) {
-          } else if (item is UnpinnedMixin) {}
-          return Text(item.$$typename);
-        },
-      ),
-    );
-  }
-}
-
-Widget paddingWrap({Widget? child}) {
-  return Material(
-    elevation: 2,
-    color: AppColor.onBackground,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-      child: child,
-    ),
-  );
 }
 
 class _CommentButton extends StatefulWidget {
