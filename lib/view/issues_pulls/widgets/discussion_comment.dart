@@ -21,8 +21,7 @@ class _BaseCommentState extends State<BaseComment> {
   bool optionsExpanded = false;
 
   void addQuote(String data) {
-    print(RegExp('\n').hasMatch('\\n'));
-    context.read<CommentProvider>().addQuote(widget.comment.bodyText);
+    context.read<CommentProvider>().addQuote(widget.comment.body);
   }
 
   @override

@@ -8,16 +8,16 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'graphql.graphql.g.dart';
 
+mixin ActorMixin {
+  late Uri avatarUrl;
+  late String login;
+}
 mixin AddedToProjectMixin {
   late String id;
   late DateTime createdAt;
   AddedToProjectMixin$Actor? actor;
   late String projectColumnName;
   AddedToProjectMixin$Project? project;
-}
-mixin ActorMixin {
-  late Uri avatarUrl;
-  late String login;
 }
 mixin AssignedMixin {
   late String id;
@@ -66,7 +66,6 @@ mixin IssueCommentMixin {
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
   late CommentAuthorAssociation authorAssociation;
   late String body;
-  late String bodyText;
   late String bodyHTML;
   DateTime? lastEditedAt;
   late bool isMinimized;
@@ -217,6 +216,15 @@ mixin PullRequestCommitMixin {
   late String id;
   late PullRequestCommitMixin$Commit commit;
 }
+mixin CommitMixin {
+  late int additions;
+  late DateTime authoredDate;
+  late String oid;
+  late String message;
+  late Uri commitUrl;
+  late String messageHeadline;
+  CommitMixin$Author? author;
+}
 mixin PullRequestReviewMixin {
   late String id;
   late DateTime createdAt;
@@ -249,104 +257,185 @@ mixin ReviewRequestedMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
-    with EquatableMixin, AddedToProjectMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent();
+class FetchReview$Query$Node$PullRequestReviewComment$Author
+    extends JsonSerializable with EquatableMixin, ActorMixin {
+  FetchReview$Query$Node$PullRequestReviewComment$Author();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent.fromJson(
+  factory FetchReview$Query$Node$PullRequestReviewComment$Author.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
+      _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  Map<String, dynamic> toJson() =>
+      _$FetchReview$Query$Node$PullRequestReviewComment$AuthorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FetchReview$Query$Node$PullRequestReviewComment
+    extends FetchReview$Query$Node with EquatableMixin {
+  FetchReview$Query$Node$PullRequestReviewComment();
+
+  factory FetchReview$Query$Node$PullRequestReviewComment.fromJson(
+          Map<String, dynamic> json) =>
+      _$FetchReview$Query$Node$PullRequestReviewCommentFromJson(json);
+
+  late String bodyHTML;
+
+  FetchReview$Query$Node$PullRequestReviewComment$Author? author;
+
+  late String diffHunk;
+
+  late String path;
+
+  @override
+  List<Object?> get props => [bodyHTML, author, diffHunk, path];
+  Map<String, dynamic> toJson() =>
+      _$FetchReview$Query$Node$PullRequestReviewCommentToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FetchReview$Query$Node extends JsonSerializable with EquatableMixin {
+  FetchReview$Query$Node();
+
+  factory FetchReview$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'PullRequestReviewComment':
+        return FetchReview$Query$Node$PullRequestReviewComment.fromJson(json);
+      default:
+    }
+    return _$FetchReview$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'PullRequestReviewComment':
+        return (this as FetchReview$Query$Node$PullRequestReviewComment)
+            .toJson();
+      default:
+    }
+    return _$FetchReview$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FetchReview$Query extends JsonSerializable with EquatableMixin {
+  FetchReview$Query();
+
+  factory FetchReview$Query.fromJson(Map<String, dynamic> json) =>
+      _$FetchReview$QueryFromJson(json);
+
+  FetchReview$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  Map<String, dynamic> toJson() => _$FetchReview$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
+    with EquatableMixin, AddedToProjectMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, AssignedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, assignee];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, ClosedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, CrossReferenceMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, DeMileStonedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, milestoneTitle];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, IssueCommentMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueCommentFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueCommentFromJson(
           json);
 
   @override
@@ -356,7 +445,6 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComm
         author,
         authorAssociation,
         body,
-        bodyText,
         bodyHTML,
         lastEditedAt,
         isMinimized,
@@ -370,91 +458,91 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComm
         viewerCanReact
       ];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueCommentToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueCommentToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, LabeledMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, label];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, LockedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, lockReason];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, MarkedAsDuplicateMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, canonical];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, MileStonedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, milestoneTitle];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, MovedColumnsInProjectMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
           json);
 
   @override
@@ -467,244 +555,244 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColu
         project
       ];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, PinnedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, RemovedFromProjectMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, RenamedTitleMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
           json);
 
   @override
   List<Object?> get props =>
       [id, createdAt, actor, previousTitle, currentTitle];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, ReopenedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, UnassignedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, assignee];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, UnlabeledMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor, label];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, UnlockedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, UnmarkedAsDuplicateMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent
-    extends GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     with EquatableMixin, UnpinnedMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEventFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEventFromJson(
           json);
 
   @override
   List<Object?> get props => [id, createdAt, actor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEventToJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEventToJson(
           this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
     extends JsonSerializable with EquatableMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node.fromJson(
       Map<String, dynamic> json) {
     switch (json['__typename'].toString()) {
       case r'AddedToProjectEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
             .fromJson(json);
       case r'AssignedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent
             .fromJson(json);
       case r'ClosedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent
             .fromJson(json);
       case r'CrossReferencedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
             .fromJson(json);
       case r'DemilestonedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent
             .fromJson(json);
       case r'IssueComment':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment
             .fromJson(json);
       case r'LabeledEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent
             .fromJson(json);
       case r'LockedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent
             .fromJson(json);
       case r'MarkedAsDuplicateEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
             .fromJson(json);
       case r'MilestonedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent
             .fromJson(json);
       case r'MovedColumnsInProjectEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
             .fromJson(json);
       case r'PinnedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent
             .fromJson(json);
       case r'RemovedFromProjectEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
             .fromJson(json);
       case r'RenamedTitleEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
             .fromJson(json);
       case r'ReopenedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent
             .fromJson(json);
       case r'UnassignedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent
             .fromJson(json);
       case r'UnlabeledEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent
             .fromJson(json);
       case r'UnlockedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent
             .fromJson(json);
       case r'UnmarkedAsDuplicateEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
             .fromJson(json);
       case r'UnpinnedEvent':
-        return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent
             .fromJson(json);
       default:
     }
-    return _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$NodeFromJson(
+    return _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$NodeFromJson(
         json);
   }
 
@@ -717,174 +805,1221 @@ class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
     switch ($$typename) {
       case r'AddedToProjectEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent)
             .toJson();
       case r'AssignedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent)
             .toJson();
       case r'ClosedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent)
             .toJson();
       case r'CrossReferencedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent)
             .toJson();
       case r'DemilestonedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent)
             .toJson();
       case r'IssueComment':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment)
             .toJson();
       case r'LabeledEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent)
             .toJson();
       case r'LockedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent)
             .toJson();
       case r'MarkedAsDuplicateEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent)
             .toJson();
       case r'MilestonedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent)
             .toJson();
       case r'MovedColumnsInProjectEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent)
             .toJson();
       case r'PinnedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent)
             .toJson();
       case r'RemovedFromProjectEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent)
             .toJson();
       case r'RenamedTitleEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent)
             .toJson();
       case r'ReopenedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent)
             .toJson();
       case r'UnassignedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent)
             .toJson();
       case r'UnlabeledEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent)
             .toJson();
       case r'UnlockedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent)
             .toJson();
       case r'UnmarkedAsDuplicateEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent)
             .toJson();
       case r'UnpinnedEvent':
         return (this
-                as GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent)
+                as GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent)
             .toJson();
       default:
     }
-    return _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$NodeToJson(
+    return _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$NodeToJson(
         this);
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges
     extends JsonSerializable with EquatableMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$EdgesFromJson(
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$EdgesFromJson(
           json);
 
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node? node;
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node?
+      node;
 
   late String cursor;
 
   @override
   List<Object?> get props => [node, cursor];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$EdgesToJson(this);
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$EdgesToJson(
+          this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue$TimelineItems
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
     extends JsonSerializable with EquatableMixin {
-  GetIssueTimeline$Query$Repository$Issue$TimelineItems();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems();
 
-  factory GetIssueTimeline$Query$Repository$Issue$TimelineItems.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItemsFromJson(json);
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItemsFromJson(
+          json);
 
-  List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges?>? edges;
+  List<GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges?>?
+      edges;
 
   @override
   List<Object?> get props => [edges];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$Issue$TimelineItemsToJson(this);
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItemsToJson(
+          this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository$Issue extends JsonSerializable
+class GetTimeline$Query$Repository$IssueOrPullRequest$Issue
+    extends GetTimeline$Query$Repository$IssueOrPullRequest
     with EquatableMixin {
-  GetIssueTimeline$Query$Repository$Issue();
+  GetTimeline$Query$Repository$IssueOrPullRequest$Issue();
 
-  factory GetIssueTimeline$Query$Repository$Issue.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$Issue.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$Repository$IssueFromJson(json);
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$IssueFromJson(json);
 
-  late GetIssueTimeline$Query$Repository$Issue$TimelineItems timelineItems;
+  late GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
+      timelineItems;
 
   @override
   List<Object?> get props => [timelineItems];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$Repository$IssueToJson(this);
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$IssueToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query$Repository extends JsonSerializable
-    with EquatableMixin {
-  GetIssueTimeline$Query$Repository();
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, AddedToProjectMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent();
 
-  factory GetIssueTimeline$Query$Repository.fromJson(
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent.fromJson(
           Map<String, dynamic> json) =>
-      _$GetIssueTimeline$Query$RepositoryFromJson(json);
-
-  GetIssueTimeline$Query$Repository$Issue? issue;
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
+          json);
 
   @override
-  List<Object?> get props => [issue];
+  List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
   Map<String, dynamic> toJson() =>
-      _$GetIssueTimeline$Query$RepositoryToJson(this);
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
+          this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimeline$Query extends JsonSerializable with EquatableMixin {
-  GetIssueTimeline$Query();
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, AssignedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent();
 
-  factory GetIssueTimeline$Query.fromJson(Map<String, dynamic> json) =>
-      _$GetIssueTimeline$QueryFromJson(json);
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEventFromJson(
+          json);
 
-  GetIssueTimeline$Query$Repository? repository;
+  @override
+  List<Object?> get props => [id, createdAt, actor, assignee];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, BaseRefChangedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props =>
+      [id, createdAt, actor, currentRefName, previousRefName];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, BaseRefDeletedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, baseRefName];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, BaseRefForcePushedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, ClosedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, ConvertedToDraftMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, CrossReferenceMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, DeMileStonedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, HeadRefDeletedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, headRefName];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, HeadRefForcePushedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, HeadRefRestoredMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, IssueCommentMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueCommentFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        createdAt,
+        author,
+        authorAssociation,
+        body,
+        bodyHTML,
+        lastEditedAt,
+        isMinimized,
+        minimizedReason,
+        reactionGroups,
+        viewerCanMinimize,
+        viewerCanDelete,
+        viewerCanUpdate,
+        viewerDidAuthor,
+        viewerCannotUpdateReasons,
+        viewerCanReact
+      ];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueCommentToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, LabeledMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, label];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, LockedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, lockReason];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, MarkedAsDuplicateMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, canonical];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, MergedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, mergeRefName];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, MileStonedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, MovedColumnsInProjectMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        createdAt,
+        actor,
+        previousProjectColumnName,
+        projectColumnName,
+        project
+      ];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, PinnedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, PullRequestCommitMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, commit];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadFromJson(
+          json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, PullRequestReviewMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewFromJson(
+          json);
+
+  @override
+  List<Object?> get props =>
+      [id, createdAt, author, authorAssociation, body, bodyHTML, bodyText];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadFromJson(
+          json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, ReadyForReviewMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, RemovedFromProjectMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, RenamedTitleMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props =>
+      [id, createdAt, actor, previousTitle, currentTitle];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, ReopenedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, ReviewDismissedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        createdAt,
+        actor,
+        dismissalMessage,
+        dismissalMessageHTML,
+        previousReviewState
+      ];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, ReviewRequestedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, requestedReviewer];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, UnassignedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, assignee];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, UnlabeledMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor, label];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, UnlockedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, UnmarkedAsDuplicateMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
+    extends GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    with EquatableMixin, UnpinnedMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEventFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [id, createdAt, actor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEventToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    extends JsonSerializable with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'AddedToProjectEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
+            .fromJson(json);
+      case r'AssignedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent
+            .fromJson(json);
+      case r'BaseRefChangedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
+            .fromJson(json);
+      case r'BaseRefDeletedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
+            .fromJson(json);
+      case r'BaseRefForcePushedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
+            .fromJson(json);
+      case r'ClosedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent
+            .fromJson(json);
+      case r'ConvertToDraftEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
+            .fromJson(json);
+      case r'CrossReferencedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
+            .fromJson(json);
+      case r'DemilestonedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
+            .fromJson(json);
+      case r'HeadRefDeletedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
+            .fromJson(json);
+      case r'HeadRefForcePushedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
+            .fromJson(json);
+      case r'HeadRefRestoredEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
+            .fromJson(json);
+      case r'IssueComment':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment
+            .fromJson(json);
+      case r'LabeledEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent
+            .fromJson(json);
+      case r'LockedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent
+            .fromJson(json);
+      case r'MarkedAsDuplicateEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+            .fromJson(json);
+      case r'MergedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent
+            .fromJson(json);
+      case r'MilestonedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
+            .fromJson(json);
+      case r'MovedColumnsInProjectEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+            .fromJson(json);
+      case r'PinnedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent
+            .fromJson(json);
+      case r'PullRequestCommit':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
+            .fromJson(json);
+      case r'PullRequestCommitCommentThread':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
+            .fromJson(json);
+      case r'PullRequestReview':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview
+            .fromJson(json);
+      case r'PullRequestReviewThread':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
+            .fromJson(json);
+      case r'ReadyForReviewEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
+            .fromJson(json);
+      case r'RemovedFromProjectEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
+            .fromJson(json);
+      case r'RenamedTitleEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
+            .fromJson(json);
+      case r'ReopenedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
+            .fromJson(json);
+      case r'ReviewDismissedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
+            .fromJson(json);
+      case r'ReviewRequestedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
+            .fromJson(json);
+      case r'UnassignedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
+            .fromJson(json);
+      case r'UnlabeledEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
+            .fromJson(json);
+      case r'UnlockedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
+            .fromJson(json);
+      case r'UnmarkedAsDuplicateEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+            .fromJson(json);
+      case r'UnpinnedEvent':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
+            .fromJson(json);
+      default:
+    }
+    return _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$NodeFromJson(
+        json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'AddedToProjectEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent)
+            .toJson();
+      case r'AssignedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent)
+            .toJson();
+      case r'BaseRefChangedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent)
+            .toJson();
+      case r'BaseRefDeletedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent)
+            .toJson();
+      case r'BaseRefForcePushedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent)
+            .toJson();
+      case r'ClosedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent)
+            .toJson();
+      case r'ConvertToDraftEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent)
+            .toJson();
+      case r'CrossReferencedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent)
+            .toJson();
+      case r'DemilestonedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent)
+            .toJson();
+      case r'HeadRefDeletedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent)
+            .toJson();
+      case r'HeadRefForcePushedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent)
+            .toJson();
+      case r'HeadRefRestoredEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent)
+            .toJson();
+      case r'IssueComment':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment)
+            .toJson();
+      case r'LabeledEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent)
+            .toJson();
+      case r'LockedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent)
+            .toJson();
+      case r'MarkedAsDuplicateEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent)
+            .toJson();
+      case r'MergedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent)
+            .toJson();
+      case r'MilestonedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent)
+            .toJson();
+      case r'MovedColumnsInProjectEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent)
+            .toJson();
+      case r'PinnedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent)
+            .toJson();
+      case r'PullRequestCommit':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit)
+            .toJson();
+      case r'PullRequestCommitCommentThread':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread)
+            .toJson();
+      case r'PullRequestReview':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview)
+            .toJson();
+      case r'PullRequestReviewThread':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread)
+            .toJson();
+      case r'ReadyForReviewEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent)
+            .toJson();
+      case r'RemovedFromProjectEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent)
+            .toJson();
+      case r'RenamedTitleEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent)
+            .toJson();
+      case r'ReopenedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent)
+            .toJson();
+      case r'ReviewDismissedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent)
+            .toJson();
+      case r'ReviewRequestedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent)
+            .toJson();
+      case r'UnassignedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent)
+            .toJson();
+      case r'UnlabeledEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent)
+            .toJson();
+      case r'UnlockedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent)
+            .toJson();
+      case r'UnmarkedAsDuplicateEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent)
+            .toJson();
+      case r'UnpinnedEvent':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent)
+            .toJson();
+      default:
+    }
+    return _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$NodeToJson(
+        this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges
+    extends JsonSerializable with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$EdgesFromJson(
+          json);
+
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node?
+      node;
+
+  late String cursor;
+
+  @override
+  List<Object?> get props => [node, cursor];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$EdgesToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
+    extends JsonSerializable with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItemsFromJson(
+          json);
+
+  List<GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges?>?
+      edges;
+
+  @override
+  List<Object?> get props => [edges];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItemsToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest
+    extends GetTimeline$Query$Repository$IssueOrPullRequest
+    with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequestFromJson(
+          json);
+
+  late GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
+      timelineItems;
+
+  @override
+  List<Object?> get props => [timelineItems];
+  Map<String, dynamic> toJson() =>
+      _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequestToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository$IssueOrPullRequest extends JsonSerializable
+    with EquatableMixin {
+  GetTimeline$Query$Repository$IssueOrPullRequest();
+
+  factory GetTimeline$Query$Repository$IssueOrPullRequest.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Issue':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$Issue.fromJson(
+            json);
+      case r'PullRequest':
+        return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest
+            .fromJson(json);
+      default:
+    }
+    return _$GetTimeline$Query$Repository$IssueOrPullRequestFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Issue':
+        return (this as GetTimeline$Query$Repository$IssueOrPullRequest$Issue)
+            .toJson();
+      case r'PullRequest':
+        return (this
+                as GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest)
+            .toJson();
+      default:
+    }
+    return _$GetTimeline$Query$Repository$IssueOrPullRequestToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  GetTimeline$Query$Repository();
+
+  factory GetTimeline$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$GetTimeline$Query$RepositoryFromJson(json);
+
+  GetTimeline$Query$Repository$IssueOrPullRequest? issueOrPullRequest;
+
+  @override
+  List<Object?> get props => [issueOrPullRequest];
+  Map<String, dynamic> toJson() => _$GetTimeline$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetTimeline$Query extends JsonSerializable with EquatableMixin {
+  GetTimeline$Query();
+
+  factory GetTimeline$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetTimeline$QueryFromJson(json);
+
+  GetTimeline$Query$Repository? repository;
 
   @override
   List<Object?> get props => [repository];
-  Map<String, dynamic> toJson() => _$GetIssueTimeline$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$GetTimeline$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1611,1036 +2746,6 @@ class UnpinnedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, AddedToProjectMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, AssignedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, assignee];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, BaseRefChangedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props =>
-      [id, createdAt, actor, currentRefName, previousRefName];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, BaseRefDeletedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, baseRefName];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, BaseRefForcePushedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ClosedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ConvertedToDraftMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, CrossReferenceMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, DeMileStonedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, HeadRefDeletedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, headRefName];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, HeadRefForcePushedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, HeadRefRestoredMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, IssueCommentMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueCommentFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [
-        id,
-        createdAt,
-        author,
-        authorAssociation,
-        body,
-        bodyText,
-        bodyHTML,
-        lastEditedAt,
-        isMinimized,
-        minimizedReason,
-        reactionGroups,
-        viewerCanMinimize,
-        viewerCanDelete,
-        viewerCanUpdate,
-        viewerDidAuthor,
-        viewerCannotUpdateReasons,
-        viewerCanReact
-      ];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueCommentToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, LabeledMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, label];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, LockedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, lockReason];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, MarkedAsDuplicateMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, canonical];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, MergedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, mergeRefName];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, MileStonedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, MovedColumnsInProjectMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [
-        id,
-        createdAt,
-        actor,
-        previousProjectColumnName,
-        projectColumnName,
-        project
-      ];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, PinnedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, PullRequestCommitMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, commit];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadFromJson(
-          json);
-
-  late String id;
-
-  @override
-  List<Object?> get props => [id];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, PullRequestReviewMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewFromJson(
-          json);
-
-  @override
-  List<Object?> get props =>
-      [id, createdAt, author, authorAssociation, body, bodyHTML, bodyText];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadFromJson(
-          json);
-
-  late String id;
-
-  @override
-  List<Object?> get props => [id];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ReadyForReviewMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, RemovedFromProjectMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, RenamedTitleMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props =>
-      [id, createdAt, actor, previousTitle, currentTitle];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ReopenedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ReviewDismissedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [
-        id,
-        createdAt,
-        actor,
-        dismissalMessage,
-        dismissalMessageHTML,
-        previousReviewState
-      ];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, ReviewRequestedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, requestedReviewer];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, UnassignedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, assignee];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, UnlabeledMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor, label];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, UnlockedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, UnmarkedAsDuplicateMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
-    extends GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    with EquatableMixin, UnpinnedMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEventFromJson(
-          json);
-
-  @override
-  List<Object?> get props => [id, createdAt, actor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEventToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    extends JsonSerializable with EquatableMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node.fromJson(
-      Map<String, dynamic> json) {
-    switch (json['__typename'].toString()) {
-      case r'AddedToProjectEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
-            .fromJson(json);
-      case r'AssignedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent
-            .fromJson(json);
-      case r'BaseRefChangedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
-            .fromJson(json);
-      case r'BaseRefDeletedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
-            .fromJson(json);
-      case r'BaseRefForcePushedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
-            .fromJson(json);
-      case r'ClosedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent
-            .fromJson(json);
-      case r'ConvertToDraftEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
-            .fromJson(json);
-      case r'CrossReferencedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
-            .fromJson(json);
-      case r'DemilestonedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
-            .fromJson(json);
-      case r'HeadRefDeletedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
-            .fromJson(json);
-      case r'HeadRefForcePushedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
-            .fromJson(json);
-      case r'HeadRefRestoredEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
-            .fromJson(json);
-      case r'IssueComment':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment
-            .fromJson(json);
-      case r'LabeledEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent
-            .fromJson(json);
-      case r'LockedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent
-            .fromJson(json);
-      case r'MarkedAsDuplicateEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
-            .fromJson(json);
-      case r'MergedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent
-            .fromJson(json);
-      case r'MilestonedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
-            .fromJson(json);
-      case r'MovedColumnsInProjectEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
-            .fromJson(json);
-      case r'PinnedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent
-            .fromJson(json);
-      case r'PullRequestCommit':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
-            .fromJson(json);
-      case r'PullRequestCommitCommentThread':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
-            .fromJson(json);
-      case r'PullRequestReview':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview
-            .fromJson(json);
-      case r'PullRequestReviewThread':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
-            .fromJson(json);
-      case r'ReadyForReviewEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
-            .fromJson(json);
-      case r'RemovedFromProjectEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
-            .fromJson(json);
-      case r'RenamedTitleEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
-            .fromJson(json);
-      case r'ReopenedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
-            .fromJson(json);
-      case r'ReviewDismissedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
-            .fromJson(json);
-      case r'ReviewRequestedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
-            .fromJson(json);
-      case r'UnassignedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
-            .fromJson(json);
-      case r'UnlabeledEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
-            .fromJson(json);
-      case r'UnlockedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
-            .fromJson(json);
-      case r'UnmarkedAsDuplicateEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
-            .fromJson(json);
-      case r'UnpinnedEvent':
-        return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
-            .fromJson(json);
-      default:
-    }
-    return _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$NodeFromJson(
-        json);
-  }
-
-  @JsonKey(name: '__typename')
-  String? $$typename;
-
-  @override
-  List<Object?> get props => [$$typename];
-  Map<String, dynamic> toJson() {
-    switch ($$typename) {
-      case r'AddedToProjectEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent)
-            .toJson();
-      case r'AssignedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent)
-            .toJson();
-      case r'BaseRefChangedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent)
-            .toJson();
-      case r'BaseRefDeletedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent)
-            .toJson();
-      case r'BaseRefForcePushedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent)
-            .toJson();
-      case r'ClosedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent)
-            .toJson();
-      case r'ConvertToDraftEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent)
-            .toJson();
-      case r'CrossReferencedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent)
-            .toJson();
-      case r'DemilestonedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent)
-            .toJson();
-      case r'HeadRefDeletedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent)
-            .toJson();
-      case r'HeadRefForcePushedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent)
-            .toJson();
-      case r'HeadRefRestoredEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent)
-            .toJson();
-      case r'IssueComment':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment)
-            .toJson();
-      case r'LabeledEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent)
-            .toJson();
-      case r'LockedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent)
-            .toJson();
-      case r'MarkedAsDuplicateEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent)
-            .toJson();
-      case r'MergedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent)
-            .toJson();
-      case r'MilestonedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent)
-            .toJson();
-      case r'MovedColumnsInProjectEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent)
-            .toJson();
-      case r'PinnedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent)
-            .toJson();
-      case r'PullRequestCommit':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit)
-            .toJson();
-      case r'PullRequestCommitCommentThread':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread)
-            .toJson();
-      case r'PullRequestReview':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview)
-            .toJson();
-      case r'PullRequestReviewThread':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread)
-            .toJson();
-      case r'ReadyForReviewEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent)
-            .toJson();
-      case r'RemovedFromProjectEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent)
-            .toJson();
-      case r'RenamedTitleEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent)
-            .toJson();
-      case r'ReopenedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent)
-            .toJson();
-      case r'ReviewDismissedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent)
-            .toJson();
-      case r'ReviewRequestedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent)
-            .toJson();
-      case r'UnassignedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent)
-            .toJson();
-      case r'UnlabeledEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent)
-            .toJson();
-      case r'UnlockedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent)
-            .toJson();
-      case r'UnmarkedAsDuplicateEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent)
-            .toJson();
-      case r'UnpinnedEvent':
-        return (this
-                as GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent)
-            .toJson();
-      default:
-    }
-    return _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$NodeToJson(
-        this);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges
-    extends JsonSerializable with EquatableMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$EdgesFromJson(
-          json);
-
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node? node;
-
-  late String cursor;
-
-  @override
-  List<Object?> get props => [node, cursor];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$EdgesToJson(
-          this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest$TimelineItems
-    extends JsonSerializable with EquatableMixin {
-  GetPullTimeline$Query$Repository$PullRequest$TimelineItems();
-
-  factory GetPullTimeline$Query$Repository$PullRequest$TimelineItems.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItemsFromJson(
-          json);
-
-  List<GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges?>?
-      edges;
-
-  @override
-  List<Object?> get props => [edges];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequest$TimelineItemsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository$PullRequest extends JsonSerializable
-    with EquatableMixin {
-  GetPullTimeline$Query$Repository$PullRequest();
-
-  factory GetPullTimeline$Query$Repository$PullRequest.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$Repository$PullRequestFromJson(json);
-
-  late GetPullTimeline$Query$Repository$PullRequest$TimelineItems timelineItems;
-
-  @override
-  List<Object?> get props => [timelineItems];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$Repository$PullRequestToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query$Repository extends JsonSerializable
-    with EquatableMixin {
-  GetPullTimeline$Query$Repository();
-
-  factory GetPullTimeline$Query$Repository.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullTimeline$Query$RepositoryFromJson(json);
-
-  GetPullTimeline$Query$Repository$PullRequest? pullRequest;
-
-  @override
-  List<Object?> get props => [pullRequest];
-  Map<String, dynamic> toJson() =>
-      _$GetPullTimeline$Query$RepositoryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimeline$Query extends JsonSerializable with EquatableMixin {
-  GetPullTimeline$Query();
-
-  factory GetPullTimeline$Query.fromJson(Map<String, dynamic> json) =>
-      _$GetPullTimeline$QueryFromJson(json);
-
-  GetPullTimeline$Query$Repository? repository;
-
-  @override
-  List<Object?> get props => [repository];
-  Map<String, dynamic> toJson() => _$GetPullTimeline$QueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class BaseRefChangedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   BaseRefChangedMixin$Actor();
@@ -2745,67 +2850,55 @@ class MergedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullRequestCommitMixin$Commit$Author$User extends JsonSerializable
-    with EquatableMixin {
-  PullRequestCommitMixin$Commit$Author$User();
-
-  factory PullRequestCommitMixin$Commit$Author$User.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestCommitMixin$Commit$Author$UserFromJson(json);
-
-  late Uri avatarUrl;
-
-  late String login;
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  Map<String, dynamic> toJson() =>
-      _$PullRequestCommitMixin$Commit$Author$UserToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestCommitMixin$Commit$Author extends JsonSerializable
-    with EquatableMixin {
-  PullRequestCommitMixin$Commit$Author();
-
-  factory PullRequestCommitMixin$Commit$Author.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestCommitMixin$Commit$AuthorFromJson(json);
-
-  late Uri avatarUrl;
-
-  String? name;
-
-  PullRequestCommitMixin$Commit$Author$User? user;
-
-  @override
-  List<Object?> get props => [avatarUrl, name, user];
-  Map<String, dynamic> toJson() =>
-      _$PullRequestCommitMixin$Commit$AuthorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class PullRequestCommitMixin$Commit extends JsonSerializable
-    with EquatableMixin {
+    with EquatableMixin, CommitMixin {
   PullRequestCommitMixin$Commit();
 
   factory PullRequestCommitMixin$Commit.fromJson(Map<String, dynamic> json) =>
       _$PullRequestCommitMixin$CommitFromJson(json);
 
-  late int additions;
+  @override
+  List<Object?> get props => [
+        additions,
+        authoredDate,
+        oid,
+        message,
+        commitUrl,
+        messageHeadline,
+        author
+      ];
+  Map<String, dynamic> toJson() => _$PullRequestCommitMixin$CommitToJson(this);
+}
 
-  late DateTime authoredDate;
+@JsonSerializable(explicitToJson: true)
+class CommitMixin$Author$User extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  CommitMixin$Author$User();
 
-  late String message;
-
-  late String messageHeadline;
-
-  PullRequestCommitMixin$Commit$Author? author;
+  factory CommitMixin$Author$User.fromJson(Map<String, dynamic> json) =>
+      _$CommitMixin$Author$UserFromJson(json);
 
   @override
-  List<Object?> get props =>
-      [additions, authoredDate, message, messageHeadline, author];
-  Map<String, dynamic> toJson() => _$PullRequestCommitMixin$CommitToJson(this);
+  List<Object?> get props => [avatarUrl, login];
+  Map<String, dynamic> toJson() => _$CommitMixin$Author$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CommitMixin$Author extends JsonSerializable with EquatableMixin {
+  CommitMixin$Author();
+
+  factory CommitMixin$Author.fromJson(Map<String, dynamic> json) =>
+      _$CommitMixin$AuthorFromJson(json);
+
+  late Uri avatarUrl;
+
+  String? name;
+
+  CommitMixin$Author$User? user;
+
+  @override
+  List<Object?> get props => [avatarUrl, name, user];
+  Map<String, dynamic> toJson() => _$CommitMixin$AuthorToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2862,38 +2955,32 @@ class ReviewRequestedMixin$Actor extends JsonSerializable
 
 @JsonSerializable(explicitToJson: true)
 class ReviewRequestedMixin$RequestedReviewer$User
-    extends ReviewRequestedMixin$RequestedReviewer with EquatableMixin {
+    extends ReviewRequestedMixin$RequestedReviewer
+    with EquatableMixin, ActorMixin {
   ReviewRequestedMixin$RequestedReviewer$User();
 
   factory ReviewRequestedMixin$RequestedReviewer$User.fromJson(
           Map<String, dynamic> json) =>
       _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(json);
 
-  late String login;
-
-  late Uri avatarUrl;
-
   @override
-  List<Object?> get props => [login, avatarUrl];
+  List<Object?> get props => [avatarUrl, login];
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$UserToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class ReviewRequestedMixin$RequestedReviewer$Team
-    extends ReviewRequestedMixin$RequestedReviewer with EquatableMixin {
+    extends ReviewRequestedMixin$RequestedReviewer
+    with EquatableMixin, ActorMixin {
   ReviewRequestedMixin$RequestedReviewer$Team();
 
   factory ReviewRequestedMixin$RequestedReviewer$Team.fromJson(
           Map<String, dynamic> json) =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(json);
 
-  Uri? avatarUrl;
-
-  late String name;
-
   @override
-  List<Object?> get props => [avatarUrl, name];
+  List<Object?> get props => [avatarUrl, login];
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
 }
@@ -3354,6 +3441,20 @@ enum LockReason {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+enum PullRequestReviewState {
+  @JsonValue('APPROVED')
+  approved,
+  @JsonValue('CHANGES_REQUESTED')
+  changesRequested,
+  @JsonValue('COMMENTED')
+  commented,
+  @JsonValue('DISMISSED')
+  dismissed,
+  @JsonValue('PENDING')
+  pending,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
 enum PullRequestState {
   @JsonValue('CLOSED')
   closed,
@@ -3384,24 +3485,133 @@ enum ReactionContent {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
-enum PullRequestReviewState {
-  @JsonValue('APPROVED')
-  approved,
-  @JsonValue('CHANGES_REQUESTED')
-  changesRequested,
-  @JsonValue('COMMENTED')
-  commented,
-  @JsonValue('DISMISSED')
-  dismissed,
-  @JsonValue('PENDING')
-  pending,
-  @JsonValue('ARTEMIS_UNKNOWN')
-  artemisUnknown,
+
+@JsonSerializable(explicitToJson: true)
+class FetchReviewArguments extends JsonSerializable with EquatableMixin {
+  FetchReviewArguments({required this.id});
+
+  @override
+  factory FetchReviewArguments.fromJson(Map<String, dynamic> json) =>
+      _$FetchReviewArgumentsFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$FetchReviewArgumentsToJson(this);
+}
+
+final FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'fetchReview'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'PullRequestReviewComment'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'bodyHTML'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'author'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                              name: NameNode(value: 'actor'), directives: [])
+                        ])),
+                    FieldNode(
+                        name: NameNode(value: 'diffHunk'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'path'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'actor'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'login'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ]))
+]);
+
+class FetchReviewQuery
+    extends GraphQLQuery<FetchReview$Query, FetchReviewArguments> {
+  FetchReviewQuery({required this.variables});
+
+  @override
+  final DocumentNode document = FETCH_REVIEW_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'fetchReview';
+
+  @override
+  final FetchReviewArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  FetchReview$Query parse(Map<String, dynamic> json) =>
+      FetchReview$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
-class GetIssueTimelineArguments extends JsonSerializable with EquatableMixin {
-  GetIssueTimelineArguments(
+class GetTimelineArguments extends JsonSerializable with EquatableMixin {
+  GetTimelineArguments(
       {required this.repoName,
       required this.owner,
       required this.number,
@@ -3409,8 +3619,8 @@ class GetIssueTimelineArguments extends JsonSerializable with EquatableMixin {
       this.since});
 
   @override
-  factory GetIssueTimelineArguments.fromJson(Map<String, dynamic> json) =>
-      _$GetIssueTimelineArgumentsFromJson(json);
+  factory GetTimelineArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetTimelineArgumentsFromJson(json);
 
   late String repoName;
 
@@ -3425,13 +3635,13 @@ class GetIssueTimelineArguments extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [repoName, owner, number, after, since];
   @override
-  Map<String, dynamic> toJson() => _$GetIssueTimelineArgumentsToJson(this);
+  Map<String, dynamic> toJson() => _$GetTimelineArgumentsToJson(this);
 }
 
-final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
+final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
-      name: NameNode(value: 'getIssueTimeline'),
+      name: NameNode(value: 'getTimeline'),
       variableDefinitions: [
         VariableDefinitionNode(
             variable: VariableNode(name: NameNode(value: 'repoName')),
@@ -3479,7 +3689,7 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'issue'),
+                  name: NameNode(value: 'issueOrPullRequest'),
                   alias: null,
                   arguments: [
                     ArgumentNode(
@@ -3489,389 +3699,1184 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
                     FieldNode(
-                        name: NameNode(value: 'timelineItems'),
+                        name: NameNode(value: '__typename'),
                         alias: null,
-                        arguments: [
-                          ArgumentNode(
-                              name: NameNode(value: 'first'),
-                              value: IntValueNode(value: '20')),
-                          ArgumentNode(
-                              name: NameNode(value: 'after'),
-                              value:
-                                  VariableNode(name: NameNode(value: 'after'))),
-                          ArgumentNode(
-                              name: NameNode(value: 'since'),
-                              value:
-                                  VariableNode(name: NameNode(value: 'since'))),
-                          ArgumentNode(
-                              name: NameNode(value: 'itemTypes'),
-                              value: ListValueNode(values: [
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'ADDED_TO_PROJECT_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'ASSIGNED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'CLOSED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'CROSS_REFERENCED_EVENT')),
-                                EnumValueNode(
-                                    name:
-                                        NameNode(value: 'DEMILESTONED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'ISSUE_COMMENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'LABELED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'LOCKED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'MARKED_AS_DUPLICATE_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'MILESTONED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value:
-                                            'MOVED_COLUMNS_IN_PROJECT_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'PINNED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'REMOVED_FROM_PROJECT_EVENT')),
-                                EnumValueNode(
-                                    name:
-                                        NameNode(value: 'RENAMED_TITLE_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'REOPENED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNASSIGNED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNLABELED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNLOCKED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'UNMARKED_AS_DUPLICATE_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNPINNED_EVENT'))
-                              ]))
-                        ],
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    InlineFragmentNode(
+                        typeCondition: TypeConditionNode(
+                            on: NamedTypeNode(
+                                name: NameNode(value: 'Issue'),
+                                isNonNull: false)),
                         directives: [],
                         selectionSet: SelectionSetNode(selections: [
                           FieldNode(
-                              name: NameNode(value: 'edges'),
+                              name: NameNode(value: 'timelineItems'),
                               alias: null,
-                              arguments: [],
+                              arguments: [
+                                ArgumentNode(
+                                    name: NameNode(value: 'first'),
+                                    value: IntValueNode(value: '20')),
+                                ArgumentNode(
+                                    name: NameNode(value: 'after'),
+                                    value: VariableNode(
+                                        name: NameNode(value: 'after'))),
+                                ArgumentNode(
+                                    name: NameNode(value: 'since'),
+                                    value: VariableNode(
+                                        name: NameNode(value: 'since'))),
+                                ArgumentNode(
+                                    name: NameNode(value: 'itemTypes'),
+                                    value: ListValueNode(values: [
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'ADDED_TO_PROJECT_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'ASSIGNED_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'CLOSED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'CROSS_REFERENCED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'DEMILESTONED_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'ISSUE_COMMENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'LABELED_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'LOCKED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'MARKED_AS_DUPLICATE_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'MILESTONED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'MOVED_COLUMNS_IN_PROJECT_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'PINNED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'REMOVED_FROM_PROJECT_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'RENAMED_TITLE_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'REOPENED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'UNASSIGNED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'UNLABELED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'UNLOCKED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'UNMARKED_AS_DUPLICATE_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'UNPINNED_EVENT'))
+                                    ]))
+                              ],
                               directives: [],
                               selectionSet: SelectionSetNode(selections: [
                                 FieldNode(
-                                    name: NameNode(value: 'node'),
+                                    name: NameNode(value: 'edges'),
                                     alias: null,
                                     arguments: [],
                                     directives: [],
                                     selectionSet: SelectionSetNode(selections: [
                                       FieldNode(
-                                          name: NameNode(value: '__typename'),
+                                          name: NameNode(value: 'node'),
                                           alias: null,
                                           arguments: [],
                                           directives: [],
-                                          selectionSet: null),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'AddedToProjectEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
                                           selectionSet:
                                               SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
+                                            FieldNode(
                                                 name: NameNode(
-                                                    value: 'addedToProject'),
-                                                directives: [])
+                                                    value: '__typename'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'AddedToProjectEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'addedToProject'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'AssignedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'assigned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ClosedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'closed'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'CrossReferencedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'crossReference'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'DemilestonedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'deMileStoned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'IssueComment'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'issueComment'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'LabeledEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'labeled'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'LockedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'locked'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MarkedAsDuplicateEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'markedAsDuplicate'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MilestonedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'mileStoned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MovedColumnsInProjectEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'movedColumnsInProject'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'PinnedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'pinned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'RemovedFromProjectEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'removedFromProject'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'RenamedTitleEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'renamedTitle'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ReopenedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'reopened'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnassignedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unassigned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnlabeledEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unlabeled'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnlockedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unlocked'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnmarkedAsDuplicateEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unmarkedAsDuplicate'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnpinnedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unpinned'),
+                                                          directives: [])
+                                                    ]))
                                           ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'AssignedEvent'),
-                                                  isNonNull: false)),
+                                      FieldNode(
+                                          name: NameNode(value: 'cursor'),
+                                          alias: null,
+                                          arguments: [],
                                           directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'assigned'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'ClosedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'closed'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'CrossReferencedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'crossReference'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'DemilestonedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'deMileStoned'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'IssueComment'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'issueComment'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'LabeledEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'labeled'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'LockedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'locked'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'MarkedAsDuplicateEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'markedAsDuplicate'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'MilestonedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'mileStoned'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'MovedColumnsInProjectEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value:
-                                                        'movedColumnsInProject'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'PinnedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'pinned'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'RemovedFromProjectEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value:
-                                                            'removedFromProject'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'RenamedTitleEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'renamedTitle'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'ReopenedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'reopened'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnassignedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'unassigned'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnlabeledEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'unlabeled'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnlockedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'unlocked'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'UnmarkedAsDuplicateEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value:
-                                                            'unmarkedAsDuplicate'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnpinnedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'unpinned'),
-                                                directives: [])
-                                          ]))
-                                    ])),
+                                          selectionSet: null)
+                                    ]))
+                              ]))
+                        ])),
+                    InlineFragmentNode(
+                        typeCondition: TypeConditionNode(
+                            on: NamedTypeNode(
+                                name: NameNode(value: 'PullRequest'),
+                                isNonNull: false)),
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'timelineItems'),
+                              alias: null,
+                              arguments: [
+                                ArgumentNode(
+                                    name: NameNode(value: 'first'),
+                                    value: IntValueNode(value: '20')),
+                                ArgumentNode(
+                                    name: NameNode(value: 'after'),
+                                    value: VariableNode(
+                                        name: NameNode(value: 'after'))),
+                                ArgumentNode(
+                                    name: NameNode(value: 'since'),
+                                    value: VariableNode(
+                                        name: NameNode(value: 'since'))),
+                                ArgumentNode(
+                                    name: NameNode(value: 'itemTypes'),
+                                    value: ListValueNode(values: [
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'ADDED_TO_PROJECT_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'ASSIGNED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'BASE_REF_CHANGED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'BASE_REF_DELETED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'BASE_REF_FORCE_PUSHED_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'CLOSED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'CONVERT_TO_DRAFT_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'CROSS_REFERENCED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'DEMILESTONED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'HEAD_REF_DELETED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'HEAD_REF_FORCE_PUSHED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'HEAD_REF_RESTORED_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'ISSUE_COMMENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'LABELED_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'LOCKED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'MARKED_AS_DUPLICATE_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'MERGED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'MILESTONED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'MOVED_COLUMNS_IN_PROJECT_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'PINNED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'PULL_REQUEST_COMMIT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'PULL_REQUEST_COMMIT_COMMENT_THREAD')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'PULL_REQUEST_REVIEW')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'PULL_REQUEST_REVIEW_THREAD')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'READY_FOR_REVIEW_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'REMOVED_FROM_PROJECT_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'RENAMED_TITLE_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'REOPENED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'REVIEW_DISMISSED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'REVIEW_REQUESTED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'REVIEW_REQUEST_REMOVED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'UNASSIGNED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'UNLABELED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value: 'UNLOCKED_EVENT')),
+                                      EnumValueNode(
+                                          name: NameNode(
+                                              value:
+                                                  'UNMARKED_AS_DUPLICATE_EVENT')),
+                                      EnumValueNode(
+                                          name:
+                                              NameNode(value: 'UNPINNED_EVENT'))
+                                    ]))
+                              ],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
                                 FieldNode(
-                                    name: NameNode(value: 'cursor'),
+                                    name: NameNode(value: 'edges'),
                                     alias: null,
                                     arguments: [],
                                     directives: [],
-                                    selectionSet: null)
+                                    selectionSet: SelectionSetNode(selections: [
+                                      FieldNode(
+                                          name: NameNode(value: 'node'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet:
+                                              SelectionSetNode(selections: [
+                                            FieldNode(
+                                                name: NameNode(
+                                                    value: '__typename'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'AddedToProjectEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'addedToProject'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'AssignedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'assigned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'BaseRefChangedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'baseRefChanged'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'BaseRefDeletedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'baseRefDeleted'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'BaseRefForcePushedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'baseRefForcePushed'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ClosedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'closed'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ConvertToDraftEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'convertedToDraft'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'CrossReferencedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'crossReference'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'DemilestonedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'deMileStoned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'HeadRefDeletedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'headRefDeleted'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'HeadRefForcePushedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'headRefForcePushed'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'HeadRefRestoredEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'headRefRestored'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'IssueComment'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'issueComment'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'LabeledEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'labeled'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'LockedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'locked'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MarkedAsDuplicateEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'markedAsDuplicate'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MergedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'merged'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MilestonedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'mileStoned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'MovedColumnsInProjectEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'movedColumnsInProject'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'PinnedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value: 'pinned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'PullRequestCommit'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'pullRequestCommit'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'PullRequestCommitCommentThread'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FieldNode(
+                                                          name: NameNode(
+                                                              value: 'id'),
+                                                          alias: null,
+                                                          arguments: [],
+                                                          directives: [],
+                                                          selectionSet: null)
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'PullRequestReview'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'pullRequestReview'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'PullRequestReviewThread'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FieldNode(
+                                                          name: NameNode(
+                                                              value: 'id'),
+                                                          alias: null,
+                                                          arguments: [],
+                                                          directives: [],
+                                                          selectionSet: null)
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ReadyForReviewEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'readyForReview'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'RemovedFromProjectEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'removedFromProject'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'RenamedTitleEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'renamedTitle'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ReopenedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'reopened'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ReviewDismissedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'reviewDismissed'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'ReviewRequestedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'reviewRequested'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnassignedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unassigned'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnlabeledEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unlabeled'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnlockedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unlocked'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnmarkedAsDuplicateEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unmarkedAsDuplicate'),
+                                                          directives: [])
+                                                    ])),
+                                            InlineFragmentNode(
+                                                typeCondition: TypeConditionNode(
+                                                    on: NamedTypeNode(
+                                                        name: NameNode(
+                                                            value:
+                                                                'UnpinnedEvent'),
+                                                        isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FragmentSpreadNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'unpinned'),
+                                                          directives: [])
+                                                    ]))
+                                          ])),
+                                      FieldNode(
+                                          name: NameNode(value: 'cursor'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null)
+                                    ]))
                               ]))
                         ]))
                   ]))
@@ -4285,12 +5290,6 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null),
         FieldNode(
             name: NameNode(value: 'body'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'bodyText'),
             alias: null,
             arguments: [],
             directives: [],
@@ -4969,928 +5968,6 @@ final GET_ISSUE_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ]))
-      ]))
-]);
-
-class GetIssueTimelineQuery
-    extends GraphQLQuery<GetIssueTimeline$Query, GetIssueTimelineArguments> {
-  GetIssueTimelineQuery({required this.variables});
-
-  @override
-  final DocumentNode document = GET_ISSUE_TIMELINE_QUERY_DOCUMENT;
-
-  @override
-  final String operationName = 'getIssueTimeline';
-
-  @override
-  final GetIssueTimelineArguments variables;
-
-  @override
-  List<Object?> get props => [document, operationName, variables];
-  @override
-  GetIssueTimeline$Query parse(Map<String, dynamic> json) =>
-      GetIssueTimeline$Query.fromJson(json);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetPullTimelineArguments extends JsonSerializable with EquatableMixin {
-  GetPullTimelineArguments(
-      {required this.repoName,
-      required this.owner,
-      required this.number,
-      this.after,
-      this.since});
-
-  @override
-  factory GetPullTimelineArguments.fromJson(Map<String, dynamic> json) =>
-      _$GetPullTimelineArgumentsFromJson(json);
-
-  late String repoName;
-
-  late String owner;
-
-  late int number;
-
-  final String? after;
-
-  final DateTime? since;
-
-  @override
-  List<Object?> get props => [repoName, owner, number, after, since];
-  @override
-  Map<String, dynamic> toJson() => _$GetPullTimelineArgumentsToJson(this);
-}
-
-final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
-  OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'getPullTimeline'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'repoName')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'owner')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'number')),
-            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'after')),
-            type: NamedTypeNode(
-                name: NameNode(value: 'String'), isNonNull: false),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'since')),
-            type: NamedTypeNode(
-                name: NameNode(value: 'DateTime'), isNonNull: false),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'name'),
-                  value: VariableNode(name: NameNode(value: 'repoName'))),
-              ArgumentNode(
-                  name: NameNode(value: 'owner'),
-                  value: VariableNode(name: NameNode(value: 'owner')))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'pullRequest'),
-                  alias: null,
-                  arguments: [
-                    ArgumentNode(
-                        name: NameNode(value: 'number'),
-                        value: VariableNode(name: NameNode(value: 'number')))
-                  ],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'timelineItems'),
-                        alias: null,
-                        arguments: [
-                          ArgumentNode(
-                              name: NameNode(value: 'first'),
-                              value: IntValueNode(value: '20')),
-                          ArgumentNode(
-                              name: NameNode(value: 'after'),
-                              value:
-                                  VariableNode(name: NameNode(value: 'after'))),
-                          ArgumentNode(
-                              name: NameNode(value: 'since'),
-                              value:
-                                  VariableNode(name: NameNode(value: 'since'))),
-                          ArgumentNode(
-                              name: NameNode(value: 'itemTypes'),
-                              value: ListValueNode(values: [
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'ADDED_TO_PROJECT_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'ASSIGNED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'BASE_REF_CHANGED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'BASE_REF_DELETED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'BASE_REF_FORCE_PUSHED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'CLOSED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'CONVERT_TO_DRAFT_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'CROSS_REFERENCED_EVENT')),
-                                EnumValueNode(
-                                    name:
-                                        NameNode(value: 'DEMILESTONED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'HEAD_REF_DELETED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'HEAD_REF_FORCE_PUSHED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'HEAD_REF_RESTORED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'ISSUE_COMMENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'LABELED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'LOCKED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'MARKED_AS_DUPLICATE_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'MERGED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'MILESTONED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value:
-                                            'MOVED_COLUMNS_IN_PROJECT_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'PINNED_EVENT')),
-                                EnumValueNode(
-                                    name:
-                                        NameNode(value: 'PULL_REQUEST_COMMIT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value:
-                                            'PULL_REQUEST_COMMIT_COMMENT_THREAD')),
-                                EnumValueNode(
-                                    name:
-                                        NameNode(value: 'PULL_REQUEST_REVIEW')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'PULL_REQUEST_REVIEW_THREAD')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'READY_FOR_REVIEW_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'REMOVED_FROM_PROJECT_EVENT')),
-                                EnumValueNode(
-                                    name:
-                                        NameNode(value: 'RENAMED_TITLE_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'REOPENED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'REVIEW_DISMISSED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'REVIEW_REQUESTED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'REVIEW_REQUEST_REMOVED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNASSIGNED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNLABELED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNLOCKED_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(
-                                        value: 'UNMARKED_AS_DUPLICATE_EVENT')),
-                                EnumValueNode(
-                                    name: NameNode(value: 'UNPINNED_EVENT'))
-                              ]))
-                        ],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FieldNode(
-                              name: NameNode(value: 'edges'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(selections: [
-                                FieldNode(
-                                    name: NameNode(value: 'node'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: SelectionSetNode(selections: [
-                                      FieldNode(
-                                          name: NameNode(value: '__typename'),
-                                          alias: null,
-                                          arguments: [],
-                                          directives: [],
-                                          selectionSet: null),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'AddedToProjectEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'addedToProject'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'AssignedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'assigned'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'BaseRefChangedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'baseRefChanged'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'BaseRefDeletedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'baseRefDeleted'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'BaseRefForcePushedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value:
-                                                            'baseRefForcePushed'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'ClosedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'closed'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'ConvertToDraftEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'convertedToDraft'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'CrossReferencedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'crossReference'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'DemilestonedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'deMileStoned'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'HeadRefDeletedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'headRefDeleted'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'HeadRefForcePushedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value:
-                                                            'headRefForcePushed'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'HeadRefRestoredEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'headRefRestored'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'IssueComment'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'issueComment'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'LabeledEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'labeled'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'LockedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'locked'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'MarkedAsDuplicateEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'markedAsDuplicate'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'MergedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'merged'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'MilestonedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'mileStoned'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'MovedColumnsInProjectEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value:
-                                                        'movedColumnsInProject'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'PinnedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(value: 'pinned'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'PullRequestCommit'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'pullRequestCommit'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'PullRequestCommitCommentThread'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null)
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'PullRequestReview'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'pullRequestReview'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'PullRequestReviewThread'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FieldNode(
-                                                name: NameNode(value: 'id'),
-                                                alias: null,
-                                                arguments: [],
-                                                directives: [],
-                                                selectionSet: null)
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'ReadyForReviewEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'readyForReview'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'RemovedFromProjectEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value:
-                                                            'removedFromProject'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'RenamedTitleEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'renamedTitle'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'ReopenedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'reopened'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'ReviewDismissedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'reviewDismissed'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'ReviewRequestedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name: NameNode(
-                                                    value: 'reviewRequested'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnassignedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'unassigned'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnlabeledEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value: 'unlabeled'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnlockedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'unlocked'),
-                                                directives: [])
-                                          ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value:
-                                                          'UnmarkedAsDuplicateEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet: SelectionSetNode(
-                                              selections: [
-                                                FragmentSpreadNode(
-                                                    name: NameNode(
-                                                        value:
-                                                            'unmarkedAsDuplicate'),
-                                                    directives: [])
-                                              ])),
-                                      InlineFragmentNode(
-                                          typeCondition: TypeConditionNode(
-                                              on: NamedTypeNode(
-                                                  name: NameNode(
-                                                      value: 'UnpinnedEvent'),
-                                                  isNonNull: false)),
-                                          directives: [],
-                                          selectionSet:
-                                              SelectionSetNode(selections: [
-                                            FragmentSpreadNode(
-                                                name:
-                                                    NameNode(value: 'unpinned'),
-                                                directives: [])
-                                          ]))
-                                    ])),
-                                FieldNode(
-                                    name: NameNode(value: 'cursor'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null)
-                              ]))
-                        ]))
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'addedToProject'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'AddedToProjectEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'projectColumnName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'project'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'assigned'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'AssignedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'assignee'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'User'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Bot'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Mannequin'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Organization'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ]))
-            ]))
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'baseRefChanged'),
@@ -5996,34 +6073,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'closed'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ClosedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'convertedToDraft'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -6050,195 +6099,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'crossReference'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'CrossReferencedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'source'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Issue'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'issue'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PullRequest'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'pullRequest'), directives: [])
-                  ]))
-            ])),
-        FieldNode(
-            name: NameNode(value: 'isCrossRepository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'issue'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'title'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: NameNode(value: 'issueState'),
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'pullRequest'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PullRequest'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'title'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: NameNode(value: 'pullState'),
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'deMileStoned'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'DemilestonedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'milestoneTitle'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'headRefDeleted'),
@@ -6332,305 +6192,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'issueComment'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'IssueComment'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'author'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'avatarUrl'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'login'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'authorAssociation'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'body'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'bodyText'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'bodyHTML'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'lastEditedAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'isMinimized'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'minimizedReason'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactionGroups'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'content'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'viewerHasReacted'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'users'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'totalCount'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ])),
-        FieldNode(
-            name: NameNode(value: 'viewerCanMinimize'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanDelete'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanUpdate'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerDidAuthor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCannotUpdateReasons'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanReact'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'labeled'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'LabeledEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'label'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'label'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'color'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'locked'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'LockedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'lockReason'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'markedAsDuplicate'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'MarkedAsDuplicateEvent'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'canonical'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Issue'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'issue'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PullRequest'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'pullRequest'), directives: [])
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'merged'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -6665,122 +6226,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'mileStoned'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'MilestonedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'milestoneTitle'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'movedColumnsInProject'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'MovedColumnsInProjectEvent'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'previousProjectColumnName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'projectColumnName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'project'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'pinned'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PinnedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'pullRequestCommit'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -6799,67 +6244,78 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'commit'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'commit'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Commit'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'additions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'authoredDate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'oid'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'message'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'commitUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'messageHeadline'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'additions'),
+                  name: NameNode(value: 'avatarUrl'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null),
               FieldNode(
-                  name: NameNode(value: 'authoredDate'),
+                  name: NameNode(value: 'name'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null),
               FieldNode(
-                  name: NameNode(value: 'message'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'messageHeadline'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'author'),
+                  name: NameNode(value: 'user'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'avatarUrl'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'user'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FieldNode(
-                              name: NameNode(value: 'avatarUrl'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null),
-                          FieldNode(
-                              name: NameNode(value: 'login'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null)
-                        ]))
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'actor'), directives: [])
                   ]))
             ]))
       ])),
@@ -6920,122 +6376,6 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
               name: NameNode(value: 'ReadyForReviewEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'removedFromProject'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'RemovedFromProjectEvent'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'project'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'projectColumnName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'renamedTitle'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'RenamedTitleEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'previousTitle'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'currentTitle'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reopened'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReopenedEvent'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
@@ -7150,18 +6490,8 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                           name: NameNode(value: 'User'), isNonNull: false)),
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'login'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'avatarUrl'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'actor'), directives: [])
                   ])),
               InlineFragmentNode(
                   typeCondition: TypeConditionNode(
@@ -7169,241 +6499,31 @@ final GET_PULL_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                           name: NameNode(value: 'Team'), isNonNull: false)),
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'avatarUrl'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'unassigned'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'UnassignedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'assignee'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'User'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Bot'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Mannequin'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Organization'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
                     FragmentSpreadNode(
                         name: NameNode(value: 'actor'), directives: [])
                   ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'unlabeled'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'UnlabeledEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'label'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'unlocked'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'UnlockedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'unmarkedAsDuplicate'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'UnmarkedAsDuplicateEvent'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'unpinned'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'UnpinnedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ]))
       ]))
 ]);
 
-class GetPullTimelineQuery
-    extends GraphQLQuery<GetPullTimeline$Query, GetPullTimelineArguments> {
-  GetPullTimelineQuery({required this.variables});
+class GetTimelineQuery
+    extends GraphQLQuery<GetTimeline$Query, GetTimelineArguments> {
+  GetTimelineQuery({required this.variables});
 
   @override
-  final DocumentNode document = GET_PULL_TIMELINE_QUERY_DOCUMENT;
+  final DocumentNode document = GET_TIMELINE_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getPullTimeline';
+  final String operationName = 'getTimeline';
 
   @override
-  final GetPullTimelineArguments variables;
+  final GetTimelineArguments variables;
 
   @override
   List<Object?> get props => [document, operationName, variables];
   @override
-  GetPullTimeline$Query parse(Map<String, dynamic> json) =>
-      GetPullTimeline$Query.fromJson(json);
+  GetTimeline$Query parse(Map<String, dynamic> json) =>
+      GetTimeline$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

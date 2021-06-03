@@ -7,10 +7,73 @@ part of 'graphql.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
+FetchReview$Query$Node$PullRequestReviewComment$Author
+    _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent()
+  return FetchReview$Query$Node$PullRequestReviewComment$Author()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic>
+    _$FetchReview$Query$Node$PullRequestReviewComment$AuthorToJson(
+            FetchReview$Query$Node$PullRequestReviewComment$Author instance) =>
+        <String, dynamic>{
+          'avatarUrl': instance.avatarUrl.toString(),
+          'login': instance.login,
+        };
+
+FetchReview$Query$Node$PullRequestReviewComment
+    _$FetchReview$Query$Node$PullRequestReviewCommentFromJson(
+        Map<String, dynamic> json) {
+  return FetchReview$Query$Node$PullRequestReviewComment()
+    ..$$typename = json['__typename'] as String?
+    ..bodyHTML = json['bodyHTML'] as String
+    ..author = json['author'] == null
+        ? null
+        : FetchReview$Query$Node$PullRequestReviewComment$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
+    ..diffHunk = json['diffHunk'] as String
+    ..path = json['path'] as String;
+}
+
+Map<String, dynamic> _$FetchReview$Query$Node$PullRequestReviewCommentToJson(
+        FetchReview$Query$Node$PullRequestReviewComment instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'bodyHTML': instance.bodyHTML,
+      'author': instance.author?.toJson(),
+      'diffHunk': instance.diffHunk,
+      'path': instance.path,
+    };
+
+FetchReview$Query$Node _$FetchReview$Query$NodeFromJson(
+    Map<String, dynamic> json) {
+  return FetchReview$Query$Node()..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$FetchReview$Query$NodeToJson(
+        FetchReview$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+FetchReview$Query _$FetchReview$QueryFromJson(Map<String, dynamic> json) {
+  return FetchReview$Query()
+    ..node = json['node'] == null
+        ? null
+        : FetchReview$Query$Node.fromJson(json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$FetchReview$QueryToJson(FetchReview$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -26,8 +89,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectE
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -38,10 +101,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -55,8 +118,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$AssignedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -66,10 +129,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -79,8 +142,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ClosedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -89,10 +152,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -106,8 +169,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferenced
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -118,10 +181,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -133,8 +196,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEve
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$DemilestonedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -144,10 +207,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueCommentFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueCommentFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..author = json['author'] == null
@@ -158,7 +221,6 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
         _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
         unknownValue: CommentAuthorAssociation.artemisUnknown)
     ..body = json['body'] as String
-    ..bodyText = json['bodyText'] as String
     ..bodyHTML = json['bodyHTML'] as String
     ..lastEditedAt = json['lastEditedAt'] == null
         ? null
@@ -183,8 +245,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueCommentToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$IssueComment
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueCommentToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueComment
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -193,7 +255,6 @@ Map<String, dynamic>
           'authorAssociation':
               _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
           'body': instance.body,
-          'bodyText': instance.bodyText,
           'bodyHTML': instance.bodyHTML,
           'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
           'isMinimized': instance.isMinimized,
@@ -260,10 +321,10 @@ const _$CommentCannotUpdateReasonEnumMap = {
   CommentCannotUpdateReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -274,8 +335,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LabeledEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -285,10 +346,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -300,8 +361,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$LockedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -330,10 +391,10 @@ const _$LockReasonEnumMap = {
   LockReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -348,8 +409,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplica
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -359,10 +420,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -373,8 +434,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MilestonedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -384,10 +445,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -404,8 +465,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInP
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -417,10 +478,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -430,8 +491,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$PinnedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -440,10 +501,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -459,8 +520,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProj
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -471,10 +532,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -487,8 +548,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEve
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -499,10 +560,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -512,8 +573,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$ReopenedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -522,10 +583,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -539,8 +600,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnassignedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -550,10 +611,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -565,8 +626,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlabeledEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -576,10 +637,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -589,8 +650,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnlockedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -599,10 +660,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -613,8 +674,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDupli
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -623,10 +684,10 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEventFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEventFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
     ..actor = json['actor'] == null
@@ -636,8 +697,8 @@ GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEventToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node$UnpinnedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEvent
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
@@ -646,101 +707,1144 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$NodeFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$NodeFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node()
     ..$$typename = json['__typename'] as String?;
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$NodeToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$NodeToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
                 instance) =>
         <String, dynamic>{
           '__typename': instance.$$typename,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$EdgesFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$EdgesFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges()
     ..node = json['node'] == null
         ? null
-        : GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges$Node
+        : GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node
             .fromJson(json['node'] as Map<String, dynamic>)
     ..cursor = json['cursor'] as String;
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItems$EdgesToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$EdgesToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges
                 instance) =>
         <String, dynamic>{
           'node': instance.node?.toJson(),
           'cursor': instance.cursor,
         };
 
-GetIssueTimeline$Query$Repository$Issue$TimelineItems
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItemsFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItemsFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue$TimelineItems()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems()
     ..edges = (json['edges'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
-            : GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges
+            : GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges
                 .fromJson(e as Map<String, dynamic>))
         .toList();
 }
 
 Map<String, dynamic>
-    _$GetIssueTimeline$Query$Repository$Issue$TimelineItemsToJson(
-            GetIssueTimeline$Query$Repository$Issue$TimelineItems instance) =>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItemsToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
+                instance) =>
         <String, dynamic>{
           'edges': instance.edges?.map((e) => e?.toJson()).toList(),
         };
 
-GetIssueTimeline$Query$Repository$Issue
-    _$GetIssueTimeline$Query$Repository$IssueFromJson(
+GetTimeline$Query$Repository$IssueOrPullRequest$Issue
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$IssueFromJson(
         Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository$Issue()
+  return GetTimeline$Query$Repository$IssueOrPullRequest$Issue()
+    ..$$typename = json['__typename'] as String?
     ..timelineItems =
-        GetIssueTimeline$Query$Repository$Issue$TimelineItems.fromJson(
-            json['timelineItems'] as Map<String, dynamic>);
+        GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
+            .fromJson(json['timelineItems'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$GetIssueTimeline$Query$Repository$IssueToJson(
-        GetIssueTimeline$Query$Repository$Issue instance) =>
-    <String, dynamic>{
-      'timelineItems': instance.timelineItems.toJson(),
-    };
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$IssueToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$Issue instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'timelineItems': instance.timelineItems.toJson(),
+        };
 
-GetIssueTimeline$Query$Repository _$GetIssueTimeline$Query$RepositoryFromJson(
-    Map<String, dynamic> json) {
-  return GetIssueTimeline$Query$Repository()
-    ..issue = json['issue'] == null
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
         ? null
-        : GetIssueTimeline$Query$Repository$Issue.fromJson(
-            json['issue'] as Map<String, dynamic>);
+        : AddedToProjectMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..projectColumnName = json['projectColumnName'] as String
+    ..project = json['project'] == null
+        ? null
+        : AddedToProjectMixin$Project.fromJson(
+            json['project'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
 }
 
-Map<String, dynamic> _$GetIssueTimeline$Query$RepositoryToJson(
-        GetIssueTimeline$Query$Repository instance) =>
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'projectColumnName': instance.projectColumnName,
+          'project': instance.project?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : AssignedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..assignee = json['assignee'] == null
+        ? null
+        : AssignedMixin$Assignee.fromJson(
+            json['assignee'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'assignee': instance.assignee?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : BaseRefChangedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..currentRefName = json['currentRefName'] as String
+    ..previousRefName = json['previousRefName'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'currentRefName': instance.currentRefName,
+          'previousRefName': instance.previousRefName,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : BaseRefDeletedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..baseRefName = json['baseRefName'] as String?
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'baseRefName': instance.baseRefName,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : BaseRefForcePushedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : ClosedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : ConvertedToDraftMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : CrossReferenceMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..source = CrossReferenceMixin$Source.fromJson(
+        json['source'] as Map<String, dynamic>)
+    ..isCrossRepository = json['isCrossRepository'] as bool
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'source': instance.source.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : DeMileStonedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..milestoneTitle = json['milestoneTitle'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'milestoneTitle': instance.milestoneTitle,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : HeadRefDeletedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..headRefName = json['headRefName'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'headRefName': instance.headRefName,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : HeadRefForcePushedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : HeadRefRestoredMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueCommentFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..author = json['author'] == null
+        ? null
+        : IssueCommentMixin$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
+    ..authorAssociation = _$enumDecode(
+        _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+        unknownValue: CommentAuthorAssociation.artemisUnknown)
+    ..body = json['body'] as String
+    ..bodyHTML = json['bodyHTML'] as String
+    ..lastEditedAt = json['lastEditedAt'] == null
+        ? null
+        : DateTime.parse(json['lastEditedAt'] as String)
+    ..isMinimized = json['isMinimized'] as bool
+    ..minimizedReason = json['minimizedReason'] as String?
+    ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+        ?.map((e) => IssueCommentMixin$ReactionGroups.fromJson(
+            e as Map<String, dynamic>))
+        .toList()
+    ..viewerCanMinimize = json['viewerCanMinimize'] as bool
+    ..viewerCanDelete = json['viewerCanDelete'] as bool
+    ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+    ..viewerDidAuthor = json['viewerDidAuthor'] as bool
+    ..viewerCannotUpdateReasons =
+        (json['viewerCannotUpdateReasons'] as List<dynamic>)
+            .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                unknownValue: CommentCannotUpdateReason.artemisUnknown))
+            .toList()
+    ..viewerCanReact = json['viewerCanReact'] as bool
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueCommentToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueComment
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'author': instance.author?.toJson(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'body': instance.body,
+          'bodyHTML': instance.bodyHTML,
+          'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
+          'isMinimized': instance.isMinimized,
+          'minimizedReason': instance.minimizedReason,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'viewerCanMinimize': instance.viewerCanMinimize,
+          'viewerCanDelete': instance.viewerCanDelete,
+          'viewerCanUpdate': instance.viewerCanUpdate,
+          'viewerDidAuthor': instance.viewerDidAuthor,
+          'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
+              .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
+              .toList(),
+          'viewerCanReact': instance.viewerCanReact,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : LabeledMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..label = LabeledMixin$Label.fromJson(json['label'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'label': instance.label.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : LockedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..lockReason = _$enumDecodeNullable(_$LockReasonEnumMap, json['lockReason'],
+        unknownValue: LockReason.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'lockReason': _$LockReasonEnumMap[instance.lockReason],
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : MarkedAsDuplicateMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..canonical = json['canonical'] == null
+        ? null
+        : MarkedAsDuplicateMixin$Canonical.fromJson(
+            json['canonical'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'canonical': instance.canonical?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : MergedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..mergeRefName = json['mergeRefName'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'mergeRefName': instance.mergeRefName,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : MileStonedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..milestoneTitle = json['milestoneTitle'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'milestoneTitle': instance.milestoneTitle,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : MovedColumnsInProjectMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..previousProjectColumnName = json['previousProjectColumnName'] as String
+    ..projectColumnName = json['projectColumnName'] as String
+    ..project = json['project'] == null
+        ? null
+        : MovedColumnsInProjectMixin$Project.fromJson(
+            json['project'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'previousProjectColumnName': instance.previousProjectColumnName,
+          'projectColumnName': instance.projectColumnName,
+          'project': instance.project?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : PinnedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit()
+    ..id = json['id'] as String
+    ..commit = PullRequestCommitMixin$Commit.fromJson(
+        json['commit'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'commit': instance.commit.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread()
+    ..$$typename = json['__typename'] as String?
+    ..id = json['id'] as String;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'id': instance.id,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..author = json['author'] == null
+        ? null
+        : PullRequestReviewMixin$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
+    ..authorAssociation = _$enumDecode(
+        _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+        unknownValue: CommentAuthorAssociation.artemisUnknown)
+    ..body = json['body'] as String
+    ..bodyHTML = json['bodyHTML'] as String
+    ..bodyText = json['bodyText'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'author': instance.author?.toJson(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'body': instance.body,
+          'bodyHTML': instance.bodyHTML,
+          'bodyText': instance.bodyText,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread()
+    ..$$typename = json['__typename'] as String?
+    ..id = json['id'] as String;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'id': instance.id,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : ReadyForReviewMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : RemovedFromProjectMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..project = json['project'] == null
+        ? null
+        : RemovedFromProjectMixin$Project.fromJson(
+            json['project'] as Map<String, dynamic>)
+    ..projectColumnName = json['projectColumnName'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'project': instance.project?.toJson(),
+          'projectColumnName': instance.projectColumnName,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : RenamedTitleMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..previousTitle = json['previousTitle'] as String
+    ..currentTitle = json['currentTitle'] as String
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'previousTitle': instance.previousTitle,
+          'currentTitle': instance.currentTitle,
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : ReopenedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : ReviewDismissedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..dismissalMessage = json['dismissalMessage'] as String?
+    ..dismissalMessageHTML = json['dismissalMessageHTML'] as String?
+    ..previousReviewState = _$enumDecode(
+        _$PullRequestReviewStateEnumMap, json['previousReviewState'],
+        unknownValue: PullRequestReviewState.artemisUnknown)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'dismissalMessage': instance.dismissalMessage,
+          'dismissalMessageHTML': instance.dismissalMessageHTML,
+          'previousReviewState':
+              _$PullRequestReviewStateEnumMap[instance.previousReviewState],
+          '__typename': instance.$$typename,
+        };
+
+const _$PullRequestReviewStateEnumMap = {
+  PullRequestReviewState.approved: 'APPROVED',
+  PullRequestReviewState.changesRequested: 'CHANGES_REQUESTED',
+  PullRequestReviewState.commented: 'COMMENTED',
+  PullRequestReviewState.dismissed: 'DISMISSED',
+  PullRequestReviewState.pending: 'PENDING',
+  PullRequestReviewState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : ReviewRequestedMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..requestedReviewer = json['requestedReviewer'] == null
+        ? null
+        : ReviewRequestedMixin$RequestedReviewer.fromJson(
+            json['requestedReviewer'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'requestedReviewer': instance.requestedReviewer?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : UnassignedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..assignee = json['assignee'] == null
+        ? null
+        : UnassignedMixin$Assignee.fromJson(
+            json['assignee'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'assignee': instance.assignee?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : UnlabeledMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..label =
+        UnlabeledMixin$Label.fromJson(json['label'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          'label': instance.label.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : UnlockedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : UnmarkedAsDuplicateMixin$Actor.fromJson(
+            json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEventFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent()
+    ..id = json['id'] as String
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..actor = json['actor'] == null
+        ? null
+        : UnpinnedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEventToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'createdAt': instance.createdAt.toIso8601String(),
+          'actor': instance.actor?.toJson(),
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$NodeFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$NodeToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$EdgesFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges()
+    ..node = json['node'] == null
+        ? null
+        : GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node
+            .fromJson(json['node'] as Map<String, dynamic>)
+    ..cursor = json['cursor'] as String;
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$EdgesToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges
+                instance) =>
+        <String, dynamic>{
+          'node': instance.node?.toJson(),
+          'cursor': instance.cursor,
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItemsFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems()
+    ..edges = (json['edges'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges
+                .fromJson(e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItemsToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
+                instance) =>
+        <String, dynamic>{
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequestFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest()
+    ..$$typename = json['__typename'] as String?
+    ..timelineItems =
+        GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
+            .fromJson(json['timelineItems'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequestToJson(
+            GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'timelineItems': instance.timelineItems.toJson(),
+        };
+
+GetTimeline$Query$Repository$IssueOrPullRequest
+    _$GetTimeline$Query$Repository$IssueOrPullRequestFromJson(
+        Map<String, dynamic> json) {
+  return GetTimeline$Query$Repository$IssueOrPullRequest()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$GetTimeline$Query$Repository$IssueOrPullRequestToJson(
+        GetTimeline$Query$Repository$IssueOrPullRequest instance) =>
     <String, dynamic>{
-      'issue': instance.issue?.toJson(),
+      '__typename': instance.$$typename,
     };
 
-GetIssueTimeline$Query _$GetIssueTimeline$QueryFromJson(
+GetTimeline$Query$Repository _$GetTimeline$Query$RepositoryFromJson(
     Map<String, dynamic> json) {
-  return GetIssueTimeline$Query()
+  return GetTimeline$Query$Repository()
+    ..issueOrPullRequest = json['issueOrPullRequest'] == null
+        ? null
+        : GetTimeline$Query$Repository$IssueOrPullRequest.fromJson(
+            json['issueOrPullRequest'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetTimeline$Query$RepositoryToJson(
+        GetTimeline$Query$Repository instance) =>
+    <String, dynamic>{
+      'issueOrPullRequest': instance.issueOrPullRequest?.toJson(),
+    };
+
+GetTimeline$Query _$GetTimeline$QueryFromJson(Map<String, dynamic> json) {
+  return GetTimeline$Query()
     ..repository = json['repository'] == null
         ? null
-        : GetIssueTimeline$Query$Repository.fromJson(
+        : GetTimeline$Query$Repository.fromJson(
             json['repository'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$GetIssueTimeline$QueryToJson(
-        GetIssueTimeline$Query instance) =>
+Map<String, dynamic> _$GetTimeline$QueryToJson(GetTimeline$Query instance) =>
     <String, dynamic>{
       'repository': instance.repository?.toJson(),
     };
@@ -1421,1061 +2525,6 @@ Map<String, dynamic> _$UnpinnedMixin$ActorToJson(
       'login': instance.login,
     };
 
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : AddedToProjectMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..projectColumnName = json['projectColumnName'] as String
-    ..project = json['project'] == null
-        ? null
-        : AddedToProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AddedToProjectEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : AssignedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..assignee = json['assignee'] == null
-        ? null
-        : AssignedMixin$Assignee.fromJson(
-            json['assignee'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$AssignedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'assignee': instance.assignee?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : BaseRefChangedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..currentRefName = json['currentRefName'] as String
-    ..previousRefName = json['previousRefName'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'currentRefName': instance.currentRefName,
-          'previousRefName': instance.previousRefName,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : BaseRefDeletedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..baseRefName = json['baseRefName'] as String?
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'baseRefName': instance.baseRefName,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : BaseRefForcePushedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : ClosedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ClosedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : ConvertedToDraftMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : CrossReferenceMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..source = CrossReferenceMixin$Source.fromJson(
-        json['source'] as Map<String, dynamic>)
-    ..isCrossRepository = json['isCrossRepository'] as bool
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$CrossReferencedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'source': instance.source.toJson(),
-          'isCrossRepository': instance.isCrossRepository,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : DeMileStonedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..milestoneTitle = json['milestoneTitle'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$DemilestonedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'milestoneTitle': instance.milestoneTitle,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : HeadRefDeletedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..headRefName = json['headRefName'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'headRefName': instance.headRefName,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : HeadRefForcePushedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : HeadRefRestoredMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueCommentFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..author = json['author'] == null
-        ? null
-        : IssueCommentMixin$Author.fromJson(
-            json['author'] as Map<String, dynamic>)
-    ..authorAssociation = _$enumDecode(
-        _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-        unknownValue: CommentAuthorAssociation.artemisUnknown)
-    ..body = json['body'] as String
-    ..bodyText = json['bodyText'] as String
-    ..bodyHTML = json['bodyHTML'] as String
-    ..lastEditedAt = json['lastEditedAt'] == null
-        ? null
-        : DateTime.parse(json['lastEditedAt'] as String)
-    ..isMinimized = json['isMinimized'] as bool
-    ..minimizedReason = json['minimizedReason'] as String?
-    ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-        ?.map((e) => IssueCommentMixin$ReactionGroups.fromJson(
-            e as Map<String, dynamic>))
-        .toList()
-    ..viewerCanMinimize = json['viewerCanMinimize'] as bool
-    ..viewerCanDelete = json['viewerCanDelete'] as bool
-    ..viewerCanUpdate = json['viewerCanUpdate'] as bool
-    ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-    ..viewerCannotUpdateReasons =
-        (json['viewerCannotUpdateReasons'] as List<dynamic>)
-            .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                unknownValue: CommentCannotUpdateReason.artemisUnknown))
-            .toList()
-    ..viewerCanReact = json['viewerCanReact'] as bool
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueCommentToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$IssueComment
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'author': instance.author?.toJson(),
-          'authorAssociation':
-              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
-          'body': instance.body,
-          'bodyText': instance.bodyText,
-          'bodyHTML': instance.bodyHTML,
-          'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
-          'isMinimized': instance.isMinimized,
-          'minimizedReason': instance.minimizedReason,
-          'reactionGroups':
-              instance.reactionGroups?.map((e) => e.toJson()).toList(),
-          'viewerCanMinimize': instance.viewerCanMinimize,
-          'viewerCanDelete': instance.viewerCanDelete,
-          'viewerCanUpdate': instance.viewerCanUpdate,
-          'viewerDidAuthor': instance.viewerDidAuthor,
-          'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
-              .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
-              .toList(),
-          'viewerCanReact': instance.viewerCanReact,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : LabeledMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..label = LabeledMixin$Label.fromJson(json['label'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LabeledEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'label': instance.label.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : LockedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..lockReason = _$enumDecodeNullable(_$LockReasonEnumMap, json['lockReason'],
-        unknownValue: LockReason.artemisUnknown)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$LockedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'lockReason': _$LockReasonEnumMap[instance.lockReason],
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : MarkedAsDuplicateMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..canonical = json['canonical'] == null
-        ? null
-        : MarkedAsDuplicateMixin$Canonical.fromJson(
-            json['canonical'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'canonical': instance.canonical?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : MergedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..mergeRefName = json['mergeRefName'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MergedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'mergeRefName': instance.mergeRefName,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : MileStonedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..milestoneTitle = json['milestoneTitle'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MilestonedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'milestoneTitle': instance.milestoneTitle,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : MovedColumnsInProjectMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..previousProjectColumnName = json['previousProjectColumnName'] as String
-    ..projectColumnName = json['projectColumnName'] as String
-    ..project = json['project'] == null
-        ? null
-        : MovedColumnsInProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'previousProjectColumnName': instance.previousProjectColumnName,
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : PinnedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PinnedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit()
-    ..id = json['id'] as String
-    ..commit = PullRequestCommitMixin$Commit.fromJson(
-        json['commit'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommit
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'commit': instance.commit.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread()
-    ..$$typename = json['__typename'] as String?
-    ..id = json['id'] as String;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThread
-                instance) =>
-        <String, dynamic>{
-          '__typename': instance.$$typename,
-          'id': instance.id,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..author = json['author'] == null
-        ? null
-        : PullRequestReviewMixin$Author.fromJson(
-            json['author'] as Map<String, dynamic>)
-    ..authorAssociation = _$enumDecode(
-        _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-        unknownValue: CommentAuthorAssociation.artemisUnknown)
-    ..body = json['body'] as String
-    ..bodyHTML = json['bodyHTML'] as String
-    ..bodyText = json['bodyText'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReview
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'author': instance.author?.toJson(),
-          'authorAssociation':
-              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
-          'body': instance.body,
-          'bodyHTML': instance.bodyHTML,
-          'bodyText': instance.bodyText,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread()
-    ..$$typename = json['__typename'] as String?
-    ..id = json['id'] as String;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThread
-                instance) =>
-        <String, dynamic>{
-          '__typename': instance.$$typename,
-          'id': instance.id,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : ReadyForReviewMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : RemovedFromProjectMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..project = json['project'] == null
-        ? null
-        : RemovedFromProjectMixin$Project.fromJson(
-            json['project'] as Map<String, dynamic>)
-    ..projectColumnName = json['projectColumnName'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'project': instance.project?.toJson(),
-          'projectColumnName': instance.projectColumnName,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : RenamedTitleMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..previousTitle = json['previousTitle'] as String
-    ..currentTitle = json['currentTitle'] as String
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$RenamedTitleEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'previousTitle': instance.previousTitle,
-          'currentTitle': instance.currentTitle,
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : ReopenedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReopenedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : ReviewDismissedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..dismissalMessage = json['dismissalMessage'] as String?
-    ..dismissalMessageHTML = json['dismissalMessageHTML'] as String?
-    ..previousReviewState = _$enumDecode(
-        _$PullRequestReviewStateEnumMap, json['previousReviewState'],
-        unknownValue: PullRequestReviewState.artemisUnknown)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'dismissalMessage': instance.dismissalMessage,
-          'dismissalMessageHTML': instance.dismissalMessageHTML,
-          'previousReviewState':
-              _$PullRequestReviewStateEnumMap[instance.previousReviewState],
-          '__typename': instance.$$typename,
-        };
-
-const _$PullRequestReviewStateEnumMap = {
-  PullRequestReviewState.approved: 'APPROVED',
-  PullRequestReviewState.changesRequested: 'CHANGES_REQUESTED',
-  PullRequestReviewState.commented: 'COMMENTED',
-  PullRequestReviewState.dismissed: 'DISMISSED',
-  PullRequestReviewState.pending: 'PENDING',
-  PullRequestReviewState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : ReviewRequestedMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..requestedReviewer = json['requestedReviewer'] == null
-        ? null
-        : ReviewRequestedMixin$RequestedReviewer.fromJson(
-            json['requestedReviewer'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'requestedReviewer': instance.requestedReviewer?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : UnassignedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..assignee = json['assignee'] == null
-        ? null
-        : UnassignedMixin$Assignee.fromJson(
-            json['assignee'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnassignedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'assignee': instance.assignee?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : UnlabeledMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..label =
-        UnlabeledMixin$Label.fromJson(json['label'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlabeledEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          'label': instance.label.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : UnlockedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnlockedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : UnmarkedAsDuplicateMixin$Actor.fromJson(
-            json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEventFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent()
-    ..id = json['id'] as String
-    ..createdAt = DateTime.parse(json['createdAt'] as String)
-    ..actor = json['actor'] == null
-        ? null
-        : UnpinnedMixin$Actor.fromJson(json['actor'] as Map<String, dynamic>)
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEventToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node$UnpinnedEvent
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'createdAt': instance.createdAt.toIso8601String(),
-          'actor': instance.actor?.toJson(),
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$NodeFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node()
-    ..$$typename = json['__typename'] as String?;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$NodeToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-                instance) =>
-        <String, dynamic>{
-          '__typename': instance.$$typename,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$EdgesFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges()
-    ..node = json['node'] == null
-        ? null
-        : GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges$Node
-            .fromJson(json['node'] as Map<String, dynamic>)
-    ..cursor = json['cursor'] as String;
-}
-
-Map<String, dynamic>
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItems$EdgesToJson(
-            GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges
-                instance) =>
-        <String, dynamic>{
-          'node': instance.node?.toJson(),
-          'cursor': instance.cursor,
-        };
-
-GetPullTimeline$Query$Repository$PullRequest$TimelineItems
-    _$GetPullTimeline$Query$Repository$PullRequest$TimelineItemsFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest$TimelineItems()
-    ..edges = (json['edges'] as List<dynamic>?)
-        ?.map((e) => e == null
-            ? null
-            : GetPullTimeline$Query$Repository$PullRequest$TimelineItems$Edges
-                .fromJson(e as Map<String, dynamic>))
-        .toList();
-}
-
-Map<String,
-    dynamic> _$GetPullTimeline$Query$Repository$PullRequest$TimelineItemsToJson(
-        GetPullTimeline$Query$Repository$PullRequest$TimelineItems instance) =>
-    <String, dynamic>{
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-GetPullTimeline$Query$Repository$PullRequest
-    _$GetPullTimeline$Query$Repository$PullRequestFromJson(
-        Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository$PullRequest()
-    ..timelineItems =
-        GetPullTimeline$Query$Repository$PullRequest$TimelineItems.fromJson(
-            json['timelineItems'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$GetPullTimeline$Query$Repository$PullRequestToJson(
-        GetPullTimeline$Query$Repository$PullRequest instance) =>
-    <String, dynamic>{
-      'timelineItems': instance.timelineItems.toJson(),
-    };
-
-GetPullTimeline$Query$Repository _$GetPullTimeline$Query$RepositoryFromJson(
-    Map<String, dynamic> json) {
-  return GetPullTimeline$Query$Repository()
-    ..pullRequest = json['pullRequest'] == null
-        ? null
-        : GetPullTimeline$Query$Repository$PullRequest.fromJson(
-            json['pullRequest'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$GetPullTimeline$Query$RepositoryToJson(
-        GetPullTimeline$Query$Repository instance) =>
-    <String, dynamic>{
-      'pullRequest': instance.pullRequest?.toJson(),
-    };
-
-GetPullTimeline$Query _$GetPullTimeline$QueryFromJson(
-    Map<String, dynamic> json) {
-  return GetPullTimeline$Query()
-    ..repository = json['repository'] == null
-        ? null
-        : GetPullTimeline$Query$Repository.fromJson(
-            json['repository'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$GetPullTimeline$QueryToJson(
-        GetPullTimeline$Query instance) =>
-    <String, dynamic>{
-      'repository': instance.repository?.toJson(),
-    };
-
 BaseRefChangedMixin$Actor _$BaseRefChangedMixin$ActorFromJson(
     Map<String, dynamic> json) {
   return BaseRefChangedMixin$Actor()
@@ -2586,51 +2635,18 @@ Map<String, dynamic> _$MergedMixin$ActorToJson(MergedMixin$Actor instance) =>
       'login': instance.login,
     };
 
-PullRequestCommitMixin$Commit$Author$User
-    _$PullRequestCommitMixin$Commit$Author$UserFromJson(
-        Map<String, dynamic> json) {
-  return PullRequestCommitMixin$Commit$Author$User()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..login = json['login'] as String;
-}
-
-Map<String, dynamic> _$PullRequestCommitMixin$Commit$Author$UserToJson(
-        PullRequestCommitMixin$Commit$Author$User instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullRequestCommitMixin$Commit$Author
-    _$PullRequestCommitMixin$Commit$AuthorFromJson(Map<String, dynamic> json) {
-  return PullRequestCommitMixin$Commit$Author()
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-    ..name = json['name'] as String?
-    ..user = json['user'] == null
-        ? null
-        : PullRequestCommitMixin$Commit$Author$User.fromJson(
-            json['user'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$PullRequestCommitMixin$Commit$AuthorToJson(
-        PullRequestCommitMixin$Commit$Author instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'name': instance.name,
-      'user': instance.user?.toJson(),
-    };
-
 PullRequestCommitMixin$Commit _$PullRequestCommitMixin$CommitFromJson(
     Map<String, dynamic> json) {
   return PullRequestCommitMixin$Commit()
     ..additions = json['additions'] as int
     ..authoredDate = DateTime.parse(json['authoredDate'] as String)
+    ..oid = json['oid'] as String
     ..message = json['message'] as String
+    ..commitUrl = Uri.parse(json['commitUrl'] as String)
     ..messageHeadline = json['messageHeadline'] as String
     ..author = json['author'] == null
         ? null
-        : PullRequestCommitMixin$Commit$Author.fromJson(
-            json['author'] as Map<String, dynamic>);
+        : CommitMixin$Author.fromJson(json['author'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$PullRequestCommitMixin$CommitToJson(
@@ -2638,9 +2654,42 @@ Map<String, dynamic> _$PullRequestCommitMixin$CommitToJson(
     <String, dynamic>{
       'additions': instance.additions,
       'authoredDate': instance.authoredDate.toIso8601String(),
+      'oid': instance.oid,
       'message': instance.message,
+      'commitUrl': instance.commitUrl.toString(),
       'messageHeadline': instance.messageHeadline,
       'author': instance.author?.toJson(),
+    };
+
+CommitMixin$Author$User _$CommitMixin$Author$UserFromJson(
+    Map<String, dynamic> json) {
+  return CommitMixin$Author$User()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$CommitMixin$Author$UserToJson(
+        CommitMixin$Author$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+CommitMixin$Author _$CommitMixin$AuthorFromJson(Map<String, dynamic> json) {
+  return CommitMixin$Author()
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..name = json['name'] as String?
+    ..user = json['user'] == null
+        ? null
+        : CommitMixin$Author$User.fromJson(
+            json['user'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$CommitMixin$AuthorToJson(CommitMixin$Author instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'name': instance.name,
+      'user': instance.user?.toJson(),
     };
 
 PullRequestReviewMixin$Author _$PullRequestReviewMixin$AuthorFromJson(
@@ -2703,36 +2752,34 @@ ReviewRequestedMixin$RequestedReviewer$User
     _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(
         Map<String, dynamic> json) {
   return ReviewRequestedMixin$RequestedReviewer$User()
-    ..$$typename = json['__typename'] as String?
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
     ..login = json['login'] as String
-    ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
+    ..$$typename = json['__typename'] as String?;
 }
 
 Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$UserToJson(
         ReviewRequestedMixin$RequestedReviewer$User instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
-      'login': instance.login,
       'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
     };
 
 ReviewRequestedMixin$RequestedReviewer$Team
     _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(
         Map<String, dynamic> json) {
   return ReviewRequestedMixin$RequestedReviewer$Team()
-    ..$$typename = json['__typename'] as String?
-    ..avatarUrl = json['avatarUrl'] == null
-        ? null
-        : Uri.parse(json['avatarUrl'] as String)
-    ..name = json['name'] as String;
+    ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+    ..login = json['login'] as String
+    ..$$typename = json['__typename'] as String?;
 }
 
 Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(
         ReviewRequestedMixin$RequestedReviewer$Team instance) =>
     <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
       '__typename': instance.$$typename,
-      'avatarUrl': instance.avatarUrl?.toString(),
-      'name': instance.name,
     };
 
 ReviewRequestedMixin$RequestedReviewer
@@ -3050,31 +3097,20 @@ Map<String, dynamic> _$GetUserPinnedRepos$QueryToJson(
       'user': instance.user?.toJson(),
     };
 
-GetIssueTimelineArguments _$GetIssueTimelineArgumentsFromJson(
-    Map<String, dynamic> json) {
-  return GetIssueTimelineArguments(
-    repoName: json['repoName'] as String,
-    owner: json['owner'] as String,
-    number: json['number'] as int,
-    after: json['after'] as String?,
-    since:
-        json['since'] == null ? null : DateTime.parse(json['since'] as String),
+FetchReviewArguments _$FetchReviewArgumentsFromJson(Map<String, dynamic> json) {
+  return FetchReviewArguments(
+    id: json['id'] as String,
   );
 }
 
-Map<String, dynamic> _$GetIssueTimelineArgumentsToJson(
-        GetIssueTimelineArguments instance) =>
+Map<String, dynamic> _$FetchReviewArgumentsToJson(
+        FetchReviewArguments instance) =>
     <String, dynamic>{
-      'repoName': instance.repoName,
-      'owner': instance.owner,
-      'number': instance.number,
-      'after': instance.after,
-      'since': instance.since?.toIso8601String(),
+      'id': instance.id,
     };
 
-GetPullTimelineArguments _$GetPullTimelineArgumentsFromJson(
-    Map<String, dynamic> json) {
-  return GetPullTimelineArguments(
+GetTimelineArguments _$GetTimelineArgumentsFromJson(Map<String, dynamic> json) {
+  return GetTimelineArguments(
     repoName: json['repoName'] as String,
     owner: json['owner'] as String,
     number: json['number'] as int,
@@ -3084,8 +3120,8 @@ GetPullTimelineArguments _$GetPullTimelineArgumentsFromJson(
   );
 }
 
-Map<String, dynamic> _$GetPullTimelineArgumentsToJson(
-        GetPullTimelineArguments instance) =>
+Map<String, dynamic> _$GetTimelineArgumentsToJson(
+        GetTimelineArguments instance) =>
     <String, dynamic>{
       'repoName': instance.repoName,
       'owner': instance.owner,

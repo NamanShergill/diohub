@@ -108,27 +108,25 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<
-          List<GetIssueTimeline$Query$Repository$Issue$TimelineItems$Edges?>>
-      getIssueTimeline(
-          {required String repo,
-          required String owner,
-          required int number,
-          required bool refresh,
-          String? after,
-          DateTime? since}) async {
+  static Future<List<dynamic>> getTimeline(
+      {required String repo,
+      required String owner,
+      required int number,
+      required bool refresh,
+      String? after,
+      DateTime? since}) async {
     final response = await GetDio.gqlDio(
-        GetIssueTimelineQuery(
-            variables: GetIssueTimelineArguments(
+        GetTimelineQuery(
+            variables: GetTimelineArguments(
                 after: after,
                 owner: owner,
                 number: number,
                 repoName: repo,
                 since: since)),
         acceptHeader: 'application/vnd.github.starfox-preview+json');
-    return GetIssueTimeline$Query.fromJson(response.data!)
+    return (GetTimeline$Query.fromJson(response.data!) as dynamic)
         .repository!
-        .issue!
+        .issueOrPullRequest
         .timelineItems
         .edges!;
   }

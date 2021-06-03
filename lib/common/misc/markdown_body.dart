@@ -142,10 +142,10 @@ class _MarkdownBodyState extends State<MarkdownBody> {
     return SingleChildScrollView(
       child: Html(
         data: content,
-        onLinkTap: (String? url, RenderContext rContext,
-            Map<String, String> attributes, data) {
-          return linkHandler(context, url);
-        },
+        // onLinkTap: (String? url, RenderContext rContext,
+        //     Map<String, String> attributes, data) {
+        //   return linkHandler(context, url);
+        // },
         tagsList: Html.tags..add('g-emoji'),
         style: {
           'a': Style(textDecoration: TextDecoration.none),
@@ -155,6 +155,20 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           ),
         },
         customRender: {
+          'a': (RenderContext renderContext, Widget child) {
+            return GestureDetector(
+              onTap: () {
+                return linkHandler(
+                    context, renderContext.tree.attributes['href']);
+              },
+              onLongPress: () {
+                return linkHandler(
+                    context, renderContext.tree.attributes['href'],
+                    showSheetOnDeepLink: true);
+              },
+              child: child,
+            );
+          },
           'blockquote': (RenderContext context, Widget child) {
             return Container(
               padding: const EdgeInsets.only(left: 12),

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart' as _i2;
 
 import '../common/search_overlay/search_overlay.dart' as _i8;
 import '../controller/deep_linking_handler.dart' as _i18;
+import '../graphql/graphql.dart' as _i19;
 import '../view/authentication/auth_screen.dart' as _i4;
 import '../view/issues_pulls/issue_screen.dart' as _i9;
 import '../view/issues_pulls/pull_screen.dart' as _i10;
@@ -305,7 +306,7 @@ class SearchOverlayScreenRoute
   SearchOverlayScreenRoute(
       {required _i8.SearchData searchData,
       String? message,
-      String heroTag = '',
+      String heroTag = 'search_bar',
       required bool multiHero,
       required void Function(_i8.SearchData) onSubmit,
       _i2.Key? key})
@@ -326,7 +327,7 @@ class SearchOverlayScreenRouteArgs {
   const SearchOverlayScreenRouteArgs(
       {required this.searchData,
       this.message,
-      this.heroTag = '',
+      this.heroTag = 'search_bar',
       required this.multiHero,
       required this.onSubmit,
       this.key});
@@ -586,7 +587,7 @@ class OtherUserProfileScreenRouteArgs {
 class NewIssueScreenRoute extends _i1.PageRouteInfo<NewIssueScreenRouteArgs> {
   NewIssueScreenRoute(
       {_i2.Key? key,
-      dynamic template,
+      _i19.IssueTemplates$Query$Repository$IssueTemplates? template,
       required String repo,
       required String owner})
       : super(name,
@@ -603,7 +604,7 @@ class NewIssueScreenRouteArgs {
 
   final _i2.Key? key;
 
-  final dynamic template;
+  final _i19.IssueTemplates$Query$Repository$IssueTemplates? template;
 
   final String repo;
 

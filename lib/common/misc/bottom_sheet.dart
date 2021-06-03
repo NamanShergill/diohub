@@ -8,12 +8,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 void showBottomActionsMenu(BuildContext context,
     {String? headerText,
-    Widget? header,
+    StatefulWidgetBuilder? header,
     bool enableDrag = false,
     bool shrink = true,
     bool fullScreen = false,
     TextStyle? headerTextStyle,
-    required WidgetBuilder childWidget,
+    required StatefulWidgetBuilder childWidget,
     double titlePadding = 16.0}) {
   final _media = MediaQuery.of(context).size;
   showModalBottomSheet<void>(
@@ -23,54 +23,62 @@ void showBottomActionsMenu(BuildContext context,
         topLeft: Radius.circular(20),
       )),
       enableDrag: enableDrag,
+      // Notch obstructs sheet, https://github.com/flutter/flutter/issues/39205
       isScrollControlled: fullScreen,
       backgroundColor: AppColor.background,
       context: context,
-      builder: (context) => SafeArea(
-            child: Column(
-              mainAxisSize: shrink ? MainAxisSize.min : MainAxisSize.max,
-              children: [
-                const SizedBox(
-                  height: 4,
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: AppColor.grey,
-                          borderRadius: BorderRadius.circular(15)),
+      builder: (context) => StatefulBuilder(
+            builder: (context, setState) {
+              return SafeArea(
+                child: Column(
+                  mainAxisSize: shrink ? MainAxisSize.min : MainAxisSize.max,
+                  children: [
+                    const SizedBox(
                       height: 4,
-                      width: _media.width * 0.1,
-                    )),
-                Padding(
-                  padding: EdgeInsets.all(titlePadding),
-                  child: Center(
-                      child: header ??
-                          Text(
-                            headerText!,
-                            style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)
-                                .merge(headerTextStyle),
-                          )),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.grey,
+                              borderRadius: BorderRadius.circular(15)),
+                          height: 4,
+                          width: _media.width * 0.1,
+                        )),
+                    Padding(
+                      padding: EdgeInsets.all(titlePadding),
+                      child: Center(
+                          child: header != null
+                              ? header(context, setState)
+                              : Text(
+                                  headerText!,
+                                  style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)
+                                      .merge(headerTextStyle),
+                                )),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    const Divider(
+                      height: 0,
+                    ),
+                    childWidget(context, setState),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
-                const Divider(
-                  height: 0,
-                ),
-                childWidget(context),
-                const SizedBox(
-                  height: 8,
-                ),
-              ],
-            ),
+              );
+            },
           ));
 }
 
 void showURLBottomActionsMenu(BuildContext context, String? url,
     {String? shareDescription}) {
-  showBottomActionsMenu(context, headerText: url, childWidget: (context) {
+  showBottomActionsMenu(context, headerText: url,
+      childWidget: (context, setState) {
     return Column(
       children: [
         Padding(

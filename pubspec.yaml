@@ -28,7 +28,7 @@ dependencies:
       url: https://github.com/NamanShergill/extended_text_field.git
       ref: temp
 
-  flutter_bloc: ^7.0.0
+  flutter_bloc: ^7.0.1
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
   flutter_emoji: ^2.2.1+1
@@ -102,7 +102,7 @@ dependencies:
   share: ^2.0.4
   shimmer: ^2.0.0
   sqlite3_flutter_libs: ^0.5.0
-  sliver_tools: ^0.2.2
+  sliver_tools: ^0.2.4
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
@@ -114,13 +114,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   artemis: ^7.0.0-beta.11
-#  auto_route_generator: ^2.1.0
+  auto_route_generator: ^2.1.0
   build_runner: ^2.0.4
   change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.0
   flutter_native_splash: ^1.1.8+4
-  flutter_lints: ^1.0.2
+  flutter_lints: ^1.0.3
   json_serializable: ^4.1.3
+
+#Temporary workaround until https://github.com/Milad-Akarie/auto_route_library/issues/569 is fixed.
+dependency_overrides:
+  analyzer: 1.5.0
 
 flutter_native_splash:
   color: '#17181c'

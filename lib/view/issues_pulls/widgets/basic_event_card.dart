@@ -16,10 +16,10 @@ class BasicEventCard extends StatelessWidget {
   final String? name;
   final Color? iconColor;
   final DateTime date;
-  final Widget? content;
+  final Widget content;
   const BasicEventCard(
       {required this.user,
-      this.content,
+      required this.content,
       required this.date,
       required this.leading,
       this.iconColor,
@@ -78,7 +78,12 @@ class BasicEventCard extends StatelessWidget {
             height: 4,
           ),
           Flexible(
-            child: content!,
+            child: DefaultTextStyle(
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .merge(AppThemeTextStyles.basicIssueEventCardText),
+                child: content),
           ),
         ],
       ),
@@ -91,12 +96,12 @@ class BasicEventTextCard extends StatelessWidget {
   final IconData leading;
   final Color? iconColor;
   final DateTime date;
-  final Widget? content;
-  final String? textContent;
+  final Widget? footer;
+  final String textContent;
   const BasicEventTextCard(
       {required this.user,
-      this.content,
-      this.textContent,
+      required this.textContent,
+      this.footer,
       required this.date,
       required this.leading,
       this.iconColor,
@@ -106,11 +111,20 @@ class BasicEventTextCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicEventCard(
       iconColor: iconColor,
-      content: content ??
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
-            textContent!,
+            textContent,
             style: AppThemeTextStyles.basicIssueEventCardText,
           ),
+          if (footer != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: footer!,
+            ),
+        ],
+      ),
       date: date,
       user: user,
       leading: leading,

@@ -228,18 +228,7 @@ fragment pinned on PinnedEvent{
 fragment pullRequestCommit on PullRequestCommit{
     id
     commit{
-        additions
-        authoredDate
-        message
-        messageHeadline
-        author{
-            avatarUrl
-            name
-            user{
-                avatarUrl
-                login
-            }
-        }
+       ...commit
     }
 }
 
@@ -313,8 +302,7 @@ fragment reviewRequested on ReviewRequestedEvent{
     requestedReviewer{
         __typename
         ... on User{
-            login
-            avatarUrl
+            ...actor
         } ... on Team{
             avatarUrl
             name
@@ -411,4 +399,21 @@ fragment repo on Repository{
 fragment  label on Label{
     color
     name
+}
+
+fragment commit on Commit{
+    additions
+    authoredDate
+    oid
+    message
+    commitUrl
+
+    messageHeadline
+    author{
+        avatarUrl
+        name
+        user{
+           ...actor
+        }
+    }
 }
