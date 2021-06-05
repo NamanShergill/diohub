@@ -1,3 +1,4 @@
+import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
@@ -19,7 +20,11 @@ class PRReviewScreen extends StatelessWidget {
         title: const Text('Review'),
       ),
       body: InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges>(
-        divider: false,
+        future: (pageNumber, pageSize, refresh, lastItem) {
+          return PullsService.getPRReview(nodeID,
+              refresh: refresh, cursor: lastItem?.cursor);
+        },
+        spacing: 32,
         builder: (context, item, index) {
           final comment = item.node!;
           return Column(
@@ -32,20 +37,23 @@ class PRReviewScreen extends StatelessWidget {
                 //         top: AppThemeBorderRadius.medBorderRadius.topLeft)),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        comment.path,
-                        style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          comment.path,
+                          style: const TextStyle(
+                              fontFamily: 'monospace', fontSize: 12),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 height: 0,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               PatchViewer(
@@ -68,24 +76,46 @@ class PRReviewScreen extends StatelessWidget {
                   lastEditedAt: comment.lastEditedAt,
                   bodyHTML: comment.bodyHTML,
                   authorAssociation: comment.authorAssociation,
-                  footer: APIWrapper(
+                  footerPadding: const EdgeInsets.only(left: 8, right: 8),
+                  footer: APIWrapper<
+                      ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges>(
                     apiCall: PullsService.getPRReviewThreadID(comment.id,
                         name: comment.repository.name,
                         owner: comment.repository.owner.login,
                         number: comment.pullRequest.number,
                         cursor: null),
+                    fadeIntoView: false,
+                    loadingBuilder: (context) {
+                      return const StringButton(
+                        onTap: null,
+                        loading: true,
+                        listenToLoadingController: false,
+                        color: AppColor.background,
+                        title: 'Replies',
+                        trailingIcon: Icon(Icons.arrow_right_rounded),
+                      );
+                    },
                     responseBuilder: (context, data) {
-                      return Container();
+                      return StringButton(
+                        key: const ValueKey('loaded'),
+                        onTap: () {},
+                        listenToLoadingController: false,
+                        color: AppColor.background,
+                        title: (data.node!.comments.totalCount > 1
+                                ? (data.node!.comments.totalCount - 1)
+                                    .toString()
+                                : 'No') +
+                            ' Replies',
+                        trailingIcon: data.node!.comments.totalCount > 1
+                            ? const Icon(Icons.arrow_right_rounded)
+                            : null,
+                      );
                     },
                   ),
                 ),
               ),
             ],
           );
-        },
-        future: (pageNumber, pageSize, refresh, lastItem) {
-          return PullsService.getPRReview(nodeID,
-              refresh: refresh, cursor: lastItem?.cursor);
         },
       ),
     ));

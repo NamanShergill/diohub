@@ -35,6 +35,7 @@ class BaseComment extends StatefulWidget {
   final String? description;
   final Widget? header;
   final EdgeInsets headerPadding;
+  final EdgeInsets footerPadding;
   const BaseComment(
       {Key? key,
       this.headerPadding = const EdgeInsets.symmetric(horizontal: 16),
@@ -47,6 +48,7 @@ class BaseComment extends StatefulWidget {
       required this.viewerCanMinimize,
       this.description,
       this.footer,
+      this.footerPadding =  const EdgeInsets.only(top: 8.0, left: 8, right: 8),
       required this.viewerCannotUpdateReasons,
       required this.viewerCanReact,
       required this.viewerCanUpdate,
@@ -240,7 +242,7 @@ class _BaseCommentState extends State<BaseComment> {
           ),
         if (widget.footer != null)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
+            padding: widget.footerPadding,
             child: widget.footer!,
           ),
         if (widget.footer == null && widget.bodyHTML.isEmpty)

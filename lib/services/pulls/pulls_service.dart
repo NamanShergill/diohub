@@ -13,7 +13,6 @@ class PullsService {
       {required String fullUrl}) async {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
-            debugLog: true,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader:
                 'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.VERSION.html')
@@ -97,44 +96,46 @@ class PullsService {
       {String? cursor,
       required bool refresh}) async {
     final res = await GetDio.gqlDio(
-        GetPRReviewCommentsQuery(
-            variables: GetPRReviewCommentsArguments(cursor: cursor, id: id)),
-        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
-        debugLog: true);
+      GetPRReviewCommentsQuery(
+          variables: GetPRReviewCommentsArguments(cursor: cursor, id: id)),
+      cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
+    );
     return (GetPRReviewComments$Query.fromJson(res.data!).node
             as GetPRReviewComments$Query$Node$PullRequestReview)
         .comments
         .edges!;
   }
 
-  static Future<String> getPRReviewThreadID(String commentID,
-      {required String name,
-      required String owner,
-      required int number,
-      required String? cursor}) async {
+  static Future<
+          ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges>
+      getPRReviewThreadID(String commentID,
+          {required String name,
+          required String owner,
+          required int number,
+          required String? cursor}) async {
     final res = await GetDio.gqlDio(
       ReviewThreadFirstCommentQueryQuery(
-          variables: ReviewThreadFirstCommentQueryArguments(
-        cursor: cursor,
-        owner: owner,
-        number: number,
-        name: name,
-      )),
+        variables: ReviewThreadFirstCommentQueryArguments(
+          cursor: cursor,
+          owner: owner,
+          number: number,
+          name: name,
+        ),
+      ),
+      cacheOptions: CacheManager.defaultGQLCache(),
     );
     final parsed = ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
     for (ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
         in parsed.repository!.pullRequest!.reviewThreads.edges!) {
       if (thread?.node?.comments.nodes?.first?.id == commentID) {
-        return thread!.node!.id;
-      } else {
-        return await getPRReviewThreadID(commentID,
-            name: name,
-            owner: owner,
-            number: number,
-            cursor: parsed
-                .repository!.pullRequest!.reviewThreads.edges!.last!.cursor);
+        return thread!;
       }
     }
-    return '';
+    return await getPRReviewThreadID(commentID,
+        name: name,
+        owner: owner,
+        number: number,
+        cursor:
+            parsed.repository!.pullRequest!.reviewThreads.edges!.last!.cursor);
   }
 }

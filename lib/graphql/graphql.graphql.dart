@@ -4645,7 +4645,7 @@ final REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
                         arguments: [
                           ArgumentNode(
                               name: NameNode(value: 'first'),
-                              value: IntValueNode(value: '10')),
+                              value: IntValueNode(value: '25')),
                           ArgumentNode(
                               name: NameNode(value: 'after'),
                               value:

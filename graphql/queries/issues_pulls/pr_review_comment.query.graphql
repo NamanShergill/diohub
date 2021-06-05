@@ -3,7 +3,6 @@ query getPRReviewComments($id:ID!, $cursor:String){
         __typename
         ... on PullRequestReview{
            ...PRReviewComments
-
         }
     }
 }
@@ -12,7 +11,7 @@ query reviewThreadFirstCommentQuery($name:String!, $owner: String!, $number:Int!
     repository(name: $name, owner: $owner) {
         pullRequest(number: $number) {
             id
-            reviewThreads(first: 10, after: $cursor) {
+            reviewThreads(first: 25, after: $cursor) {
                 edges{
                     cursor
                     node{

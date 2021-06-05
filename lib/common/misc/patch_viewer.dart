@@ -251,8 +251,9 @@ class _PatchViewerState extends State<PatchViewer> {
                               TextSpan(
                                   text: displayHeader[index] + displayCode[0]),
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: 'monospace',
+                                  fontSize: 12,
                                   color: AppColor.grey3),
                             ),
                           ),

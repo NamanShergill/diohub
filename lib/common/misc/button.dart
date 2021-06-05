@@ -133,7 +133,7 @@ class StringButton extends StatelessWidget {
   final double borderRadius;
   final String? loadingText;
   final Icon? trailingIcon;
-
+  final bool loading;
   final bool stretch;
   final double elevation;
   final EdgeInsets padding;
@@ -142,6 +142,7 @@ class StringButton extends StatelessWidget {
       {this.listenToLoadingController = true,
       required this.onTap,
       required this.title,
+      this.loading = false,
       this.enabled = true,
       this.stretch = true,
       this.trailingIcon,
@@ -186,6 +187,7 @@ class StringButton extends StatelessWidget {
       leadingIcon: leadingIcon,
       enabled: enabled,
       elevation: elevation,
+      loading: loading,
       stretch: stretch,
       listenToLoadingController: listenToLoadingController,
     );

@@ -15,7 +15,6 @@ class IssuesService {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
-            debugLog: true,
             acceptHeader:
                 'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.VERSION.html')
         .get(fullUrl);
