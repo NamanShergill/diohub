@@ -5,10 +5,11 @@ import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PatchViewController {
-  late bool? Function() wrap;
+  late bool Function() wrap;
 }
 
 // Todo: I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
@@ -16,7 +17,8 @@ class PatchViewer extends StatefulWidget {
   final String? patch;
   final String? contentURL;
   final String? fileType;
-  final bool? wrap;
+  final bool wrap;
+  final bool isWidget;
   final PatchViewController? controller;
 
   /// Pass this as true before starting parsing to prevent lag.
@@ -25,6 +27,7 @@ class PatchViewer extends StatefulWidget {
   const PatchViewer(
       {Key? key,
       this.patch,
+      this.isWidget = false,
       this.wrap = false,
       this.contentURL,
       this.fileType,
@@ -37,28 +40,26 @@ class PatchViewer extends StatefulWidget {
 }
 
 class _PatchViewerState extends State<PatchViewer> {
-  _PatchViewerState() {
-    widget.controller?.wrap = changeWrap;
-  }
   String? patch;
   int maxChars = 0;
   List<String>? rawData;
   bool loading = true;
   final PatchViewController controller = PatchViewController();
 
-  bool? wrap;
+  late bool wrap;
 
   @override
   void initState() {
+    widget.controller?.wrap = changeWrap;
     patch = widget.patch;
     wrap = widget.wrap;
     startUp();
     super.initState();
   }
 
-  bool? changeWrap() {
+  bool changeWrap() {
     setState(() {
-      wrap = !wrap!;
+      wrap = !wrap;
     });
     controller.wrap();
     return wrap;
@@ -94,6 +95,7 @@ class _PatchViewerState extends State<PatchViewer> {
     codeSplit.addAll(patch!.split(RegExp(r"(?:\n)(?=@@)(.*)(?<=@@)")));
     for (int i = 0; i < codeSplit.length; i++) {
       codeChunks[i]['code'] = codeSplit[i].split('\n');
+      // log(codeChunks[i].toString());
       for (String str in codeChunks[i]['code']) {
         if (str.length > maxChars) maxChars = str.length;
       }
@@ -148,19 +150,27 @@ class _PatchViewerState extends State<PatchViewer> {
                 ),
                 SizedBox(
                     width: 35,
-                    child: Text(
-                      displayCodeWithoutFirstLine[lineIndex][0] == '+'
-                          ? ''
-                          : '${getRemoveIndex++}',
+                    child: Text.rich(
+                      TextSpan(
+                        text: displayCodeWithoutFirstLine[lineIndex][0] == '+'
+                            ? ''
+                            : '${getRemoveIndex++}',
+                      ),
+                      style: TextStyle(fontFamily: 'monospace'),
                     )),
                 const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
                   width: 35,
-                  child: Text(displayCodeWithoutFirstLine[lineIndex][0] == '-'
-                      ? ''
-                      : '${getAddIndex++}'),
+                  child: Text.rich(
+                    TextSpan(
+                      text: displayCodeWithoutFirstLine[lineIndex][0] == '-'
+                          ? ''
+                          : '${getAddIndex++}',
+                    ),
+                    style: TextStyle(fontFamily: 'monospace'),
+                  ),
                 ),
                 SizedBox(
                   width: 5,
@@ -189,6 +199,8 @@ class _PatchViewerState extends State<PatchViewer> {
 
   @override
   Widget build(BuildContext context) {
+    // print(codeChunks[0]);
+    // return Container();
     return loading
         ? Center(
             child: Column(
@@ -202,7 +214,9 @@ class _PatchViewerState extends State<PatchViewer> {
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              width: wrap!
+              width: wrap ||
+                      maxChars.toDouble() * 10 <
+                          MediaQuery.of(context).size.width
                   ? MediaQuery.of(context).size.width
                   : maxChars.toDouble() * 10,
               child: ListView.builder(
@@ -215,7 +229,8 @@ class _PatchViewerState extends State<PatchViewer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        if (codeChunks[index]['startAdd'] != null)
+                        if (codeChunks[index]['startAdd'] != null &&
+                            !widget.isWidget)
                           ChunkHeader(
                             codeChunks: codeChunks,
                             displayCode: displayCode,
@@ -228,6 +243,18 @@ class _PatchViewerState extends State<PatchViewer> {
                             wrap: wrap,
                             controller: controller,
                             startAdd: codeChunks[index]['startAdd'],
+                          ),
+                        if (widget.isWidget)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text.rich(
+                              TextSpan(
+                                  text: displayHeader[index] + displayCode[0]),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: 'monospace',
+                                  color: AppColor.grey3),
+                            ),
                           ),
                         showCodeChunk(displayCode, index),
                       ],
@@ -288,7 +315,7 @@ class ChunkHeader extends StatefulWidget {
   final String? fileType;
   final List<Map>? codeChunks;
   final int? maxChars;
-  final bool? wrap;
+  final bool wrap;
   final List<String>? displayHeader;
   final PatchViewController? controller;
 
@@ -299,7 +326,7 @@ class ChunkHeader extends StatefulWidget {
       this.displayHeader,
       this.index,
       this.fileType,
-      this.wrap,
+      required this.wrap,
       this.rawData,
       this.controller,
       this.maxChars,
@@ -311,15 +338,14 @@ class ChunkHeader extends StatefulWidget {
 }
 
 class _ChunkHeaderState extends State<ChunkHeader> {
-  _ChunkHeaderState() {
-    widget.controller?.wrap = changeWrap;
-  }
   bool expanded = false;
   late List<String> data;
-  bool? wrap;
+  late bool wrap;
 
   @override
   void initState() {
+    widget.controller?.wrap = changeWrap;
+
     setupData();
     wrap = widget.wrap;
 
@@ -327,9 +353,9 @@ class _ChunkHeaderState extends State<ChunkHeader> {
     super.initState();
   }
 
-  bool? changeWrap() {
+  bool changeWrap() {
     setState(() {
-      wrap = !wrap!;
+      wrap = !wrap;
     });
     return wrap;
   }
@@ -351,7 +377,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
     if (expanded) {
       return SizeExpandedSection(
         child: SizedBox(
-          width: wrap!
+          width: wrap
               ? MediaQuery.of(context).size.width
               : widget.maxChars!.toDouble() * 10,
           child: ListView.builder(

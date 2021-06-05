@@ -316,7 +316,7 @@ class CommitTilesREST extends StatelessWidget {
         highlighted: highlighted,
         onSelected: onSelected,
         message: item.commit!.message!,
-        url: item.commit!.url!,
+        url: item.url!,
         date: item.commit!.committer!.date!,
         authorAvatarUrl: item.author!.avatarUrl,
         authorLogin: item.author!.login!,

@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
+import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
@@ -180,7 +182,10 @@ class GetTimelineItem extends StatelessWidget {
               lastEditedAt: item.lastEditedAt,
               footer: item.comments.totalCount > 0
                   ? StringButton(
-                      onTap: () {},
+                      onTap: () {
+                        AutoRouter.of(context)
+                            .push(PRReviewScreenRoute(nodeID: item.id));
+                      },
                       title: '${item.comments.totalCount} Comments',
                       color: AppColor.background,
                       listenToLoadingController: false,
@@ -210,7 +215,7 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventCard(
               user: item.actor,
               date: item.createdAt,
-              leading: LineIcons.eye,
+              leading: Icons.remove_red_eye_rounded,
               content: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [

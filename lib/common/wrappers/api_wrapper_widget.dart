@@ -12,8 +12,8 @@ typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 
 class APIWrapper<T> extends StatefulWidget {
-  final Future<T>? apiCall;
-  final ResponseBuilder<T>? responseBuilder;
+  final Future<T> apiCall;
+  final ResponseBuilder<T> responseBuilder;
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
   final T? initialData;
@@ -21,11 +21,11 @@ class APIWrapper<T> extends StatefulWidget {
   final bool fadeIntoView;
   const APIWrapper({
     Key? key,
-    this.apiCall,
+    required this.apiCall,
     this.fadeIntoView = true,
     this.apiWrapperController,
     this.initialData,
-    this.responseBuilder,
+    required this.responseBuilder,
     this.errorBuilder,
     this.loadingBuilder,
   }) : super(key: key);
@@ -116,9 +116,9 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
 
     if (widget.fadeIntoView) {
       return FadeAnimationSection(
-        child: widget.responseBuilder!(context, data),
+        child: widget.responseBuilder(context, data),
       );
     }
-    return widget.responseBuilder!(context, data);
+    return widget.responseBuilder(context, data);
   }
 }

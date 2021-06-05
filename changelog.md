@@ -1,11 +1,13 @@
 ## [0.3.0] - In Development
 **Authentication**
 - Authentication to access the app made compulsory.
-- Removed a lot of the permissions the app requested for that it did not need currently.
+- Removed a lot of the permissions the app requested for that it does not need currently.
 - If app was opened via a deeplink and user is unauthenticated, the deep link will be honored as
   soon as the authentication is completed.
  
 **Issue/Pull Request Screen enhancements** 
+- Ability to quote (full/select) replies.
+- Added all missing timeline item cases.
 
 **Create Issues**
 - Ability to create issues on repositories.
@@ -16,10 +18,11 @@
 **Enhancements**
 - Splash screen logo improvements.
 - Complete Github Flavored Markdown support.
+- Added organizations tab to the home screen.
 
-**Bug Fixes**
+**Deeplink**
 - Settings URL exception added in deep-links. 
-- Pull request deeplink fixed.
+- **(FIXED)** Pull request deeplink fixed.
 ---
 ## [0.2.1] - 29 April 2021
 **Bug Fixes**

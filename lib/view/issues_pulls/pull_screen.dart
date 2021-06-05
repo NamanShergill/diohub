@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
@@ -13,7 +13,9 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
+import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_information.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/pull_changed_files_list.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:flutter/material.dart';
@@ -215,35 +217,47 @@ class _PullScreenState extends State<PullScreen>
                         tabViews: [
                           const PullInformation(),
                           Discussion(
-                            scrollController: scrollController,
-                            number: value.pullModel!.number!,
-                            owner: value.repoURL!
-                                .replaceFirst(
-                                    'https://api.github.com/repos/', '')
-                                .split('/')
-                                .first,
-                            repoName: value.repoURL!
-                                .replaceFirst(
-                                    'https://api.github.com/repos/', '')
-                                .split('/')
-                                .last,
-                            isPull: true,
-                            commentsSince: widget.commentsSince,
-                            isLocked: value.pullModel!.locked! &&
-                                !value.editingEnabled,
-                            createdAt: value.pullModel!.createdAt,
-                            issueUrl: value.pullModel!.issueUrl!,
-                            initialComment: TimelineEventModel(
-                                createdAt: value.pullModel!.createdAt,
-                                event: Event.commented,
-                                user: value.pullModel!.user,
-                                url: value.pullModel!.url,
-                                authorAssociation:
-                                    value.pullModel!.authorAssociation,
-                                body: value.pullModel!.body!.isNotEmpty
-                                    ? value.pullModel!.body
-                                    : "No description provided."),
-                          ),
+                              scrollController: scrollController,
+                              number: value.pullModel!.number!,
+                              owner: value.repoURL!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .first,
+                              repoName: value.repoURL!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .last,
+                              isPull: true,
+                              commentsSince: widget.commentsSince,
+                              isLocked: value.pullModel!.locked! &&
+                                  !value.editingEnabled,
+                              createdAt: value.pullModel!.createdAt,
+                              issueUrl: value.pullModel!.issueUrl!,
+                              initComment: BaseComment(
+                                  isMinimized: false,
+                                  reactions: null,
+                                  viewerCanDelete: false,
+                                  viewerCanMinimize: false,
+                                  viewerCannotUpdateReasons: null,
+                                  viewerCanReact: false,
+                                  viewerCanUpdate: false,
+                                  viewerDidAuthor: false,
+                                  createdAt: value.pullModel!.createdAt!,
+                                  author: Author(
+                                      Uri.parse(
+                                          value.pullModel!.user!.avatarUrl!),
+                                      value.pullModel!.user!.login!),
+                                  body: '',
+                                  lastEditedAt: null,
+                                  description:
+                                      value.pullModel!.bodyHtml!.isEmpty
+                                          ? 'No description provided.'
+                                          : null,
+                                  bodyHTML: value.pullModel!.bodyHtml!,
+                                  authorAssociation:
+                                      CommentAuthorAssociation.none)),
                           const PullsCommitsList(),
                           const PullChangedFilesList(),
                         ],

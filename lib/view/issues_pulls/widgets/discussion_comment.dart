@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -16,7 +18,8 @@ class BaseComment extends StatefulWidget {
   final String body;
   final IconData? leading;
   final String bodyHTML;
-  final List<ReactionsMixin> reactions;
+  // Todo: Temp nullable
+  final List<ReactionsMixin>? reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
   final bool isMinimized;
@@ -24,13 +27,18 @@ class BaseComment extends StatefulWidget {
   final bool viewerCanMinimize;
   final bool viewerCanDelete;
   final bool viewerCanUpdate;
-  final bool viewerDidAuthor;
-  final List<CommentCannotUpdateReason> viewerCannotUpdateReasons;
+  final bool viewerDidAuthor; // Todo: Temp nullable
+
+  final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
   final bool viewerCanReact;
   final Widget? footer;
   final String? description;
+  final Widget? header;
+  final EdgeInsets headerPadding;
   const BaseComment(
       {Key? key,
+      this.headerPadding = const EdgeInsets.symmetric(horizontal: 16),
+      this.header,
       required this.isMinimized,
       this.minimizedReason,
       this.leading,
@@ -153,7 +161,7 @@ class _BaseCommentState extends State<BaseComment> {
                       ),
                   ],
                 ),
-                widget.bodyHTML.isNotEmpty
+                widget.body.isNotEmpty
                     ? IconButton(
                         onPressed: () {
                           setState(() {
@@ -166,6 +174,7 @@ class _BaseCommentState extends State<BaseComment> {
                         ))
                     : const SizedBox(
                         width: 8,
+                        height: 32,
                       ),
               ],
             ),
@@ -207,9 +216,14 @@ class _BaseCommentState extends State<BaseComment> {
             padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
             child: Text(
               widget.description!,
-              style: AppThemeTextStyles.basicIssueEventCardText
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: AppThemeTextStyles.basicIssueEventCardText.copyWith(
+                  fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
             ),
+          ),
+        if (widget.header != null)
+          Padding(
+            padding: widget.headerPadding,
+            child: widget.header!,
           ),
         if (widget.bodyHTML.isNotEmpty)
           Row(
@@ -219,6 +233,10 @@ class _BaseCommentState extends State<BaseComment> {
                 widget.bodyHTML,
               )),
             ],
+          ),
+        if (widget.footer != null && widget.bodyHTML.isEmpty)
+          const SizedBox(
+            height: 8,
           ),
         if (widget.footer != null)
           Padding(

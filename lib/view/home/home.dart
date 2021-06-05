@@ -2,16 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/home/widgets/issues_tab.dart';
 import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
+    _tabController = TabController(vsync: this, initialIndex: 0, length: 5);
     if (widget.deepLinkData?.components.first == 'issues') {
       _tabController.index = 1;
     } else if (widget.deepLinkData?.components.first == 'pulls') {
@@ -127,6 +132,9 @@ class _HomeScreenState extends State<HomeScreen>
                           title: 'Pull Requests',
                         ),
                         AppTab(
+                          title: 'Organizations',
+                        ),
+                        AppTab(
                           title: 'Public Activity',
                         ),
                       ],
@@ -165,6 +173,32 @@ class _HomeScreenState extends State<HomeScreen>
                           widget.deepLinkData?.components.first == 'pulls'
                               ? widget.deepLinkData
                               : null,
+                    ),
+                    InfiniteScrollWrapper<
+                        GetViewerOrgs$Query$Viewer$Organizations$Edges>(
+                      future: (pageNumber, pageSize, refresh, lastItem) {
+                        return UserInfoService.getViewerOrgs(
+                            refresh: refresh, after: lastItem?.cursor);
+                      },
+                      firstDivider: false,
+                      topSpacing: 8,
+                      listEndIndicator: false,
+                      // divider: false,
+                      builder: (context, item, index) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: ProfileTile(
+                                item.node?.avatarUrl.toString(),
+                                userLogin: item.node?.login,
+                                showName: true,
+                                padding: const EdgeInsets.all(16),
+                                size: 30,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                     Events(
                       privateEvents: false,

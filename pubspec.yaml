@@ -12,8 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  animations: ^2.0.0
   auto_route: ^2.2.0
-  another_flushbar: ^1.10.22
+  another_flushbar: ^1.10.23
   cached_network_image: ^3.0.0
   connectivity: ^3.0.6
   device_info_plus: ^1.0.1

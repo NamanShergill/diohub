@@ -225,12 +225,12 @@ class PullInformation extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  child: _pull.body!.isEmpty
+                  child: _pull.bodyHtml!.isEmpty
                       ? const Text('No description provided.')
                       : ExpansionTile(
                           title: const Text('Tap to Expand'),
                           children: [
-                            MarkdownRenderAPI(_pull.body!),
+                            MarkdownBody(_pull.bodyHtml!),
                           ],
                         ),
                 ),

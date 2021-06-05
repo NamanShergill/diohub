@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
@@ -11,9 +13,13 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo({required String fullUrl}) async {
     Response response = await GetDio.getDio(
-      applyBaseURL: false,
-      cacheOptions: CacheManager.defaultCache(),
-    ).get(fullUrl);
+            applyBaseURL: false,
+            cacheOptions: CacheManager.defaultCache(),
+            debugLog: true,
+            acceptHeader:
+                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.VERSION.html')
+        .get(fullUrl);
+    log(response.data.toString());
     return IssueModel.fromJson(response.data);
   }
 
@@ -123,7 +129,7 @@ class IssuesService {
                 number: number,
                 repoName: repo,
                 since: since)),
-        debugLog: true,
+        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
         acceptHeader: 'application/vnd.github.starfox-preview+json');
     return (GetTimeline$Query.fromJson(response.data!) as dynamic)
         .repository!

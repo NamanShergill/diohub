@@ -1,0 +1,31 @@
+query getPRReviewComments($id:ID!, $cursor:String){
+    node(id: $id){
+        __typename
+        ... on PullRequestReview{
+           ...PRReviewComments
+
+        }
+    }
+}
+
+query reviewThreadFirstCommentQuery($name:String!, $owner: String!, $number:Int!, $cursor:String){
+    repository(name: $name, owner: $owner) {
+        pullRequest(number: $number) {
+            id
+            reviewThreads(first: 10, after: $cursor) {
+                edges{
+                    cursor
+                    node{
+                        id
+                        comments(first: 1) {
+                          totalCount
+                            nodes {
+                                id
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

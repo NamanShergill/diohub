@@ -2,12 +2,12 @@ import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,23 +23,23 @@ class Discussion extends StatefulWidget {
   final DateTime? commentsSince;
   final String repoName;
   final String owner;
+  final BaseComment initComment;
   final String issueUrl;
   final int number;
   final bool? isLocked;
   final bool isPull;
   final DateTime? createdAt;
-  final TimelineEventModel? initialComment;
   const Discussion(
       {this.commentsSince,
       required this.number,
       required this.owner,
       required this.repoName,
+      required this.initComment,
       required this.issueUrl,
       this.isLocked,
       required this.isPull,
       required this.scrollController,
       this.createdAt,
-      this.initialComment,
       Key? key})
       : super(key: key);
 
@@ -103,14 +103,11 @@ class _DiscussionState extends State<Discussion>
                   },
                 ),
               ),
-              // if (widget.initialComment!.createdAt!.isAfter(
-              //     commentsSince!
-              //         .subtract(const Duration(minutes: 5))))
-              //   paddingWrap(
-              //     child: BaseComment(
-              //         widget.initialComment, widget.isLocked,
-              //         repo: widget.repo),
-              //   ),
+              if (widget.initComment.createdAt
+                  .isAfter(commentsSince!.subtract(const Duration(minutes: 5))))
+                paddingWrap(
+                  child: widget.initComment,
+                ),
             ],
           )
         : Column(
@@ -148,14 +145,12 @@ class _DiscussionState extends State<Discussion>
                   },
                 ),
               ),
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              // paddingWrap(
-              //   child: BaseComment(
-              //       widget.initialComment, widget.isLocked,
-              //       repo: widget.repo),
-              // ),
+              const SizedBox(
+                height: 16,
+              ),
+              paddingWrap(
+                child: widget.initComment,
+              ),
             ],
           );
     return Stack(

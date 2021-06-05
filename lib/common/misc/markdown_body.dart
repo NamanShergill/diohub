@@ -191,12 +191,14 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             );
           },
           'div': (RenderContext context, Widget child) {
-            if (context.tree.children.first.name == 'pre') {
-              return _CodeView(
-                context.tree.children.first.element!.text,
-                language: context.tree.element?.attributes['class']
-                    ?.replaceAll('highlight highlight-source-', ''),
-              );
+            if (context.tree.children.isNotEmpty) {
+              if (context.tree.children.first.name == 'pre') {
+                return _CodeView(
+                  context.tree.children.first.element!.text,
+                  language: context.tree.element?.attributes['class']
+                      ?.replaceAll('highlight highlight-source-', ''),
+                );
+              }
             }
             return child;
           },

@@ -434,3 +434,54 @@ fragment  reactions on ReactionGroup{
         totalCount
     }
 }
+
+fragment  pullRequestReviewComment on PullRequestReviewComment{
+    id
+    author{
+        ...actor
+    }
+    createdAt
+    authorAssociation
+    body
+    bodyHTML
+    lastEditedAt
+    state
+    diffHunk
+    outdated
+    isMinimized
+    replyTo{
+        id
+    }
+    path
+    reactionGroups{
+        ...reactions
+    }
+    viewerCanDelete
+    viewerCanUpdate
+    viewerDidAuthor
+    viewerCannotUpdateReasons
+    viewerCanReact
+    viewerCanMinimize
+    pullRequest{
+        number
+    }
+    repository{
+        name
+        owner{
+            login
+        }
+    }
+}
+
+fragment  PRReviewComments on PullRequestReview{
+
+    comments(first: 10,after:  $cursor){
+        edges{
+            __typename
+            cursor
+            node{
+                ...pullRequestReviewComment
+            }
+        }
+    }
+}

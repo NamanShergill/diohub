@@ -8,11 +8,12 @@ import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
 import '../common/search_overlay/search_overlay.dart' as _i8;
-import '../controller/deep_linking_handler.dart' as _i18;
-import '../graphql/graphql.dart' as _i19;
+import '../controller/deep_linking_handler.dart' as _i19;
+import '../graphql/graphql.dart' as _i20;
 import '../view/authentication/auth_screen.dart' as _i4;
 import '../view/issues_pulls/issue_screen.dart' as _i9;
 import '../view/issues_pulls/pull_screen.dart' as _i10;
+import '../view/issues_pulls/widgets/p_r_review_screen.dart' as _i18;
 import '../view/landing/landing.dart' as _i6;
 import '../view/landing/widgets/landing_loading_screen.dart' as _i5;
 import '../view/landing/widgets/place_holder_screen.dart' as _i7;
@@ -43,8 +44,7 @@ class AppRouter extends _i1.RootStackRouter {
           return _i4.AuthScreen(
               key: args.key, onAuthenticated: args.onAuthenticated);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     LandingLoadingScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -55,8 +55,7 @@ class AppRouter extends _i1.RootStackRouter {
           return _i5.LandingLoadingScreen(
               key: args.key, initLink: args.initLink);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     LandingScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -67,8 +66,7 @@ class AppRouter extends _i1.RootStackRouter {
           return _i6.LandingScreen(
               deepLinkData: args.deepLinkData, key: args.key);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     PlaceHolderScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -76,8 +74,7 @@ class AppRouter extends _i1.RootStackRouter {
         builder: (_) {
           return const _i7.PlaceHolderScreen();
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     SearchOverlayScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -103,8 +100,7 @@ class AppRouter extends _i1.RootStackRouter {
               commentsSince: args.commentsSince,
               key: args.key);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     PullScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -116,8 +112,7 @@ class AppRouter extends _i1.RootStackRouter {
               commentsSince: args.commentsSince,
               key: args.key);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     RepositoryScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -131,8 +126,7 @@ class AppRouter extends _i1.RootStackRouter {
               key: args.key,
               initSHA: args.initSHA);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     FileViewerAPIRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -146,8 +140,7 @@ class AppRouter extends _i1.RootStackRouter {
               repoName: args.repoName,
               key: args.key);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     CommitInfoScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -158,8 +151,7 @@ class AppRouter extends _i1.RootStackRouter {
           return _i13.CommitInfoScreen(
               key: args.key, commitURL: args.commitURL);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     WikiViewerRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -169,8 +161,7 @@ class AppRouter extends _i1.RootStackRouter {
               orElse: () => const WikiViewerRouteArgs());
           return _i14.WikiViewer(key: args.key, repoURL: args.repoURL);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     ChangesViewerRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -180,8 +171,7 @@ class AppRouter extends _i1.RootStackRouter {
           return _i15.ChangesViewer(args.patch, args.contentURL, args.fileType,
               key: args.key);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     OtherUserProfileScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -190,8 +180,7 @@ class AppRouter extends _i1.RootStackRouter {
           final args = data.argsAs<OtherUserProfileScreenRouteArgs>();
           return _i16.OtherUserProfileScreen(args.login, key: args.key);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false),
     NewIssueScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
@@ -204,8 +193,16 @@ class AppRouter extends _i1.RootStackRouter {
               repo: args.repo,
               owner: args.owner);
         },
-        transitionsBuilder: _i1.TransitionsBuilders.slideBottom,
-        durationInMilliseconds: 250,
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false),
+    PRReviewScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<PRReviewScreenRouteArgs>();
+          return _i18.PRReviewScreen(args.nodeID, key: args.key);
+        },
+        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false)
   };
@@ -238,7 +235,9 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(OtherUserProfileScreenRoute.name,
             path: '/other-user-profile-screen', guards: [authGuard]),
         _i1.RouteConfig(NewIssueScreenRoute.name,
-            path: '/new-issue-screen', guards: [authGuard])
+            path: '/new-issue-screen', guards: [authGuard]),
+        _i1.RouteConfig(PRReviewScreenRoute.name,
+            path: '/p-rreview-screen', guards: [authGuard])
       ];
 }
 
@@ -279,7 +278,7 @@ class LandingLoadingScreenRouteArgs {
 }
 
 class LandingScreenRoute extends _i1.PageRouteInfo<LandingScreenRouteArgs> {
-  LandingScreenRoute({_i18.DeepLinkData? deepLinkData, _i2.Key? key})
+  LandingScreenRoute({_i19.DeepLinkData? deepLinkData, _i2.Key? key})
       : super(name,
             path: '/landing-screen',
             args: LandingScreenRouteArgs(deepLinkData: deepLinkData, key: key));
@@ -290,7 +289,7 @@ class LandingScreenRoute extends _i1.PageRouteInfo<LandingScreenRouteArgs> {
 class LandingScreenRouteArgs {
   const LandingScreenRouteArgs({this.deepLinkData, this.key});
 
-  final _i18.DeepLinkData? deepLinkData;
+  final _i19.DeepLinkData? deepLinkData;
 
   final _i2.Key? key;
 }
@@ -417,7 +416,7 @@ class RepositoryScreenRoute
       {required String? repositoryURL,
       String? branch,
       int index = 0,
-      _i18.DeepLinkData? deepLinkData,
+      _i19.DeepLinkData? deepLinkData,
       _i2.Key? key,
       String? initSHA})
       : super(name,
@@ -448,7 +447,7 @@ class RepositoryScreenRouteArgs {
 
   final int index;
 
-  final _i18.DeepLinkData? deepLinkData;
+  final _i19.DeepLinkData? deepLinkData;
 
   final _i2.Key? key;
 
@@ -587,7 +586,7 @@ class OtherUserProfileScreenRouteArgs {
 class NewIssueScreenRoute extends _i1.PageRouteInfo<NewIssueScreenRouteArgs> {
   NewIssueScreenRoute(
       {_i2.Key? key,
-      _i19.IssueTemplates$Query$Repository$IssueTemplates? template,
+      _i20.IssueTemplates$Query$Repository$IssueTemplates? template,
       required String repo,
       required String owner})
       : super(name,
@@ -604,9 +603,26 @@ class NewIssueScreenRouteArgs {
 
   final _i2.Key? key;
 
-  final _i19.IssueTemplates$Query$Repository$IssueTemplates? template;
+  final _i20.IssueTemplates$Query$Repository$IssueTemplates? template;
 
   final String repo;
 
   final String owner;
+}
+
+class PRReviewScreenRoute extends _i1.PageRouteInfo<PRReviewScreenRouteArgs> {
+  PRReviewScreenRoute({required String nodeID, _i2.Key? key})
+      : super(name,
+            path: '/p-rreview-screen',
+            args: PRReviewScreenRouteArgs(nodeID: nodeID, key: key));
+
+  static const String name = 'PRReviewScreenRoute';
+}
+
+class PRReviewScreenRouteArgs {
+  const PRReviewScreenRouteArgs({required this.nodeID, this.key});
+
+  final String nodeID;
+
+  final _i2.Key? key;
 }

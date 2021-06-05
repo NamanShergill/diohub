@@ -6,6 +6,7 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/view/authentication/auth_screen.dart';
 import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/p_r_review_screen.dart';
 import 'package:dio_hub/view/landing/landing.dart';
 import 'package:dio_hub/view/landing/widgets/landing_loading_screen.dart';
 import 'package:dio_hub/view/landing/widgets/place_holder_screen.dart';
@@ -21,8 +22,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 @CustomAutoRouter(
-  transitionsBuilder: TransitionsBuilders.slideBottom,
-  durationInMilliseconds: 250,
+  transitionsBuilder: TransitionsBuilders.slideLeft,
+  // durationInMilliseconds: 250,
   routes: <AutoRoute>[
     AutoRoute(page: AuthScreen),
     AutoRoute(page: LandingLoadingScreen, guards: [AuthGuard], initial: true),
@@ -41,6 +42,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
     AutoRoute(page: ChangesViewer, guards: [AuthGuard]),
     AutoRoute(page: OtherUserProfileScreen, guards: [AuthGuard]),
     AutoRoute(page: NewIssueScreen, guards: [AuthGuard]),
+    AutoRoute(page: PRReviewScreen, guards: [AuthGuard]),
   ],
 )
 class $AppRouter {}

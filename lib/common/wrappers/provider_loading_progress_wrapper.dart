@@ -10,12 +10,12 @@ typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
     extends StatefulWidget {
-  final ChildBuilder<T>? childBuilder;
+  final ChildBuilder<T> childBuilder;
   final ValueChanged<Status>? listener;
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
   const ProviderLoadingProgressWrapper(
-      {this.childBuilder,
+      {required this.childBuilder,
       this.errorBuilder,
       this.loadingBuilder,
       Key? key,
@@ -47,7 +47,7 @@ class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
         initialData: value.status,
         builder: (context, AsyncSnapshot<Status> snapshot) {
           if (snapshot.data == Status.loaded) {
-            return widget.childBuilder!(context, value as T);
+            return widget.childBuilder(context, value as T);
           }
           if (snapshot.data == Status.loading) {
             return widget.loadingBuilder != null

@@ -78,4 +78,12 @@ class UserInfoService {
         .pinnedItems
         .edges!;
   }
+
+  static Future<List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>>
+      getViewerOrgs({String? after, required bool refresh}) async {
+    final res = await GetDio.gqlDio(
+        GetViewerOrgsQuery(variables: GetViewerOrgsArguments(cursor: after)),
+        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh));
+    return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;
+  }
 }

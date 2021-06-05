@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
@@ -14,6 +14,7 @@ import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/issue_information.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -206,36 +207,47 @@ class _IssueScreenState extends State<IssueScreen>
                         tabViews: [
                           IssueInformation(),
                           Discussion(
-                            commentsSince: widget.commentsSince,
-                            number: value.issueModel!.number!,
-                            owner: value.issueModel!.repositoryUrl!
-                                .replaceFirst(
-                                    'https://api.github.com/repos/', '')
-                                .split('/')
-                                .first,
-                            repoName: value.issueModel!.repositoryUrl!
-                                .replaceFirst(
-                                    'https://api.github.com/repos/', '')
-                                .split('/')
-                                .last,
-                            isPull: false,
-                            isLocked: value.issueModel!.locked! &&
-                                !value.editingEnabled,
-                            scrollController: scrollController,
-                            createdAt: value.issueModel!.createdAt,
-                            issueUrl: value.issueModel!.url!,
-                            initialComment: TimelineEventModel(
-                                createdAt: value.issueModel!.createdAt,
-                                event: Event.commented,
-                                url: value.issueModel!.url,
-                                user: value.issueModel!.user,
-                                authorAssociation:
-                                    value.issueModel!.authorAssociation,
-                                body: value.issueModel!.body == null ||
-                                        value.issueModel!.body!.isEmpty
-                                    ? "No description provided."
-                                    : value.issueModel!.body),
-                          ),
+                              commentsSince: widget.commentsSince,
+                              number: value.issueModel!.number!,
+                              owner: value.issueModel!.repositoryUrl!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .first,
+                              repoName: value.issueModel!.repositoryUrl!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .last,
+                              isPull: false,
+                              isLocked: value.issueModel!.locked! &&
+                                  !value.editingEnabled,
+                              scrollController: scrollController,
+                              createdAt: value.issueModel!.createdAt!,
+                              issueUrl: value.issueModel!.url!,
+                              initComment: BaseComment(
+                                  isMinimized: false,
+                                  reactions: null,
+                                  viewerCanDelete: false,
+                                  viewerCanMinimize: false,
+                                  viewerCannotUpdateReasons: null,
+                                  viewerCanReact: false,
+                                  viewerCanUpdate: false,
+                                  viewerDidAuthor: false,
+                                  createdAt: value.issueModel!.createdAt!,
+                                  author: Author(
+                                      Uri.parse(
+                                          value.issueModel!.user!.avatarUrl!),
+                                      value.issueModel!.user!.login!),
+                                  body: '',
+                                  description:
+                                      value.issueModel!.bodyHtml!.isEmpty
+                                          ? 'No description provided.'
+                                          : null,
+                                  lastEditedAt: null,
+                                  bodyHTML: value.issueModel!.bodyHtml!,
+                                  authorAssociation:
+                                      CommentAuthorAssociation.none)),
                         ],
                       );
                     },
@@ -267,4 +279,13 @@ class _IssueScreenState extends State<IssueScreen>
         return null;
     }
   }
+}
+
+class Author implements ActorMixin {
+  @override
+  Uri avatarUrl;
+
+  @override
+  String login;
+  Author(this.avatarUrl, this.login);
 }

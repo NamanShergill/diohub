@@ -14,7 +14,7 @@ class ChangesViewer extends StatefulWidget {
 }
 
 class _ChangesViewerState extends State<ChangesViewer> {
-  bool? wrap = false;
+  bool wrap = false;
   final PatchViewController controller = PatchViewController();
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _ChangesViewerState extends State<ChangesViewer> {
           IconButton(
               icon: Icon(
                 Icons.wrap_text,
-                color: wrap! ? Colors.white : AppColor.grey3,
+                color: wrap ? Colors.white : AppColor.grey3,
               ),
               onPressed: () {
                 setState(() {
@@ -33,14 +33,12 @@ class _ChangesViewerState extends State<ChangesViewer> {
               })
         ],
       ),
-      body: SingleChildScrollView(
-        child: PatchViewer(
-          controller: controller,
-          patch: widget.patch,
-          fileType: widget.fileType,
-          contentURL: widget.contentURL,
-          wrap: wrap,
-        ),
+      body: PatchViewer(
+        controller: controller,
+        patch: widget.patch,
+        fileType: widget.fileType,
+        contentURL: widget.contentURL,
+        wrap: wrap,
       ),
     );
   }

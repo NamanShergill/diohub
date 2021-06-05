@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/models/pull_requests/review_model.dart';
@@ -11,7 +12,11 @@ class PullsService {
   static Future<PullRequestModel> getPullInformation(
       {required String fullUrl}) async {
     Response response = await GetDio.getDio(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+            applyBaseURL: false,
+            debugLog: true,
+            cacheOptions: CacheManager.defaultCache(),
+            acceptHeader:
+                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.VERSION.html')
         .get(fullUrl);
     return PullRequestModel.fromJson(response.data);
   }
@@ -85,5 +90,51 @@ class PullsService {
     List<FileElement> parsedData =
         unParsedData.map((e) => FileElement.fromJson(e)).toList();
     return parsedData;
+  }
+
+  static Future<List<PRReviewCommentsMixin$Comments$Edges?>> getPRReview(
+      String id,
+      {String? cursor,
+      required bool refresh}) async {
+    final res = await GetDio.gqlDio(
+        GetPRReviewCommentsQuery(
+            variables: GetPRReviewCommentsArguments(cursor: cursor, id: id)),
+        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
+        debugLog: true);
+    return (GetPRReviewComments$Query.fromJson(res.data!).node
+            as GetPRReviewComments$Query$Node$PullRequestReview)
+        .comments
+        .edges!;
+  }
+
+  static Future<String> getPRReviewThreadID(String commentID,
+      {required String name,
+      required String owner,
+      required int number,
+      required String? cursor}) async {
+    final res = await GetDio.gqlDio(
+      ReviewThreadFirstCommentQueryQuery(
+          variables: ReviewThreadFirstCommentQueryArguments(
+        cursor: cursor,
+        owner: owner,
+        number: number,
+        name: name,
+      )),
+    );
+    final parsed = ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
+    for (ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
+        in parsed.repository!.pullRequest!.reviewThreads.edges!) {
+      if (thread?.node?.comments.nodes?.first?.id == commentID) {
+        return thread!.node!.id;
+      } else {
+        return await getPRReviewThreadID(commentID,
+            name: name,
+            owner: owner,
+            number: number,
+            cursor: parsed
+                .repository!.pullRequest!.reviewThreads.edges!.last!.cursor);
+      }
+    }
+    return '';
   }
 }
