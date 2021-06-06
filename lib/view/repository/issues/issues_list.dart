@@ -76,7 +76,7 @@ class IssuesList extends StatelessWidget {
                 onPressed: () {
                   if (value.templates.isNotEmpty) {
                     showScrollableBottomActionsMenu(context,
-                        child: (buildContext, scrollController) =>
+                        child: (buildContext, scrollController, setState) =>
                             ListenableProvider.value(
                               value: Provider.of<RepositoryProvider>(context,
                                   listen: false),

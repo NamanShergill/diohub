@@ -42,7 +42,7 @@ class Events extends StatelessWidget {
               page: pageNumber, perPage: pageSize, refresh: refresh);
         }
       },
-      builder: (context, EventsModel item, index) {
+      builder: (context, EventsModel item, index, refresh) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(builder: (context) {

@@ -65,7 +65,7 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
             },
             scrollController: widget.controller,
             listEndIndicator: false,
-            builder: (context, item, index) {
+            builder: (context, item, index, refresh) {
               return CheckboxListTile(
                 activeColor: AppColor.accent,
                 value: labels!.contains(item.name),

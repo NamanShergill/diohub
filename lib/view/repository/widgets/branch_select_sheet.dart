@@ -30,7 +30,7 @@ class BranchSelectSheet extends StatelessWidget {
             repoURL, pageNumber, perPage, refresh);
       },
       scrollController: controller,
-      builder: (context, item, index) {
+      builder: (context, item, index, refresh) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Material(

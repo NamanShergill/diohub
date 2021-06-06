@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen>
                       topSpacing: 8,
                       listEndIndicator: false,
                       // divider: false,
-                      builder: (context, item, index) {
+                      builder: (context, item, index, refresh) {
                         return Row(
                           children: [
                             Expanded(

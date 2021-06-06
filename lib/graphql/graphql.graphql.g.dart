@@ -430,6 +430,12 @@ ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$N
         Map<String, dynamic> json) {
   return ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node()
     ..id = json['id'] as String
+    ..viewerCanResolve = json['viewerCanResolve'] as bool
+    ..viewerCanUnresolve = json['viewerCanUnresolve'] as bool
+    ..viewerCanReply = json['viewerCanReply'] as bool
+    ..isOutdated = json['isOutdated'] as bool
+    ..isCollapsed = json['isCollapsed'] as bool
+    ..isResolved = json['isResolved'] as bool
     ..comments =
         ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
             .fromJson(json['comments'] as Map<String, dynamic>);
@@ -441,6 +447,12 @@ Map<String, dynamic>
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
+          'viewerCanResolve': instance.viewerCanResolve,
+          'viewerCanUnresolve': instance.viewerCanUnresolve,
+          'viewerCanReply': instance.viewerCanReply,
+          'isOutdated': instance.isOutdated,
+          'isCollapsed': instance.isCollapsed,
+          'isResolved': instance.isResolved,
           'comments': instance.comments.toJson(),
         };
 
@@ -531,6 +543,251 @@ Map<String, dynamic> _$ReviewThreadFirstCommentQuery$QueryToJson(
         ReviewThreadFirstCommentQuery$Query instance) =>
     <String, dynamic>{
       'repository': instance.repository?.toJson(),
+    };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeFromJson(
+        Map<String, dynamic> json) {
+  return ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
+    ..id = json['id'] as String
+    ..author = json['author'] == null
+        ? null
+        : PullRequestReviewCommentMixin$Author.fromJson(
+            json['author'] as Map<String, dynamic>)
+    ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..authorAssociation = _$enumDecode(
+        _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+        unknownValue: CommentAuthorAssociation.artemisUnknown)
+    ..body = json['body'] as String
+    ..bodyHTML = json['bodyHTML'] as String
+    ..lastEditedAt = json['lastEditedAt'] == null
+        ? null
+        : DateTime.parse(json['lastEditedAt'] as String)
+    ..state = _$enumDecode(_$PullRequestReviewCommentStateEnumMap, json['state'],
+        unknownValue: PullRequestReviewCommentState.artemisUnknown)
+    ..diffHunk = json['diffHunk'] as String
+    ..outdated = json['outdated'] as bool
+    ..isMinimized = json['isMinimized'] as bool
+    ..replyTo = json['replyTo'] == null
+        ? null
+        : PullRequestReviewCommentMixin$ReplyTo.fromJson(
+            json['replyTo'] as Map<String, dynamic>)
+    ..path = json['path'] as String
+    ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+        ?.map((e) => PullRequestReviewCommentMixin$ReactionGroups.fromJson(
+            e as Map<String, dynamic>))
+        .toList()
+    ..viewerCanDelete = json['viewerCanDelete'] as bool
+    ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+    ..viewerDidAuthor = json['viewerDidAuthor'] as bool
+    ..viewerCannotUpdateReasons =
+        (json['viewerCannotUpdateReasons'] as List<dynamic>)
+            .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e, unknownValue: CommentCannotUpdateReason.artemisUnknown))
+            .toList()
+    ..viewerCanReact = json['viewerCanReact'] as bool
+    ..viewerCanMinimize = json['viewerCanMinimize'] as bool
+    ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>)
+    ..repository = PullRequestReviewCommentMixin$Repository.fromJson(json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'author': instance.author?.toJson(),
+          'createdAt': instance.createdAt.toIso8601String(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'body': instance.body,
+          'bodyHTML': instance.bodyHTML,
+          'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
+          'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
+          'diffHunk': instance.diffHunk,
+          'outdated': instance.outdated,
+          'isMinimized': instance.isMinimized,
+          'replyTo': instance.replyTo?.toJson(),
+          'path': instance.path,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'viewerCanDelete': instance.viewerCanDelete,
+          'viewerCanUpdate': instance.viewerCanUpdate,
+          'viewerDidAuthor': instance.viewerDidAuthor,
+          'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
+              .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
+              .toList(),
+          'viewerCanReact': instance.viewerCanReact,
+          'viewerCanMinimize': instance.viewerCanMinimize,
+          'pullRequest': instance.pullRequest.toJson(),
+          'repository': instance.repository.toJson(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesFromJson(
+        Map<String, dynamic> json) {
+  return ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges()
+    ..cursor = json['cursor'] as String
+    ..node = json['node'] == null
+        ? null
+        : ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+            .fromJson(json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+                instance) =>
+        <String, dynamic>{
+          'cursor': instance.cursor,
+          'node': instance.node?.toJson(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsFromJson(
+        Map<String, dynamic> json) {
+  return ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments()
+    ..edges = (json['edges'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+                .fromJson(e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+                instance) =>
+        <String, dynamic>{
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadFromJson(
+        Map<String, dynamic> json) {
+  return ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread()
+    ..$$typename = json['__typename'] as String?
+    ..comments =
+        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+            .fromJson(json['comments'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'comments': instance.comments.toJson(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node
+    _$ReviewThreadCommentsQuery$Query$NodeFromJson(Map<String, dynamic> json) {
+  return ReviewThreadCommentsQuery$Query$Node()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$ReviewThreadCommentsQuery$Query$NodeToJson(
+        ReviewThreadCommentsQuery$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+ReviewThreadCommentsQuery$Query _$ReviewThreadCommentsQuery$QueryFromJson(
+    Map<String, dynamic> json) {
+  return ReviewThreadCommentsQuery$Query()
+    ..node = json['node'] == null
+        ? null
+        : ReviewThreadCommentsQuery$Query$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$ReviewThreadCommentsQuery$QueryToJson(
+        ReviewThreadCommentsQuery$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+    _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesFromJson(
+        Map<String, dynamic> json) {
+  return CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes()
+    ..url = Uri.parse(json['url'] as String);
+}
+
+Map<String, dynamic>
+    _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesToJson(
+            CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+                instance) =>
+        <String, dynamic>{
+          'url': instance.url.toString(),
+        };
+
+CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
+    _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsFromJson(
+        Map<String, dynamic> json) {
+  return CheckPendingViewerReviews$Query$Node$PullRequest$Reviews()
+    ..totalCount = json['totalCount'] as int
+    ..nodes = (json['nodes'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+                .fromJson(e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String,
+    dynamic> _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsToJson(
+        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+CheckPendingViewerReviews$Query$Node$PullRequest
+    _$CheckPendingViewerReviews$Query$Node$PullRequestFromJson(
+        Map<String, dynamic> json) {
+  return CheckPendingViewerReviews$Query$Node$PullRequest()
+    ..$$typename = json['__typename'] as String?
+    ..reviews = json['reviews'] == null
+        ? null
+        : CheckPendingViewerReviews$Query$Node$PullRequest$Reviews.fromJson(
+            json['reviews'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$CheckPendingViewerReviews$Query$Node$PullRequestToJson(
+        CheckPendingViewerReviews$Query$Node$PullRequest instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'reviews': instance.reviews?.toJson(),
+    };
+
+CheckPendingViewerReviews$Query$Node
+    _$CheckPendingViewerReviews$Query$NodeFromJson(Map<String, dynamic> json) {
+  return CheckPendingViewerReviews$Query$Node()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$CheckPendingViewerReviews$Query$NodeToJson(
+        CheckPendingViewerReviews$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+CheckPendingViewerReviews$Query _$CheckPendingViewerReviews$QueryFromJson(
+    Map<String, dynamic> json) {
+  return CheckPendingViewerReviews$Query()
+    ..node = json['node'] == null
+        ? null
+        : CheckPendingViewerReviews$Query$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$CheckPendingViewerReviews$QueryToJson(
+        CheckPendingViewerReviews$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
     };
 
 GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
@@ -1313,6 +1570,18 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
   return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..beforeCommit = json['beforeCommit'] == null
+        ? null
+        : BaseRefForcePushedMixin$BeforeCommit.fromJson(
+            json['beforeCommit'] as Map<String, dynamic>)
+    ..afterCommit = json['afterCommit'] == null
+        ? null
+        : BaseRefForcePushedMixin$AfterCommit.fromJson(
+            json['afterCommit'] as Map<String, dynamic>)
+    ..ref = json['ref'] == null
+        ? null
+        : BaseRefForcePushedMixin$Ref.fromJson(
+            json['ref'] as Map<String, dynamic>)
     ..actor = json['actor'] == null
         ? null
         : BaseRefForcePushedMixin$Actor.fromJson(
@@ -1327,6 +1596,9 @@ Map<String, dynamic>
         <String, dynamic>{
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
+          'beforeCommit': instance.beforeCommit?.toJson(),
+          'afterCommit': instance.afterCommit?.toJson(),
+          'ref': instance.ref?.toJson(),
           'actor': instance.actor?.toJson(),
           '__typename': instance.$$typename,
         };
@@ -1465,6 +1737,18 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
   return GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEvent()
     ..id = json['id'] as String
     ..createdAt = DateTime.parse(json['createdAt'] as String)
+    ..beforeCommit = json['beforeCommit'] == null
+        ? null
+        : HeadRefForcePushedMixin$BeforeCommit.fromJson(
+            json['beforeCommit'] as Map<String, dynamic>)
+    ..afterCommit = json['afterCommit'] == null
+        ? null
+        : HeadRefForcePushedMixin$AfterCommit.fromJson(
+            json['afterCommit'] as Map<String, dynamic>)
+    ..ref = json['ref'] == null
+        ? null
+        : HeadRefForcePushedMixin$Ref.fromJson(
+            json['ref'] as Map<String, dynamic>)
     ..actor = json['actor'] == null
         ? null
         : HeadRefForcePushedMixin$Actor.fromJson(
@@ -1479,6 +1763,9 @@ Map<String, dynamic>
         <String, dynamic>{
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
+          'beforeCommit': instance.beforeCommit?.toJson(),
+          'afterCommit': instance.afterCommit?.toJson(),
+          'ref': instance.ref?.toJson(),
           'actor': instance.actor?.toJson(),
           '__typename': instance.$$typename,
         };
@@ -2972,6 +3259,45 @@ Map<String, dynamic> _$BaseRefDeletedMixin$ActorToJson(
       'login': instance.login,
     };
 
+BaseRefForcePushedMixin$BeforeCommit
+    _$BaseRefForcePushedMixin$BeforeCommitFromJson(Map<String, dynamic> json) {
+  return BaseRefForcePushedMixin$BeforeCommit()
+    ..abbreviatedOid = json['abbreviatedOid'] as String
+    ..url = Uri.parse(json['url'] as String);
+}
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$BeforeCommitToJson(
+        BaseRefForcePushedMixin$BeforeCommit instance) =>
+    <String, dynamic>{
+      'abbreviatedOid': instance.abbreviatedOid,
+      'url': instance.url.toString(),
+    };
+
+BaseRefForcePushedMixin$AfterCommit
+    _$BaseRefForcePushedMixin$AfterCommitFromJson(Map<String, dynamic> json) {
+  return BaseRefForcePushedMixin$AfterCommit()
+    ..url = Uri.parse(json['url'] as String)
+    ..abbreviatedOid = json['abbreviatedOid'] as String;
+}
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$AfterCommitToJson(
+        BaseRefForcePushedMixin$AfterCommit instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'abbreviatedOid': instance.abbreviatedOid,
+    };
+
+BaseRefForcePushedMixin$Ref _$BaseRefForcePushedMixin$RefFromJson(
+    Map<String, dynamic> json) {
+  return BaseRefForcePushedMixin$Ref()..name = json['name'] as String;
+}
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$RefToJson(
+        BaseRefForcePushedMixin$Ref instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
 BaseRefForcePushedMixin$Actor _$BaseRefForcePushedMixin$ActorFromJson(
     Map<String, dynamic> json) {
   return BaseRefForcePushedMixin$Actor()
@@ -3012,6 +3338,45 @@ Map<String, dynamic> _$HeadRefDeletedMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
+    };
+
+HeadRefForcePushedMixin$BeforeCommit
+    _$HeadRefForcePushedMixin$BeforeCommitFromJson(Map<String, dynamic> json) {
+  return HeadRefForcePushedMixin$BeforeCommit()
+    ..abbreviatedOid = json['abbreviatedOid'] as String
+    ..url = Uri.parse(json['url'] as String);
+}
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$BeforeCommitToJson(
+        HeadRefForcePushedMixin$BeforeCommit instance) =>
+    <String, dynamic>{
+      'abbreviatedOid': instance.abbreviatedOid,
+      'url': instance.url.toString(),
+    };
+
+HeadRefForcePushedMixin$AfterCommit
+    _$HeadRefForcePushedMixin$AfterCommitFromJson(Map<String, dynamic> json) {
+  return HeadRefForcePushedMixin$AfterCommit()
+    ..url = Uri.parse(json['url'] as String)
+    ..abbreviatedOid = json['abbreviatedOid'] as String;
+}
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$AfterCommitToJson(
+        HeadRefForcePushedMixin$AfterCommit instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'abbreviatedOid': instance.abbreviatedOid,
+    };
+
+HeadRefForcePushedMixin$Ref _$HeadRefForcePushedMixin$RefFromJson(
+    Map<String, dynamic> json) {
+  return HeadRefForcePushedMixin$Ref()..name = json['name'] as String;
+}
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$RefToJson(
+        HeadRefForcePushedMixin$Ref instance) =>
+    <String, dynamic>{
+      'name': instance.name,
     };
 
 HeadRefForcePushedMixin$Actor _$HeadRefForcePushedMixin$ActorFromJson(
@@ -3219,9 +3584,8 @@ ReviewRequestedMixin$RequestedReviewer$Team
         Map<String, dynamic> json) {
   return ReviewRequestedMixin$RequestedReviewer$Team()
     ..$$typename = json['__typename'] as String?
-    ..avatarUrl = json['avatarUrl'] == null
-        ? null
-        : Uri.parse(json['avatarUrl'] as String)
+    ..avatar =
+        json['avatar'] == null ? null : Uri.parse(json['avatar'] as String)
     ..name = json['name'] as String;
 }
 
@@ -3229,7 +3593,7 @@ Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(
         ReviewRequestedMixin$RequestedReviewer$Team instance) =>
     <String, dynamic>{
       '__typename': instance.$$typename,
-      'avatarUrl': instance.avatarUrl?.toString(),
+      'avatar': instance.avatar?.toString(),
       'name': instance.name,
     };
 
@@ -3670,6 +4034,36 @@ Map<String, dynamic> _$ReviewThreadFirstCommentQueryArgumentsToJson(
       'owner': instance.owner,
       'number': instance.number,
       'cursor': instance.cursor,
+    };
+
+ReviewThreadCommentsQueryArguments _$ReviewThreadCommentsQueryArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return ReviewThreadCommentsQueryArguments(
+    nodeID: json['nodeID'] as String,
+    cursor: json['cursor'] as String?,
+  );
+}
+
+Map<String, dynamic> _$ReviewThreadCommentsQueryArgumentsToJson(
+        ReviewThreadCommentsQueryArguments instance) =>
+    <String, dynamic>{
+      'nodeID': instance.nodeID,
+      'cursor': instance.cursor,
+    };
+
+CheckPendingViewerReviewsArguments _$CheckPendingViewerReviewsArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return CheckPendingViewerReviewsArguments(
+    pullNodeID: json['pullNodeID'] as String,
+    author: json['author'] as String,
+  );
+}
+
+Map<String, dynamic> _$CheckPendingViewerReviewsArgumentsToJson(
+        CheckPendingViewerReviewsArguments instance) =>
+    <String, dynamic>{
+      'pullNodeID': instance.pullNodeID,
+      'author': instance.author,
     };
 
 GetTimelineArguments _$GetTimelineArgumentsFromJson(Map<String, dynamic> json) {

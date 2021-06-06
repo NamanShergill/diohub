@@ -4,13 +4,36 @@ import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PatchViewController {
-  late bool Function() wrap;
+class WrapIconButton extends StatelessWidget {
+  final bool wrap;
+  final ValueChanged<bool> onWrap;
+  final double size;
+  const WrapIconButton(
+      {Key? key, required this.wrap, this.size = 24, required this.onWrap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        borderRadius: AppThemeBorderRadius.smallBorderRadius,
+        child: Padding(
+          padding: EdgeInsets.all(size / 2),
+          child: Icon(
+            Icons.wrap_text_rounded,
+            size: size,
+            color: wrap ? Colors.white : AppColor.grey3,
+          ),
+        ),
+        onTap: () {
+          onWrap(!wrap);
+        });
+  }
 }
 
 // Todo: I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
@@ -21,7 +44,6 @@ class PatchViewer extends StatefulWidget {
   final bool wrap;
   final bool initLoading;
   final bool isWidget;
-  final PatchViewController? controller;
   final int? limitLines;
 
   /// Pass this as true before starting parsing to prevent lag.
@@ -36,7 +58,6 @@ class PatchViewer extends StatefulWidget {
       this.contentURL,
       this.limitLines,
       this.fileType,
-      this.controller,
       this.waitBeforeLoad = true})
       : super(key: key);
 
@@ -49,28 +70,13 @@ class _PatchViewerState extends State<PatchViewer> {
   int maxChars = 0;
   List<String>? rawData;
   late bool loading;
-  final PatchViewController controller = PatchViewController();
-
-  late bool wrap;
 
   @override
   void initState() {
-    widget.controller?.wrap = changeWrap;
     patch = widget.patch;
-    wrap = widget.wrap;
     loading = widget.initLoading;
     startUp();
     super.initState();
-  }
-
-  bool changeWrap() {
-    if (mounted) {
-      setState(() {
-        wrap = !wrap;
-      });
-    }
-    controller.wrap();
-    return wrap;
   }
 
   void startUp() async {
@@ -174,7 +180,7 @@ class _PatchViewerState extends State<PatchViewer> {
                             ? ''
                             : '${getRemoveIndex++}',
                       ),
-                      style: TextStyle(fontFamily: 'monospace'),
+                      style: const TextStyle(fontFamily: 'monospace'),
                     )),
                 const SizedBox(
                   width: 10,
@@ -187,7 +193,7 @@ class _PatchViewerState extends State<PatchViewer> {
                           ? ''
                           : '${getAddIndex++}',
                     ),
-                    style: TextStyle(fontFamily: 'monospace'),
+                    style: const TextStyle(fontFamily: 'monospace'),
                   ),
                 ),
                 SizedBox(
@@ -232,7 +238,7 @@ class _PatchViewerState extends State<PatchViewer> {
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              width: wrap ||
+              width: widget.wrap ||
                       maxChars.toDouble() * 10 <
                           MediaQuery.of(context).size.width
                   ? MediaQuery.of(context).size.width
@@ -248,10 +254,41 @@ class _PatchViewerState extends State<PatchViewer> {
                       onTap: widget.limitLines != null &&
                               displayCode.length - 1 > widget.limitLines!
                           ? () {
+                              bool wrap = false;
                               showScrollableBottomActionsMenu(
                                 context,
-                                titleText: 'Diff',
-                                child: (context, scrollController) {
+                                titleWidget: (context, setState) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const IconButton(
+                                            onPressed: null,
+                                            icon: Icon(
+                                              Icons.copy,
+                                              color: Colors.transparent,
+                                            )),
+                                        const Text(
+                                          'Patch Diff',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        WrapIconButton(
+                                          wrap: wrap,
+                                          onWrap: (value) {
+                                            setState(() {
+                                              wrap = !wrap;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: (context, scrollController, setState) {
                                   return SingleChildScrollView(
                                     controller: scrollController,
                                     child: PatchViewer(
@@ -259,6 +296,7 @@ class _PatchViewerState extends State<PatchViewer> {
                                       patch: widget.patch,
                                       fileType: widget.fileType,
                                       waitBeforeLoad: false,
+                                      wrap: wrap,
                                     ),
                                   );
                                 },
@@ -279,8 +317,7 @@ class _PatchViewerState extends State<PatchViewer> {
                               maxChars: maxChars,
                               fileType: widget.fileType,
                               rawData: rawData,
-                              wrap: wrap,
-                              controller: controller,
+                              wrap: widget.wrap,
                               startAdd: codeChunks[index]['startAdd'],
                             ),
                           if (widget.isWidget)
@@ -300,8 +337,8 @@ class _PatchViewerState extends State<PatchViewer> {
                             ),
                           if (widget.limitLines != null &&
                               displayCode.length - 1 > widget.limitLines!)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 '...Tap to view whole diff.',
                                 style: TextStyle(fontFamily: 'monospace'),
@@ -370,7 +407,6 @@ class ChunkHeader extends StatefulWidget {
   final int? maxChars;
   final bool wrap;
   final List<String>? displayHeader;
-  final PatchViewController? controller;
 
   const ChunkHeader(
       {this.codeChunks,
@@ -381,7 +417,6 @@ class ChunkHeader extends StatefulWidget {
       this.fileType,
       required this.wrap,
       this.rawData,
-      this.controller,
       this.maxChars,
       this.displayCode,
       Key? key})
@@ -393,24 +428,13 @@ class ChunkHeader extends StatefulWidget {
 class _ChunkHeaderState extends State<ChunkHeader> {
   bool expanded = false;
   late List<String> data;
-  late bool wrap;
 
   @override
   void initState() {
-    widget.controller?.wrap = changeWrap;
-
     setupData();
-    wrap = widget.wrap;
 
     if (widget.startAdd == 1 || widget.startRemove == 1) expanded = true;
     super.initState();
-  }
-
-  bool changeWrap() {
-    setState(() {
-      wrap = !wrap;
-    });
-    return wrap;
   }
 
   void setupData() {
@@ -430,7 +454,7 @@ class _ChunkHeaderState extends State<ChunkHeader> {
     if (expanded) {
       return SizeExpandedSection(
         child: SizedBox(
-          width: wrap
+          width: widget.wrap
               ? MediaQuery.of(context).size.width
               : widget.maxChars!.toDouble() * 10,
           child: ListView.builder(

@@ -146,7 +146,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               },
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
-              builder: (context, item, index) {
+              builder: (context, item, index, refresh) {
                 return Padding(
                   padding: widget.padding,
                   child: RepositoryCard(
@@ -174,7 +174,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
-              builder: (context, item, index) {
+              builder: (context, item, index, refresh) {
                 return Padding(
                   padding: widget.padding,
                   child: IssueListCard(
@@ -201,7 +201,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                     refresh: refresh);
               },
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
-              builder: (context, item, index) {
+              builder: (context, item, index, refresh) {
                 return Padding(
                   padding: widget.padding,
                   child: ProfileCard(

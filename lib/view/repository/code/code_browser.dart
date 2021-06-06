@@ -247,34 +247,36 @@ void showCommitHistory(BuildContext context, String? currentSHA) {
   bool isLocked = context.read<RepoBranchProvider>().isCommit;
   showScrollableBottomActionsMenu(
     context,
-    titleWidget: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          const Text(
-            'Commit History',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Octicons.git_branch,
-                size: 14,
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Text(branchName),
-            ],
-          ),
-        ],
-      ),
-    ),
-    child: (sheetContext, controller) {
+    titleWidget: (context, setState) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const Text(
+              'Commit History',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Octicons.git_branch,
+                  size: 14,
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(branchName),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+    child: (sheetContext, controller, setState) {
       return CommitBrowser(
         controller: controller,
         currentSHA: currentSHA,

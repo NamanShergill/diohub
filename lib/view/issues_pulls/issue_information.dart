@@ -122,7 +122,7 @@ class IssueInformation extends StatelessWidget {
                     showScrollableBottomActionsMenu(
                       context,
                       titleText: 'Select Assignees',
-                      child: (sheetContext, scrollController) {
+                      child: (sheetContext, scrollController, setState) {
                         return AssigneeSelectSheet(
                           controller: scrollController,
                           repoURL: _issue.repositoryUrl,
@@ -175,7 +175,7 @@ class IssueInformation extends StatelessWidget {
                     showScrollableBottomActionsMenu(
                       context,
                       titleText: 'Select Labels',
-                      child: (sheetContext, scrollController) {
+                      child: (sheetContext, scrollController, setState) {
                         return LabelSelectSheet(
                           controller: scrollController,
                           repoURL: _issue.repositoryUrl,

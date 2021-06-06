@@ -218,6 +218,7 @@ class _PullScreenState extends State<PullScreen>
                           const PullInformation(),
                           Discussion(
                               scrollController: scrollController,
+                              pullNodeID: value.pullModel!.nodeId,
                               number: value.pullModel!.number!,
                               owner: value.repoURL!
                                   .replaceFirst(

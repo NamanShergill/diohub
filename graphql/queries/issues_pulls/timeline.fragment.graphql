@@ -51,6 +51,17 @@ fragment  baseRefDeleted on BaseRefDeletedEvent{
 fragment  baseRefForcePushed on BaseRefForcePushedEvent{
     id
     createdAt
+    beforeCommit{
+        abbreviatedOid
+        url
+    }
+    afterCommit{
+        url
+        abbreviatedOid
+    }
+    ref{
+        name
+    }
     actor{
         ...actor
     }
@@ -109,6 +120,17 @@ fragment  headRefDeleted on HeadRefDeletedEvent{
 fragment  headRefForcePushed on HeadRefForcePushedEvent{
     id
     createdAt
+    beforeCommit{
+        abbreviatedOid
+        url
+    }
+    afterCommit{
+        url
+        abbreviatedOid
+    }
+    ref{
+        name
+    }
     actor{
         ...actor
     }
@@ -311,7 +333,7 @@ fragment reviewRequested on ReviewRequestedEvent{
         ... on User{
             ...actor
         } ... on Team{
-            avatarUrl
+            avatar: avatarUrl
             name
         }
     }

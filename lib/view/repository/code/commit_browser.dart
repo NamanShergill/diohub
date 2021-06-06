@@ -140,7 +140,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                     refresh: refresh);
               },
               divider: false,
-              builder: (context, item, index) {
+              builder: (context, item, index, refresh) {
                 return CommitTilesREST(
                   highlighted: isLocked! && widget.currentSHA == item.sha,
                   item: item,

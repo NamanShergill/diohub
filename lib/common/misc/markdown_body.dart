@@ -1,11 +1,12 @@
 import 'package:dio_hub/common/misc/code_block_view.dart';
+import 'package:dio_hub/common/misc/copy_button.dart';
 import 'package:dio_hub/common/misc/image_loader.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/services/markdown/markdown_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -332,18 +333,6 @@ class _CodeView extends StatefulWidget {
 
 class __CodeViewState extends State<_CodeView> {
   bool wrapText = false;
-  bool copied = false;
-
-  void copy() async {
-    setState(() {
-      copied = true;
-    });
-    copyToClipboard(widget.data);
-    await Future.delayed(const Duration(seconds: 4));
-    setState(() {
-      copied = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -379,40 +368,19 @@ class __CodeViewState extends State<_CodeView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        InkWell(
-                            borderRadius:
-                                AppThemeBorderRadius.smallBorderRadius,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                copied
-                                    ? Icons.check_rounded
-                                    : Icons.copy_rounded,
-                                size: 14,
-                                color: copied ? Colors.white : AppColor.grey3,
-                              ),
-                            ),
-                            onTap: copied
-                                ? null
-                                : () {
-                                    copy();
-                                  }),
-                        InkWell(
-                            borderRadius:
-                                AppThemeBorderRadius.smallBorderRadius,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.wrap_text_rounded,
-                                size: 14,
-                                color: wrapText ? Colors.white : AppColor.grey3,
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                wrapText = !wrapText;
-                              });
-                            }),
+                        CopyButton(
+                          widget.data,
+                          size: 14,
+                        ),
+                        WrapIconButton(
+                          wrap: wrapText,
+                          size: 14,
+                          onWrap: (value) {
+                            setState(() {
+                              wrapText = value;
+                            });
+                          },
+                        )
                       ],
                     ),
                   ),

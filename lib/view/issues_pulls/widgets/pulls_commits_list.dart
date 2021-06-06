@@ -19,7 +19,7 @@ class PullsCommitsList extends StatelessWidget {
             pageNumber: pageNumber);
       },
       divider: false,
-      builder: (context, item, index) {
+      builder: (context, item, index, refresh) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
           child: CommitTilesREST(item: item),

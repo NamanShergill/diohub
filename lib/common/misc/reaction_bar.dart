@@ -361,7 +361,7 @@ class _ReactionButtonState extends State<ReactionButton> {
               onLongPress: () {
                 showScrollableBottomActionsMenu(context,
                     titleText: '${_reaction.reaction} ${_reaction.emoji}',
-                    child: (context, scrollController) {
+                    child: (context, scrollController, setState) {
                   return ListView.separated(
                       separatorBuilder: (context, index) {
                         return const Divider();

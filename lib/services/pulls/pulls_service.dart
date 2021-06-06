@@ -107,12 +107,29 @@ class PullsService {
   }
 
   static Future<
-          ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges>
+          List<
+              ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>>
+      getReviewThreadReplies(String nodeID, String? cursor,
+          {required bool refresh}) async {
+    final res = await GetDio.gqlDio(
+        ReviewThreadCommentsQueryQuery(
+            variables: ReviewThreadCommentsQueryArguments(
+                nodeID: nodeID, cursor: cursor)),
+        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh));
+    return (ReviewThreadCommentsQuery$Query.fromJson(res.data!).node
+            as ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread)
+        .comments
+        .edges!;
+  }
+
+  static Future<
+          ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>
       getPRReviewThreadID(String commentID,
           {required String name,
           required String owner,
           required int number,
-          required String? cursor}) async {
+          required String? cursor,
+          required bool refresh}) async {
     final res = await GetDio.gqlDio(
       ReviewThreadFirstCommentQueryQuery(
         variables: ReviewThreadFirstCommentQueryArguments(
@@ -122,20 +139,37 @@ class PullsService {
           name: name,
         ),
       ),
-      cacheOptions: CacheManager.defaultGQLCache(),
+      cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
     );
     final parsed = ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
-    for (ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
-        in parsed.repository!.pullRequest!.reviewThreads.edges!) {
-      if (thread?.node?.comments.nodes?.first?.id == commentID) {
-        return thread!;
+
+    if (parsed.repository!.pullRequest!.reviewThreads.edges!.isNotEmpty) {
+      for (ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
+          in parsed.repository!.pullRequest!.reviewThreads.edges!) {
+        if (thread?.node?.comments.nodes?.first?.id == commentID) {
+          return thread!;
+        }
       }
+      return await getPRReviewThreadID(commentID,
+          name: name,
+          owner: owner,
+          number: number,
+          cursor:
+              parsed.repository!.pullRequest!.reviewThreads.edges!.last!.cursor,
+          refresh: refresh);
     }
-    return await getPRReviewThreadID(commentID,
-        name: name,
-        owner: owner,
-        number: number,
-        cursor:
-            parsed.repository!.pullRequest!.reviewThreads.edges!.last!.cursor);
+  }
+
+  static Future<bool> hasPendingReviews(String pullNode, String user) async {
+    final res = await GetDio.gqlDio(CheckPendingViewerReviewsQuery(
+        variables: CheckPendingViewerReviewsArguments(
+            author: user, pullNodeID: pullNode)));
+    final item = CheckPendingViewerReviews$Query.fromJson(res.data!).node
+        as CheckPendingViewerReviews$Query$Node$PullRequest;
+    if ((item.reviews?.totalCount ?? 0) > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

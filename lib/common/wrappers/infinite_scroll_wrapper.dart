@@ -16,7 +16,7 @@ class InfiniteScrollWrapperController {
 typedef ScrollWrapperFuture<T> = Future Function(
     int pageNumber, int pageSize, bool refresh, T? lastItem);
 typedef ScrollWrapperBuilder<T> = Widget Function(
-    BuildContext context, T item, int index);
+    BuildContext context, T item, int index, bool refresh);
 typedef FilterFn<T> = Function(List<T> items);
 
 /// A wrapper designed to show infinite pagination.
@@ -259,7 +259,7 @@ class _InfinitePagination<T> extends StatefulWidget {
 
 class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   // Define the paging controller.
-  final PagingController<int, T> _pagingController =
+  final PagingController<int, ListItem<T>> _pagingController =
       PagingController(firstPageKey: 0);
 
   // Start off with the first page.
@@ -301,7 +301,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
     try {
       // Use the supplied APIs accordingly, based on the *refresh* value.
       final newItems = await widget.future(pageNumber, widget.pageSize, refresh,
-          _pagingController.itemList?.last);
+          _pagingController.itemList?.last.item);
       // Check if it is the last page of results.
       final isLastPage = newItems.length < widget.pageSize;
       List<T> filteredItems;
@@ -314,13 +314,18 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       // If the last page, set refresh value to false,
       // as all pages have been refreshed.
       if (isLastPage) {
-        if (mounted) _pagingController.appendLastPage(filteredItems);
+        if (mounted) {
+          _pagingController.appendLastPage(
+              filteredItems.map((e) => ListItem(e, refresh)).toList());
+        }
         refresh = false;
       } else {
         pageNumber++;
         final nextPageKey = pageKey + newItems.length;
         if (mounted) {
-          _pagingController.appendPage(filteredItems, nextPageKey as int?);
+          _pagingController.appendPage(
+              filteredItems.map((e) => ListItem(e, refresh)).toList(),
+              nextPageKey as int?);
         }
       }
     } catch (error) {
@@ -337,10 +342,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return PagedSliverList<int, T>(
+    return PagedSliverList<int, ListItem<T>>(
       pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<T>(
-        itemBuilder: (context, T item, index) => Column(children: [
+      builderDelegate: PagedChildBuilderDelegate<ListItem<T>>(
+        itemBuilder: (context, ListItem<T> item, index) => Column(children: [
           if (index == 0)
             SizedBox(
               height: widget.topSpacing,
@@ -356,7 +361,8 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             padding: widget.divider
                 ? const EdgeInsets.all(0)
                 : EdgeInsets.only(top: widget.spacing),
-            child: widget.builder(context, item, index),
+            child:
+                widget.builder(context, item.item, index, item.refreshChildren),
           ),
         ]),
         firstPageProgressIndicatorBuilder: (context) =>
@@ -411,5 +417,17 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
               ),
       ),
     );
+  }
+}
+
+class ListItem<T> {
+  final T item;
+  bool refresh;
+  ListItem(this.item, this.refresh);
+
+  bool get refreshChildren {
+    bool temp = refresh;
+    refresh = false;
+    return temp;
   }
 }

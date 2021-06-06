@@ -50,7 +50,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   /// Show bottom sheet to apply filters.
   void showFilterSheet() {
     showScrollableBottomActionsMenu(context, titleText: 'Filter Notifications',
-        child: (context, scrollController) {
+        child: (context, scrollController, setState) {
       return FilterSheet(
         apiFilters: apiFilters,
         controller: scrollController,
@@ -208,7 +208,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         }
                         return filtered;
                       },
-                      builder: (context, NotificationModel item, index) {
+                      builder:
+                          (context, NotificationModel item, index, refresh) {
                         if (item.subject!.type == SubjectType.ISSUE) {
                           return IssueNotificationCard(item);
                         } else if (item.subject!.type ==

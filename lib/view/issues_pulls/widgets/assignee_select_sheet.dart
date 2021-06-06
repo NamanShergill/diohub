@@ -109,7 +109,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             },
             scrollController: widget.controller,
             listEndIndicator: false,
-            builder: (context, item, index) {
+            builder: (context, item, index, refresh) {
               return CheckboxListTile(
                 activeColor: AppColor.accent,
                 value: assignees.contains(item.login),

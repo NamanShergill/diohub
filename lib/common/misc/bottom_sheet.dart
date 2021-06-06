@@ -124,11 +124,13 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
   });
 }
 
-typedef ScrollChild = Widget Function(
-    BuildContext context, ScrollController scrollController);
+typedef ScrollChild = Widget Function(BuildContext context,
+    ScrollController scrollController, StateSetter setState);
 
 void showScrollableBottomActionsMenu(BuildContext context,
-    {required ScrollChild child, String? titleText, Widget? titleWidget}) {
+    {required ScrollChild child,
+    String? titleText,
+    StatefulWidgetBuilder? titleWidget}) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -146,45 +148,50 @@ void showScrollableBottomActionsMenu(BuildContext context,
         expand: false,
         minChildSize: 0.6,
         builder: (context, scrollController) {
-          return Column(
-            children: [
-              const SizedBox(
-                height: 4,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
                 children: [
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColor.grey,
-                            borderRadius: BorderRadius.circular(15)),
-                        height: 4,
-                        width: _media.width * 0.1,
-                      )),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.top + 16,
-              ),
-              titleWidget ??
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                        child: Text(
-                      titleText!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    )),
+                  const SizedBox(
+                    height: 4,
                   ),
-              const Divider(),
-              Expanded(
-                child: child(context, scrollController),
-              ),
-            ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: AppColor.grey,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 4,
+                            width: _media.width * 0.1,
+                          )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.top + 16,
+                  ),
+                  titleWidget != null
+                      ? titleWidget(context, setState)
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(
+                              child: Text(
+                            titleText!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                  const Divider(),
+                  Expanded(
+                    child: child(context, scrollController, setState),
+                  ),
+                ],
+              );
+            },
           );
         },
       );

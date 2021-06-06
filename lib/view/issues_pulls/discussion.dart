@@ -23,6 +23,7 @@ class Discussion extends StatefulWidget {
   final DateTime? commentsSince;
   final String repoName;
   final String owner;
+  final String? pullNodeID;
   final BaseComment initComment;
   final String issueUrl;
   final int number;
@@ -33,6 +34,7 @@ class Discussion extends StatefulWidget {
       {this.commentsSince,
       required this.number,
       required this.owner,
+      this.pullNodeID,
       required this.repoName,
       required this.initComment,
       required this.issueUrl,
@@ -194,8 +196,11 @@ class _DiscussionState extends State<Discussion>
                   return header;
                 },
                 divider: false,
-                builder: (context, edge, index) {
-                  return GetTimelineItem(edge.node);
+                builder: (context, edge, index, refresh) {
+                  return GetTimelineItem(
+                    edge.node,
+                    pullNodeID: widget.pullNodeID,
+                  );
                   // return Builder(
                   //   builder: (context) {
                   //     final item = node;

@@ -24,7 +24,8 @@ Widget paddingWrap({Widget? child}) {
 
 class GetTimelineItem extends StatelessWidget {
   final dynamic timelineItem;
-  const GetTimelineItem(this.timelineItem, {Key? key}) : super(key: key);
+  final String? pullNodeID;
+  const GetTimelineItem(this.timelineItem, {Key? key, this.pullNodeID}) : super(key: key);
 
   String getReviewState(PullRequestReviewState state) {
     switch (state) {
@@ -184,7 +185,7 @@ class GetTimelineItem extends StatelessWidget {
                   ? StringButton(
                       onTap: () {
                         AutoRouter.of(context)
-                            .push(PRReviewScreenRoute(nodeID: item.id));
+                            .push(PRReviewScreenRoute(nodeID: item.id, pullNodeID: pullNodeID!));
                       },
                       title: '${item.comments.totalCount} Comments',
                       color: AppColor.background,
@@ -223,12 +224,12 @@ class GetTimelineItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ProfileTile(
-                      (item.requestedReviewer as dynamic).avatarUrl.toString(),
+                      (item.requestedReviewer as dynamic)?.avatarUrl.toString(),
                       showName: true,
                       size: 20,
                       textStyle: const TextStyle(fontSize: 12),
-                      userLogin: (item.requestedReviewer as dynamic).login ??
-                          (item.requestedReviewer as dynamic).name,
+                      userLogin: (item.requestedReviewer as dynamic)?.login ??
+                          (item.requestedReviewer as dynamic)?.name,
                     ),
                   )
                 ],

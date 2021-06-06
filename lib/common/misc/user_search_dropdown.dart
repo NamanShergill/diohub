@@ -46,7 +46,7 @@ class UserSearchDropdown extends StatelessWidget {
                       return SearchService.searchMentionUsers(query, _type,
                           cursor: _?.cursor);
                     },
-                    builder: (context, item, index) {
+                    builder: (context, item, index, refresh) {
                       dynamic data = item.node;
                       return InkWell(
                         borderRadius: AppThemeBorderRadius.medBorderRadius,

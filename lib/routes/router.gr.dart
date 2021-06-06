@@ -200,7 +200,8 @@ class AppRouter extends _i1.RootStackRouter {
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<PRReviewScreenRouteArgs>();
-          return _i18.PRReviewScreen(args.nodeID, key: args.key);
+          return _i18.PRReviewScreen(args.nodeID,
+              key: args.key, pullNodeID: args.pullNodeID);
         },
         transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
@@ -611,18 +612,23 @@ class NewIssueScreenRouteArgs {
 }
 
 class PRReviewScreenRoute extends _i1.PageRouteInfo<PRReviewScreenRouteArgs> {
-  PRReviewScreenRoute({required String nodeID, _i2.Key? key})
+  PRReviewScreenRoute(
+      {required String nodeID, _i2.Key? key, required String pullNodeID})
       : super(name,
             path: '/p-rreview-screen',
-            args: PRReviewScreenRouteArgs(nodeID: nodeID, key: key));
+            args: PRReviewScreenRouteArgs(
+                nodeID: nodeID, key: key, pullNodeID: pullNodeID));
 
   static const String name = 'PRReviewScreenRoute';
 }
 
 class PRReviewScreenRouteArgs {
-  const PRReviewScreenRouteArgs({required this.nodeID, this.key});
+  const PRReviewScreenRouteArgs(
+      {required this.nodeID, this.key, required this.pullNodeID});
 
   final String nodeID;
 
   final _i2.Key? key;
+
+  final String pullNodeID;
 }

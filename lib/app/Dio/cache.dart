@@ -32,7 +32,7 @@ class CacheManager {
       CustomCacheOptions(
         refresh,
         allowPostMethod: true,
-        cachePolicy: CachePolicy.forceCache,
+        cachePolicy: CachePolicy.refreshForceCache,
         keyBuilder: (request) {
           return request.data.toString();
         },

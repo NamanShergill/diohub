@@ -219,6 +219,9 @@ mixin BaseRefDeletedMixin {
 mixin BaseRefForcePushedMixin {
   late String id;
   late DateTime createdAt;
+  BaseRefForcePushedMixin$BeforeCommit? beforeCommit;
+  BaseRefForcePushedMixin$AfterCommit? afterCommit;
+  BaseRefForcePushedMixin$Ref? ref;
   BaseRefForcePushedMixin$Actor? actor;
 }
 mixin ConvertedToDraftMixin {
@@ -235,6 +238,9 @@ mixin HeadRefDeletedMixin {
 mixin HeadRefForcePushedMixin {
   late String id;
   late DateTime createdAt;
+  HeadRefForcePushedMixin$BeforeCommit? beforeCommit;
+  HeadRefForcePushedMixin$AfterCommit? afterCommit;
+  HeadRefForcePushedMixin$Ref? ref;
   HeadRefForcePushedMixin$Actor? actor;
 }
 mixin HeadRefRestoredMixin {
@@ -685,11 +691,32 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
 
   late String id;
 
+  late bool viewerCanResolve;
+
+  late bool viewerCanUnresolve;
+
+  late bool viewerCanReply;
+
+  late bool isOutdated;
+
+  late bool isCollapsed;
+
+  late bool isResolved;
+
   late ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
       comments;
 
   @override
-  List<Object?> get props => [id, comments];
+  List<Object?> get props => [
+        id,
+        viewerCanResolve,
+        viewerCanUnresolve,
+        viewerCanReply,
+        isOutdated,
+        isCollapsed,
+        isResolved,
+        comments
+      ];
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeToJson(
           this);
@@ -790,6 +817,260 @@ class ReviewThreadFirstCommentQuery$Query extends JsonSerializable
   List<Object?> get props => [repository];
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+    extends JsonSerializable
+    with EquatableMixin, PullRequestReviewCommentMixin {
+  ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node();
+
+  factory ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        author,
+        createdAt,
+        authorAssociation,
+        body,
+        bodyHTML,
+        lastEditedAt,
+        state,
+        diffHunk,
+        outdated,
+        isMinimized,
+        replyTo,
+        path,
+        reactionGroups,
+        viewerCanDelete,
+        viewerCanUpdate,
+        viewerDidAuthor,
+        viewerCannotUpdateReasons,
+        viewerCanReact,
+        viewerCanMinimize,
+        pullRequest,
+        repository
+      ];
+  Map<String, dynamic> toJson() =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+    extends JsonSerializable with EquatableMixin {
+  ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges();
+
+  factory ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesFromJson(
+          json);
+
+  late String cursor;
+
+  ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node?
+      node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  Map<String, dynamic> toJson() =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+    extends JsonSerializable with EquatableMixin {
+  ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments();
+
+  factory ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsFromJson(
+          json);
+
+  List<ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>?
+      edges;
+
+  @override
+  List<Object?> get props => [edges];
+  Map<String, dynamic> toJson() =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
+    extends ReviewThreadCommentsQuery$Query$Node with EquatableMixin {
+  ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread();
+
+  factory ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadFromJson(
+          json);
+
+  late ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+      comments;
+
+  @override
+  List<Object?> get props => [comments];
+  Map<String, dynamic> toJson() =>
+      _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQuery$Query$Node extends JsonSerializable
+    with EquatableMixin {
+  ReviewThreadCommentsQuery$Query$Node();
+
+  factory ReviewThreadCommentsQuery$Query$Node.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'PullRequestReviewThread':
+        return ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
+            .fromJson(json);
+      default:
+    }
+    return _$ReviewThreadCommentsQuery$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'PullRequestReviewThread':
+        return (this
+                as ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread)
+            .toJson();
+      default:
+    }
+    return _$ReviewThreadCommentsQuery$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQuery$Query extends JsonSerializable
+    with EquatableMixin {
+  ReviewThreadCommentsQuery$Query();
+
+  factory ReviewThreadCommentsQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$ReviewThreadCommentsQuery$QueryFromJson(json);
+
+  ReviewThreadCommentsQuery$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  Map<String, dynamic> toJson() =>
+      _$ReviewThreadCommentsQuery$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+    extends JsonSerializable with EquatableMixin {
+  CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes();
+
+  factory CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes.fromJson(
+          Map<String, dynamic> json) =>
+      _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesFromJson(
+          json);
+
+  late Uri url;
+
+  @override
+  List<Object?> get props => [url];
+  Map<String, dynamic> toJson() =>
+      _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
+    extends JsonSerializable with EquatableMixin {
+  CheckPendingViewerReviews$Query$Node$PullRequest$Reviews();
+
+  factory CheckPendingViewerReviews$Query$Node$PullRequest$Reviews.fromJson(
+          Map<String, dynamic> json) =>
+      _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsFromJson(json);
+
+  late int totalCount;
+
+  List<CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [totalCount, nodes];
+  Map<String, dynamic> toJson() =>
+      _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckPendingViewerReviews$Query$Node$PullRequest
+    extends CheckPendingViewerReviews$Query$Node with EquatableMixin {
+  CheckPendingViewerReviews$Query$Node$PullRequest();
+
+  factory CheckPendingViewerReviews$Query$Node$PullRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$CheckPendingViewerReviews$Query$Node$PullRequestFromJson(json);
+
+  CheckPendingViewerReviews$Query$Node$PullRequest$Reviews? reviews;
+
+  @override
+  List<Object?> get props => [reviews];
+  Map<String, dynamic> toJson() =>
+      _$CheckPendingViewerReviews$Query$Node$PullRequestToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckPendingViewerReviews$Query$Node extends JsonSerializable
+    with EquatableMixin {
+  CheckPendingViewerReviews$Query$Node();
+
+  factory CheckPendingViewerReviews$Query$Node.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'PullRequest':
+        return CheckPendingViewerReviews$Query$Node$PullRequest.fromJson(json);
+      default:
+    }
+    return _$CheckPendingViewerReviews$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'PullRequest':
+        return (this as CheckPendingViewerReviews$Query$Node$PullRequest)
+            .toJson();
+      default:
+    }
+    return _$CheckPendingViewerReviews$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckPendingViewerReviews$Query extends JsonSerializable
+    with EquatableMixin {
+  CheckPendingViewerReviews$Query();
+
+  factory CheckPendingViewerReviews$Query.fromJson(Map<String, dynamic> json) =>
+      _$CheckPendingViewerReviews$QueryFromJson(json);
+
+  CheckPendingViewerReviews$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  Map<String, dynamic> toJson() =>
+      _$CheckPendingViewerReviews$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1491,7 +1772,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props =>
+      [id, createdAt, beforeCommit, afterCommit, ref, actor];
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
           this);
@@ -1599,7 +1881,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props =>
+      [id, createdAt, beforeCommit, afterCommit, ref, actor];
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
           this);
@@ -3215,6 +3498,58 @@ class BaseRefDeletedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$BeforeCommit extends JsonSerializable
+    with EquatableMixin {
+  BaseRefForcePushedMixin$BeforeCommit();
+
+  factory BaseRefForcePushedMixin$BeforeCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$BeforeCommitFromJson(json);
+
+  late String abbreviatedOid;
+
+  late Uri url;
+
+  @override
+  List<Object?> get props => [abbreviatedOid, url];
+  Map<String, dynamic> toJson() =>
+      _$BaseRefForcePushedMixin$BeforeCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$AfterCommit extends JsonSerializable
+    with EquatableMixin {
+  BaseRefForcePushedMixin$AfterCommit();
+
+  factory BaseRefForcePushedMixin$AfterCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$AfterCommitFromJson(json);
+
+  late Uri url;
+
+  late String abbreviatedOid;
+
+  @override
+  List<Object?> get props => [url, abbreviatedOid];
+  Map<String, dynamic> toJson() =>
+      _$BaseRefForcePushedMixin$AfterCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
+  BaseRefForcePushedMixin$Ref();
+
+  factory BaseRefForcePushedMixin$Ref.fromJson(Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$RefFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$RefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class BaseRefForcePushedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   BaseRefForcePushedMixin$Actor();
@@ -3251,6 +3586,58 @@ class HeadRefDeletedMixin$Actor extends JsonSerializable
   @override
   List<Object?> get props => [avatarUrl, login];
   Map<String, dynamic> toJson() => _$HeadRefDeletedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$BeforeCommit extends JsonSerializable
+    with EquatableMixin {
+  HeadRefForcePushedMixin$BeforeCommit();
+
+  factory HeadRefForcePushedMixin$BeforeCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$BeforeCommitFromJson(json);
+
+  late String abbreviatedOid;
+
+  late Uri url;
+
+  @override
+  List<Object?> get props => [abbreviatedOid, url];
+  Map<String, dynamic> toJson() =>
+      _$HeadRefForcePushedMixin$BeforeCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$AfterCommit extends JsonSerializable
+    with EquatableMixin {
+  HeadRefForcePushedMixin$AfterCommit();
+
+  factory HeadRefForcePushedMixin$AfterCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$AfterCommitFromJson(json);
+
+  late Uri url;
+
+  late String abbreviatedOid;
+
+  @override
+  List<Object?> get props => [url, abbreviatedOid];
+  Map<String, dynamic> toJson() =>
+      _$HeadRefForcePushedMixin$AfterCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
+  HeadRefForcePushedMixin$Ref();
+
+  factory HeadRefForcePushedMixin$Ref.fromJson(Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$RefFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$RefToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3452,12 +3839,12 @@ class ReviewRequestedMixin$RequestedReviewer$Team
           Map<String, dynamic> json) =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(json);
 
-  Uri? avatarUrl;
+  Uri? avatar;
 
   late String name;
 
   @override
-  List<Object?> get props => [avatarUrl, name];
+  List<Object?> get props => [avatar, name];
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
 }
@@ -4678,6 +5065,45 @@ final REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
                                           directives: [],
                                           selectionSet: null),
                                       FieldNode(
+                                          name: NameNode(
+                                              value: 'viewerCanResolve'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(
+                                              value: 'viewerCanUnresolve'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name:
+                                              NameNode(value: 'viewerCanReply'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'isOutdated'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'isCollapsed'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'isResolved'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
                                           name: NameNode(value: 'comments'),
                                           alias: null,
                                           arguments: [
@@ -4739,6 +5165,494 @@ class ReviewThreadFirstCommentQueryQuery extends GraphQLQuery<
   @override
   ReviewThreadFirstCommentQuery$Query parse(Map<String, dynamic> json) =>
       ReviewThreadFirstCommentQuery$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewThreadCommentsQueryArguments extends JsonSerializable
+    with EquatableMixin {
+  ReviewThreadCommentsQueryArguments({required this.nodeID, this.cursor});
+
+  @override
+  factory ReviewThreadCommentsQueryArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewThreadCommentsQueryArgumentsFromJson(json);
+
+  late String nodeID;
+
+  final String? cursor;
+
+  @override
+  List<Object?> get props => [nodeID, cursor];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$ReviewThreadCommentsQueryArgumentsToJson(this);
+}
+
+final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'reviewThreadCommentsQuery'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'nodeID')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'cursor')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'String'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'nodeID')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'PullRequestReviewThread'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'comments'),
+                        alias: null,
+                        arguments: [
+                          ArgumentNode(
+                              name: NameNode(value: 'first'),
+                              value: IntValueNode(value: '10')),
+                          ArgumentNode(
+                              name: NameNode(value: 'after'),
+                              value:
+                                  VariableNode(name: NameNode(value: 'cursor')))
+                        ],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'edges'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'cursor'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'node'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(selections: [
+                                      FragmentSpreadNode(
+                                          name: NameNode(
+                                              value:
+                                                  'pullRequestReviewComment'),
+                                          directives: [])
+                                    ]))
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'pullRequestReviewComment'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequestReviewComment'),
+              isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'lastEditedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'diffHunk'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'outdated'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'isMinimized'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'replyTo'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'path'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactions'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'viewerCanDelete'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerDidAuthor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCannotUpdateReasons'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanMinimize'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'pullRequest'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'number'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'owner'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'login'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'actor'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'login'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reactions'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'content'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerHasReacted'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'users'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
+class ReviewThreadCommentsQueryQuery extends GraphQLQuery<
+    ReviewThreadCommentsQuery$Query, ReviewThreadCommentsQueryArguments> {
+  ReviewThreadCommentsQueryQuery({required this.variables});
+
+  @override
+  final DocumentNode document = REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'reviewThreadCommentsQuery';
+
+  @override
+  final ReviewThreadCommentsQueryArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  ReviewThreadCommentsQuery$Query parse(Map<String, dynamic> json) =>
+      ReviewThreadCommentsQuery$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckPendingViewerReviewsArguments extends JsonSerializable
+    with EquatableMixin {
+  CheckPendingViewerReviewsArguments(
+      {required this.pullNodeID, required this.author});
+
+  @override
+  factory CheckPendingViewerReviewsArguments.fromJson(
+          Map<String, dynamic> json) =>
+      _$CheckPendingViewerReviewsArgumentsFromJson(json);
+
+  late String pullNodeID;
+
+  late String author;
+
+  @override
+  List<Object?> get props => [pullNodeID, author];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$CheckPendingViewerReviewsArgumentsToJson(this);
+}
+
+final CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'checkPendingViewerReviews'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'pullNodeID')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'author')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'pullNodeID')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'PullRequest'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'reviews'),
+                        alias: null,
+                        arguments: [
+                          ArgumentNode(
+                              name: NameNode(value: 'author'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'author'))),
+                          ArgumentNode(
+                              name: NameNode(value: 'states'),
+                              value: ListValueNode(values: [
+                                EnumValueNode(name: NameNode(value: 'PENDING'))
+                              ])),
+                          ArgumentNode(
+                              name: NameNode(value: 'first'),
+                              value: IntValueNode(value: '1'))
+                        ],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'totalCount'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'nodes'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'url'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null)
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ]))
+]);
+
+class CheckPendingViewerReviewsQuery extends GraphQLQuery<
+    CheckPendingViewerReviews$Query, CheckPendingViewerReviewsArguments> {
+  CheckPendingViewerReviewsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'checkPendingViewerReviews';
+
+  @override
+  final CheckPendingViewerReviewsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  CheckPendingViewerReviews$Query parse(Map<String, dynamic> json) =>
+      CheckPendingViewerReviews$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -7195,6 +8109,57 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
+            name: NameNode(value: 'beforeCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'afterCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'ref'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
             name: NameNode(value: 'actor'),
             alias: null,
             arguments: [],
@@ -7285,6 +8250,57 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'beforeCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'afterCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'ref'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
         FieldNode(
             name: NameNode(value: 'actor'),
             alias: null,
@@ -7690,7 +8706,7 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                   selectionSet: SelectionSetNode(selections: [
                     FieldNode(
                         name: NameNode(value: 'avatarUrl'),
-                        alias: null,
+                        alias: NameNode(value: 'avatar'),
                         arguments: [],
                         directives: [],
                         selectionSet: null),
