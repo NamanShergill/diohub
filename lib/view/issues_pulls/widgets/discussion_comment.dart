@@ -48,7 +48,7 @@ class BaseComment extends StatefulWidget {
       required this.viewerCanMinimize,
       this.description,
       this.footer,
-      this.footerPadding =  const EdgeInsets.only(top: 8.0, left: 8, right: 8),
+      this.footerPadding = const EdgeInsets.only(top: 8.0, left: 8, right: 8),
       required this.viewerCannotUpdateReasons,
       required this.viewerCanReact,
       required this.viewerCanUpdate,
@@ -151,7 +151,7 @@ class _BaseCommentState extends State<BaseComment> {
                       style: const TextStyle(
                           color: AppColor.grey3,
                           fontSize: 12,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w600),
                     ),
                     if (widget.lastEditedAt != null)
                       Text(

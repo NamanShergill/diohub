@@ -474,7 +474,6 @@ fragment  pullRequestReviewComment on PullRequestReviewComment{
 }
 
 fragment  PRReviewComments on PullRequestReview{
-
     comments(first: 10,after:  $cursor){
         edges{
             __typename

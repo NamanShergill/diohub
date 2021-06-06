@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
@@ -16,9 +14,8 @@ class IssuesService {
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader:
-                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.VERSION.html')
+                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.v3+json')
         .get(fullUrl);
-    log(response.data.toString());
     return IssueModel.fromJson(response.data);
   }
 

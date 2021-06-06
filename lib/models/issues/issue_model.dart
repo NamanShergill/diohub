@@ -205,6 +205,7 @@ class IssueModel {
         "labels_url": labelsUrl == null ? null : labelsUrl,
         "comments_url": commentsUrl == null ? null : commentsUrl,
         "events_url": eventsUrl == null ? null : eventsUrl,
+        "body_html": bodyHtml,
         "html_url": htmlUrl == null ? null : htmlUrl,
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,

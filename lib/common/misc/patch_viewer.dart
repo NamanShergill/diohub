@@ -1,4 +1,5 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
@@ -18,8 +19,10 @@ class PatchViewer extends StatefulWidget {
   final String? contentURL;
   final String? fileType;
   final bool wrap;
+  final bool initLoading;
   final bool isWidget;
   final PatchViewController? controller;
+  final int? limitLines;
 
   /// Pass this as true before starting parsing to prevent lag.
   /// Todo: Remove?
@@ -29,7 +32,9 @@ class PatchViewer extends StatefulWidget {
       this.patch,
       this.isWidget = false,
       this.wrap = false,
+      this.initLoading = true,
       this.contentURL,
+      this.limitLines,
       this.fileType,
       this.controller,
       this.waitBeforeLoad = true})
@@ -43,7 +48,7 @@ class _PatchViewerState extends State<PatchViewer> {
   String? patch;
   int maxChars = 0;
   List<String>? rawData;
-  bool loading = true;
+  late bool loading;
   final PatchViewController controller = PatchViewController();
 
   late bool wrap;
@@ -53,14 +58,17 @@ class _PatchViewerState extends State<PatchViewer> {
     widget.controller?.wrap = changeWrap;
     patch = widget.patch;
     wrap = widget.wrap;
+    loading = widget.initLoading;
     startUp();
     super.initState();
   }
 
   bool changeWrap() {
-    setState(() {
-      wrap = !wrap;
-    });
+    if (mounted) {
+      setState(() {
+        wrap = !wrap;
+      });
+    }
     controller.wrap();
     return wrap;
   }
@@ -70,9 +78,11 @@ class _PatchViewerState extends State<PatchViewer> {
     if (widget.contentURL != null) futures.add(fetchBlobFile());
     await Future.wait(futures);
     regex();
-    setState(() {
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   Future fetchBlobFile() async {
@@ -128,13 +138,21 @@ class _PatchViewerState extends State<PatchViewer> {
   List<String> codeSplit = [];
   List<String> displayHeader = [];
 
-  Widget showCodeChunk(List displayCode, int chunkIndex) {
+  Widget showCodeChunk(List displayCode, int chunkIndex, {int? onlyLast}) {
+    int getSublist() {
+      if (onlyLast != null && displayCode.length > onlyLast) {
+        return displayCode.length - onlyLast;
+      } else {
+        return 1;
+      }
+    }
+
     int getRemoveIndex = codeChunks[chunkIndex]['startRemove'];
 
     int getAddIndex = codeChunks[chunkIndex]['startAdd'];
 
     List<String> displayCodeWithoutFirstLine =
-        displayCode.sublist(1) as List<String>;
+        displayCode.sublist(getSublist()) as List<String>;
 
     return ListView.builder(
         shrinkWrap: true,
@@ -226,39 +244,73 @@ class _PatchViewerState extends State<PatchViewer> {
                   itemBuilder: (context, index) {
                     List<String> displayCode = codeChunks[index]['code'];
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (codeChunks[index]['startAdd'] != null &&
-                            !widget.isWidget)
-                          ChunkHeader(
-                            codeChunks: codeChunks,
-                            displayCode: displayCode,
-                            displayHeader: displayHeader,
-                            index: index,
-                            startRemove: codeChunks[index]['startRemove'],
-                            maxChars: maxChars,
-                            fileType: widget.fileType,
-                            rawData: rawData,
-                            wrap: wrap,
-                            controller: controller,
-                            startAdd: codeChunks[index]['startAdd'],
-                          ),
-                        if (widget.isWidget)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text.rich(
-                              TextSpan(
-                                  text: displayHeader[index] + displayCode[0]),
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontFamily: 'monospace',
-                                  fontSize: 12,
-                                  color: AppColor.grey3),
+                    return InkWell(
+                      onTap: widget.limitLines != null &&
+                              displayCode.length - 1 > widget.limitLines!
+                          ? () {
+                              showScrollableBottomActionsMenu(
+                                context,
+                                titleText: 'Diff',
+                                child: (context, scrollController) {
+                                  return SingleChildScrollView(
+                                    controller: scrollController,
+                                    child: PatchViewer(
+                                      isWidget: true,
+                                      patch: widget.patch,
+                                      fileType: widget.fileType,
+                                      waitBeforeLoad: false,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          : null,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (codeChunks[index]['startAdd'] != null &&
+                              !widget.isWidget)
+                            ChunkHeader(
+                              codeChunks: codeChunks,
+                              displayCode: displayCode,
+                              displayHeader: displayHeader,
+                              index: index,
+                              startRemove: codeChunks[index]['startRemove'],
+                              maxChars: maxChars,
+                              fileType: widget.fileType,
+                              rawData: rawData,
+                              wrap: wrap,
+                              controller: controller,
+                              startAdd: codeChunks[index]['startAdd'],
                             ),
-                          ),
-                        showCodeChunk(displayCode, index),
-                      ],
+                          if (widget.isWidget)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text.rich(
+                                TextSpan(
+                                    text:
+                                        displayHeader[index] + displayCode[0]),
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontFamily: 'monospace',
+                                    fontSize: 12,
+                                    color: AppColor.grey3),
+                              ),
+                            ),
+                          if (widget.limitLines != null &&
+                              displayCode.length - 1 > widget.limitLines!)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '...Tap to view whole diff.',
+                                style: TextStyle(fontFamily: 'monospace'),
+                              ),
+                            ),
+                          showCodeChunk(displayCode, index,
+                              onlyLast: widget.limitLines),
+                        ],
+                      ),
                     );
                   }),
             ),

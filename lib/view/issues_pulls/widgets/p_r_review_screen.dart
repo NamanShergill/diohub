@@ -59,6 +59,10 @@ class PRReviewScreen extends StatelessWidget {
               PatchViewer(
                 patch: comment.diffHunk,
                 isWidget: true,
+                limitLines: 4,
+                initLoading: false,
+                fileType: comment.path.split('.').last,
+                waitBeforeLoad: false,
               ),
               paddingWrap(
                 child: BaseComment(

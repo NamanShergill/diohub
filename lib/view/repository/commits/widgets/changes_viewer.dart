@@ -33,12 +33,14 @@ class _ChangesViewerState extends State<ChangesViewer> {
               })
         ],
       ),
-      body: PatchViewer(
-        controller: controller,
-        patch: widget.patch,
-        fileType: widget.fileType,
-        contentURL: widget.contentURL,
-        wrap: wrap,
+      body: SingleChildScrollView(
+        child: PatchViewer(
+          controller: controller,
+          patch: widget.patch,
+          fileType: widget.fileType,
+          contentURL: widget.contentURL,
+          wrap: wrap,
+        ),
       ),
     );
   }

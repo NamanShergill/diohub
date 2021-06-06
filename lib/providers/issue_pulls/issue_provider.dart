@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
@@ -28,6 +30,7 @@ class IssueProvider extends BaseProvider {
     }
     List<dynamic> data = await Future.wait(futures);
     _issueModel = data[0];
+    log(data[0].toJson().toString());
     if (_issueModel!.pullRequest != null) {
       AutoRouter.of(Global.currentContext)
           .replace(PullScreenRoute(pullURL: _issueModel!.pullRequest!.url));

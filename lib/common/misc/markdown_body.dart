@@ -7,6 +7,7 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/link_handler.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
@@ -153,6 +154,10 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
           ),
+          'p': Style(
+            padding: EdgeInsets.zero,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+          ),
         },
         customRender: {
           'a': (RenderContext renderContext, Widget child) {
@@ -191,7 +196,22 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             );
           },
           'div': (RenderContext context, Widget child) {
-            if (context.tree.children.isNotEmpty) {
+            final String? divClass = context.tree.attributes['class'];
+            if (divClass == 'border rounded-1 my-2') {
+              return Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.grey3, width: 0.3),
+                    borderRadius: AppThemeBorderRadius.smallBorderRadius),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: child,
+                ),
+              );
+            } else if (divClass == 'blob-wrapper blob-wrapper-embedded data') {
+              // Todo: Format embedded code.
+              // print(context.tree.element!.outerHtml);
+              // return Html(data: context.tree.element!.outerHtml);
+            } else if (context.tree.children.isNotEmpty) {
               if (context.tree.children.first.name == 'pre') {
                 return _CodeView(
                   context.tree.children.first.element!.text,
@@ -236,6 +256,18 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               ),
             );
           },
+          // 'p': (RenderContext renderContext, Widget child) {
+          //   final String? pClass = renderContext.tree.attributes['class'];
+          //   if (pClass == 'mb-0 color-text-tertiary') {
+          //     return DefaultTextStyle(
+          //       style: renderContext.style
+          //           .generateTextStyle()
+          //           .copyWith(color: AppColor.grey3),
+          //       child: child,
+          //     );
+          //   }
+          //   return child;
+          // },
           'pre': (RenderContext renderContext, Widget child) {
             if (renderContext.tree.children.first.name == 'code') {
               return _CodeView(renderContext.tree.element!.text);

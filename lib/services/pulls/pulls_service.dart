@@ -15,7 +15,7 @@ class PullsService {
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader:
-                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.VERSION.html')
+                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.v3+json')
         .get(fullUrl);
     return PullRequestModel.fromJson(response.data);
   }

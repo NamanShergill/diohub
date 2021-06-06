@@ -16,12 +16,34 @@ query reviewThreadFirstCommentQuery($name:String!, $owner: String!, $number:Int!
                     cursor
                     node{
                         id
+                        viewerCanResolve
+                        viewerCanUnresolve
+                        viewerCanReply
+                        isOutdated
+                        isCollapsed
+                        isResolved
                         comments(first: 1) {
                           totalCount
                             nodes {
                                 id
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+query reviewThreadCommentsQuery($nodeID:ID!, $cursor:String){
+    node(id: $nodeID){
+        __typename
+        ...on PullRequestReviewThread{
+
+            comments(first: 10, after: $cursor) {
+                edges{
+                    cursor
+                    node{
+                        ...pullRequestReviewComment
                     }
                 }
             }
