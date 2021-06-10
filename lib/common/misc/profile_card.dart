@@ -1,10 +1,15 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -12,18 +17,20 @@ class ProfileCard extends StatelessWidget {
   final UserInfoModel user;
   final bool compact;
   final EdgeInsets padding;
+  final bool isThemed;
   const ProfileCard(this.user,
       {this.compact = false,
+      this.isThemed = true,
       this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
       Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: isThemed ? padding : EdgeInsets.zero,
       child: Material(
-        elevation: 2,
-        color: AppColor.background,
+        elevation: isThemed ? 2 : 0,
+        color: isThemed ? AppColor.background : Colors.transparent,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -36,29 +43,32 @@ class ProfileCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ProfileTile(
-                  user.avatarUrl,
-                  fullName: user.name,
-                  showName: true,
-                  userLogin: user.login,
+                IgnorePointer(
+                  child: ProfileTile(
+                    user.avatarUrl,
+                    fullName: user.name,
+                    size: 30,
+                    showName: true,
+                    userLogin: user.login,
+                  ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        user.bio != null
-                            ? user.bio!.length > 100
-                                ? user.bio!.substring(0, 100) + '...'
-                                : user.bio!
-                            : 'No bio.',
-                        style: AppThemeTextStyles.eventCardChildSubtitle,
+                if (user.bio != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Flexible(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              user.bio!,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppThemeTextStyles.eventCardChildSubtitle,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
                 if (!compact)
                   Column(
                     children: [
@@ -89,6 +99,54 @@ class ProfileCard extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileCardLoading extends StatelessWidget {
+  final String login;
+  final bool compact;
+  final EdgeInsets padding;
+  const ProfileCardLoading(
+    this.login, {
+    Key? key,
+    this.compact = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding,
+      child: Material(
+        elevation: 2,
+        color: AppColor.background,
+        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        child: APIWrapper<UserInfoModel>(
+          apiCall: UserInfoService.getUserInfo(login),
+          responseBuilder: (context, data) {
+            return SizeExpandedSection(
+                child: Row(
+              children: [
+                Expanded(
+                  child: ProfileCard(
+                    data,
+                    isThemed: false,
+                    compact: compact,
+                    padding: padding,
+                  ),
+                ),
+              ],
+            ));
+          },
+          loadingBuilder: (context) {
+            return const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: LoadingIndicator(),
+            );
+          },
         ),
       ),
     );

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
-// ignore_for_file: always_require_non_null_named_parameters, annotate_overrides, avoid_function_literals_in_foreach_calls, avoid_init_to_null, avoid_null_checks_in_equality_operators, avoid_renaming_method_parameters, avoid_return_types_on_setters, avoid_returning_null_for_void, avoid_single_cascade_in_expression_statements, constant_identifier_names, control_flow_in_finally, empty_constructor_bodies, empty_statements, exhaustive_cases, implementation_imports, library_names, library_prefixes, null_closures, overridden_fields, package_names, prefer_adjacent_string_concatenation, prefer_collection_literals, prefer_conditional_assignment, prefer_contains, prefer_equal_for_default_values, prefer_final_fields, prefer_for_elements_to_map_fromIterable, prefer_function_declarations_over_variables, prefer_if_null_operators, prefer_initializing_formals, prefer_inlined_adds, prefer_is_not_operator, prefer_null_aware_operators, prefer_spread_collections, prefer_void_to_null, recursive_getters, slash_for_doc_comments, type_init_formals, unnecessary_brace_in_string_interps, unnecessary_const, unnecessary_getters_setters, unnecessary_new, unnecessary_null_in_if_null_operators, unnecessary_string_escapes, unnecessary_string_interpolations, unnecessary_this, use_function_type_syntax_for_parameters, use_rethrow_when_possible, valid_regexps, always_use_package_imports, avoid_relative_lib_imports, avoid_print, avoid_unnecessary_containers, avoid_web_libraries_in_flutter, no_logic_in_create_state, prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, use_key_in_widget_constructors
+// ignore_for_file: always_require_non_null_named_parameters, annotate_overrides, avoid_function_literals_in_foreach_calls, avoid_init_to_null, avoid_null_checks_in_equality_operators, avoid_renaming_method_parameters, avoid_return_types_on_setters, avoid_returning_null_for_void, avoid_single_cascade_in_expression_statements, constant_identifier_names, control_flow_in_finally, empty_constructor_bodies, empty_statements, exhaustive_cases, implementation_imports, library_names, library_prefixes, null_closures, non_constant_identifier_names, overridden_fields, package_names, prefer_adjacent_string_concatenation, prefer_collection_literals, prefer_conditional_assignment, prefer_contains, prefer_equal_for_default_values, prefer_final_fields, prefer_for_elements_to_map_fromIterable, prefer_function_declarations_over_variables, prefer_if_null_operators, prefer_initializing_formals, prefer_inlined_adds, prefer_is_not_operator, prefer_null_aware_operators, prefer_spread_collections, prefer_void_to_null, recursive_getters, slash_for_doc_comments, type_init_formals, unnecessary_brace_in_string_interps, unnecessary_const, unnecessary_getters_setters, unnecessary_new, unnecessary_null_in_if_null_operators, unnecessary_string_escapes, unnecessary_string_interpolations, unnecessary_this, use_function_type_syntax_for_parameters, use_rethrow_when_possible, valid_regexps, always_use_package_imports, avoid_relative_lib_imports, avoid_print, avoid_unnecessary_containers, avoid_web_libraries_in_flutter, no_logic_in_create_state, prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, use_full_hex_values_for_flutter_colors, use_key_in_widget_constructors
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -320,6 +320,7 @@ class FetchReview$Query$Node$PullRequestReviewComment$Author
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$FetchReview$Query$Node$PullRequestReviewComment$AuthorToJson(this);
 }
@@ -343,6 +344,7 @@ class FetchReview$Query$Node$PullRequestReviewComment
 
   @override
   List<Object?> get props => [bodyHTML, author, diffHunk, path];
+  @override
   Map<String, dynamic> toJson() =>
       _$FetchReview$Query$Node$PullRequestReviewCommentToJson(this);
 }
@@ -365,6 +367,7 @@ class FetchReview$Query$Node extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'PullRequestReviewComment':
@@ -387,6 +390,7 @@ class FetchReview$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [node];
+  @override
   Map<String, dynamic> toJson() => _$FetchReview$QueryToJson(this);
 }
 
@@ -402,6 +406,7 @@ class GetPRReviewComments$Query$Node$PullRequestReview
 
   @override
   List<Object?> get props => [comments];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetPRReviewComments$Query$Node$PullRequestReviewToJson(this);
 }
@@ -425,6 +430,7 @@ class GetPRReviewComments$Query$Node extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'PullRequestReview':
@@ -447,6 +453,7 @@ class GetPRReviewComments$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [node];
+  @override
   Map<String, dynamic> toJson() => _$GetPRReviewComments$QueryToJson(this);
 }
 
@@ -485,6 +492,7 @@ class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
         pullRequest,
         repository
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(this);
 }
@@ -507,6 +515,7 @@ class PRReviewCommentsMixin$Comments$Edges extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename, cursor, node];
+  @override
   Map<String, dynamic> toJson() =>
       _$PRReviewCommentsMixin$Comments$EdgesToJson(this);
 }
@@ -523,6 +532,7 @@ class PRReviewCommentsMixin$Comments extends JsonSerializable
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() => _$PRReviewCommentsMixin$CommentsToJson(this);
 }
 
@@ -537,6 +547,7 @@ class PullRequestReviewCommentMixin$Author extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$AuthorToJson(this);
 }
@@ -554,6 +565,7 @@ class PullRequestReviewCommentMixin$ReplyTo extends JsonSerializable
 
   @override
   List<Object?> get props => [id];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$ReplyToToJson(this);
 }
@@ -569,6 +581,7 @@ class PullRequestReviewCommentMixin$ReactionGroups extends JsonSerializable
 
   @override
   List<Object?> get props => [content, viewerHasReacted, users];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$ReactionGroupsToJson(this);
 }
@@ -586,6 +599,7 @@ class PullRequestReviewCommentMixin$PullRequest extends JsonSerializable
 
   @override
   List<Object?> get props => [number];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$PullRequestToJson(this);
 }
@@ -603,6 +617,7 @@ class PullRequestReviewCommentMixin$Repository$Owner extends JsonSerializable
 
   @override
   List<Object?> get props => [login];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$Repository$OwnerToJson(this);
 }
@@ -622,6 +637,7 @@ class PullRequestReviewCommentMixin$Repository extends JsonSerializable
 
   @override
   List<Object?> get props => [name, owner];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$RepositoryToJson(this);
 }
@@ -637,6 +653,7 @@ class ReactionsMixin$Users extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [totalCount];
+  @override
   Map<String, dynamic> toJson() => _$ReactionsMixin$UsersToJson(this);
 }
 
@@ -654,6 +671,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
 
   @override
   List<Object?> get props => [id];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$NodesToJson(
           this);
@@ -676,6 +694,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
 
   @override
   List<Object?> get props => [totalCount, nodes];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$CommentsToJson(
           this);
@@ -719,6 +738,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
         isResolved,
         comments
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeToJson(
           this);
@@ -741,6 +761,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
 
   @override
   List<Object?> get props => [cursor, node];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$EdgesToJson(
           this);
@@ -761,6 +782,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreadsToJson(
           this);
@@ -783,6 +805,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest
 
   @override
   List<Object?> get props => [id, reviewThreads];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequestToJson(this);
 }
@@ -800,6 +823,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository extends JsonSerializable
 
   @override
   List<Object?> get props => [pullRequest];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$RepositoryToJson(this);
 }
@@ -817,6 +841,7 @@ class ReviewThreadFirstCommentQuery$Query extends JsonSerializable
 
   @override
   List<Object?> get props => [repository];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$QueryToJson(this);
 }
@@ -858,6 +883,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
         pullRequest,
         repository
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
           this);
@@ -880,6 +906,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
 
   @override
   List<Object?> get props => [cursor, node];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesToJson(
           this);
@@ -900,6 +927,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsToJson(
           this);
@@ -920,6 +948,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
 
   @override
   List<Object?> get props => [comments];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadToJson(
           this);
@@ -946,6 +975,7 @@ class ReviewThreadCommentsQuery$Query$Node extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'PullRequestReviewThread':
@@ -970,6 +1000,7 @@ class ReviewThreadCommentsQuery$Query extends JsonSerializable
 
   @override
   List<Object?> get props => [node];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$QueryToJson(this);
 }
@@ -988,6 +1019,7 @@ class CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
 
   @override
   List<Object?> get props => [url];
+  @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesToJson(
           this);
@@ -1008,6 +1040,7 @@ class CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
 
   @override
   List<Object?> get props => [totalCount, nodes];
+  @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsToJson(this);
 }
@@ -1025,6 +1058,7 @@ class CheckPendingViewerReviews$Query$Node$PullRequest
 
   @override
   List<Object?> get props => [reviews];
+  @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$Query$Node$PullRequestToJson(this);
 }
@@ -1049,6 +1083,7 @@ class CheckPendingViewerReviews$Query$Node extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'PullRequest':
@@ -1072,6 +1107,7 @@ class CheckPendingViewerReviews$Query extends JsonSerializable
 
   @override
   List<Object?> get props => [node];
+  @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$QueryToJson(this);
 }
@@ -1089,6 +1125,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
           this);
@@ -1107,6 +1144,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, assignee];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEventToJson(
           this);
@@ -1125,6 +1163,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEventToJson(
           this);
@@ -1143,6 +1182,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
           this);
@@ -1161,6 +1201,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEventToJson(
           this);
@@ -1196,6 +1237,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
         viewerCannotUpdateReasons,
         viewerCanReact
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueCommentToJson(
           this);
@@ -1214,6 +1256,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, label];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventToJson(
           this);
@@ -1232,6 +1275,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, lockReason];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEventToJson(
           this);
@@ -1250,6 +1294,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, canonical];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
           this);
@@ -1268,6 +1313,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEventToJson(
           this);
@@ -1293,6 +1339,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
         projectColumnName,
         project
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
           this);
@@ -1311,6 +1358,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEventToJson(
           this);
@@ -1329,6 +1377,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
           this);
@@ -1348,6 +1397,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
   @override
   List<Object?> get props =>
       [id, createdAt, actor, previousTitle, currentTitle];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEventToJson(
           this);
@@ -1366,6 +1416,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEventToJson(
           this);
@@ -1384,6 +1435,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, assignee];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEventToJson(
           this);
@@ -1402,6 +1454,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor, label];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEventToJson(
           this);
@@ -1420,6 +1473,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEventToJson(
           this);
@@ -1438,6 +1492,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
           this);
@@ -1456,6 +1511,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEventToJson(
           this);
@@ -1540,6 +1596,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'AddedToProjectEvent':
@@ -1646,6 +1703,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges
 
   @override
   List<Object?> get props => [node, cursor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$EdgesToJson(
           this);
@@ -1666,6 +1724,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItemsToJson(
           this);
@@ -1686,6 +1745,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue
 
   @override
   List<Object?> get props => [timelineItems];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$IssueToJson(this);
 }
@@ -1703,6 +1763,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
           this);
@@ -1721,6 +1782,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, assignee];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEventToJson(
           this);
@@ -1740,6 +1802,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   @override
   List<Object?> get props =>
       [id, createdAt, actor, currentRefName, previousRefName];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventToJson(
           this);
@@ -1758,6 +1821,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, baseRefName];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventToJson(
           this);
@@ -1777,6 +1841,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   @override
   List<Object?> get props =>
       [id, createdAt, beforeCommit, afterCommit, ref, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
           this);
@@ -1795,6 +1860,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEventToJson(
           this);
@@ -1813,6 +1879,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventToJson(
           this);
@@ -1831,6 +1898,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
           this);
@@ -1849,6 +1917,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEventToJson(
           this);
@@ -1867,6 +1936,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, headRefName];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventToJson(
           this);
@@ -1886,6 +1956,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   @override
   List<Object?> get props =>
       [id, createdAt, beforeCommit, afterCommit, ref, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
           this);
@@ -1904,6 +1975,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventToJson(
           this);
@@ -1939,6 +2011,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         viewerCannotUpdateReasons,
         viewerCanReact
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueCommentToJson(
           this);
@@ -1957,6 +2030,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, label];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEventToJson(
           this);
@@ -1975,6 +2049,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, lockReason];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEventToJson(
           this);
@@ -1993,6 +2068,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, canonical];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
           this);
@@ -2011,6 +2087,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, mergeRefName];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEventToJson(
           this);
@@ -2029,6 +2106,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEventToJson(
           this);
@@ -2054,6 +2132,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         projectColumnName,
         project
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
           this);
@@ -2072,6 +2151,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEventToJson(
           this);
@@ -2090,6 +2170,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, commit];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitToJson(
           this);
@@ -2110,6 +2191,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadToJson(
           this);
@@ -2144,6 +2226,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         viewerCannotUpdateReasons,
         viewerCanReact
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
           this);
@@ -2164,6 +2247,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadToJson(
           this);
@@ -2182,6 +2266,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventToJson(
           this);
@@ -2200,6 +2285,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
           this);
@@ -2219,6 +2305,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   @override
   List<Object?> get props =>
       [id, createdAt, actor, previousTitle, currentTitle];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventToJson(
           this);
@@ -2237,6 +2324,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEventToJson(
           this);
@@ -2262,6 +2350,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         dismissalMessageHTML,
         previousReviewState
       ];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventToJson(
           this);
@@ -2280,6 +2369,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, requestedReviewer];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventToJson(
           this);
@@ -2298,6 +2388,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, assignee];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEventToJson(
           this);
@@ -2316,6 +2407,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor, label];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEventToJson(
           this);
@@ -2334,6 +2426,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEventToJson(
           this);
@@ -2352,6 +2445,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
           this);
@@ -2370,6 +2464,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [id, createdAt, actor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEventToJson(
           this);
@@ -2499,6 +2594,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'AddedToProjectEvent':
@@ -2665,6 +2761,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props => [node, cursor];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$EdgesToJson(
           this);
@@ -2685,6 +2782,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItemsToJson(
           this);
@@ -2706,6 +2804,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest
 
   @override
   List<Object?> get props => [timelineItems];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequestToJson(this);
 }
@@ -2734,6 +2833,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'Issue':
@@ -2761,6 +2861,7 @@ class GetTimeline$Query$Repository extends JsonSerializable
 
   @override
   List<Object?> get props => [issueOrPullRequest];
+  @override
   Map<String, dynamic> toJson() => _$GetTimeline$Query$RepositoryToJson(this);
 }
 
@@ -2775,6 +2876,7 @@ class GetTimeline$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [repository];
+  @override
   Map<String, dynamic> toJson() => _$GetTimeline$QueryToJson(this);
 }
 
@@ -2788,6 +2890,7 @@ class AddedToProjectMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$AddedToProjectMixin$ActorToJson(this);
 }
 
@@ -2802,6 +2905,7 @@ class AddedToProjectMixin$Project extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _$AddedToProjectMixin$ProjectToJson(this);
 }
 
@@ -2815,6 +2919,7 @@ class AssignedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$AssignedMixin$ActorToJson(this);
 }
 
@@ -2828,6 +2933,7 @@ class AssignedMixin$Assignee$User extends AssignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$AssignedMixin$Assignee$UserToJson(this);
 }
 
@@ -2841,6 +2947,7 @@ class AssignedMixin$Assignee$Bot extends AssignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$AssignedMixin$Assignee$BotToJson(this);
 }
 
@@ -2855,6 +2962,7 @@ class AssignedMixin$Assignee$Mannequin extends AssignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$AssignedMixin$Assignee$MannequinToJson(this);
 }
@@ -2870,6 +2978,7 @@ class AssignedMixin$Assignee$Organization extends AssignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$AssignedMixin$Assignee$OrganizationToJson(this);
 }
@@ -2898,6 +3007,7 @@ class AssignedMixin$Assignee extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -2924,6 +3034,7 @@ class ClosedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$ClosedMixin$ActorToJson(this);
 }
 
@@ -2937,6 +3048,7 @@ class CrossReferenceMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$CrossReferenceMixin$ActorToJson(this);
 }
 
@@ -2951,6 +3063,7 @@ class CrossReferenceMixin$Source$Issue extends CrossReferenceMixin$Source
 
   @override
   List<Object?> get props => [url, title, number, issueState, repository];
+  @override
   Map<String, dynamic> toJson() =>
       _$CrossReferenceMixin$Source$IssueToJson(this);
 }
@@ -2966,6 +3079,7 @@ class CrossReferenceMixin$Source$PullRequest extends CrossReferenceMixin$Source
 
   @override
   List<Object?> get props => [url, title, number, pullState, repository];
+  @override
   Map<String, dynamic> toJson() =>
       _$CrossReferenceMixin$Source$PullRequestToJson(this);
 }
@@ -2990,6 +3104,7 @@ class CrossReferenceMixin$Source extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'Issue':
@@ -3013,6 +3128,7 @@ class IssueMixin$Repository extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
 }
 
@@ -3027,6 +3143,7 @@ class PullRequestMixin$Repository extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
 }
 
@@ -3040,6 +3157,7 @@ class DeMileStonedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$DeMileStonedMixin$ActorToJson(this);
 }
 
@@ -3053,6 +3171,7 @@ class IssueCommentMixin$Author extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$IssueCommentMixin$AuthorToJson(this);
 }
 
@@ -3067,6 +3186,7 @@ class IssueCommentMixin$ReactionGroups extends JsonSerializable
 
   @override
   List<Object?> get props => [content, viewerHasReacted, users];
+  @override
   Map<String, dynamic> toJson() =>
       _$IssueCommentMixin$ReactionGroupsToJson(this);
 }
@@ -3081,6 +3201,7 @@ class LabeledMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$LabeledMixin$ActorToJson(this);
 }
 
@@ -3094,6 +3215,7 @@ class LabeledMixin$Label extends JsonSerializable
 
   @override
   List<Object?> get props => [color, name];
+  @override
   Map<String, dynamic> toJson() => _$LabeledMixin$LabelToJson(this);
 }
 
@@ -3107,6 +3229,7 @@ class LockedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$LockedMixin$ActorToJson(this);
 }
 
@@ -3120,6 +3243,7 @@ class MarkedAsDuplicateMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$MarkedAsDuplicateMixin$ActorToJson(this);
 }
 
@@ -3134,6 +3258,7 @@ class MarkedAsDuplicateMixin$Canonical$Issue
 
   @override
   List<Object?> get props => [url, title, number, issueState, repository];
+  @override
   Map<String, dynamic> toJson() =>
       _$MarkedAsDuplicateMixin$Canonical$IssueToJson(this);
 }
@@ -3150,6 +3275,7 @@ class MarkedAsDuplicateMixin$Canonical$PullRequest
 
   @override
   List<Object?> get props => [url, title, number, pullState, repository];
+  @override
   Map<String, dynamic> toJson() =>
       _$MarkedAsDuplicateMixin$Canonical$PullRequestToJson(this);
 }
@@ -3175,6 +3301,7 @@ class MarkedAsDuplicateMixin$Canonical extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'Issue':
@@ -3197,6 +3324,7 @@ class MileStonedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$MileStonedMixin$ActorToJson(this);
 }
 
@@ -3211,6 +3339,7 @@ class MovedColumnsInProjectMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$MovedColumnsInProjectMixin$ActorToJson(this);
 }
@@ -3228,6 +3357,7 @@ class MovedColumnsInProjectMixin$Project extends JsonSerializable
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() =>
       _$MovedColumnsInProjectMixin$ProjectToJson(this);
 }
@@ -3242,6 +3372,7 @@ class PinnedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$PinnedMixin$ActorToJson(this);
 }
 
@@ -3255,6 +3386,7 @@ class RemovedFromProjectMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$RemovedFromProjectMixin$ActorToJson(this);
 }
 
@@ -3270,6 +3402,7 @@ class RemovedFromProjectMixin$Project extends JsonSerializable
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() =>
       _$RemovedFromProjectMixin$ProjectToJson(this);
 }
@@ -3284,6 +3417,7 @@ class RenamedTitleMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$RenamedTitleMixin$ActorToJson(this);
 }
 
@@ -3297,6 +3431,7 @@ class ReopenedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$ReopenedMixin$ActorToJson(this);
 }
 
@@ -3310,6 +3445,7 @@ class UnassignedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnassignedMixin$ActorToJson(this);
 }
 
@@ -3323,6 +3459,7 @@ class UnassignedMixin$Assignee$User extends UnassignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnassignedMixin$Assignee$UserToJson(this);
 }
 
@@ -3336,6 +3473,7 @@ class UnassignedMixin$Assignee$Bot extends UnassignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnassignedMixin$Assignee$BotToJson(this);
 }
 
@@ -3350,6 +3488,7 @@ class UnassignedMixin$Assignee$Mannequin extends UnassignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$UnassignedMixin$Assignee$MannequinToJson(this);
 }
@@ -3365,6 +3504,7 @@ class UnassignedMixin$Assignee$Organization extends UnassignedMixin$Assignee
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$UnassignedMixin$Assignee$OrganizationToJson(this);
 }
@@ -3393,6 +3533,7 @@ class UnassignedMixin$Assignee extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -3419,6 +3560,7 @@ class UnlabeledMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnlabeledMixin$ActorToJson(this);
 }
 
@@ -3432,6 +3574,7 @@ class UnlabeledMixin$Label extends JsonSerializable
 
   @override
   List<Object?> get props => [color, name];
+  @override
   Map<String, dynamic> toJson() => _$UnlabeledMixin$LabelToJson(this);
 }
 
@@ -3445,6 +3588,7 @@ class UnlockedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnlockedMixin$ActorToJson(this);
 }
 
@@ -3458,6 +3602,7 @@ class UnmarkedAsDuplicateMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnmarkedAsDuplicateMixin$ActorToJson(this);
 }
 
@@ -3471,6 +3616,7 @@ class UnpinnedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$UnpinnedMixin$ActorToJson(this);
 }
 
@@ -3484,6 +3630,7 @@ class BaseRefChangedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$BaseRefChangedMixin$ActorToJson(this);
 }
 
@@ -3497,6 +3644,7 @@ class BaseRefDeletedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$BaseRefDeletedMixin$ActorToJson(this);
 }
 
@@ -3515,6 +3663,7 @@ class BaseRefForcePushedMixin$BeforeCommit extends JsonSerializable
 
   @override
   List<Object?> get props => [abbreviatedOid, url];
+  @override
   Map<String, dynamic> toJson() =>
       _$BaseRefForcePushedMixin$BeforeCommitToJson(this);
 }
@@ -3534,6 +3683,7 @@ class BaseRefForcePushedMixin$AfterCommit extends JsonSerializable
 
   @override
   List<Object?> get props => [url, abbreviatedOid];
+  @override
   Map<String, dynamic> toJson() =>
       _$BaseRefForcePushedMixin$AfterCommitToJson(this);
 }
@@ -3549,6 +3699,7 @@ class BaseRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$RefToJson(this);
 }
 
@@ -3562,6 +3713,7 @@ class BaseRefForcePushedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$ActorToJson(this);
 }
 
@@ -3575,6 +3727,7 @@ class ConvertedToDraftMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$ConvertedToDraftMixin$ActorToJson(this);
 }
 
@@ -3588,6 +3741,7 @@ class HeadRefDeletedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$HeadRefDeletedMixin$ActorToJson(this);
 }
 
@@ -3606,6 +3760,7 @@ class HeadRefForcePushedMixin$BeforeCommit extends JsonSerializable
 
   @override
   List<Object?> get props => [abbreviatedOid, url];
+  @override
   Map<String, dynamic> toJson() =>
       _$HeadRefForcePushedMixin$BeforeCommitToJson(this);
 }
@@ -3625,6 +3780,7 @@ class HeadRefForcePushedMixin$AfterCommit extends JsonSerializable
 
   @override
   List<Object?> get props => [url, abbreviatedOid];
+  @override
   Map<String, dynamic> toJson() =>
       _$HeadRefForcePushedMixin$AfterCommitToJson(this);
 }
@@ -3640,6 +3796,7 @@ class HeadRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$RefToJson(this);
 }
 
@@ -3653,6 +3810,7 @@ class HeadRefForcePushedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$ActorToJson(this);
 }
 
@@ -3666,6 +3824,7 @@ class HeadRefRestoredMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$HeadRefRestoredMixin$ActorToJson(this);
 }
 
@@ -3679,6 +3838,7 @@ class MergedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$MergedMixin$ActorToJson(this);
 }
 
@@ -3700,6 +3860,7 @@ class PullRequestCommitMixin$Commit extends JsonSerializable
         messageHeadline,
         author
       ];
+  @override
   Map<String, dynamic> toJson() => _$PullRequestCommitMixin$CommitToJson(this);
 }
 
@@ -3713,6 +3874,7 @@ class CommitMixin$Author$User extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$CommitMixin$Author$UserToJson(this);
 }
 
@@ -3731,6 +3893,7 @@ class CommitMixin$Author extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [avatarUrl, name, user];
+  @override
   Map<String, dynamic> toJson() => _$CommitMixin$AuthorToJson(this);
 }
 
@@ -3744,6 +3907,7 @@ class PullRequestReviewMixin$Author extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
 }
 
@@ -3759,6 +3923,7 @@ class PullRequestReviewMixin$Comments extends JsonSerializable
 
   @override
   List<Object?> get props => [totalCount];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$CommentsToJson(this);
 }
@@ -3774,6 +3939,7 @@ class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
 
   @override
   List<Object?> get props => [content, viewerHasReacted, users];
+  @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$ReactionGroupsToJson(this);
 }
@@ -3788,6 +3954,7 @@ class ReadyForReviewMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$ReadyForReviewMixin$ActorToJson(this);
 }
 
@@ -3801,6 +3968,7 @@ class ReviewDismissedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$ReviewDismissedMixin$ActorToJson(this);
 }
 
@@ -3814,6 +3982,7 @@ class ReviewRequestedMixin$Actor extends JsonSerializable
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() => _$ReviewRequestedMixin$ActorToJson(this);
 }
 
@@ -3829,6 +3998,7 @@ class ReviewRequestedMixin$RequestedReviewer$User
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$UserToJson(this);
 }
@@ -3848,6 +4018,7 @@ class ReviewRequestedMixin$RequestedReviewer$Team
 
   @override
   List<Object?> get props => [avatar, name];
+  @override
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
 }
@@ -3874,6 +4045,7 @@ class ReviewRequestedMixin$RequestedReviewer extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -3905,6 +4077,7 @@ class IssueTemplates$Query$Repository$IssueTemplates extends JsonSerializable
 
   @override
   List<Object?> get props => [name, title, body, about];
+  @override
   Map<String, dynamic> toJson() =>
       _$IssueTemplates$Query$Repository$IssueTemplatesToJson(this);
 }
@@ -3921,6 +4094,7 @@ class IssueTemplates$Query$Repository extends JsonSerializable
 
   @override
   List<Object?> get props => [issueTemplates];
+  @override
   Map<String, dynamic> toJson() =>
       _$IssueTemplates$Query$RepositoryToJson(this);
 }
@@ -3936,6 +4110,7 @@ class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [repository];
+  @override
   Map<String, dynamic> toJson() => _$IssueTemplates$QueryToJson(this);
 }
 
@@ -3954,6 +4129,7 @@ class SearchMentionUsers$Query$Search$Edges$Node$User
 
   @override
   List<Object?> get props => [login, avatarUrl];
+  @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$Search$Edges$Node$UserToJson(this);
 }
@@ -3973,6 +4149,7 @@ class SearchMentionUsers$Query$Search$Edges$Node$Organization
 
   @override
   List<Object?> get props => [login, avatarUrl];
+  @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$Search$Edges$Node$OrganizationToJson(this);
 }
@@ -4000,6 +4177,7 @@ class SearchMentionUsers$Query$Search$Edges$Node extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -4029,6 +4207,7 @@ class SearchMentionUsers$Query$Search$Edges extends JsonSerializable
 
   @override
   List<Object?> get props => [node, cursor];
+  @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$Search$EdgesToJson(this);
 }
@@ -4045,6 +4224,7 @@ class SearchMentionUsers$Query$Search extends JsonSerializable
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$SearchToJson(this);
 }
@@ -4060,6 +4240,7 @@ class SearchMentionUsers$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [search];
+  @override
   Map<String, dynamic> toJson() => _$SearchMentionUsers$QueryToJson(this);
 }
 
@@ -4077,6 +4258,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$Edges$NodeToJson(
           this);
@@ -4097,6 +4279,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$
 
   @override
   List<Object?> get props => [node];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$EdgesToJson(
           this);
@@ -4117,6 +4300,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$LanguagesToJson(
           this);
@@ -4149,6 +4333,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
   @override
   List<Object?> get props =>
       [name, description, stargazerCount, updatedAt, url, languages];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$RepositoryToJson(
           this);
@@ -4175,6 +4360,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'Repository':
@@ -4200,6 +4386,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges extends JsonSerializable
 
   @override
   List<Object?> get props => [node];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$EdgesToJson(this);
 }
@@ -4217,6 +4404,7 @@ class GetUserPinnedRepos$Query$User$PinnedItems extends JsonSerializable
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItemsToJson(this);
 }
@@ -4233,6 +4421,7 @@ class GetUserPinnedRepos$Query$User extends JsonSerializable
 
   @override
   List<Object?> get props => [pinnedItems];
+  @override
   Map<String, dynamic> toJson() => _$GetUserPinnedRepos$Query$UserToJson(this);
 }
 
@@ -4247,6 +4436,7 @@ class GetUserPinnedRepos$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [user];
+  @override
   Map<String, dynamic> toJson() => _$GetUserPinnedRepos$QueryToJson(this);
 }
 
@@ -4265,6 +4455,7 @@ class GetViewerOrgs$Query$Viewer$Organizations$Edges$Node
 
   @override
   List<Object?> get props => [avatarUrl, login];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeToJson(this);
 }
@@ -4284,6 +4475,7 @@ class GetViewerOrgs$Query$Viewer$Organizations$Edges extends JsonSerializable
 
   @override
   List<Object?> get props => [cursor, node];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetViewerOrgs$Query$Viewer$Organizations$EdgesToJson(this);
 }
@@ -4301,6 +4493,7 @@ class GetViewerOrgs$Query$Viewer$Organizations extends JsonSerializable
 
   @override
   List<Object?> get props => [edges];
+  @override
   Map<String, dynamic> toJson() =>
       _$GetViewerOrgs$Query$Viewer$OrganizationsToJson(this);
 }
@@ -4316,6 +4509,7 @@ class GetViewerOrgs$Query$Viewer extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [organizations];
+  @override
   Map<String, dynamic> toJson() => _$GetViewerOrgs$Query$ViewerToJson(this);
 }
 
@@ -4330,6 +4524,7 @@ class GetViewerOrgs$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [viewer];
+  @override
   Map<String, dynamic> toJson() => _$GetViewerOrgs$QueryToJson(this);
 }
 

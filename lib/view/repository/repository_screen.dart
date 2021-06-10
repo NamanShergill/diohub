@@ -162,6 +162,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       scrollViewAppBar: ScrollViewAppBar(
                         expandedHeight: 340,
                         collapsedHeight: 150,
+                        url: _repo.htmlUrl,
                         appBarWidget: Row(
                           children: [
                             ProfileTile(

@@ -78,6 +78,7 @@ class _IssueScreenState extends State<IssueScreen>
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
+                          url: value.issueModel!.htmlUrl,
                           tabs: const [
                             'Information',
                             'Discussion',

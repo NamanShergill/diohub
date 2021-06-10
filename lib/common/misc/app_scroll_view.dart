@@ -2,6 +2,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 
 class AppScrollView extends StatelessWidget {
@@ -73,6 +74,8 @@ class ScrollViewAppBar extends StatelessWidget {
   final Widget? flexibleBackgroundWidget;
   final double? collapsedHeight;
   final double? bottomPadding;
+  final String? url;
+
   final TabController? tabController;
   final Widget? bottomHeader;
   final Color? backgroundColor;
@@ -82,6 +85,7 @@ class ScrollViewAppBar extends StatelessWidget {
       this.appBarWidget,
       this.bottomHeader,
       this.backgroundColor,
+      this.url,
       this.tabController,
       this.bottomPadding,
       this.padding,
@@ -106,6 +110,14 @@ class ScrollViewAppBar extends StatelessWidget {
       pinned: true,
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
+      actions: [
+        if (url != null)
+          IconButton(
+              onPressed: () {
+                linkHandler(context, url, showSheetOnDeepLink: true);
+              },
+              icon: const Icon(Icons.share))
+      ],
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
           padding: padding ??

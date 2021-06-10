@@ -40,6 +40,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
       scrollViewAppBar: ScrollViewAppBar(
         tabController: tabController,
         bottomPadding: 0,
+        url: data!.htmlUrl,
         expandedHeight: 250,
         collapsedHeight: 130,
         flexibleBackgroundWidget: Column(

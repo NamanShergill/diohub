@@ -100,7 +100,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   GButton(
                     icon: LineIcons.cog,
-                    text: 'About',
+                    text: 'Settings',
                     heroTag: 'aboutNavButton',
                   ),
                 ],

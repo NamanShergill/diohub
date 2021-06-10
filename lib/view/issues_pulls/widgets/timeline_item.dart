@@ -279,7 +279,7 @@ class GetTimelineItem extends StatelessWidget {
                       size: 20,
                       textStyle: const TextStyle(fontSize: 12),
                       userLogin: (item.requestedReviewer as dynamic)?.login ??
-                          (item.requestedReviewer as dynamic)?.name,
+                          (item.requestedReviewer as dynamic)?.nameKey,
                     ),
                   )
                 ],

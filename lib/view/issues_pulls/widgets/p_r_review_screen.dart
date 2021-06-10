@@ -89,9 +89,9 @@ class PRReviewScreen extends StatelessWidget {
                                             Text(
                                                 'Cannot add a reply to other review comments when you have a pending review on the PR.'),
                                             LinkText(
-                                              'See this for more information.',
-                                              link:
-                                                  'https://github.com/NamanShergill/diohub/issues/18',
+                                              'https://github.com/NamanShergill/diohub/issues/18',
+                                              text:
+                                                  'See this for more information.',
                                             ),
                                           ],
                                         ),

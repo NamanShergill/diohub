@@ -1,6 +1,7 @@
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:share/share.dart';
@@ -93,6 +94,7 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
                   ResponseHandler.setErrorMessage(
                       AppPopupData(title: 'Unable to open URL'));
                 }
+                Navigator.pop(context);
               });
             },
             title: const Text("Open"),
@@ -101,6 +103,26 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
               color: Colors.white,
             ),
           ),
+        ),
+        const Divider(
+          height: 0,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            onTap: () {
+              Navigator.pop(context);
+              copyToClipboard(url!);
+            },
+            title: const Text("Copy"),
+            trailing: const Icon(
+              Icons.copy,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        const Divider(
+          height: 0,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -111,6 +133,7 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
               } else {
                 Share.share(url!);
               }
+              Navigator.pop(context);
             },
             title: const Text("Share"),
             trailing: const Icon(

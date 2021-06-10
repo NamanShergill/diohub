@@ -79,6 +79,7 @@ class _PullScreenState extends State<PullScreen>
                         childrenColor: AppColor.background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
+                          url: value.pullModel!.htmlUrl,
                           tabs: const [
                             'Information',
                             'Discussion',

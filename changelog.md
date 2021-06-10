@@ -19,6 +19,8 @@
 - Splash screen logo improvements.
 - Complete Github Flavored Markdown support.
 - Added organizations tab to the home screen.
+- Text in code blocks is now selectable.\
+- Added share URL button on many screens.
 
 **Deeplink**
 - Settings URL exception added in deep-links. 

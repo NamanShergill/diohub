@@ -49,7 +49,7 @@ packages:
       name: artemis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.0.0-beta.11"
+    version: "7.0.0-beta.13"
   async:
     dependency: transitive
     description:
@@ -182,7 +182,7 @@ packages:
       name: chewie
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   chewie_audio:
     dependency: transitive
     description:
@@ -454,7 +454,7 @@ packages:
     description:
       path: flutter_highlight
       ref: master
-      resolved-ref: "6d982b74e50ca18e7be712971fd42ab5e96ae1fb"
+      resolved-ref: "045cd3f3406604dfcb4ddea90241e721aed3691f"
       url: "https://github.com/NamanShergill/highlight.dart.git"
     source: git
     version: "0.7.0"
@@ -529,7 +529,14 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.8+4"
+    version: "1.2.0"
+  flutter_oss_licenses:
+    dependency: "direct dev"
+    description:
+      name: flutter_oss_licenses
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter_portal:
     dependency: "direct main"
     description:
@@ -614,13 +621,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.13.0"
-  gql_code_builder_temp:
+  gql_code_builder:
     dependency: transitive
     description:
-      name: gql_code_builder_temp
+      name: gql_code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0-nullsafety.1"
+    version: "0.2.0"
   gql_dedupe_link:
     dependency: transitive
     description:
@@ -862,7 +869,7 @@ packages:
       name: package_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   package_info_plus_linux:
     dependency: transitive
     description:
@@ -890,7 +897,7 @@ packages:
       name: package_info_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   package_info_plus_windows:
     dependency: transitive
     description:
@@ -1091,7 +1098,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   source_span:
     dependency: transitive
     description:
@@ -1275,7 +1282,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -1352,7 +1359,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   xdg_directories:
     dependency: transitive
     description:
