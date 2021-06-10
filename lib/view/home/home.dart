@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen>
                         Provider.of<NavigationProvider>(context, listen: false)
                             .animateToPage(1);
                       },
+                      heroTag: 'homeSearchBar',
                     ),
                     trailing: ClipOval(
                       child: InkWell(

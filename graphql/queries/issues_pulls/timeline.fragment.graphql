@@ -459,6 +459,7 @@ fragment  reactions on ReactionGroup{
 
 fragment  pullRequestReviewComment on PullRequestReviewComment{
     id
+    databaseId
     author{
         ...actor
     }

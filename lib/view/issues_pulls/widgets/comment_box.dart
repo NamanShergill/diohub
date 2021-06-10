@@ -1,26 +1,107 @@
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:markdown_editable_textinput/format_markdown.dart';
-import 'package:provider/provider.dart';
+import 'package:markdown_editable_textinput/markdown_text_input.dart';
+
+typedef LoadingFuture = Future<void> Function();
+
+void showCommentSheet(BuildContext context,
+    {required LoadingFuture onSubmit,
+    String type = 'Comment',
+    required String? initialData,
+    required ValueChanged<String> onChanged,
+    required String owner,
+    required String repoName}) {
+  bool markdownView = false;
+  bool loading = false;
+  showBottomActionsMenu(context, fullScreen: true, header: (context, setState) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              markdownView = !markdownView;
+            });
+          },
+          icon: const Icon(Icons.remove_red_eye_rounded),
+          color: markdownView ? Colors.white : AppColor.grey3,
+        ),
+        Expanded(
+          child: InkWell(
+            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      type,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    const Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        IconButton(
+          onPressed: loading
+              ? null
+              : () async {
+                  setState(() {
+                    loading = true;
+                  });
+                  await onSubmit().then((_) {
+                    setState(() {
+                      loading = false;
+                    });
+                    Navigator.pop(context);
+                  });
+                },
+          disabledColor: AppColor.grey3.withOpacity(0.5),
+          icon: loading
+              ? const LoadingIndicator()
+              : const Icon(
+                  Icons.reply,
+                ),
+        )
+      ],
+    );
+  }, childWidget: (buildContext, setState) {
+    return Expanded(
+        child: CommentBox(
+      repoName: owner + '/' + repoName,
+      markdownView: markdownView,
+      initialData: initialData,
+      onChanged: loading ? null : onChanged,
+    ));
+  });
+}
 
 class CommentBox extends StatefulWidget {
-  final String issueURL;
   final String repoName;
-  final ValueChanged<bool> onSubmit;
+  final String? initialData;
+  final ValueChanged<String>? onChanged;
   final bool markdownView;
   final ScrollController? scrollController;
-  const CommentBox(
-      {Key? key,
-      this.scrollController,
-      required this.markdownView,
-      required this.repoName,
-      required this.issueURL,
-      required this.onSubmit})
-      : super(key: key);
+  const CommentBox({
+    Key? key,
+    this.scrollController,
+    required this.initialData,
+    required this.onChanged,
+    required this.markdownView,
+    required this.repoName,
+  }) : super(key: key);
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
@@ -28,19 +109,30 @@ class CommentBox extends StatefulWidget {
 
 class _CommentBoxState extends State<CommentBox> {
   bool loading = false;
+  late String data;
+
+  @override
+  void initState() {
+    data = widget.initialData ?? '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget textBox() {
       return MarkdownTextInput(
-        initialValue: Provider.of<CommentProvider>(context).data,
+        initialValue: data,
         autoFocus: true,
-        onTextChanged: (value) {
-          setState(() {
-            Provider.of<CommentProvider>(context, listen: false)
-                .updateData(value);
-          });
-        },
+        onTextChanged: widget.onChanged != null
+            ? (value) {
+                setState(() {
+                  // Provider.of<CommentProvider>(context, listen: false)
+                  //     .updateData(value);
+                  data = value;
+                });
+                widget.onChanged!(value);
+              }
+            : null,
         maxLines: null,
         toolbarDecoration: const BoxDecoration(color: AppColor.background),
         inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -56,7 +148,7 @@ class _CommentBoxState extends State<CommentBox> {
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: widget.markdownView
           ? MarkdownRenderAPI(
-              Provider.of<CommentProvider>(context).data,
+              data,
               repoName: widget.repoName,
             )
           : textBox(),
@@ -104,266 +196,3 @@ class _CommentBoxState extends State<CommentBox> {
 //   color: AppColor.background,
 //   borderRadius: 0,
 // ),
-
-/// Widget with markdown buttons
-class MarkdownTextInput extends StatefulWidget {
-  /// Callback called when text changed
-  final ValueChanged<String>? onTextChanged;
-
-  /// Initial value you want to display
-  final String? initialValue;
-
-  /// Validator for the TextFormField
-  final FormFieldValidator<String>? validator;
-
-  /// String displayed at hintText in TextFormField
-  final String label;
-
-  /// Change the text direction of the input (RTL / LTR)
-  final TextDirection textDirection;
-
-  /// The maximum of lines that can be display in the input
-  final int? maxLines;
-
-  /// Text Box decoration.
-  final BoxDecoration? boxDecoration;
-
-  /// Toolbar decoration.
-  final BoxDecoration? toolbarDecoration;
-
-  /// Inkwell border radius.
-  final BorderRadius? inkwellBorderRadius;
-
-  final bool autoFocus;
-
-  /// Constructor for [MarkdownTextInput]
-  MarkdownTextInput(
-      {this.initialValue,
-      this.label = '',
-      this.autoFocus = false,
-      this.validator,
-      this.onTextChanged,
-      this.boxDecoration,
-      this.inkwellBorderRadius,
-      this.toolbarDecoration,
-      this.textDirection = TextDirection.ltr,
-      this.maxLines = 1});
-
-  @override
-  _MarkdownTextInputState createState() => _MarkdownTextInputState();
-}
-
-class _MarkdownTextInputState extends State<MarkdownTextInput> {
-  final _controller = TextEditingController();
-  TextSelection textSelection =
-      const TextSelection(baseOffset: 0, extentOffset: 0);
-
-  void onTap(MarkdownType type, {int titleSize = 1}) {
-    HapticFeedback.vibrate();
-    final basePosition = textSelection.baseOffset;
-    var noTextSelected =
-        (textSelection.baseOffset - textSelection.extentOffset) == 0;
-
-    final result = FormatMarkdown.convertToMarkdown(
-      type,
-      _controller.text,
-      textSelection.baseOffset,
-      textSelection.extentOffset,
-    );
-
-    _controller.value = _controller.value.copyWith(
-        text: result.data,
-        selection:
-            TextSelection.collapsed(offset: basePosition + result.cursorIndex));
-
-    if (noTextSelected) {
-      _controller.selection = TextSelection.collapsed(
-          offset: _controller.selection.end - result.replaceCursorIndex!);
-    }
-  }
-
-  @override
-  void initState() {
-    _controller.text = widget.initialValue!;
-    _controller.addListener(() {
-      if (_controller.selection.baseOffset != -1)
-        textSelection = _controller.selection;
-      if (widget.onTextChanged != null) widget.onTextChanged!(_controller.text);
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: widget.boxDecoration ??
-          BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-          ),
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              textInputAction: TextInputAction.newline,
-              maxLines: widget.maxLines,
-              minLines: 1,
-              autofocus: widget.autoFocus,
-              controller: _controller,
-              textCapitalization: TextCapitalization.sentences,
-              validator: widget.validator,
-              cursorColor: Theme.of(context).primaryColor,
-              textDirection: widget.textDirection ?? TextDirection.ltr,
-              decoration: InputDecoration(
-                enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent)),
-                focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent)),
-                hintText: widget.label,
-                hintStyle:
-                    const TextStyle(color: Color.fromRGBO(63, 61, 86, 0.5)),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              ),
-            ),
-          ),
-          Container(
-            decoration: widget.toolbarDecoration?.copyWith(
-                border: Border(
-                    top: BorderSide(color: Theme.of(context).accentColor))),
-            width: double.infinity,
-            child: Center(
-              child: Material(
-                color: Colors.transparent,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('bold_button'),
-                        onTap: () => onTap(MarkdownType.bold),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.format_bold,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('italic_button'),
-                        onTap: () => onTap(MarkdownType.italic),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.format_italic,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('code_button'),
-                        onTap: () => onTap(MarkdownType.code),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.code,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: Key('H_button'),
-                        onTap: () => onTap(MarkdownType.title),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            'H',
-                            style: TextStyle(
-                                fontSize: (15).toDouble(),
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        onTap: () => onTap(MarkdownType.code_block),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.check_box_outline_blank_rounded,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        onTap: () => onTap(MarkdownType.strike_through),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.strikethrough_s_rounded,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('quote_button'),
-                        onTap: () => onTap(MarkdownType.quote),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.format_quote,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('link_button'),
-                        onTap: () => onTap(MarkdownType.link),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.link,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('list_button'),
-                        onTap: () => onTap(MarkdownType.list),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.list,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: widget.inkwellBorderRadius,
-                        key: const Key('task_button'),
-                        onTap: () => onTap(MarkdownType.taskList),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.check_box_outlined,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}

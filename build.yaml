@@ -26,6 +26,7 @@ targets:
             - library_names
             - library_prefixes
             - null_closures
+            - non_constant_identifier_names
             - overridden_fields
             - package_names
             - prefer_adjacent_string_concatenation

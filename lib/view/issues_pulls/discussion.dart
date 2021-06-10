@@ -1,10 +1,8 @@
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
@@ -63,6 +61,27 @@ class _DiscussionState extends State<Discussion>
   void initState() {
     commentsSince = widget.commentsSince;
     super.initState();
+  }
+
+  void openCommentSheet() {
+    showCommentSheet(context,
+        onSubmit: () async {
+          await IssuesService.addComment(
+              widget.issueUrl, context.read<CommentProvider>().data);
+          context.read<CommentProvider>().clearData();
+          setState(() {
+            commentsSince = DateTime.now();
+            commentsSinceController.refresh();
+          });
+          return;
+        },
+        initialData: context.read<CommentProvider>().data,
+        onChanged: (value) {
+          Provider.of<CommentProvider>(context, listen: false)
+              .updateData(value);
+        },
+        owner: widget.owner,
+        repoName: widget.repoName);
   }
 
   @override
@@ -181,7 +200,7 @@ class _DiscussionState extends State<Discussion>
                       number: widget.number,
                       owner: widget.owner,
                       refresh: refresh,
-                      since: commentsSince);
+                      since: commentsSince?.toUtc());
                 },
                 controller: commentsSinceController,
                 firstPageLoadingBuilder: (context) {
@@ -200,6 +219,9 @@ class _DiscussionState extends State<Discussion>
                   return GetTimelineItem(
                     edge.node,
                     pullNodeID: widget.pullNodeID,
+                    onQuote: () {
+                      openCommentSheet();
+                    },
                   );
                   // return Builder(
                   //   builder: (context) {
@@ -303,15 +325,9 @@ class _DiscussionState extends State<Discussion>
               ),
             ),
             _CommentButton(
-              issueUrl: widget.issueUrl,
-              onSubmit: () {
-                setState(() {
-                  commentsSince = DateTime.now();
-                  commentsSinceController.refresh();
-                });
+              onTap: () {
+                openCommentSheet();
               },
-              owner: widget.owner,
-              repoName: widget.repoName,
               isLocked: widget.isLocked!,
             )
           ],
@@ -321,103 +337,22 @@ class _DiscussionState extends State<Discussion>
   }
 }
 
-class _CommentButton extends StatefulWidget {
+class _CommentButton extends StatelessWidget {
   final bool isLocked;
-  final String issueUrl;
-  final String owner;
-  final String repoName;
-  final VoidCallback onSubmit;
-  const _CommentButton(
-      {Key? key,
-      this.isLocked = false,
-      required this.issueUrl,
-      required this.onSubmit,
-      required this.owner,
-      required this.repoName})
-      : super(key: key);
-
-  @override
-  _CommentButtonState createState() => _CommentButtonState();
-}
-
-class _CommentButtonState extends State<_CommentButton> {
-  bool markdownView = false;
+  final GestureTapCallback onTap;
+  const _CommentButton({
+    Key? key,
+    this.isLocked = false,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: 2,
-      color: widget.isLocked ? AppColor.grey3 : AppColor.accent,
+      color: isLocked ? AppColor.grey3 : AppColor.accent,
       child: InkWell(
-        onTap: widget.isLocked
-            ? null
-            : () {
-                showBottomActionsMenu(context, fullScreen: true,
-                    header: (context, setState) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            markdownView = !markdownView;
-                          });
-                        },
-                        icon: const Icon(Icons.remove_red_eye_rounded),
-                        color: markdownView ? Colors.white : AppColor.grey3,
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'Comment',
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                  ),
-                                  const Icon(Icons.arrow_drop_down),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: () {},
-                          disabledColor: AppColor.grey3.withOpacity(0.5),
-                          icon: const Icon(
-                            Icons.add,
-                          )),
-                    ],
-                  );
-                }, childWidget: (buildContext, setState) {
-                  return Expanded(
-                    child: ListenableProvider.value(
-                      value: Provider.of<CommentProvider>(
-                        context,
-                      ),
-                      child: CommentBox(
-                        issueURL: widget.issueUrl,
-                        repoName: widget.owner + '/' + widget.repoName,
-                        onSubmit: (status) {
-                          if (status) {
-                            widget.onSubmit();
-                          }
-                        },
-                        markdownView: markdownView,
-                      ),
-                    ),
-                  );
-                });
-              },
+        onTap: isLocked ? null : onTap,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -434,7 +369,7 @@ class _CommentButtonState extends State<_CommentButton> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
-                  widget.isLocked ? Octicons.lock : Icons.comment_rounded,
+                  isLocked ? Octicons.lock : Icons.comment_rounded,
                   size: 16,
                 ),
               )

@@ -17,6 +17,7 @@ mixin PRReviewCommentsMixin {
 }
 mixin PullRequestReviewCommentMixin {
   late String id;
+  int? databaseId;
   PullRequestReviewCommentMixin$Author? author;
   late DateTime createdAt;
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
@@ -461,6 +462,7 @@ class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
   @override
   List<Object?> get props => [
         id,
+        databaseId,
         author,
         createdAt,
         authorAssociation,
@@ -833,6 +835,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
   @override
   List<Object?> get props => [
         id,
+        databaseId,
         author,
         createdAt,
         authorAssociation,
@@ -4697,6 +4700,12 @@ final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
+            name: NameNode(value: 'databaseId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
             name: NameNode(value: 'author'),
             alias: null,
             arguments: [],
@@ -5283,6 +5292,12 @@ final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
             name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'databaseId'),
             alias: null,
             arguments: [],
             directives: [],

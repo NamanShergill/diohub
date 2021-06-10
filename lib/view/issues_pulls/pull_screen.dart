@@ -239,6 +239,7 @@ class _PullScreenState extends State<PullScreen>
                               initComment: BaseComment(
                                   isMinimized: false,
                                   reactions: null,
+                                  onQuote: () {},
                                   viewerCanDelete: false,
                                   viewerCanMinimize: false,
                                   viewerCannotUpdateReasons: null,

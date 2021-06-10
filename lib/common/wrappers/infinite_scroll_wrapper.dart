@@ -259,7 +259,7 @@ class _InfinitePagination<T> extends StatefulWidget {
 
 class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   // Define the paging controller.
-  final PagingController<int, ListItem<T>> _pagingController =
+  final PagingController<int, _ListItem<T>> _pagingController =
       PagingController(firstPageKey: 0);
 
   // Start off with the first page.
@@ -316,7 +316,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       if (isLastPage) {
         if (mounted) {
           _pagingController.appendLastPage(
-              filteredItems.map((e) => ListItem(e, refresh)).toList());
+              filteredItems.map((e) => _ListItem(e, refresh)).toList());
         }
         refresh = false;
       } else {
@@ -324,7 +324,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         final nextPageKey = pageKey + newItems.length;
         if (mounted) {
           _pagingController.appendPage(
-              filteredItems.map((e) => ListItem(e, refresh)).toList(),
+              filteredItems.map((e) => _ListItem(e, refresh)).toList(),
               nextPageKey as int?);
         }
       }
@@ -342,10 +342,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return PagedSliverList<int, ListItem<T>>(
+    return PagedSliverList<int, _ListItem<T>>(
       pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<ListItem<T>>(
-        itemBuilder: (context, ListItem<T> item, index) => Column(children: [
+      builderDelegate: PagedChildBuilderDelegate<_ListItem<T>>(
+        itemBuilder: (context, _ListItem<T> item, index) => Column(children: [
           if (index == 0)
             SizedBox(
               height: widget.topSpacing,
@@ -420,10 +420,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   }
 }
 
-class ListItem<T> {
+class _ListItem<T> {
   final T item;
   bool refresh;
-  ListItem(this.item, this.refresh);
+  _ListItem(this.item, this.refresh);
 
   bool get refreshChildren {
     bool temp = refresh;

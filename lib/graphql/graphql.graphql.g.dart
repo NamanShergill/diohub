@@ -118,6 +118,7 @@ PRReviewCommentsMixin$Comments$Edges$Node
         Map<String, dynamic> json) {
   return PRReviewCommentsMixin$Comments$Edges$Node()
     ..id = json['id'] as String
+    ..databaseId = json['databaseId'] as int?
     ..author = json['author'] == null
         ? null
         : PullRequestReviewCommentMixin$Author.fromJson(
@@ -162,6 +163,7 @@ Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
         PRReviewCommentsMixin$Comments$Edges$Node instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'databaseId': instance.databaseId,
       'author': instance.author?.toJson(),
       'createdAt': instance.createdAt.toIso8601String(),
       'authorAssociation':
@@ -550,6 +552,7 @@ ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
         Map<String, dynamic> json) {
   return ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
     ..id = json['id'] as String
+    ..databaseId = json['databaseId'] as int?
     ..author = json['author'] == null
         ? null
         : PullRequestReviewCommentMixin$Author.fromJson(
@@ -596,6 +599,7 @@ Map<String, dynamic>
                 instance) =>
         <String, dynamic>{
           'id': instance.id,
+          'databaseId': instance.databaseId,
           'author': instance.author?.toJson(),
           'createdAt': instance.createdAt.toIso8601String(),
           'authorAssociation':

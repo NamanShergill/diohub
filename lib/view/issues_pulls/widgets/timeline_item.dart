@@ -4,6 +4,7 @@ import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
@@ -25,7 +26,11 @@ Widget paddingWrap({Widget? child}) {
 class GetTimelineItem extends StatelessWidget {
   final dynamic timelineItem;
   final String? pullNodeID;
-  const GetTimelineItem(this.timelineItem, {Key? key, this.pullNodeID}) : super(key: key);
+  final VoidCallback onQuote;
+
+  const GetTimelineItem(this.timelineItem,
+      {Key? key, this.pullNodeID, required this.onQuote})
+      : super(key: key);
 
   String getReviewState(PullRequestReviewState state) {
     switch (state) {
@@ -59,8 +64,28 @@ class GetTimelineItem extends StatelessWidget {
               isAssigned: true,
             );
           } else if (item is BaseRefChangedMixin) {
+            return BasicEventTextCard(
+              textContent:
+                  'Changed base ref from ${item.previousRefName} to ${item.currentRefName}.',
+              user: item.actor,
+              leading: Octicons.repo_force_push,
+              date: item.createdAt,
+            );
           } else if (item is BaseRefDeletedMixin) {
+            return BasicEventTextCard(
+              textContent: 'Deleted base ref ${item.baseRefName}.',
+              user: item.actor,
+              leading: Octicons.repo_force_push,
+              date: item.createdAt,
+            );
           } else if (item is BaseRefForcePushedMixin) {
+            return BasicEventTextCard(
+              textContent:
+                  'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
+              user: item.actor,
+              leading: Octicons.repo_force_push,
+              date: item.createdAt,
+            );
           } else if (item is ClosedMixin) {
             return BasicEventTextCard(
               textContent: 'Closed this.',
@@ -87,7 +112,8 @@ class GetTimelineItem extends StatelessWidget {
             );
           } else if (item is HeadRefForcePushedMixin) {
             return BasicEventTextCard(
-              textContent: 'Force pushed to head ref.',
+              textContent:
+                  'Force pushed to head ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
               user: item.actor,
               leading: Octicons.repo_force_push,
               date: item.createdAt,
@@ -102,6 +128,7 @@ class GetTimelineItem extends StatelessWidget {
           } else if (item is IssueCommentMixin) {
             return BaseComment(
               isMinimized: item.isMinimized,
+              onQuote: onQuote,
               reactions: item.reactionGroups as List<ReactionsMixin>,
               minimizedReason: item.minimizedReason,
               viewerCanDelete: item.viewerCanDelete,
@@ -165,6 +192,7 @@ class GetTimelineItem extends StatelessWidget {
           } else if (item is PullRequestReviewMixin) {
             return BaseComment(
               description: getReviewState(item.state),
+              onQuote: onQuote,
               leading: Icons.remove_red_eye_rounded,
               isMinimized: false,
               reactions: item.reactionGroups as List<ReactionsMixin>,
@@ -184,8 +212,8 @@ class GetTimelineItem extends StatelessWidget {
               footer: item.comments.totalCount > 0
                   ? StringButton(
                       onTap: () {
-                        AutoRouter.of(context)
-                            .push(PRReviewScreenRoute(nodeID: item.id, pullNodeID: pullNodeID!));
+                        AutoRouter.of(context).push(PRReviewScreenRoute(
+                            nodeID: item.id, pullNodeID: pullNodeID!));
                       },
                       title: '${item.comments.totalCount} Comments',
                       color: AppColor.background,
@@ -203,6 +231,28 @@ class GetTimelineItem extends StatelessWidget {
             );
           } else if (item is RemovedFromProjectMixin) {
           } else if (item is RenamedTitleMixin) {
+            return paddingWrap(
+                child: BasicEventCard(
+              user: item.actor,
+              leading: Octicons.pencil,
+              date: item.createdAt,
+              content: Text.rich(
+                TextSpan(
+                  children: [
+                    const TextSpan(text: 'Renamed this.\n'),
+                    TextSpan(
+                        text: '${item.previousTitle}\n',
+                        style: const TextStyle(
+                            decoration: TextDecoration.lineThrough)),
+                    TextSpan(text: item.currentTitle),
+                  ],
+                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1!
+                    .merge(AppThemeTextStyles.basicIssueEventCardText),
+              ),
+            ));
           } else if (item is ReopenedMixin) {
             return BasicEventTextCard(
               textContent: 'Reopened this.',
@@ -236,6 +286,12 @@ class GetTimelineItem extends StatelessWidget {
               ),
             );
           } else if (item is UnassignedMixin) {
+            return BasicEventAssignedCard(
+              actor: item.actor,
+              assignee: item.assignee as ActorMixin,
+              createdAt: item.createdAt,
+              isAssigned: false,
+            );
           } else if (item is UnlabeledMixin) {
             return BasicEventLabeledCard(
               actor: item.actor!,

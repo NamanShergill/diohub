@@ -230,6 +230,7 @@ class _IssueScreenState extends State<IssueScreen>
                                   reactions: null,
                                   viewerCanDelete: false,
                                   viewerCanMinimize: false,
+                                  onQuote: () {},
                                   viewerCannotUpdateReasons: null,
                                   viewerCanReact: false,
                                   viewerCanUpdate: false,

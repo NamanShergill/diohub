@@ -7,6 +7,7 @@ import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
+import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +28,19 @@ class BaseComment extends StatefulWidget {
   final bool viewerCanMinimize;
   final bool viewerCanDelete;
   final bool viewerCanUpdate;
-  final bool viewerDidAuthor; // Todo: Temp nullable
-
+  final bool viewerDidAuthor;
+  // Todo: Temp nullable
   final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
   final bool viewerCanReact;
   final Widget? footer;
   final String? description;
   final Widget? header;
+  final VoidCallback onQuote;
   final EdgeInsets headerPadding;
   final EdgeInsets footerPadding;
   const BaseComment(
       {Key? key,
+      required this.onQuote,
       this.headerPadding = const EdgeInsets.symmetric(horizontal: 16),
       this.header,
       required this.isMinimized,
@@ -192,7 +195,10 @@ class _BaseCommentState extends State<BaseComment> {
                 leading: const Icon(
                   Icons.format_quote,
                 ),
-                onTap: () => addQuote(widget.body),
+                onTap: () {
+                  addQuote(widget.body);
+                  widget.onQuote();
+                },
                 dense: true,
                 title: const Text(
                   'Quote Reply',
@@ -206,7 +212,13 @@ class _BaseCommentState extends State<BaseComment> {
                 title: const Text('Select Text'),
                 onTap: () => showDialog(
                   context: context,
-                  builder: (context) => _SelectAndCopy(widget.body),
+                  builder: (cxt) => ListenableProvider.value(
+                    value: Provider.of<CommentProvider>(context),
+                    builder: (context, child) => _SelectAndCopy(
+                      widget.body,
+                      onQuote: widget.onQuote,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -264,7 +276,10 @@ class _BaseCommentState extends State<BaseComment> {
 
 class _SelectAndCopy extends StatefulWidget {
   final String data;
-  const _SelectAndCopy(this.data, {Key? key}) : super(key: key);
+  final VoidCallback onQuote;
+
+  const _SelectAndCopy(this.data, {Key? key, required this.onQuote})
+      : super(key: key);
 
   @override
   __SelectAndCopyState createState() => __SelectAndCopyState();
@@ -284,7 +299,9 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           widget.data,
           style: Theme.of(context).textTheme.bodyText2,
           onSelectionChanged: (selection, cause) {
-            selectedText = selection.textInside(widget.data);
+            setState(() {
+              selectedText = selection.textInside(widget.data);
+            });
           },
         ),
       ),
@@ -299,14 +316,26 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           ),
         ),
         MaterialButton(
-          onPressed: () {},
+          onPressed: selectedText.isNotEmpty
+              ? () {
+                  copyToClipboard(selectedText);
+                  Navigator.pop(context);
+                }
+              : null,
           child: const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Copy'),
           ),
         ),
         MaterialButton(
-          onPressed: () {},
+          onPressed: selectedText.isNotEmpty
+              ? () {
+                  context.read<CommentProvider>().addQuote(selectedText);
+                  Navigator.pop(context);
+
+                  widget.onQuote();
+                }
+              : null,
           child: const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Quote'),
