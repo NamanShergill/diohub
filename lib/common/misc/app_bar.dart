@@ -14,13 +14,23 @@ class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: title,
       actions: [
-        if (url != null)
-          IconButton(
-              onPressed: () {
-                linkHandler(context, url, showSheetOnDeepLink: true);
-              },
-              icon: const Icon(Icons.share))
+        if (url != null) ShareButton(url!),
       ],
     );
+  }
+}
+
+class ShareButton extends StatelessWidget {
+  final String url;
+  const ShareButton(this.url, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        iconSize: 20,
+        onPressed: () {
+          linkHandler(context, url, showSheetOnDeepLink: true);
+        },
+        icon: const Icon(Icons.share));
   }
 }

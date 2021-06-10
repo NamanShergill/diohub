@@ -56,13 +56,13 @@ class DependenciesScreen extends StatelessWidget {
                   return ListTile(
                       title: Text(
                         '$key ${version ?? ''}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: desc != null ? Text(desc) : null,
                       tileColor: AppColor.background,
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
-                      trailing: Icon(Icons.chevron_right_rounded),
+                      trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () {
                         AutoRouter.of(context).push(OssLicenseScreenRoute(
                             nameKey: key!, json: licenseJson));
@@ -108,7 +108,7 @@ class OssLicenseScreen extends StatelessWidget {
   final String nameKey;
   final Map<String, dynamic> json;
 
-  String get version => json['version'];
+  String? get version => json['version'];
   String? get description => json['description'];
   String? get licenseText => json['license'];
   String? get homepage => json['homepage'];
