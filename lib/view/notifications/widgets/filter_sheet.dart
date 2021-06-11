@@ -109,7 +109,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.bullseye,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('assign'),
                     activeColor: AppColor.accent,
@@ -130,7 +129,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.pen,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('author'),
                     activeColor: AppColor.accent,
@@ -151,7 +149,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.comment,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('comment'),
                     activeColor: AppColor.accent,
@@ -172,7 +169,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.envelopeOpen,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('invitation'),
                     activeColor: AppColor.accent,
@@ -193,7 +189,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.exclamationCircle,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('manual'),
                     activeColor: AppColor.accent,
@@ -214,7 +209,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.at,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('mention'),
                     activeColor: AppColor.accent,
@@ -235,7 +229,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.search,
-                      color: Colors.white,
                     ),
                     value:
                         clientFilters['show_only'].contains('review_requested'),
@@ -257,7 +250,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.userSecret,
-                      color: Colors.white,
                     ),
                     value:
                         clientFilters['show_only'].contains('security_alert'),
@@ -279,7 +271,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       Octicons.git_pull_request,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('state_change'),
                     activeColor: AppColor.accent,
@@ -300,7 +291,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.envelope,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('subscribed'),
                     activeColor: AppColor.accent,
@@ -321,7 +311,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.teamspeak,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('team_mention'),
                     activeColor: AppColor.accent,

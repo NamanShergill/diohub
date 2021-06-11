@@ -28,7 +28,8 @@ class CardFooter extends StatelessWidget {
           Flexible(
             child: Text(
               text!,
-              style: TextStyle(color: unread! ? Colors.white : AppColor.grey3),
+              style: TextStyle(
+                  color: unread! ? AppColor.baseElements : AppColor.grey3),
               overflow: TextOverflow.ellipsis,
             ),
           ),

@@ -136,7 +136,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                             Octicons.git_commit,
                             size: 11,
                             color: widget.highlighted
-                                ? Colors.white
+                                ? AppColor.elementsOnColors
                                 : AppColor.grey3,
                           ),
                           const SizedBox(
@@ -147,7 +147,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                             style: TextStyle(
                               fontSize: 11,
                               color: widget.highlighted
-                                  ? Colors.white
+                                  ? AppColor.elementsOnColors
                                   : AppColor.grey3,
                             ),
                           ),
@@ -157,7 +157,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                                 : Icons.arrow_drop_down,
                             size: 13,
                             color: widget.highlighted
-                                ? Colors.white
+                                ? AppColor.elementsOnColors
                                 : AppColor.grey3,
                           ),
                         ],
@@ -175,7 +175,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                                   Icons.timelapse_outlined,
                                   size: 11,
                                   color: widget.highlighted
-                                      ? Colors.white
+                                      ? AppColor.elementsOnColors
                                       : AppColor.grey3,
                                 ),
                                 const SizedBox(
@@ -187,7 +187,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: widget.highlighted
-                                        ? Colors.white
+                                        ? AppColor.elementsOnColors
                                         : AppColor.grey3,
                                   ),
                                 ),

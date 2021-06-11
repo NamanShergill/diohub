@@ -157,16 +157,16 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                         child: const Text(
                           'TAP TO COPY',
                           style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         replacement: const Text(
                           'COPIED',
                           style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ],
@@ -235,7 +235,6 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Tap here to cancel',
-                  style: TextStyle(color: Colors.white),
                 ),
               ),
               onPressed: () {

@@ -35,7 +35,7 @@ class _CopyButtonState extends State<CopyButton> {
           child: Icon(
             copied ? Icons.check_rounded : Icons.copy_rounded,
             size: widget.size,
-            color: copied ? Colors.white : AppColor.grey3,
+            color: copied ? AppColor.baseElements : AppColor.grey3,
           ),
         ),
         onTap: copied

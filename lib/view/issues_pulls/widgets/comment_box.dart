@@ -29,7 +29,7 @@ void showCommentSheet(BuildContext context,
             });
           },
           icon: const Icon(Icons.remove_red_eye_rounded),
-          color: markdownView ? Colors.white : AppColor.grey3,
+          color: markdownView ? AppColor.baseElements : AppColor.grey3,
         ),
         Expanded(
           child: InkWell(

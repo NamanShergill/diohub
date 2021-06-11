@@ -27,7 +27,7 @@ class WrapIconButton extends StatelessWidget {
           child: Icon(
             Icons.wrap_text_rounded,
             size: size,
-            color: wrap ? Colors.white : AppColor.grey3,
+            color: wrap ? AppColor.baseElements : AppColor.grey3,
           ),
         ),
         onTap: () {
@@ -515,20 +515,19 @@ class _ChunkHeaderState extends State<ChunkHeader> {
             children: [
               const Icon(
                 Icons.expand,
-                color: Colors.white,
               ),
               const SizedBox(
                 width: 8,
               ),
               Text(
                 widget.displayHeader![widget.index!],
-                style: const TextStyle(color: Colors.white, fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               Flexible(
                 child: Text(
                   widget.displayCode![0],
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                  style: const TextStyle(fontSize: 12),
                 ),
               ),
             ],

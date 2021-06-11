@@ -109,9 +109,7 @@ class _BaseCommentState extends State<BaseComment> {
                     Text(
                       widget.author?.login ?? 'N/A',
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12),
+                          fontWeight: FontWeight.bold, fontSize: 12),
                     ),
                     if (widget.authorAssociation !=
                             CommentAuthorAssociation.member &&

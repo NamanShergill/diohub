@@ -71,15 +71,13 @@ class _CodeBrowserState extends State<CodeBrowser>
                                       'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA!.substring(0, 6)}.',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
-                                          color: Colors.white,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     const Text(
                                       'Load the latest code?',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
+                                      style: TextStyle(fontSize: 12),
                                     ),
                                   ],
                                 ),
@@ -177,7 +175,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                             color:
                                                 index == value.tree.length - 1
                                                     ? AppColor.accent
-                                                    : Colors.white,
+                                                    : AppColor.baseElements,
                                             fontWeight:
                                                 index == value.tree.length - 1
                                                     ? FontWeight.bold

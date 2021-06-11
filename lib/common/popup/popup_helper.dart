@@ -46,14 +46,12 @@ class DialogHelper {
               (appPopup.popupType == PopupType.failed
                   ? LineIcons.exclamationCircle
                   : LineIcons.checkCircle),
-          color: Colors.white,
           size: 30,
         ),
         messageText: Text(
           appPopup.title!,
           style: const TextStyle(
             fontSize: 18.0,
-            color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
         ),

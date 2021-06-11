@@ -48,7 +48,7 @@ class DependenciesScreen extends StatelessWidget {
           if (snapshot.hasData) {
             return ListView.separated(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(0),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (context, index) {
                   final key = snapshot.data![index];

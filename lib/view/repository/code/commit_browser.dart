@@ -109,7 +109,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                                 style: TextStyle(
                                     color: index == path.length
                                         ? AppColor.accent
-                                        : Colors.white,
+                                        : AppColor.baseElements,
                                     fontWeight: index == path.length
                                         ? FontWeight.bold
                                         : FontWeight.w500),

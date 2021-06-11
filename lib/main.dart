@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
                     ),
                     appBarTheme:
                         AppBarTheme(color: AppColor.background, elevation: 5),
-                    iconTheme: const IconThemeData(color: Colors.white),
+                    iconTheme: IconThemeData(color: AppColor.baseElements),
                     textTheme: const TextTheme(
                       bodyText1: TextStyle(),
                       bodyText2: TextStyle(),
@@ -96,7 +96,8 @@ class MyApp extends StatelessWidget {
                       button: TextStyle(),
                       overline: TextStyle(),
                     ).apply(
-                        displayColor: Colors.white, bodyColor: Colors.white),
+                        displayColor: AppColor.baseElements,
+                        bodyColor: AppColor.baseElements),
                     primaryColor: AppColor.accent,
                     scrollbarTheme: ScrollbarThemeData(
                         thumbColor:
@@ -105,11 +106,12 @@ class MyApp extends StatelessWidget {
                       backgroundColor: AppColor.background,
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
-                      titleTextStyle: const TextStyle(color: Colors.white),
-                      contentTextStyle: const TextStyle(color: Colors.white),
+                      titleTextStyle: TextStyle(color: AppColor.baseElements),
+                      contentTextStyle: TextStyle(color: AppColor.baseElements),
                     ),
                     scaffoldBackgroundColor: AppColor.background,
-                    primaryIconTheme: const IconThemeData(color: Colors.white),
+                    primaryIconTheme:
+                        IconThemeData(color: AppColor.baseElements),
                     accentIconTheme: IconThemeData(color: AppColor.accent),
                     dividerColor: Colors.grey.withOpacity(0.7),
                     brightness: Brightness.dark,
@@ -121,8 +123,8 @@ class MyApp extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
                     ),
-                    dividerTheme: const DividerThemeData(
-                        color: Colors.white, thickness: 0.04),
+                    dividerTheme: DividerThemeData(
+                        color: AppColor.baseElements, thickness: 0.04),
                     fontFamily: 'Montserrat'),
                 routerDelegate: Global.customRouter.delegate(initialRoutes: [
                   LandingLoadingScreenRoute(initLink: initDeepLink)

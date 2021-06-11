@@ -71,8 +71,8 @@ class ChangedFilesListCard extends StatelessWidget {
             child: getSubtitle(file),
           ),
           children: [
-            const Divider(
-              color: Colors.white,
+            Divider(
+              color: AppColor.baseElements,
               height: 0,
             ),
             InkWell(
@@ -93,15 +93,16 @@ class ChangedFilesListCard extends StatelessWidget {
                       'View Changes',
                       style: TextStyle(
                           color: file.patch != null
-                              ? Colors.white
+                              ? AppColor.baseElements
                               : AppColor.grey3),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     Icon(LineIcons.edit,
-                        color:
-                            file.patch != null ? Colors.white : AppColor.grey3),
+                        color: file.patch != null
+                            ? AppColor.baseElements
+                            : AppColor.grey3),
                   ],
                 ),
               ),

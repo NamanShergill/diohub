@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -13,7 +14,7 @@ class ProfileTile extends StatelessWidget {
   final String? userLogin;
   final bool showName;
   final String? fullName;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final EdgeInsets padding;
   final bool disableTap;
   const ProfileTile(this.avatarUrl,
@@ -23,7 +24,7 @@ class ProfileTile extends StatelessWidget {
       this.fullName,
       this.disableTap = false,
       this.showName = false,
-      this.textStyle = const TextStyle(color: Colors.white, fontSize: 15),
+      this.textStyle,
       Key? key})
       : super(key: key);
   @override
@@ -74,7 +75,10 @@ class ProfileTile extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
                         fullName!,
-                        style: textStyle.copyWith(fontWeight: FontWeight.bold),
+                        style: (textStyle ??
+                                TextStyle(
+                                    color: AppColor.baseElements, fontSize: 15))
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
                   if (showName)

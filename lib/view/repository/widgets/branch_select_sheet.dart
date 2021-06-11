@@ -53,7 +53,7 @@ class BranchSelectSheet extends StatelessWidget {
                     Flexible(
                       child: Row(
                         children: [
-                          const Icon(Octicons.git_branch, color: Colors.white),
+                          const Icon(Octicons.git_branch),
                           const SizedBox(
                             width: 8,
                           ),
@@ -61,7 +61,6 @@ class BranchSelectSheet extends StatelessWidget {
                             child: Text(
                               item.name!,
                               style: TextStyle(
-                                  color: Colors.white,
                                   fontWeight: item.name == currentBranch
                                       ? FontWeight.bold
                                       : FontWeight.normal),
@@ -75,9 +74,9 @@ class BranchSelectSheet extends StatelessWidget {
                       child: const Text(
                         'Default',
                         style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.white),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
                       ),
                       replacement: Container(),
                     )

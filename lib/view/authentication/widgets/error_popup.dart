@@ -1,5 +1,6 @@
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,9 +39,9 @@ class ErrorPopup extends StatelessWidget {
               onPressed: () {
                 BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
               },
-              child: const Text(
+              child: Text(
                 'Retry',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColor.baseElements),
               ),
             ),
           )

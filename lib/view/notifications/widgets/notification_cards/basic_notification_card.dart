@@ -157,7 +157,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                           widget.notification!.subject!.title!,
                           style: TextStyle(
                               color: widget.notification!.unread!
-                                  ? Colors.white
+                                  ? AppColor.baseElements
                                   : AppColor.grey3,
                               fontSize: 16,
                               fontWeight: FontWeight.w600),

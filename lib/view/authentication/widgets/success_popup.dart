@@ -1,4 +1,5 @@
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/authentication/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -34,9 +35,9 @@ class SuccessPopup extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text(
+                child: Text(
                   'Tap here to close',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.baseElements),
                 ),
               ),
             )

@@ -92,7 +92,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                 : null,
             icon: const Icon(Icons.remove_red_eye_rounded),
             disabledColor: AppColor.grey3.withOpacity(0.5),
-            color: markdownView ? Colors.white : AppColor.grey3,
+            color: markdownView ? AppColor.baseElements : AppColor.grey3,
           ),
           IconButton(
               onPressed: status == PageStatus.loaded

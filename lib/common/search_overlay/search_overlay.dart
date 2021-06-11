@@ -1,9 +1,9 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/overlay_menu_widget.dart';
+import 'package:dio_hub/common/misc/user_search_dropdown.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/range_picker.dart';
-import 'package:dio_hub/common/misc/user_search_dropdown.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
@@ -27,7 +27,9 @@ class SearchOverlayScreen extends StatefulWidget {
       {this.message,
       this.heroTag = 'search_bar',
       required this.multiHero,
-      required this.onSubmit, Key? key}):super(key:key);
+      required this.onSubmit,
+      Key? key})
+      : super(key: key);
   @override
   _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
 }
@@ -329,7 +331,6 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       infoOverlay.tapped();
                                     },
                                     icon: const Icon(LineIcons.info),
-                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -840,13 +841,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   _TextSpanBuilder(this.searchFilters, this.controller,
       {required this.onChanged})
       : patternMap = {
-          searchFilters.validSensitiveQueriesRegExp: const TextStyle(
-            color: Colors.white,
+          searchFilters.validSensitiveQueriesRegExp: TextStyle(
+            color: AppColor.elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
-          searchFilters.validBasicQueriesRegExp: const TextStyle(
-            color: Colors.white,
+          searchFilters.validBasicQueriesRegExp: TextStyle(
+            color: AppColor.elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
@@ -1024,7 +1025,7 @@ class _ValidQuery extends SpecialText {
                     ),
                     ClipOval(
                       child: Container(
-                        color: Colors.white,
+                        color: AppColor.elementsOnColors,
                         child: Icon(
                           Icons.close_rounded,
                           color: toString().startsWith('-')

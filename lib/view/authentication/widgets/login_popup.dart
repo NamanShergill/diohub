@@ -13,14 +13,13 @@ class LoginPopup extends StatelessWidget {
     return ScaleExpandedSection(
       child: StringButton(
         title: 'Login with GitHub',
-        leadingIcon: const Icon(
+        leadingIcon: Icon(
           Octicons.mark_github,
-          color: Colors.white,
+          color: AppColor.baseElements,
         ),
         color: AppColor.onBackground,
         onTap: () async {
-          BlocProvider.of<AuthenticationBloc>(context)
-              .add(RequestDeviceCode());
+          BlocProvider.of<AuthenticationBloc>(context).add(RequestDeviceCode());
         },
       ),
     );

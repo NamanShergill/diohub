@@ -68,11 +68,12 @@ class _LandingScreenState extends State<LandingScreen> {
                 },
                 gap: 10,
                 color: AppColor.grey,
-                activeColor: Colors.white,
+                activeColor: AppColor.baseElements,
                 rippleColor: Colors.grey[800]!,
                 hoverColor: Colors.grey[700]!,
                 iconSize: 20,
-                textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                textStyle:
+                    TextStyle(fontSize: 16, color: AppColor.baseElements),
                 tabBackgroundColor: Colors.grey[900]!,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),

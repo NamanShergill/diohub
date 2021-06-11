@@ -173,7 +173,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 
     if (!widget.disableRefresh) {
       child = RefreshIndicator(
-        color: Colors.white,
+        color: AppColor.baseElements,
         onRefresh: () => Future.sync(() async {
           controller.refresh();
         }),

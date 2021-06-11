@@ -75,7 +75,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
             child: IconButton(
               icon: Icon(
                 Icons.wrap_text,
-                color: wrapText ? Colors.white : AppColor.grey3,
+                color: wrapText ? AppColor.baseElements : AppColor.grey3,
               ),
               onPressed: () {
                 setState(() {

@@ -98,9 +98,9 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
               });
             },
             title: const Text("Open"),
-            trailing: const Icon(
+            trailing: Icon(
               LineIcons.link,
-              color: Colors.white,
+              color: AppColor.baseElements,
             ),
           ),
         ),
@@ -115,9 +115,9 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
               copyToClipboard(url!);
             },
             title: const Text("Copy"),
-            trailing: const Icon(
+            trailing: Icon(
               Icons.copy,
-              color: Colors.white,
+              color: AppColor.baseElements,
             ),
           ),
         ),
@@ -138,7 +138,6 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
             title: const Text("Share"),
             trailing: const Icon(
               LineIcons.share,
-              color: Colors.white,
             ),
           ),
         ),

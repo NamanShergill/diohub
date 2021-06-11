@@ -32,10 +32,10 @@ class ExitConfirmationDialog extends StatelessWidget {
                 //   ),
                 // ),
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: AppColor.baseElements,
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
@@ -52,16 +52,14 @@ class ExitConfirmationDialog extends StatelessWidget {
                   children: <Widget>[
                     const Text(
                       'Do you want to exit?',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 16, left: 16),
                       child: Text(
                         'If back button is pressed by mistake then click on No to cancel.',
-                        style: TextStyle(color: AppColor.baseText),
+                        style: TextStyle(color: AppColor.baseElements),
                         textAlign: TextAlign.center,
                       ),
                     ),

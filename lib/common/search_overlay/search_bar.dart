@@ -141,7 +141,9 @@ class _SearchBarState extends State<SearchBar> {
                   title: Text(
                     'Sort & Quick Filters',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                        color: sortExpanded ? AppColor.accent : Colors.white),
+                        color: sortExpanded
+                            ? AppColor.accent
+                            : AppColor.baseElements),
                   ),
                   onTap: () {
                     setState(() {
@@ -184,7 +186,7 @@ class _SearchBarState extends State<SearchBar> {
                                             .copyWith(
                                                 color: sortExpanded
                                                     ? AppColor.accent
-                                                    : Colors.white),
+                                                    : AppColor.baseElements),
                                       ),
                                       expanded: sortExpanded,
                                       child: Column(
@@ -277,7 +279,7 @@ class _SearchBarState extends State<SearchBar> {
                                               .copyWith(
                                                   color: quickFiltersExpanded
                                                       ? AppColor.accent
-                                                      : Colors.white),
+                                                      : AppColor.baseElements),
                                         ),
                                         expanded: quickFiltersExpanded,
                                         child: Column(
@@ -568,7 +570,6 @@ class _ActiveSearch extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Icon(
                           LineIcons.search,
-                          color: Colors.white,
                           size: 14,
                         ),
                       ),
@@ -581,8 +582,8 @@ class _ActiveSearch extends StatelessWidget {
                 ),
               if (searchData.visibleStrings.isNotEmpty &&
                   searchData.query.trim().isNotEmpty)
-                const Divider(
-                  color: Colors.white,
+                Divider(
+                  color: AppColor.baseElements,
                   thickness: 0.2,
                 ),
               Padding(

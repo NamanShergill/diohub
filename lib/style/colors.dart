@@ -4,8 +4,10 @@ class AppColor {
   AppColor._();
   static Color accent = Color(0xff0079FD);
   static Color background = Color(0xff17181C);
+  // static Color background = Color(0xff151618);
   static Color onBackground = Color(0xff201f23);
-  static Color baseText = Colors.white;
+  static Color baseElements = Colors.white;
+  static Color elementsOnColors = Colors.white;
   static Color red = Color(0xffF44E3B);
   static Color green = Color(0xff27AE61);
   static Color grey = Color(0xff413E3E);

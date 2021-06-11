@@ -144,7 +144,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             ),
                             const Icon(
                               LineIcons.checkCircle,
-                              color: Colors.white,
                             ),
                           ],
                         ),
@@ -172,7 +171,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             ),
                             const Icon(
                               LineIcons.filter,
-                              color: Colors.white,
                             ),
                           ],
                         ),

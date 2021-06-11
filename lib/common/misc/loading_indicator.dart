@@ -1,15 +1,16 @@
 import 'dart:math' as math;
 
+import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatefulWidget {
   const LoadingIndicator({
     Key? key,
-    this.color = Colors.white,
+    this.color,
     this.size = 25.0,
   }) : super(key: key);
 
-  final Color color;
+  final Color? color;
   final double size;
 
   @override
@@ -51,7 +52,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
             width: widget.size,
             child: Image.asset(
               'assets/loading.png',
-              color: widget.color,
+              color: widget.color ?? AppColor.baseElements,
             )),
       ),
     );

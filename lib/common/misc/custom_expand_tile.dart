@@ -23,7 +23,7 @@ class CustomExpandTile extends StatelessWidget {
           onTap: onTap,
           trailing: Icon(
             expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-            color: expanded ? Colors.white : AppColor.grey3,
+            color: expanded ? AppColor.baseElements : AppColor.grey3,
           ),
         ),
         SizeExpandedSection(

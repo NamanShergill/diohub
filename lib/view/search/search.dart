@@ -53,8 +53,10 @@ class _SearchScreenState extends State<SearchScreen>
                     padding: const EdgeInsets.all(24.0),
                     child: Text(
                       'Search GitHub',
-                      style: Theme.of(context).textTheme.headline4!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
@@ -111,14 +113,10 @@ class _SearchScreenState extends State<SearchScreen>
                                                           right: 16,
                                                           bottom: 8),
                                                   child: Text(
-                                                    'Trending Repositories',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline6!
-                                                        .copyWith(
-                                                          color: Colors.white,
-                                                        ),
-                                                  ),
+                                                      'Trending Repositories',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline6!),
                                                 ),
                                                 // Divider(
                                                 //   height: 0,

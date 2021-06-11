@@ -102,9 +102,7 @@ class _DiscussionState extends State<Discussion>
                         'Showing timeline since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 4,
@@ -112,7 +110,7 @@ class _DiscussionState extends State<Discussion>
                       const Text(
                         'Load the whole timeline?',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        style: TextStyle(fontSize: 12),
                       ),
                     ],
                   ),
@@ -142,20 +140,17 @@ class _DiscussionState extends State<Discussion>
                   child: const Text(
                     'Show timeline from a specific time?',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                   ),
                   onTap: () async {
                     DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
                         theme: DatePickerTheme(
                             cancelStyle: TextStyle(
-                              color: Colors.white,
+                              color: AppColor.baseElements,
                             ),
                             doneStyle: TextStyle(color: AppColor.accent),
-                            itemStyle: TextStyle(color: Colors.white),
+                            itemStyle: TextStyle(color: AppColor.baseElements),
                             backgroundColor: AppColor.background),
                         maxTime: DateTime.now(), onConfirm: (date) {
                       setState(() {
