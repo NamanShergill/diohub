@@ -25,13 +25,13 @@ class _CommitTiles extends StatefulWidget {
   final DateTime date;
   final String url;
   final bool compact;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   const _CommitTiles(
       {Key? key,
       this.compact = false,
       this.highlighted = false,
       this.onSelected,
-      this.backgroundColor = AppColor.onBackground,
+      this.backgroundColor,
       required this.message,
       required this.url,
       required this.date,
@@ -58,7 +58,9 @@ class _CommitTilesState extends State<_CommitTiles> {
     return Material(
       elevation: 2,
       borderRadius: AppThemeBorderRadius.medBorderRadius,
-      color: widget.highlighted ? AppColor.accent : widget.backgroundColor,
+      color: widget.highlighted
+          ? AppColor.accent
+          : widget.backgroundColor ?? AppColor.onBackground,
       child: InkWell(
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         onTap: () {
@@ -328,7 +330,7 @@ class CommitTilesGQL extends StatelessWidget {
   final CommitMixin item;
   final bool highlighted;
   final bool compact;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final ValueChanged<String>? onSelected;
   const CommitTilesGQL(
       {Key? key,
@@ -336,7 +338,7 @@ class CommitTilesGQL extends StatelessWidget {
       this.highlighted = false,
       this.onSelected,
       this.compact = true,
-      this.backgroundColor = AppColor.onBackground})
+      this.backgroundColor})
       : super(key: key);
 
   @override
@@ -344,7 +346,7 @@ class CommitTilesGQL extends StatelessWidget {
     return _CommitTiles(
         highlighted: highlighted,
         onSelected: onSelected,
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor ?? AppColor.onBackground,
         compact: compact,
         message: item.messageHeadline,
         url: toApiURL,

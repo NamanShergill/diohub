@@ -91,7 +91,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                       child: LinearProgressIndicator(
                         backgroundColor: AppColor.grey,
                         valueColor:
-                            const AlwaysStoppedAnimation<Color>(AppColor.grey3),
+                            AlwaysStoppedAnimation<Color>(AppColor.grey3),
                         value: ((time.min ?? 0) * 60 + time.sec!) /
                             ((widget.deviceCodeModel.expiresIn! -
                                     widget.deviceCodeModel.parsedOn!) /

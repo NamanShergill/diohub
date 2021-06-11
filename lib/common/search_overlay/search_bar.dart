@@ -15,7 +15,7 @@ class SearchBar extends StatefulWidget {
   final SearchData? searchData;
   final bool updateBarOnChange;
   final ValueChanged<SearchData> onSubmit;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final String _heroTag;
   final Map<String, String>? quickFilters;
   final Map<String, String>? quickOptions;
@@ -34,7 +34,7 @@ class SearchBar extends StatefulWidget {
       this.updateBarOnChange = true,
       this.isPinned = false,
       this.onSortChanged,
-      this.backgroundColor = AppColor.onBackground,
+      this.backgroundColor,
       required this.onSubmit,
       Key? key})
       : _heroTag = heroTag ?? 'search_bar',
@@ -148,7 +148,7 @@ class _SearchBarState extends State<SearchBar> {
                       quickActionsVisible = true;
                     });
                   },
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_drop_down,
                     color: AppColor.grey3,
                   ),
@@ -419,7 +419,7 @@ class _SearchBarState extends State<SearchBar> {
       child: Column(
         children: [
           Material(
-            color: widget.backgroundColor,
+            color: widget.backgroundColor ?? AppColor.onBackground,
             borderRadius: widget.isPinned
                 ? null
                 : searchData?.searchFilters != null
@@ -499,23 +499,25 @@ class _SearchBarState extends State<SearchBar> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: Icon(
                                   LineIcons.search,
                                   color: AppColor.grey3,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  widget._prompt,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                          color:
-                                              AppColor.grey3.withOpacity(0.7)),
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    widget._prompt,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                            color: AppColor.grey3
+                                                .withOpacity(0.7)),
+                                  ),
                                 ),
                               ),
                             ],

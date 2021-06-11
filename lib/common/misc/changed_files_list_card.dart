@@ -43,12 +43,11 @@ class ChangedFilesListCard extends StatelessWidget {
               ),
               TextSpan(
                   text: '+${file.additions} ',
-                  style: const TextStyle(color: AppColor.green)),
-              const TextSpan(
-                  text: '| ', style: TextStyle(color: AppColor.grey3)),
+                  style: TextStyle(color: AppColor.green)),
+              TextSpan(text: '| ', style: TextStyle(color: AppColor.grey3)),
               TextSpan(
                   text: '-${file.deletions}',
-                  style: const TextStyle(color: AppColor.red)),
+                  style: TextStyle(color: AppColor.red)),
             ]),
       );
     }

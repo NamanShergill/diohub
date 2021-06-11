@@ -115,7 +115,7 @@ class _PullScreenState extends State<PullScreen>
                               ),
                               Text(
                                 '#${value.pullModel!.number}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
                             ],
@@ -152,13 +152,13 @@ class _PullScreenState extends State<PullScreen>
                                   ),
                                   Text(
                                     '#${value.pullModel!.number}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 24,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Octicons.comment,
                                     color: AppColor.grey3,
                                     size: 11,
@@ -168,7 +168,7 @@ class _PullScreenState extends State<PullScreen>
                                   ),
                                   Text(
                                     '${value.pullModel!.comments} comments',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
                                 ],
@@ -208,7 +208,7 @@ class _PullScreenState extends State<PullScreen>
                                 value.pullModel!.state == IssueState.CLOSED
                                     ? 'By ${value.pullModel!.user!.login}, closed ${getDate(value.pullModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.pullModel!.createdAt.toString(), shorten: false)} by ${value.pullModel!.user!.login}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
                             ],

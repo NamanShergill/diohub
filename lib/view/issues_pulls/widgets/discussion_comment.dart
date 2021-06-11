@@ -134,7 +134,7 @@ class _BaseCommentState extends State<BaseComment> {
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
                               str ?? '',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 12, color: AppColor.grey3),
                             ),
                           );
@@ -151,7 +151,7 @@ class _BaseCommentState extends State<BaseComment> {
                   children: [
                     Text(
                       getDate(widget.createdAt.toString(), shorten: false),
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: AppColor.grey3,
                           fontSize: 12,
                           fontWeight: FontWeight.w600),
@@ -161,8 +161,7 @@ class _BaseCommentState extends State<BaseComment> {
                         'Edited ' +
                             getDate(widget.lastEditedAt.toString(),
                                 shorten: false),
-                        style: const TextStyle(
-                            color: AppColor.grey3, fontSize: 10),
+                        style: TextStyle(color: AppColor.grey3, fontSize: 10),
                       ),
                   ],
                 ),
@@ -173,7 +172,7 @@ class _BaseCommentState extends State<BaseComment> {
                             optionsExpanded = !optionsExpanded;
                           });
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.more_vert_rounded,
                           color: AppColor.grey3,
                         ))

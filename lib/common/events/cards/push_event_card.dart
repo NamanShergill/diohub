@@ -27,7 +27,7 @@ class PushEventCard extends StatelessWidget {
       childPadding: const EdgeInsets.all(8),
       actor: event.actor!.login,
       headerText: [
-        const TextSpan(
+        TextSpan(
             text: ' pushed to ', style: AppThemeTextStyles.eventCardHeaderMed),
         TextSpan(
             text: event.repo!.name,
@@ -87,7 +87,7 @@ class PushEventCard extends StatelessWidget {
                             TextSpan(
                                 text:
                                     '#${data.commits![index].sha!.substring(0, 6)}',
-                                style: const TextStyle(color: AppColor.accent)),
+                                style: TextStyle(color: AppColor.accent)),
                             TextSpan(text: '  ' + data.commits![index].message!)
                           ])),
                     ),

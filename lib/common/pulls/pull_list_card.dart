@@ -58,13 +58,13 @@ class PullListCard extends StatelessWidget {
                                 .sublist(0, 2)
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(color: AppColor.grey3),
                           ),
                         ),
                       ),
                     Text(
                       '#${item.number}',
-                      style: const TextStyle(color: AppColor.grey3),
+                      style: TextStyle(color: AppColor.grey3),
                     ),
                   ],
                 ),
@@ -91,8 +91,7 @@ class PullListCard extends StatelessWidget {
                                 ? 'By ${item.user!.login}, merged ${getDate(item.mergedAt.toString(), shorten: false)}.'
                                 : 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: const TextStyle(
-                            color: AppColor.grey3, fontSize: 12),
+                        style: TextStyle(color: AppColor.grey3, fontSize: 12),
                       ),
                       const SizedBox(
                         height: 8,
@@ -140,7 +139,7 @@ Widget? getIcon(IssueState? state, DateTime? mergedAt) {
         size: 15,
       );
     default:
-      return const Icon(
+      return Icon(
         Octicons.git_pull_request,
         color: AppColor.grey3,
         size: 15,

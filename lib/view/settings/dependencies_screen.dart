@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class DependenciesScreen extends StatelessWidget {
   const DependenciesScreen({Key? key}) : super(key: key);
   static Future<List<String>> loadLicenses(bool directDep) async {
-    final ossKeys = ossLicenses.keys.toList();
+    var ossKeys = ossLicenses.keys.toList();
     final keys = <String>[];
     final lm = <String, List<String>>{};
     await for (var l in LicenseRegistry.licenses) {
@@ -20,13 +20,15 @@ class DependenciesScreen extends StatelessWidget {
         if (!ossKeys.contains(p)) {
           final lp = lm.putIfAbsent(p, () => []);
           lp.addAll(l.paragraphs.map((p) => p.text));
-          keys.add(p);
+          ossKeys.add(p);
         }
       }
     }
     for (var key in lm.keys) {
       ossLicenses[key] = {'license': lm[key]?.join('\n')};
     }
+    ossKeys = ossLicenses.keys.toList();
+
     for (var key in ossKeys) {
       if (directDep && ossLicenses[key]['isDirectDependency'] == true) {
         keys.add(key);
@@ -49,7 +51,7 @@ class DependenciesScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(0),
                 itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final key = snapshot.data?[index];
+                  final key = snapshot.data![index];
                   final licenseJson = ossLicenses[key];
                   final version = licenseJson['version'];
                   final desc = licenseJson['description'];
@@ -65,7 +67,7 @@ class DependenciesScreen extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () {
                         AutoRouter.of(context).push(OssLicenseScreenRoute(
-                            nameKey: key!, json: licenseJson));
+                            nameKey: key, json: licenseJson));
                       });
                 },
                 separatorBuilder: (context, index) => const Divider());
@@ -143,10 +145,12 @@ class OssLicenseScreen extends StatelessWidget {
             if (homepage != null)
               Row(
                 children: [
-                  Padding(
-                      padding: const EdgeInsets.only(
-                          top: 12.0, left: 12.0, right: 12.0),
-                      child: LinkText(homepage!)),
+                  Flexible(
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 12.0, left: 12.0, right: 12.0),
+                        child: LinkText(homepage!)),
+                  ),
                 ],
               ),
             if (description != null || homepage != null) const Divider(),

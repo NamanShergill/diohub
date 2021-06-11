@@ -4,10 +4,17 @@
 - Removed a lot of the permissions the app requested for that it does not need currently.
 - If app was opened via a deeplink and user is unauthenticated, the deep link will be honored as
   soon as the authentication is completed.
+
+**Settings | WIP**
+- Customise the app's color palette according to your taste | WIP. 
+- Added multiple font options to select from | WIP.
+
+**Project Boards | WIP** 
  
-**Issue/Pull Request Screen enhancements** 
+**Issue/Pull Request Screen enhancements | WIP** 
 - Ability to quote (full/select) replies.
 - Added all missing timeline item cases.
+- Added ability to view Pull Request Reviews and reply to them.
 
 **Create Issues**
 - Ability to create issues on repositories.
@@ -19,7 +26,7 @@
 - Splash screen logo improvements.
 - Complete Github Flavored Markdown support.
 - Added organizations tab to the home screen.
-- Text in code blocks is now selectable.\
+- Text in code blocks is now selectable.
 - Added share URL button on many screens.
 
 **Deeplink**

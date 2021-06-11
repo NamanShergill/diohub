@@ -134,9 +134,9 @@ class _CommentBoxState extends State<CommentBox> {
               }
             : null,
         maxLines: null,
-        toolbarDecoration: const BoxDecoration(color: AppColor.background),
+        toolbarDecoration: BoxDecoration(color: AppColor.background),
         inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
-        boxDecoration: const BoxDecoration(
+        boxDecoration: BoxDecoration(
           color: AppColor.onBackground,
         ),
       );

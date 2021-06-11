@@ -70,13 +70,13 @@ class IssueListCard extends StatelessWidget {
                                 .sublist(0, 2)
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(color: AppColor.grey3),
                           ),
                         ),
                       ),
                     Text(
                       '#${item.number}',
-                      style: const TextStyle(color: AppColor.grey3),
+                      style: TextStyle(color: AppColor.grey3),
                     ),
                     if (item.comments != 0)
                       Row(
@@ -84,7 +84,7 @@ class IssueListCard extends StatelessWidget {
                           const SizedBox(
                             width: 16,
                           ),
-                          const Icon(
+                          Icon(
                             Octicons.comment,
                             color: AppColor.grey3,
                             size: 11,
@@ -94,8 +94,8 @@ class IssueListCard extends StatelessWidget {
                           ),
                           Text(
                             '${item.comments} comments',
-                            style: const TextStyle(
-                                color: AppColor.grey3, fontSize: 12),
+                            style:
+                                TextStyle(color: AppColor.grey3, fontSize: 12),
                           ),
                         ],
                       ),
@@ -122,8 +122,7 @@ class IssueListCard extends StatelessWidget {
                         item.state == IssueState.CLOSED
                             ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: const TextStyle(
-                            color: AppColor.grey3, fontSize: 12),
+                        style: TextStyle(color: AppColor.grey3, fontSize: 12),
                       ),
                       const SizedBox(
                         height: 8,

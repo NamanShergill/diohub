@@ -6,14 +6,10 @@ class InfoCard extends StatelessWidget {
   final String title;
   final Widget? child;
   final Function? onTap;
-  final Color color;
+  final Color? color;
   final Widget? headerTrailing;
   const InfoCard(this.title,
-      {this.child,
-      this.onTap,
-      this.color = AppColor.onBackground,
-      this.headerTrailing,
-      Key? key})
+      {this.child, this.onTap, this.color, this.headerTrailing, Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,7 +18,7 @@ class InfoCard extends StatelessWidget {
       child: Material(
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: color,
+        color: color ?? AppColor.onBackground,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: onTap as void Function()?,

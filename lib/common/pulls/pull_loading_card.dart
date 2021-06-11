@@ -61,13 +61,13 @@ class PullLoadingCard extends StatelessWidget {
                                     .sublist(0, 2)
                                     .join('/'),
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(color: AppColor.grey3),
+                                style: TextStyle(color: AppColor.grey3),
                               ),
                             ),
                           ),
                           Text(
                             '#${issueModel!.number}',
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(color: AppColor.grey3),
                           ),
                         ],
                       ),

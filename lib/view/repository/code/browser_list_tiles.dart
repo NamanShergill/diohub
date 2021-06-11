@@ -56,17 +56,17 @@ class BrowserListTile extends StatelessWidget {
   Icon? getIcon() {
     switch (tree.type) {
       case Type.TREE:
-        return const Icon(
+        return Icon(
           Icons.folder,
           color: AppColor.grey3,
         );
       case Type.BLOB:
-        return const Icon(
+        return Icon(
           LineIcons.file,
           color: AppColor.grey3,
         );
       case null:
-        return const Icon(
+        return Icon(
           LineIcons.question,
           color: AppColor.grey3,
         );

@@ -53,8 +53,8 @@ class RepositoryCard extends StatelessWidget {
                   children: [
                     Visibility(
                         visible: repo!.private!,
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: 8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: Icon(
                             Octicons.lock,
                             color: AppColor.grey3,
@@ -72,13 +72,13 @@ class RepositoryCard extends StatelessWidget {
                         visible: repo!.fork ?? false,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Icon(
                               Octicons.repo_forked,
                               size: 12,
                               color: AppColor.grey3,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 4,
                             ),
                             Text(
@@ -125,7 +125,7 @@ class RepositoryCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(
+                        Icon(
                           Octicons.star,
                           size: 12,
                           color: AppColor.grey3,

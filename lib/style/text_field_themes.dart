@@ -30,7 +30,7 @@ class TextFieldTheme {
         filled: true,
         enabledBorder: _enabledBorder(enabledBorderColor ?? Colors.transparent),
         focusedBorder: _focusedBorder,
-        labelStyle: const TextStyle(color: AppColor.grey3),
+        labelStyle: TextStyle(color: AppColor.grey3),
         border: _border,
       );
 
@@ -44,6 +44,6 @@ class TextFieldTheme {
           borderRadius: AppThemeBorderRadius.medBorderRadius);
 
   static final OutlineInputBorder _focusedBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColor.grey3),
+      borderSide: BorderSide(color: AppColor.grey3),
       borderRadius: AppThemeBorderRadius.medBorderRadius);
 }

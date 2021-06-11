@@ -38,7 +38,7 @@ class SearchScrollWrapper extends StatefulWidget {
   final EdgeInsets _searchBarPadding;
 
   /// Background color of the search bar.
-  final Color searchBarColor;
+  final Color? searchBarColor;
 
   /// Quick filters to be shown in the search bar in a dropdown.
   final Map<String, String>? quickFilters;
@@ -66,7 +66,7 @@ class SearchScrollWrapper extends StatefulWidget {
       this.isNestedScrollViewChild = true,
       EdgeInsets? searchBarPadding,
       this.onChanged,
-      this.searchBarColor = AppColor.background,
+      this.searchBarColor,
       this.padding = const EdgeInsets.symmetric(horizontal: 8),
       this.searchHeroTag,
       this.filterFn,
@@ -113,7 +113,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                   })
               : null,
           prompt: widget.searchBarMessage,
-          backgroundColor: widget.searchBarColor,
+          backgroundColor: widget.searchBarColor ?? AppColor.background,
           onSubmit: (data) {
             setState(() {
               searchData = data;
@@ -206,7 +206,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                   padding: widget.padding,
                   child: ProfileCard(
                     item,
-                    padding: EdgeInsets.zero,
                   ),
                 );
               },

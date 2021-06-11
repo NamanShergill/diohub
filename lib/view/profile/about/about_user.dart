@@ -36,7 +36,7 @@ class AboutUser extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LineIcons.twitter,
                     color: AppColor.grey3,
                   ),
@@ -55,7 +55,7 @@ class AboutUser extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LineIcons.at,
                     color: AppColor.grey3,
                   ),
@@ -74,7 +74,7 @@ class AboutUser extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LineIcons.blog,
                     color: AppColor.grey3,
                   ),
@@ -90,7 +90,7 @@ class AboutUser extends StatelessWidget {
               'Company',
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LineIcons.building,
                     color: AppColor.grey3,
                   ),
@@ -106,7 +106,7 @@ class AboutUser extends StatelessWidget {
               'Location',
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LineIcons.locationArrow,
                     color: AppColor.grey3,
                   ),
@@ -122,7 +122,7 @@ class AboutUser extends StatelessWidget {
               'Joined',
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LineIcons.calendar,
                     color: AppColor.grey3,
                   ),

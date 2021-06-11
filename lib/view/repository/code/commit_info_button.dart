@@ -60,7 +60,7 @@ class CommitInfoButton extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Octicons.git_commit,
                       size: 11,
                       color: AppColor.grey3,
@@ -70,10 +70,9 @@ class CommitInfoButton extends StatelessWidget {
                     ),
                     Text(
                       value.tree.last.commit!.sha!.substring(0, 6),
-                      style:
-                          const TextStyle(fontSize: 11, color: AppColor.grey3),
+                      style: TextStyle(fontSize: 11, color: AppColor.grey3),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.arrow_drop_down,
                       size: 13,
                       color: AppColor.grey3,
@@ -85,7 +84,7 @@ class CommitInfoButton extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.timelapse_outlined,
                       size: 11,
                       color: AppColor.grey3,
@@ -98,7 +97,7 @@ class CommitInfoButton extends StatelessWidget {
                           value.tree.last.commit!.commit!.committer!.date
                               .toString(),
                           shorten: false),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         color: AppColor.grey3,
                       ),

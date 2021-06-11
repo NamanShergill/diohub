@@ -76,9 +76,8 @@ class AuthProgressNotification extends StatelessWidget {
                                     bottomRight: Radius.circular(10)),
                                 child: LinearProgressIndicator(
                                   backgroundColor: AppColor.grey,
-                                  valueColor:
-                                      const AlwaysStoppedAnimation<Color>(
-                                          AppColor.grey3),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColor.grey3),
                                   value: ((time.min ?? 0) * 60 + time.sec!) /
                                       ((state.deviceCodeModel.expiresIn! -
                                               state.deviceCodeModel.parsedOn!) /

@@ -150,7 +150,7 @@ class _WikiViewerState extends State<WikiViewer> {
                             visible: loading,
                             child: Container(
                               color: Colors.white,
-                              child: const LoadingIndicator(
+                              child: LoadingIndicator(
                                 color: AppColor.accent,
                               ),
                             ),

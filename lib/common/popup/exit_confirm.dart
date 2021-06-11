@@ -57,8 +57,8 @@ class ExitConfirmationDialog extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 16, left: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16, left: 16),
                       child: Text(
                         'If back button is pressed by mistake then click on No to cancel.',
                         style: TextStyle(color: AppColor.baseText),

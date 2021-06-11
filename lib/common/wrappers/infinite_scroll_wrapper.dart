@@ -382,10 +382,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             SizedBox(
               height: widget.topSpacing,
             ),
-            const Expanded(
+            Expanded(
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'And then there were none.',
                     style: TextStyle(color: AppColor.grey3),
@@ -401,7 +401,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       'The end of the line.',
                       style: TextStyle(color: AppColor.grey3),
                     ),

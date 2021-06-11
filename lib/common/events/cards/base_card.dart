@@ -70,7 +70,7 @@ class BaseEventCard extends StatelessWidget {
             ),
             Text(
               getDate(date!.toString()),
-              style: const TextStyle(fontSize: 11, color: AppColor.grey3),
+              style: TextStyle(fontSize: 11, color: AppColor.grey3),
             ),
           ],
         ),

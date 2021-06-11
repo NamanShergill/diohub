@@ -78,8 +78,8 @@ class MyApp extends StatelessWidget {
                             AppColor.onBackground),
                       ),
                     ),
-                    appBarTheme: const AppBarTheme(
-                        color: AppColor.background, elevation: 5),
+                    appBarTheme:
+                        AppBarTheme(color: AppColor.background, elevation: 5),
                     iconTheme: const IconThemeData(color: Colors.white),
                     textTheme: const TextTheme(
                       bodyText1: TextStyle(),
@@ -110,8 +110,7 @@ class MyApp extends StatelessWidget {
                     ),
                     scaffoldBackgroundColor: AppColor.background,
                     primaryIconTheme: const IconThemeData(color: Colors.white),
-                    accentIconTheme:
-                        const IconThemeData(color: AppColor.accent),
+                    accentIconTheme: IconThemeData(color: AppColor.accent),
                     dividerColor: Colors.grey.withOpacity(0.7),
                     brightness: Brightness.dark,
                     backgroundColor: AppColor.background,

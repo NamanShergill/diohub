@@ -37,6 +37,7 @@ class AddedEventCard extends StatelessWidget {
             ProfileCard(
               event.payload.member,
               compact: true,
+              padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
             ),
             const SizedBox(
               height: 8,

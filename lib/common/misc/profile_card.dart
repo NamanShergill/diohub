@@ -21,7 +21,7 @@ class ProfileCard extends StatelessWidget {
   const ProfileCard(this.user,
       {this.compact = false,
       this.isThemed = true,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+      this.padding = EdgeInsets.zero,
       Key? key})
       : super(key: key);
   @override
@@ -113,7 +113,7 @@ class ProfileCardLoading extends StatelessWidget {
     this.login, {
     Key? key,
     this.compact = false,
-    this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override

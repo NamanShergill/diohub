@@ -107,7 +107,7 @@ class _IssueScreenState extends State<IssueScreen>
                               ),
                               Text(
                                 '#${value.issueModel!.number}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColor.grey3, fontSize: 14),
                               ),
                             ],
@@ -139,13 +139,13 @@ class _IssueScreenState extends State<IssueScreen>
                                   ),
                                   Text(
                                     '#${value.issueModel!.number}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: AppColor.grey3, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 24,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Octicons.comment,
                                     color: AppColor.grey3,
                                     size: 11,
@@ -155,7 +155,7 @@ class _IssueScreenState extends State<IssueScreen>
                                   ),
                                   Text(
                                     '${value.issueModel!.comments} comments',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: AppColor.grey3, fontSize: 12),
                                   ),
                                 ],
@@ -198,7 +198,7 @@ class _IssueScreenState extends State<IssueScreen>
                                 value.issueModel!.state == IssueState.CLOSED
                                     ? 'By ${value.issueModel!.user!.login}, closed ${getDate(value.issueModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.issueModel!.createdAt.toString(), shorten: false)} by ${value.issueModel!.user!.login}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColor.grey3, fontSize: 12),
                               ),
                             ],

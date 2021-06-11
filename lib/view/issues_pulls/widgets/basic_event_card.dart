@@ -49,7 +49,7 @@ class BasicEventCard extends StatelessWidget {
                 user?.avatarUrl.toString(),
                 showName: true,
                 size: 20,
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                     fontSize: 12,
                     color: AppColor.grey3,
                     fontWeight: FontWeight.bold),
@@ -61,7 +61,7 @@ class BasicEventCard extends StatelessWidget {
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
                     name!,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 12,
                         color: AppColor.grey3,
                         fontWeight: FontWeight.bold),
@@ -69,7 +69,7 @@ class BasicEventCard extends StatelessWidget {
                 ),
               Text(
                 'on ${getDate(date.toString(), shorten: false)}',
-                style: const TextStyle(fontSize: 12, color: AppColor.grey3),
+                style: TextStyle(fontSize: 12, color: AppColor.grey3),
               ),
             ],
           ),
@@ -160,12 +160,12 @@ class BasicEventAssignedCard extends StatelessWidget {
               ? ProfileTile(
                   assignee?.avatarUrl.toString(),
                   showName: true,
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColor.grey3),
                   padding: const EdgeInsets.all(4),
                   userLogin: assignee?.login,
                 )
-              : const Text(
+              : Text(
                   'themselves',
                   style: AppThemeTextStyles.basicIssueEventCardText,
                 ),

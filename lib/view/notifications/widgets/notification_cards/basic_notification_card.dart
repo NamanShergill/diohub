@@ -142,13 +142,13 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 widget.notification!.repository!.fullName!,
-                                style: const TextStyle(color: AppColor.grey3),
+                                style: TextStyle(color: AppColor.grey3),
                               ),
                             ),
                           ),
                           Text(
                             getDate(widget.notification!.updatedAt.toString()),
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(color: AppColor.grey3),
                           ),
                         ],
                       ),
@@ -203,7 +203,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           child: ShimmerWidget(
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColor.grey,
               ),
               height: 20,

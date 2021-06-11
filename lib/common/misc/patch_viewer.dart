@@ -329,7 +329,7 @@ class _PatchViewerState extends State<PatchViewer> {
                                     text:
                                         displayHeader[index] + displayCode[0]),
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontFamily: 'monospace',
                                     fontSize: 12,
                                     color: AppColor.grey3),

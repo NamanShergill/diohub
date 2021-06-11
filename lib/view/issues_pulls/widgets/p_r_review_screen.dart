@@ -194,7 +194,7 @@ class PRReviewScreen extends StatelessWidget {
                               return Row(
                                 children: [
                                   replyButton(repliesEnabled),
-                                  const Expanded(
+                                  Expanded(
                                     child: StringButton(
                                       onTap: null,
                                       loading: true,
@@ -202,7 +202,7 @@ class PRReviewScreen extends StatelessWidget {
                                       color: AppColor.background,
                                       title: 'Replies',
                                       trailingIcon:
-                                          Icon(Icons.arrow_right_rounded),
+                                          const Icon(Icons.arrow_right_rounded),
                                     ),
                                   ),
                                 ],

@@ -150,7 +150,7 @@ class _DiscussionState extends State<Discussion>
                   onTap: () async {
                     DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
-                        theme: const DatePickerTheme(
+                        theme: DatePickerTheme(
                             cancelStyle: TextStyle(
                               color: Colors.white,
                             ),
@@ -182,7 +182,7 @@ class _DiscussionState extends State<Discussion>
               width: MediaQuery.of(context).size.width * 0.1,
             ),
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border:
                     Border(left: BorderSide(color: AppColor.grey3, width: 0.2)),
               ),

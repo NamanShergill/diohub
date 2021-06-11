@@ -5,13 +5,13 @@ import 'package:shimmer/shimmer.dart';
 class ShimmerWidget extends StatelessWidget {
   final Widget? child;
   final BorderRadius? borderRadius;
-  final Color baseColor;
-  final Color highlightColor;
+  final Color? baseColor;
+  final Color? highlightColor;
   const ShimmerWidget(
       {this.child,
       this.borderRadius,
-      this.baseColor = AppColor.grey,
-      this.highlightColor = AppColor.grey2,
+      this.baseColor,
+      this.highlightColor,
       Key? key})
       : super(key: key);
   @override
@@ -20,8 +20,8 @@ class ShimmerWidget extends StatelessWidget {
       borderRadius: borderRadius ?? BorderRadius.circular(0),
       child: Shimmer.fromColors(
         child: child!,
-        baseColor: baseColor,
-        highlightColor: highlightColor,
+        baseColor: baseColor ?? AppColor.grey,
+        highlightColor: highlightColor ?? AppColor.grey2,
       ),
     );
   }

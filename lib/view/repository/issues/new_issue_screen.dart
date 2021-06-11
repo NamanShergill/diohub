@@ -185,9 +185,9 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             });
                           },
                           label: 'Leave a comment',
-                          boxDecoration: const BoxDecoration(
+                          boxDecoration: BoxDecoration(
                             color: AppColor.onBackground,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: AppThemeBorderRadius.medBorderRadius,
                           ),
                         )),
                       ])

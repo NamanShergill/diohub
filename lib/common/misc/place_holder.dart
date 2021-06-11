@@ -10,7 +10,7 @@ class TextPlaceHolder extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         text,
-        style: const TextStyle(color: AppColor.grey3),
+        style: TextStyle(color: AppColor.grey3),
       ),
     );
   }

@@ -83,8 +83,8 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         ),
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: const ExpansionTile(
-            title: Text('Note'),
+          child: ExpansionTile(
+            title: const Text('Note'),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -93,7 +93,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                   style: TextStyle(color: AppColor.grey3),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
             ],

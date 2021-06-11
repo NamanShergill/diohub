@@ -190,8 +190,8 @@ class _ReactionBarState extends State<ReactionBar> {
                         elevation: 2,
                         color: AppColor.background,
                         borderRadius: AppThemeBorderRadius.bigBorderRadius,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: SizedBox(
                               height: 36,
                               child: Center(

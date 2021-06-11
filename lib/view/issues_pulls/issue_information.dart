@@ -112,7 +112,7 @@ class IssueInformation extends StatelessWidget {
           InfoCard(
             'Assignees',
             headerTrailing: _editingEnabled
-                ? const Text(
+                ? Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
@@ -165,7 +165,7 @@ class IssueInformation extends StatelessWidget {
           InfoCard(
             'Labels',
             headerTrailing: _editingEnabled
-                ? const Text(
+                ? Text(
                     'EDIT',
                     style: TextStyle(color: AppColor.grey3, fontSize: 12),
                   )
