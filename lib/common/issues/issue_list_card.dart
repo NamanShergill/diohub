@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/pulls/pull_loading_card.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
@@ -163,5 +166,42 @@ Widget? getIcon(IssueState? state) {
       );
     default:
       return null;
+  }
+}
+
+class IssueLoadingCard extends StatelessWidget {
+  final String url;
+  final bool compact;
+  final EdgeInsets padding;
+  const IssueLoadingCard(this.url,
+      {this.compact = false,
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+      Key? key})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding,
+      child: Material(
+        elevation: 2,
+        color: AppColor.background,
+        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        child: APIWrapper<IssueModel>(
+          apiCall: IssuesService.getIssueInfo(fullUrl: url),
+          loadingBuilder: (context) {
+            return const SizedBox(
+                height: 80, child: Center(child: LoadingIndicator()));
+          },
+          responseBuilder: (context, data) {
+            return IssueListCard(
+              data,
+              compact: compact,
+              disableMaterial: true,
+              padding: EdgeInsets.zero,
+            );
+          },
+        ),
+      ),
+    );
   }
 }

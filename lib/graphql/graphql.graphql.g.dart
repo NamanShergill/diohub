@@ -1076,6 +1076,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$M
         ? null
         : MarkedAsDuplicateMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
+    ..isCrossRepository = json['isCrossRepository'] as bool
     ..canonical = json['canonical'] == null
         ? null
         : MarkedAsDuplicateMixin$Canonical.fromJson(
@@ -1091,6 +1092,7 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
           'canonical': instance.canonical?.toJson(),
           '__typename': instance.$$typename,
         };
@@ -1345,6 +1347,11 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$U
         ? null
         : UnmarkedAsDuplicateMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
+    ..isCrossRepository = json['isCrossRepository'] as bool
+    ..canonical = json['canonical'] == null
+        ? null
+        : UnmarkedAsDuplicateMixin$Canonical.fromJson(
+            json['canonical'] as Map<String, dynamic>)
     ..$$typename = json['__typename'] as String?;
 }
 
@@ -1356,6 +1363,8 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
+          'canonical': instance.canonical?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -1924,6 +1933,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
         ? null
         : MarkedAsDuplicateMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
+    ..isCrossRepository = json['isCrossRepository'] as bool
     ..canonical = json['canonical'] == null
         ? null
         : MarkedAsDuplicateMixin$Canonical.fromJson(
@@ -1939,6 +1949,7 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
           'canonical': instance.canonical?.toJson(),
           '__typename': instance.$$typename,
         };
@@ -2432,6 +2443,11 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
         ? null
         : UnmarkedAsDuplicateMixin$Actor.fromJson(
             json['actor'] as Map<String, dynamic>)
+    ..isCrossRepository = json['isCrossRepository'] as bool
+    ..canonical = json['canonical'] == null
+        ? null
+        : UnmarkedAsDuplicateMixin$Canonical.fromJson(
+            json['canonical'] as Map<String, dynamic>)
     ..$$typename = json['__typename'] as String?;
 }
 
@@ -2443,6 +2459,8 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
+          'canonical': instance.canonical?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -2799,24 +2817,30 @@ Map<String, dynamic> _$CrossReferenceMixin$SourceToJson(
 
 IssueMixin$Repository _$IssueMixin$RepositoryFromJson(
     Map<String, dynamic> json) {
-  return IssueMixin$Repository()..name = json['name'] as String;
+  return IssueMixin$Repository()
+    ..name = json['name'] as String
+    ..nameWithOwner = json['nameWithOwner'] as String;
 }
 
 Map<String, dynamic> _$IssueMixin$RepositoryToJson(
         IssueMixin$Repository instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'nameWithOwner': instance.nameWithOwner,
     };
 
 PullRequestMixin$Repository _$PullRequestMixin$RepositoryFromJson(
     Map<String, dynamic> json) {
-  return PullRequestMixin$Repository()..name = json['name'] as String;
+  return PullRequestMixin$Repository()
+    ..name = json['name'] as String
+    ..nameWithOwner = json['nameWithOwner'] as String;
 }
 
 Map<String, dynamic> _$PullRequestMixin$RepositoryToJson(
         PullRequestMixin$Repository instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'nameWithOwner': instance.nameWithOwner,
     };
 
 DeMileStonedMixin$Actor _$DeMileStonedMixin$ActorFromJson(
@@ -3220,6 +3244,68 @@ Map<String, dynamic> _$UnmarkedAsDuplicateMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
+    };
+
+UnmarkedAsDuplicateMixin$Canonical$Issue
+    _$UnmarkedAsDuplicateMixin$Canonical$IssueFromJson(
+        Map<String, dynamic> json) {
+  return UnmarkedAsDuplicateMixin$Canonical$Issue()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+        unknownValue: IssueState.artemisUnknown)
+    ..repository = IssueMixin$Repository.fromJson(
+        json['repository'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnmarkedAsDuplicateMixin$Canonical$IssueToJson(
+        UnmarkedAsDuplicateMixin$Canonical$Issue instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'issueState': _$IssueStateEnumMap[instance.issueState],
+      'repository': instance.repository.toJson(),
+      '__typename': instance.$$typename,
+    };
+
+UnmarkedAsDuplicateMixin$Canonical$PullRequest
+    _$UnmarkedAsDuplicateMixin$Canonical$PullRequestFromJson(
+        Map<String, dynamic> json) {
+  return UnmarkedAsDuplicateMixin$Canonical$PullRequest()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..pullState = _$enumDecode(_$PullRequestStateEnumMap, json['pullState'],
+        unknownValue: PullRequestState.artemisUnknown)
+    ..repository = PullRequestMixin$Repository.fromJson(
+        json['repository'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnmarkedAsDuplicateMixin$Canonical$PullRequestToJson(
+        UnmarkedAsDuplicateMixin$Canonical$PullRequest instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'title': instance.title,
+      'number': instance.number,
+      'pullState': _$PullRequestStateEnumMap[instance.pullState],
+      'repository': instance.repository.toJson(),
+      '__typename': instance.$$typename,
+    };
+
+UnmarkedAsDuplicateMixin$Canonical _$UnmarkedAsDuplicateMixin$CanonicalFromJson(
+    Map<String, dynamic> json) {
+  return UnmarkedAsDuplicateMixin$Canonical()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$UnmarkedAsDuplicateMixin$CanonicalToJson(
+        UnmarkedAsDuplicateMixin$Canonical instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
     };
 
 UnpinnedMixin$Actor _$UnpinnedMixin$ActorFromJson(Map<String, dynamic> json) {

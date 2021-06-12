@@ -228,7 +228,9 @@ class _BaseCommentState extends State<BaseComment> {
             child: Text(
               widget.description!,
               style: AppThemeTextStyles.basicIssueEventCardText.copyWith(
-                  fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                fontWeight: FontWeight.bold,
+                // fontStyle: FontStyle.italic,
+              ),
             ),
           ),
         if (widget.header != null)

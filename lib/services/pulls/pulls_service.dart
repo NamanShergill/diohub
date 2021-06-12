@@ -172,4 +172,20 @@ class PullsService {
       return false;
     }
   }
+
+  // Ref: https://docs.github.com/en/rest/reference/pulls#create-a-reply-for-a-review-comment
+  static Future<bool> replyToReviewComment(String body,
+      {required int id,
+      required String owner,
+      required String repo,
+      required int pullNumber}) async {
+    final res = await GetDio.getDio().post(
+        '/repos/$owner/$repo/pulls/$pullNumber/comments/$id/replies',
+        data: {'body': body});
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

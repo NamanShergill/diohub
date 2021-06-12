@@ -30,6 +30,31 @@ class Events extends StatelessWidget {
       spacing: 32,
       scrollController: scrollController,
       isNestedScrollViewChild: true,
+      filterFn: (items) {
+        List<EventsModel> temp = [];
+        for (EventsModel item in items) {
+          if ({
+            // EventsType.CommitCommentEvent,
+            EventsType.CreateEvent,
+            EventsType.DeleteEvent,
+            EventsType.ForkEvent,
+            // EventsType.GollumEvent,
+            EventsType.IssueCommentEvent,
+            EventsType.IssuesEvent,
+            EventsType.MemberEvent,
+            EventsType.PublicEvent,
+            EventsType.PullRequestEvent,
+            // EventsType.PullRequestReviewCommentEvent,
+            EventsType.PushEvent,
+            // EventsType.ReleaseEvent,
+            // EventsType.SponsorshipEvent,
+            EventsType.WatchEvent,
+          }.contains(item.type)) {
+            temp.add(item);
+          }
+        }
+        return temp;
+      },
       future: (pageNumber, pageSize, refresh, _) {
         if (specificUser != null) {
           return EventsService.getUserEvents(specificUser,

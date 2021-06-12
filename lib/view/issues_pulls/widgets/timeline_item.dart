@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/pulls/pull_loading_card.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
+import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
@@ -102,7 +105,47 @@ class GetTimelineItem extends StatelessWidget {
               date: item.createdAt,
             );
           } else if (item is CrossReferenceMixin) {
+            String str;
+            if (item.isCrossRepository) {
+              str =
+                  'Referenced this in ${(item.source as dynamic).repository.nameWithOwner}.';
+            } else {
+              str = 'Referenced this.';
+            }
+            return BasicEventTextCard(
+              textContent: str,
+              footer: Builder(
+                builder: (context) {
+                  final source = item.source;
+                  if (source is IssueMixin) {
+                    return IssueLoadingCard(
+                      toRepoAPIResource((source as IssueMixin).url.toString()),
+                      padding: EdgeInsets.zero,
+                      compact: true,
+                    );
+                  } else {
+                    return PullLoadingCard(
+                      toRepoAPIResource(
+                          (source as PullRequestMixin).url.toString(),
+                          isPull: true),
+                      padding: EdgeInsets.zero,
+                      compact: true,
+                    );
+                  }
+                },
+              ),
+              user: item.actor,
+              leading: Octicons.link_external,
+              date: item.createdAt,
+            );
           } else if (item is DeMileStonedMixin) {
+            return BasicEventTextCard(
+              textContent:
+                  'Removed this from milestone ${item.milestoneTitle}.',
+              user: item.actor,
+              leading: Icons.delete_rounded,
+              date: item.createdAt,
+            );
           } else if (item is HeadRefDeletedMixin) {
             return BasicEventTextCard(
               textContent: 'Deleted head ref ${item.headRefName}.',
@@ -160,6 +203,33 @@ class GetTimelineItem extends StatelessWidget {
               leading: LineIcons.lock,
             );
           } else if (item is MarkedAsDuplicateMixin) {
+            return BasicEventTextCard(
+              textContent: 'Marked this as a duplicate of',
+              footer: Builder(
+                builder: (context) {
+                  final canonical = item.canonical;
+                  if (canonical is IssueMixin) {
+                    return IssueLoadingCard(
+                      toRepoAPIResource(
+                          (canonical as IssueMixin).url.toString()),
+                      padding: EdgeInsets.zero,
+                      compact: true,
+                    );
+                  } else {
+                    return PullLoadingCard(
+                      toRepoAPIResource(
+                          (canonical as PullRequestMixin).url.toString(),
+                          isPull: true),
+                      padding: EdgeInsets.zero,
+                      compact: true,
+                    );
+                  }
+                },
+              ),
+              user: item.actor,
+              leading: Octicons.link_external,
+              date: item.createdAt,
+            );
           } else if (item is MergedMixin) {
             return BasicEventTextCard(
               user: item.actor,
@@ -169,6 +239,12 @@ class GetTimelineItem extends StatelessWidget {
               textContent: 'Merged this.',
             );
           } else if (item is MileStonedMixin) {
+            return BasicEventTextCard(
+              textContent: 'Added this to milestone ${item.milestoneTitle}.',
+              user: item.actor,
+              leading: Icons.delete_rounded,
+              date: item.createdAt,
+            );
           } else if (item is MovedColumnsInProjectMixin) {
           } else if (item is PinnedMixin) {
             return BasicEventTextCard(
@@ -189,7 +265,9 @@ class GetTimelineItem extends StatelessWidget {
               ),
               textContent: 'Made a commit.',
             );
-          } else if (item is PullRequestReviewMixin) {
+          }
+          // Todo: Missing PULL_REQUEST_COMMIT_COMMENT_THREAD case!
+          else if (item is PullRequestReviewMixin) {
             return BaseComment(
               description: getReviewState(item.state),
               onQuote: onQuote,
@@ -285,7 +363,9 @@ class GetTimelineItem extends StatelessWidget {
                 ],
               ),
             );
-          } else if (item is UnassignedMixin) {
+          }
+          // Todo: Missing REVIEW_REQUEST_REMOVED_EVENT case!
+          else if (item is UnassignedMixin) {
             return BasicEventAssignedCard(
               actor: item.actor,
               assignee: item.assignee as ActorMixin,
@@ -307,6 +387,33 @@ class GetTimelineItem extends StatelessWidget {
               leading: LineIcons.unlock,
             );
           } else if (item is UnmarkedAsDuplicateMixin) {
+            return BasicEventTextCard(
+              textContent: 'Marked this as not a duplicate of',
+              footer: Builder(
+                builder: (context) {
+                  final canonical = item.canonical;
+                  if (canonical is IssueMixin) {
+                    return IssueLoadingCard(
+                      toRepoAPIResource(
+                          (canonical as IssueMixin).url.toString()),
+                      padding: EdgeInsets.zero,
+                      compact: true,
+                    );
+                  } else {
+                    return PullLoadingCard(
+                      toRepoAPIResource(
+                          (canonical as PullRequestMixin).url.toString(),
+                          isPull: true),
+                      padding: EdgeInsets.zero,
+                      compact: true,
+                    );
+                  }
+                },
+              ),
+              user: item.actor,
+              leading: Octicons.link_external,
+              date: item.createdAt,
+            );
           } else if (item is UnpinnedMixin) {
             return BasicEventTextCard(
               user: item.actor,

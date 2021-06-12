@@ -11,14 +11,14 @@ class Global {
       customRouter.navigatorKey.currentContext!;
   static const String apiBaseURL = 'https://api.github.com';
   static final Logger log = Logger();
-  static String? _directoryPath;
-  static String? get directoryPath => _directoryPath;
-  static DbCacheStore? _cacheStore;
-  static DbCacheStore get cacheStore => _cacheStore!;
+  static late String _directoryPath;
+  static String get directoryPath => _directoryPath;
+  static late DbCacheStore _cacheStore;
+  static DbCacheStore get cacheStore => _cacheStore;
 
   static Future setupAppCache() async {
     await getApplicationDocumentsDirectory()
         .then((value) => _directoryPath = value.path);
-    _cacheStore = DbCacheStore(databasePath: _directoryPath!);
+    _cacheStore = DbCacheStore(databasePath: _directoryPath);
   }
 }

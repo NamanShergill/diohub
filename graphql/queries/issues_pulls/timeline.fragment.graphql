@@ -193,6 +193,7 @@ fragment  markedAsDuplicate  on MarkedAsDuplicateEvent{
     actor{
         ...actor
     }
+    isCrossRepository
     canonical{
         __typename
         ... on Issue{
@@ -383,6 +384,15 @@ fragment unmarkedAsDuplicate on UnmarkedAsDuplicateEvent{
     actor{
         ...actor
     }
+    isCrossRepository
+    canonical{
+        __typename
+        ... on Issue{
+            ...issue
+        } ... on PullRequest{
+            ...pullRequest
+        }
+    }
 }
 
 fragment unpinned on UnpinnedEvent{
@@ -405,8 +415,9 @@ fragment pullRequest on PullRequest{
     number
     pullState: state
     repository{
-
-name    }
+        name
+        nameWithOwner
+    }
 }
 
 fragment issue on Issue{
@@ -416,6 +427,7 @@ fragment issue on Issue{
     issueState: state
    repository{
        name
+       nameWithOwner
     }
 }
 

@@ -137,6 +137,7 @@ mixin MarkedAsDuplicateMixin {
   late String id;
   late DateTime createdAt;
   MarkedAsDuplicateMixin$Actor? actor;
+  late bool isCrossRepository;
   MarkedAsDuplicateMixin$Canonical? canonical;
 }
 mixin MileStonedMixin {
@@ -198,6 +199,8 @@ mixin UnmarkedAsDuplicateMixin {
   late String id;
   late DateTime createdAt;
   UnmarkedAsDuplicateMixin$Actor? actor;
+  late bool isCrossRepository;
+  UnmarkedAsDuplicateMixin$Canonical? canonical;
 }
 mixin UnpinnedMixin {
   late String id;
@@ -1293,7 +1296,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, canonical];
+  List<Object?> get props =>
+      [id, createdAt, actor, isCrossRepository, canonical];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
@@ -1491,7 +1495,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props =>
+      [id, createdAt, actor, isCrossRepository, canonical];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
@@ -2067,7 +2072,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, canonical];
+  List<Object?> get props =>
+      [id, createdAt, actor, isCrossRepository, canonical];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
@@ -2444,7 +2450,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor];
+  List<Object?> get props =>
+      [id, createdAt, actor, isCrossRepository, canonical];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
@@ -3126,8 +3133,10 @@ class IssueMixin$Repository extends JsonSerializable with EquatableMixin {
 
   late String name;
 
+  late String nameWithOwner;
+
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, nameWithOwner];
   @override
   Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
 }
@@ -3141,8 +3150,10 @@ class PullRequestMixin$Repository extends JsonSerializable with EquatableMixin {
 
   late String name;
 
+  late String nameWithOwner;
+
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, nameWithOwner];
   @override
   Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
 }
@@ -3604,6 +3615,75 @@ class UnmarkedAsDuplicateMixin$Actor extends JsonSerializable
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$UnmarkedAsDuplicateMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnmarkedAsDuplicateMixin$Canonical$Issue
+    extends UnmarkedAsDuplicateMixin$Canonical with EquatableMixin, IssueMixin {
+  UnmarkedAsDuplicateMixin$Canonical$Issue();
+
+  factory UnmarkedAsDuplicateMixin$Canonical$Issue.fromJson(
+          Map<String, dynamic> json) =>
+      _$UnmarkedAsDuplicateMixin$Canonical$IssueFromJson(json);
+
+  @override
+  List<Object?> get props => [url, title, number, issueState, repository];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UnmarkedAsDuplicateMixin$Canonical$IssueToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnmarkedAsDuplicateMixin$Canonical$PullRequest
+    extends UnmarkedAsDuplicateMixin$Canonical
+    with EquatableMixin, PullRequestMixin {
+  UnmarkedAsDuplicateMixin$Canonical$PullRequest();
+
+  factory UnmarkedAsDuplicateMixin$Canonical$PullRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$UnmarkedAsDuplicateMixin$Canonical$PullRequestFromJson(json);
+
+  @override
+  List<Object?> get props => [url, title, number, pullState, repository];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UnmarkedAsDuplicateMixin$Canonical$PullRequestToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnmarkedAsDuplicateMixin$Canonical extends JsonSerializable
+    with EquatableMixin {
+  UnmarkedAsDuplicateMixin$Canonical();
+
+  factory UnmarkedAsDuplicateMixin$Canonical.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Issue':
+        return UnmarkedAsDuplicateMixin$Canonical$Issue.fromJson(json);
+      case r'PullRequest':
+        return UnmarkedAsDuplicateMixin$Canonical$PullRequest.fromJson(json);
+      default:
+    }
+    return _$UnmarkedAsDuplicateMixin$CanonicalFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Issue':
+        return (this as UnmarkedAsDuplicateMixin$Canonical$Issue).toJson();
+      case r'PullRequest':
+        return (this as UnmarkedAsDuplicateMixin$Canonical$PullRequest)
+            .toJson();
+      default:
+    }
+    return _$UnmarkedAsDuplicateMixin$CanonicalToJson(this);
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -6501,10 +6581,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                                               value: 'PULL_REQUEST_REVIEW')),
                                       EnumValueNode(
                                           name: NameNode(
-                                              value:
-                                                  'PULL_REQUEST_REVIEW_THREAD')),
-                                      EnumValueNode(
-                                          name: NameNode(
                                               value: 'READY_FOR_REVIEW_EVENT')),
                                       EnumValueNode(
                                           name: NameNode(
@@ -7418,6 +7494,12 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                   alias: null,
                   arguments: [],
                   directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'nameWithOwner'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
                   selectionSet: null)
             ]))
       ])),
@@ -7460,6 +7542,12 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'nameWithOwner'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -7759,6 +7847,12 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
         FieldNode(
             name: NameNode(value: 'canonical'),
             alias: null,
@@ -8194,6 +8288,44 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'canonical'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Issue'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'issue'), directives: [])
+                  ])),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'PullRequest'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'pullRequest'), directives: [])
+                  ]))
             ]))
       ])),
   FragmentDefinitionNode(

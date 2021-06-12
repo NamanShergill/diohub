@@ -47,8 +47,12 @@ class PRReviewScreen extends StatelessWidget {
                   void openCommentSheet() {
                     showCommentSheet(context,
                         onSubmit: () async {
-                          // await IssuesService.addComment(
-                          //     widget.issueUrl, context.read<CommentProvider>().data);
+                          await PullsService.replyToReviewComment(
+                              context.read<CommentProvider>().data,
+                              id: comment.databaseId!,
+                              owner: comment.repository.owner.login,
+                              repo: comment.repository.name,
+                              pullNumber: comment.pullRequest.number);
                           context.read<CommentProvider>().clearData();
                           return;
                         },

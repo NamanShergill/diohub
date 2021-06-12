@@ -122,8 +122,8 @@ class _DiscussionState extends State<Discussion>
                   },
                 ),
               ),
-              if (widget.initComment.createdAt
-                  .isAfter(commentsSince!.subtract(const Duration(minutes: 5))))
+              if (widget.initComment.createdAt.isAfter(
+                  commentsSince!.subtract(const Duration(seconds: 30))))
                 paddingWrap(
                   child: widget.initComment,
                 ),
@@ -195,7 +195,9 @@ class _DiscussionState extends State<Discussion>
                       number: widget.number,
                       owner: widget.owner,
                       refresh: refresh,
-                      since: commentsSince?.toUtc());
+                      since: commentsSince
+                          ?.toUtc()
+                          .subtract(const Duration(seconds: 30)));
                 },
                 controller: commentsSinceController,
                 firstPageLoadingBuilder: (context) {
