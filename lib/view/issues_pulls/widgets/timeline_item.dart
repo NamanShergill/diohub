@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/pulls/pull_loading_card.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
@@ -14,16 +14,23 @@ import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
-Widget paddingWrap({Widget? child}) {
-  return Material(
-    elevation: 2,
-    color: AppColor.onBackground,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-      child: child,
-    ),
-  );
+class PaddingWrap extends StatelessWidget {
+  final Widget child;
+  const PaddingWrap({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 2,
+      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+        child: child,
+      ),
+    );
+  }
 }
 
 class GetTimelineItem extends StatelessWidget {
@@ -55,7 +62,7 @@ class GetTimelineItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = timelineItem;
-    return paddingWrap(
+    return PaddingWrap(
       child: Builder(
         builder: (context) {
           if (item is AddedToProjectMixin) {
@@ -94,7 +101,8 @@ class GetTimelineItem extends StatelessWidget {
               textContent: 'Closed this.',
               user: item.actor,
               leading: Octicons.issue_closed,
-              iconColor: AppColor.red,
+              iconColor:
+                  Provider.of<PaletteSettings>(context).currentSetting.red,
               date: item.createdAt,
             );
           } else if (item is ConvertedToDraftMixin) {
@@ -260,7 +268,9 @@ class GetTimelineItem extends StatelessWidget {
               leading: Octicons.git_commit,
               footer: CommitTilesGQL(
                 item: item.commit,
-                backgroundColor: AppColor.background,
+                backgroundColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .background,
                 compact: true,
               ),
               textContent: 'Made a commit.',
@@ -294,7 +304,9 @@ class GetTimelineItem extends StatelessWidget {
                             nodeID: item.id, pullNodeID: pullNodeID!));
                       },
                       title: '${item.comments.totalCount} Comments',
-                      color: AppColor.background,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .background,
                       listenToLoadingController: false,
                       trailingIcon: const Icon(Icons.arrow_right_rounded),
                     )
@@ -309,7 +321,7 @@ class GetTimelineItem extends StatelessWidget {
             );
           } else if (item is RemovedFromProjectMixin) {
           } else if (item is RenamedTitleMixin) {
-            return paddingWrap(
+            return PaddingWrap(
                 child: BasicEventCard(
               user: item.actor,
               leading: Octicons.pencil,
@@ -328,7 +340,7 @@ class GetTimelineItem extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1!
-                    .merge(AppThemeTextStyles.basicIssueEventCardText),
+                    .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
               ),
             ));
           } else if (item is ReopenedMixin) {
@@ -336,7 +348,8 @@ class GetTimelineItem extends StatelessWidget {
               textContent: 'Reopened this.',
               user: item.actor,
               leading: Octicons.issue_reopened,
-              iconColor: AppColor.green,
+              iconColor:
+                  Provider.of<PaletteSettings>(context).currentSetting.green,
               date: item.createdAt,
             );
           } else if (item is ReviewDismissedMixin) {

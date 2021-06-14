@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
@@ -8,7 +9,6 @@ import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/assignee_select_sheet.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/label_select_sheet.dart';
@@ -61,7 +61,11 @@ class PullInformation extends StatelessWidget {
             headerTrailing: _editingEnabled
                 ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -116,7 +120,11 @@ class PullInformation extends StatelessWidget {
             headerTrailing: _editingEnabled
                 ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -171,7 +179,11 @@ class PullInformation extends StatelessWidget {
             headerTrailing: _editingEnabled
                 ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -274,7 +286,7 @@ class _BranchButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Material(
-        color: AppColor.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.background,
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: Container(

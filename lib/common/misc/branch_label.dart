@@ -1,6 +1,7 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BranchLabel extends StatelessWidget {
   final String name;
@@ -12,7 +13,7 @@ class BranchLabel extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: size / 2),
       child: Container(
         decoration: BoxDecoration(
-            color: AppColor.accent,
+            color: Provider.of<PaletteSettings>(context).currentSetting.accent,
             borderRadius: AppThemeBorderRadius.smallBorderRadius),
         child: Padding(
           padding:

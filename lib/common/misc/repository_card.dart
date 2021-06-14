@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/language_indicator.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
@@ -6,12 +7,12 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 class RepositoryCard extends StatelessWidget {
   final RepositoryModel? repo;
@@ -30,7 +31,9 @@ class RepositoryCard extends StatelessWidget {
       padding: isThemed ? padding : EdgeInsets.zero,
       child: Material(
         elevation: isThemed ? 2 : 0,
-        color: isThemed ? AppColor.background : Colors.transparent,
+        color: isThemed
+            ? Provider.of<PaletteSettings>(context).currentSetting.background
+            : Colors.transparent,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -57,13 +60,15 @@ class RepositoryCard extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Icon(
                             Octicons.lock,
-                            color: AppColor.grey3,
+                            color: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .faded3,
                             size: 12,
                           ),
                         )),
                     Text(
                       repo!.name!,
-                      style: AppThemeTextStyles.eventCardChildTitle,
+                      style: AppThemeTextStyles.eventCardChildTitle(context),
                     ),
                     const SizedBox(
                       width: 8,
@@ -76,7 +81,9 @@ class RepositoryCard extends StatelessWidget {
                             Icon(
                               Octicons.repo_forked,
                               size: 12,
-                              color: AppColor.grey3,
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .faded3,
                             ),
                             const SizedBox(
                               width: 4,
@@ -84,7 +91,10 @@ class RepositoryCard extends StatelessWidget {
                             Text(
                               'Forked',
                               style: TextStyle(
-                                  fontSize: 12, color: AppColor.grey3),
+                                  fontSize: 12,
+                                  color: Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3),
                             ),
                           ],
                         )),
@@ -102,7 +112,8 @@ class RepositoryCard extends StatelessWidget {
                                 ? repo!.description!.substring(0, 100) + '...'
                                 : repo!.description ?? 'No description.'
                             : 'No description.',
-                        style: AppThemeTextStyles.eventCardChildSubtitle,
+                        style:
+                            AppThemeTextStyles.eventCardChildSubtitle(context),
                       ),
                     ),
                   ],
@@ -116,7 +127,8 @@ class RepositoryCard extends StatelessWidget {
                     LanguageIndicator(
                       repo!.language,
                       size: 11,
-                      textStyle: AppThemeTextStyles.eventCardChildFooter,
+                      textStyle:
+                          AppThemeTextStyles.eventCardChildFooter(context),
                     ),
                     const SizedBox(
                       width: 16,
@@ -128,14 +140,17 @@ class RepositoryCard extends StatelessWidget {
                         Icon(
                           Octicons.star,
                           size: 12,
-                          color: AppColor.grey3,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
                         ),
                         const SizedBox(
                           width: 4,
                         ),
                         Text(
                           repo!.stargazersCount.toString(),
-                          style: AppThemeTextStyles.eventCardChildFooter,
+                          style:
+                              AppThemeTextStyles.eventCardChildFooter(context),
                         ),
                       ],
                     ),
@@ -144,7 +159,7 @@ class RepositoryCard extends StatelessWidget {
                     ),
                     Text(
                       'Updated ${getDate(repo!.updatedAt.toString(), shorten: false)}',
-                      style: AppThemeTextStyles.eventCardChildFooter,
+                      style: AppThemeTextStyles.eventCardChildFooter(context),
                     ),
                   ],
                 ),
@@ -175,7 +190,7 @@ class RepoCardLoading extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: elevation,
-        color: AppColor.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<RepositoryModel>(
           apiCall: RepositoryServices.fetchRepository(repoURL!),
@@ -187,7 +202,7 @@ class RepoCardLoading extends StatelessWidget {
                 children: [
                   Text(
                     repoName!.split('/').last,
-                    style: AppThemeTextStyles.eventCardChildTitle,
+                    style: AppThemeTextStyles.eventCardChildTitle(context),
                   ),
                   const SizedBox(
                     height: 8,

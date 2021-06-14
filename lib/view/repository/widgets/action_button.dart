@@ -1,6 +1,7 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ActionButton extends StatefulWidget {
   final int? count;
@@ -47,7 +48,7 @@ class _ActionButtonState extends State<ActionButton> {
       listenToLoadingController: false,
       stretch: false,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      color: AppColor.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
       onTap: () {},
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -55,7 +56,7 @@ class _ActionButtonState extends State<ActionButton> {
         children: [
           Icon(
             widget.icon,
-            color: AppColor.grey3,
+            color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
             size: 15,
           ),
           const SizedBox(
@@ -66,7 +67,8 @@ class _ActionButtonState extends State<ActionButton> {
             child: Container(
               width: 1,
               height: 15,
-              color: AppColor.grey3,
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
             ),
           ),
           const SizedBox(

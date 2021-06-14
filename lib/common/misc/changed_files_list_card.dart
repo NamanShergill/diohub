@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class ChangedFilesListCard extends StatelessWidget {
   final FileElement file;
@@ -17,7 +18,8 @@ class ChangedFilesListCard extends StatelessWidget {
             text: 'File added: +${file.additions}',
             style: Theme.of(context).textTheme.subtitle1!.copyWith(
                 fontSize: 12,
-                color: AppColor.green,
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.green,
                 fontWeight: FontWeight.w500),
           ),
         );
@@ -26,7 +28,9 @@ class ChangedFilesListCard extends StatelessWidget {
           text: TextSpan(
             text: 'File removed: -${file.deletions}',
             style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                fontSize: 12, color: AppColor.red, fontWeight: FontWeight.w500),
+                fontSize: 12,
+                color: Provider.of<PaletteSettings>(context).currentSetting.red,
+                fontWeight: FontWeight.w500),
           ),
         );
       }
@@ -43,11 +47,22 @@ class ChangedFilesListCard extends StatelessWidget {
               ),
               TextSpan(
                   text: '+${file.additions} ',
-                  style: TextStyle(color: AppColor.green)),
-              TextSpan(text: '| ', style: TextStyle(color: AppColor.grey3)),
+                  style: TextStyle(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .green)),
+              TextSpan(
+                  text: '| ',
+                  style: TextStyle(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3)),
               TextSpan(
                   text: '-${file.deletions}',
-                  style: TextStyle(color: AppColor.red)),
+                  style: TextStyle(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .red)),
             ]),
       );
     }
@@ -55,7 +70,8 @@ class ChangedFilesListCard extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: Material(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         elevation: 2,
         child: ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
@@ -72,7 +88,9 @@ class ChangedFilesListCard extends StatelessWidget {
           ),
           children: [
             Divider(
-              color: AppColor.baseElements,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .baseElements,
               height: 0,
             ),
             InkWell(
@@ -93,16 +111,24 @@ class ChangedFilesListCard extends StatelessWidget {
                       'View Changes',
                       style: TextStyle(
                           color: file.patch != null
-                              ? AppColor.baseElements
-                              : AppColor.grey3),
+                              ? Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .baseElements
+                              : Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .faded3),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     Icon(LineIcons.edit,
                         color: file.patch != null
-                            ? AppColor.baseElements
-                            : AppColor.grey3),
+                            ? Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .baseElements
+                            : Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .faded3),
                   ],
                 ),
               ),

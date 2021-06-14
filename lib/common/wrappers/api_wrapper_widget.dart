@@ -97,14 +97,23 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
           : Builder(builder: (context) {
               if (error is DioError) {
                 DioError err = error as DioError;
-
-                return Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Text(
-                    '${err.response!.statusCode}. ${err.response!.statusMessage}.',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                );
+                if (err.type == DioErrorType.response) {
+                  return Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Text(
+                      '${err.response!.statusCode}. ${err.response!.statusMessage}.',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  );
+                } else if (err.type == DioErrorType.other) {
+                  return Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Text(
+                      err.message,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  );
+                }
               }
               return Padding(
                 padding: const EdgeInsets.all(24.0),

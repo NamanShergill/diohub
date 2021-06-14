@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
@@ -10,7 +11,6 @@ import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
@@ -76,7 +76,9 @@ class _PullScreenState extends State<PullScreen>
                     childBuilder: (context, value) {
                       return AppScrollView(
                         scrollController: scrollController,
-                        childrenColor: AppColor.background,
+                        childrenColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
                           url: value.pullModel!.htmlUrl,
@@ -104,10 +106,15 @@ class _PullScreenState extends State<PullScreen>
                                 style: TextStyle(
                                     color: value.pullModel!.state ==
                                             IssueState.OPEN
-                                        ? AppColor.green
+                                        ? Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .green
                                         : value.pullModel!.merged!
                                             ? Colors.deepPurpleAccent
-                                            : AppColor.red,
+                                            : Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .red,
                                     fontSize: 14),
                               ),
                               const SizedBox(
@@ -116,7 +123,10 @@ class _PullScreenState extends State<PullScreen>
                               Text(
                                 '#${value.pullModel!.number}',
                                 style: TextStyle(
-                                    color: AppColor.grey3, fontSize: 14),
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 14),
                               ),
                             ],
                           ),
@@ -140,10 +150,16 @@ class _PullScreenState extends State<PullScreen>
                                     style: TextStyle(
                                         color: value.pullModel!.state ==
                                                 IssueState.OPEN
-                                            ? AppColor.green
+                                            ? Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .green
                                             : value.pullModel!.merged!
                                                 ? Colors.deepPurpleAccent
-                                                : AppColor.red,
+                                                : Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .red,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),
                                   ),
@@ -153,14 +169,20 @@ class _PullScreenState extends State<PullScreen>
                                   Text(
                                     '#${value.pullModel!.number}',
                                     style: TextStyle(
-                                        color: AppColor.grey3, fontSize: 16),
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 24,
                                   ),
                                   Icon(
                                     Octicons.comment,
-                                    color: AppColor.grey3,
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
                                     size: 11,
                                   ),
                                   const SizedBox(
@@ -169,7 +191,11 @@ class _PullScreenState extends State<PullScreen>
                                   Text(
                                     '${value.pullModel!.comments} comments',
                                     style: TextStyle(
-                                        color: AppColor.grey3, fontSize: 12),
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -209,7 +235,10 @@ class _PullScreenState extends State<PullScreen>
                                     ? 'By ${value.pullModel!.user!.login}, closed ${getDate(value.pullModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.pullModel!.createdAt.toString(), shorten: false)} by ${value.pullModel!.user!.login}',
                                 style: TextStyle(
-                                    color: AppColor.grey3, fontSize: 12),
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 12),
                               ),
                             ],
                           ),
@@ -288,14 +317,14 @@ class _PullScreenState extends State<PullScreen>
         } else {
           return Icon(
             Octicons.git_pull_request,
-            color: AppColor.red,
+            color: Provider.of<PaletteSettings>(context).currentSetting.red,
             size: size,
           );
         }
       case IssueState.OPEN:
         return Icon(
           Octicons.git_pull_request,
-          color: AppColor.green,
+          color: Provider.of<PaletteSettings>(context).currentSetting.green,
           size: size,
         );
       default:

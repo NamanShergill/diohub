@@ -1,6 +1,6 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -63,19 +63,27 @@ class CommitInfoButton extends StatelessWidget {
                     Icon(
                       Octicons.git_commit,
                       size: 11,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                     const SizedBox(
                       width: 5,
                     ),
                     Text(
                       value.tree.last.commit!.sha!.substring(0, 6),
-                      style: TextStyle(fontSize: 11, color: AppColor.grey3),
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3),
                     ),
                     Icon(
                       Icons.arrow_drop_down,
                       size: 13,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                   ],
                 ),
@@ -87,7 +95,9 @@ class CommitInfoButton extends StatelessWidget {
                     Icon(
                       Icons.timelapse_outlined,
                       size: 11,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                     const SizedBox(
                       width: 5,
@@ -99,7 +109,9 @@ class CommitInfoButton extends StatelessWidget {
                           shorten: false),
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppColor.grey3,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
                       ),
                     ),
                   ],

@@ -1,6 +1,7 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppTabBar extends StatelessWidget {
   final TabController? _tabController;
@@ -11,12 +12,12 @@ class AppTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.background,
       child: Column(
         children: [
           // Divider(
           //   height: 0,
-          //   color: AppColor.grey3,
+          //   color: Provider.of<PaletteSettings>(context).currentSetting.grey3,
           //   thickness: 0.2,
           // ),
           TabBar(
@@ -25,8 +26,11 @@ class AppTabBar extends StatelessWidget {
             controller: _tabController,
             indicator: BoxDecoration(
                 borderRadius: AppThemeBorderRadius.bigBorderRadius,
-                color: AppColor.accent),
-            unselectedLabelColor: AppColor.grey3,
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .accent),
+            unselectedLabelColor:
+                Provider.of<PaletteSettings>(context).currentSetting.faded3,
             labelStyle: Theme.of(context)
                 .textTheme
                 .headline6!
@@ -39,7 +43,7 @@ class AppTabBar extends StatelessWidget {
           ),
           // Divider(
           //   height: 0,
-          //   color: AppColor.grey3,
+          //   color: Provider.of<PaletteSettings>(context).currentSetting.grey3,
           //   thickness: 0.2,
           // ),
         ],

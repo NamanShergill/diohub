@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/link_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/oss_licenses.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DependenciesScreen extends StatelessWidget {
   const DependenciesScreen({Key? key}) : super(key: key);
@@ -61,7 +62,9 @@ class DependenciesScreen extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: desc != null ? Text(desc) : null,
-                      tileColor: AppColor.background,
+                      tileColor: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .background,
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
                       trailing: const Icon(Icons.chevron_right_rounded),
@@ -131,7 +134,8 @@ class OssLicenseScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('$nameKey ${version ?? ''}')),
       body: Container(
-          color: AppColor.background,
+          color:
+              Provider.of<PaletteSettings>(context).currentSetting.background,
           child: ListView(children: <Widget>[
             if (description != null)
               Padding(

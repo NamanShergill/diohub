@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
@@ -5,10 +6,10 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WrapIconButton extends StatelessWidget {
   final bool wrap;
@@ -27,7 +28,11 @@ class WrapIconButton extends StatelessWidget {
           child: Icon(
             Icons.wrap_text_rounded,
             size: size,
-            color: wrap ? AppColor.baseElements : AppColor.grey3,
+            color: wrap
+                ? Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .baseElements
+                : Provider.of<PaletteSettings>(context).currentSetting.faded3,
           ),
         ),
         onTap: () {
@@ -332,7 +337,9 @@ class _PatchViewerState extends State<PatchViewer> {
                                 style: TextStyle(
                                     fontFamily: 'monospace',
                                     fontSize: 12,
-                                    color: AppColor.grey3),
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                               ),
                             ),
                           if (widget.limitLines != null &&
@@ -358,14 +365,24 @@ class _PatchViewerState extends State<PatchViewer> {
     char.isNotEmpty ? char = char[0] : char = '';
     switch (char) {
       case ('+'):
-        return AppColor.green.withOpacity(0.2);
+        return Provider.of<PaletteSettings>(context)
+            .currentSetting
+            .green
+            .withOpacity(0.2);
       case ('-'):
-        return AppColor.red.withOpacity(0.2);
+        return Provider.of<PaletteSettings>(context)
+            .currentSetting
+            .red
+            .withOpacity(0.2);
       default:
         if (index % 2 == 0) {
-          return AppColor.background;
+          return Provider.of<PaletteSettings>(context)
+              .currentSetting
+              .background;
         } else {
-          return AppColor.onBackground;
+          return Provider.of<PaletteSettings>(context)
+              .currentSetting
+              .onBackground;
         }
     }
   }
@@ -464,8 +481,12 @@ class _ChunkHeaderState extends State<ChunkHeader> {
               itemBuilder: (context, index) {
                 return Container(
                     color: index % 2 == 0
-                        ? AppColor.background
-                        : AppColor.onBackground,
+                        ? Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .background
+                        : Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .onBackground,
                     child: Row(
                       children: [
                         const SizedBox(
@@ -502,7 +523,10 @@ class _ChunkHeaderState extends State<ChunkHeader> {
       );
     }
     return Material(
-      color: AppColor.accent.withOpacity(0.7),
+      color: Provider.of<PaletteSettings>(context)
+          .currentSetting
+          .accent
+          .withOpacity(0.7),
       child: InkWell(
         onTap: () {
           setState(() {

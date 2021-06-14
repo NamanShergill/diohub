@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/common/const/version_info.dart';
@@ -9,12 +10,14 @@ import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:dio_hub/utils/link_handler.dart';
+import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
+import 'package:dio_hub/view/settings/widgets/language_setting_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -77,7 +80,8 @@ class _SettingsScreenState extends State<SettingsScreen>
       ),
       tabController: controller,
       loading: false,
-      childrenColor: AppColor.background,
+      childrenColor:
+          Provider.of<PaletteSettings>(context).currentSetting.background,
       tabViews: const [
         _GeneralSettings(),
         _About(),
@@ -95,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen>
 //                 collapsedHeight: 100,
 //                 pinned: true,
 //                 elevation: 2,
-//                 backgroundColor: AppColor.background,
+//                 backgroundColor: Provider.of<PaletteSettings>(context).currentSetting.background,
 //                 flexibleSpace: GestureDetector(
 //                   child: const CollapsibleAppBar(
 //                     minHeight: 100,
@@ -157,53 +161,55 @@ class _GeneralSettings extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          Visibility(
-            visible: BlocProvider.of<AuthenticationBloc>(context)
-                .state
-                .authenticated,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-              child: StringButton(
-                color: AppColor.onBackground,
-                listenToLoadingController: false,
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(
-                            'Log Out?',
-                            style: Theme.of(context).textTheme.headline6,
+          FontSettingCard(),
+          ColorSettingCard(),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+            child: StringButton(
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .onBackground,
+              listenToLoadingController: false,
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'Log Out?',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
                           ),
-                          actions: [
-                            MaterialButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Cancel'),
+                          MaterialButton(
+                            onPressed: () {
+                              BlocProvider.of<AuthenticationBloc>(context)
+                                  .add(LogOut());
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Confirm',
                             ),
-                            MaterialButton(
-                              onPressed: () {
-                                BlocProvider.of<AuthenticationBloc>(context)
-                                    .add(LogOut());
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                'Confirm',
-                              ),
-                            ),
-                          ],
-                        );
-                      });
-                },
-                title: 'Log Out',
-              ),
+                          ),
+                        ],
+                      );
+                    });
+              },
+              title: 'Log Out',
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: StringButton(
-              color: AppColor.onBackground,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .onBackground,
               listenToLoadingController: false,
               onTap: () {
                 CacheManager.clearCache();
@@ -251,7 +257,9 @@ class _About extends StatelessWidget {
                 Material(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: AppColor.background,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .background,
                   elevation: 2,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
@@ -287,7 +295,9 @@ class _About extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: StringButton(
                 listenToLoadingController: false,
-                color: AppColor.onBackground,
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .onBackground,
                 onTap: () {
                   AutoRouter.of(context).push(const DependenciesScreenRoute());
                 },

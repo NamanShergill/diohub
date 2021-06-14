@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/overlay_menu_widget.dart';
@@ -5,7 +6,6 @@ import 'package:dio_hub/common/misc/user_search_dropdown.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/range_picker.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:extended_text_field/extended_text_field.dart';
@@ -16,6 +16,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class SearchOverlayScreen extends StatefulWidget {
   final String? message;
@@ -94,7 +95,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
     return Portal(
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppColor.background,
+          backgroundColor:
+              Provider.of<PaletteSettings>(context).currentSetting.background,
           body: Stack(
             fit: StackFit.expand,
             children: [
@@ -149,7 +151,10 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return RadioListTile(
-                                  activeColor: AppColor.accent,
+                                  activeColor:
+                                      Provider.of<PaletteSettings>(context)
+                                          .currentSetting
+                                          .accent,
                                   groupValue:
                                       searchData.searchFilters!.searchType,
                                   value: searchTypeValues.map.values
@@ -195,7 +200,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     childAnchor: Alignment.topCenter,
                     portalAnchor: Alignment.bottomCenter,
                     overlay: Material(
-                      color: AppColor.onBackground,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .onBackground,
                       borderRadius: AppThemeBorderRadius.medBorderRadius,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -322,7 +329,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               child: Material(
                                 elevation: 2,
                                 type: MaterialType.circle,
-                                color: AppColor.onBackground,
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .onBackground,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: IconButton(
@@ -347,7 +356,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              color: AppColor.onBackground,
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .onBackground,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
@@ -373,7 +384,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       widget.onSubmit(searchData);
                                     }
                                   : null,
-                              color: AppColor.onBackground,
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .onBackground,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
@@ -485,12 +498,13 @@ class _SearchBarState extends State<_SearchBar> {
                   },
                   specialTextSpanBuilder: _TextSpanBuilder(
                       widget.searchData.searchFilters!, controller,
-                      onChanged: (string) {
+                      context: context, onChanged: (string) {
                     controller.text = string;
                     _parseQuery(string);
                   }),
                   decoration: TextFieldTheme.inputDecoration(
                       hintText: widget.message,
+                      context: context,
                       labelText: 'Searching For',
                       focusNode: searchNode),
                 ),
@@ -551,7 +565,9 @@ class _SearchBarState extends State<_SearchBar> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
-                    color: AppColor.onBackground,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .onBackground,
                     onPressed: () {
                       setState(() {
                         controller.text = '';
@@ -634,7 +650,8 @@ class _SearchBarState extends State<_SearchBar> {
     return SizeExpandedSection(
       key: key,
       child: Material(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         elevation: 8,
         child: ListView.separated(
@@ -838,26 +855,33 @@ class _SearchBarState extends State<_SearchBar> {
 }
 
 class _TextSpanBuilder extends SpecialTextSpanBuilder {
+  final BuildContext context;
   _TextSpanBuilder(this.searchFilters, this.controller,
-      {required this.onChanged})
+      {required this.onChanged, required this.context})
       : patternMap = {
           searchFilters.validSensitiveQueriesRegExp: TextStyle(
-            color: AppColor.elementsOnColors,
+            color: Provider.of<PaletteSettings>(context)
+                .currentSetting
+                .elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
           searchFilters.validBasicQueriesRegExp: TextStyle(
-            color: AppColor.elementsOnColors,
+            color: Provider.of<PaletteSettings>(context)
+                .currentSetting
+                .elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
         },
         blacklistPatternMap = {
           searchFilters.invalidSensitiveQueriesRegExp: TextStyle(
-              color: AppColor.grey3,
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.invalidBasicQueriesRegExp: TextStyle(
-              color: AppColor.grey3,
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.blacklistRegExp: TextStyle(
             color: Colors.red,
@@ -879,7 +903,8 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
       data.splitMapJoin(RegExp(searchFilters.allValidQueriesRegexp.pattern),
           onMatch: (Match m) {
         inlineList.add(
-          _ValidQuery(m[0]!, controller, textStyle, onChanged: (string) {
+          _ValidQuery(m[0]!, controller, textStyle, context: context,
+              onChanged: (string) {
             onChanged(string);
           }).finishText(),
         );
@@ -893,11 +918,16 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
                 SearchFilters.orOperatorRegExp.pattern), onMatch: (Match m) {
           TextStyle _textStyle = textStyle!;
           if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(color: AppColor.red);
+            _textStyle = _textStyle.copyWith(
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.red);
           } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(color: Colors.amber);
           } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(color: AppColor.accent);
+            _textStyle = _textStyle.copyWith(
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .accent);
           }
           inlineList.add(
               getSpan(m[0]!, _textStyle.copyWith(fontWeight: FontWeight.bold)));
@@ -954,12 +984,14 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
 
 class _ValidQuery extends SpecialText {
   _ValidQuery(String startFlag, this.controller, TextStyle? textStyle,
-      {required this.onChanged})
+      {required this.onChanged, required this.context})
       : super(
           startFlag,
           '',
           textStyle ?? const TextStyle(),
         );
+  final BuildContext context;
+
   final ValueChanged<String> onChanged;
   final TextEditingController controller;
 
@@ -971,7 +1003,9 @@ class _ValidQuery extends SpecialText {
         padding: const EdgeInsets.only(top: 4.0),
         child: Material(
             borderRadius: AppThemeBorderRadius.smallBorderRadius,
-            color: toString().startsWith('-') ? AppColor.red : AppColor.accent,
+            color: toString().startsWith('-')
+                ? Provider.of<PaletteSettings>(context).currentSetting.red
+                : Provider.of<PaletteSettings>(context).currentSetting.accent,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.smallBorderRadius,
               onTap: () {
@@ -1025,12 +1059,18 @@ class _ValidQuery extends SpecialText {
                     ),
                     ClipOval(
                       child: Container(
-                        color: AppColor.elementsOnColors,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .elementsOnColors,
                         child: Icon(
                           Icons.close_rounded,
                           color: toString().startsWith('-')
-                              ? AppColor.red
-                              : AppColor.accent,
+                              ? Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .red
+                              : Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .accent,
                           size: 12,
                         ),
                       ),

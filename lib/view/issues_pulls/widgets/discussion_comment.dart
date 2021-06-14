@@ -1,11 +1,11 @@
 import 'dart:ui';
 
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/get_date.dart';
@@ -92,7 +92,9 @@ class _BaseCommentState extends State<BaseComment> {
                     child: Icon(
                       widget.leading,
                       size: 16,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                   ),
                 ProfileTile(
@@ -133,7 +135,10 @@ class _BaseCommentState extends State<BaseComment> {
                             child: Text(
                               str ?? '',
                               style: TextStyle(
-                                  fontSize: 12, color: AppColor.grey3),
+                                  fontSize: 12,
+                                  color: Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3),
                             ),
                           );
                         },
@@ -150,7 +155,9 @@ class _BaseCommentState extends State<BaseComment> {
                     Text(
                       getDate(widget.createdAt.toString(), shorten: false),
                       style: TextStyle(
-                          color: AppColor.grey3,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
                           fontSize: 12,
                           fontWeight: FontWeight.w600),
                     ),
@@ -159,7 +166,11 @@ class _BaseCommentState extends State<BaseComment> {
                         'Edited ' +
                             getDate(widget.lastEditedAt.toString(),
                                 shorten: false),
-                        style: TextStyle(color: AppColor.grey3, fontSize: 10),
+                        style: TextStyle(
+                            color: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .faded3,
+                            fontSize: 10),
                       ),
                   ],
                 ),
@@ -172,7 +183,9 @@ class _BaseCommentState extends State<BaseComment> {
                         },
                         icon: Icon(
                           Icons.more_vert_rounded,
-                          color: AppColor.grey3,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
                         ))
                     : const SizedBox(
                         width: 8,
@@ -227,7 +240,8 @@ class _BaseCommentState extends State<BaseComment> {
             padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
             child: Text(
               widget.description!,
-              style: AppThemeTextStyles.basicIssueEventCardText.copyWith(
+              style:
+                  AppThemeTextStyles.basicIssueEventCardText(context).copyWith(
                 fontWeight: FontWeight.bold,
                 // fontStyle: FontStyle.italic,
               ),

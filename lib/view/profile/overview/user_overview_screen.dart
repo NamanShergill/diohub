@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -9,9 +10,9 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class UserOverviewScreen extends StatelessWidget {
   final UserInfoModel? userInfoModel;
@@ -19,7 +20,7 @@ class UserOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.background,
       child: ListView(
         children: [
           InfoCard(
@@ -73,7 +74,9 @@ class UserOverviewScreen extends StatelessWidget {
                 'http://ghchart.rshah.org/0079FD/${userInfoModel!.login}',
                 placeholderBuilder: (context) {
                   return ShimmerWidget(
-                    baseColor: AppColor.onBackground,
+                    baseColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .onBackground,
                     highlightColor: Colors.grey.shade800,
                     borderRadius: AppThemeBorderRadius.medBorderRadius,
                     child: Container(

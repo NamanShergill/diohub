@@ -1,9 +1,10 @@
 import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,7 +27,8 @@ void showBottomActionsMenu(BuildContext context,
       enableDrag: enableDrag,
       // Notch obstructs sheet, https://github.com/flutter/flutter/issues/39205
       isScrollControlled: fullScreen,
-      backgroundColor: AppColor.background,
+      backgroundColor:
+          Provider.of<PaletteSettings>(context).currentSetting.background,
       context: context,
       builder: (context) => StatefulBuilder(
             builder: (context, setState) {
@@ -41,7 +43,9 @@ void showBottomActionsMenu(BuildContext context,
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: AppColor.grey,
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .faded1,
                               borderRadius: BorderRadius.circular(15)),
                           height: 4,
                           width: _media.width * 0.1,
@@ -100,7 +104,9 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
             title: const Text("Open"),
             trailing: Icon(
               LineIcons.link,
-              color: AppColor.baseElements,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .baseElements,
             ),
           ),
         ),
@@ -117,7 +123,9 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
             title: const Text("Copy"),
             trailing: Icon(
               Icons.copy,
-              color: AppColor.baseElements,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .baseElements,
             ),
           ),
         ),
@@ -160,7 +168,8 @@ void showScrollableBottomActionsMenu(BuildContext context,
       topRight: Radius.circular(20),
       topLeft: Radius.circular(20),
     )),
-    backgroundColor: AppColor.background,
+    backgroundColor:
+        Provider.of<PaletteSettings>(context).currentSetting.background,
     isScrollControlled: true,
     builder: (context) {
       final _media = MediaQuery.of(context).size;
@@ -184,7 +193,9 @@ void showScrollableBottomActionsMenu(BuildContext context,
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
-                                color: AppColor.grey,
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded1,
                                 borderRadius: BorderRadius.circular(15)),
                             height: 4,
                             width: _media.width * 0.1,

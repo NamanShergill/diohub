@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 /// Controller for [InfiniteScrollWrapper].
@@ -173,7 +174,8 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 
     if (!widget.disableRefresh) {
       child = RefreshIndicator(
-        color: AppColor.baseElements,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.baseElements,
         onRefresh: () => Future.sync(() async {
           controller.refresh();
         }),
@@ -185,7 +187,8 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
       child = ScrollWrapper(
         scrollController: scrollController,
         child: child,
-        promptTheme: PromptButtonTheme(color: AppColor.accent),
+        promptTheme: PromptButtonTheme(
+            color: Provider.of<PaletteSettings>(context).currentSetting.accent),
         promptReplacementBuilder: widget.pinnedHeader,
       );
     }
@@ -388,7 +391,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'And then there were none.',
-                    style: TextStyle(color: AppColor.grey3),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3),
                   ),
                 ),
               ),
@@ -403,7 +409,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                   children: [
                     Text(
                       'The end of the line.',
-                      style: TextStyle(color: AppColor.grey3),
+                      style: TextStyle(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3),
                     ),
                     SizedBox(
                       height: widget.bottomSpacing,

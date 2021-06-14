@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
@@ -5,8 +6,8 @@ import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/services/search/search_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserSearchDropdown extends StatelessWidget {
   final String query;
@@ -25,7 +26,8 @@ class UserSearchDropdown extends StatelessWidget {
         maxHeight: _media.height * 0.4,
       ),
       child: Material(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         elevation: 8,
         child: query.isNotEmpty

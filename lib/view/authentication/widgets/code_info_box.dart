@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:provider/provider.dart';
 
 class CodeInfoBox extends StatefulWidget {
   final DeviceCodeModel deviceCodeModel;
@@ -89,9 +90,13 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: LinearProgressIndicator(
-                        backgroundColor: AppColor.grey,
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(AppColor.grey3),
+                        backgroundColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded1,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .faded3),
                         value: ((time.min ?? 0) * 60 + time.sec!) /
                             ((widget.deviceCodeModel.expiresIn! -
                                     widget.deviceCodeModel.parsedOn!) /
@@ -120,7 +125,9 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
               },
               enabled: !copied,
               padding: const EdgeInsets.all(24.0),
-              color: AppColor.onBackground,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .onBackground,
               child: Column(
                 children: [
                   Text(
@@ -192,7 +199,9 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
             child: Material(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-              color: AppColor.onBackground,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .onBackground,
               elevation: 2,
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),

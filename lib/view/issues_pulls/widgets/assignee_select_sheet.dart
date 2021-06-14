@@ -1,10 +1,11 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AssigneeSelectSheet extends StatefulWidget {
   final String? repoURL;
@@ -67,7 +68,9 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Button(
-            color: AppColor.onBackground,
+            color: Provider.of<PaletteSettings>(context)
+                .currentSetting
+                .onBackground,
             onTap: () async {
               try {
                 List<UserInfoModel>? newAssignees = await updateAssignees();
@@ -90,7 +93,10 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
-                  style: TextStyle(color: AppColor.grey3),
+                  style: TextStyle(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3),
                 ),
               ),
               const SizedBox(
@@ -111,7 +117,8 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             listEndIndicator: false,
             builder: (context, item, index, refresh) {
               return CheckboxListTile(
-                activeColor: AppColor.accent,
+                activeColor:
+                    Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: assignees.contains(item.login),
                 onChanged: (value) {
                   setState(() {

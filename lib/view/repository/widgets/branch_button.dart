@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
@@ -5,7 +6,6 @@ import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/widgets/branch_select_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -22,7 +22,8 @@ class BranchButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: Container(
@@ -32,10 +33,14 @@ class BranchButton extends StatelessWidget {
               loadingBuilder: (context) {
                 return ShimmerWidget(
                   borderRadius: AppThemeBorderRadius.medBorderRadius,
-                  baseColor: AppColor.onBackground,
+                  baseColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .onBackground,
                   highlightColor: Colors.grey.shade800,
                   child: Container(
-                    color: AppColor.onBackground,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .onBackground,
                     width: double.infinity,
                     height: height,
                   ),

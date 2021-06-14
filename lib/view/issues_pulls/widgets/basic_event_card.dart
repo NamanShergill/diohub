@@ -1,14 +1,15 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class BasicEventCard extends StatelessWidget {
   final ActorMixin? user;
@@ -40,7 +41,8 @@ class BasicEventCard extends StatelessWidget {
               Icon(
                 leading,
                 size: 16,
-                color: iconColor ?? AppColor.grey3,
+                color: iconColor ??
+                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
               ),
               const SizedBox(
                 width: 4,
@@ -51,7 +53,9 @@ class BasicEventCard extends StatelessWidget {
                 size: 20,
                 textStyle: TextStyle(
                     fontSize: 12,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                     fontWeight: FontWeight.bold),
                 padding: const EdgeInsets.all(4),
                 userLogin: user?.login,
@@ -63,13 +67,19 @@ class BasicEventCard extends StatelessWidget {
                     name!,
                     style: TextStyle(
                         fontSize: 12,
-                        color: AppColor.grey3,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
               Text(
                 'on ${getDate(date.toString(), shorten: false)}',
-                style: TextStyle(fontSize: 12, color: AppColor.grey3),
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3),
               ),
             ],
           ),
@@ -82,7 +92,7 @@ class BasicEventCard extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
-                    .merge(AppThemeTextStyles.basicIssueEventCardText),
+                    .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
                 child: content),
           ),
         ],
@@ -116,7 +126,7 @@ class BasicEventTextCard extends StatelessWidget {
         children: [
           Text(
             textContent,
-            style: AppThemeTextStyles.basicIssueEventCardText,
+            style: AppThemeTextStyles.basicIssueEventCardText(context),
           ),
           if (footer != null)
             Padding(
@@ -151,7 +161,7 @@ class BasicEventAssignedCard extends StatelessWidget {
         children: [
           Text(
             isAssigned ? 'Assigned' : 'Unassigned',
-            style: AppThemeTextStyles.basicIssueEventCardText,
+            style: AppThemeTextStyles.basicIssueEventCardText(context),
           ),
           const SizedBox(
             width: 4,
@@ -161,20 +171,23 @@ class BasicEventAssignedCard extends StatelessWidget {
                   assignee?.avatarUrl.toString(),
                   showName: true,
                   textStyle: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColor.grey3),
+                      fontWeight: FontWeight.bold,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3),
                   padding: const EdgeInsets.all(4),
                   userLogin: assignee?.login,
                 )
               : Text(
                   'themselves',
-                  style: AppThemeTextStyles.basicIssueEventCardText,
+                  style: AppThemeTextStyles.basicIssueEventCardText(context),
                 ),
           const SizedBox(
             width: 4,
           ),
           Text(
             '${isAssigned ? 'to' : 'from'} the issue.',
-            style: AppThemeTextStyles.basicIssueEventCardText,
+            style: AppThemeTextStyles.basicIssueEventCardText(context),
           ),
         ],
       ),
@@ -208,7 +221,7 @@ class BasicEventLabeledCard extends StatelessWidget {
         children: [
           Text(
             '${added ? 'Added' : 'Removed'} the',
-            style: AppThemeTextStyles.basicIssueEventCardText,
+            style: AppThemeTextStyles.basicIssueEventCardText(context),
           ),
           const SizedBox(
             width: 8,
@@ -219,7 +232,7 @@ class BasicEventLabeledCard extends StatelessWidget {
           ),
           Text(
             'label ${added ? 'to' : 'from'} this.',
-            style: AppThemeTextStyles.basicIssueEventCardText,
+            style: AppThemeTextStyles.basicIssueEventCardText(context),
           ),
         ],
       ),

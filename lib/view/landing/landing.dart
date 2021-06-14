@@ -1,8 +1,8 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/home/home.dart';
 import 'package:dio_hub/view/notifications/notifications.dart';
 import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
@@ -34,7 +34,8 @@ class _LandingScreenState extends State<LandingScreen> {
     final _navProvider = Provider.of<NavigationProvider>(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.background,
+        backgroundColor:
+            Provider.of<PaletteSettings>(context).currentSetting.background,
         body: ScaffoldBody(
           notificationController:
               Provider.of<CurrentUserProvider>(context).notificationController,
@@ -61,19 +62,27 @@ class _LandingScreenState extends State<LandingScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GNav(
-                backgroundColor: AppColor.background,
+                backgroundColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .background,
                 selectedIndex: _navProvider.currentIndex,
                 onTabChange: (index) {
                   _navProvider.animateToPage(index);
                 },
                 gap: 10,
-                color: AppColor.grey,
-                activeColor: AppColor.baseElements,
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded1,
+                activeColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .baseElements,
                 rippleColor: Colors.grey[800]!,
                 hoverColor: Colors.grey[700]!,
                 iconSize: 20,
-                textStyle:
-                    TextStyle(fontSize: 16, color: AppColor.baseElements),
+                textStyle: TextStyle(
+                    fontSize: 16,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .baseElements),
                 tabBackgroundColor: Colors.grey[900]!,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),

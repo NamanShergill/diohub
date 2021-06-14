@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
@@ -13,7 +14,6 @@ import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/home/widgets/issues_tab.dart';
 import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen>
                 collapsedHeight: 155,
                 pinned: true,
                 elevation: 2,
-                backgroundColor: AppColor.background,
+                backgroundColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .background,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.only(bottom: 30.0),
                   child: CollapsibleAppBar(
@@ -119,7 +121,9 @@ class _HomeScreenState extends State<HomeScreen>
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(0),
                   child: Container(
-                    color: AppColor.background,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .background,
                     child: AppTabBar(
                       controller: _tabController,
                       tabs: const [
@@ -148,7 +152,8 @@ class _HomeScreenState extends State<HomeScreen>
         ];
       },
       body: Container(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
           childBuilder: (context, value) {
             return Builder(

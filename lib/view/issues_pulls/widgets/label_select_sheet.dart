@@ -1,10 +1,11 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LabelSelectSheet extends StatefulWidget {
   final String? repoURL;
@@ -41,7 +42,9 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Button(
-            color: AppColor.onBackground,
+            color: Provider.of<PaletteSettings>(context)
+                .currentSetting
+                .onBackground,
             onTap: () async {
               try {
                 List<Label> newLabels =
@@ -67,7 +70,8 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
             listEndIndicator: false,
             builder: (context, item, index, refresh) {
               return CheckboxListTile(
-                activeColor: AppColor.accent,
+                activeColor:
+                    Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: labels!.contains(item.name),
                 onChanged: (value) {
                   setState(() {

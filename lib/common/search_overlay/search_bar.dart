@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {
   final String? message;
@@ -126,7 +127,8 @@ class _SearchBarState extends State<SearchBar> {
           )
         : child;
     Widget quickActions(context) => Material(
-          color: AppColor.background,
+          color:
+              Provider.of<PaletteSettings>(context).currentSetting.background,
           borderRadius: BorderRadius.only(
               bottomLeft: AppThemeBorderRadius.medBorderRadius.bottomLeft,
               bottomRight: AppThemeBorderRadius.medBorderRadius.bottomRight),
@@ -142,8 +144,12 @@ class _SearchBarState extends State<SearchBar> {
                     'Sort & Quick Filters',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
                         color: sortExpanded
-                            ? AppColor.accent
-                            : AppColor.baseElements),
+                            ? Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .accent
+                            : Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .baseElements),
                   ),
                   onTap: () {
                     setState(() {
@@ -152,7 +158,9 @@ class _SearchBarState extends State<SearchBar> {
                   },
                   trailing: Icon(
                     Icons.arrow_drop_down,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                 ),
                 child: SizeExpandedSection(
@@ -185,8 +193,16 @@ class _SearchBarState extends State<SearchBar> {
                                             .subtitle2!
                                             .copyWith(
                                                 color: sortExpanded
-                                                    ? AppColor.accent
-                                                    : AppColor.baseElements),
+                                                    ? Provider.of<
+                                                                PaletteSettings>(
+                                                            context)
+                                                        .currentSetting
+                                                        .accent
+                                                    : Provider.of<
+                                                                PaletteSettings>(
+                                                            context)
+                                                        .currentSetting
+                                                        .baseElements),
                                       ),
                                       expanded: sortExpanded,
                                       child: Column(
@@ -278,8 +294,16 @@ class _SearchBarState extends State<SearchBar> {
                                               .subtitle2!
                                               .copyWith(
                                                   color: quickFiltersExpanded
-                                                      ? AppColor.accent
-                                                      : AppColor.baseElements),
+                                                      ? Provider.of<
+                                                                  PaletteSettings>(
+                                                              context)
+                                                          .currentSetting
+                                                          .accent
+                                                      : Provider.of<
+                                                                  PaletteSettings>(
+                                                              context)
+                                                          .currentSetting
+                                                          .baseElements),
                                         ),
                                         expanded: quickFiltersExpanded,
                                         child: Column(
@@ -376,7 +400,11 @@ class _SearchBarState extends State<SearchBar> {
                                                   .textTheme
                                                   .subtitle2,
                                             ),
-                                            activeColor: AppColor.accent,
+                                            activeColor:
+                                                Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .accent,
                                             value: searchData!.filterStrings
                                                 .contains(widget
                                                     .quickOptions!.keys
@@ -421,7 +449,10 @@ class _SearchBarState extends State<SearchBar> {
       child: Column(
         children: [
           Material(
-            color: widget.backgroundColor ?? AppColor.onBackground,
+            color: widget.backgroundColor ??
+                Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .onBackground,
             borderRadius: widget.isPinned
                 ? null
                 : searchData?.searchFilters != null
@@ -451,7 +482,9 @@ class _SearchBarState extends State<SearchBar> {
                 children: [
                   if (searchData != null && (searchData?.isActive ?? false))
                     Material(
-                      color: AppColor.accent,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .accent,
                       borderRadius: widget.isPinned
                           ? null
                           : BorderRadius.only(
@@ -505,7 +538,9 @@ class _SearchBarState extends State<SearchBar> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Icon(
                                   LineIcons.search,
-                                  color: AppColor.grey3,
+                                  color: Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3,
                                 ),
                               ),
                               Flexible(
@@ -517,7 +552,10 @@ class _SearchBarState extends State<SearchBar> {
                                         .textTheme
                                         .bodyText1!
                                         .copyWith(
-                                            color: AppColor.grey3
+                                            color: Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .faded3
                                                 .withOpacity(0.7)),
                                   ),
                                 ),
@@ -583,7 +621,9 @@ class _ActiveSearch extends StatelessWidget {
               if (searchData.visibleStrings.isNotEmpty &&
                   searchData.query.trim().isNotEmpty)
                 Divider(
-                  color: AppColor.baseElements,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements,
                   thickness: 0.2,
                 ),
               Padding(

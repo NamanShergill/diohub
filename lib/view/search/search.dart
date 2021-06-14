@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
@@ -9,7 +10,6 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/services/search/search_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen>
     super.build(context);
     final _search = Provider.of<SearchDataProvider>(context);
     return Container(
-      color: AppColor.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
       child: _search.searchData.searchFilters != null
           ? SearchScrollWrapper(
               _search.searchData, isNestedScrollViewChild: false,
@@ -41,7 +41,7 @@ class _SearchScreenState extends State<SearchScreen>
                 _search.updateSearchData(data);
               },
               scrollController: scrollController,
-              // searchBarColor: AppColor.onBackground,
+              // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             )
@@ -62,7 +62,9 @@ class _SearchScreenState extends State<SearchScreen>
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SearchBar(
-                      backgroundColor: AppColor.background,
+                      backgroundColor: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .background,
                       heroTag: 'searchScreen',
                       onSubmit: (data) {
                         _search.updateSearchData(data);
@@ -75,7 +77,9 @@ class _SearchScreenState extends State<SearchScreen>
                       child: Material(
                         borderRadius: BorderRadius.vertical(
                             top: AppThemeBorderRadius.medBorderRadius.topRight),
-                        color: AppColor.background,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .background,
                         child: APIWrapper<List<RepositoryModel>>(
                           apiCall: SearchService.searchRepos(
                               SearchQueries().pushed.toQueryString('>' +

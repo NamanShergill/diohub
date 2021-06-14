@@ -1,5 +1,6 @@
-import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TextPlaceHolder extends StatelessWidget {
   final String text;
@@ -10,7 +11,8 @@ class TextPlaceHolder extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         text,
-        style: TextStyle(color: AppColor.grey3),
+        style: TextStyle(
+            color: Provider.of<PaletteSettings>(context).currentSetting.faded3),
       ),
     );
   }

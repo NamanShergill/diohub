@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -7,11 +8,11 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class ProfileCard extends StatelessWidget {
   final UserInfoModel user;
@@ -30,7 +31,9 @@ class ProfileCard extends StatelessWidget {
       padding: isThemed ? padding : EdgeInsets.zero,
       child: Material(
         elevation: isThemed ? 2 : 0,
-        color: isThemed ? AppColor.background : Colors.transparent,
+        color: isThemed
+            ? Provider.of<PaletteSettings>(context).currentSetting.background
+            : Colors.transparent,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -62,7 +65,8 @@ class ProfileCard extends StatelessWidget {
                             child: Text(
                               user.bio!,
                               overflow: TextOverflow.ellipsis,
-                              style: AppThemeTextStyles.eventCardChildSubtitle,
+                              style: AppThemeTextStyles.eventCardChildSubtitle(
+                                  context),
                             ),
                           ),
                         ],
@@ -90,7 +94,8 @@ class ProfileCard extends StatelessWidget {
                             user.followers != null
                                 ? user.followers.toString()
                                 : 'None',
-                            style: AppThemeTextStyles.eventCardChildFooter,
+                            style: AppThemeTextStyles.eventCardChildFooter(
+                                context),
                           ),
                         ],
                       ),
@@ -122,7 +127,7 @@ class ProfileCardLoading extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: 2,
-        color: AppColor.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<UserInfoModel>(
           apiCall: UserInfoService.getUserInfo(login),

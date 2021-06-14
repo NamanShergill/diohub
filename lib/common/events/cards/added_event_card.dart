@@ -1,11 +1,12 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddedEventCard extends StatelessWidget {
   final EventsModel event;
@@ -31,7 +32,8 @@ class AddedEventCard extends StatelessWidget {
       avatarUrl: event.actor!.avatarUrl,
       childPadding: EdgeInsets.zero,
       child: Container(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         child: Column(
           children: [
             ProfileCard(

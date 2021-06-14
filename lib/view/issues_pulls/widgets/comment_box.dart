@@ -1,11 +1,12 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
+import 'package:provider/provider.dart';
 
 typedef LoadingFuture = Future<void> Function();
 
@@ -29,7 +30,11 @@ void showCommentSheet(BuildContext context,
             });
           },
           icon: const Icon(Icons.remove_red_eye_rounded),
-          color: markdownView ? AppColor.baseElements : AppColor.grey3,
+          color: markdownView
+              ? Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .baseElements
+              : Provider.of<PaletteSettings>(context).currentSetting.faded3,
         ),
         Expanded(
           child: InkWell(
@@ -68,7 +73,10 @@ void showCommentSheet(BuildContext context,
                     Navigator.pop(context);
                   });
                 },
-          disabledColor: AppColor.grey3.withOpacity(0.5),
+          disabledColor: Provider.of<PaletteSettings>(context)
+              .currentSetting
+              .faded3
+              .withOpacity(0.5),
           icon: loading
               ? const LoadingIndicator()
               : const Icon(
@@ -134,16 +142,20 @@ class _CommentBoxState extends State<CommentBox> {
               }
             : null,
         maxLines: null,
-        toolbarDecoration: BoxDecoration(color: AppColor.background),
+        toolbarDecoration: BoxDecoration(
+            color: Provider.of<PaletteSettings>(context)
+                .currentSetting
+                .background),
         inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
         boxDecoration: BoxDecoration(
-          color: AppColor.onBackground,
+          color:
+              Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         ),
       );
     }
 
     return Container(
-      color: AppColor.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: widget.markdownView
@@ -167,7 +179,7 @@ class _CommentBoxState extends State<CommentBox> {
 //     padding: const EdgeInsets.all(16.0),
 //     child: Text('Preview'),
 //   ),
-//   color: AppColor.background,
+//   color: Provider.of<PaletteSettings>(context).currentSetting.background,
 //   borderRadius: 0,
 //   listenToLoadingController: false,
 // ),
@@ -193,6 +205,6 @@ class _CommentBoxState extends State<CommentBox> {
 //     padding: EdgeInsets.all(16.0),
 //     child: Text('Add Comment'),
 //   ),
-//   color: AppColor.background,
+//   color: Provider.of<PaletteSettings>(context).currentSetting.background,
 //   borderRadius: 0,
 // ),

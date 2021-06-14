@@ -1,9 +1,9 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
@@ -94,7 +94,9 @@ class _DiscussionState extends State<Discussion>
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
                   listenToLoadingController: false,
-                  color: AppColor.onBackground,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .onBackground,
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     children: [
@@ -124,7 +126,7 @@ class _DiscussionState extends State<Discussion>
               ),
               if (widget.initComment.createdAt.isAfter(
                   commentsSince!.subtract(const Duration(seconds: 30))))
-                paddingWrap(
+                PaddingWrap(
                   child: widget.initComment,
                 ),
             ],
@@ -135,7 +137,9 @@ class _DiscussionState extends State<Discussion>
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
                   listenToLoadingController: false,
-                  color: AppColor.onBackground,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .onBackground,
                   padding: const EdgeInsets.all(16),
                   child: const Text(
                     'Show timeline from a specific time?',
@@ -147,11 +151,22 @@ class _DiscussionState extends State<Discussion>
                         showTitleActions: true,
                         theme: DatePickerTheme(
                             cancelStyle: TextStyle(
-                              color: AppColor.baseElements,
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .baseElements,
                             ),
-                            doneStyle: TextStyle(color: AppColor.accent),
-                            itemStyle: TextStyle(color: AppColor.baseElements),
-                            backgroundColor: AppColor.background),
+                            doneStyle: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .accent),
+                            itemStyle: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .baseElements),
+                            backgroundColor:
+                                Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .background),
                         maxTime: DateTime.now(), onConfirm: (date) {
                       setState(() {
                         commentsSince = date;
@@ -164,7 +179,7 @@ class _DiscussionState extends State<Discussion>
               const SizedBox(
                 height: 16,
               ),
-              paddingWrap(
+              PaddingWrap(
                 child: widget.initComment,
               ),
             ],
@@ -178,8 +193,12 @@ class _DiscussionState extends State<Discussion>
             ),
             Container(
               decoration: BoxDecoration(
-                border:
-                    Border(left: BorderSide(color: AppColor.grey3, width: 0.2)),
+                border: Border(
+                    left: BorderSide(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        width: 0.2)),
               ),
             ),
           ],
@@ -202,7 +221,9 @@ class _DiscussionState extends State<Discussion>
                 controller: commentsSinceController,
                 firstPageLoadingBuilder: (context) {
                   return Container(
-                    color: AppColor.background,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .background,
                     child: const LoadingIndicator(),
                   );
                 },
@@ -230,7 +251,7 @@ class _DiscussionState extends State<Discussion>
                   //           child: BasicEventTextCard(
                   //         user: item.actor,
                   //         leading: Octicons.issue_closed,
-                  //         iconColor: AppColor.red,
+                  //         iconColor: Provider.of<PaletteSettings>(context).currentSetting.red,
                   //         date: item.createdAt.toString(),
                   //         textContent: 'Closed this.',
                   //       ));
@@ -271,7 +292,7 @@ class _DiscussionState extends State<Discussion>
                   //           child: BasicEventTextCard(
                   //         user: item.actor,
                   //         leading: Octicons.issue_reopened,
-                  //         iconColor: AppColor.green,
+                  //         iconColor: Provider.of<PaletteSettings>(context).currentSetting.green,
                   //         date: item.createdAt.toString(),
                   //         textContent: 'Reopened this.',
                   //       ));
@@ -347,7 +368,9 @@ class _CommentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 2,
-      color: isLocked ? AppColor.grey3 : AppColor.accent,
+      color: isLocked
+          ? Provider.of<PaletteSettings>(context).currentSetting.faded3
+          : Provider.of<PaletteSettings>(context).currentSetting.accent,
       child: InkWell(
         onTap: isLocked ? null : onTap,
         child: Padding(

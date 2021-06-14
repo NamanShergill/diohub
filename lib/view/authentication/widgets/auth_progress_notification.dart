@@ -1,12 +1,13 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class AuthProgressNotification extends StatelessWidget {
   const AuthProgressNotification({Key? key}) : super(key: key);
@@ -20,7 +21,9 @@ class AuthProgressNotification extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Material(
               borderRadius: AppThemeBorderRadius.medBorderRadius,
-              color: AppColor.onBackground,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .onBackground,
               child: InkWell(
                 onTap: () {
                   //   showDialog(
@@ -75,9 +78,14 @@ class AuthProgressNotification extends StatelessWidget {
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10)),
                                 child: LinearProgressIndicator(
-                                  backgroundColor: AppColor.grey,
+                                  backgroundColor:
+                                      Provider.of<PaletteSettings>(context)
+                                          .currentSetting
+                                          .faded1,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppColor.grey3),
+                                      Provider.of<PaletteSettings>(context)
+                                          .currentSetting
+                                          .faded3),
                                   value: ((time.min ?? 0) * 60 + time.sec!) /
                                       ((state.deviceCodeModel.expiresIn! -
                                               state.deviceCodeModel.parsedOn!) /

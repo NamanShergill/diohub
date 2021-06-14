@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BasePopupNotification extends StatelessWidget {
   final String? title;
@@ -28,7 +29,8 @@ class BasePopupNotification extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StringButton(
-          color: color ?? AppColor.red,
+          color:
+              color ?? Provider.of<PaletteSettings>(context).currentSetting.red,
           onTap: onTap != null
               ? () async {
                   await onTap!(context);
@@ -42,7 +44,7 @@ class BasePopupNotification extends StatelessWidget {
         ),
         // child: Material(
         //   borderRadius: AppThemeBorderRadius.medBorderRadius,
-        //   color: AppColor.error,
+        //   color: Provider.of<PaletteSettings>(context).currentSetting.error,
         //   child: InkWell(
         //     onTap: () {
         //       PopupNotificationController.addPopUpNotification(null);

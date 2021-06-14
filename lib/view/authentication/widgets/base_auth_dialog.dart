@@ -1,6 +1,7 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BaseAuthDialog extends StatelessWidget {
   final Widget child;
@@ -9,7 +10,7 @@ class BaseAuthDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: AppThemeBorderRadius.bigBorderRadius,
-      color: AppColor.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.background,
       // elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(24.0),

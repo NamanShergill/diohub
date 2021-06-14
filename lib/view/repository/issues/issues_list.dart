@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
@@ -12,7 +13,6 @@ import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -124,7 +124,8 @@ class IssueTemplateCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Card(
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         shape: RoundedRectangleBorder(
             borderRadius: AppThemeBorderRadius.medBorderRadius),
         child: InkWell(
@@ -142,7 +143,7 @@ class IssueTemplateCard extends StatelessWidget {
               children: [
                 Text(
                   template.name,
-                  style: AppThemeTextStyles.eventCardChildTitle,
+                  style: AppThemeTextStyles.eventCardChildTitle(context),
                 ),
                 if (template.about != null)
                   Padding(

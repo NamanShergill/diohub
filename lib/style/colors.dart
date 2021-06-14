@@ -1,16 +1,36 @@
+import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppColor {
-  AppColor._();
-  static Color accent = Color(0xff0079FD);
-  static Color background = Color(0xff17181C);
+  // Provider.of<PaletteSettings>(context).currentSetting._();
+  static Color accent =
+      Provider.of<PaletteSettings>(Global.currentContext).currentSetting.accent;
+  static Color background = Provider.of<PaletteSettings>(Global.currentContext)
+      .currentSetting
+      .background;
   // static Color background = Color(0xff151618);
-  static Color onBackground = Color(0xff201f23);
-  static Color baseElements = Colors.white;
-  static Color elementsOnColors = Colors.white;
-  static Color red = Color(0xffF44E3B);
-  static Color green = Color(0xff27AE61);
-  static Color grey = Color(0xff413E3E);
-  static Color grey2 = Color(0xff555555);
-  static Color grey3 = Color(0xff878787);
+  static Color onBackground =
+      Provider.of<PaletteSettings>(Global.currentContext)
+          .currentSetting
+          .onBackground;
+  static Color baseElements =
+      Provider.of<PaletteSettings>(Global.currentContext)
+          .currentSetting
+          .baseElements;
+  static Color elementsOnColors =
+      Provider.of<PaletteSettings>(Global.currentContext)
+          .currentSetting
+          .elementsOnColors;
+  static Color green =
+      Provider.of<PaletteSettings>(Global.currentContext).currentSetting.green;
+  static Color red =
+      Provider.of<PaletteSettings>(Global.currentContext).currentSetting.red;
+  static Color faded1 =
+      Provider.of<PaletteSettings>(Global.currentContext).currentSetting.faded1;
+  static Color faded2 =
+      Provider.of<PaletteSettings>(Global.currentContext).currentSetting.faded2;
+  static Color faded3 =
+      Provider.of<PaletteSettings>(Global.currentContext).currentSetting.faded3;
 }

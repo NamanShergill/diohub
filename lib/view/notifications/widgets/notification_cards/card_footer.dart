@@ -1,7 +1,8 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CardFooter extends StatelessWidget {
   final String? avatarUrl;
@@ -29,7 +30,13 @@ class CardFooter extends StatelessWidget {
             child: Text(
               text!,
               style: TextStyle(
-                  color: unread! ? AppColor.baseElements : AppColor.grey3),
+                  color: unread!
+                      ? Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .baseElements
+                      : Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3),
               overflow: TextOverflow.ellipsis,
             ),
           ),

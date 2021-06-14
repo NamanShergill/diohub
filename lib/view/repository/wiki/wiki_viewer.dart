@@ -1,8 +1,9 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WikiViewer extends StatefulWidget {
@@ -151,7 +152,9 @@ class _WikiViewerState extends State<WikiViewer> {
                             child: Container(
                               color: Colors.white,
                               child: LoadingIndicator(
-                                color: AppColor.accent,
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .accent,
                               ),
                             ),
                           ),

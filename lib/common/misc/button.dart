@@ -1,8 +1,9 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/controller/button/button_controller.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
   final bool listenToLoadingController;
@@ -69,15 +70,19 @@ class _ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      disabledColor: (widget.color ?? AppColor.accent).withOpacity(0.7),
+      disabledColor: (widget.color ??
+              Provider.of<PaletteSettings>(context).currentSetting.accent)
+          .withOpacity(0.7),
       elevation: widget.elevation,
       padding: widget.padding,
-      disabledTextColor: AppColor.baseElements,
+      disabledTextColor:
+          Provider.of<PaletteSettings>(context).currentSetting.baseElements,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
       onPressed:
           widget.enabled && !loading ? widget.onTap as void Function()? : null,
-      color: widget.color ?? AppColor.accent,
+      color: widget.color ??
+          Provider.of<PaletteSettings>(context).currentSetting.accent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

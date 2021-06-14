@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/link_text.dart';
@@ -8,7 +9,6 @@ import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
@@ -115,7 +115,9 @@ class PRReviewScreen extends StatelessWidget {
                               }
                             },
                             child: const Icon(Icons.reply),
-                            color: AppColor.background,
+                            color: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .background,
                             listenToLoadingController: false,
                             stretch: false,
                           ),
@@ -129,7 +131,9 @@ class PRReviewScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Material(
-                        color: AppColor.accent,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .accent,
                         // shape: RoundedRectangleBorder(
                         //     borderRadius: BorderRadius.vertical(
                         //         top: AppThemeBorderRadius.medBorderRadius.topLeft)),
@@ -162,7 +166,7 @@ class PRReviewScreen extends StatelessWidget {
                         fileType: comment.path.split('.').last,
                         waitBeforeLoad: false,
                       ),
-                      paddingWrap(
+                      PaddingWrap(
                         child: BaseComment(
                           isMinimized: comment.isMinimized,
                           reactions: comment.reactionGroups,
@@ -203,7 +207,10 @@ class PRReviewScreen extends StatelessWidget {
                                       onTap: null,
                                       loading: true,
                                       listenToLoadingController: false,
-                                      color: AppColor.background,
+                                      color:
+                                          Provider.of<PaletteSettings>(context)
+                                              .currentSetting
+                                              .background,
                                       title: 'Replies',
                                       trailingIcon:
                                           const Icon(Icons.arrow_right_rounded),
@@ -260,7 +267,7 @@ class PRReviewScreen extends StatelessWidget {
                                                     builder: (cxt, item, index,
                                                         refresh) {
                                                       final reply = item.node!;
-                                                      return paddingWrap(
+                                                      return PaddingWrap(
                                                         child: BaseComment(
                                                             isMinimized: reply
                                                                 .isMinimized,
@@ -304,7 +311,10 @@ class PRReviewScreen extends StatelessWidget {
                                           );
                                         },
                                         listenToLoadingController: false,
-                                        color: AppColor.background,
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .background,
                                         title:
                                             (data.node!.comments.totalCount > 1
                                                     ? (data.node!.comments

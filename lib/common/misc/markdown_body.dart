@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/copy_button.dart';
 import 'package:dio_hub/common/misc/image_loader.dart';
@@ -6,7 +7,6 @@ import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/services/markdown/markdown_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class MarkdownRenderAPI extends StatelessWidget {
   final String data;
@@ -184,10 +185,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               child: child,
             );
           },
-          'code': (RenderContext context, Widget child) {
+          'code': (RenderContext rdrCtx, Widget child) {
             return Container(
               decoration: BoxDecoration(
-                  color: AppColor.grey,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded1,
                   borderRadius: AppThemeBorderRadius.smallBorderRadius),
               child: Padding(
                 padding:
@@ -196,12 +199,16 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               ),
             );
           },
-          'div': (RenderContext context, Widget child) {
-            final String? divClass = context.tree.attributes['class'];
+          'div': (RenderContext rdr, Widget child) {
+            final String? divClass = rdr.tree.attributes['class'];
             if (divClass == 'border rounded-1 my-2') {
               return Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.grey3, width: 0.3),
+                    border: Border.all(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        width: 0.3),
                     borderRadius: AppThemeBorderRadius.smallBorderRadius),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -212,11 +219,11 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               // Todo: Format embedded code.
               // print(context.tree.element!.outerHtml);
               // return Html(data: context.tree.element!.outerHtml);
-            } else if (context.tree.children.isNotEmpty) {
-              if (context.tree.children.first.name == 'pre') {
+            } else if (rdr.tree.children.isNotEmpty) {
+              if (rdr.tree.children.first.name == 'pre') {
                 return _CodeView(
-                  context.tree.children.first.element!.text,
-                  language: context.tree.element?.attributes['class']
+                  rdr.tree.children.first.element!.text,
+                  language: rdr.tree.element?.attributes['class']
                       ?.replaceAll('highlight highlight-source-', ''),
                 );
               }
@@ -263,7 +270,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           //     return DefaultTextStyle(
           //       style: renderContext.style
           //           .generateTextStyle()
-          //           .copyWith(color: AppColor.grey3),
+          //           .copyWith(color: Provider.of<PaletteSettings>(context).currentSetting.grey3),
           //       child: child,
           //     );
           //   }
@@ -289,7 +296,11 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.grey3, width: 0.3),
+                      border: Border.all(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
+                          width: 0.3),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -306,7 +317,11 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.grey3, width: 0.3),
+                      border: Border.all(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
+                          width: 0.3),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -348,7 +363,9 @@ class __CodeViewState extends State<_CodeView> {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-                color: AppColor.background,
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .background,
                 borderRadius: AppThemeBorderRadius.smallBorderRadius),
             child: Stack(
               children: [

@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
@@ -9,7 +10,6 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/assignee_select_sheet.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/label_select_sheet.dart';
@@ -78,8 +78,10 @@ class IssueInformation extends StatelessWidget {
                       .updateIssue(issue);
                 },
                 color: _issue.state != IssueState.CLOSED
-                    ? AppColor.red
-                    : AppColor.green,
+                    ? Provider.of<PaletteSettings>(context).currentSetting.red
+                    : Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .green,
               ),
             ),
           const SizedBox(
@@ -114,7 +116,11 @@ class IssueInformation extends StatelessWidget {
             headerTrailing: _editingEnabled
                 ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -167,7 +173,11 @@ class IssueInformation extends StatelessWidget {
             headerTrailing: _editingEnabled
                 ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled

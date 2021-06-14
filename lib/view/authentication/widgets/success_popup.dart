@@ -1,7 +1,8 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/authentication/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SuccessPopup extends StatelessWidget {
   const SuccessPopup({Key? key}) : super(key: key);
@@ -37,7 +38,10 @@ class SuccessPopup extends StatelessWidget {
                 },
                 child: Text(
                   'Tap here to close',
-                  style: TextStyle(color: AppColor.baseElements),
+                  style: TextStyle(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .baseElements),
                 ),
               ),
             )

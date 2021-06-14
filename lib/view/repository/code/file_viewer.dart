@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
+import 'package:provider/provider.dart';
 
 class FileViewerAPI extends StatefulWidget {
   final String? repoURL;
@@ -52,7 +53,8 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
+      backgroundColor:
+          Provider.of<PaletteSettings>(context).currentSetting.background,
       appBar: AppBar(
         title: Text(
           widget.fileName!,
@@ -62,7 +64,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
           // IconButton(
           //   icon: Icon(
           //     Icons.edit,
-          //     color: editing ? AppColor.accent : Colors.white,
+          //     color: editing ? Provider.of<PaletteSettings>(context).currentSetting.accent : Colors.white,
           //   ),
           //   onPressed: () {
           //     setState(() {
@@ -75,7 +77,13 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
             child: IconButton(
               icon: Icon(
                 Icons.wrap_text,
-                color: wrapText ? AppColor.baseElements : AppColor.grey3,
+                color: wrapText
+                    ? Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .baseElements
+                    : Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
               ),
               onPressed: () {
                 setState(() {
@@ -197,8 +205,12 @@ class _TextViewerState extends State<TextViewer> {
                 itemBuilder: (context, index) {
                   return Container(
                     color: index % 2 == 0
-                        ? AppColor.background
-                        : AppColor.onBackground,
+                        ? Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .background
+                        : Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .onBackground,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(

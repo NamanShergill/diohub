@@ -1,13 +1,14 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/profile/about/about_user.dart';
 import 'package:dio_hub/view/profile/overview/user_overview_screen.dart';
 import 'package:dio_hub/view/profile/repositories/user_repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
   final bool? isCurrentUser;
@@ -36,7 +37,8 @@ class _UserProfileScreenState<T extends UserInfoModel?>
   Widget build(BuildContext context) {
     return AppScrollView(
       scrollController: scrollController,
-      childrenColor: AppColor.background,
+      childrenColor:
+          Provider.of<PaletteSettings>(context).currentSetting.background,
       scrollViewAppBar: ScrollViewAppBar(
         tabController: tabController,
         bottomPadding: 0,
@@ -160,7 +162,9 @@ class _UserProfileScreenState<T extends UserInfoModel?>
         ),
         if (data!.type == Type.user)
           Container(
-            color: AppColor.onBackground,
+            color: Provider.of<PaletteSettings>(context)
+                .currentSetting
+                .onBackground,
             child: Events(
               specificUser: data!.login,
               scrollController: scrollController,

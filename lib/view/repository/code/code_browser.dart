@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
@@ -8,7 +9,6 @@ import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/code/browser_list_tiles.dart';
 import 'package:dio_hub/view/repository/code/commit_browser.dart';
 import 'package:dio_hub/view/repository/code/commit_info_button.dart';
@@ -102,7 +102,9 @@ class _CodeBrowserState extends State<CodeBrowser>
                   child: Button(
                     padding:
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    color: AppColor.background,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .background,
                     listenToLoadingController: false,
                     onTap: value.status == Status.loaded
                         ? () {
@@ -172,10 +174,16 @@ class _CodeBrowserState extends State<CodeBrowser>
                                                         .pathIndex[index - 1]]
                                                     .path!),
                                         style: TextStyle(
-                                            color:
-                                                index == value.tree.length - 1
-                                                    ? AppColor.accent
-                                                    : AppColor.baseElements,
+                                            color: index ==
+                                                    value.tree.length - 1
+                                                ? Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .accent
+                                                : Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .baseElements,
                                             fontWeight:
                                                 index == value.tree.length - 1
                                                     ? FontWeight.bold
@@ -198,9 +206,14 @@ class _CodeBrowserState extends State<CodeBrowser>
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: AppThemeBorderRadius.medBorderRadius,
-                            color: AppColor.onBackground,
-                            border:
-                                Border.all(color: AppColor.grey, width: 0.5)),
+                            color: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .onBackground,
+                            border: Border.all(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded1,
+                                width: 0.5)),
                         child: ListView.separated(
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,

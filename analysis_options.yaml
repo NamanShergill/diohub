@@ -8,6 +8,7 @@ linter:
   rules:
     - always_require_non_null_named_parameters
     - annotate_overrides
+#    - avoid_classes_with_only_static_members
     - avoid_function_literals_in_foreach_calls
     - avoid_init_to_null
     - avoid_null_checks_in_equality_operators

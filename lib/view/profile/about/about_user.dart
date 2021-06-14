@@ -1,10 +1,11 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class AboutUser extends StatelessWidget {
   final UserInfoModel? userInfoModel;
@@ -38,7 +39,9 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.twitter,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                   const SizedBox(
                     width: 8,
@@ -57,7 +60,9 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.at,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                   const SizedBox(
                     width: 8,
@@ -76,7 +81,9 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.blog,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                   const SizedBox(
                     width: 8,
@@ -92,7 +99,9 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.building,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                   const SizedBox(
                     width: 8,
@@ -108,7 +117,9 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.locationArrow,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                   const SizedBox(
                     width: 8,
@@ -124,7 +135,9 @@ class AboutUser extends StatelessWidget {
                 children: [
                   Icon(
                     LineIcons.calendar,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                   const SizedBox(
                     width: 8,

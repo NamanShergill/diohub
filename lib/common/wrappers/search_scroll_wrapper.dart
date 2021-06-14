@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
@@ -9,10 +10,10 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart' hide Type;
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/search/search_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
+import 'package:provider/provider.dart';
 
 typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
     int pageSize, bool refresh, T? lastItem, String? sort, bool? isAscending);
@@ -113,7 +114,8 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                   })
               : null,
           prompt: widget.searchBarMessage,
-          backgroundColor: widget.searchBarColor ?? AppColor.background,
+          backgroundColor: widget.searchBarColor ??
+              Provider.of<PaletteSettings>(context).currentSetting.background,
           onSubmit: (data) {
             setState(() {
               searchData = data;
@@ -126,7 +128,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     }
 
     Widget child = Container(
-      color: AppColor.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
       child: Builder(
         builder: (context) {
           if (searchData.searchFilters!.searchType == SearchType.repositories) {

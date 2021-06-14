@@ -4,6 +4,7 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
   static final AppRouter customRouter = AppRouter(authGuard: AuthGuard());
@@ -15,6 +16,13 @@ class Global {
   static String get directoryPath => _directoryPath;
   static late DbCacheStore _cacheStore;
   static DbCacheStore get cacheStore => _cacheStore;
+
+  static late SharedPreferences _sharedPrefs;
+  static SharedPreferences get sharedPrefs => _sharedPrefs;
+
+  static Future setUpSharedPrefs() async {
+    _sharedPrefs = await SharedPreferences.getInstance();
+  }
 
   static Future setupAppCache() async {
     await getApplicationDocumentsDirectory()

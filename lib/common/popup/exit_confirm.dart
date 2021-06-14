@@ -1,5 +1,6 @@
-import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {
   const ExitConfirmationDialog({Key? key}) : super(key: key);
@@ -33,7 +34,9 @@ class ExitConfirmationDialog extends StatelessWidget {
                 // ),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColor.baseElements,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements,
                   shape: BoxShape.rectangle,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
@@ -59,7 +62,10 @@ class ExitConfirmationDialog extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 16, left: 16),
                       child: Text(
                         'If back button is pressed by mistake then click on No to cancel.',
-                        style: TextStyle(color: AppColor.baseElements),
+                        style: TextStyle(
+                            color: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .baseElements),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/common/misc/branch_label.dart';
 import 'package:dio_hub/common/misc/custom_expansion_tile.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PushEventCard extends StatelessWidget {
   final EventsModel event;
@@ -28,10 +29,11 @@ class PushEventCard extends StatelessWidget {
       actor: event.actor!.login,
       headerText: [
         TextSpan(
-            text: ' pushed to ', style: AppThemeTextStyles.eventCardHeaderMed),
+            text: ' pushed to ',
+            style: AppThemeTextStyles.eventCardHeaderMed(context)),
         TextSpan(
             text: event.repo!.name,
-            style: AppThemeTextStyles.eventCardHeaderBold)
+            style: AppThemeTextStyles.eventCardHeaderBold(context))
       ],
       avatarUrl: event.actor!.avatarUrl,
       child: CustomExpansionTile(
@@ -41,7 +43,7 @@ class PushEventCard extends StatelessWidget {
           children: [
             Text(
               '${data.size} commit${data.size! > 1 ? 's' : ''} to',
-              style: AppThemeTextStyles.eventCardChildTitleSmall,
+              style: AppThemeTextStyles.eventCardChildTitleSmall(context),
             ),
             Flexible(
               child: BranchLabel(
@@ -87,7 +89,10 @@ class PushEventCard extends StatelessWidget {
                             TextSpan(
                                 text:
                                     '#${data.commits![index].sha!.substring(0, 6)}',
-                                style: TextStyle(color: AppColor.accent)),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .accent)),
                             TextSpan(text: '  ' + data.commits![index].message!)
                           ])),
                     ),

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -7,13 +8,13 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class _CommitTiles extends StatefulWidget {
   final bool highlighted;
@@ -59,8 +60,9 @@ class _CommitTilesState extends State<_CommitTiles> {
       elevation: 2,
       borderRadius: AppThemeBorderRadius.medBorderRadius,
       color: widget.highlighted
-          ? AppColor.accent
-          : widget.backgroundColor ?? AppColor.onBackground,
+          ? Provider.of<PaletteSettings>(context).currentSetting.accent
+          : widget.backgroundColor ??
+              Provider.of<PaletteSettings>(context).currentSetting.onBackground,
       child: InkWell(
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         onTap: () {
@@ -136,8 +138,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                             Octicons.git_commit,
                             size: 11,
                             color: widget.highlighted
-                                ? AppColor.elementsOnColors
-                                : AppColor.grey3,
+                                ? Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .elementsOnColors
+                                : Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3,
                           ),
                           const SizedBox(
                             width: 5,
@@ -147,8 +153,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                             style: TextStyle(
                               fontSize: 11,
                               color: widget.highlighted
-                                  ? AppColor.elementsOnColors
-                                  : AppColor.grey3,
+                                  ? Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .elementsOnColors
+                                  : Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3,
                             ),
                           ),
                           Icon(
@@ -157,8 +167,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                                 : Icons.arrow_drop_down,
                             size: 13,
                             color: widget.highlighted
-                                ? AppColor.elementsOnColors
-                                : AppColor.grey3,
+                                ? Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .elementsOnColors
+                                : Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3,
                           ),
                         ],
                       ),
@@ -175,8 +189,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                                   Icons.timelapse_outlined,
                                   size: 11,
                                   color: widget.highlighted
-                                      ? AppColor.elementsOnColors
-                                      : AppColor.grey3,
+                                      ? Provider.of<PaletteSettings>(context)
+                                          .currentSetting
+                                          .elementsOnColors
+                                      : Provider.of<PaletteSettings>(context)
+                                          .currentSetting
+                                          .faded3,
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -187,8 +205,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: widget.highlighted
-                                        ? AppColor.elementsOnColors
-                                        : AppColor.grey3,
+                                        ? Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .elementsOnColors
+                                        : Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .faded3,
                                   ),
                                 ),
                               ],
@@ -346,7 +368,8 @@ class CommitTilesGQL extends StatelessWidget {
     return _CommitTiles(
         highlighted: highlighted,
         onSelected: onSelected,
-        backgroundColor: backgroundColor ?? AppColor.onBackground,
+        backgroundColor: backgroundColor ??
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         compact: compact,
         message: item.messageHeadline,
         url: toApiURL,

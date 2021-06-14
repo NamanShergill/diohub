@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -14,7 +15,6 @@ import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
 import 'package:dio_hub/view/repository/pulls/pulls_list.dart';
@@ -122,7 +122,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
       child: Builder(builder: (context) {
         return SafeArea(
           child: Scaffold(
-            backgroundColor: AppColor.background,
+            backgroundColor:
+                Provider.of<PaletteSettings>(context).currentSetting.background,
             // Show a temporary app bar until the provider loads.
             appBar:
                 Provider.of<RepositoryProvider>(context).status != Status.loaded

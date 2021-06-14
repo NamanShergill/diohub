@@ -1,9 +1,10 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppScrollView extends StatelessWidget {
   final Widget? scrollViewAppBar;
@@ -44,7 +45,10 @@ class AppScrollView extends StatelessWidget {
             duration: const Duration(milliseconds: 50),
             child: loading
                 ? Container(
-                    color: childrenColor ?? AppColor.onBackground,
+                    color: childrenColor ??
+                        Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .onBackground,
                     child: Column(
                       children: const [
                         Padding(
@@ -55,7 +59,10 @@ class AppScrollView extends StatelessWidget {
                     ))
                 : child ??
                     Container(
-                      color: childrenColor ?? AppColor.onBackground,
+                      color: childrenColor ??
+                          Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .onBackground,
                       child: TabBarView(
                         controller: tabController,
                         children: List.generate(

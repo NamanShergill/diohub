@@ -1,11 +1,12 @@
 import 'package:collection/collection.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 typedef FilterChange = Function(Map, Map);
 
@@ -89,7 +90,9 @@ class _FilterSheetState extends State<FilterSheet> {
                 },
                 child: SwitchListTile(
                     value: !apiFilters['all'],
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Only unread notifications',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -111,7 +114,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.bullseye,
                     ),
                     value: clientFilters['show_only'].contains('assign'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Assigned',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -131,7 +136,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.pen,
                     ),
                     value: clientFilters['show_only'].contains('author'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Author',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -151,7 +158,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.comment,
                     ),
                     value: clientFilters['show_only'].contains('comment'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Comment',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -171,7 +180,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.envelopeOpen,
                     ),
                     value: clientFilters['show_only'].contains('invitation'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Invitation',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -191,7 +202,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.exclamationCircle,
                     ),
                     value: clientFilters['show_only'].contains('manual'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Following',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -211,7 +224,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.at,
                     ),
                     value: clientFilters['show_only'].contains('mention'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Mentioned',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -232,7 +247,9 @@ class _FilterSheetState extends State<FilterSheet> {
                     ),
                     value:
                         clientFilters['show_only'].contains('review_requested'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Review Requested',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -253,7 +270,9 @@ class _FilterSheetState extends State<FilterSheet> {
                     ),
                     value:
                         clientFilters['show_only'].contains('security_alert'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Security Alert',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -273,7 +292,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       Octicons.git_pull_request,
                     ),
                     value: clientFilters['show_only'].contains('state_change'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Actions',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -293,7 +314,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.envelope,
                     ),
                     value: clientFilters['show_only'].contains('subscribed'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Subscribed',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -313,7 +336,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       LineIcons.teamspeak,
                     ),
                     value: clientFilters['show_only'].contains('team_mention'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Team Mention',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -331,7 +356,9 @@ class _FilterSheetState extends State<FilterSheet> {
               SizeExpandedSection(
                 expand: isModified(),
                 child: Container(
-                  color: AppColor.background,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .background,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -343,7 +370,9 @@ class _FilterSheetState extends State<FilterSheet> {
                             sendFilters();
                             if (mounted) Navigator.pop(context);
                           },
-                          color: AppColor.onBackground,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .onBackground,
                           child: Text(
                             'Apply Filters',
                             style: Theme.of(context).textTheme.bodyText1,
@@ -397,7 +426,8 @@ class _FilterSheetState extends State<FilterSheet> {
       child: Material(
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {

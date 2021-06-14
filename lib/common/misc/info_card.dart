@@ -1,6 +1,7 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
@@ -18,7 +19,8 @@ class InfoCard extends StatelessWidget {
       child: Material(
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: color ?? AppColor.onBackground,
+        color: color ??
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: onTap as void Function()?,

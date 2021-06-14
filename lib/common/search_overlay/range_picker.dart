@@ -1,12 +1,13 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class RangePicker extends StatefulWidget {
   final ValueChanged<String> onAdded;
@@ -103,7 +104,8 @@ class _RangePickerState extends State<RangePicker> {
     return SizeExpandedSection(
       child: Material(
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: AppColor.onBackground,
+        color:
+            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -122,7 +124,9 @@ class _RangePickerState extends State<RangePicker> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return RadioListTile(
-                      activeColor: AppColor.accent,
+                      activeColor: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .accent,
                       groupValue: currentType,
                       value: types[index],
                       onChanged: (value) {
@@ -160,7 +164,12 @@ class _RangePickerState extends State<RangePicker> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: TextFieldTheme.inputDecoration(
-                            hintText: '00', enabledBorderColor: AppColor.grey3),
+                            hintText: '00',
+                            context: context,
+                            enabledBorderColor:
+                                Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                       ),
                     ),
                     if (isRanged)
@@ -184,7 +193,11 @@ class _RangePickerState extends State<RangePicker> {
                             keyboardType: TextInputType.number,
                             decoration: TextFieldTheme.inputDecoration(
                                 hintText: '00',
-                                enabledBorderColor: AppColor.grey3),
+                                context: context,
+                                enabledBorderColor:
+                                    Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                           ),
                         ),
                       )
@@ -217,7 +230,11 @@ class _RangePickerState extends State<RangePicker> {
                               setState(() {});
                             },
                             decoration: TextFieldTheme.inputDecoration(
-                                enabledBorderColor: AppColor.grey3),
+                                context: context,
+                                enabledBorderColor:
+                                    Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                           ),
                         ),
                       ),
@@ -240,7 +257,11 @@ class _RangePickerState extends State<RangePicker> {
                           setState(() {});
                         },
                         decoration: TextFieldTheme.inputDecoration(
-                            enabledBorderColor: AppColor.grey3),
+                            context: context,
+                            enabledBorderColor:
+                                Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                       ),
                     ),
                   ],
@@ -253,7 +274,9 @@ class _RangePickerState extends State<RangePicker> {
                 child: CheckboxListTile(
                     value: inclusive,
                     title: const Text('Inclusive'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     onChanged: (value) {
                       setState(() {
                         inclusive = value!;

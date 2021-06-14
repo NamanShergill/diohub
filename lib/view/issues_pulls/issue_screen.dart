@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
@@ -10,7 +11,6 @@ import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/issue_information.dart';
@@ -75,7 +75,9 @@ class _IssueScreenState extends State<IssueScreen>
                     childBuilder: (context, value) {
                       return AppScrollView(
                         scrollController: scrollController,
-                        childrenColor: AppColor.background,
+                        childrenColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .background,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
                           url: value.issueModel!.htmlUrl,
@@ -98,8 +100,12 @@ class _IssueScreenState extends State<IssueScreen>
                                 style: TextStyle(
                                     color: value.issueModel!.state ==
                                             IssueState.OPEN
-                                        ? AppColor.green
-                                        : AppColor.red,
+                                        ? Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .green
+                                        : Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .red,
                                     fontSize: 14),
                               ),
                               const SizedBox(
@@ -108,7 +114,10 @@ class _IssueScreenState extends State<IssueScreen>
                               Text(
                                 '#${value.issueModel!.number}',
                                 style: TextStyle(
-                                    color: AppColor.grey3, fontSize: 14),
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 14),
                               ),
                             ],
                           ),
@@ -129,8 +138,14 @@ class _IssueScreenState extends State<IssueScreen>
                                     style: TextStyle(
                                         color: value.issueModel!.state ==
                                                 IssueState.OPEN
-                                            ? AppColor.green
-                                            : AppColor.red,
+                                            ? Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .green
+                                            : Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .red,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -140,14 +155,20 @@ class _IssueScreenState extends State<IssueScreen>
                                   Text(
                                     '#${value.issueModel!.number}',
                                     style: TextStyle(
-                                        color: AppColor.grey3, fontSize: 16),
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 24,
                                   ),
                                   Icon(
                                     Octicons.comment,
-                                    color: AppColor.grey3,
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
                                     size: 11,
                                   ),
                                   const SizedBox(
@@ -156,7 +177,11 @@ class _IssueScreenState extends State<IssueScreen>
                                   Text(
                                     '${value.issueModel!.comments} comments',
                                     style: TextStyle(
-                                        color: AppColor.grey3, fontSize: 12),
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -199,7 +224,10 @@ class _IssueScreenState extends State<IssueScreen>
                                     ? 'By ${value.issueModel!.user!.login}, closed ${getDate(value.issueModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.issueModel!.createdAt.toString(), shorten: false)} by ${value.issueModel!.user!.login}',
                                 style: TextStyle(
-                                    color: AppColor.grey3, fontSize: 12),
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 12),
                               ),
                             ],
                           ),

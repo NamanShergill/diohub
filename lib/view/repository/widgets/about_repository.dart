@@ -1,11 +1,12 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/language_indicator.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/utils/markdown_emoji.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AboutRepository extends StatelessWidget {
   final RepositoryModel repo;
@@ -13,7 +14,7 @@ class AboutRepository extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.background,
       child: SingleChildScrollView(
         child: Column(
           children: [

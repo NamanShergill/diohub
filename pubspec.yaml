@@ -30,6 +30,7 @@ dependencies:
       ref: temp
 
   flutter_bloc: ^7.0.1
+  flutter_colorpicker: ^0.4.0
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
   flutter_emoji: ^2.2.1+1
@@ -222,18 +223,18 @@ flutter:
         - asset: fonts/Manrope/Manrope-ExtraBoldItalic.ttf
           style: italic
           weight: 800
-    - family: AtkinsonHyperlegible
-      fonts:
-        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular.ttf
-          weight: 400
-        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic.ttf
-          style: italic
-          weight: 400
-        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold.ttf
-          weight: 700
-        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic.ttf
-          style: italic
-          weight: 700
+#    - family: AtkinsonHyperlegible
+#      fonts:
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular.ttf
+#          weight: 400
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic.ttf
+#          style: italic
+#          weight: 400
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold.ttf
+#          weight: 700
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic.ttf
+#          style: italic
+#          weight: 700
     - family: OpenDyslexic3
       fonts:
         - asset: fonts/OpenDyslexic3/OpenDyslexic3-Regular.ttf

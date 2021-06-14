@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/pulls/pull_list_card.dart';
@@ -8,8 +9,8 @@ import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PullLoadingCard extends StatelessWidget {
   final String url;
@@ -28,7 +29,7 @@ class PullLoadingCard extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: 2,
-        color: AppColor.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<PullRequestModel>(
           apiCall: PullsService.getPullInformation(fullUrl: url),
@@ -46,7 +47,7 @@ class PullLoadingCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          getIcon(null, null)!,
+                          const GetIcon(null, null),
                           const SizedBox(
                             width: 4,
                           ),
@@ -61,13 +62,19 @@ class PullLoadingCard extends StatelessWidget {
                                     .sublist(0, 2)
                                     .join('/'),
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: AppColor.grey3),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                               ),
                             ),
                           ),
                           Text(
                             '#${issueModel!.number}',
-                            style: TextStyle(color: AppColor.grey3),
+                            style: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                           ),
                         ],
                       ),

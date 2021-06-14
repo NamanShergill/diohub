@@ -1,5 +1,6 @@
-import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
@@ -20,8 +21,10 @@ class ShimmerWidget extends StatelessWidget {
       borderRadius: borderRadius ?? BorderRadius.circular(0),
       child: Shimmer.fromColors(
         child: child!,
-        baseColor: baseColor ?? AppColor.grey,
-        highlightColor: highlightColor ?? AppColor.grey2,
+        baseColor: baseColor ??
+            Provider.of<PaletteSettings>(context).currentSetting.faded1,
+        highlightColor: highlightColor ??
+            Provider.of<PaletteSettings>(context).currentSetting.faded2,
       ),
     );
   }

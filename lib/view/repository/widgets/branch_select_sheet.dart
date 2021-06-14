@@ -1,10 +1,11 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/branch_list_model.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 class BranchSelectSheet extends StatelessWidget {
   final String repoURL;
@@ -36,8 +37,10 @@ class BranchSelectSheet extends StatelessWidget {
           child: Material(
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             color: item.name == currentBranch
-                ? AppColor.accent
-                : AppColor.onBackground,
+                ? Provider.of<PaletteSettings>(context).currentSetting.accent
+                : Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .onBackground,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.medBorderRadius,
               onTap: () {
