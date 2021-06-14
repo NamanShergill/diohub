@@ -22,7 +22,9 @@ class _ChangesViewerState extends State<ChangesViewer> {
           WrapIconButton(
             wrap: wrap,
             onWrap: (value) {
-              wrap = value;
+              setState(() {
+                wrap = value;
+              });
             },
           ),
         ],

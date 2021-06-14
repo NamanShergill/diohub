@@ -4,7 +4,7 @@ import 'package:dio_hub/app/settings/base.dart';
 import 'package:flutter/material.dart';
 
 class PaletteSettings extends Settings<DioHubPalette> {
-  PaletteSettings() : super('app_palette', defaultSetting: _defaultPalette);
+  PaletteSettings() : super('app_palette', defaultSetting: DioHubPalette());
 
   @override
   String toPrefData() {

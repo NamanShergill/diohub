@@ -34,6 +34,7 @@ class IssueListCard extends StatelessWidget {
       return PullLoadingCard(
         item.pullRequest!.url!,
         issueModel: item,
+        disableMaterial: disableMaterial,
         compact: compact,
         padding: padding,
       );

@@ -27,8 +27,9 @@ void showBottomActionsMenu(BuildContext context,
       enableDrag: enableDrag,
       // Notch obstructs sheet, https://github.com/flutter/flutter/issues/39205
       isScrollControlled: fullScreen,
-      backgroundColor:
-          Provider.of<PaletteSettings>(context).currentSetting.background,
+      backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
+          .currentSetting
+          .background,
       context: context,
       builder: (context) => StatefulBuilder(
             builder: (context, setState) {
@@ -43,7 +44,8 @@ void showBottomActionsMenu(BuildContext context,
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Provider.of<PaletteSettings>(context)
+                              color: Provider.of<PaletteSettings>(context,
+                                      listen: false)
                                   .currentSetting
                                   .faded1,
                               borderRadius: BorderRadius.circular(15)),
@@ -104,7 +106,7 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
             title: const Text("Open"),
             trailing: Icon(
               LineIcons.link,
-              color: Provider.of<PaletteSettings>(context)
+              color: Provider.of<PaletteSettings>(context, listen: false)
                   .currentSetting
                   .baseElements,
             ),
@@ -123,7 +125,7 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
             title: const Text("Copy"),
             trailing: Icon(
               Icons.copy,
-              color: Provider.of<PaletteSettings>(context)
+              color: Provider.of<PaletteSettings>(context, listen: false)
                   .currentSetting
                   .baseElements,
             ),
@@ -168,8 +170,9 @@ void showScrollableBottomActionsMenu(BuildContext context,
       topRight: Radius.circular(20),
       topLeft: Radius.circular(20),
     )),
-    backgroundColor:
-        Provider.of<PaletteSettings>(context).currentSetting.background,
+    backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
+        .currentSetting
+        .background,
     isScrollControlled: true,
     builder: (context) {
       final _media = MediaQuery.of(context).size;
@@ -193,7 +196,8 @@ void showScrollableBottomActionsMenu(BuildContext context,
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Provider.of<PaletteSettings>(context)
+                                color: Provider.of<PaletteSettings>(context,
+                                        listen: false)
                                     .currentSetting
                                     .faded1,
                                 borderRadius: BorderRadius.circular(15)),

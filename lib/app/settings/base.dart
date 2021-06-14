@@ -12,16 +12,21 @@ abstract class Settings<T> extends ChangeNotifier {
       : _path = path,
         _formatVer = formatVer {
     // Global.sharedPrefs.remove(_path);
-    String? data = Global.sharedPrefs.getString(_path);
-    if (data != null) {
-      final content = jsonDecode(data);
-      if (content['format_version'] == _formatVer) {
-        currentSetting = toType(content['data']);
+    try {
+      String? data = Global.sharedPrefs.getString(_path);
+      if (data != null) {
+        final content = jsonDecode(data);
+        if (content['format_version'] == _formatVer) {
+          currentSetting = toType(content['data']);
+        } else {
+          Global.sharedPrefs.remove(_path);
+          currentSetting = defaultSetting;
+        }
       } else {
-        Global.sharedPrefs.remove(_path);
         currentSetting = defaultSetting;
       }
-    } else {
+    } catch (e) {
+      Global.sharedPrefs.remove(_path);
       currentSetting = defaultSetting;
     }
   }

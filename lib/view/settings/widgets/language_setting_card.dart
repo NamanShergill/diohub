@@ -3,6 +3,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class FontSettingCard extends StatefulWidget {
@@ -26,9 +27,8 @@ class _FontSettingCardState extends State<FontSettingCard> {
     return InfoCard(
       'App Font',
       headerTrailing: Icon(
-        Icons.edit,
+        LineIcons.edit,
         color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
-        size: 18,
       ),
       onTap: () {
         showDialog(
@@ -88,7 +88,7 @@ class _FontSettingCardState extends State<FontSettingCard> {
             child: Text(
               Provider.of<FontSettings>(context).currentSetting,
               style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
+                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),
             ),
           ),
         ],

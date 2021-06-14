@@ -321,8 +321,7 @@ class GetTimelineItem extends StatelessWidget {
             );
           } else if (item is RemovedFromProjectMixin) {
           } else if (item is RenamedTitleMixin) {
-            return PaddingWrap(
-                child: BasicEventCard(
+            return BasicEventCard(
               user: item.actor,
               leading: Octicons.pencil,
               date: item.createdAt,
@@ -342,7 +341,7 @@ class GetTimelineItem extends StatelessWidget {
                     .subtitle1!
                     .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
               ),
-            ));
+            );
           } else if (item is ReopenedMixin) {
             return BasicEventTextCard(
               textContent: 'Reopened this.',

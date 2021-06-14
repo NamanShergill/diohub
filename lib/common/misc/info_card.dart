@@ -1,12 +1,13 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
   final Widget? child;
-  final Function? onTap;
+  final GestureTapCallback? onTap;
   final Color? color;
   final Widget? headerTrailing;
   const InfoCard(this.title,
@@ -23,7 +24,7 @@ class InfoCard extends StatelessWidget {
             Provider.of<PaletteSettings>(context).currentSetting.onBackground,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
-          onTap: onTap as void Function()?,
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
             child: Column(

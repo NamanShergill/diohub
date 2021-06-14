@@ -95,8 +95,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
     return Portal(
       child: SafeArea(
         child: Scaffold(
-          backgroundColor:
-              Provider.of<PaletteSettings>(context).currentSetting.background,
+          backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
+              .currentSetting
+              .background,
           body: Stack(
             fit: StackFit.expand,
             children: [
@@ -151,10 +152,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return RadioListTile(
-                                  activeColor:
-                                      Provider.of<PaletteSettings>(context)
-                                          .currentSetting
-                                          .accent,
+                                  activeColor: Provider.of<PaletteSettings>(
+                                          context,
+                                          listen: false)
+                                      .currentSetting
+                                      .accent,
                                   groupValue:
                                       searchData.searchFilters!.searchType,
                                   value: searchTypeValues.map.values
@@ -200,9 +202,10 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     childAnchor: Alignment.topCenter,
                     portalAnchor: Alignment.bottomCenter,
                     overlay: Material(
-                      color: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .onBackground,
+                      color:
+                          Provider.of<PaletteSettings>(context, listen: false)
+                              .currentSetting
+                              .onBackground,
                       borderRadius: AppThemeBorderRadius.medBorderRadius,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -329,7 +332,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               child: Material(
                                 elevation: 2,
                                 type: MaterialType.circle,
-                                color: Provider.of<PaletteSettings>(context)
+                                color: Provider.of<PaletteSettings>(context,
+                                        listen: false)
                                     .currentSetting
                                     .onBackground,
                                 child: Padding(
@@ -356,7 +360,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              color: Provider.of<PaletteSettings>(context)
+                              color: Provider.of<PaletteSettings>(context,
+                                      listen: false)
                                   .currentSetting
                                   .onBackground,
                               child: Padding(
@@ -384,7 +389,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       widget.onSubmit(searchData);
                                     }
                                   : null,
-                              color: Provider.of<PaletteSettings>(context)
+                              color: Provider.of<PaletteSettings>(context,
+                                      listen: false)
                                   .currentSetting
                                   .onBackground,
                               child: Padding(
@@ -565,7 +571,7 @@ class _SearchBarState extends State<_SearchBar> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
-                    color: Provider.of<PaletteSettings>(context)
+                    color: Provider.of<PaletteSettings>(context, listen: false)
                         .currentSetting
                         .onBackground,
                     onPressed: () {
@@ -650,8 +656,9 @@ class _SearchBarState extends State<_SearchBar> {
     return SizeExpandedSection(
       key: key,
       child: Material(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context, listen: false)
+            .currentSetting
+            .onBackground,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         elevation: 8,
         child: ListView.separated(
@@ -860,14 +867,14 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
       {required this.onChanged, required this.context})
       : patternMap = {
           searchFilters.validSensitiveQueriesRegExp: TextStyle(
-            color: Provider.of<PaletteSettings>(context)
+            color: Provider.of<PaletteSettings>(context, listen: false)
                 .currentSetting
                 .elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
           searchFilters.validBasicQueriesRegExp: TextStyle(
-            color: Provider.of<PaletteSettings>(context)
+            color: Provider.of<PaletteSettings>(context, listen: false)
                 .currentSetting
                 .elementsOnColors,
             decoration: TextDecoration.underline,
@@ -876,12 +883,14 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
         },
         blacklistPatternMap = {
           searchFilters.invalidSensitiveQueriesRegExp: TextStyle(
-              color:
-                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
+              color: Provider.of<PaletteSettings>(context, listen: false)
+                  .currentSetting
+                  .faded3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.invalidBasicQueriesRegExp: TextStyle(
-              color:
-                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
+              color: Provider.of<PaletteSettings>(context, listen: false)
+                  .currentSetting
+                  .faded3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.blacklistRegExp: TextStyle(
             color: Colors.red,
@@ -919,13 +928,14 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
           TextStyle _textStyle = textStyle!;
           if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(
-                color:
-                    Provider.of<PaletteSettings>(context).currentSetting.red);
+                color: Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .red);
           } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(color: Colors.amber);
           } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(
-                color: Provider.of<PaletteSettings>(context)
+                color: Provider.of<PaletteSettings>(context, listen: false)
                     .currentSetting
                     .accent);
           }
@@ -1004,8 +1014,12 @@ class _ValidQuery extends SpecialText {
         child: Material(
             borderRadius: AppThemeBorderRadius.smallBorderRadius,
             color: toString().startsWith('-')
-                ? Provider.of<PaletteSettings>(context).currentSetting.red
-                : Provider.of<PaletteSettings>(context).currentSetting.accent,
+                ? Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .red
+                : Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .accent,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.smallBorderRadius,
               onTap: () {
@@ -1059,16 +1073,19 @@ class _ValidQuery extends SpecialText {
                     ),
                     ClipOval(
                       child: Container(
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .elementsOnColors,
+                        color:
+                            Provider.of<PaletteSettings>(context, listen: false)
+                                .currentSetting
+                                .elementsOnColors,
                         child: Icon(
                           Icons.close_rounded,
                           color: toString().startsWith('-')
-                              ? Provider.of<PaletteSettings>(context)
+                              ? Provider.of<PaletteSettings>(context,
+                                      listen: false)
                                   .currentSetting
                                   .red
-                              : Provider.of<PaletteSettings>(context)
+                              : Provider.of<PaletteSettings>(context,
+                                      listen: false)
                                   .currentSetting
                                   .accent,
                           size: 12,

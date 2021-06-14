@@ -9,6 +9,7 @@ class BranchLabel extends StatelessWidget {
   const BranchLabel(this.name, {this.size = 16, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final color = Provider.of<PaletteSettings>(context).currentSetting;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size / 2),
       child: Container(
@@ -20,7 +21,7 @@ class BranchLabel extends StatelessWidget {
               EdgeInsets.symmetric(vertical: size / 3, horizontal: size / 2),
           child: Text(
             name,
-            style: TextStyle(fontSize: size),
+            style: TextStyle(fontSize: size, color: color.elementsOnColors),
           ),
         ),
       ),

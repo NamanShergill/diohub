@@ -75,15 +75,24 @@ class _LandingScreenState extends State<LandingScreen> {
                 activeColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .baseElements,
-                rippleColor: Colors.grey[800]!,
-                hoverColor: Colors.grey[700]!,
+                rippleColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .faded3
+                    .withOpacity(0.4),
+                hoverColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .faded3
+                    .withOpacity(0.3),
                 iconSize: 20,
                 textStyle: TextStyle(
                     fontSize: 16,
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
                         .baseElements),
-                tabBackgroundColor: Colors.grey[900]!,
+                tabBackgroundColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .faded3
+                    .withOpacity(0.3),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
                 duration: const Duration(milliseconds: 250),

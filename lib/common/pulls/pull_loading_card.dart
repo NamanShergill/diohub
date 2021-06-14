@@ -17,9 +17,12 @@ class PullLoadingCard extends StatelessWidget {
   final bool compact;
   final IssueModel? issueModel;
   final EdgeInsets padding;
+  final bool disableMaterial;
+
   const PullLoadingCard(this.url,
       {this.compact = false,
       this.issueModel,
+      this.disableMaterial = false,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
       Key? key})
       : super(key: key);
@@ -28,7 +31,7 @@ class PullLoadingCard extends StatelessWidget {
     return Padding(
       padding: padding,
       child: Material(
-        elevation: 2,
+        elevation: disableMaterial ? 0 : 2,
         color: Provider.of<PaletteSettings>(context).currentSetting.background,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<PullRequestModel>(
