@@ -358,7 +358,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: Container(
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
-                      .background,
+                      .primary,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -372,7 +372,7 @@ class _FilterSheetState extends State<FilterSheet> {
                           },
                           color: Provider.of<PaletteSettings>(context)
                               .currentSetting
-                              .onBackground,
+                              .secondary,
                           child: Text(
                             'Apply Filters',
                             style: Theme.of(context).textTheme.bodyText1,
@@ -426,8 +426,7 @@ class _FilterSheetState extends State<FilterSheet> {
       child: Material(
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: () {

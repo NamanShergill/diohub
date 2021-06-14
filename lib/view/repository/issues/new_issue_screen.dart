@@ -200,7 +200,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                           boxDecoration: BoxDecoration(
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
-                                .onBackground,
+                                .secondary,
                             borderRadius: AppThemeBorderRadius.medBorderRadius,
                           ),
                         )),
@@ -226,7 +226,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             decoration: BoxDecoration(
                               color: Provider.of<PaletteSettings>(context)
                                   .currentSetting
-                                  .onBackground,
+                                  .secondary,
                               borderRadius:
                                   AppThemeBorderRadius.medBorderRadius,
                             ),

@@ -48,7 +48,7 @@ class _ActionButtonState extends State<ActionButton> {
       listenToLoadingController: false,
       stretch: false,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       onTap: () {},
       child: Row(
         mainAxisSize: MainAxisSize.min,

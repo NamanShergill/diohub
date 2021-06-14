@@ -14,7 +14,7 @@ class AboutRepository extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.primary,
       child: SingleChildScrollView(
         child: Column(
           children: [

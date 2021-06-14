@@ -10,7 +10,7 @@ class BaseAuthDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: AppThemeBorderRadius.bigBorderRadius,
-      color: Provider.of<PaletteSettings>(context).currentSetting.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.primary,
       // elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(24.0),

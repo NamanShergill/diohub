@@ -20,7 +20,7 @@ class LoginPopup extends StatelessWidget {
               Provider.of<PaletteSettings>(context).currentSetting.baseElements,
         ),
         color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+            Provider.of<PaletteSettings>(context).currentSetting.secondary,
         onTap: () async {
           BlocProvider.of<AuthenticationBloc>(context).add(RequestDeviceCode());
         },

@@ -96,7 +96,7 @@ class _DiscussionState extends State<Discussion>
                   listenToLoadingController: false,
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
-                      .onBackground,
+                      .secondary,
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     children: [
@@ -139,7 +139,7 @@ class _DiscussionState extends State<Discussion>
                   listenToLoadingController: false,
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
-                      .onBackground,
+                      .secondary,
                   padding: const EdgeInsets.all(16),
                   child: const Text(
                     'Show timeline from a specific time?',
@@ -166,7 +166,7 @@ class _DiscussionState extends State<Discussion>
                             backgroundColor:
                                 Provider.of<PaletteSettings>(context)
                                     .currentSetting
-                                    .background),
+                                    .primary),
                         maxTime: DateTime.now(), onConfirm: (date) {
                       setState(() {
                         commentsSince = date;
@@ -223,7 +223,7 @@ class _DiscussionState extends State<Discussion>
                   return Container(
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
-                        .background,
+                        .primary,
                     child: const LoadingIndicator(),
                   );
                 },

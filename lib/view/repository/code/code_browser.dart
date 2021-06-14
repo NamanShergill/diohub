@@ -104,7 +104,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
-                        .background,
+                        .primary,
                     listenToLoadingController: false,
                     onTap: value.status == Status.loaded
                         ? () {
@@ -208,7 +208,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                             borderRadius: AppThemeBorderRadius.medBorderRadius,
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
-                                .onBackground,
+                                .secondary,
                             border: Border.all(
                                 color: Provider.of<PaletteSettings>(context)
                                     .currentSetting

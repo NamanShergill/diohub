@@ -62,7 +62,7 @@ class _CommitTilesState extends State<_CommitTiles> {
       color: widget.highlighted
           ? Provider.of<PaletteSettings>(context).currentSetting.accent
           : widget.backgroundColor ??
-              Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+              Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: InkWell(
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         onTap: () {
@@ -369,7 +369,7 @@ class CommitTilesGQL extends StatelessWidget {
         highlighted: highlighted,
         onSelected: onSelected,
         backgroundColor: backgroundColor ??
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+            Provider.of<PaletteSettings>(context).currentSetting.secondary,
         compact: compact,
         message: item.messageHeadline,
         url: toApiURL,

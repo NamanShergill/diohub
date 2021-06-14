@@ -32,7 +32,7 @@ class RepositoryCard extends StatelessWidget {
       child: Material(
         elevation: isThemed ? 2 : 0,
         color: isThemed
-            ? Provider.of<PaletteSettings>(context).currentSetting.background
+            ? Provider.of<PaletteSettings>(context).currentSetting.primary
             : Colors.transparent,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
@@ -190,7 +190,7 @@ class RepoCardLoading extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: elevation,
-        color: Provider.of<PaletteSettings>(context).currentSetting.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<RepositoryModel>(
           apiCall: RepositoryServices.fetchRepository(repoURL!),

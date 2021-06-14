@@ -32,7 +32,7 @@ class PullListCard extends StatelessWidget {
         elevation: disableMaterial ? 0 : 2,
         color: disableMaterial
             ? Colors.transparent
-            : Provider.of<PaletteSettings>(context).currentSetting.background,
+            : Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,

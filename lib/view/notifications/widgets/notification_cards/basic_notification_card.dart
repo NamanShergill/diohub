@@ -95,7 +95,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       child: Material(
         key: key,
         color: widget.notification!.unread!
-            ? Provider.of<PaletteSettings>(context).currentSetting.onBackground
+            ? Provider.of<PaletteSettings>(context).currentSetting.secondary
             : Colors.transparent,
         child: InkWell(
           onTap: () {

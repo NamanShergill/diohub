@@ -24,7 +24,7 @@ class PaddingWrap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 2,
-      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
         child: child,
@@ -270,7 +270,7 @@ class GetTimelineItem extends StatelessWidget {
                 item: item.commit,
                 backgroundColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .background,
+                    .primary,
                 compact: true,
               ),
               textContent: 'Made a commit.',
@@ -306,7 +306,7 @@ class GetTimelineItem extends StatelessWidget {
                       title: '${item.comments.totalCount} Comments',
                       color: Provider.of<PaletteSettings>(context)
                           .currentSetting
-                          .background,
+                          .primary,
                       listenToLoadingController: false,
                       trailingIcon: const Icon(Icons.arrow_right_rounded),
                     )

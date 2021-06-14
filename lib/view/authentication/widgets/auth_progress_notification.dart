@@ -23,7 +23,7 @@ class AuthProgressNotification extends StatelessWidget {
               borderRadius: AppThemeBorderRadius.medBorderRadius,
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
-                  .onBackground,
+                  .secondary,
               child: InkWell(
                 onTap: () {
                   //   showDialog(

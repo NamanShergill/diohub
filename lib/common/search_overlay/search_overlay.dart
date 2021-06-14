@@ -97,7 +97,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
         child: Scaffold(
           backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
               .currentSetting
-              .background,
+              .primary,
           body: Stack(
             fit: StackFit.expand,
             children: [
@@ -205,7 +205,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                       color:
                           Provider.of<PaletteSettings>(context, listen: false)
                               .currentSetting
-                              .onBackground,
+                              .secondary,
                       borderRadius: AppThemeBorderRadius.medBorderRadius,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -335,7 +335,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                 color: Provider.of<PaletteSettings>(context,
                                         listen: false)
                                     .currentSetting
-                                    .onBackground,
+                                    .secondary,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: IconButton(
@@ -363,7 +363,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               color: Provider.of<PaletteSettings>(context,
                                       listen: false)
                                   .currentSetting
-                                  .onBackground,
+                                  .secondary,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
@@ -392,7 +392,7 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               color: Provider.of<PaletteSettings>(context,
                                       listen: false)
                                   .currentSetting
-                                  .onBackground,
+                                  .secondary,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
@@ -573,7 +573,7 @@ class _SearchBarState extends State<_SearchBar> {
                   child: MaterialButton(
                     color: Provider.of<PaletteSettings>(context, listen: false)
                         .currentSetting
-                        .onBackground,
+                        .secondary,
                     onPressed: () {
                       setState(() {
                         controller.text = '';
@@ -658,7 +658,7 @@ class _SearchBarState extends State<_SearchBar> {
       child: Material(
         color: Provider.of<PaletteSettings>(context, listen: false)
             .currentSetting
-            .onBackground,
+            .secondary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         elevation: 8,
         child: ListView.separated(

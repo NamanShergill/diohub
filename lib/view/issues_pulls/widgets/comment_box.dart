@@ -19,7 +19,7 @@ void showCommentSheet(BuildContext context,
     required String repoName}) {
   bool markdownView = false;
   bool loading = false;
-  showBottomActionsMenu(context, fullScreen: true, header: (context, setState) {
+  showBottomActionMenu(context, fullScreen: true, header: (context, setState) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -143,19 +143,17 @@ class _CommentBoxState extends State<CommentBox> {
             : null,
         maxLines: null,
         toolbarDecoration: BoxDecoration(
-            color: Provider.of<PaletteSettings>(context)
-                .currentSetting
-                .background),
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.primary),
         inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
         boxDecoration: BoxDecoration(
-          color:
-              Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         ),
       );
     }
 
     return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: widget.markdownView

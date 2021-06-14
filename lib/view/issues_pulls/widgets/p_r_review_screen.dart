@@ -117,7 +117,7 @@ class PRReviewScreen extends StatelessWidget {
                             child: const Icon(Icons.reply),
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
-                                .background,
+                                .primary,
                             listenToLoadingController: false,
                             stretch: false,
                           ),
@@ -210,7 +210,7 @@ class PRReviewScreen extends StatelessWidget {
                                       color:
                                           Provider.of<PaletteSettings>(context)
                                               .currentSetting
-                                              .background,
+                                              .primary,
                                       title: 'Replies',
                                       trailingIcon:
                                           const Icon(Icons.arrow_right_rounded),
@@ -314,7 +314,7 @@ class PRReviewScreen extends StatelessWidget {
                                         color: Provider.of<PaletteSettings>(
                                                 context)
                                             .currentSetting
-                                            .background,
+                                            .primary,
                                         title:
                                             (data.node!.comments.totalCount > 1
                                                     ? (data.node!.comments

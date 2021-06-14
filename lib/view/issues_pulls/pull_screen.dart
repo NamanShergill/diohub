@@ -78,7 +78,7 @@ class _PullScreenState extends State<PullScreen>
                         scrollController: scrollController,
                         childrenColor: Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .background,
+                            .primary,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
                           url: value.pullModel!.htmlUrl,

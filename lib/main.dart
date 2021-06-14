@@ -84,15 +84,15 @@ class MyApp extends StatelessWidget {
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     unselectedWidgetColor: palette.faded1,
                     accentColor: palette.accent,
-                    cardColor: palette.background,
+                    cardColor: palette.primary,
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            palette.onBackground),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(palette.secondary),
                       ),
                     ),
                     appBarTheme:
-                        AppBarTheme(color: palette.background, elevation: 5),
+                        AppBarTheme(color: palette.primary, elevation: 5),
                     iconTheme: IconThemeData(color: palette.baseElements),
                     textTheme: const TextTheme(
                       bodyText1: TextStyle(),
@@ -116,19 +116,19 @@ class MyApp extends StatelessWidget {
                         thumbColor:
                             MaterialStateProperty.all<Color>(Colors.grey)),
                     dialogTheme: DialogTheme(
-                      backgroundColor: palette.background,
+                      backgroundColor: palette.primary,
                       shape: RoundedRectangleBorder(
                           borderRadius: AppThemeBorderRadius.medBorderRadius),
                       titleTextStyle: TextStyle(color: palette.baseElements),
                       contentTextStyle: TextStyle(color: palette.baseElements),
                     ),
-                    scaffoldBackgroundColor: palette.background,
+                    scaffoldBackgroundColor: palette.primary,
                     primaryIconTheme:
                         IconThemeData(color: palette.baseElements),
                     accentIconTheme: IconThemeData(color: palette.accent),
                     dividerColor: Colors.grey.withOpacity(0.7),
                     brightness: Brightness.dark,
-                    backgroundColor: palette.background,
+                    backgroundColor: palette.primary,
                     buttonTheme: ButtonThemeData(
                       textTheme: ButtonTextTheme.primary,
                       padding: EdgeInsets.zero,

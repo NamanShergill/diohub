@@ -1,4 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -19,33 +20,79 @@ class _ColorSettingCardState extends State<ColorSettingCard> {
   Widget build(BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context);
     return InfoCard(
-      'App Color Palette',
+      'App Theme',
       headerTrailing: Icon(
         Icons.more_vert_rounded,
         color: theme.currentSetting.faded3,
       ),
       onTap: () {
-        showBottomActionsMenu(
+        print(theme.currentSetting.toJson().toString() ==
+            theme.defaultSetting.toJson().toString());
+
+        showBottomActionsList(
           context,
           headerText: 'App Color Palette',
-          childWidget: (context, setState) {
-            return Column(
-              children: [
-                ListTile(
-                  title: Text('Export palette'),
-                ),
-                ListTile(
-                  title: Text('Import palette'),
-                ),
-                ListTile(
-                  title: Text('Reset to default'),
-                ),
-                ListTile(
-                  title: Text('Export settings'),
-                ),
-              ],
-            );
-          },
+          children: [
+            ListTile(
+              title: Text(
+                'Share theme',
+                style: TextStyle(
+                    color: theme.currentSetting.toJson().toString() ==
+                            theme.defaultSetting.toJson().toString()
+                        ? theme.currentSetting.faded3
+                        : theme.currentSetting.baseElements),
+              ),
+              onTap: theme.currentSetting.toJson().toString() ==
+                      theme.defaultSetting.toJson().toString()
+                  ? null
+                  : () {
+                      Navigator.pop(context);
+
+                      showURLBottomActionsMenu(
+                          context,
+                          Uri(
+                                  host: 'theme.felix.diohub',
+                                  scheme: 'https',
+                                  queryParameters: theme.currentSetting.toJson()
+                                    ..addAll({
+                                      'format_ver': theme.formatVer.toString()
+                                    }))
+                              .toString(),
+                          showOpenTile: false);
+                    },
+            ),
+            // ListTile(
+            //   title: Text('Load theme'),
+            // ),
+            ListTile(
+              title: const Text('Reset to default'),
+              onTap: () {
+                Navigator.pop(context);
+
+                showDialog(
+                  context: context,
+                  builder: (context) => AppDialog(
+                    title: 'Reset to default?',
+                    actions: [
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancel'),
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          theme.resetToDefault();
+                          Navigator.pop(context);
+                        },
+                        child: Text('Reset'),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         );
       },
       child: Column(
@@ -60,21 +107,17 @@ class _ColorSettingCardState extends State<ColorSettingCard> {
           ),
           _ColorTab(
             type: 'Primary',
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.background,
+            color: Provider.of<PaletteSettings>(context).currentSetting.primary,
             onChange: (value) {
-              theme
-                  .updateData(theme.currentSetting.copyWith(background: value));
+              theme.updateData(theme.currentSetting.copyWith(primary: value));
             },
           ),
           _ColorTab(
             type: 'Secondary',
-            color: Provider.of<PaletteSettings>(context)
-                .currentSetting
-                .onBackground,
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
             onChange: (value) {
-              theme.updateData(
-                  theme.currentSetting.copyWith(onBackground: value));
+              theme.updateData(theme.currentSetting.copyWith(secondary: value));
             },
           ),
           _ColorTab(
@@ -204,4 +247,9 @@ class __ColorTabState extends State<_ColorTab> {
       },
     );
   }
+}
+
+void loadTheme(BuildContext context, Map<String, String> data) {
+  final theme = Provider.of<PaletteSettings>(context, listen: false);
+  theme.updateData(DioHubPalette.fromJson(data));
 }

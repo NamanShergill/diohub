@@ -54,7 +54,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          Provider.of<PaletteSettings>(context).currentSetting.background,
+          Provider.of<PaletteSettings>(context).currentSetting.primary,
       appBar: AppBar(
         title: Text(
           widget.fileName!,
@@ -207,10 +207,10 @@ class _TextViewerState extends State<TextViewer> {
                     color: index % 2 == 0
                         ? Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .background
+                            .primary
                         : Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .onBackground,
+                            .secondary,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(

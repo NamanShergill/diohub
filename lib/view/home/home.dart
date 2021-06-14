@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen>
                 elevation: 2,
                 backgroundColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .background,
+                    .primary,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.only(bottom: 30.0),
                   child: CollapsibleAppBar(
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen>
                   child: Container(
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
-                        .background,
+                        .primary,
                     child: AppTabBar(
                       controller: _tabController,
                       tabs: const [
@@ -152,8 +152,7 @@ class _HomeScreenState extends State<HomeScreen>
         ];
       },
       body: Container(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
           childBuilder: (context, value) {
             return Builder(

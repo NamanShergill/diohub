@@ -365,7 +365,7 @@ class __CodeViewState extends State<_CodeView> {
             decoration: BoxDecoration(
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .background,
+                    .primary,
                 borderRadius: AppThemeBorderRadius.smallBorderRadius),
             child: Stack(
               children: [

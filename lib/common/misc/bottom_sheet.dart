@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void showBottomActionsMenu(BuildContext context,
+void showBottomActionMenu(BuildContext context,
     {String? headerText,
     StatefulWidgetBuilder? header,
     bool enableDrag = false,
@@ -29,7 +29,7 @@ void showBottomActionsMenu(BuildContext context,
       isScrollControlled: fullScreen,
       backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
           .currentSetting
-          .background,
+          .primary,
       context: context,
       builder: (context) => StatefulBuilder(
             builder: (context, setState) {
@@ -82,45 +82,80 @@ void showBottomActionsMenu(BuildContext context,
           ));
 }
 
-void showURLBottomActionsMenu(BuildContext context, String? url,
-    {String? shareDescription}) {
-  showBottomActionsMenu(context, headerText: url,
+void showBottomActionsList(BuildContext context,
+    {String? headerText,
+    StatefulWidgetBuilder? header,
+    bool enableDrag = false,
+    bool shrink = true,
+    bool fullScreen = false,
+    TextStyle? headerTextStyle,
+    required List<Widget> children,
+    EdgeInsets padding = const EdgeInsets.all(8),
+    double titlePadding = 16.0}) {
+  showBottomActionMenu(context, childWidget: (context, setState) {
+    return ListView.separated(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(padding: padding, child: children[index]);
+        },
+        separatorBuilder: (context, index) => const Divider(
+              height: 0,
+            ),
+        itemCount: children.length);
+  },
+      header: header,
+      enableDrag: enableDrag,
+      fullScreen: fullScreen,
+      headerText: headerText,
+      headerTextStyle: headerTextStyle,
+      shrink: shrink,
+      titlePadding: titlePadding);
+}
+
+void showURLBottomActionsMenu(BuildContext context, String url,
+    {String? shareDescription, bool showOpenTile = true}) {
+  showBottomActionMenu(context, headerText: url,
       childWidget: (context, setState) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            onTap: () {
-              canLaunch(url!).then((value) {
-                Navigator.pop(context);
-                if (value) {
-                  launch(url);
-                } else {
-                  ResponseHandler.setErrorMessage(
-                      AppPopupData(title: 'Unable to open URL'));
-                }
-                Navigator.pop(context);
-              });
-            },
-            title: const Text("Open"),
-            trailing: Icon(
-              LineIcons.link,
-              color: Provider.of<PaletteSettings>(context, listen: false)
-                  .currentSetting
-                  .baseElements,
-            ),
+        if (showOpenTile)
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  onTap: () {
+                    canLaunch(url).then((value) {
+                      Navigator.pop(context);
+                      if (value) {
+                        launch(url);
+                      } else {
+                        ResponseHandler.setErrorMessage(
+                            AppPopupData(title: 'Unable to open URL'));
+                      }
+                      Navigator.pop(context);
+                    });
+                  },
+                  title: const Text("Open"),
+                  trailing: Icon(
+                    LineIcons.link,
+                    color: Provider.of<PaletteSettings>(context, listen: false)
+                        .currentSetting
+                        .baseElements,
+                  ),
+                ),
+              ),
+              const Divider(
+                height: 0,
+              ),
+            ],
           ),
-        ),
-        const Divider(
-          height: 0,
-        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
-              copyToClipboard(url!);
+              copyToClipboard(url);
             },
             title: const Text("Copy"),
             trailing: Icon(
@@ -141,7 +176,7 @@ void showURLBottomActionsMenu(BuildContext context, String? url,
               if (shareDescription != null) {
                 Share.share('$shareDescription\n$url');
               } else {
-                Share.share(url!);
+                Share.share(url);
               }
               Navigator.pop(context);
             },
@@ -172,7 +207,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
     )),
     backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
         .currentSetting
-        .background,
+        .primary,
     isScrollControlled: true,
     builder: (context) {
       final _media = MediaQuery.of(context).size;

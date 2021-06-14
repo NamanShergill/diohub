@@ -32,7 +32,7 @@ class ProfileCard extends StatelessWidget {
       child: Material(
         elevation: isThemed ? 2 : 0,
         color: isThemed
-            ? Provider.of<PaletteSettings>(context).currentSetting.background
+            ? Provider.of<PaletteSettings>(context).currentSetting.primary
             : Colors.transparent,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
@@ -127,7 +127,7 @@ class ProfileCardLoading extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: 2,
-        color: Provider.of<PaletteSettings>(context).currentSetting.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<UserInfoModel>(
           apiCall: UserInfoService.getUserInfo(login),

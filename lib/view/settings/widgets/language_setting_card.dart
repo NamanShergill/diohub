@@ -1,5 +1,6 @@
 import 'package:dio_hub/app/settings/font.dart';
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,8 @@ class _FontSettingCardState extends State<FontSettingCard> {
     'System Default': null,
     'Montserrat': null,
     'Manrope': null,
-    'OpenDyslexic3': 'Increased readability for readers with dyslexia',
     'Monospace': null,
+    'OpenDyslexic3': 'Increased readability for readers with dyslexia',
   };
 
   @override
@@ -34,8 +35,8 @@ class _FontSettingCardState extends State<FontSettingCard> {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text('App Font'),
+            return AppDialog(
+              title: 'App Font',
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,

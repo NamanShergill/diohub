@@ -87,8 +87,7 @@ class BaseEventCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Material(
             elevation: 2,
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.background,
+            color: Provider.of<PaletteSettings>(context).currentSetting.primary,
             borderRadius: AppThemeBorderRadius.medBorderRadius,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.medBorderRadius,

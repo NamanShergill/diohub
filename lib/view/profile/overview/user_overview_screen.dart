@@ -20,7 +20,7 @@ class UserOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.primary,
       child: ListView(
         children: [
           InfoCard(
@@ -76,7 +76,7 @@ class UserOverviewScreen extends StatelessWidget {
                   return ShimmerWidget(
                     baseColor: Provider.of<PaletteSettings>(context)
                         .currentSetting
-                        .onBackground,
+                        .secondary,
                     highlightColor: Colors.grey.shade800,
                     borderRadius: AppThemeBorderRadius.medBorderRadius,
                     child: Container(

@@ -127,7 +127,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
               padding: const EdgeInsets.all(24.0),
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
-                  .onBackground,
+                  .secondary,
               child: Column(
                 children: [
                   Text(
@@ -201,7 +201,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                   borderRadius: BorderRadius.circular(10)),
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
-                  .onBackground,
+                  .secondary,
               elevation: 2,
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),

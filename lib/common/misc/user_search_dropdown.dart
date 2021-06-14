@@ -26,8 +26,7 @@ class UserSearchDropdown extends StatelessWidget {
         maxHeight: _media.height * 0.4,
       ),
       child: Material(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         elevation: 8,
         child: query.isNotEmpty

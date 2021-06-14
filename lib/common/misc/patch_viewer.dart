@@ -376,13 +376,9 @@ class _PatchViewerState extends State<PatchViewer> {
             .withOpacity(0.2);
       default:
         if (index % 2 == 0) {
-          return Provider.of<PaletteSettings>(context)
-              .currentSetting
-              .background;
+          return Provider.of<PaletteSettings>(context).currentSetting.primary;
         } else {
-          return Provider.of<PaletteSettings>(context)
-              .currentSetting
-              .onBackground;
+          return Provider.of<PaletteSettings>(context).currentSetting.secondary;
         }
     }
   }
@@ -483,10 +479,10 @@ class _ChunkHeaderState extends State<ChunkHeader> {
                     color: index % 2 == 0
                         ? Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .background
+                            .primary
                         : Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .onBackground,
+                            .secondary,
                     child: Row(
                       children: [
                         const SizedBox(

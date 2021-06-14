@@ -85,7 +85,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                 elevation: 2,
                 backgroundColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .background,
+                    .primary,
                 flexibleSpace: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -154,7 +154,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         listenToLoadingController: false,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .onBackground,
+                            .secondary,
                         elevation: 2,
                       ),
                     ),
@@ -182,7 +182,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         listenToLoadingController: false,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .onBackground,
+                            .secondary,
                         elevation: 2,
                       ),
                     ),

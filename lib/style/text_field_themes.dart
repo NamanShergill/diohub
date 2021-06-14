@@ -17,7 +17,7 @@ class TextFieldTheme {
         labelText: labelText,
         hintText: hintText?.replaceRange(0, 0, ' '),
         fillColor:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+            Provider.of<PaletteSettings>(context).currentSetting.secondary,
         suffixIcon: Padding(
           padding: const EdgeInsets.all(16.0),
           child: suffixIcon ??

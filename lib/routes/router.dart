@@ -17,7 +17,6 @@ import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart';
 import 'package:dio_hub/view/repository/issues/new_issue_screen.dart';
 import 'package:dio_hub/view/repository/repository_screen.dart';
 import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart';
-import 'package:dio_hub/view/settings/dependencies_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
@@ -44,8 +43,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
     AutoRoute(page: OtherUserProfileScreen, guards: [AuthGuard]),
     AutoRoute(page: NewIssueScreen, guards: [AuthGuard]),
     AutoRoute(page: PRReviewScreen, guards: [AuthGuard]),
-    AutoRoute(page: DependenciesScreen, guards: [AuthGuard]),
-    AutoRoute(page: OssLicenseScreen, guards: [AuthGuard]),
+    // AutoRoute(page: DependenciesScreen, guards: [AuthGuard]),
+    // AutoRoute(page: OssLicenseScreen, guards: [AuthGuard]),
   ],
 )
 class $AppRouter {}

@@ -97,9 +97,8 @@ class _ReactionBarState extends State<ReactionBar> {
           if (widget.isEnabled)
             ShimmerWidget(
               highlightColor: Colors.grey.shade900,
-              baseColor: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .background,
+              baseColor:
+                  Provider.of<PaletteSettings>(context).currentSetting.primary,
               borderRadius: AppThemeBorderRadius.bigBorderRadius,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -110,7 +109,7 @@ class _ReactionBarState extends State<ReactionBar> {
                       shouldChangeReaction: false,
                       boxColor: Provider.of<PaletteSettings>(context)
                           .currentSetting
-                          .background,
+                          .primary,
                       onReactionChanged: (reaction, index) {},
                       boxItemsSpacing: 24,
                       initialReaction: Reaction(
@@ -119,7 +118,7 @@ class _ReactionBarState extends State<ReactionBar> {
                           child: Material(
                               color: Provider.of<PaletteSettings>(context)
                                   .currentSetting
-                                  .background,
+                                  .primary,
                               borderRadius:
                                   AppThemeBorderRadius.bigBorderRadius,
                               child: const Padding(
@@ -175,7 +174,7 @@ class _ReactionBarState extends State<ReactionBar> {
                 shouldChangeReaction: false,
                 boxColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .background,
+                    .primary,
                 onReactionChanged: (reaction, index) async {
                   if (reactions[index].reacted) {
                     await ReactionsService.deleteReaction(
@@ -199,7 +198,7 @@ class _ReactionBarState extends State<ReactionBar> {
                         elevation: 2,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .background,
+                            .primary,
                         borderRadius: AppThemeBorderRadius.bigBorderRadius,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -365,9 +364,7 @@ class _ReactionButtonState extends State<ReactionButton> {
             elevation: 2,
             color: _reaction.reacted
                 ? Provider.of<PaletteSettings>(context).currentSetting.accent
-                : Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .background,
+                : Provider.of<PaletteSettings>(context).currentSetting.primary,
             borderRadius: AppThemeBorderRadius.bigBorderRadius,
             child: InkWell(
               onTap: widget.isEnabled && !loading

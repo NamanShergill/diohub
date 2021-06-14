@@ -115,7 +115,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               : null,
           prompt: widget.searchBarMessage,
           backgroundColor: widget.searchBarColor ??
-              Provider.of<PaletteSettings>(context).currentSetting.background,
+              Provider.of<PaletteSettings>(context).currentSetting.primary,
           onSubmit: (data) {
             setState(() {
               searchData = data;
@@ -128,7 +128,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     }
 
     Widget child = Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: Builder(
         builder: (context) {
           if (searchData.searchFilters!.searchType == SearchType.repositories) {

@@ -125,7 +125,7 @@ class IssueTemplateCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Card(
         color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+            Provider.of<PaletteSettings>(context).currentSetting.secondary,
         shape: RoundedRectangleBorder(
             borderRadius: AppThemeBorderRadius.medBorderRadius),
         child: InkWell(

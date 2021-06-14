@@ -18,7 +18,7 @@ class UserRepositories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: SearchScrollWrapper(
         SearchData(
             searchFilters: SearchFilters.repositories(

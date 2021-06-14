@@ -104,8 +104,7 @@ class _RangePickerState extends State<RangePicker> {
     return SizeExpandedSection(
       child: Material(
         borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

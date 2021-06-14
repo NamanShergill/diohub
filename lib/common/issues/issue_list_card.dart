@@ -45,7 +45,7 @@ class IssueListCard extends StatelessWidget {
         elevation: disableMaterial ? 0 : 2,
         color: disableMaterial
             ? Colors.transparent
-            : Provider.of<PaletteSettings>(context).currentSetting.background,
+            : Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
@@ -203,7 +203,7 @@ class IssueLoadingCard extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: 2,
-        color: Provider.of<PaletteSettings>(context).currentSetting.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<IssueModel>(
           apiCall: IssuesService.getIssueInfo(fullUrl: url),

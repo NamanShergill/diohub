@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
@@ -9,7 +8,6 @@ import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
@@ -17,6 +15,7 @@ import 'package:dio_hub/view/settings/widgets/language_setting_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -81,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       tabController: controller,
       loading: false,
       childrenColor:
-          Provider.of<PaletteSettings>(context).currentSetting.background,
+          Provider.of<PaletteSettings>(context).currentSetting.primary,
       tabViews: const [
         _GeneralSettings(),
         _About(),
@@ -168,7 +167,7 @@ class _GeneralSettings extends StatelessWidget {
             child: StringButton(
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
-                  .onBackground,
+                  .secondary,
               listenToLoadingController: false,
               onTap: () {
                 showDialog(
@@ -208,7 +207,7 @@ class _GeneralSettings extends StatelessWidget {
             child: StringButton(
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
-                  .onBackground,
+                  .secondary,
               listenToLoadingController: false,
               onTap: () {
                 CacheManager.clearCache();
@@ -258,7 +257,7 @@ class _About extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
-                      .background,
+                      .primary,
                   elevation: 2,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
@@ -296,11 +295,20 @@ class _About extends StatelessWidget {
                 listenToLoadingController: false,
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .onBackground,
+                    .secondary,
                 onTap: () {
-                  AutoRouter.of(context).push(const DependenciesScreenRoute());
+                  PackageInfo.fromPlatform().then((value) {
+                    showLicensePage(
+                        context: context,
+                        applicationIcon: const AppLogoWidget(
+                          size: 50,
+                        ),
+                        applicationName: 'DioHub',
+                        applicationVersion: value.version);
+                  });
+                  // AutoRouter.of(context).push(const DependenciesScreenRoute());
                 },
-                title: 'Dependencies'),
+                title: 'Licenses'),
           )
         ],
       ),

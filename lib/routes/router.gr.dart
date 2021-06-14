@@ -8,8 +8,8 @@ import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
 import '../common/search_overlay/search_overlay.dart' as _i8;
-import '../controller/deep_linking_handler.dart' as _i20;
-import '../graphql/graphql.dart' as _i21;
+import '../controller/deep_linking_handler.dart' as _i19;
+import '../graphql/graphql.dart' as _i20;
 import '../view/authentication/auth_screen.dart' as _i4;
 import '../view/issues_pulls/issue_screen.dart' as _i9;
 import '../view/issues_pulls/pull_screen.dart' as _i10;
@@ -24,7 +24,6 @@ import '../view/repository/commits/widgets/changes_viewer.dart' as _i15;
 import '../view/repository/issues/new_issue_screen.dart' as _i17;
 import '../view/repository/repository_screen.dart' as _i11;
 import '../view/repository/wiki/wiki_viewer.dart' as _i14;
-import '../view/settings/dependencies_screen.dart' as _i19;
 import 'router.dart' as _i3;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -206,24 +205,6 @@ class AppRouter extends _i1.RootStackRouter {
         },
         transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
         opaque: true,
-        barrierDismissible: false),
-    DependenciesScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
-        routeData: routeData,
-        builder: (_) {
-          return const _i19.DependenciesScreen();
-        },
-        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false),
-    OssLicenseScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
-        routeData: routeData,
-        builder: (data) {
-          final args = data.argsAs<OssLicenseScreenRouteArgs>();
-          return _i19.OssLicenseScreen(
-              nameKey: args.nameKey, json: args.json, key: args.key);
-        },
-        transitionsBuilder: _i1.TransitionsBuilders.slideLeft,
-        opaque: true,
         barrierDismissible: false)
   };
 
@@ -257,11 +238,7 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(NewIssueScreenRoute.name,
             path: '/new-issue-screen', guards: [authGuard]),
         _i1.RouteConfig(PRReviewScreenRoute.name,
-            path: '/p-rreview-screen', guards: [authGuard]),
-        _i1.RouteConfig(DependenciesScreenRoute.name,
-            path: '/dependencies-screen', guards: [authGuard]),
-        _i1.RouteConfig(OssLicenseScreenRoute.name,
-            path: '/oss-license-screen', guards: [authGuard])
+            path: '/p-rreview-screen', guards: [authGuard])
       ];
 }
 
@@ -302,7 +279,7 @@ class LandingLoadingScreenRouteArgs {
 }
 
 class LandingScreenRoute extends _i1.PageRouteInfo<LandingScreenRouteArgs> {
-  LandingScreenRoute({_i20.DeepLinkData? deepLinkData, _i2.Key? key})
+  LandingScreenRoute({_i19.DeepLinkData? deepLinkData, _i2.Key? key})
       : super(name,
             path: '/landing-screen',
             args: LandingScreenRouteArgs(deepLinkData: deepLinkData, key: key));
@@ -313,7 +290,7 @@ class LandingScreenRoute extends _i1.PageRouteInfo<LandingScreenRouteArgs> {
 class LandingScreenRouteArgs {
   const LandingScreenRouteArgs({this.deepLinkData, this.key});
 
-  final _i20.DeepLinkData? deepLinkData;
+  final _i19.DeepLinkData? deepLinkData;
 
   final _i2.Key? key;
 }
@@ -440,7 +417,7 @@ class RepositoryScreenRoute
       {required String? repositoryURL,
       String? branch,
       int index = 0,
-      _i20.DeepLinkData? deepLinkData,
+      _i19.DeepLinkData? deepLinkData,
       _i2.Key? key,
       String? initSHA})
       : super(name,
@@ -471,7 +448,7 @@ class RepositoryScreenRouteArgs {
 
   final int index;
 
-  final _i20.DeepLinkData? deepLinkData;
+  final _i19.DeepLinkData? deepLinkData;
 
   final _i2.Key? key;
 
@@ -610,7 +587,7 @@ class OtherUserProfileScreenRouteArgs {
 class NewIssueScreenRoute extends _i1.PageRouteInfo<NewIssueScreenRouteArgs> {
   NewIssueScreenRoute(
       {_i2.Key? key,
-      _i21.IssueTemplates$Query$Repository$IssueTemplates? template,
+      _i20.IssueTemplates$Query$Repository$IssueTemplates? template,
       required String repo,
       required String owner})
       : super(name,
@@ -627,7 +604,7 @@ class NewIssueScreenRouteArgs {
 
   final _i2.Key? key;
 
-  final _i21.IssueTemplates$Query$Repository$IssueTemplates? template;
+  final _i20.IssueTemplates$Query$Repository$IssueTemplates? template;
 
   final String repo;
 
@@ -654,35 +631,4 @@ class PRReviewScreenRouteArgs {
   final _i2.Key? key;
 
   final String pullNodeID;
-}
-
-class DependenciesScreenRoute extends _i1.PageRouteInfo {
-  const DependenciesScreenRoute() : super(name, path: '/dependencies-screen');
-
-  static const String name = 'DependenciesScreenRoute';
-}
-
-class OssLicenseScreenRoute
-    extends _i1.PageRouteInfo<OssLicenseScreenRouteArgs> {
-  OssLicenseScreenRoute(
-      {required String nameKey,
-      required Map<String, dynamic> json,
-      _i2.Key? key})
-      : super(name,
-            path: '/oss-license-screen',
-            args: OssLicenseScreenRouteArgs(
-                nameKey: nameKey, json: json, key: key));
-
-  static const String name = 'OssLicenseScreenRoute';
-}
-
-class OssLicenseScreenRouteArgs {
-  const OssLicenseScreenRouteArgs(
-      {required this.nameKey, required this.json, this.key});
-
-  final String nameKey;
-
-  final Map<String, dynamic> json;
-
-  final _i2.Key? key;
 }

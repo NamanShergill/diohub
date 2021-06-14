@@ -15,7 +15,7 @@ class CommitSHAButton extends StatelessWidget {
     return Material(
       elevation: 2,
       borderRadius: AppThemeBorderRadius.medBorderRadius,
-      color: Provider.of<PaletteSettings>(context).currentSetting.background,
+      color: Provider.of<PaletteSettings>(context).currentSetting.primary,
       child: InkWell(
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         onTap: () {

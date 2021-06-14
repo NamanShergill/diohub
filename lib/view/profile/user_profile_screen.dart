@@ -38,7 +38,7 @@ class _UserProfileScreenState<T extends UserInfoModel?>
     return AppScrollView(
       scrollController: scrollController,
       childrenColor:
-          Provider.of<PaletteSettings>(context).currentSetting.background,
+          Provider.of<PaletteSettings>(context).currentSetting.primary,
       scrollViewAppBar: ScrollViewAppBar(
         tabController: tabController,
         bottomPadding: 0,
@@ -162,9 +162,8 @@ class _UserProfileScreenState<T extends UserInfoModel?>
         ),
         if (data!.type == Type.user)
           Container(
-            color: Provider.of<PaletteSettings>(context)
-                .currentSetting
-                .onBackground,
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
             child: Events(
               specificUser: data!.login,
               scrollController: scrollController,

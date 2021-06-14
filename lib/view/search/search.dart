@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen>
     super.build(context);
     final _search = Provider.of<SearchDataProvider>(context);
     return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: _search.searchData.searchFilters != null
           ? SearchScrollWrapper(
               _search.searchData, isNestedScrollViewChild: false,
@@ -64,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen>
                     child: SearchBar(
                       backgroundColor: Provider.of<PaletteSettings>(context)
                           .currentSetting
-                          .background,
+                          .primary,
                       heroTag: 'searchScreen',
                       onSubmit: (data) {
                         _search.updateSearchData(data);
@@ -79,7 +79,7 @@ class _SearchScreenState extends State<SearchScreen>
                             top: AppThemeBorderRadius.medBorderRadius.topRight),
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .background,
+                            .primary,
                         child: APIWrapper<List<RepositoryModel>>(
                           apiCall: SearchService.searchRepos(
                               SearchQueries().pushed.toQueryString('>' +

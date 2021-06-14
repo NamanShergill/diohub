@@ -21,7 +21,7 @@ class InfoCard extends StatelessWidget {
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         color: color ??
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+            Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: InkWell(
           borderRadius: AppThemeBorderRadius.medBorderRadius,
           onTap: onTap,

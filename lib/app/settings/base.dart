@@ -7,16 +7,15 @@ abstract class Settings<T> extends ChangeNotifier {
   late T currentSetting;
   final T defaultSetting;
   final String _path;
-  final int _formatVer;
-  Settings(String path, {required this.defaultSetting, int formatVer = 0})
-      : _path = path,
-        _formatVer = formatVer {
+  final int formatVer;
+  Settings(String path, {required this.defaultSetting, this.formatVer = 0})
+      : _path = path {
     // Global.sharedPrefs.remove(_path);
     try {
       String? data = Global.sharedPrefs.getString(_path);
       if (data != null) {
         final content = jsonDecode(data);
-        if (content['format_version'] == _formatVer) {
+        if (content['format_version'] == formatVer) {
           currentSetting = toType(content['data']);
         } else {
           Global.sharedPrefs.remove(_path);
@@ -46,12 +45,14 @@ abstract class Settings<T> extends ChangeNotifier {
   String toPrefData();
 
   void resetToDefault() {
+    currentSetting = defaultSetting;
     Global.sharedPrefs.remove(_path);
+    notifyListeners();
   }
 
   String _toStr() {
     return jsonEncode({
-      'format_version': _formatVer,
+      'format_version': formatVer,
       'data': toPrefData(),
     });
   }

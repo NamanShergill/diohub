@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/open_in_app_browser.dart';
 import 'package:dio_hub/utils/regex.dart';
 import 'package:dio_hub/utils/string_compare.dart';
+import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
+import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 
 String get _chars => '([^/\\s]+)';
@@ -26,21 +29,44 @@ class DeepLinkHandler {
   }
 
   static void deepLinkNavigate(String link) {
-    if (getRoutes(link)?.isNotEmpty == true) {
+    if (link.startsWith(themeLinkPattern)) {
+      // AutoRouter.of(Global.currentContext).replaceAll([LandingScreenRoute()]);
+      showDialog(
+        context: Global.currentContext,
+        builder: (context) => AppDialog(
+          title: 'Load theme?',
+          actions: [
+            MaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            MaterialButton(
+              onPressed: () {
+                loadTheme(context, Uri.parse(link).queryParameters);
+                Navigator.pop(context);
+              },
+              child: const Text('Confirm'),
+            )
+          ],
+        ),
+      );
+    } else if (getRoutes(link)?.isNotEmpty == true) {
       if (getRoutes(link)?.first is LandingScreenRoute) {
-        AutoRouter.of(Global.currentContext).replaceAll(getRoutes(link)!);
-        AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
-      } else {
-        AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
+        AutoRouter.of(Global.currentContext).popUntil((route) {
+          return false;
+        });
       }
+      // AutoRouter.of(Global.currentContext).replaceAll(getRoutes(link)!);
+      AutoRouter.of(Global.currentContext).pushAll(getRoutes(link)!);
     }
   }
 
   static String _cleanURL(String link) {
     if (link.endsWith('/')) link = link.substring(0, link.length - 1);
-    return link
-        .toLowerCase()
-        .replaceFirst(RegExp('((http(s)?)(:(//)))?(www.)?(github.com/)'), '');
+    return link.toLowerCase().replaceFirst(
+        RegExp('((http(s)?)(:(//)))?(www.)?(github.com)(/)?'), '');
   }
 
   static bool isDeepLink(String link) {
@@ -48,11 +74,14 @@ class DeepLinkHandler {
   }
 
   static RegExp get deepLinkPattern =>
-      RegExp('((http(s)?)(:(//)))?(www.)?(github.com/)');
+      RegExp('((http(s)?)(:(//)))?(www.)?(github.com)(/)?');
+  static RegExp get themeLinkPattern =>
+      RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
   static List<PageRouteInfo>? getRoutes(String link) {
-    if (link.isEmpty) return null;
     StringFunctions string = StringFunctions(_cleanURL(link));
+    if (string.string.isEmpty) return null;
+
     List<PageRouteInfo> temp = [];
     if (string.regexCompleteMatch(exceptionURLPatterns)) {
       openInAppBrowser(link);

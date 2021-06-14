@@ -35,7 +35,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor:
-            Provider.of<PaletteSettings>(context).currentSetting.background,
+            Provider.of<PaletteSettings>(context).currentSetting.primary,
         body: ScaffoldBody(
           notificationController:
               Provider.of<CurrentUserProvider>(context).notificationController,
@@ -64,7 +64,7 @@ class _LandingScreenState extends State<LandingScreen> {
               child: GNav(
                 backgroundColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .background,
+                    .primary,
                 selectedIndex: _navProvider.currentIndex,
                 onTabChange: (index) {
                   _navProvider.animateToPage(index);

@@ -22,8 +22,7 @@ class BranchButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: Container(
@@ -35,12 +34,12 @@ class BranchButton extends StatelessWidget {
                   borderRadius: AppThemeBorderRadius.medBorderRadius,
                   baseColor: Provider.of<PaletteSettings>(context)
                       .currentSetting
-                      .onBackground,
+                      .secondary,
                   highlightColor: Colors.grey.shade800,
                   child: Container(
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
-                        .onBackground,
+                        .secondary,
                     width: double.infinity,
                     height: height,
                   ),

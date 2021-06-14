@@ -32,7 +32,7 @@ class PullLoadingCard extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: disableMaterial ? 0 : 2,
-        color: Provider.of<PaletteSettings>(context).currentSetting.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: AppThemeBorderRadius.medBorderRadius,
         child: APIWrapper<PullRequestModel>(
           apiCall: PullsService.getPullInformation(fullUrl: url),

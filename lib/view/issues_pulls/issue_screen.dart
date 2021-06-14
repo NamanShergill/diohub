@@ -77,7 +77,7 @@ class _IssueScreenState extends State<IssueScreen>
                         scrollController: scrollController,
                         childrenColor: Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .background,
+                            .primary,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
                           url: value.issueModel!.htmlUrl,

@@ -32,8 +32,7 @@ class AddedEventCard extends StatelessWidget {
       avatarUrl: event.actor!.avatarUrl,
       childPadding: EdgeInsets.zero,
       child: Container(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: Column(
           children: [
             ProfileCard(

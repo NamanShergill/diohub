@@ -70,8 +70,7 @@ class ChangedFilesListCard extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: Material(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         elevation: 2,
         child: ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),

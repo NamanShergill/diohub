@@ -48,7 +48,7 @@ class AppScrollView extends StatelessWidget {
                     color: childrenColor ??
                         Provider.of<PaletteSettings>(context)
                             .currentSetting
-                            .onBackground,
+                            .secondary,
                     child: Column(
                       children: const [
                         Padding(
@@ -62,7 +62,7 @@ class AppScrollView extends StatelessWidget {
                       color: childrenColor ??
                           Provider.of<PaletteSettings>(context)
                               .currentSetting
-                              .onBackground,
+                              .secondary,
                       child: TabBarView(
                         controller: tabController,
                         children: List.generate(

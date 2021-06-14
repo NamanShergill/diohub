@@ -127,8 +127,7 @@ class _SearchBarState extends State<SearchBar> {
           )
         : child;
     Widget quickActions(context) => Material(
-          color:
-              Provider.of<PaletteSettings>(context).currentSetting.background,
+          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: BorderRadius.only(
               bottomLeft: AppThemeBorderRadius.medBorderRadius.bottomLeft,
               bottomRight: AppThemeBorderRadius.medBorderRadius.bottomRight),
@@ -450,9 +449,7 @@ class _SearchBarState extends State<SearchBar> {
         children: [
           Material(
             color: widget.backgroundColor ??
-                Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .onBackground,
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
             borderRadius: widget.isPinned
                 ? null
                 : searchData?.searchFilters != null

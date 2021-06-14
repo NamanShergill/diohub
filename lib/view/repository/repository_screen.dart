@@ -123,7 +123,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         return SafeArea(
           child: Scaffold(
             backgroundColor:
-                Provider.of<PaletteSettings>(context).currentSetting.background,
+                Provider.of<PaletteSettings>(context).currentSetting.primary,
             // Show a temporary app bar until the provider loads.
             appBar:
                 Provider.of<RepositoryProvider>(context).status != Status.loaded

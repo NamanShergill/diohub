@@ -40,7 +40,7 @@ class BranchSelectSheet extends StatelessWidget {
                 ? Provider.of<PaletteSettings>(context).currentSetting.accent
                 : Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .onBackground,
+                    .secondary,
             child: InkWell(
               borderRadius: AppThemeBorderRadius.medBorderRadius,
               onTap: () {

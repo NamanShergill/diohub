@@ -22,8 +22,12 @@ class DialogHelper {
         boxShadows: [
           BoxShadow(
               color: appPopup.popupType == PopupType.failed
-                  ? Colors.redAccent
-                  : Provider.of<PaletteSettings>(context).currentSetting.green,
+                  ? Provider.of<PaletteSettings>(context, listen: false)
+                      .currentSetting
+                      .red
+                  : Provider.of<PaletteSettings>(context, listen: false)
+                      .currentSetting
+                      .green,
               offset: const Offset(0.0, 1.0),
               blurRadius: 1.0)
         ],
