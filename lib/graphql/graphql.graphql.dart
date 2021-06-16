@@ -4195,6 +4195,91 @@ class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class HasStarred$Query$Repository extends JsonSerializable with EquatableMixin {
+  HasStarred$Query$Repository();
+
+  factory HasStarred$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$HasStarred$Query$RepositoryFromJson(json);
+
+  late bool viewerHasStarred;
+
+  late int stargazerCount;
+
+  @override
+  List<Object?> get props => [viewerHasStarred, stargazerCount];
+  @override
+  Map<String, dynamic> toJson() => _$HasStarred$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HasStarred$Query extends JsonSerializable with EquatableMixin {
+  HasStarred$Query();
+
+  factory HasStarred$Query.fromJson(Map<String, dynamic> json) =>
+      _$HasStarred$QueryFromJson(json);
+
+  HasStarred$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  @override
+  Map<String, dynamic> toJson() => _$HasStarred$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HasWatched$Query$Repository$Watchers extends JsonSerializable
+    with EquatableMixin {
+  HasWatched$Query$Repository$Watchers();
+
+  factory HasWatched$Query$Repository$Watchers.fromJson(
+          Map<String, dynamic> json) =>
+      _$HasWatched$Query$Repository$WatchersFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$HasWatched$Query$Repository$WatchersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HasWatched$Query$Repository extends JsonSerializable with EquatableMixin {
+  HasWatched$Query$Repository();
+
+  factory HasWatched$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$HasWatched$Query$RepositoryFromJson(json);
+
+  @JsonKey(unknownEnumValue: SubscriptionState.artemisUnknown)
+  SubscriptionState? viewerSubscription;
+
+  late bool viewerCanSubscribe;
+
+  late HasWatched$Query$Repository$Watchers watchers;
+
+  @override
+  List<Object?> get props => [viewerSubscription, viewerCanSubscribe, watchers];
+  @override
+  Map<String, dynamic> toJson() => _$HasWatched$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HasWatched$Query extends JsonSerializable with EquatableMixin {
+  HasWatched$Query();
+
+  factory HasWatched$Query.fromJson(Map<String, dynamic> json) =>
+      _$HasWatched$QueryFromJson(json);
+
+  HasWatched$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  @override
+  Map<String, dynamic> toJson() => _$HasWatched$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class SearchMentionUsers$Query$Search$Edges$Node$User
     extends SearchMentionUsers$Query$Search$Edges$Node with EquatableMixin {
   SearchMentionUsers$Query$Search$Edges$Node$User();
@@ -4325,6 +4410,26 @@ class SearchMentionUsers$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner
+    extends JsonSerializable with EquatableMixin {
+  GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner();
+
+  factory GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$OwnerFromJson(
+          json);
+
+  late String login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$OwnerToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$Edges$Node
     extends JsonSerializable with EquatableMixin {
   GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$Edges$Node();
@@ -4407,12 +4512,15 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
 
   late Uri url;
 
+  late GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner
+      owner;
+
   GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages?
       languages;
 
   @override
   List<Object?> get props =>
-      [name, description, stargazerCount, updatedAt, url, languages];
+      [name, description, stargazerCount, updatedAt, url, owner, languages];
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$RepositoryToJson(
@@ -4715,6 +4823,16 @@ enum PullRequestState {
   merged,
   @JsonValue('OPEN')
   open,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum SubscriptionState {
+  @JsonValue('IGNORED')
+  ignored,
+  @JsonValue('SUBSCRIBED')
+  subscribed,
+  @JsonValue('UNSUBSCRIBED')
+  unsubscribed,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -9190,6 +9308,193 @@ class IssueTemplatesQuery
 }
 
 @JsonSerializable(explicitToJson: true)
+class HasStarredArguments extends JsonSerializable with EquatableMixin {
+  HasStarredArguments({required this.name, required this.owner});
+
+  @override
+  factory HasStarredArguments.fromJson(Map<String, dynamic> json) =>
+      _$HasStarredArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() => _$HasStarredArgumentsToJson(this);
+}
+
+final HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'hasStarred'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'viewerHasStarred'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'stargazerCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
+class HasStarredQuery
+    extends GraphQLQuery<HasStarred$Query, HasStarredArguments> {
+  HasStarredQuery({required this.variables});
+
+  @override
+  final DocumentNode document = HAS_STARRED_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'hasStarred';
+
+  @override
+  final HasStarredArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  HasStarred$Query parse(Map<String, dynamic> json) =>
+      HasStarred$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HasWatchedArguments extends JsonSerializable with EquatableMixin {
+  HasWatchedArguments({required this.name, required this.owner});
+
+  @override
+  factory HasWatchedArguments.fromJson(Map<String, dynamic> json) =>
+      _$HasWatchedArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() => _$HasWatchedArgumentsToJson(this);
+}
+
+final HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'hasWatched'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'viewerSubscription'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'viewerCanSubscribe'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'watchers'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class HasWatchedQuery
+    extends GraphQLQuery<HasWatched$Query, HasWatchedArguments> {
+  HasWatchedQuery({required this.variables});
+
+  @override
+  final DocumentNode document = HAS_WATCHED_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'hasWatched';
+
+  @override
+  final HasWatchedArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  HasWatched$Query parse(Map<String, dynamic> json) =>
+      HasWatched$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
 class SearchMentionUsersArguments extends JsonSerializable with EquatableMixin {
   SearchMentionUsersArguments({required this.query, this.after});
 
@@ -9447,6 +9752,20 @@ final GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitions: [
                                           arguments: [],
                                           directives: [],
                                           selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'owner'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet:
+                                              SelectionSetNode(selections: [
+                                            FieldNode(
+                                                name: NameNode(value: 'login'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null)
+                                          ])),
                                       FieldNode(
                                           name: NameNode(value: 'languages'),
                                           alias: null,

@@ -4,8 +4,9 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class APIWrapperController {
-  void Function()? refresh;
+class APIWrapperController<T> {
+  late void Function() refresh;
+  late void Function(T data) changeData;
 }
 
 typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
@@ -17,7 +18,7 @@ class APIWrapper<T> extends StatefulWidget {
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
   final T? initialData;
-  final APIWrapperController? apiWrapperController;
+  final APIWrapperController<T>? apiWrapperController;
   final bool fadeIntoView;
   const APIWrapper({
     Key? key,
@@ -39,8 +40,6 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
   bool loading = true;
   Object? error;
 
-  // Doing it this way instead of a future builder for better error handling.
-  // And to add a refresh controller in the future.
   void setupWidget() async {
     if (widget.initialData == null) {
       await fetchData();
@@ -63,6 +62,9 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     try {
       error = null;
       data = await widget.apiCall;
+      if (mounted) {
+        setState(() {});
+      }
     } catch (e) {
       error = e;
     }
@@ -73,15 +75,18 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     }
   }
 
-  @override
-  void initState() {
-    setupController();
-    setupWidget();
-    super.initState();
+  void changeData(T? data) {
+    setState(() {
+      this.data = data;
+    });
   }
 
-  void setupController() {
+  @override
+  void initState() {
     widget.apiWrapperController?.refresh = fetchData;
+    widget.apiWrapperController?.changeData = changeData;
+    setupWidget();
+    super.initState();
   }
 
   @override

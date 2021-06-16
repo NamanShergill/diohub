@@ -152,71 +152,66 @@ class _GeneralSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        children: [
-          const SizedBox(
-            height: 8,
-          ),
-          FontSettingCard(),
-          ColorSettingCard(),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-            child: StringButton(
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              listenToLoadingController: false,
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text(
-                          'Log Out?',
-                          style: Theme.of(context).textTheme.headline6,
+    return ListView(
+      children: [
+        const SizedBox(
+          height: 8,
+        ),
+        FontSettingCard(),
+        ColorSettingCard(),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: StringButton(
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
+            listenToLoadingController: false,
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(
+                        'Log Out?',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      actions: [
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel'),
                         ),
-                        actions: [
-                          MaterialButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Cancel'),
+                        MaterialButton(
+                          onPressed: () {
+                            BlocProvider.of<AuthenticationBloc>(context)
+                                .add(LogOut());
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Confirm',
                           ),
-                          MaterialButton(
-                            onPressed: () {
-                              BlocProvider.of<AuthenticationBloc>(context)
-                                  .add(LogOut());
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Confirm',
-                            ),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              title: 'Log Out',
-            ),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            title: 'Log Out',
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: StringButton(
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              listenToLoadingController: false,
-              onTap: () {
-                CacheManager.clearCache();
-              },
-              title: 'Clear Cache',
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: StringButton(
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
+            listenToLoadingController: false,
+            onTap: () {
+              CacheManager.clearCache();
+            },
+            title: 'Clear Cache',
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -226,92 +221,89 @@ class _About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        children: [
-          InfoCard(
-            'Repository',
-            child: RepoCardLoading(
-                toRepoAPIResource('https://github.com/NamanShergill/diohub'),
-                'diohub'),
+    return ListView(
+      children: [
+        InfoCard(
+          'Repository',
+          child: RepoCardLoading(
+              toRepoAPIResource('https://github.com/NamanShergill/diohub'),
+              'diohub'),
+        ),
+        const InfoCard(
+          'Maintained By',
+          child: ProfileCardLoading(
+            'NamanShergill',
+            compact: true,
           ),
-          const InfoCard(
-            'Maintained By',
-            child: ProfileCardLoading(
-              'NamanShergill',
-              compact: true,
-            ),
-          ),
-          InfoCard(
-            'Bugs or Suggestions?',
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Let me know at'),
-                ),
-                Material(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .primary,
-                  elevation: 2,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Flexible(
-                            child: Text(
-                              'https://github.com/NamanShergill/diohub/issues',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      linkHandler(
-                        context,
-                        'https://github.com/NamanShergill/diohub/issues',
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: StringButton(
-                listenToLoadingController: false,
+        ),
+        InfoCard(
+          'Bugs or Suggestions?',
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Let me know at'),
+              ),
+              Material(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
-                    .secondary,
-                onTap: () {
-                  PackageInfo.fromPlatform().then((value) {
-                    showLicensePage(
-                        context: context,
-                        applicationIcon: const AppLogoWidget(
-                          size: 50,
+                    .primary,
+                elevation: 2,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Flexible(
+                          child: Text(
+                            'https://github.com/NamanShergill/diohub/issues',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline),
+                          ),
                         ),
-                        applicationName: 'DioHub',
-                        applicationVersion: value.version);
-                  });
-                  // AutoRouter.of(context).push(const DependenciesScreenRoute());
-                },
-                title: 'Licenses'),
-          )
-        ],
-      ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    linkHandler(
+                      context,
+                      'https://github.com/NamanShergill/diohub/issues',
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StringButton(
+              listenToLoadingController: false,
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .secondary,
+              onTap: () {
+                PackageInfo.fromPlatform().then((value) {
+                  showLicensePage(
+                      context: context,
+                      applicationIcon: const AppLogoWidget(
+                        size: 50,
+                      ),
+                      applicationName: 'DioHub',
+                      applicationVersion: value.version);
+                });
+                // AutoRouter.of(context).push(const DependenciesScreenRoute());
+              },
+              title: 'Licenses'),
+        )
+      ],
     );
   }
 }

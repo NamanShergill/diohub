@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
   final bool listenToLoadingController;
-  final Function? onTap;
+  final VoidCallback? onTap;
   final Color? color;
   final bool enabled;
   final Widget child;
@@ -79,8 +79,7 @@ class _ButtonState extends State<Button> {
           Provider.of<PaletteSettings>(context).currentSetting.baseElements,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
-      onPressed:
-          widget.enabled && !loading ? widget.onTap as void Function()? : null,
+      onPressed: widget.enabled && !loading ? widget.onTap : null,
       color: widget.color ??
           Provider.of<PaletteSettings>(context).currentSetting.accent,
       child: Column(
@@ -128,7 +127,7 @@ class _ButtonState extends State<Button> {
 
 class StringButton extends StatelessWidget {
   final bool listenToLoadingController;
-  final Function? onTap;
+  final VoidCallback? onTap;
   final Color? color;
   final bool enabled;
   final double? textSize;

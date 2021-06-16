@@ -26,9 +26,6 @@ class _ColorSettingCardState extends State<ColorSettingCard> {
         color: theme.currentSetting.faded3,
       ),
       onTap: () {
-        print(theme.currentSetting.toJson().toString() ==
-            theme.defaultSetting.toJson().toString());
-
         showBottomActionsList(
           context,
           headerText: 'App Color Palette',

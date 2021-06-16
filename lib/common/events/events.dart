@@ -74,15 +74,24 @@ class Events extends StatelessWidget {
             if (item.type == EventsType.PushEvent) {
               return PushEventCard(item, item.payload!);
             } else if (item.type == EventsType.WatchEvent) {
-              return RepoEventCard(item, 'starred');
+              return RepoEventCard(
+                item,
+                'starred',
+                refresh: refresh,
+              );
             } else if (item.type == EventsType.CreateEvent) {
               if (item.payload.refType == RefType.REPOSITORY) {
-                return RepoEventCard(item, 'created');
+                return RepoEventCard(
+                  item,
+                  'created',
+                  refresh: refresh,
+                );
               } else if (item.payload.refType == RefType.BRANCH) {
                 return RepoEventCard(
                   item,
                   'created a new branch \'${item.payload.ref}\' in',
                   branch: item.payload.ref,
+                  refresh: refresh,
                 );
               }
             } else if (item.type == EventsType.PublicEvent) {
@@ -90,13 +99,17 @@ class Events extends StatelessWidget {
                 item,
                 'made',
                 eventTextEnd: 'public',
+                refresh: refresh,
               );
             } else if (item.type == EventsType.MemberEvent) {
               return AddedEventCard(item,
                   '${item.payload.action} ${item.payload.member.login} to');
             } else if (item.type == EventsType.DeleteEvent) {
-              return RepoEventCard(item,
-                  'deleted a ${refTypeValues.reverse[item.payload.refType]} \'${item.payload.ref}\' in');
+              return RepoEventCard(
+                item,
+                'deleted a ${refTypeValues.reverse[item.payload.refType]} \'${item.payload.ref}\' in',
+                refresh: refresh,
+              );
             } else if (item.type == EventsType.PullRequestEvent) {
               return PullEventCard(
                 item,
@@ -106,6 +119,7 @@ class Events extends StatelessWidget {
                 item,
                 'forked',
                 repo: item.payload.forkee,
+                refresh: refresh,
               );
             } else if (item.type == EventsType.IssuesEvent) {
               return IssuesEventCard(item, 'an issue in');

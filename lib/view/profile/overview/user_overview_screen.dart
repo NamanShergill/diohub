@@ -48,6 +48,7 @@ class UserOverviewScreen extends StatelessWidget {
                                     ? node.languages?.edges?.first!.node.name ??
                                         'N/A'
                                     : 'N/A',
+                                owner: Owner(login: node.owner.login),
                                 name: node.name,
                                 private: false,
                                 url: node.url.toString().replaceFirst(

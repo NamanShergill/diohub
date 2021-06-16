@@ -217,7 +217,6 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               );
             } else if (divClass == 'blob-wrapper blob-wrapper-embedded data') {
               // Todo: Format embedded code.
-              // print(context.tree.element!.outerHtml);
               // return Html(data: context.tree.element!.outerHtml);
             } else if (rdr.tree.children.isNotEmpty) {
               if (rdr.tree.children.first.name == 'pre') {
@@ -283,7 +282,6 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             return child;
           },
           'table': (RenderContext renderContext, Widget child) {
-            // print(renderContext.tree.children.first);
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: (renderContext.tree as TableLayoutElement)

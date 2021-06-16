@@ -228,7 +228,6 @@ class _PatchViewerState extends State<PatchViewer> {
 
   @override
   Widget build(BuildContext context) {
-    // print(codeChunks[0]);
     // return Container();
     return loading
         ? Center(

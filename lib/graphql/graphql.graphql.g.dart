@@ -3749,6 +3749,85 @@ Map<String, dynamic> _$IssueTemplates$QueryToJson(
       'repository': instance.repository?.toJson(),
     };
 
+HasStarred$Query$Repository _$HasStarred$Query$RepositoryFromJson(
+    Map<String, dynamic> json) {
+  return HasStarred$Query$Repository()
+    ..viewerHasStarred = json['viewerHasStarred'] as bool
+    ..stargazerCount = json['stargazerCount'] as int;
+}
+
+Map<String, dynamic> _$HasStarred$Query$RepositoryToJson(
+        HasStarred$Query$Repository instance) =>
+    <String, dynamic>{
+      'viewerHasStarred': instance.viewerHasStarred,
+      'stargazerCount': instance.stargazerCount,
+    };
+
+HasStarred$Query _$HasStarred$QueryFromJson(Map<String, dynamic> json) {
+  return HasStarred$Query()
+    ..repository = json['repository'] == null
+        ? null
+        : HasStarred$Query$Repository.fromJson(
+            json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$HasStarred$QueryToJson(HasStarred$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
+HasWatched$Query$Repository$Watchers
+    _$HasWatched$Query$Repository$WatchersFromJson(Map<String, dynamic> json) {
+  return HasWatched$Query$Repository$Watchers()
+    ..totalCount = json['totalCount'] as int;
+}
+
+Map<String, dynamic> _$HasWatched$Query$Repository$WatchersToJson(
+        HasWatched$Query$Repository$Watchers instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+HasWatched$Query$Repository _$HasWatched$Query$RepositoryFromJson(
+    Map<String, dynamic> json) {
+  return HasWatched$Query$Repository()
+    ..viewerSubscription = _$enumDecodeNullable(
+        _$SubscriptionStateEnumMap, json['viewerSubscription'],
+        unknownValue: SubscriptionState.artemisUnknown)
+    ..viewerCanSubscribe = json['viewerCanSubscribe'] as bool
+    ..watchers = HasWatched$Query$Repository$Watchers.fromJson(
+        json['watchers'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$HasWatched$Query$RepositoryToJson(
+        HasWatched$Query$Repository instance) =>
+    <String, dynamic>{
+      'viewerSubscription':
+          _$SubscriptionStateEnumMap[instance.viewerSubscription],
+      'viewerCanSubscribe': instance.viewerCanSubscribe,
+      'watchers': instance.watchers.toJson(),
+    };
+
+const _$SubscriptionStateEnumMap = {
+  SubscriptionState.ignored: 'IGNORED',
+  SubscriptionState.subscribed: 'SUBSCRIBED',
+  SubscriptionState.unsubscribed: 'UNSUBSCRIBED',
+  SubscriptionState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+HasWatched$Query _$HasWatched$QueryFromJson(Map<String, dynamic> json) {
+  return HasWatched$Query()
+    ..repository = json['repository'] == null
+        ? null
+        : HasWatched$Query$Repository.fromJson(
+            json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$HasWatched$QueryToJson(HasWatched$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
 SearchMentionUsers$Query$Search$Edges$Node$User
     _$SearchMentionUsers$Query$Search$Edges$Node$UserFromJson(
         Map<String, dynamic> json) {
@@ -3844,6 +3923,21 @@ Map<String, dynamic> _$SearchMentionUsers$QueryToJson(
       'search': instance.search.toJson(),
     };
 
+GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner
+    _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$OwnerFromJson(
+        Map<String, dynamic> json) {
+  return GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner()
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic>
+    _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$OwnerToJson(
+            GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner
+                instance) =>
+        <String, dynamic>{
+          'login': instance.login,
+        };
+
 GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$Edges$Node
     _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$Edges$NodeFromJson(
         Map<String, dynamic> json) {
@@ -3906,6 +4000,9 @@ GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
     ..stargazerCount = json['stargazerCount'] as int
     ..updatedAt = DateTime.parse(json['updatedAt'] as String)
     ..url = Uri.parse(json['url'] as String)
+    ..owner =
+        GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner
+            .fromJson(json['owner'] as Map<String, dynamic>)
     ..languages = json['languages'] == null
         ? null
         : GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages
@@ -3923,6 +4020,7 @@ Map<String, dynamic>
           'stargazerCount': instance.stargazerCount,
           'updatedAt': instance.updatedAt.toIso8601String(),
           'url': instance.url.toString(),
+          'owner': instance.owner.toJson(),
           'languages': instance.languages?.toJson(),
         };
 
@@ -4187,6 +4285,34 @@ IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
 
 Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
         IssueTemplatesArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+    };
+
+HasStarredArguments _$HasStarredArgumentsFromJson(Map<String, dynamic> json) {
+  return HasStarredArguments(
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+  );
+}
+
+Map<String, dynamic> _$HasStarredArgumentsToJson(
+        HasStarredArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+    };
+
+HasWatchedArguments _$HasWatchedArgumentsFromJson(Map<String, dynamic> json) {
+  return HasWatchedArguments(
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+  );
+}
+
+Map<String, dynamic> _$HasWatchedArgumentsToJson(
+        HasWatchedArguments instance) =>
     <String, dynamic>{
       'name': instance.name,
       'owner': instance.owner,

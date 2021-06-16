@@ -101,6 +101,7 @@ class GetDio {
         onError: (DioError error, ErrorInterceptorHandler handler) async {
           // Global.log.e(error.toString());
           // Makes the buttons listening to this stream get enabled again.
+
           if (buttonLock) ButtonController.setButtonValue(false);
 
           // Todo: Add better exception handling based on response codes.

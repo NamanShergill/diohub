@@ -17,17 +17,15 @@ dependencies:
   another_flushbar: ^1.10.23
   cached_network_image: ^3.0.0
   connectivity: ^3.0.6
-  device_info_plus: ^1.0.1
+  device_info_plus: ^2.0.1
   dio: ^4.0.0
   dio_cache_interceptor: ^2.3.1
-  equatable: ^2.0.2
+  equatable: ^2.0.3
 
   # Modified to remove the current typing word indicator.
-  # Todo: Move back to main branch after breaking changes are fixed by maintainer.
   extended_text_field:
     git:
       url: https://github.com/NamanShergill/extended_text_field.git
-      ref: temp
 
   flutter_bloc: ^7.0.1
   flutter_colorpicker: ^0.4.0
@@ -97,7 +95,7 @@ dependencies:
       ref: master
 
   mime: ^1.0.0
-  package_info_plus: ^1.0.2
+  package_info_plus: ^1.0.3
   path_provider: ^2.0.2
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0

@@ -11,9 +11,11 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 
 class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository
-  static Future<RepositoryModel> fetchRepository(String url) async {
+  static Future<RepositoryModel> fetchRepository(String url,
+      {bool refresh = false}) async {
     Response response = await GetDio.getDio(
-            applyBaseURL: false, cacheOptions: CacheManager.repositories())
+            applyBaseURL: false,
+            cacheOptions: CacheManager.repositories(refresh: refresh))
         .get(url);
     return RepositoryModel.fromJson(response.data);
   }
@@ -116,5 +118,66 @@ class RepositoryServices {
     final res = await GetDio.gqlDio(IssueTemplatesQuery(
         variables: IssueTemplatesArguments(name: name, owner: owner)));
     return IssueTemplates$Query.fromJson(res.data!).repository!.issueTemplates!;
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user
+  static Future<HasStarred$Query$Repository> isStarred(
+      String owner, String name) async {
+    final res = await GetDio.gqlDio(
+      HasStarredQuery(variables: HasStarredArguments(name: name, owner: owner)),
+      cacheOptions: CacheManager.defaultGQLCache(maxAge: Duration.zero),
+    );
+    return HasStarred$Query.fromJson(res.data!).repository!;
+  }
+
+  // Ref: https://docs.github.com/en/rest/reference/activity#star-a-repository-for-the-authenticated-user
+  static Future<bool> changeStar(
+      String owner, String name, bool isStarred) async {
+    String endpoint = '/user/starred/$owner/$name';
+    final res = isStarred
+        ? await GetDio.getDio().delete(endpoint)
+        : await GetDio.getDio().put(endpoint);
+    if (res.statusCode == 204) {
+      return !isStarred;
+    } else {
+      return isStarred;
+    }
+  }
+
+  static Future<bool> isSubscribed(String owner, String name) async {
+    try {
+      final res = await GetDio.getDio().get('/repos/$owner/$name/subscription');
+      if (res.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response?.statusCode == 404) {
+          return false;
+        } else {
+          rethrow;
+        }
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  static Future<bool> subscribeToRepo(
+      String owner, String name, bool isSubscribing) async {
+    final res = isSubscribing
+        ? await GetDio.getDio()
+            .put('/repos/$owner/$name/subscription', data: {'subscribed': true})
+        : await GetDio.getDio().delete(
+            '/repos/$owner/$name/subscription',
+          );
+    if ((isSubscribing && res.statusCode == 200) ||
+        (!isSubscribing && res.statusCode == 204)) {
+      return !isSubscribing;
+    } else {
+      return isSubscribing;
+    }
   }
 }

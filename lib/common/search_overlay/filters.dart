@@ -365,7 +365,6 @@ class SearchFilters {
     List<String> usersQ = userQ.map((query) => '${query.query}:').toList();
     String userRegExp =
         '(?:-)?(?:${usersQ.join('|')})${optionalQuotes('(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
-    // print(numberRegexp + '|' + userRegExp + '|' + boolRegexp);
 
     List<String> finalRegex = [];
     if (spacedQ.isNotEmpty) finalRegex.add(spacedRegExp);

@@ -11,8 +11,13 @@ class RepoEventCard extends StatelessWidget {
   final RepositoryModel? repo;
   final String? eventTextEnd;
   final String? branch;
+  final bool refresh;
   const RepoEventCard(this.event, this.eventTextMiddle,
-      {this.eventTextEnd, this.branch, this.repo, Key? key})
+      {this.eventTextEnd,
+      this.branch,
+      this.repo,
+      this.refresh = false,
+      Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -35,6 +40,7 @@ class RepoEventCard extends StatelessWidget {
         repo != null ? repo!.name : event.repo!.name,
         elevation: 0,
         branch: branch,
+        refresh: refresh,
         padding: EdgeInsets.zero,
       ),
     );

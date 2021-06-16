@@ -87,11 +87,14 @@ class DeepLinkHandler {
       openInAppBrowser(link);
     } else if (string.regexCompleteMatch(landingPageURLPattern)) {
       temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
-    } else if (string.regexCompleteMatch(issuePullPageURLPattern)) {
+    } else if (string.regexCompleteMatch(issuePageURLPattern)) {
       temp.add(IssueScreenRoute(
-        // Todo: Temporary workaround for pulls deeplink to work.
-        issueURL:
-            urlWithPrefix('repos/' + string.string.replaceAll('pull', 'issue')),
+        issueURL: urlWithPrefix('repos/' + string.string),
+      ));
+    } else if (string.regexCompleteMatch(pullPageURLPattern)) {
+      temp.add(PullScreenRoute(
+        pullURL:
+            urlWithPrefix('repos/' + string.string.replaceAll('pull', 'pulls')),
       ));
     } else if (string.regexCompleteMatch(commitPageURLPattern)) {
       temp.add(CommitInfoScreenRoute(
@@ -140,12 +143,22 @@ class DeepLinkHandler {
         ],
       );
 
-  static String get issuePullPageURLPattern => regexPattern([
+  static String get issuePageURLPattern => regexPattern([
         _chars,
         _slash,
         _chars,
         _slash,
-        regexORCases(['issues', 'pull']),
+        'issues',
+        _slash,
+        _digit,
+      ]);
+
+  static String get pullPageURLPattern => regexPattern([
+        _chars,
+        _slash,
+        _chars,
+        _slash,
+        'pull',
         _slash,
         _digit,
       ]);

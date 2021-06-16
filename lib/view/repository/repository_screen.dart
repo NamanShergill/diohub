@@ -4,6 +4,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/repo_star.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -15,6 +16,7 @@ import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
 import 'package:dio_hub/view/repository/pulls/pulls_list.dart';
@@ -223,10 +225,24 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                ActionButton(
-                                  count: _repo.stargazersCount,
-                                  icon: Octicons.star,
-                                  action: 'Star',
+                                RepoStar(
+                                  _repo.owner!.login!,
+                                  _repo.name!,
+                                  fadeIntoView: false,
+                                  inkWellRadius:
+                                      AppThemeBorderRadius.medBorderRadius,
+                                  child: (context, data) {
+                                    return IgnorePointer(
+                                      child: ActionButton(
+                                        count: data?.stargazerCount,
+                                        icon: Octicons.star,
+                                        onTap: () {},
+                                        doneColor: Colors.amber,
+                                        isDone: data?.viewerHasStarred,
+                                        action: 'Star',
+                                      ),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(
                                   width: 16,

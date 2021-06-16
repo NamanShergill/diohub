@@ -128,14 +128,14 @@ Color? _getColor(Map<String, dynamic> json, String key) {
 }
 
 final DioHubPalette _defaultPalette = DioHubPalette(
-  accent: Color(0xff0079FD),
-  primary: Color(0xff17181C),
-  secondary: Color(0xff201f23),
+  accent: const Color(0xff0079FD),
+  primary: const Color(0xff17181C),
+  secondary: const Color(0xff201f23),
   baseElements: Colors.white,
   elementsOnColors: Colors.white,
-  green: Color(0xff27AE61),
-  red: Color(0xffF44E3B),
-  faded1: Color(0xff413E3E),
-  faded2: Color(0xff555555),
-  faded3: Color(0xff878787),
+  green: const Color(0xff27AE61),
+  red: const Color(0xffF44E3B),
+  faded1: const Color(0xff413E3E),
+  faded2: const Color(0xff555555),
+  faded3: const Color(0xff878787),
 );

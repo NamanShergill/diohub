@@ -26,6 +26,9 @@ query getUserPinnedRepos($user: String!){
                         stargazerCount
                         updatedAt
                         url
+                        owner{
+                            login
+                        }
                         languages(orderBy: {direction:DESC, field: SIZE}, first:1) {
                             edges {
                                 node {

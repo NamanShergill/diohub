@@ -25,13 +25,18 @@ class CacheManager {
 
   static CustomCacheOptions reactions() => CustomCacheOptions(true);
 
-  static CustomCacheOptions defaultCache({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+  static CustomCacheOptions defaultCache(
+          {bool refresh = false,
+          Duration maxAge = const Duration(minutes: 10)}) =>
+      CustomCacheOptions(refresh, maxAge: maxAge);
 
-  static CustomCacheOptions defaultGQLCache({bool refresh = false}) =>
+  static CustomCacheOptions defaultGQLCache(
+          {bool refresh = false,
+          Duration maxAge = const Duration(minutes: 10)}) =>
       CustomCacheOptions(
         refresh,
         allowPostMethod: true,
+        maxAge: maxAge,
         cachePolicy: CachePolicy.refreshForceCache,
         keyBuilder: (request) {
           return request.data.toString();

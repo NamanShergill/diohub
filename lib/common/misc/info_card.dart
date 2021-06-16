@@ -16,7 +16,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
       child: Material(
         elevation: 2,
         borderRadius: AppThemeBorderRadius.medBorderRadius,

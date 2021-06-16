@@ -11,7 +11,8 @@ void linkHandler(BuildContext context, String? url,
     bool canLaunchLink = await canLaunch(url);
     if (canLaunchLink) {
       showURLBottomActionsMenu(context, url,
-          shareDescription: shareDescription);
+          shareDescription: shareDescription,
+          showOpenTile: !DeepLinkHandler.isDeepLink(url));
     }
   }
 }
