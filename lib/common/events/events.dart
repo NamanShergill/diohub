@@ -4,6 +4,7 @@ import 'package:dio_hub/common/events/cards/pull_event_card.dart';
 import 'package:dio_hub/common/events/cards/push_event_card.dart';
 import 'package:dio_hub/common/events/cards/watch_event_card.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/activity/events_service.dart';

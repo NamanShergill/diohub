@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/events/events_model.dart';
 
 class EventsService {

@@ -3,6 +3,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/common/misc/branch_label.dart';
 import 'package:dio_hub/common/misc/custom_expansion_tile.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
