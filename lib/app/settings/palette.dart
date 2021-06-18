@@ -120,7 +120,7 @@ class DioHubPalette {
 
 Color? _getColor(Map<String, dynamic> json, String key) {
   if (json[key] != null) {
-    String hex = 'ff' + (json[key] as String).substring(2);
+    final String hex = 'ff' + (json[key] as String).substring(2);
     if (int.tryParse('0x$hex') != null) {
       return Color(int.parse('0x$hex'));
     }

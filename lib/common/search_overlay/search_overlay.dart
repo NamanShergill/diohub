@@ -691,11 +691,12 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void _parseQuery(String pattern) {
+    String str = pattern;
     List<String> filterStrings = [];
     List<SearchQuery> filters = [];
 
     // Handle case of number and date ranges with the bigger value before.
-    pattern.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
+    str.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
         onMatch: (Match m) {
       String string = m[0]!;
       if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
@@ -741,14 +742,14 @@ class _SearchBarState extends State<_SearchBar> {
     });
 
     // Remove all invalid queries from the string.
-    pattern = pattern.replaceAll(
+    str = str.replaceAll(
         widget.searchData.searchFilters!.allInvalidQueriesRegExp, '');
 
     // Convert all extra spaces to just a single space.
-    pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
+    str = str.replaceAll(RegExp('(\\s+)'), ' ');
     // Send the new [SearchData] back.
     widget.onChanged(searchData.copyWith(
-      query: pattern,
+      query: str,
       filterStrings: filterStrings,
     ));
   }
@@ -968,7 +969,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
       allRegex,
       onMatch: (Match m) {
         if (!matches.contains(m[0])) matches.add(m[0]!);
-        RegExp? k = combinedMap.entries.firstWhere((element) {
+        final RegExp? k = combinedMap.entries.firstWhere((element) {
           return element.key.allMatches(m[0]!).isNotEmpty;
         }).key;
         children.add(

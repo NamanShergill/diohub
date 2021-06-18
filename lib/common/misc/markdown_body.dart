@@ -349,7 +349,7 @@ class __CodeViewState extends State<_CodeView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Padding(
+    final Widget child = Padding(
       padding: const EdgeInsets.only(top: 32.0, right: 16, left: 16, bottom: 8),
       child: CodeBlockView(
         widget.data,

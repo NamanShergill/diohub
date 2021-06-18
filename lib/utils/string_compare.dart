@@ -3,7 +3,7 @@ class StringFunctions {
   StringFunctions(this.string);
 
   @override
-  toString() => string;
+  String toString() => string;
 
   bool isStringEqual(String? string2) {
     return string.toLowerCase() == string2?.toLowerCase();
@@ -11,7 +11,7 @@ class StringFunctions {
 
   bool regexCompleteMatch(String pattern) {
     RegExp regexp = RegExp(pattern);
-    String? match = regexp.firstMatch(string)?.group(0);
+    final String? match = regexp.firstMatch(string)?.group(0);
     return match != null && match == string;
   }
 

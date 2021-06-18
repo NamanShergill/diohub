@@ -6,11 +6,11 @@ class ButtonController {
 
   static Stream get buttonStream => _buttonValueController.stream;
 
-  static setButtonValue(bool value) {
+  static void setButtonValue(bool value) {
     _buttonValueController.add(value);
   }
 
-  static dispose() {
+  static void dispose() {
     _buttonValueController.close();
   }
 }

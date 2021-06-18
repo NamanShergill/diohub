@@ -73,7 +73,6 @@ class SearchScrollWrapper extends StatefulWidget {
       this.filterFn,
       Key? key})
       : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 8),
-        assert(isNestedScrollViewChild ? scrollController != null : true),
         super(key: key);
   @override
   _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
@@ -127,7 +126,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
       );
     }
 
-    Widget child = Container(
+    final Widget child = Container(
       color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: Builder(
         builder: (context) {
@@ -252,8 +251,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       required this.searchFuture,
       required this.searchData,
       Key? key})
-      : assert(isNestedScrollViewChild ? scrollController != null : true),
-        super(key: key);
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<T>(

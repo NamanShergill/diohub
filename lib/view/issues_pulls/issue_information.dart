@@ -295,7 +295,7 @@ class __IssueButtonState extends State<_IssueButton> {
                     } else {
                       data['state'] = 'open';
                     }
-                    IssueModel issue = await IssuesService.updateIssue(
+                    final IssueModel issue = await IssuesService.updateIssue(
                         widget.issue.url!, data);
                     Provider.of<IssueProvider>(context, listen: false)
                         .updateIssue(issue);

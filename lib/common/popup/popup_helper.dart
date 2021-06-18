@@ -1,16 +1,15 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/popup/exit_confirm.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class DialogHelper {
-  static exit(context) => showDialog(
-      context: context, builder: (context) => const ExitConfirmationDialog());
+  // static exit(context) => showDialog(
+  //     context: context, builder: (context) => const ExitConfirmationDialog());
 
-  static appPopup(context, AppPopupData appPopup) => Flushbar(
+  static void appPopup(context, AppPopupData appPopup) => Flushbar(
         margin: const EdgeInsets.all(8),
         borderRadius: BorderRadius.circular(8),
         shouldIconPulse: false,

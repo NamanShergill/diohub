@@ -48,7 +48,7 @@ class UserSearchDropdown extends StatelessWidget {
                           cursor: _?.cursor);
                     },
                     builder: (context, item, index, refresh) {
-                      dynamic data = item.node;
+                      final dynamic data = item.node;
                       return InkWell(
                         borderRadius: AppThemeBorderRadius.medBorderRadius,
                         onTap: () {

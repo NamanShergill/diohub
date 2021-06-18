@@ -380,7 +380,7 @@ class CommitTilesGQL extends StatelessWidget {
   }
 
   String get toApiURL {
-    List<String> temp = item.commitUrl
+    final List<String> temp = item.commitUrl
         .toString()
         .replaceAll('https://github.com/', '')
         .split('/');

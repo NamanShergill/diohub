@@ -253,7 +253,7 @@ void showCommitHistory(BuildContext context, String? currentSHA) {
 
   String branchName = context.read<RepoBranchProvider>().currentSHA!;
 
-  String path = context.read<CodeProvider>().getPath();
+  final String path = context.read<CodeProvider>().getPath();
 
   bool isLocked = context.read<RepoBranchProvider>().isCommit;
   showScrollableBottomActionsMenu(

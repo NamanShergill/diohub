@@ -35,7 +35,7 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   }
 
   @override
-  customStreams() {
+  void customStreams() {
     // Listen if a new branch has been requested and fetch the same.
     _loadBranch.stream.listen((event) {
       setBranch(event);
@@ -43,7 +43,7 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   }
 
   @override
-  fetchData() {
+  void fetchData() {
     setBranch(
         _initCommitSHA ??
             _currentBranch ??

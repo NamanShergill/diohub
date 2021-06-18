@@ -47,7 +47,7 @@ class _PullRequestNotificationCardState
           fullUrl: widget.notification.subject!.url!),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
-    List<dynamic> data = await Future.wait(futures);
+    final List<dynamic> data = await Future.wait(futures);
     pullRequest = data[0];
     // reviews = data[1];
     setState(() {

@@ -12,14 +12,15 @@ String nonCapturingGroup(String pattern) => '(?:$pattern)';
 
 extension RegExpExtension on RegExp {
   List<String?> allMatchesWithSep(String input, [int start = 0]) {
-    var result = <String?>[];
+    int startVal = start;
+    final result = <String?>[];
 
-    for (var match in allMatches(input, start)) {
-      result.add(input.substring(start, match.start));
+    for (var match in allMatches(input, startVal)) {
+      result.add(input.substring(startVal, match.start));
       result.add(match[0]);
-      start = match.end;
+      startVal = match.end;
     }
-    result.add(input.substring(start));
+    result.add(input.substring(startVal));
     return result;
   }
 }

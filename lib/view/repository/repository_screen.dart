@@ -70,7 +70,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   }
 
   void deepLinkHandler() {
-    DeepLinkData data = widget.deepLinkData!;
+    final DeepLinkData data = widget.deepLinkData!;
     if (data.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
         true) {
       tabController.index = 2;

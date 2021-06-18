@@ -31,7 +31,7 @@ class GetDio {
     // Makes the buttons listening to this stream get disabled to prevent
     // multiple taps.
     if (buttonLock) ButtonController.setButtonValue(true);
-    Dio dio = Dio();
+    final Dio dio = Dio();
 
     dio.interceptors.add(
       InterceptorsWrapper(

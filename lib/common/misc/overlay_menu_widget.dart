@@ -27,8 +27,9 @@ class OverlayMenuWidget extends StatefulWidget {
       this.childAnchor = Alignment.bottomCenter,
       this.portalAnchor = Alignment.topCenter,
       Key? key})
-      : assert(heightMultiplier <= 1),
-        assert((childAnchor == null) == (portalAnchor == null)),
+      : assert(heightMultiplier <= 1, 'heightMultiplier should be less than 1'),
+        assert((childAnchor == null) == (portalAnchor == null),
+            'Either both should be none, or none of them should be.'),
         super(key: key);
 
   @override

@@ -64,8 +64,9 @@ class DeepLinkHandler {
   }
 
   static String _cleanURL(String link) {
-    if (link.endsWith('/')) link = link.substring(0, link.length - 1);
-    return link.toLowerCase().replaceFirst(
+    String str = link;
+    if (str.endsWith('/')) str = str.substring(0, str.length - 1);
+    return str.toLowerCase().replaceFirst(
         RegExp('((http(s)?)(:(//)))?(www.)?(github.com)(/)?'), '');
   }
 
@@ -79,7 +80,7 @@ class DeepLinkHandler {
       RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
   static List<PageRouteInfo>? getRoutes(String link) {
-    StringFunctions string = StringFunctions(_cleanURL(link));
+    final StringFunctions string = StringFunctions(_cleanURL(link));
     if (string.string.isEmpty) return null;
 
     List<PageRouteInfo> temp = [];

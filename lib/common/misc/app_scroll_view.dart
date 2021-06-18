@@ -195,7 +195,7 @@ class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
   void _positionListener() {
     final FlexibleSpaceBarSettings? settings =
         context.dependOnInheritedWidgetOfExactType();
-    bool visible =
+    final bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {
       setState(() {

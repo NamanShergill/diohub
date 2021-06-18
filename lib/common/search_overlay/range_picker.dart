@@ -13,7 +13,8 @@ class RangePicker extends StatefulWidget {
   final ValueChanged<String> onAdded;
   final QueryType queryType;
   const RangePicker({Key? key, required this.onAdded, required this.queryType})
-      : assert(queryType == QueryType.date || queryType == QueryType.number),
+      : assert(queryType == QueryType.date || queryType == QueryType.number,
+            'Only show for date and number queries!'),
         super(key: key);
 
   @override
@@ -80,7 +81,7 @@ class _RangePickerState extends State<RangePicker> {
   }
 
   Future<DateTime> getDate({DateTime? firstDate, DateTime? lastDate}) async {
-    DateTime date = await showDatePicker(
+    final DateTime date = await showDatePicker(
             context: context,
             initialDate: lastDate ?? DateTime.now(),
             firstDate: firstDate ?? DateTime.utc(1969, 7, 20, 20, 18, 04),

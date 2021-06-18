@@ -40,7 +40,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    Response response =
+    final Response response =
         await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
             .get(
       '/search/repositories',
@@ -87,11 +87,10 @@ class SearchService {
 
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
       searchMentionUsers(String query, String type, {String? cursor}) async {
-    query = query + ' type:$type';
+    String q = query + ' type:$type';
     final res = await GetDio.gqlDio(
         SearchMentionUsersQuery(
-            variables:
-                SearchMentionUsersArguments(query: query, after: cursor)),
+            variables: SearchMentionUsersArguments(query: q, after: cursor)),
         cacheOptions: CacheManager.defaultGQLCache());
     List<SearchMentionUsers$Query$Search$Edges?> userEdges =
         SearchMentionUsers$Query.fromJson(res.data!).search.edges!;

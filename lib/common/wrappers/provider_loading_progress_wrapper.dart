@@ -61,7 +61,7 @@ class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
                 : Builder(
                     builder: (context) {
                       if (value.errorInfo is DioError) {
-                        DioError err = value.errorInfo as DioError;
+                        final DioError err = value.errorInfo as DioError;
                         if (err.response != null) {
                           return Center(
                               child: APIError(err.response!.statusCode!,

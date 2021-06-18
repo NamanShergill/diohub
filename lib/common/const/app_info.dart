@@ -42,7 +42,7 @@ class AppInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = [
+    final List<Widget> children = [
       AppLogoWidget(size: logoSize ?? MediaQuery.of(context).size.width * 0.3),
       AppNameWidget(
         size: nameSize,

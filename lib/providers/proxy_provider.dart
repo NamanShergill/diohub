@@ -31,7 +31,7 @@ abstract class ProxyProvider<T extends BaseProvider> extends BaseProvider {
     }
   }
 
-  customStreams() {}
+  void customStreams() {}
 
-  fetchData();
+  void fetchData();
 }

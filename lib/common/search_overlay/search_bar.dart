@@ -65,7 +65,7 @@ class _SearchBarState extends State<SearchBar> {
 
   Map<String, String> getWithoutValue(
       String? exclude, Map<String, String> map) {
-    Map<String, String> tMap = {};
+    final Map<String, String> tMap = {};
     map.forEach((key, value) {
       if (key != exclude) tMap.addAll({key: value});
     });
@@ -108,7 +108,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
-  didUpdateWidget(oldWidget) {
+  void didUpdateWidget(oldWidget) {
     searchData = widget.searchData;
     super.didUpdateWidget(oldWidget);
   }

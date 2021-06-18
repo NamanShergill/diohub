@@ -32,7 +32,7 @@ class Events extends StatelessWidget {
       scrollController: scrollController,
       isNestedScrollViewChild: true,
       filterFn: (items) {
-        List<EventsModel> temp = [];
+        final List<EventsModel> temp = [];
         for (EventsModel item in items) {
           if ({
             // EventsType.CommitCommentEvent,

@@ -55,7 +55,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
       futures.add(IssuesService.addAssignees(widget.issueUrl, assigneesToAdd));
     }
     if (futures.isNotEmpty) {
-      List<dynamic> results = await Future.wait(futures);
+      final List<dynamic> results = await Future.wait(futures);
       return results.last.assignees;
     }
     return widget.assignees;

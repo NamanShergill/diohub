@@ -12,7 +12,7 @@ abstract class Settings<T> extends ChangeNotifier {
       : _path = path {
     // Global.sharedPrefs.remove(_path);
     try {
-      String? data = Global.sharedPrefs.getString(_path);
+      final String? data = Global.sharedPrefs.getString(_path);
       if (data != null) {
         final content = jsonDecode(data);
         if (content['format_version'] == formatVer) {
@@ -30,11 +30,11 @@ abstract class Settings<T> extends ChangeNotifier {
     }
   }
 
-  _saveSettings() {
+  void _saveSettings() {
     Global.sharedPrefs.setString(_path, _toStr());
   }
 
-  updateData(T data) {
+  void updateData(T data) {
     currentSetting = data;
     _saveSettings();
     notifyListeners();

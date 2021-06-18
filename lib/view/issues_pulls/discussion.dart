@@ -89,7 +89,7 @@ class _DiscussionState extends State<Discussion>
     super.build(context);
     // final theme = Provider.of<PaletteSettings>(context).currentSetting;
 
-    Widget header = commentsSince != null
+    final Widget header = commentsSince != null
         ? Column(
             children: [
               Padding(

@@ -101,7 +101,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
           // : Text(error!);
           : Builder(builder: (context) {
               if (error is DioError) {
-                DioError err = error as DioError;
+                final DioError err = error as DioError;
                 if (err.type == DioErrorType.response) {
                   return Padding(
                     padding: const EdgeInsets.all(24.0),

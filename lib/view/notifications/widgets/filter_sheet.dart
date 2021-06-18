@@ -69,7 +69,7 @@ class _FilterSheetState extends State<FilterSheet> {
   // Check if filters are modified to show the Apply Button accordingly.
   bool isModified() {
     bool modified = false;
-    Function deepEq = const DeepCollectionEquality().equals;
+    final Function deepEq = const DeepCollectionEquality().equals;
     modified = !(deepEq(clientFilters, widget.clientFilters) &&
         deepEq(apiFilters, widget.apiFilters));
     return modified;

@@ -58,3 +58,39 @@ linter:
     - valid_regexps
     - always_use_package_imports
     - avoid_relative_lib_imports
+    - always_declare_return_types
+    - avoid_double_and_int_checks
+    - avoid_empty_else
+    - avoid_print
+    - avoid_private_typedef_functions
+    - avoid_setters_without_getters
+    - avoid_shadowing_type_parameters
+    - avoid_slow_async_io
+    - avoid_types_as_parameter_names
+    - avoid_unused_constructor_parameters
+    - await_only_futures
+    - camel_case_extensions
+    - camel_case_types
+    - cancel_subscriptions
+    - curly_braces_in_flow_control_structures
+    - directives_ordering
+    - file_names
+    - flutter_style_todos
+    - list_remove_unrelated_type
+    - no_duplicate_case_values
+    - non_constant_identifier_names
+    - no_adjacent_strings_in_list
+    - one_member_abstracts
+    - only_throw_errors
+    - package_api_docs
+    - parameter_assignments
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - prefer_constructors_over_static_methods
+    - prefer_asserts_with_message
+    - prefer_asserts_in_initializer_lists
+    - package_prefixed_library_names
+    - prefer_final_in_for_each
+    - prefer_final_locals

@@ -166,8 +166,7 @@ class StringButton extends StatelessWidget {
       this.leadingIcon,
       this.padding = const EdgeInsets.all(16),
       this.loadingText,
-      Key? key,
-      child})
+      Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

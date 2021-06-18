@@ -124,12 +124,12 @@ class _PatchViewerState extends State<PatchViewer> {
   }
 
   void makeCodeChunks(element) {
-    CodeChunk info = CodeChunk();
+    final CodeChunk info = CodeChunk();
     displayHeader.add("@@ ${element.group(1)} @@");
-    List<String> _splitHeader = element.group(1).split(' ');
-    for (String element in _splitHeader) {
-      List<String> _headerValuesString = [];
-      List<int> _headerValues = [];
+    final List<String> _splitHeader = element.group(1).split(' ');
+    for (final String element in _splitHeader) {
+      final List<String> _headerValuesString = [];
+      final List<int> _headerValues = [];
       _headerValuesString.addAll(element.split(','));
       _headerValues.add(int.parse(_headerValuesString[0]));
       _headerValues.add(int.parse(_headerValuesString[1]));
@@ -361,8 +361,9 @@ class _PatchViewerState extends State<PatchViewer> {
   }
 
   Color getColor(String char, int index) {
-    char.isNotEmpty ? char = char[0] : char = '';
-    switch (char) {
+    String str = char;
+    str.isNotEmpty ? str = str[0] : str = '';
+    switch (str) {
       case ('+'):
         return Provider.of<PaletteSettings>(context)
             .currentSetting

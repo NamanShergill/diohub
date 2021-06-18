@@ -71,8 +71,9 @@ class SearchFilters {
 
   /// Get the corresponding [SearchQuery] instance in the lists from a given string.
   SearchQuery? queryFromString(String query) {
+    String data = query;
     SearchQuery? value;
-    if (query.startsWith('-')) query = query.substring(1);
+    if (data.startsWith('-')) data = data.substring(1);
     for (SearchQuery element
         in _basicQueries + _sensitiveQueries + _blackList) {
       if (element.query == query) value = element;
@@ -381,8 +382,8 @@ class SearchFilters {
   }
 
   RegExp _getRegExp(List<SearchQuery> queries) {
-    List<String> strings = queries.map((e) => e.query + ':').toList();
-    String filter = strings.join('|');
+    final List<String> strings = queries.map((e) => e.query + ':').toList();
+    final String filter = strings.join('|');
     /*
         (?:-)? -> Optional [-] at start.
         (?:$filter) -> Starts with the given queries.

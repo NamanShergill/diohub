@@ -24,10 +24,10 @@ class AuthenticationBloc
     if (event is RequestDeviceCode) {
       // Get device code to initiate authentication.
       try {
-        Response response = await AuthService.getDeviceToken();
+        final Response response = await AuthService.getDeviceToken();
         // ['device_code'] should not be null.
         if (response.data['device_code'] != null) {
-          DeviceCodeModel data = DeviceCodeModel.fromJson(response.data);
+          final DeviceCodeModel data = DeviceCodeModel.fromJson(response.data);
           add(RequestAccessToken(data.deviceCode, data.interval));
           yield AuthenticationInitialized(data);
         } else {

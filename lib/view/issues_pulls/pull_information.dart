@@ -210,7 +210,7 @@ class PullInformation extends StatelessWidget {
                 : null,
             child: Consumer<PullProvider>(
               builder: (context, pull, _) {
-                var _issue = pull.pullModel!;
+                final _issue = pull.pullModel!;
                 return Row(
                   children: [
                     (_issue.labels!.isNotEmpty)

@@ -58,7 +58,7 @@ class _RepoStarState extends State<RepoStar> {
                 if (widget.onStarsChange != null) {
                   widget.onStarsChange!(data.stargazerCount);
                 }
-                bool isStarred = data.viewerHasStarred;
+                final bool isStarred = data.viewerHasStarred;
                 controller.changeData(
                     data..viewerHasStarred = !data.viewerHasStarred);
                 await RepositoryServices.changeStar(

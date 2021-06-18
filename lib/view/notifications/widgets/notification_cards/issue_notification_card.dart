@@ -44,7 +44,7 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
           fullUrl: widget.notification.subject!.latestCommentUrl!),
       IssuesService.getIssueEvents(fullUrl: widget.notification.subject!.url!)
     ];
-    List<dynamic> results = await Future.wait(futures);
+    final List<dynamic> results = await Future.wait(futures);
     issueInfo = results[0];
     latestComment = results[1];
     // Get latest event to compare with the latest comment.

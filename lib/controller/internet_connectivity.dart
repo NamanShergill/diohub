@@ -14,7 +14,7 @@ class InternetConnectivity {
   static NetworkStatus _status = NetworkStatus.online;
   static NetworkStatus get status => _status;
 
-  static networkStatusService() async {
+  static void networkStatusService() async {
     Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult status) async {

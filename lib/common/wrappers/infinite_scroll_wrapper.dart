@@ -115,7 +115,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.shrinkWrap = false,
       this.listEndIndicator = true,
       this.spacing = 16})
-      : assert(isNestedScrollViewChild ? scrollController != null : true),
+      : assert(isNestedScrollViewChild ? scrollController != null : true,
+            'scrollController should be provided of parent NestedScrollView'),
         super(key: key);
 
   @override
@@ -435,7 +436,7 @@ class _ListItem<T> {
   _ListItem(this.item, this.refresh);
 
   bool get refreshChildren {
-    bool temp = refresh;
+    final bool temp = refresh;
     refresh = false;
     return temp;
   }

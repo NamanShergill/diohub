@@ -37,7 +37,7 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   }
 
   @override
-  customStreams() {
+  void customStreams() {
     // Listen to tree pop and push events and fetch data accordingly.
     _treeController.stream.listen((event) async {
       // Fetch the last tree in the list after the pop/push events are done,
@@ -64,7 +64,7 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
       // Add data to tree if the selected branch has not been changed.
       if (parentProvider!.currentSHA! == currentRootSHA) {
         // Get _codeTree data from the completed futures.
-        CodeTreeModel _codeTree = data[0];
+        final CodeTreeModel _codeTree = data[0];
         // Get _commit data from the completed future.
         CommitListModel? _commit = data[1].first;
         // Add data to tree.
@@ -93,7 +93,7 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   }
 
   @override
-  disposeStreams() {
+  void disposeStreams() {
     _treeController.close();
     return super.disposeStreams();
   }
@@ -127,7 +127,7 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   }
 
   @override
-  fetchData() {
+  void fetchData() {
     _fetchTree(parentProvider!.currentSHA!,
         currentRootSHA: parentProvider!.currentSHA!);
   }

@@ -24,7 +24,7 @@ class EventsService {
   static Future<List<EventsModel>> getReceivedEvents(String? user,
       {bool refresh = false, int? perPage, int? page}) async {
     Map<String, dynamic> parameters = {'per_page': perPage, 'page': page};
-    Response response =
+    final Response response =
         await GetDio.getDio(cacheOptions: CacheManager.events(refresh: refresh))
             .get('/users/$user/received_events', queryParameters: parameters);
     List unParsedEvents = response.data;

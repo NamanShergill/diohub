@@ -266,7 +266,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
   // This is here to fix them.
   // Ref: https://github.com/NamanShergill/dio_hub/issues/7
   String fixURL(String url) {
-    List<String> components = url.split('/');
+    final List<String> components = url.split('/');
     components[4] = _correctRepo.split('/').first;
     components[5] = _correctRepo.split('/').last;
     return components.join('/');

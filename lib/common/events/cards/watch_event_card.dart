@@ -21,29 +21,27 @@ class RepoEventCard extends StatelessWidget {
       Key? key})
       : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return BaseEventCard(
-      actor: event.actor!.login,
-      headerText: [
-        TextSpan(text: ' $eventTextMiddle '),
-        TextSpan(
-          text: event.repo!.name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+  Widget build(BuildContext context) => BaseEventCard(
+        actor: event.actor!.login,
+        headerText: [
+          TextSpan(text: ' $eventTextMiddle '),
+          TextSpan(
+            text: event.repo!.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          if (eventTextEnd != null) TextSpan(text: ' $eventTextEnd'),
+        ],
+        userLogin: event.actor!.login,
+        date: event.createdAt,
+        avatarUrl: event.actor!.avatarUrl,
+        childPadding: EdgeInsets.zero,
+        child: RepoCardLoading(
+          repo != null ? repo!.url : event.repo!.url,
+          repo != null ? repo!.name : event.repo!.name,
+          elevation: 0,
+          branch: branch,
+          refresh: refresh,
+          padding: EdgeInsets.zero,
         ),
-        if (eventTextEnd != null) TextSpan(text: ' $eventTextEnd'),
-      ],
-      userLogin: event.actor!.login,
-      date: event.createdAt,
-      avatarUrl: event.actor!.avatarUrl,
-      childPadding: EdgeInsets.zero,
-      child: RepoCardLoading(
-        repo != null ? repo!.url : event.repo!.url,
-        repo != null ? repo!.name : event.repo!.name,
-        elevation: 0,
-        branch: branch,
-        refresh: refresh,
-        padding: EdgeInsets.zero,
-      ),
-    );
-  }
+      );
 }

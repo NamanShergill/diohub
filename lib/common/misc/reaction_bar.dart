@@ -237,7 +237,7 @@ class _ReactionBarState extends State<ReactionBar> {
     CommentReaction hooray = CommentReaction(reaction: 'hooray');
     CommentReaction rocket = CommentReaction(reaction: 'rocket');
     CommentReaction eyes = CommentReaction(reaction: 'eyes');
-    for (ReactionsModel element in data) {
+    for (final ReactionsModel element in data) {
       if (element.content == plusOne.reaction) {
         plusOne.users.add(element.user);
         if (element.user!.login == widget.currentUser) {
