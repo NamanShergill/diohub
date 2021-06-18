@@ -15,16 +15,16 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProfileCard extends StatelessWidget {
-  final UserInfoModel user;
-  final bool compact;
-  final EdgeInsets padding;
-  final bool isThemed;
   const ProfileCard(this.user,
       {this.compact = false,
       this.isThemed = true,
       this.padding = EdgeInsets.zero,
       Key? key})
       : super(key: key);
+  final UserInfoModel user;
+  final bool compact;
+  final EdgeInsets padding;
+  final bool isThemed;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,9 +34,9 @@ class ProfileCard extends StatelessWidget {
         color: isThemed
             ? Provider.of<PaletteSettings>(context).currentSetting.primary
             : Colors.transparent,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context)
                 .push(OtherUserProfileScreenRoute(login: user.login));
@@ -111,15 +111,15 @@ class ProfileCard extends StatelessWidget {
 }
 
 class ProfileCardLoading extends StatelessWidget {
-  final String login;
-  final bool compact;
-  final EdgeInsets padding;
   const ProfileCardLoading(
     this.login, {
     Key? key,
     this.compact = false,
     this.padding = EdgeInsets.zero,
   }) : super(key: key);
+  final String login;
+  final bool compact;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +128,7 @@ class ProfileCardLoading extends StatelessWidget {
       child: Material(
         elevation: 2,
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: APIWrapper<UserInfoModel>(
           apiCall: UserInfoService.getUserInfo(login),
           responseBuilder: (context, data) {

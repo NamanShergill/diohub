@@ -5,6 +5,10 @@ import 'package:dio_hub/providers/proxy_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 
 class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
+  RepoBranchProvider({String? initialBranch, String? initCommitSHA})
+      : _initialBranch = initialBranch,
+        _initCommitSHA = initCommitSHA,
+        super(Status.loaded);
   final String? _initialBranch;
   final String? _initCommitSHA;
   final StreamController<String> _loadBranch =
@@ -17,11 +21,6 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   void disposeStream() {
     _loadBranch.close();
   }
-
-  RepoBranchProvider({String? initialBranch, String? initCommitSHA})
-      : _initialBranch = initialBranch,
-        _initCommitSHA = initCommitSHA,
-        super(Status.loaded);
 
   void reloadBranch() {
     _loadBranch
@@ -37,9 +36,7 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   @override
   void customStreams() {
     // Listen if a new branch has been requested and fetch the same.
-    _loadBranch.stream.listen((event) {
-      setBranch(event);
-    });
+    _loadBranch.stream.listen(setBranch);
   }
 
   @override
@@ -54,7 +51,9 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   void setBranch(String branchName, {bool isCommitSha = false}) async {
     _currentSHA = branchName;
     isCommit = isCommitSha;
-    if (!isCommitSha) _currentBranch = branchName;
+    if (!isCommitSha) {
+      _currentBranch = branchName;
+    }
     loaded();
   }
 

@@ -18,9 +18,9 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {
-  final bool showCommitHistory;
   const CodeBrowser({this.showCommitHistory = false, Key? key})
       : super(key: key);
+  final bool showCommitHistory;
   @override
   _CodeBrowserState createState() => _CodeBrowserState();
 }
@@ -65,6 +65,13 @@ class _CodeBrowserState extends State<CodeBrowser>
                               Button(
                                 listenToLoadingController: false,
                                 padding: const EdgeInsets.all(8),
+                                onTap: value.status == Status.loaded
+                                    ? () {
+                                        context
+                                            .read<RepoBranchProvider>()
+                                            .reloadBranch();
+                                      }
+                                    : null,
                                 child: Column(
                                   children: [
                                     Text(
@@ -81,13 +88,6 @@ class _CodeBrowserState extends State<CodeBrowser>
                                     ),
                                   ],
                                 ),
-                                onTap: value.status == Status.loaded
-                                    ? () {
-                                        context
-                                            .read<RepoBranchProvider>()
-                                            .reloadBranch();
-                                      }
-                                    : null,
                               ),
                               const SizedBox(
                                 height: 16,
@@ -150,8 +150,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 return Material(
                                   color: Colors.transparent,
                                   child: InkWell(
-                                    borderRadius:
-                                        AppThemeBorderRadius.smallBorderRadius,
+                                    borderRadius: smallBorderRadius,
                                     onTap: () {
                                       if (index != value.tree.length - 1) {
                                         Provider.of<CodeProvider>(context,
@@ -161,18 +160,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                     },
                                     child: Center(
                                       child: Text(
-                                        ' ' +
-                                            (index == 0
-                                                ? Provider.of<
-                                                            RepositoryProvider>(
-                                                        context)
-                                                    .repositoryModel!
-                                                    .name!
-                                                : value
-                                                    .tree[index - 1]
-                                                    .tree![value
-                                                        .pathIndex[index - 1]]
-                                                    .path!),
+                                        ' ${index == 0 ? Provider.of<RepositoryProvider>(context).repositoryModel!.name! : value.tree[index - 1].tree![value.pathIndex[index - 1]].path!}',
                                         style: TextStyle(
                                             color: index ==
                                                     value.tree.length - 1
@@ -202,10 +190,10 @@ class _CodeBrowserState extends State<CodeBrowser>
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ClipRRect(
-                      borderRadius: AppThemeBorderRadius.medBorderRadius,
+                      borderRadius: medBorderRadius,
                       child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: AppThemeBorderRadius.medBorderRadius,
+                            borderRadius: medBorderRadius,
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
                                 .secondary,
@@ -249,13 +237,13 @@ class _CodeBrowserState extends State<CodeBrowser>
 }
 
 void showCommitHistory(BuildContext context, String? currentSHA) {
-  String? repoUrl = context.read<RepositoryProvider>().repositoryModel!.url;
+  final repoUrl = context.read<RepositoryProvider>().repositoryModel!.url;
 
-  String branchName = context.read<RepoBranchProvider>().currentSHA!;
+  final branchName = context.read<RepoBranchProvider>().currentSHA!;
 
-  final String path = context.read<CodeProvider>().getPath();
+  final path = context.read<CodeProvider>().getPath();
 
-  bool isLocked = context.read<RepoBranchProvider>().isCommit;
+  final isLocked = context.read<RepoBranchProvider>().isCommit;
   showScrollableBottomActionsMenu(
     context,
     titleWidget: (context, setState) {
@@ -295,7 +283,7 @@ void showCommitHistory(BuildContext context, String? currentSHA) {
         repoURL: repoUrl,
         path: path,
         branchName: branchName,
-        onSelected: (String sha) {
+        onSelected: (sha) {
           return Provider.of<RepoBranchProvider>(context, listen: false)
               .setBranch(sha, isCommitSha: true);
         },

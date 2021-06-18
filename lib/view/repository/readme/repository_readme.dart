@@ -8,8 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {
-  final String? repoURL;
   const RepositoryReadme(this.repoURL, {Key? key}) : super(key: key);
+  final String? repoURL;
 
   @override
   _RepositoryReadmeState createState() => _RepositoryReadmeState();

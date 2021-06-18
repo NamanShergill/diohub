@@ -4,7 +4,7 @@ import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class RepoReadmeProvider extends ProxyProvider<RepoBranchProvider> {
-  /// [RepoBranchProvider] this provider will depend on.
+  RepoReadmeProvider(String? repoURL) : _repoURL = repoURL;
 
   final String? _repoURL;
 
@@ -12,15 +12,13 @@ class RepoReadmeProvider extends ProxyProvider<RepoBranchProvider> {
   RepositoryReadmeModel? _readme;
   RepositoryReadmeModel? get readme => _readme;
 
-  RepoReadmeProvider(String? repoURL) : _repoURL = repoURL;
-
   /// Fetch a [RepositoryReadmeModel] and load it in the provider.
   @override
   void fetchData() async {
-    String? branch = parentProvider!.currentSHA;
+    final branch = parentProvider!.currentSHA;
     loading();
     try {
-      RepositoryReadmeModel readme =
+      final readme =
           await RepositoryServices.fetchReadme(_repoURL!, branch: branch);
       if (parentProvider!.currentSHA! == branch) {
         _readme = readme;

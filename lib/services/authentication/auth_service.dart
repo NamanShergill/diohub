@@ -15,7 +15,7 @@ class AuthService {
   static const _storage = FlutterSecureStorage();
 
   static Future<bool> get isAuthenticated async {
-    var token = await _storage.read(key: 'accessToken');
+    final token = await _storage.read(key: 'accessToken');
     debugPrint('Auth token ${token ?? 'not found.'}');
     if (token != null) {
       return true;
@@ -25,12 +25,12 @@ class AuthService {
 
   static void storeAccessToken(AccessTokenModel accessTokenModel) async {
     await _storage.write(
-        key: "accessToken", value: accessTokenModel.accessToken);
+        key: 'accessToken', value: accessTokenModel.accessToken);
     await _storage.write(key: 'scope', value: accessTokenModel.scope);
   }
 
   static Future<String?> getAccessTokenFromDevice() async {
-    String? accessToken = await _storage.read(key: "accessToken");
+    final accessToken = await _storage.read(key: 'accessToken');
     if (accessToken != null) {
       return accessToken;
     }
@@ -38,16 +38,16 @@ class AuthService {
   }
 
   static Future<Response> getDeviceToken() async {
-    FormData formData = FormData.fromMap({
+    final formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
       'scope': _scope,
     });
-    var response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             loggedIn: false,
             baseURL: 'https://github.com/',
             debugLog: false,
             loginRequired: false)
-        .post("${_url}device/code", data: formData);
+        .post('${_url}device/code', data: formData);
     return response;
   }
 
@@ -66,26 +66,26 @@ class AuthService {
       ' delete:packages';
 
   static Future<Response> getAccessToken({String? deviceCode}) async {
-    FormData formData = FormData.fromMap({
+    final formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
       'device_code': deviceCode,
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
     try {
-      Response response = await GetDio.getDio(
+      final response = await GetDio.getDio(
               loggedIn: false,
               loginRequired: false,
               cacheEnabled: false,
               debugLog: false,
               baseURL: 'https://github.com/',
               buttonLock: false)
-          .post("${_url}oauth/access_token", data: formData);
+          .post('${_url}oauth/access_token', data: formData);
       if (response.data['access_token'] != null) {
         storeAccessToken(AccessTokenModel.fromJson(response.data));
         return response;
       } else if (response.data['error'] != null &&
-          response.data['error'] != "authorization_pending" &&
-          response.data['error'] != "slow_down") {
+          response.data['error'] != 'authorization_pending' &&
+          response.data['error'] != 'slow_down') {
         throw Exception(response.data['error_description']);
       }
       return response;
@@ -107,6 +107,6 @@ class AuthService {
   static void logOut() async {
     CacheManager.clearCache();
     await _storage.deleteAll();
-    AutoRouter.of(Global.currentContext).replaceAll([AuthScreenRoute()]);
+    AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
   }
 }

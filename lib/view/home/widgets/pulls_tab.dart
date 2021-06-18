@@ -7,11 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsTab extends StatefulWidget {
-  final ScrollController scrollController;
-  final DeepLinkData? deepLinkData;
-
   const PullsTab({required this.scrollController, this.deepLinkData, Key? key})
       : super(key: key);
+  final ScrollController scrollController;
+  final DeepLinkData? deepLinkData;
 
   @override
   _PullsTabState createState() => _PullsTabState();

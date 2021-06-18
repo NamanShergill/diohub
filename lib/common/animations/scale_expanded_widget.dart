@@ -2,11 +2,6 @@ import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class ScaleExpandedSection extends StatefulWidget {
-  final Widget? child;
-  final bool expand;
-  final Curve? animationCurve;
-  final Duration? duration;
-
   const ScaleExpandedSection(
       {this.expand = true,
       this.child,
@@ -14,6 +9,10 @@ class ScaleExpandedSection extends StatefulWidget {
       this.duration,
       Key? key})
       : super(key: key);
+  final Widget? child;
+  final bool expand;
+  final Curve? animationCurve;
+  final Duration? duration;
 
   @override
   _ScaleExpandedSectionState createState() => _ScaleExpandedSectionState();
@@ -35,12 +34,14 @@ class _ScaleExpandedSectionState extends State<ScaleExpandedSection>
     expandController = AnimationController(
         vsync: this,
         duration:
-            widget.duration ?? AppThemeAnimDurations.transitionAnimDuration);
+            widget.duration ?? transitionAnimDuration);
     animation = CurvedAnimation(
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
     );
-    if (widget.expand) _runExpandCheck();
+    if (widget.expand) {
+      _runExpandCheck();
+    }
   }
 
   void _runExpandCheck() {

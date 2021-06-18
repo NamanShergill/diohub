@@ -13,13 +13,13 @@ import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:provider/provider.dart';
 
 class CommentReaction {
+  CommentReaction({this.reaction});
   final String? reaction;
   int count = 0;
   bool reacted = false;
   List<UserInfoModel?> users = [];
   int? userReactionID;
   String? get emoji => getReaction(reaction);
-  CommentReaction({this.reaction});
 
   void addUserReaction(int? id) {
     userReactionID = id;
@@ -59,12 +59,12 @@ String? getReaction(String? reaction) {
 }
 
 class ReactionBar extends StatefulWidget {
-  final String? url;
-  final String? currentUser;
-  final bool isEnabled;
   const ReactionBar(this.url, this.currentUser,
       {this.isEnabled = true, Key? key})
       : super(key: key);
+  final String? url;
+  final String? currentUser;
+  final bool isEnabled;
 
   @override
   _ReactionBarState createState() => _ReactionBarState();
@@ -99,7 +99,7 @@ class _ReactionBarState extends State<ReactionBar> {
               highlightColor: Colors.grey.shade900,
               baseColor:
                   Provider.of<PaletteSettings>(context).currentSetting.primary,
-              borderRadius: AppThemeBorderRadius.bigBorderRadius,
+              borderRadius: bigBorderRadius,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: IgnorePointer(
@@ -119,8 +119,7 @@ class _ReactionBarState extends State<ReactionBar> {
                               color: Provider.of<PaletteSettings>(context)
                                   .currentSetting
                                   .primary,
-                              borderRadius:
-                                  AppThemeBorderRadius.bigBorderRadius,
+                              borderRadius: bigBorderRadius,
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                                 child: SizedBox(
@@ -199,7 +198,7 @@ class _ReactionBarState extends State<ReactionBar> {
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary,
-                        borderRadius: AppThemeBorderRadius.bigBorderRadius,
+                        borderRadius: bigBorderRadius,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: SizedBox(
@@ -229,15 +228,15 @@ class _ReactionBarState extends State<ReactionBar> {
   }
 
   List<CommentReaction> getReactionStats(List<ReactionsModel> data) {
-    CommentReaction plusOne = CommentReaction(reaction: '+1');
-    CommentReaction minusOne = CommentReaction(reaction: '-1');
-    CommentReaction laugh = CommentReaction(reaction: 'laugh');
-    CommentReaction confused = CommentReaction(reaction: 'confused');
-    CommentReaction heart = CommentReaction(reaction: 'heart');
-    CommentReaction hooray = CommentReaction(reaction: 'hooray');
-    CommentReaction rocket = CommentReaction(reaction: 'rocket');
-    CommentReaction eyes = CommentReaction(reaction: 'eyes');
-    for (final ReactionsModel element in data) {
+    final plusOne = CommentReaction(reaction: '+1');
+    final minusOne = CommentReaction(reaction: '-1');
+    final laugh = CommentReaction(reaction: 'laugh');
+    final confused = CommentReaction(reaction: 'confused');
+    final heart = CommentReaction(reaction: 'heart');
+    final hooray = CommentReaction(reaction: 'hooray');
+    final rocket = CommentReaction(reaction: 'rocket');
+    final eyes = CommentReaction(reaction: 'eyes');
+    for (final element in data) {
       if (element.content == plusOne.reaction) {
         plusOne.users.add(element.user);
         if (element.user!.login == widget.currentUser) {
@@ -296,7 +295,7 @@ class _ReactionBarState extends State<ReactionBar> {
         eyes.count++;
       }
     }
-    List<CommentReaction> reactions = [
+    final reactions = <CommentReaction>[
       plusOne,
       minusOne,
       laugh,
@@ -311,13 +310,13 @@ class _ReactionBarState extends State<ReactionBar> {
 }
 
 class ReactionButton extends StatefulWidget {
+  const ReactionButton(this.commentReaction,
+      {this.url, this.onChanged, this.isEnabled = true, Key? key})
+      : super(key: key);
   final CommentReaction commentReaction;
   final String? url;
   final bool isEnabled;
   final ValueChanged<CommentReaction>? onChanged;
-  const ReactionButton(this.commentReaction,
-      {this.url, this.onChanged, this.isEnabled = true, Key? key})
-      : super(key: key);
 
   @override
   _ReactionButtonState createState() => _ReactionButtonState();
@@ -367,13 +366,9 @@ class _ReactionButtonState extends State<ReactionButton> {
             color: _reaction.reacted
                 ? Provider.of<PaletteSettings>(context).currentSetting.accent
                 : Provider.of<PaletteSettings>(context).currentSetting.primary,
-            borderRadius: AppThemeBorderRadius.bigBorderRadius,
+            borderRadius: bigBorderRadius,
             child: InkWell(
-              onTap: widget.isEnabled && !loading
-                  ? () {
-                      changeReaction();
-                    }
-                  : null,
+              onTap: widget.isEnabled && !loading ? changeReaction : null,
               onLongPress: () {
                 showScrollableBottomActionsMenu(context,
                     titleText: '${_reaction.reaction} ${_reaction.emoji}',
@@ -399,7 +394,7 @@ class _ReactionButtonState extends State<ReactionButton> {
                       });
                 });
               },
-              borderRadius: AppThemeBorderRadius.bigBorderRadius,
+              borderRadius: bigBorderRadius,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: SizedBox(

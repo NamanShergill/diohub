@@ -12,13 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:provider/provider.dart';
 
 class CodeInfoBox extends StatefulWidget {
-  final DeviceCodeModel deviceCodeModel;
   const CodeInfoBox(this.deviceCodeModel, {Key? key}) : super(key: key);
+  final DeviceCodeModel deviceCodeModel;
   @override
   _CodeInfoBoxState createState() => _CodeInfoBoxState();
 }
@@ -66,7 +65,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
             child: CountdownTimer(
               controller: timerController,
               endWidget: const Text('Time Expired.'),
-              widgetBuilder: (_, CurrentRemainingTime? time) {
+              widgetBuilder: (_, time) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -145,13 +144,13 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     children: [
                       Visibility(
                         visible: !copied,
-                        child: const Icon(
-                          Icons.copy,
+                        replacement: const Icon(
+                          Icons.check,
                           color: Colors.grey,
                           size: 13,
                         ),
-                        replacement: const Icon(
-                          Icons.check,
+                        child: const Icon(
+                          Icons.copy,
                           color: Colors.grey,
                           size: 13,
                         ),
@@ -161,15 +160,15 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                       ),
                       Visibility(
                         visible: !copied,
-                        child: const Text(
-                          'TAP TO COPY',
+                        replacement: const Text(
+                          'COPIED',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        replacement: const Text(
-                          'COPIED',
+                        child: const Text(
+                          'TAP TO COPY',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -205,6 +204,17 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
               elevation: 2,
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
+                onTap: () {
+                  linkHandler(context, widget.deviceCodeModel.verificationUri,
+                      shareDescription:
+                          'Enter the code ${widget.deviceCodeModel.userCode} on:');
+                },
+                onLongPress: () {
+                  linkHandler(context, widget.deviceCodeModel.verificationUri,
+                      showSheetOnDeepLink: true,
+                      shareDescription:
+                          'Enter the code ${widget.deviceCodeModel.userCode} on:');
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -221,17 +231,6 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     ],
                   ),
                 ),
-                onTap: () {
-                  linkHandler(context, widget.deviceCodeModel.verificationUri,
-                      shareDescription:
-                          'Enter the code ${widget.deviceCodeModel.userCode} on:');
-                },
-                onLongPress: () {
-                  linkHandler(context, widget.deviceCodeModel.verificationUri,
-                      showSheetOnDeepLink: true,
-                      shareDescription:
-                          'Enter the code ${widget.deviceCodeModel.userCode} on:');
-                },
               ),
             ),
           ),
@@ -240,15 +239,15 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
           ),
           Center(
             child: MaterialButton(
+              onPressed: () {
+                BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
+              },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Tap here to cancel',
                 ),
               ),
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(ResetStates());
-              },
             ),
           ),
         ],

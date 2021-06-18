@@ -11,17 +11,16 @@ import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class MarkdownRenderAPI extends StatelessWidget {
+  const MarkdownRenderAPI(this.data, {Key? key, this.repoName, this.branch})
+      : super(key: key);
   final String data;
   final String? repoName;
   final String? branch;
-  const MarkdownRenderAPI(this.data, {Key? key, this.repoName, this.branch})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +44,11 @@ class MarkdownRenderAPI extends StatelessWidget {
 }
 
 class MarkdownBody extends StatefulWidget {
+  const MarkdownBody(this.content, {Key? key, this.context, this.branch})
+      : super(key: key);
   final String content;
   final String? context;
   final String? branch;
-
-  const MarkdownBody(this.content, {Key? key, this.context, this.branch})
-      : super(key: key);
 
   @override
   _MarkdownBodyState createState() => _MarkdownBodyState();
@@ -61,30 +59,14 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   void initState() {
-    updateData(widget.content);
+    content = widget.content;
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant MarkdownBody oldWidget) {
-    updateData(widget.content);
+    content = widget.content;
     super.didUpdateWidget(oldWidget);
-  }
-
-  void updateData(String data) {
-    // data = emoteText(data);
-    // data = mdToHtml(data, repo: widget.repo);
-    // log(data);
-
-    // log(data);
-    // var document = parse(data);
-    // The list of tags to perform modifications on.
-    // List<String> tags = ['p', 'li'];
-    // tags.forEach((element) {
-    //   var elements = document.getElementsByTagName(element);
-    //   performModifications(elements);
-    // });
-    content = data;
   }
 
   // void performModifications(elements) {
@@ -162,7 +144,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           ),
         },
         customRender: {
-          'a': (RenderContext renderContext, Widget child) {
+          'a': (renderContext, child) {
             return GestureDetector(
               onTap: () {
                 return linkHandler(
@@ -176,7 +158,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               child: child,
             );
           },
-          'blockquote': (RenderContext context, Widget child) {
+          'blockquote': (context, child) {
             return Container(
               padding: const EdgeInsets.only(left: 12),
               decoration: BoxDecoration(
@@ -185,13 +167,13 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               child: child,
             );
           },
-          'code': (RenderContext rdrCtx, Widget child) {
+          'code': (rdrCtx, child) {
             return Container(
               decoration: BoxDecoration(
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
                       .faded1,
-                  borderRadius: AppThemeBorderRadius.smallBorderRadius),
+                  borderRadius: smallBorderRadius),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
@@ -199,8 +181,8 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               ),
             );
           },
-          'div': (RenderContext rdr, Widget child) {
-            final String? divClass = rdr.tree.attributes['class'];
+          'div': (rdr, child) {
+            final divClass = rdr.tree.attributes['class'];
             if (divClass == 'border rounded-1 my-2') {
               return Container(
                 decoration: BoxDecoration(
@@ -209,7 +191,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                             .currentSetting
                             .faded3,
                         width: 0.3),
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius),
+                    borderRadius: smallBorderRadius),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: child,
@@ -229,12 +211,12 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             }
             return child;
           },
-          'g-emoji': (RenderContext renderContext, Widget child) {
+          'g-emoji': (renderContext, child) {
             return child;
           },
-          'img': (RenderContext renderContext, Widget child) {
-            String src = renderContext.tree.element!.attributes['src']!;
-            if ((!src.startsWith('https://') && !src.startsWith('http://'))) {
+          'img': (renderContext, child) {
+            var src = renderContext.tree.element!.attributes['src']!;
+            if (!src.startsWith('https://') && !src.startsWith('http://')) {
               src =
                   'https://raw.githubusercontent.com/${widget.context}/${widget.branch}/$src';
             } else if (src
@@ -275,20 +257,20 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           //   }
           //   return child;
           // },
-          'pre': (RenderContext renderContext, Widget child) {
+          'pre': (renderContext, child) {
             if (renderContext.tree.children.first.name == 'code') {
               return _CodeView(renderContext.tree.element!.text);
             }
             return child;
           },
-          'table': (RenderContext renderContext, Widget child) {
+          'table': (renderContext, child) {
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: (renderContext.tree as TableLayoutElement)
                   .toWidget(renderContext),
             );
           },
-          'td': (RenderContext renderContext, Widget child) {
+          'td': (renderContext, child) {
             return Row(
               children: [
                 Expanded(
@@ -309,7 +291,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               ],
             );
           },
-          'th': (RenderContext renderContext, Widget child) {
+          'th': (renderContext, child) {
             return Row(
               children: [
                 Expanded(
@@ -337,9 +319,9 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 }
 
 class _CodeView extends StatefulWidget {
+  const _CodeView(this.data, {this.language});
   final String data;
   final String? language;
-  const _CodeView(this.data, {this.language});
   @override
   __CodeViewState createState() => __CodeViewState();
 }
@@ -364,7 +346,7 @@ class __CodeViewState extends State<_CodeView> {
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .primary,
-                borderRadius: AppThemeBorderRadius.smallBorderRadius),
+                borderRadius: smallBorderRadius),
             child: Stack(
               children: [
                 if (!wrapText)

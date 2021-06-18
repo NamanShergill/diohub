@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WikiViewer extends StatefulWidget {
-  final String? repoURL;
   const WikiViewer({Key? key, this.repoURL}) : super(key: key);
+  final String? repoURL;
 
   @override
   _WikiViewerState createState() => _WikiViewerState();
@@ -27,12 +27,12 @@ class _WikiViewerState extends State<WikiViewer> {
     // setupHeaders();
     repoLink = widget.repoURL!
         .replaceAll('https://api.github.com/repos', 'https://github.com');
-    wikiLink = repoLink! + '/wiki';
+    wikiLink = '${repoLink!}/wiki';
     super.initState();
   }
 
   void setupHeaders() async {
-    String token = (await AuthService.getAccessTokenFromDevice())!;
+    final token = (await AuthService.getAccessTokenFromDevice())!;
     // headers = {'Authorization': 'Bearer $token'};
   }
 
@@ -105,10 +105,8 @@ class _WikiViewerState extends State<WikiViewer> {
                                 repoLink?.toLowerCase() &&
                             loading) {
                           setState(() {
-                            error = 'Seems like ' +
-                                action.url
-                                    .replaceAll('https://github.com/', '') +
-                                ' does not have a wiki yet.';
+                            error =
+                                'Seems like ${action.url.replaceAll('https://github.com/', '')} does not have a wiki yet.';
                           });
                         } else {
                           linkHandler(context, action.url);
@@ -116,7 +114,7 @@ class _WikiViewerState extends State<WikiViewer> {
                         return NavigationDecision.prevent;
                       },
                       onPageFinished: (initialURL) async {
-                        List<Future> futures = [
+                        final futures = <Future>[
                           _webViewController.evaluateJavascript(
                               "document.getElementsByClassName('position-relative js-header-wrapper')[0].style.display='none';"),
                           _webViewController.evaluateJavascript(
@@ -129,8 +127,10 @@ class _WikiViewerState extends State<WikiViewer> {
                               "document.getElementsByClassName('mt-0 mb-2')[0].style.display='none';"),
                           _webViewController.evaluateJavascript(
                               "document.getElementsByClassName('Box Box--condensed mb-4')[0].style.display='none';"),
+                          _webViewController.evaluateJavascript(
+                              "document.getElementsByClassName('hx_page-header-bg pt-3 hide-full-screen mb-5')[0].style.display='none';"),
                           _webViewController.loadUrl(
-                              "javascript:document.body.style.margin=\"4%\"; void 0"),
+                              'javascript:document.body.style.margin="4%"; void 0'),
                         ];
                         // Remove unnecessary page elements from the view.
                         await Future.wait(futures);

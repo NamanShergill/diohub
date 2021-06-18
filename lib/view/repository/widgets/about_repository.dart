@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AboutRepository extends StatelessWidget {
-  final RepositoryModel repo;
   const AboutRepository(this.repo, {Key? key}) : super(key: key);
+  final RepositoryModel repo;
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -9,7 +9,7 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import "package:gql_dio_link/gql_dio_link.dart";
+import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:gql_exec/gql_exec.dart' as gql_exec;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -19,7 +19,7 @@ class GetDio {
   static Dio getDio({
     bool loggedIn = true,
     bool cacheEnabled = true,
-    String baseURL = Global.apiBaseURL,
+    String baseURL = apiBaseURL,
     bool applyBaseURL = true,
     bool loginRequired = true,
     bool debugLog = kReleaseMode,
@@ -30,19 +30,24 @@ class GetDio {
   }) {
     // Makes the buttons listening to this stream get disabled to prevent
     // multiple taps.
-    if (buttonLock) ButtonController.setButtonValue(true);
-    final Dio dio = Dio();
+    if (buttonLock) {
+      setButtonValue(value: true);
+    }
+    final dio = Dio();
 
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest:
-            (RequestOptions options, RequestInterceptorHandler handler) async {
-          if (applyBaseURL) options.baseUrl = baseURL;
+        onRequest: (options, handler) async {
+          if (applyBaseURL) {
+            options.baseUrl = baseURL;
+          }
           options.headers['Accept'] = acceptHeader ?? 'application/json';
           options.headers['setContentType'] = 'application/json';
           options.headers['User-Agent'] = 'com.felix.diohub';
           if (loggedIn == false) {
-            if (loginRequired) throw Exception('Not authenticated.');
+            if (loginRequired) {
+              throw Exception('Not authenticated.');
+            }
           } else {
             // Queue the request to add necessary headers before executing.
             dio.interceptors.requestLock.lock();
@@ -54,7 +59,7 @@ class GetDio {
                   throw Exception('Not authenticated.');
                 }
                 // Add auth token to header.
-                options.headers["Authorization"] = "token $token";
+                options.headers['Authorization'] = 'token $token';
               }).whenComplete(() {
                 // Execute the request and return the necessary headers.
                 dio.interceptors.requestLock.unlock();
@@ -69,13 +74,15 @@ class GetDio {
             final key = cacheOptions?.allowPostMethod == true
                 ? options.data.toString()
                 : CacheOptions.defaultCacheKeyBuilder(options);
-            final cache = await Global.cacheStore.get(key);
+            final cache = await cacheStore.get(key);
             if (cache != null &&
                 cacheOptions != null &&
-                !(cacheOptions.refresh) &&
+                !cacheOptions.refresh &&
                 DateTime.now()
                     .isBefore(cache.responseDate.add(cacheOptions.maxAge))) {
-              if (buttonLock) ButtonController.setButtonValue(false);
+              if (buttonLock) {
+                setButtonValue(value: false);
+              }
               // Resolve the request and pass cached data as response.
               return handler
                   .resolve(cache.toResponse(options, fromNetwork: false));
@@ -84,31 +91,34 @@ class GetDio {
           // Proceed with the request.
           handler.next(options);
         },
-        onResponse:
-            (Response response, ResponseInterceptorHandler handler) async {
+        onResponse: (response, handler) async {
           // Makes the buttons listening to this stream get enabled again.
-          if (buttonLock) ButtonController.setButtonValue(false);
+          if (buttonLock) {
+            setButtonValue(value: false);
+          }
           // If response contains a ['message'] key, show success popup to the
           // user with the message.
           if (response.data.runtimeType is Map &&
-              response.data.containsKey("message") &&
+              response.data.containsKey('message') &&
               showPopup) {
             ResponseHandler.setSuccessMessage(
-                AppPopupData(title: response.data["message"]));
+                AppPopupData(title: response.data['message']));
           }
           handler.next(response);
         },
-        onError: (DioError error, ErrorInterceptorHandler handler) async {
+        onError: (error, handler) async {
           // Global.log.e(error.toString());
           // Makes the buttons listening to this stream get enabled again.
 
-          if (buttonLock) ButtonController.setButtonValue(false);
+          if (buttonLock) {
+            setButtonValue(value: false);
+          }
 
           // Todo: Add better exception handling based on response codes.
           if (error.response == null) {
             handler.next(error);
           } else if (error.response?.data.runtimeType is Map &&
-              error.response?.data.containsKey("message") &&
+              error.response?.data.containsKey('message') &&
               showPopup) {
             ResponseHandler.setErrorMessage(
                 AppPopupData(title: error.response!.data['message']));
@@ -122,8 +132,7 @@ class GetDio {
       dio.interceptors.add(
         DioCacheInterceptor(
             options: cacheOptions ??
-                CacheOptions(
-                    policy: CachePolicy.refresh, store: Global.cacheStore)),
+                CacheOptions(policy: CachePolicy.refresh, store: cacheStore)),
       );
     }
     // Log the request in the console for debugging if [debugLog] is true.
@@ -146,10 +155,10 @@ class GetDio {
     String? acceptHeader,
     CustomCacheOptions? cacheOptions,
   }) async {
-    return DioLink(Global.apiBaseURL + '/graphql',
+    return DioLink('$apiBaseURL/graphql',
             client: getDio(
                 loggedIn: loggedIn,
-                baseURL: Global.apiBaseURL + '/graphql',
+                baseURL: '$apiBaseURL/graphql',
                 acceptHeader: acceptHeader,
                 debugLog: debugLog,
                 applyBaseURL: applyBaseURL,

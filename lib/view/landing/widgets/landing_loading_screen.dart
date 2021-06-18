@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 /// Show loading indicator on app startup until authentication status is determined.
 class LandingLoadingScreen extends StatelessWidget {
-  final String? initLink;
   const LandingLoadingScreen({Key? key, this.initLink}) : super(key: key);
+  final String? initLink;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LandingLoadingScreen extends StatelessWidget {
       body: ProviderLoadingProgressWrapper<CurrentUserProvider>(
         listener: (value) {
           if (value == Status.loaded && initLink != null) {
-            DeepLinkHandler.deepLinkNavigate(initLink!);
+            deepLinkNavigate(initLink!);
           }
         },
         loadingBuilder: (context) => SafeArea(

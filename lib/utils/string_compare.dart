@@ -1,6 +1,6 @@
 class StringFunctions {
-  final String string;
   StringFunctions(this.string);
+  final String string;
 
   @override
   String toString() => string;
@@ -10,8 +10,8 @@ class StringFunctions {
   }
 
   bool regexCompleteMatch(String pattern) {
-    RegExp regexp = RegExp(pattern);
-    final String? match = regexp.firstMatch(string)?.group(0);
+    final regexp = RegExp(pattern);
+    final match = regexp.firstMatch(string)?.group(0);
     return match != null && match == string;
   }
 

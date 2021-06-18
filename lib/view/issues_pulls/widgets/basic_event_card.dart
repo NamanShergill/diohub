@@ -13,12 +13,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class BasicEventCard extends StatelessWidget {
-  final ActorMixin? user;
-  final IconData leading;
-  final String? name;
-  final Color? iconColor;
-  final DateTime date;
-  final Widget content;
   const BasicEventCard(
       {required this.user,
       required this.content,
@@ -28,6 +22,12 @@ class BasicEventCard extends StatelessWidget {
       this.name,
       Key? key})
       : super(key: key);
+  final ActorMixin? user;
+  final IconData leading;
+  final String? name;
+  final Color? iconColor;
+  final DateTime date;
+  final Widget content;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -103,12 +103,6 @@ class BasicEventCard extends StatelessWidget {
 }
 
 class BasicEventTextCard extends StatelessWidget {
-  final ActorMixin? user;
-  final IconData leading;
-  final Color? iconColor;
-  final DateTime date;
-  final Widget? footer;
-  final String textContent;
   const BasicEventTextCard(
       {required this.user,
       required this.textContent,
@@ -118,6 +112,12 @@ class BasicEventTextCard extends StatelessWidget {
       this.iconColor,
       Key? key})
       : super(key: key);
+  final ActorMixin? user;
+  final IconData leading;
+  final Color? iconColor;
+  final DateTime date;
+  final Widget? footer;
+  final String textContent;
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -144,10 +144,6 @@ class BasicEventTextCard extends StatelessWidget {
 }
 
 class BasicEventAssignedCard extends StatelessWidget {
-  final ActorMixin? actor;
-  final ActorMixin? assignee;
-  final DateTime createdAt;
-  final bool isAssigned;
   const BasicEventAssignedCard(
       {required this.actor,
       required this.assignee,
@@ -155,6 +151,10 @@ class BasicEventAssignedCard extends StatelessWidget {
       required this.isAssigned,
       Key? key})
       : super(key: key);
+  final ActorMixin? actor;
+  final ActorMixin? assignee;
+  final DateTime createdAt;
+  final bool isAssigned;
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -200,11 +200,6 @@ class BasicEventAssignedCard extends StatelessWidget {
 }
 
 class BasicEventLabeledCard extends StatelessWidget {
-  final ActorMixin? actor;
-  final Color? iconColor;
-  final DateTime date;
-  final LabelMixin content;
-  final bool added;
   const BasicEventLabeledCard(
       {required this.actor,
       required this.content,
@@ -213,6 +208,11 @@ class BasicEventLabeledCard extends StatelessWidget {
       this.iconColor,
       Key? key})
       : super(key: key);
+  final ActorMixin? actor;
+  final Color? iconColor;
+  final DateTime date;
+  final LabelMixin content;
+  final bool added;
   @override
   Widget build(BuildContext context) {
     return BasicEventCard(
@@ -246,12 +246,6 @@ class BasicEventLabeledCard extends StatelessWidget {
 }
 
 class BasicIssueCrossReferencedCard extends StatelessWidget {
-  final UserInfoModel? user;
-  final IconData? leading;
-  final Color? iconColor;
-  final DateTime date;
-  final Source? content;
-  final String _correctRepo;
   BasicIssueCrossReferencedCard(
       {this.user,
       this.content,
@@ -261,12 +255,18 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
       Key? key})
       : _correctRepo = content!.issue!.repository!.fullName!,
         super(key: key);
+  final UserInfoModel? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final DateTime date;
+  final Source? content;
+  final String _correctRepo;
 
   // GitHub API sends the wrong links to the issue where the reference was in.
   // This is here to fix them.
   // Ref: https://github.com/NamanShergill/dio_hub/issues/7
   String fixURL(String url) {
-    final List<String> components = url.split('/');
+    final components = url.split('/');
     components[4] = _correctRepo.split('/').first;
     components[5] = _correctRepo.split('/').last;
     return components.join('/');
@@ -305,13 +305,6 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
 }
 
 class BasicEventCommitCard extends StatelessWidget {
-  final Author? user;
-  final IconData? leading;
-  final Color? iconColor;
-  final DateTime date;
-  final String? sha;
-  final String? message;
-  final String? commitURL;
   const BasicEventCommitCard(
       {this.user,
       this.sha,
@@ -322,6 +315,13 @@ class BasicEventCommitCard extends StatelessWidget {
       this.iconColor,
       Key? key})
       : super(key: key);
+  final Author? user;
+  final IconData? leading;
+  final Color? iconColor;
+  final DateTime date;
+  final String? sha;
+  final String? message;
+  final String? commitURL;
   @override
   Widget build(BuildContext context) {
     return Container();

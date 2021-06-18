@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PushEventCard extends StatelessWidget {
+  const PushEventCard(this.event, this.data, {Key? key}) : super(key: key);
   final EventsModel event;
   final Payload data;
-  const PushEventCard(this.event, this.data, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(
@@ -68,7 +68,7 @@ class PushEventCard extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return InkWell(
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    borderRadius: smallBorderRadius,
                     onTap: () {
                       AutoRouter.of(context).push(CommitInfoScreenRoute(
                           commitURL: data.commits![index].url));
@@ -94,7 +94,7 @@ class PushEventCard extends StatelessWidget {
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
                                         .accent)),
-                            TextSpan(text: '  ' + data.commits![index].message!)
+                            TextSpan(text: '  ${data.commits![index].message!}')
                           ])),
                     ),
                   );

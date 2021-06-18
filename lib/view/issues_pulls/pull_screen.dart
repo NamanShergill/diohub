@@ -23,12 +23,12 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullScreen extends StatefulWidget {
-  final String? pullURL;
-  final DateTime? commentsSince;
-  final int initialIndex;
   const PullScreen(this.pullURL,
       {this.initialIndex = 0, this.commentsSince, Key? key})
       : super(key: key);
+  final String? pullURL;
+  final DateTime? commentsSince;
+  final int initialIndex;
   @override
   _PullScreenState createState() => _PullScreenState();
 }
@@ -92,8 +92,11 @@ class _PullScreenState extends State<PullScreen>
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.pullModel!.state,
-                                  value.pullModel!.merged!, 15)!,
+                              getIcon(
+                                value.pullModel!.state,
+                                15,
+                                merged: value.pullModel!.merged!,
+                              )!,
                               const SizedBox(
                                 width: 4,
                               ),
@@ -136,8 +139,11 @@ class _PullScreenState extends State<PullScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.pullModel!.state,
-                                      value.pullModel!.merged!, 20)!,
+                                  getIcon(
+                                    value.pullModel!.state,
+                                    20,
+                                    merged: value.pullModel!.merged!,
+                                  )!,
                                   const SizedBox(
                                     width: 8,
                                   ),
@@ -211,8 +217,7 @@ class _PullScreenState extends State<PullScreen>
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  borderRadius:
-                                      AppThemeBorderRadius.medBorderRadius,
+                                  borderRadius: medBorderRadius,
                                   onTap: () {
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
@@ -305,7 +310,11 @@ class _PullScreenState extends State<PullScreen>
     );
   }
 
-  Widget? getIcon(IssueState? state, bool merged, double size) {
+  Widget? getIcon(
+    IssueState? state,
+    double size, {
+    required bool merged,
+  }) {
     switch (state) {
       case IssueState.CLOSED:
         if (merged) {

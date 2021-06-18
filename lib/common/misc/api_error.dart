@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class APIError extends StatelessWidget {
+  const APIError(this.statusCode, this.message, {Key? key}) : super(key: key);
   final int statusCode;
   final String message;
-  const APIError(this.statusCode, this.message, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,7 +17,7 @@ class APIError extends StatelessWidget {
             style: Theme.of(context).textTheme.headline2,
           ),
           Text(
-            message + '.',
+            '$message.',
             style: Theme.of(context).textTheme.headline4,
           ),
           SizedBox(

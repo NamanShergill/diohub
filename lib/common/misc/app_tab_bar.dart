@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppTabBar extends StatelessWidget {
-  final TabController? _tabController;
-  final List<AppTab>? tabs;
   const AppTabBar({TabController? controller, this.tabs, Key? key})
       : _tabController = controller,
         super(key: key);
+  final TabController? _tabController;
+  final List<AppTab>? tabs;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +25,7 @@ class AppTabBar extends StatelessWidget {
             isScrollable: true,
             controller: _tabController,
             indicator: BoxDecoration(
-                borderRadius: AppThemeBorderRadius.bigBorderRadius,
+                borderRadius: bigBorderRadius,
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .accent),
@@ -53,8 +53,8 @@ class AppTabBar extends StatelessWidget {
 }
 
 class AppTab extends StatelessWidget {
-  final String? title;
   const AppTab({this.title, Key? key}) : super(key: key);
+  final String? title;
   @override
   Widget build(BuildContext context) {
     return Tab(

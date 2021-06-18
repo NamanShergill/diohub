@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 enum PageStatus { loading, loaded, error }
 
 class LoadingWrapper extends StatelessWidget {
-  final WidgetBuilder builder;
-  final WidgetBuilder? loadingBuilder;
-  final WidgetBuilder? errorBuilder;
-  final PageStatus status;
   const LoadingWrapper({
     Key? key,
     required this.builder,
@@ -15,6 +11,10 @@ class LoadingWrapper extends StatelessWidget {
     this.errorBuilder,
     required this.status,
   }) : super(key: key);
+  final WidgetBuilder builder;
+  final WidgetBuilder? loadingBuilder;
+  final WidgetBuilder? errorBuilder;
+  final PageStatus status;
 
   @override
   Widget build(BuildContext context) {

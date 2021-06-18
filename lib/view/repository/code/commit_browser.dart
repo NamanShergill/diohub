@@ -10,13 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommitBrowser extends StatefulWidget {
-  final ScrollController? controller;
-  final String? currentSHA;
-  final bool? isLocked;
-  final ValueChanged<String>? onSelected;
-  final String? repoURL;
-  final String? path;
-  final String? branchName;
   const CommitBrowser(
       {this.controller,
       this.currentSHA,
@@ -27,6 +20,13 @@ class CommitBrowser extends StatefulWidget {
       this.branchName,
       Key? key})
       : super(key: key);
+  final ScrollController? controller;
+  final String? currentSHA;
+  final bool? isLocked;
+  final ValueChanged<String>? onSelected;
+  final String? repoURL;
+  final String? path;
+  final String? branchName;
 
   @override
   _CommitBrowserState createState() => _CommitBrowserState();
@@ -41,7 +41,9 @@ class _CommitBrowserState extends State<CommitBrowser> {
   void initState() {
     path = widget.path!.split('/');
     isLocked = widget.isLocked;
-    if (path.first.isEmpty || isLocked!) path = [];
+    if (path.first.isEmpty || isLocked!) {
+      path = [];
+    }
     super.initState();
   }
 
@@ -55,7 +57,6 @@ class _CommitBrowserState extends State<CommitBrowser> {
           Visibility(
               visible: isLocked!,
               child: Button(
-                child: const Text('Load latest commits.'),
                 listenToLoadingController: false,
                 onTap: () {
                   setState(() {
@@ -63,6 +64,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                   });
                   controller.refresh();
                 },
+                child: const Text('Load latest commits.'),
               )),
           Visibility(
             visible: path.isNotEmpty,
@@ -87,8 +89,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                         return Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            borderRadius:
-                                AppThemeBorderRadius.smallBorderRadius,
+                            borderRadius: smallBorderRadius,
                             onTap: () {
                               setState(() {
                                 if (index == 0) {
@@ -101,10 +102,7 @@ class _CommitBrowserState extends State<CommitBrowser> {
                             },
                             child: Center(
                               child: Text(
-                                ' ' +
-                                    (index == 0
-                                        ? widget.repoURL!.split('/').last
-                                        : path[index - 1]),
+                                ' ${index == 0 ? widget.repoURL!.split('/').last : path[index - 1]}',
                                 style: TextStyle(
                                     color: index == path.length
                                         ? Provider.of<PaletteSettings>(context)

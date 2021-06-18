@@ -20,12 +20,12 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {
-  final String? issueURL;
-  final DateTime? commentsSince;
-  final int initialIndex;
   const IssueScreen(this.issueURL,
       {this.initialIndex = 0, this.commentsSince, Key? key})
       : super(key: key);
+  final String? issueURL;
+  final DateTime? commentsSince;
+  final int initialIndex;
 
   @override
   _IssueScreenState createState() => _IssueScreenState();
@@ -197,8 +197,7 @@ class _IssueScreenState extends State<IssueScreen>
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  borderRadius:
-                                      AppThemeBorderRadius.medBorderRadius,
+                                  borderRadius: medBorderRadius,
                                   onTap: () {
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
@@ -312,10 +311,10 @@ class _IssueScreenState extends State<IssueScreen>
 }
 
 class Author implements ActorMixin {
+  Author(this.avatarUrl, this.login);
   @override
   Uri avatarUrl;
 
   @override
   String login;
-  Author(this.avatarUrl, this.login);
 }

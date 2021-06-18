@@ -30,14 +30,14 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryScreen extends StatefulWidget {
+  const RepositoryScreen(this.repositoryURL,
+      {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
+      : super(key: key);
   final String? repositoryURL;
   final String? branch;
   final int index;
   final String? initSHA;
   final DeepLinkData? deepLinkData;
-  const RepositoryScreen(this.repositoryURL,
-      {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
-      : super(key: key);
 
   @override
   _RepositoryScreenState createState() => _RepositoryScreenState();
@@ -59,7 +59,9 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     tabController =
         TabController(length: 6, vsync: this, initialIndex: widget.index);
     initBranch = widget.branch;
-    if (widget.deepLinkData != null) deepLinkHandler();
+    if (widget.deepLinkData != null) {
+      deepLinkHandler();
+    }
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
         initialBranch: initBranch, initCommitSHA: widget.initSHA);
@@ -70,7 +72,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   }
 
   void deepLinkHandler() {
-    final DeepLinkData data = widget.deepLinkData!;
+    final data = widget.deepLinkData!;
     if (data.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
         true) {
       tabController.index = 2;
@@ -133,17 +135,17 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         elevation: 0,
                       )
                     : PreferredSize(
-                        child: Container(),
                         preferredSize: const Size(0, 0),
+                        child: Container(),
                       ),
             body: WillPopScope(
               onWillPop: () async {
                 // Don't pop screen if code browsing is open and not the root tree.
-                if ((Provider.of<CodeProvider>(context, listen: false)
+                if (Provider.of<CodeProvider>(context, listen: false)
                             .tree
                             .length >
                         1 &&
-                    tabController.index == 2)) {
+                    tabController.index == 2) {
                   if (Provider.of<CodeProvider>(context, listen: false)
                           .status !=
                       Status.loading) {
@@ -229,8 +231,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   _repo.owner!.login!,
                                   _repo.name!,
                                   fadeIntoView: false,
-                                  inkWellRadius:
-                                      AppThemeBorderRadius.medBorderRadius,
+                                  inkWellRadius: medBorderRadius,
                                   child: (context, data) {
                                     return IgnorePointer(
                                       child: ActionButton(
@@ -301,7 +302,6 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Button(
-                                child: const Text('Open Wiki'),
                                 onTap: () {
                                   if (Provider.of<RepositoryProvider>(context,
                                           listen: false)
@@ -315,6 +315,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                             title: 'Repository has no wiki.'));
                                   }
                                 },
+                                child: const Text('Open Wiki'),
                               ),
                             ),
                           ],

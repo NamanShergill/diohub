@@ -22,8 +22,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  final DeepLinkData? deepLinkData;
   const HomeScreen({Key? key, this.deepLinkData}) : super(key: key);
+  final DeepLinkData? deepLinkData;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -72,15 +72,6 @@ class _HomeScreenState extends State<HomeScreen>
                     minHeight: 155,
                     maxHeight: 300,
                     title: 'Home',
-                    child: SearchBar(
-                      updateBarOnChange: false,
-                      onSubmit: (data) {
-                        _search.updateSearchData(data);
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .animateToPage(1);
-                      },
-                      heroTag: 'homeSearchBar',
-                    ),
                     trailing: ClipOval(
                       child: InkWell(
                         onTap: () {
@@ -115,6 +106,15 @@ class _HomeScreenState extends State<HomeScreen>
                           },
                         ),
                       ),
+                    ),
+                    child: SearchBar(
+                      updateBarOnChange: false,
+                      onSubmit: (data) {
+                        _search.updateSearchData(data);
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .animateToPage(1);
+                      },
+                      heroTag: 'homeSearchBar',
                     ),
                   ),
                 ),

@@ -2,15 +2,6 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:flutter/material.dart';
 
 class CollapsibleAppBar extends StatelessWidget {
-  final double? maxHeight;
-  final double? minHeight;
-  final String? title;
-  final Widget? trailing;
-  final double childCollapseValue;
-  final Widget? child;
-  final double expandedParentPadding;
-  final EdgeInsets padding;
-  final double childHeight;
   const CollapsibleAppBar(
       {this.title,
       this.child,
@@ -23,17 +14,30 @@ class CollapsibleAppBar extends StatelessWidget {
       this.trailing,
       Key? key})
       : super(key: key);
+  final double? maxHeight;
+  final double? minHeight;
+  final String? title;
+  final Widget? trailing;
+  final double childCollapseValue;
+  final Widget? child;
+  final double expandedParentPadding;
+  final EdgeInsets padding;
+  final double childHeight;
 
   double _calculateExpandRatio(BoxConstraints constraints) {
     var expandRatio =
         (constraints.maxHeight - minHeight!) / (maxHeight! - minHeight!);
-    if (expandRatio > 1.0) expandRatio = 1.0;
-    if (expandRatio < 0.0) expandRatio = 0.0;
+    if (expandRatio > 1.0) {
+      expandRatio = 1.0;
+    }
+    if (expandRatio < 0.0) {
+      expandRatio = 0.0;
+    }
     return expandRatio;
   }
 
   double _calculateAbsExpandRatio(BoxConstraints constraints) {
-    var expandRatio =
+    final expandRatio =
         (constraints.maxHeight - minHeight!) / (maxHeight! - minHeight!);
     return expandRatio;
   }
@@ -94,12 +98,12 @@ class CollapsibleAppBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizeExpandedSection(
+                    axis: Axis.vertical,
+                    expand: absRatio > childCollapseValue,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 35.0),
                       child: child,
                     ),
-                    axis: Axis.vertical,
-                    expand: absRatio > childCollapseValue,
                   ),
                 ],
               ),

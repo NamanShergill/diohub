@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TextPlaceHolder extends StatelessWidget {
-  final String text;
   const TextPlaceHolder(this.text, {Key? key}) : super(key: key);
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Padding(

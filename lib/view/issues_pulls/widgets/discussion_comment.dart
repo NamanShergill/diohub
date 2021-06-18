@@ -14,30 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseComment extends StatefulWidget {
-  final ActorMixin? author;
-  final CommentAuthorAssociation authorAssociation;
-  final String body;
-  final IconData? leading;
-  final String bodyHTML;
-  // Todo: Temp nullable
-  final List<ReactionsMixin>? reactions;
-  final DateTime? lastEditedAt;
-  final DateTime createdAt;
-  final bool isMinimized;
-  final String? minimizedReason;
-  final bool viewerCanMinimize;
-  final bool viewerCanDelete;
-  final bool viewerCanUpdate;
-  final bool viewerDidAuthor;
-  // Todo: Temp nullable
-  final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
-  final bool viewerCanReact;
-  final Widget? footer;
-  final String? description;
-  final Widget? header;
-  final VoidCallback onQuote;
-  final EdgeInsets headerPadding;
-  final EdgeInsets footerPadding;
   const BaseComment(
       {Key? key,
       required this.onQuote,
@@ -63,6 +39,30 @@ class BaseComment extends StatefulWidget {
       required this.bodyHTML,
       required this.authorAssociation})
       : super(key: key);
+  final ActorMixin? author;
+  final CommentAuthorAssociation authorAssociation;
+  final String body;
+  final IconData? leading;
+  final String bodyHTML;
+  // Todo: Temp nullable
+  final List<ReactionsMixin>? reactions;
+  final DateTime? lastEditedAt;
+  final DateTime createdAt;
+  final bool isMinimized;
+  final String? minimizedReason;
+  final bool viewerCanMinimize;
+  final bool viewerCanDelete;
+  final bool viewerCanUpdate;
+  final bool viewerDidAuthor;
+  // Todo: Temp nullable
+  final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
+  final bool viewerCanReact;
+  final Widget? footer;
+  final String? description;
+  final Widget? header;
+  final VoidCallback onQuote;
+  final EdgeInsets headerPadding;
+  final EdgeInsets footerPadding;
 
   @override
   _BaseCommentState createState() => _BaseCommentState();
@@ -163,9 +163,7 @@ class _BaseCommentState extends State<BaseComment> {
                     ),
                     if (widget.lastEditedAt != null)
                       Text(
-                        'Edited ' +
-                            getDate(widget.lastEditedAt.toString(),
-                                shorten: false),
+                        'Edited ${getDate(widget.lastEditedAt.toString(), shorten: false)}',
                         style: TextStyle(
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
@@ -288,11 +286,10 @@ class _BaseCommentState extends State<BaseComment> {
 }
 
 class _SelectAndCopy extends StatefulWidget {
-  final String data;
-  final VoidCallback onQuote;
-
   const _SelectAndCopy(this.data, {Key? key, required this.onQuote})
       : super(key: key);
+  final String data;
+  final VoidCallback onQuote;
 
   @override
   __SelectAndCopyState createState() => __SelectAndCopyState();

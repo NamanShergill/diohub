@@ -4,27 +4,27 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
-  final Widget? child;
-  final BorderRadius? borderRadius;
-  final Color? baseColor;
-  final Color? highlightColor;
   const ShimmerWidget(
-      {this.child,
+      {required this.child,
       this.borderRadius,
       this.baseColor,
       this.highlightColor,
       Key? key})
       : super(key: key);
+  final Widget child;
+  final BorderRadius? borderRadius;
+  final Color? baseColor;
+  final Color? highlightColor;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.circular(0),
       child: Shimmer.fromColors(
-        child: child!,
         baseColor: baseColor ??
             Provider.of<PaletteSettings>(context).currentSetting.faded1,
         highlightColor: highlightColor ??
             Provider.of<PaletteSettings>(context).currentSetting.faded2,
+        child: child,
       ),
     );
   }

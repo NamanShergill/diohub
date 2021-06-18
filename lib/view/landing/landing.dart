@@ -16,8 +16,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
-  final DeepLinkData? deepLinkData;
   const LandingScreen({this.deepLinkData, Key? key}) : super(key: key);
+  final DeepLinkData? deepLinkData;
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -41,9 +41,7 @@ class _LandingScreenState extends State<LandingScreen> {
               Provider.of<CurrentUserProvider>(context).notificationController,
           child: PageView(
             controller: _navProvider.controller,
-            onPageChanged: (index) {
-              _navProvider.setCurrentIndex(index);
-            },
+            onPageChanged: _navProvider.setCurrentIndex,
             physics: const NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(
@@ -66,9 +64,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     .currentSetting
                     .primary,
                 selectedIndex: _navProvider.currentIndex,
-                onTabChange: (index) {
-                  _navProvider.animateToPage(index);
-                },
+                onTabChange: _navProvider.animateToPage,
                 gap: 10,
                 color:
                     Provider.of<PaletteSettings>(context).currentSetting.faded1,

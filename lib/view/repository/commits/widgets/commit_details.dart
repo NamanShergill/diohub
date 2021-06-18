@@ -132,11 +132,11 @@ class CommitDetails extends StatelessWidget {
 }
 
 String _repoURLFromCommitURL(String commitURL) {
-  List<String> url = commitURL.split('/');
+  final url = commitURL.split('/');
   return url.sublist(0, url.length - 2).join('/');
 }
 
 String _repoNameFromCommitURL(String commitURL) {
-  List<String> url = commitURL.split('/');
+  final url = commitURL.split('/');
   return url.sublist(url.length - 3, url.length - 2).join('/');
 }

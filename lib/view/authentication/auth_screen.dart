@@ -14,8 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/shims/dart_ui.dart';
 
 class AuthScreen extends StatelessWidget {
-  final VoidCallback? onAuthenticated;
   const AuthScreen({Key? key, this.onAuthenticated}) : super(key: key);
+  final VoidCallback? onAuthenticated;
 
   @override
   Widget build(BuildContext context) {

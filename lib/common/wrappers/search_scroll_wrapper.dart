@@ -22,6 +22,23 @@ typedef WrapperReplacementBuilder = Widget Function(SearchData searchData,
     Widget Function(BuildContext, Function) header, Widget child);
 
 class SearchScrollWrapper extends StatefulWidget {
+  SearchScrollWrapper(this.searchData,
+      {this.searchBarMessage,
+      this.quickFilters,
+      this.replacementBuilder,
+      this.quickOptions,
+      this.scrollController,
+      this.isNestedScrollViewChild = true,
+      EdgeInsets? searchBarPadding,
+      this.onChanged,
+      this.searchBarColor,
+      this.padding = const EdgeInsets.symmetric(horizontal: 8),
+      this.searchHeroTag,
+      this.filterFn,
+      Key? key})
+      : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 8),
+        super(key: key);
+
   /// Search Data this search wrapper would be attached to.
   final SearchData searchData;
 
@@ -58,22 +75,6 @@ class SearchScrollWrapper extends StatefulWidget {
 
   /// Callback for when search data is changed.
   final ValueChanged<SearchData>? onChanged;
-  SearchScrollWrapper(this.searchData,
-      {this.searchBarMessage,
-      this.quickFilters,
-      this.replacementBuilder,
-      this.quickOptions,
-      this.scrollController,
-      this.isNestedScrollViewChild = true,
-      EdgeInsets? searchBarPadding,
-      this.onChanged,
-      this.searchBarColor,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8),
-      this.searchHeroTag,
-      this.filterFn,
-      Key? key})
-      : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 8),
-        super(key: key);
   @override
   _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
 }
@@ -119,7 +120,9 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
             setState(() {
               searchData = data;
             });
-            if (widget.onChanged != null) widget.onChanged!(data);
+            if (widget.onChanged != null) {
+              widget.onChanged!(data);
+            }
             controller.refresh();
           },
         ),
@@ -230,16 +233,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
 }
 
 class _InfiniteWrapper<T> extends StatelessWidget {
-  final InfiniteScrollWrapperController controller;
-  final WidgetBuilder header;
-  final ScrollWrapperFuture searchFuture;
-  final ScrollWrapperBuilder builder;
-  final SearchData searchData;
-  final FilterFn? filterFn;
-  final bool isNestedScrollViewChild;
-  final ScrollController? scrollController;
-  final ReplacementBuilder? pinnedHeader;
-
   const _InfiniteWrapper(
       {required this.builder,
       required this.header,
@@ -252,6 +245,16 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       required this.searchData,
       Key? key})
       : super(key: key);
+  final InfiniteScrollWrapperController controller;
+  final WidgetBuilder header;
+  final ScrollWrapperFuture searchFuture;
+  final ScrollWrapperBuilder builder;
+  final SearchData searchData;
+  final FilterFn? filterFn;
+  final bool isNestedScrollViewChild;
+  final ScrollController? scrollController;
+  final ReplacementBuilder? pinnedHeader;
+
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<T>(

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CopyButton extends StatefulWidget {
+  const CopyButton(this.data, {Key? key, this.size = 24}) : super(key: key);
   final String data;
   final double size;
-  const CopyButton(this.data, {Key? key, this.size = 24}) : super(key: key);
 
   @override
   _CopyButtonState createState() => _CopyButtonState();
@@ -30,7 +30,8 @@ class _CopyButtonState extends State<CopyButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        borderRadius: AppThemeBorderRadius.smallBorderRadius,
+        borderRadius: smallBorderRadius,
+        onTap: copied ? null : copy,
         child: Padding(
           padding: EdgeInsets.all(widget.size / 2),
           child: Icon(
@@ -42,11 +43,6 @@ class _CopyButtonState extends State<CopyButton> {
                     .baseElements
                 : Provider.of<PaletteSettings>(context).currentSetting.faded3,
           ),
-        ),
-        onTap: copied
-            ? null
-            : () {
-                copy();
-              });
+        ));
   }
 }

@@ -7,17 +7,17 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitSHAButton extends StatelessWidget {
+  const CommitSHAButton(this.sha, this.commitURL, {Key? key}) : super(key: key);
   final String? sha;
   final String? commitURL;
-  const CommitSHAButton(this.sha, this.commitURL, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: 2,
-      borderRadius: AppThemeBorderRadius.medBorderRadius,
+      borderRadius: medBorderRadius,
       color: Provider.of<PaletteSettings>(context).currentSetting.primary,
       child: InkWell(
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         onTap: () {
           AutoRouter.of(context)
               .push(CommitInfoScreenRoute(commitURL: commitURL));

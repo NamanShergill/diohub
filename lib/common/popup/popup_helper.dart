@@ -9,7 +9,7 @@ class DialogHelper {
   // static exit(context) => showDialog(
   //     context: context, builder: (context) => const ExitConfirmationDialog());
 
-  static void appPopup(context, AppPopupData appPopup) => Flushbar(
+  static void appPopup(BuildContext context, AppPopupData appPopup) => Flushbar(
         margin: const EdgeInsets.all(8),
         borderRadius: BorderRadius.circular(8),
         shouldIconPulse: false,

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -9,7 +8,7 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    Response response =
+    final response =
         await GetDio.getDio(cacheOptions: CacheManager.currentUserProfileInfo())
             .get(
       '/user',
@@ -20,12 +19,12 @@ class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
     int perPage,
-    int pageNumber,
-    bool refresh, {
+    int pageNumber, {
+    required bool refresh,
     String? sort,
     bool? ascending = false,
   }) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/user/repos', queryParameters: {
       if (sort != null) 'sort': sort,
@@ -34,15 +33,18 @@ class UserInfoService {
       'type': 'owner',
       'page': pageNumber
     });
-    List unParsedData = response.data;
-    List<RepositoryModel> data =
-        unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
-    return data;
+    final List unParsedData = response.data;
+    return unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
   }
 
-  static Future<List<RepositoryModel>> getUserRepos(String? username,
-      int perPage, int pageNumber, bool refresh, String? sort) async {
-    Response response = await GetDio.getDio(
+  static Future<List<RepositoryModel>> getUserRepos(
+    String? username,
+    int perPage,
+    int pageNumber,
+    String? sort, {
+    required bool refresh,
+  }) async {
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '/users/$username/repos',
@@ -53,14 +55,13 @@ class UserInfoService {
         if (sort != null) 'sort': sort,
       },
     );
-    List unParsedData = response.data;
-    List<RepositoryModel> data =
-        unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
+    final List unParsedData = response.data;
+    final data = unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
     return data;
   }
 
   static Future<UserInfoModel> getUserInfo(String? login) async {
-    Response response =
+    final response =
         await GetDio.getDio(cacheOptions: CacheManager.defaultCache()).get(
       '/users/$login',
     );

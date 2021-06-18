@@ -16,10 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PRReviewScreen extends StatelessWidget {
-  final String nodeID;
-  final String pullNodeID;
   const PRReviewScreen(this.nodeID, {Key? key, required this.pullNodeID})
       : super(key: key);
+  final String nodeID;
+  final String pullNodeID;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -114,12 +114,12 @@ class PRReviewScreen extends StatelessWidget {
                                 openCommentSheet();
                               }
                             },
-                            child: const Icon(Icons.reply),
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
                                 .primary,
                             listenToLoadingController: false,
                             stretch: false,
+                            child: const Icon(Icons.reply),
                           ),
                           const SizedBox(
                             width: 8,
@@ -172,9 +172,7 @@ class PRReviewScreen extends StatelessWidget {
                           reactions: comment.reactionGroups,
                           viewerCanDelete: comment.viewerCanDelete,
                           viewerCanMinimize: comment.viewerCanMinimize,
-                          onQuote: () {
-                            openCommentSheet();
-                          },
+                          onQuote: openCommentSheet,
                           viewerCannotUpdateReasons:
                               comment.viewerCannotUpdateReasons,
                           viewerCanReact: comment.viewerCanReact,
@@ -253,9 +251,9 @@ class PRReviewScreen extends StatelessWidget {
                                                               refresh: refresh);
                                                     },
                                                     filterFn: (items) {
-                                                      List<ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges>
-                                                          temp = [];
-                                                      for (ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges item
+                                                      final temp = <
+                                                          ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges>[];
+                                                      for (final item
                                                           in items) {
                                                         if (item.node!.id !=
                                                             comment.id) {
@@ -316,13 +314,7 @@ class PRReviewScreen extends StatelessWidget {
                                             .currentSetting
                                             .primary,
                                         title:
-                                            (data.node!.comments.totalCount > 1
-                                                    ? (data.node!.comments
-                                                                .totalCount -
-                                                            1)
-                                                        .toString()
-                                                    : 'No') +
-                                                ' Replies',
+                                            '${data.node!.comments.totalCount > 1 ? (data.node!.comments.totalCount - 1).toString() : 'No'} Replies',
                                         trailingIcon:
                                             data.node!.comments.totalCount > 1
                                                 ? const Icon(

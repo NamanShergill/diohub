@@ -6,12 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ActionButton extends StatefulWidget {
-  final int? count;
-  final IconData? icon;
-  final VoidCallback? onTap;
-  final String? action;
-  final bool? isDone;
-  final Color? doneColor;
   const ActionButton(
       {Key? key,
       this.count,
@@ -21,6 +15,12 @@ class ActionButton extends StatefulWidget {
       this.icon,
       this.isDone = false})
       : super(key: key);
+  final int? count;
+  final IconData? icon;
+  final VoidCallback? onTap;
+  final String? action;
+  final bool? isDone;
+  final Color? doneColor;
 
   @override
   _ActionButtonState createState() => _ActionButtonState();

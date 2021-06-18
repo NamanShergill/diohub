@@ -11,12 +11,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullListCard extends StatelessWidget {
-  final PullRequestModel item;
-  final bool compact;
-  final bool disableMaterial;
-  final EdgeInsets padding;
-  final bool showRepoName;
-
   const PullListCard(this.item,
       {this.compact = false,
       this.disableMaterial = false,
@@ -24,6 +18,12 @@ class PullListCard extends StatelessWidget {
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
       Key? key})
       : super(key: key);
+  final PullRequestModel item;
+  final bool compact;
+  final bool disableMaterial;
+  final EdgeInsets padding;
+  final bool showRepoName;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,9 +33,9 @@ class PullListCard extends StatelessWidget {
         color: disableMaterial
             ? Colors.transparent
             : Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context).push(PullScreenRoute(pullURL: item.url));
           },
@@ -130,9 +130,9 @@ class PullListCard extends StatelessWidget {
 }
 
 class GetIcon extends StatelessWidget {
+  const GetIcon(this.state, this.mergedAt, {Key? key}) : super(key: key);
   final IssueState? state;
   final DateTime? mergedAt;
-  const GetIcon(this.state, this.mergedAt, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

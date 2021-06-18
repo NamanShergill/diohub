@@ -2,9 +2,9 @@ import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 
 class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const DHAppBar({Key? key, this.url, required this.title}) : super(key: key);
   final String? url;
   final Widget title;
-  const DHAppBar({Key? key, this.url, required this.title}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -22,8 +22,8 @@ class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class ShareButton extends StatelessWidget {
-  final String url;
   const ShareButton(this.url, {Key? key}) : super(key: key);
+  final String url;
 
   @override
   Widget build(BuildContext context) {

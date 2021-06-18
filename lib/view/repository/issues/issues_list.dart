@@ -18,9 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
-  final ScrollController scrollController;
   const IssuesList({required this.scrollController, Key? key})
       : super(key: key);
+  final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
@@ -56,9 +56,11 @@ class IssuesList extends StatelessWidget {
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           filterFn: (data) {
-            List<IssueModel> filteredData = [];
-            for (var item in data) {
-              if (item.pullRequest == null) filteredData.add(item);
+            final filteredData = <IssueModel>[];
+            for (final item in data) {
+              if (item.pullRequest == null) {
+                filteredData.add(item);
+              }
             }
             return filteredData;
           },
@@ -114,20 +116,18 @@ class IssuesList extends StatelessWidget {
 }
 
 class IssueTemplateCard extends StatelessWidget {
-  final bool isBlank;
-  final IssueTemplates$Query$Repository$IssueTemplates template;
   const IssueTemplateCard(this.template, {Key? key, this.isBlank = false})
       : super(key: key);
+  final bool isBlank;
+  final IssueTemplates$Query$Repository$IssueTemplates template;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Card(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        shape: RoundedRectangleBorder(
-            borderRadius: AppThemeBorderRadius.medBorderRadius),
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
         child: InkWell(
           onTap: () {
             final repo = context.read<RepositoryProvider>().repositoryModel;

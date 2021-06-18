@@ -14,9 +14,9 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
-  final NotificationModel notification;
   const PullRequestNotificationCard(this.notification, {Key? key})
       : super(key: key);
+  final NotificationModel notification;
   @override
   _PullRequestNotificationCardState createState() =>
       _PullRequestNotificationCardState();
@@ -42,12 +42,12 @@ class _PullRequestNotificationCardState
   void getInfo() async {
     // Get more information on the pull request to display
     // Todo: Update pull notification cards when I figure out how Github does it.
-    List<Future> futures = [
+    final futures = <Future>[
       PullsService.getPullInformation(
           fullUrl: widget.notification.subject!.url!),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
-    final List<dynamic> data = await Future.wait(futures);
+    final data = await Future.wait(futures);
     pullRequest = data[0];
     // reviews = data[1];
     setState(() {
@@ -78,10 +78,9 @@ class _PullRequestNotificationCardState
   }
 
   Widget getPullFooter() {
-    return CardFooter(
-        pullRequest.user!.avatarUrl,
+    return CardFooter(pullRequest.user!.avatarUrl,
         'Status: ${pullRequest.merged! ? 'Merged' : stateValues.reverse![pullRequest.state!]!.substring(0, 1).toUpperCase() + stateValues.reverse![pullRequest.state!]!.substring(1)}',
-        widget.notification.unread);
+        unread: widget.notification.unread);
   }
 
   Widget getIcon() {

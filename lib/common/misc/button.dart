@@ -6,19 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
-  final bool listenToLoadingController;
-  final VoidCallback? onTap;
-  final Color? color;
-  final bool enabled;
-  final Widget child;
-  final Icon? leadingIcon;
-  final Icon? trailingIcon;
-  final double borderRadius;
-  final Widget? loadingWidget;
-  final bool stretch;
-  final bool loading;
-  final double elevation;
-  final EdgeInsets padding;
   const Button(
       {this.listenToLoadingController = true,
       required this.onTap,
@@ -35,6 +22,19 @@ class Button extends StatefulWidget {
       this.loadingWidget,
       Key? key})
       : super(key: key);
+  final bool listenToLoadingController;
+  final VoidCallback? onTap;
+  final Color? color;
+  final bool enabled;
+  final Widget child;
+  final Icon? leadingIcon;
+  final Icon? trailingIcon;
+  final double borderRadius;
+  final Widget? loadingWidget;
+  final bool stretch;
+  final bool loading;
+  final double elevation;
+  final EdgeInsets padding;
 
   @override
   _ButtonState createState() => _ButtonState();
@@ -45,7 +45,7 @@ class _ButtonState extends State<Button> {
   @override
   void initState() {
     if (widget.listenToLoadingController) {
-      ButtonController.buttonStream.listen((onData) {
+      buttonStream.listen((onData) {
         if (mounted) {
           setState(() {
             if (onData != null) {
@@ -134,22 +134,6 @@ class _ButtonState extends State<Button> {
 }
 
 class StringButton extends StatelessWidget {
-  final bool listenToLoadingController;
-  final VoidCallback? onTap;
-  final Color? color;
-  final bool enabled;
-  final double? textSize;
-  final String? title;
-  final String? subtitle;
-  final Icon? leadingIcon;
-  final double borderRadius;
-  final String? loadingText;
-  final Icon? trailingIcon;
-  final bool loading;
-  final bool stretch;
-  final double elevation;
-  final EdgeInsets padding;
-
   const StringButton(
       {this.listenToLoadingController = true,
       required this.onTap,
@@ -168,10 +152,38 @@ class StringButton extends StatelessWidget {
       this.loadingText,
       Key? key})
       : super(key: key);
+  final bool listenToLoadingController;
+  final VoidCallback? onTap;
+  final Color? color;
+  final bool enabled;
+  final double? textSize;
+  final String? title;
+  final String? subtitle;
+  final Icon? leadingIcon;
+  final double borderRadius;
+  final String? loadingText;
+  final Icon? trailingIcon;
+  final bool loading;
+  final bool stretch;
+  final double elevation;
+  final EdgeInsets padding;
+
   @override
   Widget build(BuildContext context) {
     return Button(
       onTap: onTap,
+      trailingIcon: trailingIcon,
+      loadingWidget: Text(loadingText ?? '',
+          style:
+              Theme.of(context).textTheme.button!.copyWith(fontSize: textSize)),
+      color: color,
+      borderRadius: borderRadius,
+      leadingIcon: leadingIcon,
+      enabled: enabled,
+      elevation: elevation,
+      loading: loading,
+      stretch: stretch,
+      listenToLoadingController: listenToLoadingController,
       child: Column(
         children: [
           Text(
@@ -189,18 +201,6 @@ class StringButton extends StatelessWidget {
               )),
         ],
       ),
-      trailingIcon: trailingIcon,
-      loadingWidget: Text(loadingText ?? '',
-          style:
-              Theme.of(context).textTheme.button!.copyWith(fontSize: textSize)),
-      color: color,
-      borderRadius: borderRadius,
-      leadingIcon: leadingIcon,
-      enabled: enabled,
-      elevation: elevation,
-      loading: loading,
-      stretch: stretch,
-      listenToLoadingController: listenToLoadingController,
     );
   }
 }

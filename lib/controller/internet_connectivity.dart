@@ -15,9 +15,7 @@ class InternetConnectivity {
   static NetworkStatus get status => _status;
 
   static void networkStatusService() async {
-    Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult status) async {
+    Connectivity().onConnectivityChanged.listen((status) async {
       if (status != ConnectivityResult.none) {
         _networkController.add(NetworkStatus.restored);
         await Future.delayed(const Duration(seconds: 5));

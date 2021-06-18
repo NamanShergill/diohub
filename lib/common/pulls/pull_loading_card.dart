@@ -13,12 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullLoadingCard extends StatelessWidget {
-  final String url;
-  final bool compact;
-  final IssueModel? issueModel;
-  final EdgeInsets padding;
-  final bool disableMaterial;
-
   const PullLoadingCard(this.url,
       {this.compact = false,
       this.issueModel,
@@ -26,6 +20,12 @@ class PullLoadingCard extends StatelessWidget {
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
       Key? key})
       : super(key: key);
+  final String url;
+  final bool compact;
+  final IssueModel? issueModel;
+  final EdgeInsets padding;
+  final bool disableMaterial;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,13 +33,13 @@ class PullLoadingCard extends StatelessWidget {
       child: Material(
         elevation: disableMaterial ? 0 : 2,
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: APIWrapper<PullRequestModel>(
           apiCall: PullsService.getPullInformation(fullUrl: url),
           loadingBuilder: (context) {
             if (issueModel != null) {
               return InkWell(
-                borderRadius: AppThemeBorderRadius.medBorderRadius,
+                borderRadius: medBorderRadius,
                 onTap: () {
                   AutoRouter.of(context).push(PullScreenRoute(pullURL: url));
                 },
@@ -98,8 +98,7 @@ class PullLoadingCard extends StatelessWidget {
                               height: 16,
                             ),
                             ShimmerWidget(
-                              borderRadius:
-                                  AppThemeBorderRadius.smallBorderRadius,
+                              borderRadius: smallBorderRadius,
                               child: Container(
                                 height: 20,
                                 width: double.infinity,

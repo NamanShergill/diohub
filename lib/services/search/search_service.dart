@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -19,7 +18,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    Response response =
+    final response =
         await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
             .get(
       '/search/users',
@@ -40,7 +39,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final Response response =
+    final response =
         await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
             .get(
       '/search/repositories',
@@ -61,7 +60,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    Response response =
+    final response =
         await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
             .get(
       '/search/issues',
@@ -87,12 +86,12 @@ class SearchService {
 
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
       searchMentionUsers(String query, String type, {String? cursor}) async {
-    String q = query + ' type:$type';
+    final q = '$query${' type:$type'}';
     final res = await GetDio.gqlDio(
         SearchMentionUsersQuery(
             variables: SearchMentionUsersArguments(query: q, after: cursor)),
         cacheOptions: CacheManager.defaultGQLCache());
-    List<SearchMentionUsers$Query$Search$Edges?> userEdges =
+    final userEdges =
         SearchMentionUsers$Query.fromJson(res.data!).search.edges!;
     return userEdges;
   }

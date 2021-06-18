@@ -165,15 +165,15 @@ class _ColorSettingCardState extends State<ColorSettingCard> {
 }
 
 class _ColorTab extends StatefulWidget {
-  final Color color;
-  final String type;
-  final ValueChanged<Color> onChange;
   const _ColorTab(
       {Key? key,
       required this.type,
       required this.color,
       required this.onChange})
       : super(key: key);
+  final Color color;
+  final String type;
+  final ValueChanged<Color> onChange;
 
   @override
   __ColorTabState createState() => __ColorTabState();
@@ -218,8 +218,7 @@ class __ColorTabState extends State<_ColorTab> {
                   ColorPicker(
                     pickerColor: widget.color,
                     enableAlpha: false,
-                    pickerAreaBorderRadius:
-                        AppThemeBorderRadius.medBorderRadius,
+                    pickerAreaBorderRadius: medBorderRadius,
                     onColorChanged: (value) {
                       setState(() {
                         selectedColor = value;
@@ -231,11 +230,11 @@ class __ColorTabState extends State<_ColorTab> {
               ),
               actions: <Widget>[
                 MaterialButton(
-                  child: const Text('Select'),
                   onPressed: () {
                     widget.onChange(selectedColor);
                     Navigator.of(context).pop();
                   },
+                  child: const Text('Select'),
                 ),
               ],
             );

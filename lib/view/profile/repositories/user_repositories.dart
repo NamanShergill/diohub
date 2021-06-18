@@ -7,13 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserRepositories extends StatelessWidget {
-  final UserInfoModel userInfoModel;
-  final bool? currentUser;
-  final ScrollController scrollController;
-
   const UserRepositories(this.userInfoModel,
       {this.currentUser = false, required this.scrollController, Key? key})
       : super(key: key);
+  final UserInfoModel userInfoModel;
+  final bool? currentUser;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {

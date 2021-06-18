@@ -5,8 +5,8 @@ import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:flutter/material.dart';
 
 class PullEventCard extends StatelessWidget {
-  final EventsModel event;
   const PullEventCard(this.event, {Key? key}) : super(key: key);
+  final EventsModel event;
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(

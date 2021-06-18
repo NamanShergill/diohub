@@ -10,11 +10,11 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
+  const BrowserListTile(this.tree, this.repoURL, this.index, {Key? key})
+      : super(key: key);
   final Tree tree;
   final String? repoURL;
   final int index;
-  const BrowserListTile(this.tree, this.repoURL, this.index, {Key? key})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

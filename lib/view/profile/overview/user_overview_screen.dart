@@ -15,8 +15,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class UserOverviewScreen extends StatelessWidget {
-  final UserInfoModel? userInfoModel;
   const UserOverviewScreen(this.userInfoModel, {Key? key}) : super(key: key);
+  final UserInfoModel? userInfoModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,9 +38,8 @@ class UserOverviewScreen extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: data.length,
                           itemBuilder: (context, index) {
-                            final GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
-                                node = data[index]!.node
-                                    as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
+                            final node = data[index]!.node
+                                as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
                             return RepositoryCard(RepositoryModel(
                                 stargazersCount: node.stargazerCount,
                                 description: node.description,
@@ -79,7 +78,7 @@ class UserOverviewScreen extends StatelessWidget {
                         .currentSetting
                         .secondary,
                     highlightColor: Colors.grey.shade800,
-                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    borderRadius: medBorderRadius,
                     child: Container(
                       height: 70,
                       color: Colors.grey,

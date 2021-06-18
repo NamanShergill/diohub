@@ -15,19 +15,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Discussion extends StatefulWidget {
-  final ScrollController scrollController;
-
-  /// Show  comments since.
-  final DateTime? commentsSince;
-  final String repoName;
-  final String owner;
-  final String? pullNodeID;
-  final BaseComment initComment;
-  final String issueUrl;
-  final int number;
-  final bool? isLocked;
-  final bool isPull;
-  final DateTime? createdAt;
   const Discussion(
       {this.commentsSince,
       required this.number,
@@ -42,6 +29,19 @@ class Discussion extends StatefulWidget {
       this.createdAt,
       Key? key})
       : super(key: key);
+  final ScrollController scrollController;
+
+  /// Show  comments since.
+  final DateTime? commentsSince;
+  final String repoName;
+  final String owner;
+  final String? pullNodeID;
+  final BaseComment initComment;
+  final String issueUrl;
+  final int number;
+  final bool? isLocked;
+  final bool isPull;
+  final DateTime? createdAt;
 
   @override
   _DiscussionState createState() => _DiscussionState();
@@ -100,6 +100,12 @@ class _DiscussionState extends State<Discussion>
                       .currentSetting
                       .secondary,
                   padding: const EdgeInsets.all(12),
+                  onTap: () {
+                    setState(() {
+                      commentsSince = null;
+                    });
+                    commentsSinceController.refresh();
+                  },
                   child: Column(
                     children: [
                       Text(
@@ -118,12 +124,6 @@ class _DiscussionState extends State<Discussion>
                       ),
                     ],
                   ),
-                  onTap: () {
-                    setState(() {
-                      commentsSince = null;
-                    });
-                    commentsSinceController.refresh();
-                  },
                 ),
               ),
               if (widget.initComment.createdAt.isAfter(
@@ -143,11 +143,6 @@ class _DiscussionState extends State<Discussion>
                       .currentSetting
                       .secondary,
                   padding: const EdgeInsets.all(16),
-                  child: const Text(
-                    'Show timeline from a specific time?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                  ),
                   onTap: () async {
                     DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
@@ -176,6 +171,11 @@ class _DiscussionState extends State<Discussion>
                       commentsSinceController.refresh();
                     }, currentTime: widget.createdAt!);
                   },
+                  child: const Text(
+                    'Show timeline from a specific time?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -239,9 +239,7 @@ class _DiscussionState extends State<Discussion>
                   return GetTimelineItem(
                     edge.node,
                     pullNodeID: widget.pullNodeID,
-                    onQuote: () {
-                      openCommentSheet();
-                    },
+                    onQuote: openCommentSheet,
                   );
                   // return Builder(
                   //   builder: (context) {
@@ -345,9 +343,7 @@ class _DiscussionState extends State<Discussion>
               ),
             ),
             _CommentButton(
-              onTap: () {
-                openCommentSheet();
-              },
+              onTap: openCommentSheet,
               isLocked: widget.isLocked!,
             )
           ],
@@ -358,13 +354,13 @@ class _DiscussionState extends State<Discussion>
 }
 
 class _CommentButton extends StatelessWidget {
-  final bool isLocked;
-  final GestureTapCallback onTap;
   const _CommentButton({
     Key? key,
     this.isLocked = false,
     required this.onTap,
   }) : super(key: key);
+  final bool isLocked;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {

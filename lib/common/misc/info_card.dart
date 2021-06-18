@@ -5,25 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class InfoCard extends StatelessWidget {
+  const InfoCard(this.title,
+      {this.child, this.onTap, this.color, this.headerTrailing, Key? key})
+      : super(key: key);
   final String title;
   final Widget? child;
   final GestureTapCallback? onTap;
   final Color? color;
   final Widget? headerTrailing;
-  const InfoCard(this.title,
-      {this.child, this.onTap, this.color, this.headerTrailing, Key? key})
-      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
       child: Material(
         elevation: 2,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         color: color ??
             Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),

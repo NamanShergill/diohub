@@ -136,7 +136,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
                       Navigator.pop(context);
                     });
                   },
-                  title: const Text("Open"),
+                  title: const Text('Open'),
                   trailing: Icon(
                     LineIcons.link,
                     color: Provider.of<PaletteSettings>(context, listen: false)
@@ -157,7 +157,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
               Navigator.pop(context);
               copyToClipboard(url);
             },
-            title: const Text("Copy"),
+            title: const Text('Copy'),
             trailing: Icon(
               Icons.copy,
               color: Provider.of<PaletteSettings>(context, listen: false)
@@ -180,7 +180,7 @@ void showURLBottomActionsMenu(BuildContext context, String url,
               }
               Navigator.pop(context);
             },
-            title: const Text("Share"),
+            title: const Text('Share'),
             trailing: const Icon(
               LineIcons.share,
             ),

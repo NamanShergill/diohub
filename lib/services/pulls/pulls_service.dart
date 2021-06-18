@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -11,7 +10,7 @@ class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
   static Future<PullRequestModel> getPullInformation(
       {required String fullUrl}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader:
@@ -22,9 +21,9 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
   static Future<ReviewModel> getPullReviews({required String fullUrl}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
-        .get(fullUrl + '/reviews');
+        .get('$fullUrl/reviews');
     return ReviewModel.fromJson(response.data);
   }
 
@@ -35,7 +34,7 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/pulls', queryParameters: {
       'per_page': perPage,
@@ -44,8 +43,8 @@ class PullsService {
       // 'state': 'all',
       // 'direction': 'desc',
     });
-    List unParsedData = response.data;
-    List<PullRequestModel> parsedData =
+    final List unParsedData = response.data;
+    final parsedData =
         unParsedData.map((e) => PullRequestModel.fromJson(e)).toList();
     return parsedData;
   }
@@ -57,7 +56,7 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '$pullURL/commits',
@@ -66,8 +65,8 @@ class PullsService {
         'page': pageNumber,
       },
     );
-    List unParsedData = response.data;
-    List<CommitListModel> parsedData =
+    final List unParsedData = response.data;
+    final parsedData =
         unParsedData.map((e) => CommitListModel.fromJson(e)).toList();
     return parsedData;
   }
@@ -79,14 +78,14 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$pullURL/files', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
     });
-    List unParsedData = response.data;
-    List<FileElement> parsedData =
+    final List unParsedData = response.data;
+    final parsedData =
         unParsedData.map((e) => FileElement.fromJson(e)).toList();
     return parsedData;
   }
@@ -144,13 +143,13 @@ class PullsService {
     final parsed = ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
 
     if (parsed.repository!.pullRequest!.reviewThreads.edges!.isNotEmpty) {
-      for (ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
+      for (final thread
           in parsed.repository!.pullRequest!.reviewThreads.edges!) {
         if (thread?.node?.comments.nodes?.first?.id == commentID) {
           return thread!;
         }
       }
-      return await getPRReviewThreadID(commentID,
+      return getPRReviewThreadID(commentID,
           name: name,
           owner: owner,
           number: number,

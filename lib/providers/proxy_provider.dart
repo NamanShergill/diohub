@@ -1,10 +1,9 @@
 import 'package:dio_hub/providers/base_provider.dart';
 
 abstract class ProxyProvider<T extends BaseProvider> extends BaseProvider {
+  ProxyProvider([Status status = Status.initialized]) : super(status);
   T? _parentProvider;
   T? get parentProvider => _parentProvider;
-
-  ProxyProvider([Status status = Status.initialized]) : super(status);
 
   /// Update the provider with new data.
   void updateProvider(T parentProvider) async {

@@ -15,12 +15,12 @@ import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:provider/provider.dart';
 
 class NewIssueScreen extends StatefulWidget {
-  final IssueTemplates$Query$Repository$IssueTemplates? template;
-  final String owner;
-  final String repo;
   const NewIssueScreen(
       {Key? key, this.template, required this.repo, required this.owner})
       : super(key: key);
+  final IssueTemplates$Query$Repository$IssueTemplates? template;
+  final String owner;
+  final String repo;
 
   @override
   _NewIssueScreenState createState() => _NewIssueScreenState();
@@ -147,15 +147,6 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             children: [
                               CustomExpandTile(
                                 expanded: expanded,
-                                child: Column(
-                                  children: [
-                                    if (widget.template!.about != null)
-                                      Padding(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Text(widget.template!.about!),
-                                      ),
-                                  ],
-                                ),
                                 title: Text(
                                   widget.template!.name,
                                   overflow:
@@ -168,6 +159,15 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                                     expanded = !expanded;
                                   });
                                 },
+                                child: Column(
+                                  children: [
+                                    if (widget.template!.about != null)
+                                      Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Text(widget.template!.about!),
+                                      ),
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 8,
@@ -175,11 +175,13 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             ],
                           ),
                         TextFormField(
-                          decoration: TextFieldTheme.inputDecoration(
+                          decoration: inputDecoration(
                               context: context, labelText: 'Title'),
                           controller: controller,
                           validator: (value) {
-                            if (value!.isEmpty) return 'Title cannot be empty!';
+                            if (value!.isEmpty) {
+                              return 'Title cannot be empty!';
+                            }
                           },
                           maxLines: 5,
                           minLines: 1,
@@ -201,7 +203,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
                                 .secondary,
-                            borderRadius: AppThemeBorderRadius.medBorderRadius,
+                            borderRadius: medBorderRadius,
                           ),
                         )),
                       ])
@@ -227,8 +229,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                               color: Provider.of<PaletteSettings>(context)
                                   .currentSetting
                                   .secondary,
-                              borderRadius:
-                                  AppThemeBorderRadius.medBorderRadius,
+                              borderRadius: medBorderRadius,
                             ),
                             child: Padding(
                               padding:

@@ -9,10 +9,6 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 
 class CurrentUserProvider extends BaseProvider {
-  CurrentUserInfoModel? _currentUserInfo;
-  final AuthenticationBloc authenticationBloc;
-  CurrentUserInfoModel? get currentUserInfo => _currentUserInfo;
-
   CurrentUserProvider({required this.authenticationBloc}) {
     if (authenticationBloc.state.authenticated) {
       tryFetchUserInfo();
@@ -24,7 +20,9 @@ class CurrentUserProvider extends BaseProvider {
         tryFetchUserInfo();
       } else if (authState is AuthenticationUnauthenticated) {
         // Reset provider if the user is unauthenticated.
-        if (status != Status.initialized) reset();
+        if (status != Status.initialized) {
+          reset();
+        }
       }
     });
     // Request for user details again when back online,
@@ -55,6 +53,9 @@ class CurrentUserProvider extends BaseProvider {
       }
     });
   }
+  CurrentUserInfoModel? _currentUserInfo;
+  final AuthenticationBloc authenticationBloc;
+  CurrentUserInfoModel? get currentUserInfo => _currentUserInfo;
 
   void tryFetchUserInfo() async {
     // Fetch user info.

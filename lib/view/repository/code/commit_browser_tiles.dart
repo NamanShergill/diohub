@@ -17,16 +17,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class _CommitTiles extends StatefulWidget {
-  final bool highlighted;
-  final ValueChanged<String>? onSelected;
-  final String sha;
-  final String message;
-  final String? authorAvatarUrl;
-  final String? authorLogin;
-  final DateTime date;
-  final String url;
-  final bool compact;
-  final Color? backgroundColor;
   const _CommitTiles(
       {Key? key,
       this.compact = false,
@@ -40,6 +30,16 @@ class _CommitTiles extends StatefulWidget {
       required this.authorLogin,
       required this.sha})
       : super(key: key);
+  final bool highlighted;
+  final ValueChanged<String>? onSelected;
+  final String sha;
+  final String message;
+  final String? authorAvatarUrl;
+  final String? authorLogin;
+  final DateTime date;
+  final String url;
+  final bool compact;
+  final Color? backgroundColor;
 
   @override
   _CommitTilesState createState() => _CommitTilesState();
@@ -58,13 +58,13 @@ class _CommitTilesState extends State<_CommitTiles> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 2,
-      borderRadius: AppThemeBorderRadius.medBorderRadius,
+      borderRadius: medBorderRadius,
       color: widget.highlighted
           ? Provider.of<PaletteSettings>(context).currentSetting.accent
           : widget.backgroundColor ??
               Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: InkWell(
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         onTap: () {
           setState(() {
             expanded = !expanded;
@@ -297,9 +297,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                       height: 0,
                     ),
                     InkWell(
-                      onTap: () {
-                        copySha();
-                      },
+                      onTap: copySha,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
@@ -327,12 +325,12 @@ class _CommitTilesState extends State<_CommitTiles> {
 }
 
 class CommitTilesREST extends StatelessWidget {
-  final CommitListModel item;
-  final bool highlighted;
-  final ValueChanged<String>? onSelected;
   const CommitTilesREST(
       {Key? key, required this.item, this.highlighted = false, this.onSelected})
       : super(key: key);
+  final CommitListModel item;
+  final bool highlighted;
+  final ValueChanged<String>? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -349,11 +347,6 @@ class CommitTilesREST extends StatelessWidget {
 }
 
 class CommitTilesGQL extends StatelessWidget {
-  final CommitMixin item;
-  final bool highlighted;
-  final bool compact;
-  final Color? backgroundColor;
-  final ValueChanged<String>? onSelected;
   const CommitTilesGQL(
       {Key? key,
       required this.item,
@@ -362,6 +355,11 @@ class CommitTilesGQL extends StatelessWidget {
       this.compact = true,
       this.backgroundColor})
       : super(key: key);
+  final CommitMixin item;
+  final bool highlighted;
+  final bool compact;
+  final Color? backgroundColor;
+  final ValueChanged<String>? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +378,7 @@ class CommitTilesGQL extends StatelessWidget {
   }
 
   String get toApiURL {
-    final List<String> temp = item.commitUrl
+    final temp = item.commitUrl
         .toString()
         .replaceAll('https://github.com/', '')
         .split('/');

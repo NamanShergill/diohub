@@ -19,8 +19,8 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
-  final APIWrapperController labelController = APIWrapperController();
   IssueInformation({Key? key}) : super(key: key);
+  final APIWrapperController labelController = APIWrapperController();
   @override
   Widget build(BuildContext context) {
     final _issue = Provider.of<IssueProvider>(context).issueModel!;
@@ -36,12 +36,11 @@ class IssueInformation extends StatelessWidget {
                           .currentUserInfo
                           ?.login ==
                       _issue.user!.login &&
-                  (_issue.state == IssueState.CLOSED
-                      ? _issue.closedBy!.login ==
+                  (!(_issue.state == IssueState.CLOSED) ||
+                      _issue.closedBy!.login ==
                           Provider.of<CurrentUserProvider>(context)
                               .currentUserInfo
-                              ?.login
-                      : true)))
+                              ?.login)))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: _IssueButton(_issue),
@@ -164,7 +163,7 @@ class IssueInformation extends StatelessWidget {
                 : null,
             child: Consumer<IssueProvider>(
               builder: (context, issue, _) {
-                var _issue = issue.issueModel!;
+                final _issue = issue.issueModel!;
                 return Row(
                   children: [
                     (_issue.labels!.isNotEmpty)
@@ -180,7 +179,7 @@ class IssueInformation extends StatelessWidget {
                                       )),
                             ),
                           )
-                        : const Text("No labels."),
+                        : const Text('No labels.'),
                   ],
                 );
               },
@@ -235,8 +234,8 @@ class IssueInformation extends StatelessWidget {
 }
 
 class _IssueButton extends StatefulWidget {
-  final IssueModel issue;
   const _IssueButton(this.issue, {Key? key}) : super(key: key);
+  final IssueModel issue;
 
   @override
   __IssueButtonState createState() => __IssueButtonState();
@@ -249,6 +248,48 @@ class __IssueButtonState extends State<_IssueButton> {
     return Button(
       listenToLoadingController: false,
       loading: loading,
+      onTap: () async {
+        showDialog(
+          context: context,
+          builder: (_) => AppDialog(
+              title: widget.issue.state != IssueState.CLOSED
+                  ? 'Close Issue?'
+                  : 'Reopen Issue?',
+              actions: [
+                MaterialButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                MaterialButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+
+                    setState(() {
+                      loading = true;
+                    });
+                    // ignore: omit_local_variable_types
+                    final Map data = {};
+                    if (widget.issue.state != IssueState.CLOSED) {
+                      data['state'] = 'closed';
+                    } else {
+                      data['state'] = 'open';
+                    }
+                    final issue = await IssuesService.updateIssue(
+                        widget.issue.url!, data);
+                    Provider.of<IssueProvider>(context, listen: false)
+                        .updateIssue(issue);
+                    setState(() {
+                      loading = false;
+                    });
+                  },
+                  child: const Text('Confirm'),
+                )
+              ]),
+        );
+      },
+      color: widget.issue.state != IssueState.CLOSED
+          ? Provider.of<PaletteSettings>(context).currentSetting.red
+          : Provider.of<PaletteSettings>(context).currentSetting.green,
       child: widget.issue.state != IssueState.CLOSED
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -270,47 +311,6 @@ class __IssueButtonState extends State<_IssueButton> {
                 Icon(Octicons.issue_reopened),
               ],
             ),
-      onTap: () async {
-        showDialog(
-          context: context,
-          builder: (_) => AppDialog(
-              title: widget.issue.state != IssueState.CLOSED
-                  ? 'Close Issue?'
-                  : 'Reopen Issue?',
-              actions: [
-                MaterialButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-                MaterialButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-
-                    setState(() {
-                      loading = true;
-                    });
-                    Map data = {};
-                    if (widget.issue.state != IssueState.CLOSED) {
-                      data['state'] = 'closed';
-                    } else {
-                      data['state'] = 'open';
-                    }
-                    final IssueModel issue = await IssuesService.updateIssue(
-                        widget.issue.url!, data);
-                    Provider.of<IssueProvider>(context, listen: false)
-                        .updateIssue(issue);
-                    setState(() {
-                      loading = false;
-                    });
-                  },
-                  child: const Text('Confirm'),
-                )
-              ]),
-        );
-      },
-      color: widget.issue.state != IssueState.CLOSED
-          ? Provider.of<PaletteSettings>(context).currentSetting.red
-          : Provider.of<PaletteSettings>(context).currentSetting.green,
     );
   }
 }

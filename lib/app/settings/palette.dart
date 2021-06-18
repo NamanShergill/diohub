@@ -18,30 +18,6 @@ class PaletteSettings extends Settings<DioHubPalette> {
 }
 
 class DioHubPalette {
-  final Color? _accent;
-  final Color? _primary;
-  // static Color background = Color(0xff151618);
-  final Color? _secondary;
-  final Color? _baseElements;
-  final Color? _elementsOnColors;
-  final Color? _red;
-  final Color? _green;
-  final Color? _faded1;
-  final Color? _faded2;
-  final Color? _faded3;
-
-  Color get accent => _accent ?? _defaultPalette.accent;
-  Color get primary => _primary ?? _defaultPalette.primary;
-  Color get secondary => _secondary ?? _defaultPalette.secondary;
-  Color get baseElements => _baseElements ?? _defaultPalette.baseElements;
-  Color get elementsOnColors =>
-      _elementsOnColors ?? _defaultPalette.elementsOnColors;
-  Color get green => _green ?? _defaultPalette.green;
-  Color get red => _red ?? _defaultPalette.red;
-  Color get faded1 => _faded1 ?? _defaultPalette.faded1;
-  Color get faded2 => _faded2 ?? _defaultPalette.faded2;
-  Color get faded3 => _faded3 ?? _defaultPalette.faded3;
-
   DioHubPalette({
     Color? accent,
     Color? primary,
@@ -76,6 +52,30 @@ class DioHubPalette {
         faded2: _getColor(json, 'faded2'),
         faded3: _getColor(json, 'faded3'),
       );
+
+  final Color? _accent;
+  final Color? _primary;
+  // static Color background = Color(0xff151618);
+  final Color? _secondary;
+  final Color? _baseElements;
+  final Color? _elementsOnColors;
+  final Color? _red;
+  final Color? _green;
+  final Color? _faded1;
+  final Color? _faded2;
+  final Color? _faded3;
+
+  Color get accent => _accent ?? _defaultPalette.accent;
+  Color get primary => _primary ?? _defaultPalette.primary;
+  Color get secondary => _secondary ?? _defaultPalette.secondary;
+  Color get baseElements => _baseElements ?? _defaultPalette.baseElements;
+  Color get elementsOnColors =>
+      _elementsOnColors ?? _defaultPalette.elementsOnColors;
+  Color get green => _green ?? _defaultPalette.green;
+  Color get red => _red ?? _defaultPalette.red;
+  Color get faded1 => _faded1 ?? _defaultPalette.faded1;
+  Color get faded2 => _faded2 ?? _defaultPalette.faded2;
+  Color get faded3 => _faded3 ?? _defaultPalette.faded3;
 
   DioHubPalette copyWith({
     Color? accent,
@@ -120,7 +120,7 @@ class DioHubPalette {
 
 Color? _getColor(Map<String, dynamic> json, String key) {
   if (json[key] != null) {
-    final String hex = 'ff' + (json[key] as String).substring(2);
+    final hex = 'ff${(json[key] as String).substring(2)}';
     if (int.tryParse('0x$hex') != null) {
       return Color(int.parse('0x$hex'));
     }

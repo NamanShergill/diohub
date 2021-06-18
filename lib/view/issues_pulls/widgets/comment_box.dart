@@ -17,8 +17,8 @@ void showCommentSheet(BuildContext context,
     required ValueChanged<String> onChanged,
     required String owner,
     required String repoName}) {
-  bool markdownView = false;
-  bool loading = false;
+  var markdownView = false;
+  var loading = false;
   showBottomActionMenu(context, fullScreen: true, header: (context, setState) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,7 +38,10 @@ void showCommentSheet(BuildContext context,
         ),
         Expanded(
           child: InkWell(
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
+            onTap: () {
+              Navigator.pop(context);
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(
@@ -54,9 +57,6 @@ void showCommentSheet(BuildContext context,
                 ),
               ),
             ),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
         ),
         IconButton(
@@ -88,7 +88,7 @@ void showCommentSheet(BuildContext context,
   }, childWidget: (buildContext, setState) {
     return Expanded(
         child: CommentBox(
-      repoName: owner + '/' + repoName,
+      repoName: '$owner/$repoName',
       markdownView: markdownView,
       initialData: initialData,
       onChanged: loading ? null : onChanged,
@@ -97,11 +97,6 @@ void showCommentSheet(BuildContext context,
 }
 
 class CommentBox extends StatefulWidget {
-  final String repoName;
-  final String? initialData;
-  final ValueChanged<String>? onChanged;
-  final bool markdownView;
-  final ScrollController? scrollController;
   const CommentBox({
     Key? key,
     this.scrollController,
@@ -110,6 +105,11 @@ class CommentBox extends StatefulWidget {
     required this.markdownView,
     required this.repoName,
   }) : super(key: key);
+  final String repoName;
+  final String? initialData;
+  final ValueChanged<String>? onChanged;
+  final bool markdownView;
+  final ScrollController? scrollController;
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
@@ -145,7 +145,7 @@ class _CommentBoxState extends State<CommentBox> {
         toolbarDecoration: BoxDecoration(
             color:
                 Provider.of<PaletteSettings>(context).currentSetting.primary),
-        inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
+        inkwellBorderRadius: medBorderRadius,
         boxDecoration: BoxDecoration(
           color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         ),

@@ -14,12 +14,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueListCard extends StatelessWidget {
-  final IssueModel item;
-  final bool compact;
-  final EdgeInsets padding;
-  final bool disableMaterial;
-  final DateTime? commentsSince;
-  final bool showRepoName;
   const IssueListCard(this.item,
       {this.compact = false,
       this.showRepoName = true,
@@ -28,6 +22,12 @@ class IssueListCard extends StatelessWidget {
       this.commentsSince,
       Key? key})
       : super(key: key);
+  final IssueModel item;
+  final bool compact;
+  final EdgeInsets padding;
+  final bool disableMaterial;
+  final DateTime? commentsSince;
+  final bool showRepoName;
   @override
   Widget build(BuildContext context) {
     if (item.pullRequest != null) {
@@ -46,9 +46,9 @@ class IssueListCard extends StatelessWidget {
         color: disableMaterial
             ? Colors.transparent
             : Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context).push(IssueScreenRoute(
                 issueURL: item.url,
@@ -189,14 +189,14 @@ Widget? getIcon(IssueState? state) {
 }
 
 class IssueLoadingCard extends StatelessWidget {
-  final String url;
-  final bool compact;
-  final EdgeInsets padding;
   const IssueLoadingCard(this.url,
       {this.compact = false,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
       Key? key})
       : super(key: key);
+  final String url;
+  final bool compact;
+  final EdgeInsets padding;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -204,7 +204,7 @@ class IssueLoadingCard extends StatelessWidget {
       child: Material(
         elevation: 2,
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: APIWrapper<IssueModel>(
           apiCall: IssuesService.getIssueInfo(fullUrl: url),
           loadingBuilder: (context) {

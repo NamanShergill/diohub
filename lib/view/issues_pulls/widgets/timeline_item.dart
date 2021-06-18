@@ -17,8 +17,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class PaddingWrap extends StatelessWidget {
-  final Widget child;
   const PaddingWrap({Key? key, required this.child}) : super(key: key);
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,12 @@ class PaddingWrap extends StatelessWidget {
 }
 
 class GetTimelineItem extends StatelessWidget {
-  final dynamic timelineItem;
-  final String? pullNodeID;
-  final VoidCallback onQuote;
-
   const GetTimelineItem(this.timelineItem,
       {Key? key, this.pullNodeID, required this.onQuote})
       : super(key: key);
+  final dynamic timelineItem;
+  final String? pullNodeID;
+  final VoidCallback onQuote;
 
   String getReviewState(PullRequestReviewState state) {
     switch (state) {

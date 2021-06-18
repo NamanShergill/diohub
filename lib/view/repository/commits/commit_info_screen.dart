@@ -11,8 +11,8 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoScreen extends StatefulWidget {
-  final String? commitURL;
   const CommitInfoScreen({Key? key, this.commitURL}) : super(key: key);
+  final String? commitURL;
 
   @override
   _CommitInfoScreenState createState() => _CommitInfoScreenState();

@@ -12,16 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
-  final bool privateEvents;
-  final String? specificUser;
-  final ScrollController scrollController;
-
   const Events(
       {this.privateEvents = true,
       this.specificUser,
       required this.scrollController,
       Key? key})
       : super(key: key);
+  final bool privateEvents;
+  final String? specificUser;
+  final ScrollController scrollController;
+
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context);
@@ -32,8 +32,8 @@ class Events extends StatelessWidget {
       scrollController: scrollController,
       isNestedScrollViewChild: true,
       filterFn: (items) {
-        final List<EventsModel> temp = [];
-        for (EventsModel item in items) {
+        final temp = <EventsModel>[];
+        for (final item in items) {
           if ({
             // EventsType.CommitCommentEvent,
             EventsType.CreateEvent,
@@ -68,7 +68,7 @@ class Events extends StatelessWidget {
               page: pageNumber, perPage: pageSize, refresh: refresh);
         }
       },
-      builder: (context, EventsModel item, index, refresh) {
+      builder: (context, item, index, refresh) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(builder: (context) {

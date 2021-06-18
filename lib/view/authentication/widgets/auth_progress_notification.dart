@@ -4,7 +4,6 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class AuthProgressNotification extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Material(
-              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              borderRadius: medBorderRadius,
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
                   .secondary,
@@ -32,10 +31,10 @@ class AuthProgressNotification extends StatelessWidget {
                   //         return const AuthScreen();
                   //       });
                 },
-                borderRadius: AppThemeBorderRadius.medBorderRadius,
+                borderRadius: medBorderRadius,
                 child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: AppThemeBorderRadius.medBorderRadius,
+                      borderRadius: medBorderRadius,
                     ),
                     width: double.infinity,
                     child: CountdownTimer(
@@ -48,7 +47,7 @@ class AuthProgressNotification extends StatelessWidget {
                                 .add(ResetStates());
                           }
                         },
-                        widgetBuilder: (_, CurrentRemainingTime? time) {
+                        widgetBuilder: (_, time) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [

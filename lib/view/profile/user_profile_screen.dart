@@ -11,10 +11,10 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
-  final bool? isCurrentUser;
-  final T userData;
   const UserProfileScreen(this.userData, {this.isCurrentUser, Key? key})
       : super(key: key);
+  final bool? isCurrentUser;
+  final T userData;
   @override
   _UserProfileScreenState<T> createState() => _UserProfileScreenState<T>();
 }

@@ -52,7 +52,7 @@ class $AppRouter {}
 class AuthGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (!BlocProvider.of<AuthenticationBloc>(Global.currentContext)
+    if (!BlocProvider.of<AuthenticationBloc>(currentContext)
         .state
         .authenticated) {
       router.replaceAll([

@@ -6,6 +6,9 @@ import 'package:dio_hub/services/pulls/pulls_service.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class PullProvider extends BaseProvider {
+  PullProvider(String? pullURL, String? userLogin) : _pullURL = pullURL {
+    getPull(userLogin: userLogin);
+  }
   final String? _pullURL;
   PullRequestModel? _pullModel;
   bool _editingEnabled = false;
@@ -15,23 +18,21 @@ class PullProvider extends BaseProvider {
 
   PullRequestModel? get pullModel => _pullModel;
 
-  PullProvider(String? pullURL, String? userLogin) : _pullURL = pullURL {
-    getPull(userLogin: userLogin);
-  }
-
   Future getPull({String? userLogin}) async {
     loading();
-    List<String> urlChunks = _pullURL!.split('/');
+    final urlChunks = _pullURL!.split('/');
     _repoURL = urlChunks.sublist(0, urlChunks.length - 2).join('/');
-    List<Future> futures = [
+    final futures = <Future>[
       PullsService.getPullInformation(fullUrl: _pullURL!)
     ];
     if (repoURL != null && userLogin != null) {
       futures.add(RepositoryServices.checkUserRepoPerms(userLogin, repoURL));
     }
-    List<dynamic> data = await Future.wait(futures);
+    final data = await Future.wait(futures);
     _pullModel = data[0];
-    if (repoURL != null && userLogin != null) _editingEnabled = data[1];
+    if (repoURL != null && userLogin != null) {
+      _editingEnabled = data[1];
+    }
     loaded();
   }
 

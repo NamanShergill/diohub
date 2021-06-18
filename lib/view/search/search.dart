@@ -37,9 +37,7 @@ class _SearchScreenState extends State<SearchScreen>
           ? SearchScrollWrapper(
               _search.searchData, isNestedScrollViewChild: false,
               key: ValueKey(_search.searchData.toQuery),
-              onChanged: (data) {
-                _search.updateSearchData(data);
-              },
+              onChanged: _search.updateSearchData,
               scrollController: scrollController,
               // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
@@ -66,9 +64,7 @@ class _SearchScreenState extends State<SearchScreen>
                           .currentSetting
                           .primary,
                       heroTag: 'searchScreen',
-                      onSubmit: (data) {
-                        _search.updateSearchData(data);
-                      },
+                      onSubmit: _search.updateSearchData,
                     ),
                   ),
                   Expanded(
@@ -76,15 +72,14 @@ class _SearchScreenState extends State<SearchScreen>
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Material(
                         borderRadius: BorderRadius.vertical(
-                            top: AppThemeBorderRadius.medBorderRadius.topRight),
+                            top: medBorderRadius.topRight),
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary,
                         child: APIWrapper<List<RepositoryModel>>(
                           apiCall: SearchService.searchRepos(
-                              SearchQueries().pushed.toQueryString('>' +
-                                  DateFormat('yyyy-MM-dd').format(DateTime.now()
-                                      .subtract(const Duration(days: 7)))),
+                              SearchQueries().pushed.toQueryString(
+                                  '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}'),
                               page: 1,
                               perPage: 25),
                           loadingBuilder: (context) {

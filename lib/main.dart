@@ -25,12 +25,12 @@ void main() async {
   // Connectivity check stream initialised.
   InternetConnectivity.networkStatusService();
   await Future.wait([
-    Global.setupAppCache(),
-    Global.setUpSharedPrefs(),
+    setupAppCache(),
+    setUpSharedPrefs(),
   ]);
-  String? initLink = await DeepLinkHandler.initUniLink();
-  DeepLinkHandler.uniLinkStream();
-  bool auth = await AuthService.isAuthenticated;
+  final initLink = await initUniLink();
+  uniLinkStream();
+  final auth = await AuthService.isAuthenticated;
   runApp(MyApp(
     initLink,
     authenticated: auth,
@@ -38,17 +38,18 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final String? initDeepLink;
-  final bool authenticated;
   const MyApp(this.initDeepLink, {Key? key, required this.authenticated})
       : super(key: key);
+  final String? initDeepLink;
+  final bool authenticated;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         // Initialise Authentication Bloc and add event to check auth state.
         BlocProvider(
-          create: (_) => AuthenticationBloc(authenticated),
+          create: (_) => AuthenticationBloc(authenticated: authenticated),
           lazy: false,
         ),
       ],
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
               ),
             ],
             builder: (context, child) {
-              final DioHubPalette palette =
+              final palette =
                   Provider.of<PaletteSettings>(context).currentSetting;
               return Portal(
                 child: MaterialApp.router(
@@ -117,8 +118,8 @@ class MyApp extends StatelessWidget {
                             MaterialStateProperty.all<Color>(Colors.grey)),
                     dialogTheme: DialogTheme(
                       backgroundColor: palette.primary,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                      shape:
+                          RoundedRectangleBorder(borderRadius: medBorderRadius),
                       titleTextStyle: TextStyle(color: palette.baseElements),
                       contentTextStyle: TextStyle(color: palette.baseElements),
                     ),
@@ -133,19 +134,18 @@ class MyApp extends StatelessWidget {
                       textTheme: ButtonTextTheme.primary,
                       padding: EdgeInsets.zero,
                       colorScheme: const ColorScheme.dark(),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                      shape:
+                          RoundedRectangleBorder(borderRadius: medBorderRadius),
                     ),
                     dividerTheme: DividerThemeData(
                         color: palette.baseElements, thickness: 0.04),
                     fontFamily:
                         Provider.of<FontSettings>(context).currentSetting,
                   ),
-                  routerDelegate: Global.customRouter.delegate(initialRoutes: [
+                  routerDelegate: customRouter.delegate(initialRoutes: [
                     LandingLoadingScreenRoute(initLink: initDeepLink)
                   ]),
-                  routeInformationParser:
-                      Global.customRouter.defaultRouteParser(),
+                  routeInformationParser: customRouter.defaultRouteParser(),
                 ),
               );
             },

@@ -12,11 +12,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class BasicNotificationCard extends StatefulWidget {
-  final WidgetBuilder? iconBuilder;
-  final WidgetBuilder? footerBuilder;
-  final bool loading;
-  final NotificationModel? notification;
-  final Function? onTap;
   const BasicNotificationCard(
       {this.footerBuilder,
       this.loading = false,
@@ -25,6 +20,11 @@ class BasicNotificationCard extends StatefulWidget {
       this.notification,
       Key? key})
       : super(key: key);
+  final WidgetBuilder? iconBuilder;
+  final WidgetBuilder? footerBuilder;
+  final bool loading;
+  final NotificationModel? notification;
+  final Function? onTap;
 
   @override
   _BasicNotificationCardState createState() => _BasicNotificationCardState();
@@ -53,9 +53,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           icon: LineIcons.check,
           color: Provider.of<PaletteSettings>(context).currentSetting.green,
           caption: 'Mark as read',
-          onTap: () {
-            markAsRead();
-          },
+          onTap: markAsRead,
         ),
       ],
       secondaryActions: [
@@ -63,13 +61,20 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           icon: LineIcons.check,
           color: Provider.of<PaletteSettings>(context).currentSetting.green,
           caption: 'Mark as read',
-          onTap: () {
-            markAsRead();
-          },
+          onTap: markAsRead,
         ),
       ],
       actionExtentRatio: 0.4,
       dismissal: SlidableDismissal(
+        onWillDismiss: (_) {
+          markAsRead();
+          return false;
+        },
+        closeOnCanceled: true,
+        dismissThresholds: const {
+          SlideActionType.primary: 0.4,
+          SlideActionType.secondary: 0.4
+        },
         child: SizeExpandedSection(
           axis: Axis.horizontal,
           animationCurve: Curves.easeOutExpo,
@@ -81,15 +86,6 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
             ),
           ),
         ),
-        onWillDismiss: (_) {
-          markAsRead();
-          return false;
-        },
-        closeOnCanceled: true,
-        dismissThresholds: const {
-          SlideActionType.primary: 0.4,
-          SlideActionType.secondary: 0.4
-        },
       ),
       key: UniqueKey(),
       child: Material(
@@ -214,7 +210,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
         ),
         Expanded(
           child: ShimmerWidget(
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
             child: Container(
               decoration: BoxDecoration(
                 color:

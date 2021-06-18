@@ -7,12 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ScaffoldBody extends StatefulWidget {
-  final Widget? child;
-  final Widget? footer;
-  final Widget? header;
-  final bool showHeader;
-  final bool showFooter;
-  final StreamController<Widget?>? notificationController;
   const ScaffoldBody(
       {Key? key,
       this.child,
@@ -22,6 +16,12 @@ class ScaffoldBody extends StatefulWidget {
       this.showFooter = true,
       this.showHeader = true})
       : super(key: key);
+  final Widget? child;
+  final Widget? footer;
+  final Widget? header;
+  final bool showHeader;
+  final bool showFooter;
+  final StreamController<Widget?>? notificationController;
 
   @override
   _ScaffoldBodyState createState() => _ScaffoldBodyState();
@@ -40,7 +40,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                     StreamBuilder(
                       initialData: true,
                       stream: InternetConnectivity.networkStream,
-                      builder: (context, AsyncSnapshot snapshot) {
+                      builder: (context, snapshot) {
                         return Stack(
                           children: [
                             SizeExpandedSection(
@@ -88,9 +88,9 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
             visible: widget.showFooter,
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: StreamBuilder(
+                child: StreamBuilder<Widget?>(
                   stream: widget.notificationController!.stream,
-                  builder: (context, AsyncSnapshot<Widget?> widget) {
+                  builder: (context, widget) {
                     return widget.data ?? Container();
                   },
                 ))),

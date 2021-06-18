@@ -56,7 +56,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
         apiFilters: apiFilters,
         controller: scrollController,
         clientFilters: clientFilters,
-        onFiltersChanged: (Map updatedAPIFilters, Map updatedClientFilters) {
+        onFiltersChanged: (updatedAPIFilters, updatedClientFilters) {
           apiFilters = updatedAPIFilters as Map<String, dynamic>;
           clientFilters = updatedClientFilters as Map<String, dynamic>;
           _controller.refresh();
@@ -138,6 +138,12 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                           });
                           _controller.refresh();
                         },
+                        enabled: !loadingButton,
+                        listenToLoadingController: false,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .secondary,
+                        elevation: 2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -150,12 +156,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             ),
                           ],
                         ),
-                        enabled: !loadingButton,
-                        listenToLoadingController: false,
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
-                        elevation: 2,
                       ),
                     ),
                     Padding(
@@ -164,9 +164,12 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                       child: Button(
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 24),
-                        onTap: () {
-                          showFilterSheet();
-                        },
+                        onTap: showFilterSheet,
+                        listenToLoadingController: false,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .secondary,
+                        elevation: 2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -179,11 +182,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             ),
                           ],
                         ),
-                        listenToLoadingController: false,
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
-                        elevation: 2,
                       ),
                     ),
                     const Divider(),
@@ -203,14 +201,16 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         refresh: refresh,
                         filters: apiFilters);
                   },
-                  filterFn: (List<NotificationModel> list) {
-                    List<NotificationModel> filtered = [];
-                    for (NotificationModel element in list) {
-                      if (checkFilter(element)!) filtered.add(element);
+                  filterFn: (list) {
+                    final filtered = <NotificationModel>[];
+                    for (final element in list) {
+                      if (checkFilter(element)!) {
+                        filtered.add(element);
+                      }
                     }
                     return filtered;
                   },
-                  builder: (context, NotificationModel item, index, refresh) {
+                  builder: (context, item, index, refresh) {
                     if (item.subject!.type == SubjectType.ISSUE) {
                       return IssueNotificationCard(item);
                     } else if (item.subject!.type == SubjectType.PULL_REQUEST) {

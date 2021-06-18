@@ -3,37 +3,39 @@ import 'package:dio_hub/app/global.dart';
 
 class CacheManager {
   static CustomCacheOptions notifications({bool refresh = false}) =>
-      CustomCacheOptions(refresh,
+      CustomCacheOptions(
+          refresh: refresh,
           // Have to set it to [CachePolicy.refresh] to ignore 304 error because
           // GitHub always sends a 304 on the notifications for some reason.
           cachePolicy: CachePolicy.refresh);
 
   static CustomCacheOptions currentUserProfileInfo({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+      CustomCacheOptions(refresh: refresh);
 
   static CustomCacheOptions userProfileInfo({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+      CustomCacheOptions(refresh: refresh);
 
   static CustomCacheOptions repositories({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+      CustomCacheOptions(refresh: refresh);
 
   static CustomCacheOptions search({bool refresh = false}) =>
-      CustomCacheOptions(refresh, cachePolicy: CachePolicy.refreshForceCache);
+      CustomCacheOptions(
+          refresh: refresh, cachePolicy: CachePolicy.refreshForceCache);
 
   static CustomCacheOptions events({bool refresh = false}) =>
-      CustomCacheOptions(refresh);
+      CustomCacheOptions(refresh: refresh);
 
-  static CustomCacheOptions reactions() => CustomCacheOptions(true);
+  static CustomCacheOptions reactions() => CustomCacheOptions(refresh: true);
 
   static CustomCacheOptions defaultCache(
           {bool refresh = false,
           Duration maxAge = const Duration(minutes: 10)}) =>
-      CustomCacheOptions(refresh, maxAge: maxAge);
+      CustomCacheOptions(refresh: refresh, maxAge: maxAge);
 
   static CustomCacheOptions defaultGQLCache(
           {bool refresh = false, Duration maxAge = _maxAge}) =>
       CustomCacheOptions(
-        refresh,
+        refresh: refresh,
         allowPostMethod: true,
         maxAge: maxAge,
         cachePolicy: CachePolicy.refreshForceCache,
@@ -43,17 +45,15 @@ class CacheManager {
       );
 
   static void clearCache() async {
-    await Global.cacheStore.clean();
+    await cacheStore.clean();
   }
 }
 
 const Duration _maxAge = Duration(minutes: 3);
 
 class CustomCacheOptions extends CacheOptions {
-  final Duration maxAge;
-  final bool refresh;
-  CustomCacheOptions(
-    this.refresh, {
+  CustomCacheOptions({
+    required this.refresh,
     this.maxAge = _maxAge,
     List<int> hitCacheOnErrorExcept = const [401, 403],
     CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
@@ -62,11 +62,13 @@ class CustomCacheOptions extends CacheOptions {
     bool allowPostMethod = false,
     CachePolicy cachePolicy = CachePolicy.request,
   }) : super(
-            store: Global.cacheStore,
+            store: cacheStore,
             policy: refresh ? CachePolicy.refresh : cachePolicy,
             hitCacheOnErrorExcept: hitCacheOnErrorExcept,
             keyBuilder: keyBuilder,
             maxStale: maxStale,
             allowPostMethod: allowPostMethod,
             priority: priority);
+  final Duration maxAge;
+  final bool refresh;
 }

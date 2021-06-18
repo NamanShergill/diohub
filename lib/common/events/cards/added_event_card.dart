@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddedEventCard extends StatelessWidget {
+  const AddedEventCard(this.event, this.eventTextMiddle,
+      {this.branch, this.repo, Key? key})
+      : super(key: key);
   final EventsModel event;
   final String eventTextMiddle;
   final RepositoryModel? repo;
   final String? branch;
-  const AddedEventCard(this.event, this.eventTextMiddle,
-      {this.branch, this.repo, Key? key})
-      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(

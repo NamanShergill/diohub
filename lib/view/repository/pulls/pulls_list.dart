@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsList extends StatelessWidget {
-  final ScrollController scrollController;
   const PullsList({required this.scrollController, Key? key}) : super(key: key);
+  final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);

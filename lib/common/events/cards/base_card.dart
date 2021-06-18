@@ -7,15 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseEventCard extends StatelessWidget {
-  final Widget? child;
-  final String? avatarUrl;
-  final String? actor;
-  final String? userLogin;
-  final EdgeInsets childPadding;
-  final List<TextSpan> headerText;
-  final Function? onTap;
-  final DateTime? date;
-
   const BaseEventCard(
       {this.child,
       this.actor,
@@ -27,6 +18,15 @@ class BaseEventCard extends StatelessWidget {
       this.childPadding = const EdgeInsets.all(16.0),
       Key? key})
       : super(key: key);
+  final Widget? child;
+  final String? avatarUrl;
+  final String? actor;
+  final String? userLogin;
+  final EdgeInsets childPadding;
+  final List<TextSpan> headerText;
+  final Function? onTap;
+  final DateTime? date;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,9 +88,9 @@ class BaseEventCard extends StatelessWidget {
           child: Material(
             elevation: 2,
             color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
             child: InkWell(
-              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              borderRadius: medBorderRadius,
               onTap: onTap as void Function()?,
               child: SizedBox(
                 width: double.infinity,

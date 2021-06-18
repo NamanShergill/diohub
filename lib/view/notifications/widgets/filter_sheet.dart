@@ -11,6 +11,14 @@ import 'package:provider/provider.dart';
 typedef FilterChange = Function(Map, Map);
 
 class FilterSheet extends StatefulWidget {
+  const FilterSheet(
+      {Key? key,
+      required this.onFiltersChanged,
+      this.apiFilters,
+      this.clientFilters,
+      this.controller})
+      : super(key: key);
+
   ///  Provides the selected filters, if any.
   final FilterChange onFiltersChanged;
 
@@ -22,14 +30,6 @@ class FilterSheet extends StatefulWidget {
 
   /// Controller to scroll the bottom sheet along with the [ListView].
   final ScrollController? controller;
-
-  const FilterSheet(
-      {Key? key,
-      required this.onFiltersChanged,
-      this.apiFilters,
-      this.clientFilters,
-      this.controller})
-      : super(key: key);
 
   @override
   _FilterSheetState createState() => _FilterSheetState();
@@ -68,11 +68,9 @@ class _FilterSheetState extends State<FilterSheet> {
 
   // Check if filters are modified to show the Apply Button accordingly.
   bool isModified() {
-    bool modified = false;
     final Function deepEq = const DeepCollectionEquality().equals;
-    modified = !(deepEq(clientFilters, widget.clientFilters) &&
+    return !(deepEq(clientFilters, widget.clientFilters) &&
         deepEq(apiFilters, widget.apiFilters));
-    return modified;
   }
 
   @override
@@ -368,7 +366,9 @@ class _FilterSheetState extends State<FilterSheet> {
                         child: Button(
                           onTap: () {
                             sendFilters();
-                            if (mounted) Navigator.pop(context);
+                            if (mounted) {
+                              Navigator.pop(context);
+                            }
                           },
                           color: Provider.of<PaletteSettings>(context)
                               .currentSetting
@@ -425,10 +425,10 @@ class _FilterSheetState extends State<FilterSheet> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Material(
         elevation: 2,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
             setState(() {
               function!();

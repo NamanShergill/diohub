@@ -7,12 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BasePopupNotification extends StatelessWidget {
-  final String? title;
-  final Function? onTap;
-  final bool listenToLoadingController;
-  final Color? color;
-  final bool dismissOnTap;
-  final StreamController<Widget?>? notificationController;
   const BasePopupNotification(
       {this.title,
       this.onTap,
@@ -22,6 +16,12 @@ class BasePopupNotification extends StatelessWidget {
       this.notificationController,
       Key? key})
       : super(key: key);
+  final String? title;
+  final Function? onTap;
+  final bool listenToLoadingController;
+  final Color? color;
+  final bool dismissOnTap;
+  final StreamController<Widget?>? notificationController;
 
   @override
   Widget build(BuildContext context) {

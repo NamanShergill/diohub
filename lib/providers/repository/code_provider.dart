@@ -9,6 +9,7 @@ import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:flutter/material.dart';
 
 class CodeProvider extends ProxyProvider<RepoBranchProvider> {
+  CodeProvider({String? repoURL}) : _repoURL = repoURL;
   List<CodeTreeModel> _tree = [];
 
   /// The list of [CodeTreeModel]s for a branch currently opened, used to track the
@@ -27,8 +28,6 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   /// Controller used to add events to.
   final StreamController<String> _treeController =
       StreamController<String>.broadcast();
-
-  CodeProvider({String? repoURL}) : _repoURL = repoURL;
 
   /// Update the provider with new data.
   @override
@@ -50,7 +49,7 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
     loading();
     try {
       // Start with initial future to fetch code tree.
-      List<Future> future = <Future>[
+      final future = <Future>[
         GitDatabaseService.getTree(repoURL: _repoURL, sha: treeSHA),
         RepositoryServices.getCommitsList(
             repoURL: _repoURL!,
@@ -60,13 +59,13 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
             pageSize: 1),
       ];
       // Run the futures.
-      List<dynamic> data = await Future.wait(future);
+      final data = await Future.wait(future);
       // Add data to tree if the selected branch has not been changed.
       if (parentProvider!.currentSHA! == currentRootSHA) {
         // Get _codeTree data from the completed futures.
         final CodeTreeModel _codeTree = data[0];
         // Get _commit data from the completed future.
-        CommitListModel? _commit = data[1].first;
+        final CommitListModel? _commit = data[1].first;
         // Add data to tree.
         _tree.add(_codeTree.copyWith(commit: _commit));
         loaded();
@@ -78,8 +77,8 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   }
 
   String getPath() {
-    List<String?> temp = [];
-    for (int i = 0; i < _pathIndex.length; i++) {
+    final temp = <String?>[];
+    for (var i = 0; i < _pathIndex.length; i++) {
       temp.add(_tree[i].tree![_pathIndex[i]].path);
     }
     return temp.join('/');

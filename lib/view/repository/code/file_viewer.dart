@@ -13,14 +13,14 @@ import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 
 class FileViewerAPI extends StatefulWidget {
+  const FileViewerAPI(this.sha,
+      {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
+      : super(key: key);
   final String? repoURL;
   final String? branch;
   final String? repoName;
   final String? fileName;
   final String? sha;
-  const FileViewerAPI(this.sha,
-      {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
-      : super(key: key);
 
   @override
   _FileViewerAPIState createState() => _FileViewerAPIState();
@@ -46,7 +46,9 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   bool checkFileForWrap() {
     if (fileType != null && fileType!.startsWith('image')) {
       return false;
-    } else if (fileExtension == 'md') return false;
+    } else if (fileExtension == 'md') {
+      return false;
+    }
     return true;
   }
 
@@ -131,14 +133,14 @@ class ContentViewController {
 }
 
 class TextViewer extends StatefulWidget {
+  const TextViewer(this.blob, this.fileName,
+      {this.contentViewController, this.branch, this.repoName, Key? key})
+      : super(key: key);
   final BlobModel blob;
   final String? fileName;
   final ContentViewController? contentViewController;
   final String? branch;
   final String? repoName;
-  const TextViewer(this.blob, this.fileName,
-      {this.contentViewController, this.branch, this.repoName, Key? key})
-      : super(key: key);
   @override
   _TextViewerState createState() => _TextViewerState();
 }
@@ -155,8 +157,10 @@ class _TextViewerState extends State<TextViewer> {
   void initState() {
     setupController();
     content = parseBase64(widget.blob.content!).split('\n');
-    for (String str in content) {
-      if (str.length > numberOfMaxChars) numberOfMaxChars = str.length;
+    for (final str in content) {
+      if (str.length > numberOfMaxChars) {
+        numberOfMaxChars = str.length;
+      }
     }
     fileType = widget.fileName!.split('.').last;
     super.initState();

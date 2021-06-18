@@ -4,8 +4,8 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 
 class IssueLabel extends StatelessWidget {
-  final Label? label;
   const IssueLabel(this.label, {Key? key}) : super(key: key);
+  final Label? label;
   @override
   Widget build(BuildContext context) {
     return _IssueLabel(label!.name!, label!.color!);
@@ -13,8 +13,8 @@ class IssueLabel extends StatelessWidget {
 }
 
 class IssueLabelGQL extends StatelessWidget {
-  final LabelMixin label;
   const IssueLabelGQL(this.label, {Key? key}) : super(key: key);
+  final LabelMixin label;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class IssueLabelGQL extends StatelessWidget {
 }
 
 class _IssueLabel extends StatelessWidget {
+  const _IssueLabel(this.name, this.color, {Key? key}) : super(key: key);
   final String name;
   final String color;
-  const _IssueLabel(this.name, this.color, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _IssueLabel extends StatelessWidget {
       children: [
         Container(
             decoration: BoxDecoration(
-              borderRadius: AppThemeBorderRadius.smallBorderRadius,
+              borderRadius: smallBorderRadius,
               border: Border.all(
                   color: Color(int.tryParse('0xFF$color') ?? 0xFFFFFFFF)),
               color: Color(int.tryParse('0x60$color') ?? 0xFFFFFFFF),

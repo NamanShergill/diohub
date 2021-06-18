@@ -6,10 +6,6 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 
 class UserProvider extends BaseProvider {
-  UserInfoModel? _currentUserInfo;
-  final String? _userName;
-  UserInfoModel? get currentUserInfo => _currentUserInfo;
-
   UserProvider(String? username) : _userName = username {
     getUserInfo();
     // listen to the status of the provider and execute accordingly.
@@ -31,6 +27,9 @@ class UserProvider extends BaseProvider {
       }
     });
   }
+  UserInfoModel? _currentUserInfo;
+  final String? _userName;
+  UserInfoModel? get currentUserInfo => _currentUserInfo;
 
   /// Get User information from the API.
   Future<UserInfoModel?> getUserInfo() async {

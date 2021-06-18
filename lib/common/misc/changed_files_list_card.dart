@@ -7,8 +7,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class ChangedFilesListCard extends StatelessWidget {
-  final FileElement file;
   const ChangedFilesListCard(this.file, {Key? key}) : super(key: key);
+  final FileElement file;
   @override
   Widget build(BuildContext context) {
     Widget getSubtitle(FileElement file) {

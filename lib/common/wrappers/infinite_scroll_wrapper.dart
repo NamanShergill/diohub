@@ -23,6 +23,34 @@ typedef FilterFn<T> = Function(List<T> items);
 /// A wrapper designed to show infinite pagination.
 /// [T] type is defined for the kind of elements to be displayed.
 class InfiniteScrollWrapper<T> extends StatefulWidget {
+  const InfiniteScrollWrapper(
+      {Key? key,
+      required this.future,
+      required this.builder,
+      this.controller,
+      this.filterFn,
+      this.paginationKey,
+      this.bottomSpacing = 0,
+      this.header,
+      this.pinnedHeader,
+      this.showScrollToTopButton = true,
+      this.pageNumber = 1,
+      this.divider = true,
+      this.pageSize = 10,
+      this.topSpacing = 0,
+      this.isNestedScrollViewChild = false,
+      this.disableScroll = false,
+      this.disableRefresh = false,
+      this.firstDivider = true,
+      this.firstPageLoadingBuilder,
+      this.scrollController,
+      this.shrinkWrap = false,
+      this.listEndIndicator = true,
+      this.spacing = 16})
+      : assert(!isNestedScrollViewChild || scrollController != null,
+            'scrollController should be provided of parent NestedScrollView'),
+        super(key: key);
+
   /// How to display the data. Give
   final ScrollWrapperBuilder<T> builder;
 
@@ -90,34 +118,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// [Key] to give the infinite scroll wrapper to force it to rebuild the list
   /// on new data,
   final Key? paginationKey;
-
-  const InfiniteScrollWrapper(
-      {Key? key,
-      required this.future,
-      required this.builder,
-      this.controller,
-      this.filterFn,
-      this.paginationKey,
-      this.bottomSpacing = 0,
-      this.header,
-      this.pinnedHeader,
-      this.showScrollToTopButton = true,
-      this.pageNumber = 1,
-      this.divider = true,
-      this.pageSize = 10,
-      this.topSpacing = 0,
-      this.isNestedScrollViewChild = false,
-      this.disableScroll = false,
-      this.disableRefresh = false,
-      this.firstDivider = true,
-      this.firstPageLoadingBuilder,
-      this.scrollController,
-      this.shrinkWrap = false,
-      this.listEndIndicator = true,
-      this.spacing = 16})
-      : assert(isNestedScrollViewChild ? scrollController != null : true,
-            'scrollController should be provided of parent NestedScrollView'),
-        super(key: key);
 
   @override
   _InfiniteScrollWrapperState<T> createState() => _InfiniteScrollWrapperState();
@@ -187,10 +187,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
     if (widget.showScrollToTopButton) {
       child = ScrollWrapper(
         scrollController: scrollController,
-        child: child,
         promptTheme: PromptButtonTheme(
             color: Provider.of<PaletteSettings>(context).currentSetting.accent),
         promptReplacementBuilder: widget.pinnedHeader,
+        child: child,
       );
     }
 
@@ -199,6 +199,23 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 }
 
 class _InfinitePagination<T> extends StatefulWidget {
+  const _InfinitePagination(
+      {Key? key,
+      required this.future,
+      required this.builder,
+      this.filterFn,
+      required this.controller,
+      this.firstPageLoadingBuilder,
+      required this.bottomSpacing,
+      required this.pageNumber,
+      required this.divider,
+      required this.pageSize,
+      required this.topSpacing,
+      required this.firstDivider,
+      required this.listEndIndicator,
+      required this.spacing})
+      : super(key: key);
+
   /// How to display the data. Give
   final ScrollWrapperBuilder<T> builder;
 
@@ -240,23 +257,6 @@ class _InfinitePagination<T> extends StatefulWidget {
   /// First page loading indicator.
   final WidgetBuilder? firstPageLoadingBuilder;
 
-  const _InfinitePagination(
-      {Key? key,
-      required this.future,
-      required this.builder,
-      this.filterFn,
-      required this.controller,
-      this.firstPageLoadingBuilder,
-      required this.bottomSpacing,
-      required this.pageNumber,
-      required this.divider,
-      required this.pageSize,
-      required this.topSpacing,
-      required this.firstDivider,
-      required this.listEndIndicator,
-      required this.spacing})
-      : super(key: key);
-
   @override
   _InfinitePaginationState<T> createState() => _InfinitePaginationState();
 }
@@ -277,9 +277,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   void initState() {
     setupController();
     pageNumber = widget.pageNumber;
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    _pagingController.addPageRequestListener(_fetchPage);
     super.initState();
   }
 
@@ -319,8 +317,9 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       // as all pages have been refreshed.
       if (isLastPage) {
         if (mounted) {
-          _pagingController.appendLastPage(
-              filteredItems.map((e) => _ListItem(e, refresh)).toList());
+          _pagingController.appendLastPage(filteredItems
+              .map((e) => _ListItem(e, refresh: refresh))
+              .toList());
         }
         refresh = false;
       } else {
@@ -328,17 +327,21 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         final nextPageKey = pageKey + newItems.length;
         if (mounted) {
           _pagingController.appendPage(
-              filteredItems.map((e) => _ListItem(e, refresh)).toList(),
+              filteredItems.map((e) => _ListItem(e, refresh: refresh)).toList(),
               nextPageKey as int?);
         }
       }
     } catch (error) {
       if (error is DioError) {
-        Global.log.e(error.response?.data);
-        if (mounted) _pagingController.error = error.response?.data;
+        log.e(error.response?.data);
+        if (mounted) {
+          _pagingController.error = error.response?.data;
+        }
       } else {
-        Global.log.e(error.toString());
-        if (mounted) _pagingController.error = error;
+        log.e(error.toString());
+        if (mounted) {
+          _pagingController.error = error;
+        }
       }
       rethrow;
     }
@@ -349,14 +352,13 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
     return PagedSliverList<int, _ListItem<T>>(
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<_ListItem<T>>(
-        itemBuilder: (context, _ListItem<T> item, index) => Column(children: [
+        itemBuilder: (context, item, index) => Column(children: [
           if (index == 0)
             SizedBox(
               height: widget.topSpacing,
             ),
           Visibility(
-            visible:
-                widget.divider && (index == 0 ? widget.firstDivider : true),
+            visible: widget.divider && (!(index == 0) && widget.firstDivider),
             child: Divider(
               height: widget.spacing,
             ),
@@ -431,12 +433,12 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
 }
 
 class _ListItem<T> {
+  _ListItem(this.item, {required this.refresh});
   final T item;
   bool refresh;
-  _ListItem(this.item, this.refresh);
 
   bool get refreshChildren {
-    final bool temp = refresh;
+    final temp = refresh;
     refresh = false;
     return temp;
   }

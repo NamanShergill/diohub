@@ -2,12 +2,12 @@ import 'package:dio_hub/utils/lang_colors/get_language_color.dart';
 import 'package:flutter/material.dart';
 
 class LanguageIndicator extends StatelessWidget {
-  final String? language;
-  final double size;
-  final TextStyle? textStyle;
   const LanguageIndicator(this.language,
       {this.size = 16, this.textStyle, Key? key})
       : super(key: key);
+  final String? language;
+  final double size;
+  final TextStyle? textStyle;
   @override
   Widget build(BuildContext context) {
     return Padding(

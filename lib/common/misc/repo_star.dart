@@ -14,12 +14,6 @@ typedef StarBuilder = Widget Function(
     BuildContext context, HasStarred$Query$Repository? starrredData);
 
 class RepoStar extends StatefulWidget {
-  final String owner;
-  final String repoName;
-  final BorderRadius? inkWellRadius;
-  final bool fadeIntoView;
-  final StarBuilder? child;
-  final ValueChanged<int>? onStarsChange;
   const RepoStar(this.owner, this.repoName,
       {Key? key,
       this.child,
@@ -27,6 +21,12 @@ class RepoStar extends StatefulWidget {
       this.inkWellRadius,
       this.fadeIntoView = true})
       : super(key: key);
+  final String owner;
+  final String repoName;
+  final BorderRadius? inkWellRadius;
+  final bool fadeIntoView;
+  final StarBuilder? child;
+  final ValueChanged<int>? onStarsChange;
 
   @override
   _RepoStarState createState() => _RepoStarState();
@@ -58,11 +58,12 @@ class _RepoStarState extends State<RepoStar> {
                 if (widget.onStarsChange != null) {
                   widget.onStarsChange!(data.stargazerCount);
                 }
-                final bool isStarred = data.viewerHasStarred;
+                final isStarred = data.viewerHasStarred;
                 controller.changeData(
                     data..viewerHasStarred = !data.viewerHasStarred);
                 await RepositoryServices.changeStar(
-                        widget.owner, widget.repoName, isStarred)
+                        widget.owner, widget.repoName,
+                        isStarred: isStarred)
                     .then((value) {
                   controller.changeData(data..viewerHasStarred = value);
                 });
@@ -97,8 +98,8 @@ class _RepoStarState extends State<RepoStar> {
       responseBuilder: (context, data) => widget.child != null
           ? InkWell(
               onTap: onPress(data),
-              child: widget.child!(context, data),
               borderRadius: widget.inkWellRadius,
+              child: widget.child!(context, data),
             )
           : iconButton(data),
     );

@@ -4,12 +4,6 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class CommitProvider extends BaseProvider {
-  final String? _commitURL;
-
-  CommitModel? _commit;
-
-  CommitModel? get commit => _commit;
-
   CommitProvider(String? commitURL) : _commitURL = commitURL {
     if (_commitURL != null) {
       _getCommit();
@@ -33,6 +27,11 @@ class CommitProvider extends BaseProvider {
       }
     });
   }
+  final String? _commitURL;
+
+  CommitModel? _commit;
+
+  CommitModel? get commit => _commit;
 
   void _getCommit() async {
     loading();

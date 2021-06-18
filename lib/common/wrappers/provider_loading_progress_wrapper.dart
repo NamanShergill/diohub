@@ -10,10 +10,6 @@ typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
     extends StatefulWidget {
-  final ChildBuilder<T> childBuilder;
-  final ValueChanged<Status>? listener;
-  final WidgetBuilder? loadingBuilder;
-  final ErrorBuilder? errorBuilder;
   const ProviderLoadingProgressWrapper(
       {required this.childBuilder,
       this.errorBuilder,
@@ -21,6 +17,10 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
       Key? key,
       this.listener})
       : super(key: key);
+  final ChildBuilder<T> childBuilder;
+  final ValueChanged<Status>? listener;
+  final WidgetBuilder? loadingBuilder;
+  final ErrorBuilder? errorBuilder;
 
   @override
   _ProviderLoadingProgressWrapperState<T> createState() =>
@@ -45,7 +45,7 @@ class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
     return StreamBuilder(
         stream: value.statusStream,
         initialData: value.status,
-        builder: (context, AsyncSnapshot<Status> snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.data == Status.loaded) {
             return widget.childBuilder(context, value as T);
           }
@@ -61,7 +61,7 @@ class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
                 : Builder(
                     builder: (context) {
                       if (value.errorInfo is DioError) {
-                        final DioError err = value.errorInfo as DioError;
+                        final err = value.errorInfo as DioError;
                         if (err.response != null) {
                           return Center(
                               child: APIError(err.response!.statusCode!,

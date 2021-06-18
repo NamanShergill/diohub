@@ -5,12 +5,12 @@ import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:flutter/material.dart';
 
 class IssuesEventCard extends StatelessWidget {
-  final EventsModel event;
-  final DateTime? time;
-  final String trailingHeaderText;
   const IssuesEventCard(this.event, this.trailingHeaderText,
       {this.time, Key? key})
       : super(key: key);
+  final EventsModel event;
+  final DateTime? time;
+  final String trailingHeaderText;
   @override
   Widget build(BuildContext context) {
     return BaseEventCard(

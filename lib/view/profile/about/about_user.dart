@@ -8,8 +8,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class AboutUser extends StatelessWidget {
-  final UserInfoModel? userInfoModel;
   const AboutUser(this.userInfoModel, {Key? key}) : super(key: key);
+  final UserInfoModel? userInfoModel;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

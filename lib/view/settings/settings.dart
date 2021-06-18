@@ -205,9 +205,7 @@ class _GeneralSettings extends StatelessWidget {
             color:
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
             listenToLoadingController: false,
-            onTap: () {
-              CacheManager.clearCache();
-            },
+            onTap: CacheManager.clearCache,
             title: 'Clear Cache',
           ),
         ),
@@ -254,6 +252,12 @@ class _About extends StatelessWidget {
                 elevation: 2,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    linkHandler(
+                      context,
+                      'https://github.com/NamanShergill/diohub/issues',
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
@@ -270,12 +274,6 @@ class _About extends StatelessWidget {
                       ],
                     ),
                   ),
-                  onTap: () {
-                    linkHandler(
-                      context,
-                      'https://github.com/NamanShergill/diohub/issues',
-                    );
-                  },
                 ),
               ),
             ],

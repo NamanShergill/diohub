@@ -8,11 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AssigneeSelectSheet extends StatefulWidget {
-  final String? repoURL;
-  final String? issueUrl;
-  final List<UserInfoModel>? assignees;
-  final ScrollController? controller;
-  final ValueChanged<List<UserInfoModel>?>? newAssignees;
   const AssigneeSelectSheet(
       {Key? key,
       this.assignees,
@@ -21,6 +16,11 @@ class AssigneeSelectSheet extends StatefulWidget {
       this.controller,
       this.newAssignees})
       : super(key: key);
+  final String? repoURL;
+  final String? issueUrl;
+  final List<UserInfoModel>? assignees;
+  final ScrollController? controller;
+  final ValueChanged<List<UserInfoModel>?>? newAssignees;
 
   @override
   _AssigneeSelectSheetState createState() => _AssigneeSelectSheetState();
@@ -36,12 +36,11 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
   }
 
   Future<List<UserInfoModel>?> updateAssignees() async {
-    List<String?> assigneesToRemove = [];
-    List<String?> assigneesToAdd = assignees;
-    List<String?> originalAssignees =
-        widget.assignees!.map((e) => e.login).toList();
-    List<Future> futures = [];
-    for (String? login in originalAssignees) {
+    final assigneesToRemove = <String?>[];
+    final assigneesToAdd = assignees;
+    final originalAssignees = widget.assignees!.map((e) => e.login).toList();
+    final futures = <Future>[];
+    for (final login in originalAssignees) {
       if (!assignees.contains(login)) {
         assigneesToRemove.add(login);
         assigneesToAdd.remove(login);
@@ -55,7 +54,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
       futures.add(IssuesService.addAssignees(widget.issueUrl, assigneesToAdd));
     }
     if (futures.isNotEmpty) {
-      final List<dynamic> results = await Future.wait(futures);
+      final results = await Future.wait(futures);
       return results.last.assignees;
     }
     return widget.assignees;
@@ -72,7 +71,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
             onTap: () async {
               try {
-                List<UserInfoModel>? newAssignees = await updateAssignees();
+                final newAssignees = await updateAssignees();
                 Navigator.pop(context);
                 widget.newAssignees!(newAssignees);
               } catch (e) {}

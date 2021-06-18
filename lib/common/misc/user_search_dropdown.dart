@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserSearchDropdown extends StatelessWidget {
-  final String query;
-  final ValueChanged<String>? onSelected;
-  final String _type;
   const UserSearchDropdown(this.query,
       {Key? key, this.onSelected, QueryType type = QueryType.user})
       : _type = type != QueryType.org ? 'user' : 'org',
         super(key: key);
+  final String query;
+  final ValueChanged<String>? onSelected;
+  final String _type;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class UserSearchDropdown extends StatelessWidget {
       ),
       child: Material(
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         elevation: 8,
         child: query.isNotEmpty
             ? SizeExpandedSection(
@@ -43,16 +43,18 @@ class UserSearchDropdown extends StatelessWidget {
                     topSpacing: 8,
                     bottomSpacing: 8,
                     listEndIndicator: false,
-                    future: (int pageNumber, int pageSize, refresh, _) {
+                    future: (pageNumber, pageSize, refresh, _) {
                       return SearchService.searchMentionUsers(query, _type,
                           cursor: _?.cursor);
                     },
                     builder: (context, item, index, refresh) {
                       final dynamic data = item.node;
                       return InkWell(
-                        borderRadius: AppThemeBorderRadius.medBorderRadius,
+                        borderRadius: medBorderRadius,
                         onTap: () {
-                          if (onSelected != null) onSelected!(data.login);
+                          if (onSelected != null) {
+                            onSelected!(data.login);
+                          }
                         },
                         child: Row(
                           children: [

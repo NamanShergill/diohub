@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
-  final String? login;
   const OtherUserProfileScreen(this.login, {Key? key}) : super(key: key);
+  final String? login;
   @override
   Widget build(BuildContext context) {
     if (Provider.of<CurrentUserProvider>(context).currentUserInfo?.login ==

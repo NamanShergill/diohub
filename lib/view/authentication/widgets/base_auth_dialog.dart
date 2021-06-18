@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseAuthDialog extends StatelessWidget {
-  final Widget child;
   const BaseAuthDialog({required this.child, Key? key}) : super(key: key);
+  final Widget child;
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: AppThemeBorderRadius.bigBorderRadius,
+      borderRadius: bigBorderRadius,
       color: Provider.of<PaletteSettings>(context).currentSetting.primary,
       // elevation: 5,
       child: Padding(

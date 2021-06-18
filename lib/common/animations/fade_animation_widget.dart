@@ -2,11 +2,6 @@ import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class FadeAnimationSection extends StatefulWidget {
-  final Widget? child;
-  final bool expand;
-  final Curve? animationCurve;
-  final Duration? duration;
-
   const FadeAnimationSection(
       {this.expand = true,
       this.child,
@@ -14,6 +9,10 @@ class FadeAnimationSection extends StatefulWidget {
       this.duration,
       Key? key})
       : super(key: key);
+  final Widget? child;
+  final bool expand;
+  final Curve? animationCurve;
+  final Duration? duration;
 
   @override
   _FadeAnimationSectionState createState() => _FadeAnimationSectionState();
@@ -33,14 +32,14 @@ class _FadeAnimationSectionState extends State<FadeAnimationSection>
   /// Setting up the animation
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this,
-        duration:
-            widget.duration ?? AppThemeAnimDurations.transitionAnimDuration);
+        vsync: this, duration: widget.duration ?? transitionAnimDuration);
     animation = CurvedAnimation(
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
     );
-    if (widget.expand) _runExpandCheck();
+    if (widget.expand) {
+      _runExpandCheck();
+    }
   }
 
   void _runExpandCheck() {

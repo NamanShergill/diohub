@@ -8,6 +8,9 @@ import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class IssueProvider extends BaseProvider {
+  IssueProvider(String? issueURL, String? userLogin) : _issueURL = issueURL {
+    getIssue(userLogin: userLogin);
+  }
   final String? _issueURL;
   IssueModel? _issueModel;
   bool _editingEnabled = false;
@@ -15,24 +18,22 @@ class IssueProvider extends BaseProvider {
 
   IssueModel? get issueModel => _issueModel;
 
-  IssueProvider(String? issueURL, String? userLogin) : _issueURL = issueURL {
-    getIssue(userLogin: userLogin);
-  }
-
   Future getIssue({String? userLogin}) async {
     loading();
-    List<Future> futures = [IssuesService.getIssueInfo(fullUrl: _issueURL!)];
+    final futures = <Future>[IssuesService.getIssueInfo(fullUrl: _issueURL!)];
     if (userLogin != null) {
       futures.add(RepositoryServices.checkUserRepoPerms(
           userLogin, _repoURLFromIssueURL(_issueURL!)));
     }
-    List<dynamic> data = await Future.wait(futures);
+    final data = await Future.wait(futures);
     _issueModel = data[0];
     if (_issueModel!.pullRequest != null) {
-      AutoRouter.of(Global.currentContext)
+      AutoRouter.of(currentContext)
           .replace(PullScreenRoute(pullURL: _issueModel!.pullRequest!.url));
     }
-    if (userLogin != null) _editingEnabled = data[1];
+    if (userLogin != null) {
+      _editingEnabled = data[1];
+    }
     loaded();
   }
 
@@ -53,6 +54,6 @@ class IssueProvider extends BaseProvider {
 }
 
 String _repoURLFromIssueURL(String link) {
-  List<String> url = link.split('/');
+  final url = link.split('/');
   return url.sublist(0, url.length - 2).join('/');
 }

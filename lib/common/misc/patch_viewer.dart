@@ -3,7 +3,6 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
@@ -12,17 +11,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WrapIconButton extends StatelessWidget {
-  final bool wrap;
-  final ValueChanged<bool> onWrap;
-  final double size;
   const WrapIconButton(
       {Key? key, required this.wrap, this.size = 24, required this.onWrap})
       : super(key: key);
+  final bool wrap;
+  final ValueChanged<bool> onWrap;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        borderRadius: AppThemeBorderRadius.smallBorderRadius,
+        borderRadius: smallBorderRadius,
+        onTap: () {
+          onWrap(!wrap);
+        },
         child: Padding(
           padding: EdgeInsets.all(size / 2),
           child: Icon(
@@ -34,26 +36,12 @@ class WrapIconButton extends StatelessWidget {
                     .baseElements
                 : Provider.of<PaletteSettings>(context).currentSetting.faded3,
           ),
-        ),
-        onTap: () {
-          onWrap(!wrap);
-        });
+        ));
   }
 }
 
 // Todo: I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
 class PatchViewer extends StatefulWidget {
-  final String? patch;
-  final String? contentURL;
-  final String? fileType;
-  final bool wrap;
-  final bool initLoading;
-  final bool isWidget;
-  final int? limitLines;
-
-  /// Pass this as true before starting parsing to prevent lag.
-  /// Todo: Remove?
-  final bool waitBeforeLoad;
   const PatchViewer(
       {Key? key,
       this.patch,
@@ -65,6 +53,17 @@ class PatchViewer extends StatefulWidget {
       this.fileType,
       this.waitBeforeLoad = true})
       : super(key: key);
+  final String? patch;
+  final String? contentURL;
+  final String? fileType;
+  final bool wrap;
+  final bool initLoading;
+  final bool isWidget;
+  final int? limitLines;
+
+  /// Pass this as true before starting parsing to prevent lag.
+  /// Todo: Remove?
+  final bool waitBeforeLoad;
 
   @override
   _PatchViewerState createState() => _PatchViewerState();
@@ -85,8 +84,10 @@ class _PatchViewerState extends State<PatchViewer> {
   }
 
   void startUp() async {
-    List<Future> futures = [];
-    if (widget.contentURL != null) futures.add(fetchBlobFile());
+    final futures = <Future>[];
+    if (widget.contentURL != null) {
+      futures.add(fetchBlobFile());
+    }
     await Future.wait(futures);
     regex();
     if (mounted) {
@@ -97,39 +98,42 @@ class _PatchViewerState extends State<PatchViewer> {
   }
 
   Future fetchBlobFile() async {
-    BlobModel blob =
-        await GitDatabaseService.getFileContents(widget.contentURL!);
-    String data = blob.content!;
+    final blob = await GitDatabaseService.getFileContents(widget.contentURL!);
+    final data = blob.content!;
     rawData = parseBase64(data).split('\n');
-    for (String str in rawData!) {
-      if (str.length > maxChars) maxChars = str.length;
-    }
-  }
-
-  void regex() async {
-    RegExpMatch firstHeader = RegExp(r"(?:@@ )(.*)(?: @@)").firstMatch(patch!)!;
-    makeCodeChunks(firstHeader);
-    patch = patch!.replaceFirst(RegExp(r"(?=@@)(.*)(?<=@@)"), '', 0);
-    RegExp(r"(?:\n)(?:@@ )(.*)(?: @@)").allMatches(patch!).forEach((element) {
-      makeCodeChunks(element);
-    });
-    codeSplit.addAll(patch!.split(RegExp(r"(?:\n)(?=@@)(.*)(?<=@@)")));
-    for (int i = 0; i < codeSplit.length; i++) {
-      codeChunks[i]['code'] = codeSplit[i].split('\n');
-      // log(codeChunks[i].toString());
-      for (String str in codeChunks[i]['code']) {
-        if (str.length > maxChars) maxChars = str.length;
+    for (final str in rawData!) {
+      if (str.length > maxChars) {
+        maxChars = str.length;
       }
     }
   }
 
-  void makeCodeChunks(element) {
-    final CodeChunk info = CodeChunk();
-    displayHeader.add("@@ ${element.group(1)} @@");
-    final List<String> _splitHeader = element.group(1).split(' ');
-    for (final String element in _splitHeader) {
-      final List<String> _headerValuesString = [];
-      final List<int> _headerValues = [];
+  void regex() async {
+    final firstHeader = RegExp(r'(?:@@ )(.*)(?: @@)').firstMatch(patch!)!;
+    makeCodeChunks(firstHeader);
+    patch = patch!.replaceFirst(RegExp(r'(?=@@)(.*)(?<=@@)'), '', 0);
+    RegExp(r'(?:\n)(?:@@ )(.*)(?: @@)')
+        .allMatches(patch!)
+        .forEach(makeCodeChunks);
+    codeSplit.addAll(patch!.split(RegExp(r'(?:\n)(?=@@)(.*)(?<=@@)')));
+    for (var i = 0; i < codeSplit.length; i++) {
+      codeChunks[i]['code'] = codeSplit[i].split('\n');
+      // log(codeChunks[i].toString());
+      for (final String str in codeChunks[i]['code']) {
+        if (str.length > maxChars) {
+          maxChars = str.length;
+        }
+      }
+    }
+  }
+
+  void makeCodeChunks(RegExpMatch element) {
+    final info = CodeChunk();
+    displayHeader.add('@@ ${element.group(1)} @@');
+    final _splitHeader = element.group(1)!.split(' ');
+    for (final element in _splitHeader) {
+      final _headerValuesString = <String>[];
+      final _headerValues = <int>[];
       _headerValuesString.addAll(element.split(','));
       _headerValues.add(int.parse(_headerValuesString[0]));
       _headerValues.add(int.parse(_headerValuesString[1]));
@@ -162,7 +166,7 @@ class _PatchViewerState extends State<PatchViewer> {
 
     int getAddIndex = codeChunks[chunkIndex]['startAdd'];
 
-    List<String> displayCodeWithoutFirstLine =
+    final displayCodeWithoutFirstLine =
         displayCode.sublist(getSublist()) as List<String>;
 
     return ListView.builder(
@@ -206,7 +210,7 @@ class _PatchViewerState extends State<PatchViewer> {
                   child: Text(
                     displayCodeWithoutFirstLine[lineIndex].isNotEmpty
                         ? displayCodeWithoutFirstLine[lineIndex][0]
-                        : " ",
+                        : ' ',
                   ),
                 ),
                 const SizedBox(
@@ -216,7 +220,7 @@ class _PatchViewerState extends State<PatchViewer> {
                   child: CodeBlockView(
                     displayCodeWithoutFirstLine[lineIndex].isNotEmpty
                         ? displayCodeWithoutFirstLine[lineIndex].substring(1)
-                        : " ",
+                        : ' ',
                     language: widget.fileType,
                   ),
                 ),
@@ -252,13 +256,13 @@ class _PatchViewerState extends State<PatchViewer> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    List<String> displayCode = codeChunks[index]['code'];
+                    final List<String> displayCode = codeChunks[index]['code'];
 
                     return InkWell(
                       onTap: widget.limitLines != null &&
                               displayCode.length - 1 > widget.limitLines!
                           ? () {
-                              bool wrap = false;
+                              var wrap = false;
                               showScrollableBottomActionsMenu(
                                 context,
                                 titleWidget: (context, setState) {
@@ -361,15 +365,15 @@ class _PatchViewerState extends State<PatchViewer> {
   }
 
   Color getColor(String char, int index) {
-    String str = char;
+    var str = char;
     str.isNotEmpty ? str = str[0] : str = '';
     switch (str) {
-      case ('+'):
+      case '+':
         return Provider.of<PaletteSettings>(context)
             .currentSetting
             .green
             .withOpacity(0.2);
-      case ('-'):
+      case '-':
         return Provider.of<PaletteSettings>(context)
             .currentSetting
             .red
@@ -385,18 +389,17 @@ class _PatchViewerState extends State<PatchViewer> {
 }
 
 class CodeChunk {
-  int? addStartLine;
-  int? addStartingLength;
-  int? removeStartLine;
-  int? removeStartingLength;
-  List<String>? code;
-
   CodeChunk(
       {this.code,
       this.addStartingLength,
       this.addStartLine,
       this.removeStartingLength,
       this.removeStartLine});
+  int? addStartLine;
+  int? addStartingLength;
+  int? removeStartLine;
+  int? removeStartingLength;
+  List<String>? code;
 
   Map getMap() {
     return {
@@ -410,17 +413,6 @@ class CodeChunk {
 }
 
 class ChunkHeader extends StatefulWidget {
-  final List<String>? rawData;
-  final int? index;
-  final List<String>? displayCode;
-  final int? startAdd;
-  final int? startRemove;
-  final String? fileType;
-  final List<Map>? codeChunks;
-  final int? maxChars;
-  final bool wrap;
-  final List<String>? displayHeader;
-
   const ChunkHeader(
       {this.codeChunks,
       this.startAdd,
@@ -434,6 +426,17 @@ class ChunkHeader extends StatefulWidget {
       this.displayCode,
       Key? key})
       : super(key: key);
+  final List<String>? rawData;
+  final int? index;
+  final List<String>? displayCode;
+  final int? startAdd;
+  final int? startRemove;
+  final String? fileType;
+  final List<Map>? codeChunks;
+  final int? maxChars;
+  final bool wrap;
+  final List<String>? displayHeader;
+
   @override
   _ChunkHeaderState createState() => _ChunkHeaderState();
 }
@@ -446,7 +449,9 @@ class _ChunkHeaderState extends State<ChunkHeader> {
   void initState() {
     setupData();
 
-    if (widget.startAdd == 1 || widget.startRemove == 1) expanded = true;
+    if (widget.startAdd == 1 || widget.startRemove == 1) {
+      expanded = true;
+    }
     super.initState();
   }
 
@@ -526,7 +531,9 @@ class _ChunkHeaderState extends State<ChunkHeader> {
       child: InkWell(
         onTap: () {
           setState(() {
-            if (widget.rawData != null) expanded = true;
+            if (widget.rawData != null) {
+              expanded = true;
+            }
           });
         },
         child: Padding(

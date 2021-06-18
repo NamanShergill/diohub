@@ -34,7 +34,7 @@ class ResponseHandler {
     _errorStream.listen((error) {
       error.popupType = PopupType.failed;
       DialogHelper.appPopup(
-        Global.currentContext,
+        currentContext,
         error,
       );
     });
@@ -44,7 +44,7 @@ class ResponseHandler {
     _successStream.listen((success) {
       success.popupType = PopupType.success;
       DialogHelper.appPopup(
-        Global.currentContext,
+        currentContext,
         success,
       );
     });

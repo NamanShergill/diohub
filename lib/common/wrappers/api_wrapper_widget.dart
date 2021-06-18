@@ -13,13 +13,6 @@ typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 
 class APIWrapper<T> extends StatefulWidget {
-  final Future<T> apiCall;
-  final ResponseBuilder<T> responseBuilder;
-  final WidgetBuilder? loadingBuilder;
-  final ErrorBuilder? errorBuilder;
-  final T? initialData;
-  final APIWrapperController<T>? apiWrapperController;
-  final bool fadeIntoView;
   const APIWrapper({
     Key? key,
     required this.apiCall,
@@ -30,6 +23,13 @@ class APIWrapper<T> extends StatefulWidget {
     this.errorBuilder,
     this.loadingBuilder,
   }) : super(key: key);
+  final Future<T> apiCall;
+  final ResponseBuilder<T> responseBuilder;
+  final WidgetBuilder? loadingBuilder;
+  final ErrorBuilder? errorBuilder;
+  final T? initialData;
+  final APIWrapperController<T>? apiWrapperController;
+  final bool fadeIntoView;
 
   @override
   _APIWrapperState<T> createState() => _APIWrapperState();
@@ -101,7 +101,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
           // : Text(error!);
           : Builder(builder: (context) {
               if (error is DioError) {
-                final DioError err = error as DioError;
+                final err = error as DioError;
                 if (err.type == DioErrorType.response) {
                   return Padding(
                     padding: const EdgeInsets.all(24.0),

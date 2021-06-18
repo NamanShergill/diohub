@@ -7,13 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppScrollView extends StatelessWidget {
-  final Widget? scrollViewAppBar;
-  final List<Widget>? tabViews;
-  final Widget? child;
-  final bool loading;
-  final TabController? tabController;
-  final Color? childrenColor;
-  final ScrollController scrollController;
   const AppScrollView(
       {this.scrollViewAppBar,
       this.tabController,
@@ -24,6 +17,13 @@ class AppScrollView extends StatelessWidget {
       this.loading = false,
       Key? key})
       : super(key: key);
+  final Widget? scrollViewAppBar;
+  final List<Widget>? tabViews;
+  final Widget? child;
+  final bool loading;
+  final TabController? tabController;
+  final Color? childrenColor;
+  final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
@@ -75,18 +75,6 @@ class AppScrollView extends StatelessWidget {
 }
 
 class ScrollViewAppBar extends StatelessWidget {
-  final List<String>? tabs;
-  final Widget? appBarWidget;
-  final double? expandedHeight;
-  final Widget? flexibleBackgroundWidget;
-  final double? collapsedHeight;
-  final double? bottomPadding;
-  final String? url;
-
-  final TabController? tabController;
-  final Widget? bottomHeader;
-  final Color? backgroundColor;
-  final EdgeInsets? padding;
   const ScrollViewAppBar(
       {this.tabs,
       this.appBarWidget,
@@ -101,6 +89,18 @@ class ScrollViewAppBar extends StatelessWidget {
       this.expandedHeight,
       Key? key})
       : super(key: key);
+  final List<String>? tabs;
+  final Widget? appBarWidget;
+  final double? expandedHeight;
+  final Widget? flexibleBackgroundWidget;
+  final double? collapsedHeight;
+  final double? bottomPadding;
+  final String? url;
+
+  final TabController? tabController;
+  final Widget? bottomHeader;
+  final Color? backgroundColor;
+  final EdgeInsets? padding;
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -155,11 +155,11 @@ class ScrollViewAppBar extends StatelessWidget {
 }
 
 class SliverAppBarTitle extends StatefulWidget {
-  final Widget? child;
   const SliverAppBarTitle({
     Key? key,
     required this.child,
   }) : super(key: key);
+  final Widget? child;
   @override
   _SliverAppBarTitleState createState() {
     return _SliverAppBarTitleState();
@@ -193,9 +193,9 @@ class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
   }
 
   void _positionListener() {
-    final FlexibleSpaceBarSettings? settings =
-        context.dependOnInheritedWidgetOfExactType();
-    final bool visible =
+    final settings =
+        context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
+    final visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {
       setState(() {

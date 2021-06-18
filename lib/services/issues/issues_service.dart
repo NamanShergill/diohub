@@ -10,7 +10,7 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo({required String fullUrl}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader: 'application/vnd.github.VERSION.full+json')
@@ -21,7 +21,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
   static Future<IssueCommentsModel> getLatestComment(
       {required String fullUrl}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(fullUrl);
     return IssueCommentsModel.fromJson(response.data);
@@ -46,12 +46,12 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
   static Future<List<IssueEventModel>> getIssueEvents(
       {required String fullUrl, String? since}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
-        .get(fullUrl + '/events', queryParameters: {'since': since});
-    List unParsedEvents = response.data;
-    List<IssueEventModel> parsedEvents = [];
-    for (var event in unParsedEvents) {
+        .get('$fullUrl/events', queryParameters: {'since': since});
+    final List unParsedEvents = response.data;
+    final parsedEvents = <IssueEventModel>[];
+    for (final event in unParsedEvents) {
       parsedEvents.add(IssueEventModel.fromJson(event));
     }
     return parsedEvents;
@@ -65,7 +65,7 @@ class IssuesService {
     bool? ascending = false,
     String? sort,
   }) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '/issues',
@@ -76,9 +76,8 @@ class IssuesService {
         if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       },
     );
-    List unParsedData = response.data;
-    List<IssueModel> parsedData =
-        unParsedData.map((e) => IssueModel.fromJson(e)).toList();
+    final List unParsedData = response.data;
+    final parsedData = unParsedData.map((e) => IssueModel.fromJson(e)).toList();
     return parsedData;
   }
 
@@ -91,7 +90,7 @@ class IssuesService {
     bool? ascending = false,
     required bool refresh,
   }) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '$repoURL/issues',
@@ -102,9 +101,8 @@ class IssuesService {
         if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       },
     );
-    List unParsedData = response.data;
-    List<IssueModel> parsedData =
-        unParsedData.map((e) => IssueModel.fromJson(e)).toList();
+    final List unParsedData = response.data;
+    final parsedData = unParsedData.map((e) => IssueModel.fromJson(e)).toList();
     return parsedData;
   }
 
@@ -136,7 +134,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned
   static Future<bool> checkIfUserCanBeAssigned(
       String login, String repoURL) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             showPopup: false,
             cacheOptions: CacheManager.defaultCache())
@@ -154,20 +152,20 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#list-assignees
   static Future<List<UserInfoModel>> listAssignees(
       String? repoURL, int page, int perPage) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$repoURL/assignees', queryParameters: {
       'per_page': perPage,
       'page': page,
     });
-    List data = response.data;
+    final List data = response.data;
     return data.map((e) => UserInfoModel.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
   static Future<IssueModel> addAssignees(
       String? issueURL, List<String?> users) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
+    final response = await GetDio.getDio(applyBaseURL: false)
         .post('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
@@ -175,45 +173,45 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#remove-assignees-from-an-issue
   static Future<IssueModel> removeAssignees(
       String? issueURL, List<String?> users) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
+    final response = await GetDio.getDio(applyBaseURL: false)
         .delete('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-an-issue
   static Future<List<Label>> listLabels(String issueURL) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$issueURL/labels');
-    List data = response.data;
+    final List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
   static Future<List<Label>> listAvailableLabels(
       String? repoURL, int page, int perPage) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$repoURL/labels', queryParameters: {
       'per_page': perPage,
       'page': page,
     });
-    List data = response.data;
+    final List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#set-labels-for-an-issue
   static Future<List<Label>> setLabels(
       String? issueURL, List<String?>? labels) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
+    final response = await GetDio.getDio(applyBaseURL: false)
         .put('$issueURL/labels', data: {'labels': labels});
-    List data = response.data;
+    final List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
   static Future<IssueModel> updateIssue(String issueURL, Map data) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             acceptHeader: 'application/vnd.github.VERSION.full+json')
         .patch(issueURL, data: data);
@@ -222,9 +220,11 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue-comment
   static Future<bool> addComment(String issueURL, String body) async {
-    Response response = await GetDio.getDio(applyBaseURL: false)
+    final response = await GetDio.getDio(applyBaseURL: false)
         .post('$issueURL/comments', data: {'body': body});
-    if (response.statusCode == 201) return true;
+    if (response.statusCode == 201) {
+      return true;
+    }
     return false;
   }
 

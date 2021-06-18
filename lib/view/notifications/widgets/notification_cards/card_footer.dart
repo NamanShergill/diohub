@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CardFooter extends StatelessWidget {
+  const CardFooter(this.avatarUrl, this.text, {required this.unread, Key? key})
+      : super(key: key);
   final String? avatarUrl;
   final String? text;
   final bool? unread;
-  const CardFooter(this.avatarUrl, this.text, this.unread, {Key? key})
-      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FadeAnimationSection(

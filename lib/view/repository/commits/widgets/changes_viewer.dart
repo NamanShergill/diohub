@@ -2,11 +2,11 @@ import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:flutter/material.dart';
 
 class ChangesViewer extends StatefulWidget {
+  const ChangesViewer(this.patch, this.contentURL, this.fileType, {Key? key})
+      : super(key: key);
   final String? patch;
   final String? contentURL;
   final String? fileType;
-  const ChangesViewer(this.patch, this.contentURL, this.fileType, {Key? key})
-      : super(key: key);
 
   @override
   _ChangesViewerState createState() => _ChangesViewerState();

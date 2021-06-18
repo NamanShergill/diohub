@@ -10,14 +10,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProfileTile extends StatelessWidget {
-  final String? avatarUrl;
-  final double size;
-  final String? userLogin;
-  final bool showName;
-  final String? fullName;
-  final TextStyle? textStyle;
-  final EdgeInsets padding;
-  final bool disableTap;
   const ProfileTile(this.avatarUrl,
       {this.userLogin,
       this.padding = EdgeInsets.zero,
@@ -28,13 +20,21 @@ class ProfileTile extends StatelessWidget {
       this.textStyle,
       Key? key})
       : super(key: key);
+  final String? avatarUrl;
+  final double size;
+  final String? userLogin;
+  final bool showName;
+  final String? fullName;
+  final TextStyle? textStyle;
+  final EdgeInsets padding;
+  final bool disableTap;
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: AppThemeBorderRadius.smallBorderRadius,
+      borderRadius: smallBorderRadius,
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: AppThemeBorderRadius.smallBorderRadius,
+        borderRadius: smallBorderRadius,
         onTap: userLogin != null && !disableTap
             ? () {
                 AutoRouter.of(context)

@@ -3,9 +3,8 @@ import 'package:dio_hub/common/const/version_info.dart';
 import 'package:flutter/material.dart';
 
 class AppNameWidget extends StatelessWidget {
-  final double size;
-
   const AppNameWidget({Key? key, required this.size}) : super(key: key);
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +18,8 @@ class AppNameWidget extends StatelessWidget {
 }
 
 class AppLogoWidget extends StatelessWidget {
-  final double size;
   const AppLogoWidget({Key? key, required this.size}) : super(key: key);
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +32,16 @@ class AppLogoWidget extends StatelessWidget {
 }
 
 class AppInfoWidget extends StatelessWidget {
-  final Axis axis;
-  final double? logoSize;
-  final double nameSize;
   const AppInfoWidget(
       {Key? key, this.axis = Axis.vertical, this.logoSize, this.nameSize = 24})
       : super(key: key);
+  final Axis axis;
+  final double? logoSize;
+  final double nameSize;
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> children = [
+    final children = <Widget>[
       AppLogoWidget(size: logoSize ?? MediaQuery.of(context).size.width * 0.3),
       AppNameWidget(
         size: nameSize,

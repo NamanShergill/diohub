@@ -16,16 +16,16 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryCard extends StatefulWidget {
-  final RepositoryModel? repo;
-  final bool isThemed;
-  final String? branch;
-  final EdgeInsets padding;
   const RepositoryCard(this.repo,
       {this.isThemed = true,
       this.branch,
       this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
       Key? key})
       : super(key: key);
+  final RepositoryModel? repo;
+  final bool isThemed;
+  final String? branch;
+  final EdgeInsets padding;
 
   @override
   _RepositoryCardState createState() => _RepositoryCardState();
@@ -41,9 +41,9 @@ class _RepositoryCardState extends State<RepositoryCard> {
         color: widget.isThemed
             ? Provider.of<PaletteSettings>(context).currentSetting.primary
             : Colors.transparent,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context).push(RepositoryScreenRoute(
               repositoryURL: widget.repo!.url,
@@ -132,9 +132,7 @@ class _RepositoryCardState extends State<RepositoryCard> {
                           child: Text(
                             widget.repo!.description != null
                                 ? widget.repo!.description!.length > 100
-                                    ? widget.repo!.description!
-                                            .substring(0, 100) +
-                                        '...'
+                                    ? '${widget.repo!.description!.substring(0, 100)}...'
                                     : widget.repo!.description ??
                                         'No description.'
                                 : 'No description.',
@@ -218,12 +216,6 @@ class _RepositoryCardState extends State<RepositoryCard> {
 }
 
 class RepoCardLoading extends StatelessWidget {
-  final String? repoURL;
-  final String? repoName;
-  final EdgeInsets padding;
-  final double elevation;
-  final bool refresh;
-  final String? branch;
   const RepoCardLoading(this.repoURL, this.repoName,
       {this.elevation = 2,
       this.branch,
@@ -231,6 +223,12 @@ class RepoCardLoading extends StatelessWidget {
       this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
       Key? key})
       : super(key: key);
+  final String? repoURL;
+  final String? repoName;
+  final EdgeInsets padding;
+  final double elevation;
+  final bool refresh;
+  final String? branch;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -238,7 +236,7 @@ class RepoCardLoading extends StatelessWidget {
       child: Material(
         elevation: elevation,
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: APIWrapper<RepositoryModel>(
           apiCall:
               RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
@@ -256,7 +254,7 @@ class RepoCardLoading extends StatelessWidget {
                     height: 8,
                   ),
                   ShimmerWidget(
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    borderRadius: smallBorderRadius,
                     child: Container(
                       height: 20,
                       width: double.infinity,
@@ -267,7 +265,7 @@ class RepoCardLoading extends StatelessWidget {
                     height: 4,
                   ),
                   ShimmerWidget(
-                    borderRadius: AppThemeBorderRadius.smallBorderRadius,
+                    borderRadius: smallBorderRadius,
                     child: Container(
                       height: 20,
                       width: 200,
@@ -278,7 +276,7 @@ class RepoCardLoading extends StatelessWidget {
               ),
             );
           },
-          responseBuilder: (context, RepositoryModel repo) {
+          responseBuilder: (context, repo) {
             return RepositoryCard(
               repo,
               branch: branch,

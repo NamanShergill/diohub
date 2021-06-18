@@ -10,12 +10,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class RangePicker extends StatefulWidget {
-  final ValueChanged<String> onAdded;
-  final QueryType queryType;
   const RangePicker({Key? key, required this.onAdded, required this.queryType})
       : assert(queryType == QueryType.date || queryType == QueryType.number,
             'Only show for date and number queries!'),
         super(key: key);
+  final ValueChanged<String> onAdded;
+  final QueryType queryType;
 
   @override
   _RangePickerState createState() => _RangePickerState();
@@ -81,7 +81,7 @@ class _RangePickerState extends State<RangePicker> {
   }
 
   Future<DateTime> getDate({DateTime? firstDate, DateTime? lastDate}) async {
-    final DateTime date = await showDatePicker(
+    final date = await showDatePicker(
             context: context,
             initialDate: lastDate ?? DateTime.now(),
             firstDate: firstDate ?? DateTime.utc(1969, 7, 20, 20, 18, 04),
@@ -93,9 +93,9 @@ class _RangePickerState extends State<RangePicker> {
   bool get checkValid {
     if (widget.queryType == QueryType.number) {
       return controller1.text.isNotEmpty &&
-          (isRanged ? controller2.text.isNotEmpty : true);
+          (!isRanged || controller2.text.isNotEmpty);
     } else if (widget.queryType == QueryType.date) {
-      return date1 != null && (isRanged ? date2 != null : true);
+      return date1 != null && (!isRanged || date2 != null);
     }
     return false;
   }
@@ -104,7 +104,7 @@ class _RangePickerState extends State<RangePicker> {
   Widget build(BuildContext context) {
     return SizeExpandedSection(
       child: Material(
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -119,6 +119,7 @@ class _RangePickerState extends State<RangePicker> {
                   expanded = !expanded;
                 });
               },
+              expanded: expanded,
               child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -144,7 +145,6 @@ class _RangePickerState extends State<RangePicker> {
                   },
                   separatorBuilder: (context, index) => const Divider(),
                   itemCount: types.length),
-              expanded: expanded,
             ),
             if (widget.queryType == QueryType.number)
               Padding(
@@ -156,14 +156,14 @@ class _RangePickerState extends State<RangePicker> {
                         controller: controller1,
                         focusNode: node1,
                         onSubmitted: (string) {
-                          if (isRanged ? controller2.text.isEmpty : false) {
+                          if (isRanged && controller2.text.isEmpty) {
                             node2.requestFocus();
                           } else {
                             submit();
                           }
                         },
                         keyboardType: TextInputType.number,
-                        decoration: TextFieldTheme.inputDecoration(
+                        decoration: inputDecoration(
                             hintText: '00',
                             context: context,
                             enabledBorderColor:
@@ -191,7 +191,7 @@ class _RangePickerState extends State<RangePicker> {
                               }
                             },
                             keyboardType: TextInputType.number,
-                            decoration: TextFieldTheme.inputDecoration(
+                            decoration: inputDecoration(
                                 hintText: '00',
                                 context: context,
                                 enabledBorderColor:
@@ -229,7 +229,7 @@ class _RangePickerState extends State<RangePicker> {
                                       date1?.subtract(const Duration(days: 1)));
                               setState(() {});
                             },
-                            decoration: TextFieldTheme.inputDecoration(
+                            decoration: inputDecoration(
                                 context: context,
                                 enabledBorderColor:
                                     Provider.of<PaletteSettings>(context)
@@ -256,7 +256,7 @@ class _RangePickerState extends State<RangePicker> {
                                   : null);
                           setState(() {});
                         },
-                        decoration: TextFieldTheme.inputDecoration(
+                        decoration: inputDecoration(
                             context: context,
                             enabledBorderColor:
                                 Provider.of<PaletteSettings>(context)
@@ -287,11 +287,7 @@ class _RangePickerState extends State<RangePicker> {
               height: 0,
             ),
             MaterialButton(
-              onPressed: checkValid
-                  ? () {
-                      submit();
-                    }
-                  : null,
+              onPressed: checkValid ? submit : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

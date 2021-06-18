@@ -8,11 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LabelSelectSheet extends StatefulWidget {
-  final String? repoURL;
-  final String? issueUrl;
-  final List<Label>? labels;
-  final ScrollController? controller;
-  final ValueChanged<List<Label>>? newLabels;
   const LabelSelectSheet(
       {Key? key,
       this.labels,
@@ -21,6 +16,11 @@ class LabelSelectSheet extends StatefulWidget {
       this.controller,
       this.newLabels})
       : super(key: key);
+  final String? repoURL;
+  final String? issueUrl;
+  final List<Label>? labels;
+  final ScrollController? controller;
+  final ValueChanged<List<Label>>? newLabels;
 
   @override
   _LabelSelectSheetState createState() => _LabelSelectSheetState();
@@ -46,7 +46,7 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
             onTap: () async {
               try {
-                List<Label> newLabels =
+                final newLabels =
                     await IssuesService.setLabels(widget.issueUrl, labels);
                 Navigator.pop(context);
                 widget.newLabels!(newLabels);

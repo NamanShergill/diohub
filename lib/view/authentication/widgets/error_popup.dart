@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class ErrorPopup extends StatelessWidget {
-  final String error;
   const ErrorPopup(this.error, {Key? key}) : super(key: key);
+  final String error;
   @override
   Widget build(BuildContext context) {
     return ScaleExpandedSection(

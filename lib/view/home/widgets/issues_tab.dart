@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatefulWidget {
-  final ScrollController scrollController;
-  final DeepLinkData? deepLinkData;
-
   const IssuesTab({required this.scrollController, this.deepLinkData, Key? key})
       : super(key: key);
+  final ScrollController scrollController;
+  final DeepLinkData? deepLinkData;
 
   @override
   _IssuesTabState createState() => _IssuesTabState();
@@ -54,9 +53,11 @@ class _IssuesTabState extends State<IssuesTab>
       searchHeroTag: '${_user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       filterFn: (data) {
-        List<IssueModel> filteredData = [];
-        for (var item in data) {
-          if (item.pullRequest == null) filteredData.add(item);
+        final filteredData = <IssueModel>[];
+        for (final item in data) {
+          if (item.pullRequest == null) {
+            filteredData.add(item);
+          }
         }
         return filteredData;
       },

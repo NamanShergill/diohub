@@ -9,14 +9,6 @@ class OverlayController {
 }
 
 class OverlayMenuWidget extends StatefulWidget {
-  final Widget child;
-  final Widget overlay;
-  final bool initiallyVisible;
-  final Alignment? childAnchor;
-  final Alignment? portalAnchor;
-  final double heightMultiplier;
-  final OverlayController controller;
-  final double offSet;
   const OverlayMenuWidget(
       {required this.child,
       required this.overlay,
@@ -31,6 +23,14 @@ class OverlayMenuWidget extends StatefulWidget {
         assert((childAnchor == null) == (portalAnchor == null),
             'Either both should be none, or none of them should be.'),
         super(key: key);
+  final Widget child;
+  final Widget overlay;
+  final bool initiallyVisible;
+  final Alignment? childAnchor;
+  final Alignment? portalAnchor;
+  final double heightMultiplier;
+  final OverlayController controller;
+  final double offSet;
 
   @override
   _OverlayMenuWidgetState createState() => _OverlayMenuWidgetState();

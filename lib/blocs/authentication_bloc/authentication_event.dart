@@ -11,17 +11,17 @@ class RequestDeviceCode extends AuthenticationEvent {}
 
 /// Request access token from GitHub.
 class RequestAccessToken extends AuthenticationEvent {
+  RequestAccessToken(this.deviceCode, this.interval);
   // Device code received in previous step.
   final String? deviceCode;
   // The intervals in which the requests are to be made.
   final int? interval;
-  RequestAccessToken(this.deviceCode, this.interval);
 }
 
 /// Error handling.
 class AuthError extends AuthenticationEvent {
-  final String error;
   AuthError(this.error);
+  final String error;
 }
 
 /// Reset states to unauthenticated.

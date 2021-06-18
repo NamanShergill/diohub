@@ -5,14 +5,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 void linkHandler(BuildContext context, String? url,
     {String? shareDescription, bool showSheetOnDeepLink = false}) async {
-  if (DeepLinkHandler.isDeepLink(url!) && !showSheetOnDeepLink) {
-    DeepLinkHandler.deepLinkNavigate(url);
+  if (isDeepLink(url!) && !showSheetOnDeepLink) {
+    deepLinkNavigate(url);
   } else {
-    bool canLaunchLink = await canLaunch(url);
+    final canLaunchLink = await canLaunch(url);
     if (canLaunchLink) {
       showURLBottomActionsMenu(context, url,
-          shareDescription: shareDescription,
-          showOpenTile: !DeepLinkHandler.isDeepLink(url));
+          shareDescription: shareDescription, showOpenTile: !isDeepLink(url));
     }
   }
 }

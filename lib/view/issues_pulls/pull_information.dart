@@ -45,7 +45,7 @@ class PullInformation extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      _pull.commits.toString() + ' commits',
+                      '${_pull.commits} commits',
                       style: const TextStyle(
                           fontWeight: FontWeight.w300, fontSize: 12),
                     ),
@@ -226,7 +226,7 @@ class PullInformation extends StatelessWidget {
                                       )),
                             ),
                           )
-                        : const Text("No labels."),
+                        : const Text('No labels.'),
                   ],
                 );
               },
@@ -279,8 +279,8 @@ class PullInformation extends StatelessWidget {
 }
 
 class _BranchButton extends StatelessWidget {
-  final Base base;
   const _BranchButton(this.base);
+  final Base base;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -288,21 +288,19 @@ class _BranchButton extends StatelessWidget {
       child: Material(
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         elevation: 2,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: Container(
-          decoration:
-              BoxDecoration(borderRadius: AppThemeBorderRadius.medBorderRadius),
+          decoration: BoxDecoration(borderRadius: medBorderRadius),
           child: InkWell(
             onTap: () {
               AutoRouter.of(context).push(RepositoryScreenRoute(
                   branch: base.label!.split(':').last,
                   repositoryURL: base.repo!.url));
             },
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
             child: Container(
               height: 55,
-              decoration: BoxDecoration(
-                  borderRadius: AppThemeBorderRadius.medBorderRadius),
+              decoration: BoxDecoration(borderRadius: medBorderRadius),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(

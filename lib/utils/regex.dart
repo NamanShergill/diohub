@@ -12,10 +12,10 @@ String nonCapturingGroup(String pattern) => '(?:$pattern)';
 
 extension RegExpExtension on RegExp {
   List<String?> allMatchesWithSep(String input, [int start = 0]) {
-    int startVal = start;
+    var startVal = start;
     final result = <String?>[];
 
-    for (var match in allMatches(input, startVal)) {
+    for (final match in allMatches(input, startVal)) {
       result.add(input.substring(startVal, match.start));
       result.add(match[0]);
       startVal = match.end;

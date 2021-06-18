@@ -13,7 +13,7 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository
   static Future<RepositoryModel> fetchRepository(String url,
       {bool refresh = false}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.repositories(refresh: refresh))
         .get(url);
@@ -23,15 +23,15 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
   static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
       {String? branch}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
-        .get(repoUrl + '/readme', queryParameters: {'ref': branch});
+        .get('$repoUrl/readme', queryParameters: {'ref': branch});
     return RepositoryReadmeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
   static Future<BranchModel> fetchBranch(String branchUrl) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(branchUrl);
     return BranchModel.fromJson(response.data);
@@ -40,15 +40,15 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#list-branches
   static Future<List<RepoBranchListItemModel>> fetchBranchList(
       String repoURL, int pageNumber, int perPage,
-      [bool refresh = false]) async {
-    Response response = await GetDio.getDio(
+      {bool refresh = false}) async {
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/branches',
             queryParameters: {'per_page': perPage, 'page': pageNumber});
-    List unParseData = response.data;
-    List<RepoBranchListItemModel> parsedData = [];
-    for (var item in unParseData) {
+    final List unParseData = response.data;
+    final parsedData = <RepoBranchListItemModel>[];
+    for (final item in unParseData) {
       parsedData.add(RepoBranchListItemModel.fromJson(item));
     }
     return parsedData;
@@ -63,20 +63,22 @@ class RepositoryServices {
       int? pageSize,
       String? author,
       bool refresh = false}) async {
-    Map<String, dynamic> queryParams = {
+    final queryParams = <String, dynamic>{
       'path': path,
       'per_page': pageSize,
       'page': pageNumber,
       'sha': sha
     };
-    if (author != null) queryParams['author'] = author;
-    Response response = await GetDio.getDio(
+    if (author != null) {
+      queryParams['author'] = author;
+    }
+    final response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get(repoURL + '/commits', queryParameters: queryParams);
-    List unParsedItems = response.data;
-    List<CommitListModel> parsedItems = [];
-    for (var element in unParsedItems) {
+        .get('$repoURL/commits', queryParameters: queryParams);
+    final List unParsedItems = response.data;
+    final parsedItems = <CommitListModel>[];
+    for (final element in unParsedItems) {
       parsedItems.add(CommitListModel.fromJson(element));
     }
     return parsedItems;
@@ -85,7 +87,7 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit
   static Future<CommitModel> getCommit(String commitURL,
       {bool refresh = false}) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
       applyBaseURL: false,
       debugLog: true,
       cacheOptions: CacheManager.defaultCache(refresh: refresh),
@@ -95,7 +97,7 @@ class RepositoryServices {
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
   static Future<bool> checkUserRepoPerms(String login, String? repoURL) async {
-    Response response = await GetDio.getDio(
+    final response = await GetDio.getDio(
       applyBaseURL: false,
       showPopup: false,
       cacheOptions: CacheManager.defaultCache(),
@@ -132,9 +134,9 @@ class RepositoryServices {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#star-a-repository-for-the-authenticated-user
-  static Future<bool> changeStar(
-      String owner, String name, bool isStarred) async {
-    String endpoint = '/user/starred/$owner/$name';
+  static Future<bool> changeStar(String owner, String name,
+      {required bool isStarred}) async {
+    final endpoint = '/user/starred/$owner/$name';
     final res = isStarred
         ? await GetDio.getDio().delete(endpoint)
         : await GetDio.getDio().put(endpoint);
@@ -166,8 +168,8 @@ class RepositoryServices {
     }
   }
 
-  static Future<bool> subscribeToRepo(
-      String owner, String name, bool isSubscribing) async {
+  static Future<bool> subscribeToRepo(String owner, String name,
+      {required bool isSubscribing}) async {
     final res = isSubscribing
         ? await GetDio.getDio()
             .put('/repos/$owner/$name/subscription', data: {'subscribed': true})

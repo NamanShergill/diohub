@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomExpandTile extends StatelessWidget {
-  final Widget title;
-  final bool expanded;
-  final Widget child;
-  final Function() onTap;
   const CustomExpandTile(
       {this.expanded = false,
       required this.child,
@@ -15,6 +11,10 @@ class CustomExpandTile extends StatelessWidget {
       required this.title,
       Key? key})
       : super(key: key);
+  final Widget title;
+  final bool expanded;
+  final Widget child;
+  final Function() onTap;
   @override
   Widget build(BuildContext context) {
     return Column(
