@@ -4,7 +4,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 

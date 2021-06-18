@@ -5,13 +5,14 @@
 - If app was opened via a deeplink and user is unauthenticated, the deep link will be honored as
   soon as the authentication is completed.
 
-**Settings | WIP**
-- Customise the app's color palette according to your taste | WIP. 
-- Added multiple font options to select from | WIP.
+**Settings**
+- Customise the app's color palette according to your taste. 
+- Share themes as a link that opens in the app and gives a prompt to load said theme.
+- Added multiple font options to select from.
 
 **Project Boards | WIP** 
  
-**Issue/Pull Request Screen enhancements | WIP** 
+**Issue/Pull Request Screen enhancements** 
 - Ability to quote (full/select) replies.
 - Added all missing timeline item cases.
 - Added ability to view Pull Request Reviews and reply to them.
@@ -23,15 +24,23 @@
 - Supports previewing the text markdown.
 
 **Enhancements**
-- Splash screen logo improvements.
-- Complete Github Flavored Markdown support.
 - Added organizations tab to the home screen.
 - Text in code blocks is now selectable.
 - Added share URL button on many screens.
+- View pinned issues on a repository. | WIP.
+- Star and watch buttons on repository screens now work. | WIP.
+- Follow button added to user profile screens. | WIP
+- Star repositories from the repository cards themselves (For example, from the activity tab)
+- Follow users from user cards themselves (For example, in search)
+- Splash screen logo improvements.
+- Complete Github Flavored Markdown support.
 
-**Deeplink**
+**Deep-links**
 - Settings URL exception added in deep-links. 
 - **(FIXED)** Pull request deeplink fixed.
+
+**Misc**
+- App caching default max-age dropped from 10 minutes to 3 minutes.
 ---
 ## [0.2.1] - 29 April 2021
 **Bug Fixes**

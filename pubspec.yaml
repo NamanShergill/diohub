@@ -46,29 +46,16 @@ dependencies:
       url: https://github.com/Sub6Resources/flutter_html.git
       ref: master
 
-  flutter_icons: ^1.1.0
   flutter_inappwebview: ^5.3.2
   flutter_keyboard_visibility: ^5.0.2
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^1.0.8
   flutter_scroll_to_top: ^1.1.0
-
-  # Todo: Use this until official release that disables the logs.
-  flutter_secure_storage:
-    git:
-      url: https://github.com/mogol/flutter_secure_storage.git
-      ref: 2ad3cf2ea344b93742418af655537d2acc7043ec
-
+  flutter_secure_storage: ^4.2.0
   flutter_slidable: ^0.6.0
   flutter_svg: ^0.22.0
-#  flutter_web_auth: ^0.3.0
-
-  # Modified to support hero tags. Might remove.
-  google_nav_bar:
-    git:
-      url: https://github.com/NamanShergill/google_nav_bar.git
-      ref: master
-
+  flutter_vector_icons: ^1.0.0
+  google_nav_bar: ^5.0.5
   gql: ^0.13.0
   gql_exec: ^0.3.0
 
@@ -88,7 +75,6 @@ dependencies:
   markdown: ^4.0.0
 
   # Modified for additional markdown options.
-  # Todo: Move to null safety.
   markdown_editable_textinput:
     git:
       url: https://github.com/NamanShergill/markdown-editable-textinput.git
@@ -108,8 +94,6 @@ dependencies:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
   url_launcher: ^6.0.2
-
-  cupertino_icons: ^1.0.3
 
 dev_dependencies:
   flutter_test:

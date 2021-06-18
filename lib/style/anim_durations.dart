@@ -1,4 +1,4 @@
 class AppThemeAnimDurations {
-  static Duration defaultAnimDuration = Duration(milliseconds: 250);
-  static Duration transitionAnimDuration = Duration(milliseconds: 500);
+  static Duration defaultAnimDuration = const Duration(milliseconds: 250);
+  static Duration transitionAnimDuration = const Duration(milliseconds: 500);
 }

@@ -75,14 +75,14 @@ class _ColorSettingCardState extends State<ColorSettingCard> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
                       MaterialButton(
                         onPressed: () {
                           theme.resetToDefault();
                           Navigator.pop(context);
                         },
-                        child: Text('Reset'),
+                        child: const Text('Reset'),
                       )
                     ],
                   ),
@@ -94,7 +94,7 @@ class _ColorSettingCardState extends State<ColorSettingCard> {
       },
       child: Column(
         children: [
-          Divider(),
+          const Divider(),
           _ColorTab(
             type: 'Accent',
             color: Provider.of<PaletteSettings>(context).currentSetting.accent,
@@ -191,7 +191,7 @@ class __ColorTabState extends State<_ColorTab> {
   Widget build(BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context).currentSetting;
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       trailing: Icon(
         LineIcons.edit,
         color: theme.faded3,

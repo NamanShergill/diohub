@@ -46,11 +46,11 @@ class _FontSettingCardState extends State<FontSettingCard> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Divider(),
+                            const Divider(),
                             RadioListTile<String>(
                               value: settings.keys.toList()[index],
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 8),
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               title: Text(
                                 settings.keys.toList()[index],
                                 style: TextStyle(
@@ -83,7 +83,7 @@ class _FontSettingCardState extends State<FontSettingCard> {
       },
       child: Column(
         children: [
-          Divider(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(

@@ -204,11 +204,17 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               },
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
               builder: (context, item, index, refresh) {
-                return Padding(
-                  padding: widget.padding,
-                  child: ProfileCard(
-                    item,
-                  ),
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: widget.padding,
+                        child: ProfileCard(
+                          item,
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               },
             );

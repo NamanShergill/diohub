@@ -349,7 +349,9 @@ class _ReactionButtonState extends State<ReactionButton> {
         });
       }
       widget.onChanged!(_reaction);
-    } catch (e) {}
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     setState(() {
       loading = false;
     });

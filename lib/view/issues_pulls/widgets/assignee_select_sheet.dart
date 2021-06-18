@@ -89,7 +89,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             title: const Text('Note'),
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
                   style: TextStyle(

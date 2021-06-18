@@ -9,7 +9,7 @@ import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueNotificationCard extends StatefulWidget {
   final NotificationModel notification;

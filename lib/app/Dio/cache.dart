@@ -31,8 +31,7 @@ class CacheManager {
       CustomCacheOptions(refresh, maxAge: maxAge);
 
   static CustomCacheOptions defaultGQLCache(
-          {bool refresh = false,
-          Duration maxAge = const Duration(minutes: 10)}) =>
+          {bool refresh = false, Duration maxAge = _maxAge}) =>
       CustomCacheOptions(
         refresh,
         allowPostMethod: true,
@@ -48,12 +47,14 @@ class CacheManager {
   }
 }
 
+const Duration _maxAge = Duration(minutes: 3);
+
 class CustomCacheOptions extends CacheOptions {
   final Duration maxAge;
   final bool refresh;
   CustomCacheOptions(
     this.refresh, {
-    this.maxAge = const Duration(minutes: 10),
+    this.maxAge = _maxAge,
     List<int> hitCacheOnErrorExcept = const [401, 403],
     CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     Duration maxStale = const Duration(days: 7),

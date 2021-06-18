@@ -10,7 +10,7 @@ import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -87,6 +87,8 @@ class _DiscussionState extends State<Discussion>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    // final theme = Provider.of<PaletteSettings>(context).currentSetting;
+
     Widget header = commentsSince != null
         ? Column(
             children: [
@@ -366,6 +368,8 @@ class _CommentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+
     return Material(
       elevation: 2,
       color: isLocked
@@ -379,9 +383,10 @@ class _CommentButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Add a comment',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: theme.elementsOnColors),
               ),
               const SizedBox(
                 width: 8,

@@ -47,8 +47,6 @@ class _CommitBrowserState extends State<CommitBrowser> {
 
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(

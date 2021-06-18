@@ -16,7 +16,7 @@ import 'package:dio_hub/view/issues_pulls/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/issue_information.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {

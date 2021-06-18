@@ -13,7 +13,7 @@ import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/assignee_select_sheet.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/label_select_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {

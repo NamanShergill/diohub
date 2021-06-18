@@ -87,6 +87,7 @@ class RepositoryServices {
       {bool refresh = false}) async {
     Response response = await GetDio.getDio(
       applyBaseURL: false,
+      debugLog: true,
       cacheOptions: CacheManager.defaultCache(refresh: refresh),
     ).get(commitURL);
     return CommitModel.fromJson(response.data);

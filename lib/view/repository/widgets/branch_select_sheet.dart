@@ -4,7 +4,7 @@ import 'package:dio_hub/models/repositories/branch_list_model.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class BranchSelectSheet extends StatelessWidget {

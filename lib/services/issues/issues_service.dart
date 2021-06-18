@@ -13,8 +13,7 @@ class IssuesService {
     Response response = await GetDio.getDio(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
-            acceptHeader:
-                'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.v3+json')
+            acceptHeader: 'application/vnd.github.VERSION.full+json')
         .get(fullUrl);
     return IssueModel.fromJson(response.data);
   }
@@ -28,21 +27,21 @@ class IssuesService {
     return IssueCommentsModel.fromJson(response.data);
   }
 
-  // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-comments
-  static Future<List<IssueCommentsModel>> getIssueComments(
-      String issueURL, int page, int perPage, bool refresh,
-      {String? since}) async {
-    Response response = await GetDio.getDio(
-            applyBaseURL: false,
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get(issueURL + '/comments', queryParameters: {
-      'since': since,
-      'page': page,
-      'per_page': perPage
-    });
-    List unParsedComments = response.data;
-    return unParsedComments.map((e) => IssueCommentsModel.fromJson(e)).toList();
-  }
+  // // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-comments
+  // static Future<List<IssueCommentsModel>> getIssueComments(
+  //     String issueURL, int page, int perPage, bool refresh,
+  //     {String? since}) async {
+  //   Response response = await GetDio.getDio(
+  //           applyBaseURL: false,
+  //           cacheOptions: CacheManager.defaultCache(refresh: refresh))
+  //       .get(issueURL + '/comments', queryParameters: {
+  //     'since': since,
+  //     'page': page,
+  //     'per_page': perPage
+  //   });
+  //   List unParsedComments = response.data;
+  //   return unParsedComments.map((e) => IssueCommentsModel.fromJson(e)).toList();
+  // }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
   static Future<List<IssueEventModel>> getIssueEvents(
@@ -214,8 +213,10 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
   static Future<IssueModel> updateIssue(String issueURL, Map data) async {
-    Response response =
-        await GetDio.getDio(applyBaseURL: false).patch(issueURL, data: data);
+    Response response = await GetDio.getDio(
+            applyBaseURL: false,
+            acceptHeader: 'application/vnd.github.VERSION.full+json')
+        .patch(issueURL, data: data);
     return IssueModel.fromJson(response.data);
   }
 

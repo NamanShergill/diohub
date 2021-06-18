@@ -1,5 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
@@ -14,7 +15,7 @@ import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/assignee_select_sheet.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/label_select_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
@@ -43,46 +44,7 @@ class IssueInformation extends StatelessWidget {
                       : true)))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Button(
-                child: _issue.state != IssueState.CLOSED
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text('Close issue'),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Icon(Octicons.issue_closed),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text('Reopen issue'),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Icon(Octicons.issue_reopened),
-                        ],
-                      ),
-                onTap: () async {
-                  Map data = {};
-                  if (_issue.state != IssueState.CLOSED) {
-                    data['state'] = 'closed';
-                  } else {
-                    data['state'] = 'open';
-                  }
-                  IssueModel issue =
-                      await IssuesService.updateIssue(_issue.url!, data);
-                  Provider.of<IssueProvider>(context, listen: false)
-                      .updateIssue(issue);
-                },
-                color: _issue.state != IssueState.CLOSED
-                    ? Provider.of<PaletteSettings>(context).currentSetting.red
-                    : Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .green,
-              ),
+              child: _IssueButton(_issue),
             ),
           const SizedBox(
             height: 8,
@@ -268,6 +230,87 @@ class IssueInformation extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _IssueButton extends StatefulWidget {
+  final IssueModel issue;
+  const _IssueButton(this.issue, {Key? key}) : super(key: key);
+
+  @override
+  __IssueButtonState createState() => __IssueButtonState();
+}
+
+class __IssueButtonState extends State<_IssueButton> {
+  bool loading = false;
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      listenToLoadingController: false,
+      loading: loading,
+      child: widget.issue.state != IssueState.CLOSED
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Close issue'),
+                SizedBox(
+                  width: 8,
+                ),
+                Icon(Octicons.issue_closed),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Reopen issue'),
+                SizedBox(
+                  width: 8,
+                ),
+                Icon(Octicons.issue_reopened),
+              ],
+            ),
+      onTap: () async {
+        showDialog(
+          context: context,
+          builder: (_) => AppDialog(
+              title: widget.issue.state != IssueState.CLOSED
+                  ? 'Close Issue?'
+                  : 'Reopen Issue?',
+              actions: [
+                MaterialButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                MaterialButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+
+                    setState(() {
+                      loading = true;
+                    });
+                    Map data = {};
+                    if (widget.issue.state != IssueState.CLOSED) {
+                      data['state'] = 'closed';
+                    } else {
+                      data['state'] = 'open';
+                    }
+                    IssueModel issue = await IssuesService.updateIssue(
+                        widget.issue.url!, data);
+                    Provider.of<IssueProvider>(context, listen: false)
+                        .updateIssue(issue);
+                    setState(() {
+                      loading = false;
+                    });
+                  },
+                  child: const Text('Confirm'),
+                )
+              ]),
+        );
+      },
+      color: widget.issue.state != IssueState.CLOSED
+          ? Provider.of<PaletteSettings>(context).currentSetting.red
+          : Provider.of<PaletteSettings>(context).currentSetting.green,
     );
   }
 }

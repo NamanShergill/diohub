@@ -15,7 +15,7 @@ class CommentProvider extends ChangeNotifier {
   }
 
   void addQuote(String data) {
-    data = '\n>' + data.replaceAll(RegExp('\n'), '\n>');
+    data = '\n> ' + data.replaceAll(RegExp('\n'), '\n> ');
     _data = _data + data + '\n\n';
   }
 }

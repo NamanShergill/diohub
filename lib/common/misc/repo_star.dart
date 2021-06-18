@@ -7,7 +7,7 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 typedef StarBuilder = Widget Function(

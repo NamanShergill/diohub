@@ -100,27 +100,27 @@ class _LandingScreenState extends State<LandingScreen> {
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',
-                    heroTag: 'homeNavButton',
+                    // heroTag: 'homeNavButton',
                   ),
                   GButton(
                     icon: LineIcons.search,
                     text: 'Search',
-                    heroTag: 'searchNavButton',
+                    // heroTag: 'searchNavButton',
                   ),
                   GButton(
                     icon: LineIcons.bell,
                     text: 'Inbox',
-                    heroTag: 'notificationsNavButton',
+                    // heroTag: 'notificationsNavButton',
                   ),
                   GButton(
                     icon: LineIcons.user,
                     text: 'Profile',
-                    heroTag: 'settingsNavButton',
+                    // heroTag: 'settingsNavButton',
                   ),
                   GButton(
                     icon: LineIcons.cog,
                     text: 'Settings',
-                    heroTag: 'aboutNavButton',
+                    // heroTag: 'aboutNavButton',
                   ),
                 ],
               ),

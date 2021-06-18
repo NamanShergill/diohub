@@ -157,9 +157,9 @@ class _GeneralSettings extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        FontSettingCard(),
-        ColorSettingCard(),
-        Divider(),
+        const FontSettingCard(),
+        const ColorSettingCard(),
+        const Divider(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
           child: StringButton(

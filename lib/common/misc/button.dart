@@ -63,6 +63,14 @@ class _ButtonState extends State<Button> {
   }
 
   @override
+  void didUpdateWidget(covariant Button oldWidget) {
+    setState(() {
+      loading = widget.loading;
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }

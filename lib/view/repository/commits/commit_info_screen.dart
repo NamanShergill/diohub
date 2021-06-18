@@ -7,7 +7,7 @@ import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:dio_hub/view/repository/commits/widgets/changed_files.dart';
 import 'package:dio_hub/view/repository/commits/widgets/commit_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoScreen extends StatefulWidget {
@@ -60,26 +60,26 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                       return ScaffoldBody(
                         notificationController: value.notificationController,
                         child: DefaultTabController(
-                          length: 3,
+                          length: 2,
                           initialIndex: 0,
                           child: Column(
-                            children: [
-                              const AppTabBar(tabs: [
+                            children: const [
+                              AppTabBar(tabs: [
                                 AppTab(
                                   title: 'Commit Information',
                                 ),
                                 AppTab(
                                   title: 'Changed Files',
                                 ),
-                                AppTab(
-                                  title: 'Comments',
-                                ),
+                                // AppTab(
+                                //   title: 'Comments',
+                                // ),
                               ]),
                               Expanded(
                                 child: TabBarView(children: [
-                                  const CommitDetails(),
-                                  const ChangedFiles(),
-                                  Container(),
+                                  CommitDetails(),
+                                  ChangedFiles(),
+                                  // Container(),
                                 ]),
                               ),
                             ],

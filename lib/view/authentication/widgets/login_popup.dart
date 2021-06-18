@@ -4,7 +4,7 @@ import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class LoginPopup extends StatelessWidget {
@@ -19,8 +19,7 @@ class LoginPopup extends StatelessWidget {
           color:
               Provider.of<PaletteSettings>(context).currentSetting.baseElements,
         ),
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         onTap: () async {
           BlocProvider.of<AuthenticationBloc>(context).add(RequestDeviceCode());
         },

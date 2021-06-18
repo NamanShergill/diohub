@@ -4,8 +4,8 @@ import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/search/searchReposModel.dart';
 import 'package:dio_hub/models/search/search_issues_model.dart';
+import 'package:dio_hub/models/search/search_repos_model.dart';
 import 'package:dio_hub/models/search/search_users_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 

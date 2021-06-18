@@ -19,7 +19,7 @@ import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/pull_changed_files_list.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullScreen extends StatefulWidget {

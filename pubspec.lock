@@ -268,7 +268,7 @@ packages:
     source: hosted
     version: "0.17.0"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
@@ -474,13 +474,6 @@ packages:
       url: "https://github.com/Sub6Resources/flutter_html.git"
     source: git
     version: "2.1.0"
-  flutter_icons:
-    dependency: "direct main"
-    description:
-      name: flutter_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   flutter_inappwebview:
     dependency: "direct main"
     description:
@@ -568,12 +561,10 @@ packages:
   flutter_secure_storage:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "2ad3cf2ea344b93742418af655537d2acc7043ec"
-      resolved-ref: "2ad3cf2ea344b93742418af655537d2acc7043ec"
-      url: "https://github.com/mogol/flutter_secure_storage.git"
-    source: git
-    version: "4.1.0"
+      name: flutter_secure_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.0"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -593,6 +584,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_vector_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_vector_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -615,12 +613,10 @@ packages:
   google_nav_bar:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "1e1aa3b2fa3a5e94b81cea94d9ad44cecf6e6ef9"
-      url: "https://github.com/NamanShergill/google_nav_bar.git"
-    source: git
-    version: "4.0.2"
+      name: google_nav_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.5"
   gql:
     dependency: "direct main"
     description:
