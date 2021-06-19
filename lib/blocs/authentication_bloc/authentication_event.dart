@@ -30,7 +30,10 @@ class AuthError extends AuthenticationEvent {
 class ResetStates extends AuthenticationEvent {}
 
 /// Successfully authenticated.
-class AuthSuccessful extends AuthenticationEvent {}
+class AuthSuccessful extends AuthenticationEvent {
+  AuthSuccessful(this.accessToken);
+  final AccessTokenModel accessToken;
+}
 
 /// LogOut the user.
 class LogOut extends AuthenticationEvent {}

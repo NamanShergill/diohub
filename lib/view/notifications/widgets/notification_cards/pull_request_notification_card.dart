@@ -50,9 +50,11 @@ class _PullRequestNotificationCardState
     final data = await Future.wait(futures);
     pullRequest = data[0];
     // reviews = data[1];
-    setState(() {
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override

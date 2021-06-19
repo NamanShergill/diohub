@@ -26,6 +26,7 @@ dependencies:
 
   flutter:
     sdk: flutter
+  flutter_appauth: ^1.0.0+1
   flutter_bloc: ^7.0.1
   flutter_colorpicker: ^0.4.0
   flutter_countdown_timer: ^4.1.0

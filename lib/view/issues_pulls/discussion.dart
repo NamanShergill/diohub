@@ -391,6 +391,7 @@ class _CommentButton extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Icon(
                   isLocked ? Octicons.lock : Icons.comment_rounded,
+                  color: theme.elementsOnColors,
                   size: 16,
                 ),
               )

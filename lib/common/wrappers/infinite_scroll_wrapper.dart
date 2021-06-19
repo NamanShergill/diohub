@@ -358,7 +358,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
               height: widget.topSpacing,
             ),
           Visibility(
-            visible: widget.divider && (!(index == 0) && widget.firstDivider),
+            visible: widget.divider && (!(index == 0) || widget.firstDivider),
             child: Divider(
               height: widget.spacing,
             ),

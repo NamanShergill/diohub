@@ -40,7 +40,7 @@ class AuthService {
   static Future<Response> getDeviceToken() async {
     final formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
-      'scope': _scope,
+      'scope': scopeString,
     });
     final response = await GetDio.getDio(
             loggedIn: false,
@@ -59,11 +59,21 @@ class AuthService {
   //     'admin:org_hook gist user read:user user:email user:follow '
   //     'delete_repo write:discussion read:discussion write:packages read:packages'
   //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
-  static const String _scope = 'repo public_repo repo:invite '
-      'write:org'
-      ' gist notifications user '
-      'delete_repo write:discussion read:packages'
-      ' delete:packages';
+
+  static String get scopeString => scopes.join(' ');
+  static const List<String> scopes = [
+    'repo',
+    'public_repo',
+    'repo:invite',
+    'write:org',
+    'gist',
+    'notifications',
+    'user',
+    'delete_repo',
+    'write:discussion',
+    'read:packages',
+    'delete:packages',
+  ];
 
   static Future<Response> getAccessToken({String? deviceCode}) async {
     final formData = FormData.fromMap({
@@ -81,7 +91,6 @@ class AuthService {
               buttonLock: false)
           .post('${_url}oauth/access_token', data: formData);
       if (response.data['access_token'] != null) {
-        storeAccessToken(AccessTokenModel.fromJson(response.data));
         return response;
       } else if (response.data['error'] != null &&
           response.data['error'] != 'authorization_pending' &&

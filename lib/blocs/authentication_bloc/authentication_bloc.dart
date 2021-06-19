@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/foundation.dart';
@@ -56,7 +57,7 @@ class AuthenticationBloc
             if (response.data['access_token'] != null) {
               // Access token received. State is set to authenticated. Function
               // can stop executing now.
-              add(AuthSuccessful());
+              add(AuthSuccessful(AccessTokenModel.fromJson(response.data)));
             } else if (response.data['interval'] != null) {
               // Execute the function again with the new interval given by
               // GitHub.
@@ -75,6 +76,7 @@ class AuthenticationBloc
       // intervals.
       requestAccessToken(event.deviceCode, event.interval!);
     } else if (event is AuthSuccessful) {
+      AuthService.storeAccessToken(event.accessToken);
       yield AuthenticationSuccessful();
     } else if (event is ResetStates) {
       yield AuthenticationUnauthenticated();
