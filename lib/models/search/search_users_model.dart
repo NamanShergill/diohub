@@ -1,4 +1,3 @@
-// @dart=2.9
 // To parse this JSON data, do
 //
 //     final searchUsersModel = searchUsersModelFromJson(jsonString);
@@ -14,14 +13,14 @@ class SearchUsersModel {
     this.items,
   });
 
-  int totalCount;
-  bool incompleteResults;
-  List<UserInfoModel> items;
+  int? totalCount;
+  bool? incompleteResults;
+  List<UserInfoModel>? items;
 
   SearchUsersModel copyWith({
-    int totalCount,
-    bool incompleteResults,
-    List<UserInfoModel> items,
+    int? totalCount,
+    bool? incompleteResults,
+    List<UserInfoModel>? items,
   }) =>
       SearchUsersModel(
         totalCount: totalCount ?? this.totalCount,
@@ -52,6 +51,6 @@ class SearchUsersModel {
             incompleteResults == null ? null : incompleteResults,
         "items": items == null
             ? null
-            : List<dynamic>.from(items.map((x) => x.toJson())),
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }

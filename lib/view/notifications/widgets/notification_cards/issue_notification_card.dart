@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_event_model.dart';
@@ -9,11 +9,11 @@ import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueNotificationCard extends StatefulWidget {
-  final NotificationModel notification;
   const IssueNotificationCard(this.notification, {Key? key}) : super(key: key);
+  final NotificationModel notification;
 
   @override
   _IssueNotificationCardState createState() => _IssueNotificationCardState();
@@ -38,21 +38,25 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
 
   void getInfo() async {
     // Get more information on issue to display
-    List<Future> futures = [
+    final futures = <Future>[
       IssuesService.getIssueInfo(fullUrl: widget.notification.subject!.url!),
       IssuesService.getLatestComment(
           fullUrl: widget.notification.subject!.latestCommentUrl!),
       IssuesService.getIssueEvents(fullUrl: widget.notification.subject!.url!)
     ];
-    List<dynamic> results = await Future.wait(futures);
+    final results = await Future.wait(futures);
     issueInfo = results[0];
     latestComment = results[1];
     // Get latest event to compare with the latest comment.
-    List issueEvents = results[2];
-    if (issueEvents.isNotEmpty) latestIssueEvent = issueEvents.last;
-    setState(() {
-      loading = false;
-    });
+    final List issueEvents = results[2];
+    if (issueEvents.isNotEmpty) {
+      latestIssueEvent = issueEvents.last;
+    }
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
@@ -70,7 +74,9 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
       },
       loading: loading,
       footerBuilder: (context) {
-        if (!loading) return getIssueFooter();
+        if (!loading) {
+          return getIssueFooter();
+        }
         return Container();
       },
       notification: widget.notification,
@@ -83,21 +89,22 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
         latestIssueEvent!.createdAt!.isAfter(latestComment.createdAt!)) {
       // Todo: Update issue event model and add more cases.
       if (latestIssueEvent!.event == 'assigned') {
-        return CardFooter(
-            latestIssueEvent!.actor!.avatarUrl,
+        return CardFooter(latestIssueEvent!.actor!.avatarUrl,
             'Assigned #${issueInfo.number} to ${latestIssueEvent!.assignee!.login}',
-            widget.notification.unread);
+            unread: widget.notification.unread);
       } else if (latestIssueEvent!.event == 'reopened') {
-        return CardFooter(latestIssueEvent!.actor!.avatarUrl,
-            'Reopened #${issueInfo.number}', widget.notification.unread);
+        return CardFooter(
+            latestIssueEvent!.actor!.avatarUrl, 'Reopened #${issueInfo.number}',
+            unread: widget.notification.unread);
       } else if (latestIssueEvent!.event == 'closed') {
-        return CardFooter(latestIssueEvent!.actor!.avatarUrl,
-            'Closed #${issueInfo.number}', widget.notification.unread);
+        return CardFooter(
+            latestIssueEvent!.actor!.avatarUrl, 'Closed #${issueInfo.number}',
+            unread: widget.notification.unread);
       }
     }
     // Return latest comment.
     return CardFooter(latestComment.user!.avatarUrl, latestComment.body,
-        widget.notification.unread);
+        unread: widget.notification.unread);
   }
 
   Widget getIcon() {

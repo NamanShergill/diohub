@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/proxy_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 
-class RepoBranchProvider extends BaseProvider {
-  RepositoryProvider? _repositoryProvider;
+class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
+  RepoBranchProvider({String? initialBranch, String? initCommitSHA})
+      : _initialBranch = initialBranch,
+        _initCommitSHA = initCommitSHA,
+        super(Status.loaded);
   final String? _initialBranch;
   final String? _initCommitSHA;
   final StreamController<String> _loadBranch =
@@ -18,47 +22,38 @@ class RepoBranchProvider extends BaseProvider {
     _loadBranch.close();
   }
 
-  RepoBranchProvider({String? initialBranch, String? initCommitSHA})
-      : _initialBranch = initialBranch,
-        _initCommitSHA = initCommitSHA,
-        super(Status.loaded);
-  void updateProvider(RepositoryProvider repositoryProvider) {
-    _currentBranch = _initialBranch;
-    // Only initialise streams if the provider is not equal,
-    // ignore the call otherwise.
-    if (_repositoryProvider != repositoryProvider) {
-      _repositoryProvider = repositoryProvider;
-      // In case the provider loads lazily and the event of load is
-      // already dispatched before it started listening to the stream.
-      if (_repositoryProvider!.status == Status.loaded) {
-        setBranch(
-            _initCommitSHA ??
-                _currentBranch ??
-                _repositoryProvider!.repositoryModel!.defaultBranch!,
-            isCommitSha: _initCommitSHA != null);
-      }
-      repositoryProvider.statusStream.listen((event) {
-        if (event == Status.loaded) {
-          setBranch(_currentBranch ??
-              _repositoryProvider!.repositoryModel!.defaultBranch!);
-        }
-      });
-      // Listen if a new branch has been requested and fetch the same.
-      _loadBranch.stream.listen((event) {
-        setBranch(event);
-      });
-    }
+  void reloadBranch() {
+    _loadBranch
+        .add(_currentBranch ?? parentProvider!.repositoryModel!.defaultBranch!);
   }
 
-  void reloadBranch() {
-    _loadBranch.add(
-        _currentBranch ?? _repositoryProvider!.repositoryModel!.defaultBranch!);
+  @override
+  void updateProvider(RepositoryProvider parentProvider) {
+    _currentBranch = _initialBranch;
+    super.updateProvider(parentProvider);
+  }
+
+  @override
+  void customStreams() {
+    // Listen if a new branch has been requested and fetch the same.
+    _loadBranch.stream.listen(setBranch);
+  }
+
+  @override
+  void fetchData() {
+    setBranch(
+        _initCommitSHA ??
+            _currentBranch ??
+            parentProvider!.repositoryModel!.defaultBranch!,
+        isCommitSha: _initCommitSHA != null);
   }
 
   void setBranch(String branchName, {bool isCommitSha = false}) async {
     _currentSHA = branchName;
     isCommit = isCommitSha;
-    if (!isCommitSha) _currentBranch = branchName;
+    if (!isCommitSha) {
+      _currentBranch = branchName;
+    }
     loaded();
   }
 

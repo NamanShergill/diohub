@@ -1,14 +1,15 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
-import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CardFooter extends StatelessWidget {
+  const CardFooter(this.avatarUrl, this.text, {required this.unread, Key? key})
+      : super(key: key);
   final String? avatarUrl;
   final String? text;
   final bool? unread;
-  const CardFooter(this.avatarUrl, this.text, this.unread, {Key? key})
-      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FadeAnimationSection(
@@ -28,7 +29,14 @@ class CardFooter extends StatelessWidget {
           Flexible(
             child: Text(
               text!,
-              style: TextStyle(color: unread! ? Colors.white : AppColor.grey3),
+              style: TextStyle(
+                  color: unread!
+                      ? Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .baseElements
+                      : Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3),
               overflow: TextOverflow.ellipsis,
             ),
           ),

@@ -1,14 +1,14 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsList extends StatelessWidget {
-  final ScrollController scrollController;
   const PullsList({required this.scrollController, Key? key}) : super(key: key);
+  final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);

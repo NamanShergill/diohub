@@ -1,41 +1,44 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/repository/widgets/branch_select_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class BranchButton extends StatelessWidget {
-  final RepositoryModel? _repo;
-  final double height = 55;
   const BranchButton({RepositoryModel? repo, Key? key})
       : _repo = repo,
         super(key: key);
+  final RepositoryModel? _repo;
+  double get height => 55;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
-        color: AppColor.onBackground,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         elevation: 2,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: Container(
-            decoration: BoxDecoration(
-                borderRadius: AppThemeBorderRadius.medBorderRadius),
+            decoration: BoxDecoration(borderRadius: medBorderRadius),
             child: ProviderLoadingProgressWrapper<RepoBranchProvider>(
               loadingBuilder: (context) {
                 return ShimmerWidget(
-                  borderRadius: AppThemeBorderRadius.medBorderRadius,
-                  baseColor: AppColor.onBackground,
+                  borderRadius: medBorderRadius,
+                  baseColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .secondary,
                   highlightColor: Colors.grey.shade800,
                   child: Container(
-                    color: AppColor.onBackground,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .secondary,
                     width: double.infinity,
                     height: height,
                   ),
@@ -45,7 +48,7 @@ class BranchButton extends StatelessWidget {
                 return FadeAnimationSection(
                   child: InkWell(
                     onTap: () {
-                      String? currentBranch =
+                      final String? currentBranch =
                           context.read<RepoBranchProvider>().currentSHA!;
                       void changeBranch(String branch) {
                         Provider.of<RepoBranchProvider>(context, listen: false)
@@ -54,23 +57,20 @@ class BranchButton extends StatelessWidget {
 
                       showScrollableBottomActionsMenu(context,
                           titleText: 'Select Branch',
-                          child: (context, scrollController) {
+                          child: (context, scrollController, setState) {
                         return BranchSelectSheet(
                           _repo!.url!,
                           controller: scrollController,
                           currentBranch: currentBranch,
                           defaultBranch: _repo!.defaultBranch,
-                          onSelected: (String branch) {
-                            changeBranch(branch);
-                          },
+                          onSelected: changeBranch,
                         );
                       });
                     },
-                    borderRadius: AppThemeBorderRadius.medBorderRadius,
+                    borderRadius: medBorderRadius,
                     child: Container(
                       height: height,
-                      decoration: BoxDecoration(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                      decoration: BoxDecoration(borderRadius: medBorderRadius),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(

@@ -1,15 +1,15 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:dio_hub/common/popup/exit_confirm.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class DialogHelper {
-  static exit(context) => showDialog(
-      context: context, builder: (context) => const ExitConfirmationDialog());
+  // static exit(context) => showDialog(
+  //     context: context, builder: (context) => const ExitConfirmationDialog());
 
-  static appPopup(context, AppPopupData appPopup) => Flushbar(
+  static void appPopup(BuildContext context, AppPopupData appPopup) => Flushbar(
         margin: const EdgeInsets.all(8),
         borderRadius: BorderRadius.circular(8),
         shouldIconPulse: false,
@@ -21,8 +21,12 @@ class DialogHelper {
         boxShadows: [
           BoxShadow(
               color: appPopup.popupType == PopupType.failed
-                  ? Colors.redAccent
-                  : AppColor.green,
+                  ? Provider.of<PaletteSettings>(context, listen: false)
+                      .currentSetting
+                      .red
+                  : Provider.of<PaletteSettings>(context, listen: false)
+                      .currentSetting
+                      .green,
               offset: const Offset(0.0, 1.0),
               blurRadius: 1.0)
         ],
@@ -46,14 +50,12 @@ class DialogHelper {
               (appPopup.popupType == PopupType.failed
                   ? LineIcons.exclamationCircle
                   : LineIcons.checkCircle),
-          color: Colors.white,
           size: 30,
         ),
         messageText: Text(
           appPopup.title!,
           style: const TextStyle(
             fontSize: 18.0,
-            color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
         ),

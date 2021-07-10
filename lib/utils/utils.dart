@@ -10,8 +10,8 @@ class Utils {
     }
 
     final payload = parts[1];
-    var normalized = base64Url.normalize(payload);
-    var resp = utf8.decode(base64Url.decode(normalized));
+    final normalized = base64Url.normalize(payload);
+    final resp = utf8.decode(base64Url.decode(normalized));
     final payloadMap = json.decode(resp);
     if (payloadMap is! Map<String, dynamic>) {
       return null;
@@ -19,15 +19,15 @@ class Utils {
     return payloadMap;
   }
 
-  static hexToInt(String fullString) {
-    fullString = fullString.replaceAll("-", "");
-    String data = "";
-    for (int i = 0; i <= fullString.length - 8; i += 8) {
-      final hex = fullString.substring(i, i + 8);
+  static String hexToInt(String fullString) {
+    final string = fullString.replaceAll('-', '');
+    final buffer = StringBuffer();
+    for (var i = 0; i <= string.length - 8; i += 8) {
+      final hex = string.substring(i, i + 8);
 
       final number = int.parse(hex, radix: 16);
-      data += number.toString();
+      buffer.write(number);
     }
-    return data;
+    return buffer.toString();
   }
 }

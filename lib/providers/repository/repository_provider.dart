@@ -1,14 +1,9 @@
-import 'package:dio_hub/common/base_popup_notification.dart';
+import 'package:dio_hub/common/misc/base_popup_notification.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class RepositoryProvider extends BaseProvider {
-  RepositoryModel? _repository;
-  String? _url;
-
-  RepositoryModel? get repositoryModel => _repository;
-
   RepositoryProvider(String? url) : _url = url {
     if (_url != null) {
       _getRepository(_url!);
@@ -32,6 +27,10 @@ class RepositoryProvider extends BaseProvider {
       }
     });
   }
+  RepositoryModel? _repository;
+  String? _url;
+
+  RepositoryModel? get repositoryModel => _repository;
 
   /// Get Repository information from the API.
   void _getRepository(String url) async {

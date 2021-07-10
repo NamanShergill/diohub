@@ -1,22 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/response_handler.dart';
-import 'package:dio_hub/common/app_scroll_view.dart';
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/app_scroll_view.dart';
+import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/repo_star.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/providers/repository/issues_provider.dart';
-import 'package:dio_hub/providers/repository/pulls_provider.dart';
+import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/anim_durations.dart';
-import 'package:dio_hub/style/colors.dart';
+import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
 import 'package:dio_hub/view/repository/pulls/pulls_list.dart';
@@ -26,18 +26,18 @@ import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:dio_hub/view/repository/widgets/branch_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryScreen extends StatefulWidget {
+  const RepositoryScreen(this.repositoryURL,
+      {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
+      : super(key: key);
   final String? repositoryURL;
   final String? branch;
   final int index;
   final String? initSHA;
   final DeepLinkData? deepLinkData;
-  const RepositoryScreen(this.repositoryURL,
-      {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
-      : super(key: key);
 
   @override
   _RepositoryScreenState createState() => _RepositoryScreenState();
@@ -45,11 +45,12 @@ class RepositoryScreen extends StatefulWidget {
 
 class _RepositoryScreenState extends State<RepositoryScreen>
     with TickerProviderStateMixin {
-  bool loading = true;
+  bool loading = false;
   late RepoBranchProvider repoBranchProvider;
   late CodeProvider codeProvider;
   late RepoReadmeProvider readmeProvider;
   late TabController tabController;
+  late IssueTemplateProvider issueTemplateProvider;
   late RepositoryProvider repositoryProvider;
   final ScrollController scrollController = ScrollController();
   late String? initBranch;
@@ -57,19 +58,21 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   void initState() {
     tabController =
         TabController(length: 6, vsync: this, initialIndex: widget.index);
-    initBranch = widget.initSHA;
-    if (widget.deepLinkData != null) deepLinkHandler();
-    waitForTransition();
+    initBranch = widget.branch;
+    if (widget.deepLinkData != null) {
+      deepLinkHandler();
+    }
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
         initialBranch: initBranch, initCommitSHA: widget.initSHA);
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
+    issueTemplateProvider = IssueTemplateProvider();
     super.initState();
   }
 
   void deepLinkHandler() {
-    DeepLinkData data = widget.deepLinkData!;
+    final data = widget.deepLinkData!;
     if (data.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
         true) {
       tabController.index = 2;
@@ -96,15 +99,6 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     }
   }
 
-  // To stop the transition from lagging on big readme files in the repo
-  // by delaying the parsing.
-  void waitForTransition() async {
-    await Future.delayed(AppThemeAnimDurations.transitionAnimDuration);
-    setState(() {
-      loading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -116,24 +110,26 @@ class _RepositoryScreenState extends State<RepositoryScreen>
           create: (_) => repoBranchProvider,
           update: (_, repo, __) => repoBranchProvider..updateProvider(repo),
         ),
+        ChangeNotifierProxyProvider<RepositoryProvider, IssueTemplateProvider>(
+          create: (_) => issueTemplateProvider,
+          update: (_, repo, __) => issueTemplateProvider..updateProvider(repo),
+          lazy: false,
+        ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
             create: (_) => readmeProvider,
             update: (_, branch, __) => readmeProvider..updateProvider(branch)),
-        ChangeNotifierProxyProvider<RepositoryProvider, RepoIssuesProvider>(
-            create: (_) => RepoIssuesProvider(),
-            update: (_, repo, __) => RepoIssuesProvider()),
-        ChangeNotifierProxyProvider<RepositoryProvider, RepoPullsProvider>(
-            create: (_) => RepoPullsProvider(),
-            update: (_, repo, __) => RepoPullsProvider()),
         ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
           create: (_) => codeProvider,
           update: (_, branch, __) => codeProvider..updateProvider(branch),
         ),
       ],
       child: Builder(builder: (context) {
+        final theme = Provider.of<PaletteSettings>(context).currentSetting;
+
         return SafeArea(
           child: Scaffold(
-            backgroundColor: AppColor.background,
+            backgroundColor:
+                Provider.of<PaletteSettings>(context).currentSetting.primary,
             // Show a temporary app bar until the provider loads.
             appBar:
                 Provider.of<RepositoryProvider>(context).status != Status.loaded
@@ -141,17 +137,17 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         elevation: 0,
                       )
                     : PreferredSize(
-                        child: Container(),
                         preferredSize: const Size(0, 0),
+                        child: Container(),
                       ),
             body: WillPopScope(
               onWillPop: () async {
                 // Don't pop screen if code browsing is open and not the root tree.
-                if ((Provider.of<CodeProvider>(context, listen: false)
+                if (Provider.of<CodeProvider>(context, listen: false)
                             .tree
                             .length >
                         1 &&
-                    tabController.index == 2)) {
+                    tabController.index == 2) {
                   if (Provider.of<CodeProvider>(context, listen: false)
                           .status !=
                       Status.loading) {
@@ -173,6 +169,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                       scrollViewAppBar: ScrollViewAppBar(
                         expandedHeight: 340,
                         collapsedHeight: 150,
+                        url: _repo.htmlUrl,
                         appBarWidget: Row(
                           children: [
                             ProfileTile(
@@ -232,27 +229,65 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                ActionButton(
-                                  count: _repo.stargazersCount,
-                                  icon: Octicons.star,
-                                  action: 'Star',
+                                RepoStar(
+                                  _repo.owner!.login!,
+                                  _repo.name!,
+                                  fadeIntoView: false,
+                                  inkWellRadius: medBorderRadius,
+                                  child: (context, data) {
+                                    return IgnorePointer(
+                                      child: ActionButton(
+                                        count: data?.stargazerCount,
+                                        icon: Octicons.star,
+                                        onTap: () {},
+                                        doneColor: Colors.amber,
+                                        isDone: data?.viewerHasStarred,
+                                        action: 'Star',
+                                      ),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(
                                   width: 16,
                                 ),
                                 ActionButton(
-                                  count: _repo.forksCount,
-                                  icon: Octicons.repo_forked,
-                                  action: 'Fork',
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                ActionButton(
-                                  count: _repo.watchersCount,
+                                  count: _repo.subscribersCount,
                                   icon: Octicons.eye,
                                   action: 'Watch',
                                 ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Octicons.repo_forked,
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        size: 15,
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        _repo.forksCount.toString(),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: theme.faded3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // ActionButton(
+                                //   count: _repo.forksCount,
+                                //   icon: Octicons.repo_forked,
+                                //   action: 'Fork',
+                                // ),
                               ],
                             ),
                             const SizedBox(
@@ -268,6 +303,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                           'Code',
                           'Issues',
                           'Pull Requests',
+                          // 'Projects',
                           'More'
                         ],
                         bottomHeader: BranchButton(
@@ -289,12 +325,14 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         PullsList(
                           scrollController: scrollController,
                         ),
+                        // ProjectsList(
+                        //   scrollController: scrollController,
+                        // ),
                         Column(
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Button(
-                                child: const Text('Open Wiki'),
                                 onTap: () {
                                   if (Provider.of<RepositoryProvider>(context,
                                           listen: false)
@@ -308,6 +346,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                             title: 'Repository has no wiki.'));
                                   }
                                 },
+                                child: const Text('Open Wiki'),
                               ),
                             ),
                           ],

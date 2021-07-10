@@ -1,29 +1,31 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/app_scroll_view.dart';
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/app_scroll_view.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/issue/issue_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/issue_information.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueScreen extends StatefulWidget {
-  final String? issueURL;
-  final DateTime? commentsSince;
-  final int initialIndex;
   const IssueScreen(this.issueURL,
       {this.initialIndex = 0, this.commentsSince, Key? key})
       : super(key: key);
+  final String? issueURL;
+  final DateTime? commentsSince;
+  final int initialIndex;
 
   @override
   _IssueScreenState createState() => _IssueScreenState();
@@ -43,13 +45,20 @@ class _IssueScreenState extends State<IssueScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => IssueProvider(
-        widget.issueURL,
-        Provider.of<CurrentUserProvider>(context, listen: false)
-            .currentUserInfo
-            ?.login,
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => IssueProvider(
+            widget.issueURL,
+            Provider.of<CurrentUserProvider>(context, listen: false)
+                .currentUserInfo
+                ?.login,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(),
+        )
+      ],
       builder: (context, child) {
         return SafeArea(
           child: Consumer<IssueProvider>(
@@ -66,9 +75,12 @@ class _IssueScreenState extends State<IssueScreen>
                     childBuilder: (context, value) {
                       return AppScrollView(
                         scrollController: scrollController,
-                        childrenColor: AppColor.background,
+                        childrenColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .primary,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
+                          url: value.issueModel!.htmlUrl,
                           tabs: const [
                             'Information',
                             'Discussion',
@@ -88,8 +100,12 @@ class _IssueScreenState extends State<IssueScreen>
                                 style: TextStyle(
                                     color: value.issueModel!.state ==
                                             IssueState.OPEN
-                                        ? AppColor.green
-                                        : AppColor.red,
+                                        ? Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .green
+                                        : Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .red,
                                     fontSize: 14),
                               ),
                               const SizedBox(
@@ -97,8 +113,11 @@ class _IssueScreenState extends State<IssueScreen>
                               ),
                               Text(
                                 '#${value.issueModel!.number}',
-                                style: const TextStyle(
-                                    color: AppColor.grey3, fontSize: 14),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 14),
                               ),
                             ],
                           ),
@@ -119,8 +138,14 @@ class _IssueScreenState extends State<IssueScreen>
                                     style: TextStyle(
                                         color: value.issueModel!.state ==
                                                 IssueState.OPEN
-                                            ? AppColor.green
-                                            : AppColor.red,
+                                            ? Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .green
+                                            : Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .red,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -129,15 +154,21 @@ class _IssueScreenState extends State<IssueScreen>
                                   ),
                                   Text(
                                     '#${value.issueModel!.number}',
-                                    style: const TextStyle(
-                                        color: AppColor.grey3, fontSize: 16),
+                                    style: TextStyle(
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 24,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Octicons.comment,
-                                    color: AppColor.grey3,
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
                                     size: 11,
                                   ),
                                   const SizedBox(
@@ -145,8 +176,12 @@ class _IssueScreenState extends State<IssueScreen>
                                   ),
                                   Text(
                                     '${value.issueModel!.comments} comments',
-                                    style: const TextStyle(
-                                        color: AppColor.grey3, fontSize: 12),
+                                    style: TextStyle(
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -162,8 +197,7 @@ class _IssueScreenState extends State<IssueScreen>
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  borderRadius:
-                                      AppThemeBorderRadius.medBorderRadius,
+                                  borderRadius: medBorderRadius,
                                   onTap: () {
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
@@ -188,8 +222,11 @@ class _IssueScreenState extends State<IssueScreen>
                                 value.issueModel!.state == IssueState.CLOSED
                                     ? 'By ${value.issueModel!.user!.login}, closed ${getDate(value.issueModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.issueModel!.createdAt.toString(), shorten: false)} by ${value.issueModel!.user!.login}',
-                                style: const TextStyle(
-                                    color: AppColor.grey3, fontSize: 12),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 12),
                               ),
                             ],
                           ),
@@ -198,25 +235,48 @@ class _IssueScreenState extends State<IssueScreen>
                         tabViews: [
                           IssueInformation(),
                           Discussion(
-                            commentsSince: widget.commentsSince,
-                            repo: value.issueModel!.repositoryUrl!.replaceFirst(
-                                'https://api.github.com/repos/', ''),
-                            isLocked: value.issueModel!.locked! &&
-                                !value.editingEnabled,
-                            scrollController: scrollController,
-                            createdAt: value.issueModel!.createdAt,
-                            issueUrl: value.issueModel!.url!,
-                            initialComment: TimelineEventModel(
-                                createdAt: value.issueModel!.createdAt,
-                                event: Event.commented,
-                                url: value.issueModel!.url,
-                                user: value.issueModel!.user,
-                                authorAssociation:
-                                    value.issueModel!.authorAssociation,
-                                body: value.issueModel!.body!.isNotEmpty
-                                    ? value.issueModel!.body
-                                    : "No description provided."),
-                          ),
+                              commentsSince: widget.commentsSince,
+                              number: value.issueModel!.number!,
+                              owner: value.issueModel!.repositoryUrl!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .first,
+                              repoName: value.issueModel!.repositoryUrl!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .last,
+                              isPull: false,
+                              isLocked: value.issueModel!.locked! &&
+                                  !value.editingEnabled,
+                              scrollController: scrollController,
+                              createdAt: value.issueModel!.createdAt!,
+                              issueUrl: value.issueModel!.url!,
+                              initComment: BaseComment(
+                                  isMinimized: false,
+                                  reactions: null,
+                                  viewerCanDelete: false,
+                                  viewerCanMinimize: false,
+                                  onQuote: () {},
+                                  viewerCannotUpdateReasons: null,
+                                  viewerCanReact: false,
+                                  viewerCanUpdate: false,
+                                  viewerDidAuthor: false,
+                                  createdAt: value.issueModel!.createdAt!,
+                                  author: Author(
+                                      Uri.parse(
+                                          value.issueModel!.user!.avatarUrl!),
+                                      value.issueModel!.user!.login!),
+                                  body: '',
+                                  description:
+                                      value.issueModel!.bodyHtml!.isEmpty
+                                          ? 'No description provided.'
+                                          : null,
+                                  lastEditedAt: null,
+                                  bodyHTML: value.issueModel!.bodyHtml!,
+                                  authorAssociation:
+                                      CommentAuthorAssociation.none)),
                         ],
                       );
                     },
@@ -248,4 +308,13 @@ class _IssueScreenState extends State<IssueScreen>
         return null;
     }
   }
+}
+
+class Author implements ActorMixin {
+  Author(this.avatarUrl, this.login);
+  @override
+  Uri avatarUrl;
+
+  @override
+  String login;
 }

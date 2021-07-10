@@ -1,17 +1,13 @@
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/branch_list_model.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:provider/provider.dart';
 
 class BranchSelectSheet extends StatelessWidget {
-  final String repoURL;
-  final String? defaultBranch;
-  final String? currentBranch;
-  final ValueChanged<String>? onSelected;
-  final ScrollController? controller;
   const BranchSelectSheet(this.repoURL,
       {this.defaultBranch,
       this.currentBranch,
@@ -19,27 +15,37 @@ class BranchSelectSheet extends StatelessWidget {
       this.controller,
       Key? key})
       : super(key: key);
+  final String repoURL;
+  final String? defaultBranch;
+  final String? currentBranch;
+  final ValueChanged<String>? onSelected;
+  final ScrollController? controller;
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<RepoBranchListItemModel>(
       listEndIndicator: false,
-      divider: false,
+      topSpacing: 8,
+      separatorBuilder: (context, index) => const SizedBox(
+        height: 16,
+      ),
       firstDivider: false,
-      future: (int pageNumber, int perPage, refresh, _) {
-        return RepositoryServices.fetchBranchList(
-            repoURL, pageNumber, perPage, refresh);
+      future: (pageNumber, perPage, refresh, _) {
+        return RepositoryServices.fetchBranchList(repoURL, pageNumber, perPage,
+            refresh: refresh);
       },
       scrollController: controller,
-      builder: (context, item, index) {
+      builder: (context, item, index, refresh) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Material(
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
             color: item.name == currentBranch
-                ? AppColor.accent
-                : AppColor.onBackground,
+                ? Provider.of<PaletteSettings>(context).currentSetting.accent
+                : Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .secondary,
             child: InkWell(
-              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              borderRadius: medBorderRadius,
               onTap: () {
                 onSelected!(item.name!);
                 Navigator.pop(context);
@@ -53,7 +59,7 @@ class BranchSelectSheet extends StatelessWidget {
                     Flexible(
                       child: Row(
                         children: [
-                          const Icon(Octicons.git_branch, color: Colors.white),
+                          const Icon(Octicons.git_branch),
                           const SizedBox(
                             width: 8,
                           ),
@@ -61,7 +67,6 @@ class BranchSelectSheet extends StatelessWidget {
                             child: Text(
                               item.name!,
                               style: TextStyle(
-                                  color: Colors.white,
                                   fontWeight: item.name == currentBranch
                                       ? FontWeight.bold
                                       : FontWeight.normal),
@@ -72,14 +77,14 @@ class BranchSelectSheet extends StatelessWidget {
                     ),
                     Visibility(
                       visible: defaultBranch == item.name,
+                      replacement: Container(),
                       child: const Text(
                         'Default',
                         style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.white),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
                       ),
-                      replacement: Container(),
                     )
                   ],
                 ),

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 // To parse this JSON data, do
 //
 //     final trendingReposModel = trendingReposModelFromJson(jsonString);
@@ -20,30 +20,30 @@ class TrendingReposModel {
     this.builtBy,
   });
 
-  String author;
-  String name;
-  String avatar;
-  String url;
-  String description;
-  String language;
-  String languageColor;
-  int stars;
-  int forks;
-  int currentPeriodStars;
-  List<BuiltBy> builtBy;
+  String? author;
+  String? name;
+  String? avatar;
+  String? url;
+  String? description;
+  String? language;
+  String? languageColor;
+  int? stars;
+  int? forks;
+  int? currentPeriodStars;
+  List<BuiltBy>? builtBy;
 
   TrendingReposModel copyWith({
-    String author,
-    String name,
-    String avatar,
-    String url,
-    String description,
-    String language,
-    String languageColor,
-    int stars,
-    int forks,
-    int currentPeriodStars,
-    List<BuiltBy> builtBy,
+    String? author,
+    String? name,
+    String? avatar,
+    String? url,
+    String? description,
+    String? language,
+    String? languageColor,
+    int? stars,
+    int? forks,
+    int? currentPeriodStars,
+    List<BuiltBy>? builtBy,
   }) =>
       TrendingReposModel(
         author: author ?? this.author,
@@ -99,7 +99,7 @@ class TrendingReposModel {
             currentPeriodStars == null ? null : currentPeriodStars,
         "builtBy": builtBy == null
             ? null
-            : List<dynamic>.from(builtBy.map((x) => x.toJson())),
+            : List<dynamic>.from(builtBy!.map((x) => x.toJson())),
       };
 }
 
@@ -110,14 +110,14 @@ class BuiltBy {
     this.username,
   });
 
-  String href;
-  String avatar;
-  String username;
+  String? href;
+  String? avatar;
+  String? username;
 
   BuiltBy copyWith({
-    String href,
-    String avatar,
-    String username,
+    String? href,
+    String? avatar,
+    String? username,
   }) =>
       BuiltBy(
         href: href ?? this.href,

@@ -1,15 +1,15 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
-import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/services/search/search_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -32,16 +32,14 @@ class _SearchScreenState extends State<SearchScreen>
     super.build(context);
     final _search = Provider.of<SearchDataProvider>(context);
     return Container(
-      color: AppColor.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: _search.searchData.searchFilters != null
           ? SearchScrollWrapper(
               _search.searchData, isNestedScrollViewChild: false,
               key: ValueKey(_search.searchData.toQuery),
-              onChanged: (data) {
-                _search.updateSearchData(data);
-              },
+              onChanged: _search.updateSearchData,
               scrollController: scrollController,
-              // searchBarColor: AppColor.onBackground,
+              // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             )
@@ -53,18 +51,20 @@ class _SearchScreenState extends State<SearchScreen>
                     padding: const EdgeInsets.all(24.0),
                     child: Text(
                       'Search GitHub',
-                      style: Theme.of(context).textTheme.headline4!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SearchBar(
-                      backgroundColor: AppColor.background,
+                      backgroundColor: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .primary,
                       heroTag: 'searchScreen',
-                      onSubmit: (data) {
-                        _search.updateSearchData(data);
-                      },
+                      onSubmit: _search.updateSearchData,
                     ),
                   ),
                   Expanded(
@@ -72,13 +72,14 @@ class _SearchScreenState extends State<SearchScreen>
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Material(
                         borderRadius: BorderRadius.vertical(
-                            top: AppThemeBorderRadius.medBorderRadius.topRight),
-                        color: AppColor.background,
+                            top: medBorderRadius.topRight),
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .primary,
                         child: APIWrapper<List<RepositoryModel>>(
-                          getCall: SearchService.searchRepos(
-                              SearchQueries().pushed.toQueryString('>' +
-                                  DateFormat('yyyy-MM-dd').format(DateTime.now()
-                                      .subtract(const Duration(days: 7)))),
+                          apiCall: SearchService.searchRepos(
+                              SearchQueries().pushed.toQueryString(
+                                  '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}'),
                               page: 1,
                               perPage: 25),
                           loadingBuilder: (context) {
@@ -111,14 +112,10 @@ class _SearchScreenState extends State<SearchScreen>
                                                           right: 16,
                                                           bottom: 8),
                                                   child: Text(
-                                                    'Trending Repositories',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline6!
-                                                        .copyWith(
-                                                          color: Colors.white,
-                                                        ),
-                                                  ),
+                                                      'Trending Repositories',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline6!),
                                                 ),
                                                 // Divider(
                                                 //   height: 0,

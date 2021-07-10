@@ -1,6 +1,51 @@
-## [0.3.0] - In Development
-**Bug Fixes**
+## [0.3.1] - In Development
+**Project Boards | WIP** 
+
+**Enhancements**
+- View pinned issues on a repository. | WIP.
+- Watch buttons on repository screens now works. | WIP.
+- Follow button added to user profile screens. | WIP
+---
+## [0.3.0] - 10 July 2021
+**Authentication**
+- Authentication to access the app made compulsory.
+- Added the option to authenticate via a browser or a one-time code.
+- Removed a lot of the permissions the app requested for that it does not need currently.
+- If app was opened via a deeplink and user is unauthenticated, the deep link will be honored as
+  soon as the authentication is completed.
+
+**Settings**
+- Customise the app's color palette according to your preferences. 
+- Share themes as a link that opens in the app and gives a prompt to load said theme.
+- Added multiple font options to select from.
+ 
+**Issue/Pull Request Screen enhancements** 
+- Ability to quote (full/select) replies.
+- Added all missing timeline item cases.
+- Added ability to view Pull Request Reviews and reply to them.
+
+**Create Issues**
+- Ability to create issues on repositories.
+- Supports issue templates.
+- Markdown editor for description.
+- Supports previewing the text markdown.
+
+**Enhancements**
+- Added organizations tab to the home screen.
+- Text in code blocks is now selectable.
+- Added share URL button on many screens.
+- Star button on repository screens now works.
+- Star repositories from the repository cards themselves (For example, from the activity tab)
+- Follow users from user cards themselves (For example, in search)
+- Splash screen logo improvements.
+- Complete Github Flavored Markdown support.
+
+**Deep-links**
 - Settings URL exception added in deep-links. 
+- **(FIXED)** Pull request deeplink fixed.
+
+**Misc**
+- App caching default max-age dropped from 10 minutes to 3 minutes.
 ---
 ## [0.2.1] - 29 April 2021
 **Bug Fixes**

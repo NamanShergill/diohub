@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 class PlaceHolderScreen extends StatelessWidget {

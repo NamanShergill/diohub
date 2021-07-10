@@ -2,40 +2,27 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/base_popup_notification.dart';
+import 'package:dio_hub/common/misc/base_popup_notification.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 
 class CurrentUserProvider extends BaseProvider {
-  CurrentUserInfoModel? _currentUserInfo;
-  final AuthenticationBloc? authenticationBloc;
-  CurrentUserInfoModel? get currentUserInfo => _currentUserInfo;
-
-  CurrentUserProvider({this.authenticationBloc}) {
-    authenticationBloc!.stream.listen((authState) {
+  CurrentUserProvider({required this.authenticationBloc}) {
+    if (authenticationBloc.state.authenticated) {
+      tryFetchUserInfo();
+    }
+    authenticationBloc.stream.listen((authState) {
       // Fetch user details if authentication is successful.
       if (authState is AuthenticationSuccessful) {
-        void tryFetchUserInfo() async {
-          // Fetch user info.
-          await getUserInfo();
-          // Wait a short duration.
-          await Future.delayed(const Duration(seconds: 10));
-          // If internet is available and user still not fetched,
-          // call this function again.
-          if (status != Status.loaded &&
-              authState is AuthenticationSuccessful &&
-              InternetConnectivity.status != NetworkStatus.offline) {
-            tryFetchUserInfo();
-          }
-        }
-
         // Start the recursive function.
         tryFetchUserInfo();
       } else if (authState is AuthenticationUnauthenticated) {
         // Reset provider if the user is unauthenticated.
-        if (status != Status.initialized) reset();
+        if (status != Status.initialized) {
+          reset();
+        }
       }
     });
     // Request for user details again when back online,
@@ -43,7 +30,7 @@ class CurrentUserProvider extends BaseProvider {
     InternetConnectivity.networkStream.listen((event) async {
       if (event != NetworkStatus.online &&
           status == Status.error &&
-          authenticationBloc!.state.authenticated) {
+          authenticationBloc.state.authenticated) {
         await getUserInfo();
       }
     });
@@ -66,6 +53,23 @@ class CurrentUserProvider extends BaseProvider {
       }
     });
   }
+  CurrentUserInfoModel? _currentUserInfo;
+  final AuthenticationBloc authenticationBloc;
+  CurrentUserInfoModel? get currentUserInfo => _currentUserInfo;
+
+  void tryFetchUserInfo() async {
+    // Fetch user info.
+    await getUserInfo();
+    // Wait a short duration.
+    await Future.delayed(const Duration(seconds: 10));
+    // If internet is available and user still not fetched,
+    // call this function again.
+    if (status != Status.loaded &&
+        authenticationBloc.state is AuthenticationSuccessful &&
+        InternetConnectivity.status != NetworkStatus.offline) {
+      tryFetchUserInfo();
+    }
+  }
 
   /// Get User information from the API.
   Future<CurrentUserInfoModel?> getUserInfo() async {
@@ -81,8 +85,8 @@ class CurrentUserProvider extends BaseProvider {
       if (e is DioError) {
         if (e.response != null &&
             e.response!.statusCode == 401 &&
-            authenticationBloc!.state.authenticated) {
-          authenticationBloc!.add(LogOut());
+            authenticationBloc.state.authenticated) {
+          authenticationBloc.add(LogOut());
         }
       }
       errorInfo = e.toString();

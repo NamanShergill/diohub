@@ -37,7 +37,7 @@ abstract class BaseProvider extends ChangeNotifier {
   }
 
   /// Dispose the stream.
-  disposeStreams() {
+  void disposeStreams() {
     _statusController.close();
     _notificationController.close();
   }

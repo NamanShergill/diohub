@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/info_card.dart';
-import 'package:dio_hub/common/profile_banner.dart';
-import 'package:dio_hub/common/repository_card.dart';
+import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/get_date.dart';
@@ -132,11 +132,11 @@ class CommitDetails extends StatelessWidget {
 }
 
 String _repoURLFromCommitURL(String commitURL) {
-  List<String> url = commitURL.split('/');
+  final url = commitURL.split('/');
   return url.sublist(0, url.length - 2).join('/');
 }
 
 String _repoNameFromCommitURL(String commitURL) {
-  List<String> url = commitURL.split('/');
+  final url = commitURL.split('/');
   return url.sublist(url.length - 3, url.length - 2).join('/');
 }

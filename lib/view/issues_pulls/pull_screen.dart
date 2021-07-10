@@ -1,31 +1,34 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/app_scroll_view.dart';
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/app_scroll_view.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/pulls/pull_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/discussion.dart';
+import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_information.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/pull_changed_files_list.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullScreen extends StatefulWidget {
-  final String? pullURL;
-  final DateTime? commentsSince;
-  final int initialIndex;
   const PullScreen(this.pullURL,
       {this.initialIndex = 0, this.commentsSince, Key? key})
       : super(key: key);
+  final String? pullURL;
+  final DateTime? commentsSince;
+  final int initialIndex;
   @override
   _PullScreenState createState() => _PullScreenState();
 }
@@ -44,12 +47,19 @@ class _PullScreenState extends State<PullScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => PullProvider(
-          widget.pullURL,
-          Provider.of<CurrentUserProvider>(context, listen: false)
-              .currentUserInfo
-              ?.login),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => PullProvider(
+              widget.pullURL,
+              Provider.of<CurrentUserProvider>(context, listen: false)
+                  .currentUserInfo
+                  ?.login),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(),
+        ),
+      ],
       builder: (context, child) {
         return SafeArea(
           child: Consumer<PullProvider>(
@@ -66,9 +76,12 @@ class _PullScreenState extends State<PullScreen>
                     childBuilder: (context, value) {
                       return AppScrollView(
                         scrollController: scrollController,
-                        childrenColor: AppColor.background,
+                        childrenColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .primary,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
+                          url: value.pullModel!.htmlUrl,
                           tabs: const [
                             'Information',
                             'Discussion',
@@ -79,8 +92,11 @@ class _PullScreenState extends State<PullScreen>
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.pullModel!.state,
-                                  value.pullModel!.merged!, 15)!,
+                              getIcon(
+                                value.pullModel!.state,
+                                15,
+                                merged: value.pullModel!.merged!,
+                              )!,
                               const SizedBox(
                                 width: 4,
                               ),
@@ -93,10 +109,15 @@ class _PullScreenState extends State<PullScreen>
                                 style: TextStyle(
                                     color: value.pullModel!.state ==
                                             IssueState.OPEN
-                                        ? AppColor.green
+                                        ? Provider.of<PaletteSettings>(context)
+                                            .currentSetting
+                                            .green
                                         : value.pullModel!.merged!
                                             ? Colors.deepPurpleAccent
-                                            : AppColor.red,
+                                            : Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .red,
                                     fontSize: 14),
                               ),
                               const SizedBox(
@@ -104,8 +125,11 @@ class _PullScreenState extends State<PullScreen>
                               ),
                               Text(
                                 '#${value.pullModel!.number}',
-                                style: const TextStyle(
-                                    color: AppColor.grey3, fontSize: 14),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 14),
                               ),
                             ],
                           ),
@@ -115,8 +139,11 @@ class _PullScreenState extends State<PullScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.pullModel!.state,
-                                      value.pullModel!.merged!, 20)!,
+                                  getIcon(
+                                    value.pullModel!.state,
+                                    20,
+                                    merged: value.pullModel!.merged!,
+                                  )!,
                                   const SizedBox(
                                     width: 8,
                                   ),
@@ -129,10 +156,16 @@ class _PullScreenState extends State<PullScreen>
                                     style: TextStyle(
                                         color: value.pullModel!.state ==
                                                 IssueState.OPEN
-                                            ? AppColor.green
+                                            ? Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .green
                                             : value.pullModel!.merged!
                                                 ? Colors.deepPurpleAccent
-                                                : AppColor.red,
+                                                : Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .red,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),
                                   ),
@@ -141,15 +174,21 @@ class _PullScreenState extends State<PullScreen>
                                   ),
                                   Text(
                                     '#${value.pullModel!.number}',
-                                    style: const TextStyle(
-                                        color: AppColor.grey3, fontSize: 16),
+                                    style: TextStyle(
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 24,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Octicons.comment,
-                                    color: AppColor.grey3,
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
                                     size: 11,
                                   ),
                                   const SizedBox(
@@ -157,8 +196,12 @@ class _PullScreenState extends State<PullScreen>
                                   ),
                                   Text(
                                     '${value.pullModel!.comments} comments',
-                                    style: const TextStyle(
-                                        color: AppColor.grey3, fontSize: 12),
+                                    style: TextStyle(
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -174,8 +217,7 @@ class _PullScreenState extends State<PullScreen>
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  borderRadius:
-                                      AppThemeBorderRadius.medBorderRadius,
+                                  borderRadius: medBorderRadius,
                                   onTap: () {
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
@@ -197,8 +239,11 @@ class _PullScreenState extends State<PullScreen>
                                 value.pullModel!.state == IssueState.CLOSED
                                     ? 'By ${value.pullModel!.user!.login}, closed ${getDate(value.pullModel!.closedAt.toString(), shorten: false)}.'
                                     : 'Opened ${getDate(value.pullModel!.createdAt.toString(), shorten: false)} by ${value.pullModel!.user!.login}',
-                                style: const TextStyle(
-                                    color: AppColor.grey3, fontSize: 12),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                                    fontSize: 12),
                               ),
                             ],
                           ),
@@ -207,25 +252,49 @@ class _PullScreenState extends State<PullScreen>
                         tabViews: [
                           const PullInformation(),
                           Discussion(
-                            scrollController: scrollController,
-                            repo: value.repoURL!.replaceFirst(
-                                'https://api.github.com/repos/', ''),
-                            commentsSince: widget.commentsSince,
-                            isLocked: value.pullModel!.locked! &&
-                                !value.editingEnabled,
-                            createdAt: value.pullModel!.createdAt,
-                            issueUrl: value.pullModel!.issueUrl!,
-                            initialComment: TimelineEventModel(
-                                createdAt: value.pullModel!.createdAt,
-                                event: Event.commented,
-                                user: value.pullModel!.user,
-                                url: value.pullModel!.url,
-                                authorAssociation:
-                                    value.pullModel!.authorAssociation,
-                                body: value.pullModel!.body!.isNotEmpty
-                                    ? value.pullModel!.body
-                                    : "No description provided."),
-                          ),
+                              scrollController: scrollController,
+                              pullNodeID: value.pullModel!.nodeId,
+                              number: value.pullModel!.number!,
+                              owner: value.repoURL!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .first,
+                              repoName: value.repoURL!
+                                  .replaceFirst(
+                                      'https://api.github.com/repos/', '')
+                                  .split('/')
+                                  .last,
+                              isPull: true,
+                              commentsSince: widget.commentsSince,
+                              isLocked: value.pullModel!.locked! &&
+                                  !value.editingEnabled,
+                              createdAt: value.pullModel!.createdAt,
+                              issueUrl: value.pullModel!.issueUrl!,
+                              initComment: BaseComment(
+                                  isMinimized: false,
+                                  reactions: null,
+                                  onQuote: () {},
+                                  viewerCanDelete: false,
+                                  viewerCanMinimize: false,
+                                  viewerCannotUpdateReasons: null,
+                                  viewerCanReact: false,
+                                  viewerCanUpdate: false,
+                                  viewerDidAuthor: false,
+                                  createdAt: value.pullModel!.createdAt!,
+                                  author: Author(
+                                      Uri.parse(
+                                          value.pullModel!.user!.avatarUrl!),
+                                      value.pullModel!.user!.login!),
+                                  body: '',
+                                  lastEditedAt: null,
+                                  description:
+                                      value.pullModel!.bodyHtml!.isEmpty
+                                          ? 'No description provided.'
+                                          : null,
+                                  bodyHTML: value.pullModel!.bodyHtml!,
+                                  authorAssociation:
+                                      CommentAuthorAssociation.none)),
                           const PullsCommitsList(),
                           const PullChangedFilesList(),
                         ],
@@ -241,7 +310,11 @@ class _PullScreenState extends State<PullScreen>
     );
   }
 
-  Widget? getIcon(IssueState? state, bool merged, double size) {
+  Widget? getIcon(
+    IssueState? state,
+    double size, {
+    required bool merged,
+  }) {
     switch (state) {
       case IssueState.CLOSED:
         if (merged) {
@@ -253,14 +326,14 @@ class _PullScreenState extends State<PullScreen>
         } else {
           return Icon(
             Octicons.git_pull_request,
-            color: AppColor.red,
+            color: Provider.of<PaletteSettings>(context).currentSetting.red,
             size: size,
           );
         }
       case IssueState.OPEN:
         return Icon(
           Octicons.git_pull_request,
-          color: AppColor.green,
+          color: Provider.of<PaletteSettings>(context).currentSetting.green,
           size: size,
         );
       default:

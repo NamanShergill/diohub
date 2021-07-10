@@ -1,5 +1,7 @@
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/app/settings/font.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
@@ -7,8 +9,8 @@ import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
@@ -22,22 +24,32 @@ void main() async {
   ResponseHandler.getSuccessStream();
   // Connectivity check stream initialised.
   InternetConnectivity.networkStatusService();
-  await Global.setupAppCache();
-  String? initLink = await DeepLinkHandler.initUniLink();
-  DeepLinkHandler.uniLinkStream();
-  runApp(MyApp(initLink));
+  await Future.wait([
+    setupAppCache(),
+    setUpSharedPrefs(),
+  ]);
+  final initLink = await initUniLink();
+  uniLinkStream();
+  final auth = await AuthService.isAuthenticated;
+  runApp(MyApp(
+    initLink,
+    authenticated: auth,
+  ));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp(this.initDeepLink, {Key? key, required this.authenticated})
+      : super(key: key);
   final String? initDeepLink;
-  const MyApp(this.initDeepLink, {Key? key}) : super(key: key);
+  final bool authenticated;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         // Initialise Authentication Bloc and add event to check auth state.
         BlocProvider(
-          create: (_) => AuthenticationBloc(),
+          create: (_) => AuthenticationBloc(authenticated: authenticated),
           lazy: false,
         ),
       ],
@@ -57,23 +69,32 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider(
                 create: (_) => SearchDataProvider(),
               ),
+              ChangeNotifierProvider(
+                create: (_) => FontSettings(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => PaletteSettings(),
+              ),
             ],
-            child: Portal(
-              child: MaterialApp.router(
-                theme: ThemeData(
+            builder: (context, child) {
+              final palette =
+                  Provider.of<PaletteSettings>(context).currentSetting;
+              return Portal(
+                child: MaterialApp.router(
+                  theme: ThemeData(
                     visualDensity: VisualDensity.adaptivePlatformDensity,
-                    unselectedWidgetColor: AppColor.grey,
-                    accentColor: Colors.white,
-                    cardColor: AppColor.background,
+                    unselectedWidgetColor: palette.faded1,
+                    accentColor: palette.accent,
+                    cardColor: palette.primary,
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            AppColor.onBackground),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(palette.secondary),
                       ),
                     ),
-                    appBarTheme: const AppBarTheme(
-                        color: AppColor.background, elevation: 5),
-                    iconTheme: const IconThemeData(color: Colors.white),
+                    appBarTheme:
+                        AppBarTheme(color: palette.primary, elevation: 5),
+                    iconTheme: IconThemeData(color: palette.baseElements),
                     textTheme: const TextTheme(
                       bodyText1: TextStyle(),
                       bodyText2: TextStyle(),
@@ -89,42 +110,45 @@ class MyApp extends StatelessWidget {
                       button: TextStyle(),
                       overline: TextStyle(),
                     ).apply(
-                        displayColor: Colors.white, bodyColor: Colors.white),
-                    primaryColor: AppColor.accent,
+                        displayColor: palette.baseElements,
+                        bodyColor: palette.baseElements),
+                    primaryColor: palette.accent,
                     scrollbarTheme: ScrollbarThemeData(
                         thumbColor:
                             MaterialStateProperty.all<Color>(Colors.grey)),
                     dialogTheme: DialogTheme(
-                      backgroundColor: AppColor.background,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius),
-                      titleTextStyle: const TextStyle(color: Colors.white),
-                      contentTextStyle: const TextStyle(color: Colors.white),
+                      backgroundColor: palette.primary,
+                      shape:
+                          RoundedRectangleBorder(borderRadius: medBorderRadius),
+                      titleTextStyle: TextStyle(color: palette.baseElements),
+                      contentTextStyle: TextStyle(color: palette.baseElements),
                     ),
-                    scaffoldBackgroundColor: AppColor.background,
-                    primaryIconTheme: const IconThemeData(color: Colors.white),
-                    accentIconTheme:
-                        const IconThemeData(color: AppColor.accent),
+                    scaffoldBackgroundColor: palette.primary,
+                    primaryIconTheme:
+                        IconThemeData(color: palette.baseElements),
+                    accentIconTheme: IconThemeData(color: palette.accent),
                     dividerColor: Colors.grey.withOpacity(0.7),
                     brightness: Brightness.dark,
-                    backgroundColor: AppColor.background,
+                    backgroundColor: palette.primary,
                     buttonTheme: ButtonThemeData(
                       textTheme: ButtonTextTheme.primary,
                       padding: EdgeInsets.zero,
                       colorScheme: const ColorScheme.dark(),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: AppThemeBorderRadius.medBorderRadius),
+                      shape:
+                          RoundedRectangleBorder(borderRadius: medBorderRadius),
                     ),
-                    dividerTheme: const DividerThemeData(
-                        color: Colors.white, thickness: 0.04),
-                    fontFamily: 'Montserrat'),
-                routerDelegate: Global.customRouter.delegate(initialRoutes: [
-                  LandingAuthWrapperScreenRoute(initLink: initDeepLink ?? '')
-                ]),
-                routeInformationParser:
-                    Global.customRouter.defaultRouteParser(),
-              ),
-            ),
+                    dividerTheme: DividerThemeData(
+                        color: palette.baseElements, thickness: 0.04),
+                    fontFamily:
+                        Provider.of<FontSettings>(context).currentSetting,
+                  ),
+                  routerDelegate: customRouter.delegate(initialRoutes: [
+                    LandingLoadingScreenRoute(initLink: initDeepLink)
+                  ]),
+                  routeInformationParser: customRouter.defaultRouteParser(),
+                ),
+              );
+            },
           );
         },
       ),

@@ -3,7 +3,7 @@ import 'package:dio_hub/common/events/cards/issues_event_card.dart';
 import 'package:dio_hub/common/events/cards/pull_event_card.dart';
 import 'package:dio_hub/common/events/cards/push_event_card.dart';
 import 'package:dio_hub/common/events/cards/watch_event_card.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/activity/events_service.dart';
@@ -11,25 +11,52 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
-  final bool privateEvents;
-  final String? specificUser;
-  final ScrollController scrollController;
-
   const Events(
       {this.privateEvents = true,
       this.specificUser,
       required this.scrollController,
       Key? key})
       : super(key: key);
+  final bool privateEvents;
+  final String? specificUser;
+  final ScrollController scrollController;
+
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<CurrentUserProvider>(context);
     return InfiniteScrollWrapper<EventsModel>(
       firstDivider: false,
       topSpacing: 24,
-      spacing: 32,
+      separatorBuilder: (context, index) => const Divider(
+        height: 32,
+      ),
       scrollController: scrollController,
       isNestedScrollViewChild: true,
+      filterFn: (items) {
+        final temp = <EventsModel>[];
+        for (final item in items) {
+          if ({
+            // EventsType.CommitCommentEvent,
+            EventsType.CreateEvent,
+            EventsType.DeleteEvent,
+            EventsType.ForkEvent,
+            // EventsType.GollumEvent,
+            EventsType.IssueCommentEvent,
+            EventsType.IssuesEvent,
+            EventsType.MemberEvent,
+            EventsType.PublicEvent,
+            EventsType.PullRequestEvent,
+            // EventsType.PullRequestReviewCommentEvent,
+            EventsType.PushEvent,
+            // EventsType.ReleaseEvent,
+            // EventsType.SponsorshipEvent,
+            EventsType.WatchEvent,
+          }.contains(item.type)) {
+            temp.add(item);
+          }
+        }
+        return temp;
+      },
       future: (pageNumber, pageSize, refresh, _) {
         if (specificUser != null) {
           return EventsService.getUserEvents(specificUser,
@@ -42,22 +69,31 @@ class Events extends StatelessWidget {
               page: pageNumber, perPage: pageSize, refresh: refresh);
         }
       },
-      builder: (context, EventsModel item, index) {
+      builder: (context, item, index, refresh) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(builder: (context) {
             if (item.type == EventsType.PushEvent) {
               return PushEventCard(item, item.payload!);
             } else if (item.type == EventsType.WatchEvent) {
-              return RepoEventCard(item, 'starred');
+              return RepoEventCard(
+                item,
+                'starred',
+                refresh: refresh,
+              );
             } else if (item.type == EventsType.CreateEvent) {
-              if (item.payload.refType == RefType.REPOSITORY) {
-                return RepoEventCard(item, 'created');
-              } else if (item.payload.refType == RefType.BRANCH) {
+              if (item.payload!.refType == RefType.REPOSITORY) {
                 return RepoEventCard(
                   item,
-                  'created a new branch \'${item.payload.ref}\' in',
-                  branch: item.payload.ref,
+                  'created',
+                  refresh: refresh,
+                );
+              } else if (item.payload!.refType == RefType.BRANCH) {
+                return RepoEventCard(
+                  item,
+                  'created a new branch \'${item.payload!.ref}\' in',
+                  branch: item.payload!.ref,
+                  refresh: refresh,
                 );
               }
             } else if (item.type == EventsType.PublicEvent) {
@@ -65,13 +101,17 @@ class Events extends StatelessWidget {
                 item,
                 'made',
                 eventTextEnd: 'public',
+                refresh: refresh,
               );
             } else if (item.type == EventsType.MemberEvent) {
               return AddedEventCard(item,
-                  '${item.payload.action} ${item.payload.member.login} to');
+                  '${item.payload!.action} ${item.payload!.member!.login} to');
             } else if (item.type == EventsType.DeleteEvent) {
-              return RepoEventCard(item,
-                  'deleted a ${refTypeValues.reverse[item.payload.refType]} \'${item.payload.ref}\' in');
+              return RepoEventCard(
+                item,
+                'deleted a ${refTypeValues.reverse![item.payload!.refType]} \'${item.payload!.ref}\' in',
+                refresh: refresh,
+              );
             } else if (item.type == EventsType.PullRequestEvent) {
               return PullEventCard(
                 item,
@@ -80,7 +120,8 @@ class Events extends StatelessWidget {
               return RepoEventCard(
                 item,
                 'forked',
-                repo: item.payload.forkee,
+                repo: item.payload!.forkee,
+                refresh: refresh,
               );
             } else if (item.type == EventsType.IssuesEvent) {
               return IssuesEventCard(item, 'an issue in');
@@ -97,7 +138,7 @@ class Events extends StatelessWidget {
               ),
               child: Center(
                 child:
-                    Text('Unimplemented: ${eventsValues.reverse[item.type]}'),
+                    Text('Unimplemented: ${eventsValues.reverse![item.type]}'),
               ),
             );
           }),
