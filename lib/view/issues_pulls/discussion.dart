@@ -234,7 +234,11 @@ class _DiscussionState extends State<Discussion>
                 header: (context) {
                   return header;
                 },
-                divider: false,
+                firstDivider: false,
+                topSpacing: 8,
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 8,
+                ),
                 builder: (context, edge, index, refresh) {
                   return GetTimelineItem(
                     edge.node,

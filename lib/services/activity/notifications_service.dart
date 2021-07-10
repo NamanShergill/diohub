@@ -24,13 +24,14 @@ class NotificationsService {
       queryParameters.addAll(filters);
     }
     // Make API request to get a list of notifications;
-    final notifications = await GetDio.getDio(
-      cacheOptions: CacheManager.notifications(refresh: refresh),
-    )
+    final notifications = await API
+        .request(
+          cacheOptions: CacheManager.notifications(refresh: refresh),
+        )
         .get(
-      _url,
-      queryParameters: queryParameters,
-    )
+          _url,
+          queryParameters: queryParameters,
+        )
         .then((value) {
       final parsedNotifications = <NotificationModel>[];
       final List unParsedNotifications = value.data;
@@ -46,13 +47,13 @@ class NotificationsService {
   // Mark a thread as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-a-thread-as-read
   static Future markThreadAsRead(String? id) async {
-    await GetDio.getDio().patch('/notifications/threads/$id');
+    await API.request().patch('/notifications/threads/$id');
   }
 
   // Mark all notifications as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-notifications-as-read
   static Future markAllAsRead() async {
-    await GetDio.getDio().put('/notifications', queryParameters: {
+    await API.request().put('/notifications', queryParameters: {
       'last_read_at': DateTime.now().toIso8601String(),
     });
   }

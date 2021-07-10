@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.3.0-dev.internal
+version: 0.3.0-10072021.internal
 
 environment:
   sdk: '>=2.13.0 <3.0.0'
@@ -31,7 +31,10 @@ dependencies:
   flutter_colorpicker: ^0.4.0
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
-  flutter_emoji: ^2.2.1+1
+
+  # Null safe version until the package is updated.
+  flutter_emoji:
+    git: https://github.com/cek-cek/flutter-emoji
 
   # Modified to add background color option.
   flutter_highlight:
@@ -102,7 +105,6 @@ dev_dependencies:
   dependency_validator: ^3.1.0
   flutter_lints: ^1.0.3
   flutter_native_splash: ^1.2.0
-  flutter_oss_licenses: ^1.0.1
   flutter_test:
     sdk: flutter
   json_serializable: ^4.1.3

@@ -267,10 +267,12 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       paginationKey: ValueKey(searchData.toQuery +
           searchData.isActive.toString() +
           searchData.sort),
-      divider: false,
+      separatorBuilder: (context, index) => const SizedBox(
+        height: 4,
+      ),
+      firstDivider: false,
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,
-      spacing: 4,
       isNestedScrollViewChild: isNestedScrollViewChild,
       topSpacing: 0,
       builder: builder,

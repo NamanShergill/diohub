@@ -311,6 +311,17 @@ mixin ReviewRequestedMixin {
   ReviewRequestedMixin$Actor? actor;
   ReviewRequestedMixin$RequestedReviewer? requestedReviewer;
 }
+mixin ProjectMixin {
+  late String name;
+  late String id;
+  int? databaseId;
+  late DateTime updatedAt;
+  late int number;
+  late String bodyHTML;
+  String? body;
+  late bool closed;
+  late ProjectMixin$Progress progress;
+}
 
 @JsonSerializable(explicitToJson: true)
 class FetchReview$Query$Node$PullRequestReviewComment$Author
@@ -4195,6 +4206,504 @@ class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetRepoProjects$Query$Repository$Projects$Edges$Node
+    extends JsonSerializable with EquatableMixin, ProjectMixin {
+  GetRepoProjects$Query$Repository$Projects$Edges$Node();
+
+  factory GetRepoProjects$Query$Repository$Projects$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetRepoProjects$Query$Repository$Projects$Edges$NodeFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        name,
+        id,
+        databaseId,
+        updatedAt,
+        number,
+        bodyHTML,
+        body,
+        closed,
+        progress
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetRepoProjects$Query$Repository$Projects$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetRepoProjects$Query$Repository$Projects$Edges extends JsonSerializable
+    with EquatableMixin {
+  GetRepoProjects$Query$Repository$Projects$Edges();
+
+  factory GetRepoProjects$Query$Repository$Projects$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetRepoProjects$Query$Repository$Projects$EdgesFromJson(json);
+
+  late String cursor;
+
+  GetRepoProjects$Query$Repository$Projects$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetRepoProjects$Query$Repository$Projects$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetRepoProjects$Query$Repository$Projects extends JsonSerializable
+    with EquatableMixin {
+  GetRepoProjects$Query$Repository$Projects();
+
+  factory GetRepoProjects$Query$Repository$Projects.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetRepoProjects$Query$Repository$ProjectsFromJson(json);
+
+  late int totalCount;
+
+  List<GetRepoProjects$Query$Repository$Projects$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetRepoProjects$Query$Repository$ProjectsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetRepoProjects$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  GetRepoProjects$Query$Repository();
+
+  factory GetRepoProjects$Query$Repository.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetRepoProjects$Query$RepositoryFromJson(json);
+
+  late GetRepoProjects$Query$Repository$Projects projects;
+
+  @override
+  List<Object?> get props => [projects];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetRepoProjects$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetRepoProjects$Query extends JsonSerializable with EquatableMixin {
+  GetRepoProjects$Query();
+
+  factory GetRepoProjects$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetRepoProjects$QueryFromJson(json);
+
+  GetRepoProjects$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  @override
+  Map<String, dynamic> toJson() => _$GetRepoProjects$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ProjectMixin$Progress extends JsonSerializable with EquatableMixin {
+  ProjectMixin$Progress();
+
+  factory ProjectMixin$Progress.fromJson(Map<String, dynamic> json) =>
+      _$ProjectMixin$ProgressFromJson(json);
+
+  late double donePercentage;
+
+  @override
+  List<Object?> get props => [donePercentage];
+  @override
+  Map<String, dynamic> toJson() => _$ProjectMixin$ProgressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectInfo$Query$Node$Project extends GetProjectInfo$Query$Node
+    with EquatableMixin, ProjectMixin {
+  GetProjectInfo$Query$Node$Project();
+
+  factory GetProjectInfo$Query$Node$Project.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectInfo$Query$Node$ProjectFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        name,
+        id,
+        databaseId,
+        updatedAt,
+        number,
+        bodyHTML,
+        body,
+        closed,
+        progress
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectInfo$Query$Node$ProjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectInfo$Query$Node extends JsonSerializable with EquatableMixin {
+  GetProjectInfo$Query$Node();
+
+  factory GetProjectInfo$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Project':
+        return GetProjectInfo$Query$Node$Project.fromJson(json);
+      default:
+    }
+    return _$GetProjectInfo$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Project':
+        return (this as GetProjectInfo$Query$Node$Project).toJson();
+      default:
+    }
+    return _$GetProjectInfo$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectInfo$Query extends JsonSerializable with EquatableMixin {
+  GetProjectInfo$Query();
+
+  factory GetProjectInfo$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetProjectInfo$QueryFromJson(json);
+
+  GetProjectInfo$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() => _$GetProjectInfo$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumns$Query$Node$Project$Columns$Edges$Node
+    extends JsonSerializable with EquatableMixin {
+  GetProjectColumns$Query$Node$Project$Columns$Edges$Node();
+
+  factory GetProjectColumns$Query$Node$Project$Columns$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeFromJson(json);
+
+  late String name;
+
+  late String id;
+
+  late DateTime updatedAt;
+
+  @override
+  List<Object?> get props => [name, id, updatedAt];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumns$Query$Node$Project$Columns$Edges
+    extends JsonSerializable with EquatableMixin {
+  GetProjectColumns$Query$Node$Project$Columns$Edges();
+
+  factory GetProjectColumns$Query$Node$Project$Columns$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumns$Query$Node$Project$Columns$EdgesFromJson(json);
+
+  late String cursor;
+
+  GetProjectColumns$Query$Node$Project$Columns$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumns$Query$Node$Project$Columns$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumns$Query$Node$Project$Columns extends JsonSerializable
+    with EquatableMixin {
+  GetProjectColumns$Query$Node$Project$Columns();
+
+  factory GetProjectColumns$Query$Node$Project$Columns.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumns$Query$Node$Project$ColumnsFromJson(json);
+
+  late int totalCount;
+
+  List<GetProjectColumns$Query$Node$Project$Columns$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumns$Query$Node$Project$ColumnsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumns$Query$Node$Project extends GetProjectColumns$Query$Node
+    with EquatableMixin {
+  GetProjectColumns$Query$Node$Project();
+
+  factory GetProjectColumns$Query$Node$Project.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumns$Query$Node$ProjectFromJson(json);
+
+  late GetProjectColumns$Query$Node$Project$Columns columns;
+
+  @override
+  List<Object?> get props => [columns];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumns$Query$Node$ProjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumns$Query$Node extends JsonSerializable
+    with EquatableMixin {
+  GetProjectColumns$Query$Node();
+
+  factory GetProjectColumns$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Project':
+        return GetProjectColumns$Query$Node$Project.fromJson(json);
+      default:
+    }
+    return _$GetProjectColumns$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Project':
+        return (this as GetProjectColumns$Query$Node$Project).toJson();
+      default:
+    }
+    return _$GetProjectColumns$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumns$Query extends JsonSerializable with EquatableMixin {
+  GetProjectColumns$Query();
+
+  factory GetProjectColumns$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetProjectColumns$QueryFromJson(json);
+
+  GetProjectColumns$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() => _$GetProjectColumns$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
+    extends GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+    with EquatableMixin {
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue();
+
+  factory GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueFromJson(
+          json);
+
+  late String bodyHTML;
+
+  late String title;
+
+  late int number;
+
+  @override
+  List<Object?> get props => [bodyHTML, title, number];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+    extends JsonSerializable with EquatableMixin {
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content();
+
+  factory GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Issue':
+        return GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
+            .fromJson(json);
+      default:
+    }
+    return _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentFromJson(
+        json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Issue':
+        return (this
+                as GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue)
+            .toJson();
+      default:
+    }
+    return _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentToJson(
+        this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+    extends JsonSerializable with EquatableMixin {
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node();
+
+  factory GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeFromJson(
+          json);
+
+  String? note;
+
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content?
+      content;
+
+  @override
+  List<Object?> get props => [note, content];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
+    extends JsonSerializable with EquatableMixin {
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges();
+
+  factory GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesFromJson(
+          json);
+
+  late String cursor;
+
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node$ProjectColumn$Cards
+    extends JsonSerializable with EquatableMixin {
+  GetProjectColumnCards$Query$Node$ProjectColumn$Cards();
+
+  factory GetProjectColumnCards$Query$Node$ProjectColumn$Cards.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsFromJson(json);
+
+  late int totalCount;
+
+  List<GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node$ProjectColumn
+    extends GetProjectColumnCards$Query$Node with EquatableMixin {
+  GetProjectColumnCards$Query$Node$ProjectColumn();
+
+  factory GetProjectColumnCards$Query$Node$ProjectColumn.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumnFromJson(json);
+
+  late GetProjectColumnCards$Query$Node$ProjectColumn$Cards cards;
+
+  @override
+  List<Object?> get props => [cards];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetProjectColumnCards$Query$Node$ProjectColumnToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query$Node extends JsonSerializable
+    with EquatableMixin {
+  GetProjectColumnCards$Query$Node();
+
+  factory GetProjectColumnCards$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'ProjectColumn':
+        return GetProjectColumnCards$Query$Node$ProjectColumn.fromJson(json);
+      default:
+    }
+    return _$GetProjectColumnCards$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'ProjectColumn':
+        return (this as GetProjectColumnCards$Query$Node$ProjectColumn)
+            .toJson();
+      default:
+    }
+    return _$GetProjectColumnCards$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCards$Query extends JsonSerializable with EquatableMixin {
+  GetProjectColumnCards$Query();
+
+  factory GetProjectColumnCards$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetProjectColumnCards$QueryFromJson(json);
+
+  GetProjectColumnCards$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() => _$GetProjectColumnCards$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class HasStarred$Query$Repository extends JsonSerializable with EquatableMixin {
   HasStarred$Query$Repository();
 
@@ -4823,6 +5332,40 @@ enum PullRequestState {
   merged,
   @JsonValue('OPEN')
   open,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum OrderDirection {
+  @JsonValue('ASC')
+  asc,
+  @JsonValue('DESC')
+  desc,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum ProjectOrderField {
+  @JsonValue('CREATED_AT')
+  createdAt,
+  @JsonValue('NAME')
+  name,
+  @JsonValue('UPDATED_AT')
+  updatedAt,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum ProjectState {
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum ProjectCardArchivedState {
+  @JsonValue('ARCHIVED')
+  archived,
+  @JsonValue('NOT_ARCHIVED')
+  notArchived,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -9305,6 +9848,752 @@ class IssueTemplatesQuery
   @override
   IssueTemplates$Query parse(Map<String, dynamic> json) =>
       IssueTemplates$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetRepoProjectsArguments extends JsonSerializable with EquatableMixin {
+  GetRepoProjectsArguments(
+      {required this.name,
+      required this.owner,
+      this.cursor,
+      this.query,
+      this.states,
+      required this.orderByField,
+      required this.orderByDir});
+
+  @override
+  factory GetRepoProjectsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetRepoProjectsArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  final String? cursor;
+
+  final String? query;
+
+  @JsonKey(unknownEnumValue: ProjectState.artemisUnknown)
+  final List<ProjectState>? states;
+
+  @JsonKey(unknownEnumValue: ProjectOrderField.artemisUnknown)
+  late ProjectOrderField orderByField;
+
+  @JsonKey(unknownEnumValue: OrderDirection.artemisUnknown)
+  late OrderDirection orderByDir;
+
+  @override
+  List<Object?> get props =>
+      [name, owner, cursor, query, states, orderByField, orderByDir];
+  @override
+  Map<String, dynamic> toJson() => _$GetRepoProjectsArgumentsToJson(this);
+}
+
+final GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getRepoProjects'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'cursor')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'String'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'query')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'String'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'states')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'ProjectState'), isNonNull: true),
+                isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'orderByField')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'ProjectOrderField'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'orderByDir')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'OrderDirection'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'projects'),
+                  alias: null,
+                  arguments: [
+                    ArgumentNode(
+                        name: NameNode(value: 'first'),
+                        value: IntValueNode(value: '10')),
+                    ArgumentNode(
+                        name: NameNode(value: 'after'),
+                        value: VariableNode(name: NameNode(value: 'cursor'))),
+                    ArgumentNode(
+                        name: NameNode(value: 'search'),
+                        value: VariableNode(name: NameNode(value: 'query'))),
+                    ArgumentNode(
+                        name: NameNode(value: 'states'),
+                        value: VariableNode(name: NameNode(value: 'states'))),
+                    ArgumentNode(
+                        name: NameNode(value: 'orderBy'),
+                        value: ObjectValueNode(fields: [
+                          ObjectFieldNode(
+                              name: NameNode(value: 'field'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'orderByField'))),
+                          ObjectFieldNode(
+                              name: NameNode(value: 'direction'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'orderByDir')))
+                        ]))
+                  ],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'edges'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'cursor'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'node'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'project'),
+                                    directives: [])
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'project'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Project'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'databaseId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'updatedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'progress'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'donePercentage'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
+class GetRepoProjectsQuery
+    extends GraphQLQuery<GetRepoProjects$Query, GetRepoProjectsArguments> {
+  GetRepoProjectsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_REPO_PROJECTS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'getRepoProjects';
+
+  @override
+  final GetRepoProjectsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetRepoProjects$Query parse(Map<String, dynamic> json) =>
+      GetRepoProjects$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectInfoArguments extends JsonSerializable with EquatableMixin {
+  GetProjectInfoArguments({required this.id});
+
+  @override
+  factory GetProjectInfoArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetProjectInfoArgumentsFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$GetProjectInfoArgumentsToJson(this);
+}
+
+final GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getProjectInfo'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Project'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'project'), directives: [])
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'project'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Project'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'databaseId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'updatedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'progress'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'donePercentage'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
+class GetProjectInfoQuery
+    extends GraphQLQuery<GetProjectInfo$Query, GetProjectInfoArguments> {
+  GetProjectInfoQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_PROJECT_INFO_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'getProjectInfo';
+
+  @override
+  final GetProjectInfoArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetProjectInfo$Query parse(Map<String, dynamic> json) =>
+      GetProjectInfo$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnsArguments extends JsonSerializable with EquatableMixin {
+  GetProjectColumnsArguments({required this.id, this.cursor});
+
+  @override
+  factory GetProjectColumnsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetProjectColumnsArgumentsFromJson(json);
+
+  late String id;
+
+  final String? cursor;
+
+  @override
+  List<Object?> get props => [id, cursor];
+  @override
+  Map<String, dynamic> toJson() => _$GetProjectColumnsArgumentsToJson(this);
+}
+
+final GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getProjectColumns'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'cursor')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'String'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Project'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'columns'),
+                        alias: null,
+                        arguments: [
+                          ArgumentNode(
+                              name: NameNode(value: 'first'),
+                              value: IntValueNode(value: '10')),
+                          ArgumentNode(
+                              name: NameNode(value: 'after'),
+                              value:
+                                  VariableNode(name: NameNode(value: 'cursor')))
+                        ],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'totalCount'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'edges'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'cursor'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'node'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(selections: [
+                                      FieldNode(
+                                          name: NameNode(value: 'name'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'id'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'updatedAt'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null)
+                                    ]))
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ]))
+]);
+
+class GetProjectColumnsQuery
+    extends GraphQLQuery<GetProjectColumns$Query, GetProjectColumnsArguments> {
+  GetProjectColumnsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_PROJECT_COLUMNS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'getProjectColumns';
+
+  @override
+  final GetProjectColumnsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetProjectColumns$Query parse(Map<String, dynamic> json) =>
+      GetProjectColumns$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetProjectColumnCardsArguments extends JsonSerializable
+    with EquatableMixin {
+  GetProjectColumnCardsArguments(
+      {required this.id, this.cursor, this.archiveStates});
+
+  @override
+  factory GetProjectColumnCardsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetProjectColumnCardsArgumentsFromJson(json);
+
+  late String id;
+
+  final String? cursor;
+
+  @JsonKey(unknownEnumValue: ProjectCardArchivedState.artemisUnknown)
+  final List<ProjectCardArchivedState>? archiveStates;
+
+  @override
+  List<Object?> get props => [id, cursor, archiveStates];
+  @override
+  Map<String, dynamic> toJson() => _$GetProjectColumnCardsArgumentsToJson(this);
+}
+
+final GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getProjectColumnCards'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'cursor')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'String'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'archiveStates')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'ProjectCardArchivedState'),
+                    isNonNull: true),
+                isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'ProjectColumn'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'cards'),
+                        alias: null,
+                        arguments: [
+                          ArgumentNode(
+                              name: NameNode(value: 'first'),
+                              value: IntValueNode(value: '10')),
+                          ArgumentNode(
+                              name: NameNode(value: 'archivedStates'),
+                              value: VariableNode(
+                                  name: NameNode(value: 'archiveStates'))),
+                          ArgumentNode(
+                              name: NameNode(value: 'after'),
+                              value:
+                                  VariableNode(name: NameNode(value: 'cursor')))
+                        ],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'totalCount'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'edges'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FieldNode(
+                                    name: NameNode(value: 'cursor'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null),
+                                FieldNode(
+                                    name: NameNode(value: 'node'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(selections: [
+                                      FieldNode(
+                                          name: NameNode(value: 'note'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet: null),
+                                      FieldNode(
+                                          name: NameNode(value: 'content'),
+                                          alias: null,
+                                          arguments: [],
+                                          directives: [],
+                                          selectionSet:
+                                              SelectionSetNode(selections: [
+                                            FieldNode(
+                                                name: NameNode(
+                                                    value: '__typename'),
+                                                alias: null,
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: null),
+                                            InlineFragmentNode(
+                                                typeCondition:
+                                                    TypeConditionNode(
+                                                        on: NamedTypeNode(
+                                                            name: NameNode(
+                                                                value: 'Issue'),
+                                                            isNonNull: false)),
+                                                directives: [],
+                                                selectionSet: SelectionSetNode(
+                                                    selections: [
+                                                      FieldNode(
+                                                          name: NameNode(
+                                                              value:
+                                                                  'bodyHTML'),
+                                                          alias: null,
+                                                          arguments: [],
+                                                          directives: [],
+                                                          selectionSet: null),
+                                                      FieldNode(
+                                                          name: NameNode(
+                                                              value: 'title'),
+                                                          alias: null,
+                                                          arguments: [],
+                                                          directives: [],
+                                                          selectionSet: null),
+                                                      FieldNode(
+                                                          name: NameNode(
+                                                              value: 'number'),
+                                                          alias: null,
+                                                          arguments: [],
+                                                          directives: [],
+                                                          selectionSet: null)
+                                                    ]))
+                                          ]))
+                                    ]))
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ]))
+]);
+
+class GetProjectColumnCardsQuery extends GraphQLQuery<
+    GetProjectColumnCards$Query, GetProjectColumnCardsArguments> {
+  GetProjectColumnCardsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'getProjectColumnCards';
+
+  @override
+  final GetProjectColumnCardsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetProjectColumnCards$Query parse(Map<String, dynamic> json) =>
+      GetProjectColumnCards$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

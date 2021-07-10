@@ -42,7 +42,8 @@ class AuthService {
       'client_id': PrivateKeys.clientID,
       'scope': scopeString,
     });
-    final response = await GetDio.getDio(
+    final response = await API
+        .request(
             loggedIn: false,
             baseURL: 'https://github.com/',
             debugLog: false,
@@ -82,7 +83,8 @@ class AuthService {
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
     try {
-      final response = await GetDio.getDio(
+      final response = await API
+          .request(
               loggedIn: false,
               loginRequired: false,
               cacheEnabled: false,

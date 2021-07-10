@@ -38,7 +38,9 @@ class PRReviewScreen extends StatelessWidget {
               return PullsService.getPRReview(nodeID,
                   refresh: refresh, cursor: lastItem?.cursor);
             },
-            spacing: 32,
+            separatorBuilder: (context, index) => const Divider(
+              height: 32,
+            ),
             builder: (context, item, index, refresh) {
               final comment = item.node!;
               return ChangeNotifierProvider(
@@ -239,7 +241,9 @@ class PRReviewScreen extends StatelessWidget {
                                                       ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges>(
                                                     scrollController:
                                                         scrollController,
-                                                    divider: false,
+                                                    separatorBuilder:
+                                                        (context, index) =>
+                                                            Container(),
                                                     future: (pageNumber,
                                                         pageSize,
                                                         refresh,

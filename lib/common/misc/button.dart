@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
   const Button(
-      {this.listenToLoadingController = true,
+      {this.listenToLoadingController = false,
       required this.onTap,
       required this.child,
       this.enabled = true,
@@ -135,7 +135,7 @@ class _ButtonState extends State<Button> {
 
 class StringButton extends StatelessWidget {
   const StringButton(
-      {this.listenToLoadingController = true,
+      {this.listenToLoadingController = false,
       required this.onTap,
       required this.title,
       this.loading = false,

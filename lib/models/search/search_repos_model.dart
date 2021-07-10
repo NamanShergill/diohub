@@ -1,4 +1,3 @@
-// @dart=2.9
 // To parse this JSON data, do
 //
 //     final searchReposModel = searchReposModelFromJson(jsonString);
@@ -14,14 +13,14 @@ class SearchReposModel {
     this.items,
   });
 
-  int totalCount;
-  bool incompleteResults;
-  List<RepositoryModel> items;
+  int? totalCount;
+  bool? incompleteResults;
+  List<RepositoryModel>? items;
 
   SearchReposModel copyWith({
-    int totalCount,
-    bool incompleteResults,
-    List<RepositoryModel> items,
+    int? totalCount,
+    bool? incompleteResults,
+    List<RepositoryModel>? items,
   }) =>
       SearchReposModel(
         totalCount: totalCount ?? this.totalCount,
@@ -52,6 +51,6 @@ class SearchReposModel {
             incompleteResults == null ? null : incompleteResults,
         "items": items == null
             ? null
-            : List<dynamic>.from(items.map((x) => x.toJson())),
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }

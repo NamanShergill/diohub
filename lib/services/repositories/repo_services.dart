@@ -13,7 +13,8 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository
   static Future<RepositoryModel> fetchRepository(String url,
       {bool refresh = false}) async {
-    final response = await GetDio.getDio(
+    final response = await API
+        .request(
             applyBaseURL: false,
             cacheOptions: CacheManager.repositories(refresh: refresh))
         .get(url);
@@ -23,16 +24,16 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
   static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
       {String? branch}) async {
-    final response = await GetDio.getDio(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await API
+        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$repoUrl/readme', queryParameters: {'ref': branch});
     return RepositoryReadmeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
   static Future<BranchModel> fetchBranch(String branchUrl) async {
-    final response = await GetDio.getDio(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await API
+        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(branchUrl);
     return BranchModel.fromJson(response.data);
   }
@@ -41,7 +42,8 @@ class RepositoryServices {
   static Future<List<RepoBranchListItemModel>> fetchBranchList(
       String repoURL, int pageNumber, int perPage,
       {bool refresh = false}) async {
-    final response = await GetDio.getDio(
+    final response = await API
+        .request(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/branches',
@@ -72,7 +74,8 @@ class RepositoryServices {
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await GetDio.getDio(
+    final response = await API
+        .request(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/commits', queryParameters: queryParams);
@@ -87,20 +90,24 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit
   static Future<CommitModel> getCommit(String commitURL,
       {bool refresh = false}) async {
-    final response = await GetDio.getDio(
-      applyBaseURL: false,
-      cacheOptions: CacheManager.defaultCache(refresh: refresh),
-    ).get(commitURL);
+    final response = await API
+        .request(
+          applyBaseURL: false,
+          cacheOptions: CacheManager.defaultCache(refresh: refresh),
+        )
+        .get(commitURL);
     return CommitModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
   static Future<bool> checkUserRepoPerms(String login, String? repoURL) async {
-    final response = await GetDio.getDio(
+    final response = await API
+        .request(
       applyBaseURL: false,
       showPopup: false,
       cacheOptions: CacheManager.defaultCache(),
-    ).get(
+    )
+        .get(
       '$repoURL/collaborators/$login/permission',
       options: Options(
         validateStatus: (status) {
@@ -117,7 +124,7 @@ class RepositoryServices {
 
   static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
       getIssueTemplates(String name, String owner) async {
-    final res = await GetDio.gqlDio(IssueTemplatesQuery(
+    final res = await API.gqlRequest(IssueTemplatesQuery(
         variables: IssueTemplatesArguments(name: name, owner: owner)));
     return IssueTemplates$Query.fromJson(res.data!).repository!.issueTemplates!;
   }
@@ -125,7 +132,7 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user
   static Future<HasStarred$Query$Repository> isStarred(
       String owner, String name) async {
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
       HasStarredQuery(variables: HasStarredArguments(name: name, owner: owner)),
       cacheOptions: CacheManager.defaultGQLCache(maxAge: Duration.zero),
     );
@@ -137,8 +144,8 @@ class RepositoryServices {
       {required bool isStarred}) async {
     final endpoint = '/user/starred/$owner/$name';
     final res = isStarred
-        ? await GetDio.getDio().delete(endpoint)
-        : await GetDio.getDio().put(endpoint);
+        ? await API.request().delete(endpoint)
+        : await API.request().put(endpoint);
     if (res.statusCode == 204) {
       return !isStarred;
     } else {
@@ -148,7 +155,7 @@ class RepositoryServices {
 
   static Future<bool> isSubscribed(String owner, String name) async {
     try {
-      final res = await GetDio.getDio().get('/repos/$owner/$name/subscription');
+      final res = await API.request().get('/repos/$owner/$name/subscription');
       if (res.statusCode == 200) {
         return true;
       } else {
@@ -170,11 +177,12 @@ class RepositoryServices {
   static Future<bool> subscribeToRepo(String owner, String name,
       {required bool isSubscribing}) async {
     final res = isSubscribing
-        ? await GetDio.getDio()
+        ? await API
+            .request()
             .put('/repos/$owner/$name/subscription', data: {'subscribed': true})
-        : await GetDio.getDio().delete(
-            '/repos/$owner/$name/subscription',
-          );
+        : await API.request().delete(
+              '/repos/$owner/$name/subscription',
+            );
     if ((isSubscribing && res.statusCode == 200) ||
         (!isSubscribing && res.statusCode == 204)) {
       return !isSubscribing;

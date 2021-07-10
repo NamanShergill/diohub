@@ -521,10 +521,12 @@ class SearchQueries {
   SearchQuery filename = SearchQuery(SearchQueryStrings.filename);
   SearchQuery followers =
       SearchQuery(SearchQueryStrings.followers, type: QueryType.number);
-  SearchQuery fork = SearchQuery(SearchQueryStrings.fork, options: {
-    'true': 'Include forks.',
-    'only': 'Only show forks.',
-  });
+  SearchQuery fork = SearchQuery(SearchQueryStrings.fork,
+      options: {
+        'true': 'Include forks.',
+        'only': 'Only show forks.',
+      },
+      qualifierQuery: false);
   SearchQuery forks =
       SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
   SearchQuery fullName =

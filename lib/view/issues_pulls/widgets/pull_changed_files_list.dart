@@ -18,7 +18,9 @@ class PullChangedFilesList extends StatelessWidget {
             refresh: refresh,
             pageNumber: pageNumber);
       },
-      divider: false,
+      separatorBuilder: (context, index) => const SizedBox(
+        height: 16,
+      ),
       builder: (context, item, index, refresh) {
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 2),

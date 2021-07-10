@@ -192,7 +192,11 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                 child: InfiniteScrollWrapper<NotificationModel>(
                   controller: _controller,
                   scrollController: scrollController,
-                  spacing: 0,
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 0,
+                  ),
+                  firstDivider: false,
+                  topSpacing: 16,
                   isNestedScrollViewChild: true,
                   future: (pageNumber, pageSize, refresh, _) {
                     return NotificationsService.getNotifications(

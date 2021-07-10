@@ -34,7 +34,7 @@ class UserSearchDropdown extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: InfiniteScrollWrapper<
-                      SearchMentionUsers$Query$Search$Edges>(
+                      SearchMentionUsers$Query$Search$Edges?>(
                     shrinkWrap: true,
                     showScrollToTopButton: false,
                     paginationKey: ValueKey(query),
@@ -48,7 +48,7 @@ class UserSearchDropdown extends StatelessWidget {
                           cursor: _?.cursor);
                     },
                     builder: (context, item, index, refresh) {
-                      final dynamic data = item.node;
+                      final dynamic data = item!.node;
                       return InkWell(
                         borderRadius: medBorderRadius,
                         onTap: () {

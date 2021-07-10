@@ -31,11 +31,11 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.filterFn,
       this.paginationKey,
       this.bottomSpacing = 0,
+      this.separatorBuilder,
       this.header,
       this.pinnedHeader,
       this.showScrollToTopButton = true,
       this.pageNumber = 1,
-      this.divider = true,
       this.pageSize = 10,
       this.topSpacing = 0,
       this.isNestedScrollViewChild = false,
@@ -45,8 +45,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.firstPageLoadingBuilder,
       this.scrollController,
       this.shrinkWrap = false,
-      this.listEndIndicator = true,
-      this.spacing = 16})
+      this.listEndIndicator = true})
       : assert(!isNestedScrollViewChild || scrollController != null,
             'scrollController should be provided of parent NestedScrollView'),
         super(key: key);
@@ -64,11 +63,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// Page Number to start with. Default value is **1**.
   final int pageNumber;
 
-  /// Vertical spacing between each element.
-  final double spacing;
-
-  /// Show a divider between each element. Defaults to true.
-  final bool divider;
+  final IndexedWidgetBuilder? separatorBuilder;
 
   /// Show divider above the first item.
   final bool firstDivider;
@@ -123,7 +118,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   _InfiniteScrollWrapperState<T> createState() => _InfiniteScrollWrapperState();
 }
 
-class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
+class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
   late ScrollController scrollController;
 
@@ -154,20 +149,20 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
                 child: widget.header!(context),
               ),
             _InfinitePagination<T>(
-                future: widget.future,
-                builder: widget.builder,
-                controller: controller,
-                key: widget.paginationKey,
-                filterFn: widget.filterFn,
-                firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
-                bottomSpacing: widget.bottomSpacing,
-                pageNumber: widget.pageNumber,
-                divider: widget.divider,
-                pageSize: widget.pageSize,
-                topSpacing: widget.topSpacing,
-                firstDivider: widget.firstDivider,
-                listEndIndicator: widget.listEndIndicator,
-                spacing: widget.spacing),
+              future: widget.future,
+              builder: widget.builder,
+              controller: controller,
+              key: widget.paginationKey,
+              filterFn: widget.filterFn,
+              firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
+              bottomSpacing: widget.bottomSpacing,
+              pageNumber: widget.pageNumber,
+              separatorBuilder: widget.separatorBuilder,
+              pageSize: widget.pageSize,
+              topSpacing: widget.topSpacing,
+              firstDivider: widget.firstDivider,
+              listEndIndicator: widget.listEndIndicator,
+            ),
           ],
         ),
       ],
@@ -199,22 +194,21 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T?>> {
 }
 
 class _InfinitePagination<T> extends StatefulWidget {
-  const _InfinitePagination(
-      {Key? key,
-      required this.future,
-      required this.builder,
-      this.filterFn,
-      required this.controller,
-      this.firstPageLoadingBuilder,
-      required this.bottomSpacing,
-      required this.pageNumber,
-      required this.divider,
-      required this.pageSize,
-      required this.topSpacing,
-      required this.firstDivider,
-      required this.listEndIndicator,
-      required this.spacing})
-      : super(key: key);
+  const _InfinitePagination({
+    Key? key,
+    required this.future,
+    required this.builder,
+    required this.filterFn,
+    required this.controller,
+    required this.firstPageLoadingBuilder,
+    required this.bottomSpacing,
+    required this.pageNumber,
+    required this.pageSize,
+    required this.topSpacing,
+    required this.separatorBuilder,
+    required this.firstDivider,
+    required this.listEndIndicator,
+  }) : super(key: key);
 
   /// How to display the data. Give
   final ScrollWrapperBuilder<T> builder;
@@ -229,9 +223,6 @@ class _InfinitePagination<T> extends StatefulWidget {
   /// Page Number to start with. Default value is **1**.
   final int pageNumber;
 
-  /// Show a divider between each element. Defaults to true.
-  final bool divider;
-
   /// Show divider above the first item.
   final bool firstDivider;
 
@@ -242,11 +233,10 @@ class _InfinitePagination<T> extends StatefulWidget {
   /// A controller to call the refresh function if required.
   final InfiniteScrollWrapperController controller;
 
-  /// Vertical spacing between each element.
-  final double spacing;
-
   /// Spacing to add to the top of the list.
   final double topSpacing;
+
+  final IndexedWidgetBuilder? separatorBuilder;
 
   /// Spacing to add to the bottom of the list.
   final double bottomSpacing;
@@ -349,8 +339,13 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return PagedSliverList<int, _ListItem<T>>(
+    return PagedSliverList<int, _ListItem<T>>.separated(
       pagingController: _pagingController,
+      separatorBuilder: (context, index) => widget.separatorBuilder != null
+          ? widget.separatorBuilder!(context, index)
+          : const Divider(
+              height: 8,
+            ),
       builderDelegate: PagedChildBuilderDelegate<_ListItem<T>>(
         itemBuilder: (context, item, index) => Column(children: [
           if (index == 0)
@@ -358,18 +353,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
               height: widget.topSpacing,
             ),
           Visibility(
-            visible: widget.divider && (!(index == 0) || widget.firstDivider),
-            child: Divider(
-              height: widget.spacing,
-            ),
+            visible: index == 0 && widget.firstDivider,
+            child: const Divider(),
           ),
-          Padding(
-            padding: widget.divider
-                ? const EdgeInsets.all(0)
-                : EdgeInsets.only(top: widget.spacing),
-            child:
-                widget.builder(context, item.item, index, item.refreshChildren),
-          ),
+          widget.builder(context, item.item, index, item.refreshChildren),
         ]),
         firstPageProgressIndicatorBuilder: (context) =>
             widget.firstPageLoadingBuilder != null

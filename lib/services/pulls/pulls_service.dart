@@ -10,7 +10,8 @@ class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
   static Future<PullRequestModel> getPullInformation(
       {required String fullUrl}) async {
-    final response = await GetDio.getDio(
+    final response = await API
+        .request(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader:
@@ -21,8 +22,8 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
   static Future<ReviewModel> getPullReviews({required String fullUrl}) async {
-    final response = await GetDio.getDio(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await API
+        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$fullUrl/reviews');
     return ReviewModel.fromJson(response.data);
   }
@@ -34,8 +35,8 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    final response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/pulls', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
@@ -56,8 +57,8 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    final response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '$pullURL/commits',
       queryParameters: {
@@ -78,8 +79,8 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    final response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$pullURL/files', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
@@ -94,7 +95,7 @@ class PullsService {
       String id,
       {String? cursor,
       required bool refresh}) async {
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
       GetPRReviewCommentsQuery(
           variables: GetPRReviewCommentsArguments(cursor: cursor, id: id)),
       cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
@@ -110,7 +111,7 @@ class PullsService {
               ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>>
       getReviewThreadReplies(String nodeID, String? cursor,
           {required bool refresh}) async {
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
         ReviewThreadCommentsQueryQuery(
             variables: ReviewThreadCommentsQueryArguments(
                 nodeID: nodeID, cursor: cursor)),
@@ -129,7 +130,7 @@ class PullsService {
           required int number,
           required String? cursor,
           required bool refresh}) async {
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
       ReviewThreadFirstCommentQueryQuery(
         variables: ReviewThreadFirstCommentQueryArguments(
           cursor: cursor,
@@ -160,7 +161,7 @@ class PullsService {
   }
 
   static Future<bool> hasPendingReviews(String pullNode, String user) async {
-    final res = await GetDio.gqlDio(CheckPendingViewerReviewsQuery(
+    final res = await API.gqlRequest(CheckPendingViewerReviewsQuery(
         variables: CheckPendingViewerReviewsArguments(
             author: user, pullNodeID: pullNode)));
     final item = CheckPendingViewerReviews$Query.fromJson(res.data!).node
@@ -178,7 +179,7 @@ class PullsService {
       required String owner,
       required String repo,
       required int pullNumber}) async {
-    final res = await GetDio.getDio().post(
+    final res = await API.request().post(
         '/repos/$owner/$repo/pulls/$pullNumber/comments/$id/replies',
         data: {'body': body});
     if (res.statusCode == 201) {

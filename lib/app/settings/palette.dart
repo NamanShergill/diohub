@@ -1,7 +1,30 @@
 import 'dart:convert';
 
 import 'package:dio_hub/app/settings/base.dart';
+import 'package:dio_hub/utils/to_hex_string.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+Color accent(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.accent;
+Color primary(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.primary;
+Color secondary(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.secondary;
+Color baseElements(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.baseElements;
+Color elementsOnColors(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.elementsOnColors;
+Color green(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.green;
+Color red(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.red;
+Color faded1(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.faded1;
+Color faded2(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.faded2;
+Color faded3(BuildContext context) =>
+    Provider.of<PaletteSettings>(context).currentSetting.faded3;
 
 class PaletteSettings extends Settings<DioHubPalette> {
   PaletteSettings() : super('app_palette', defaultSetting: DioHubPalette());
@@ -46,8 +69,8 @@ class DioHubPalette {
         secondary: _getColor(json, 'secondary'),
         baseElements: _getColor(json, 'baseElements'),
         elementsOnColors: _getColor(json, 'elementsOnColors'),
-        green: _getColor(json, 'green'),
-        red: _getColor(json, 'red'),
+        // green: _getColor(json, 'green'),
+        // red: _getColor(json, 'red'),
         faded1: _getColor(json, 'faded1'),
         faded2: _getColor(json, 'faded2'),
         faded3: _getColor(json, 'faded3'),
@@ -55,7 +78,6 @@ class DioHubPalette {
 
   final Color? _accent;
   final Color? _primary;
-  // static Color background = Color(0xff151618);
   final Color? _secondary;
   final Color? _baseElements;
   final Color? _elementsOnColors;
@@ -102,19 +124,17 @@ class DioHubPalette {
           faded3: faded3 ?? _faded3);
 
   Map<String, String> toJson() => {
-        if (_accent != null) 'accent': _accent!.value.toRadixString(16),
-        if (_primary != null) 'primary': _primary!.value.toRadixString(16),
-        if (_secondary != null)
-          'secondary': _secondary!.value.toRadixString(16),
-        if (_baseElements != null)
-          'baseElements': _baseElements!.value.toRadixString(16),
+        if (_accent != null) 'accent': toHexString(_accent!),
+        if (_primary != null) 'primary': toHexString(_primary!),
+        if (_secondary != null) 'secondary': toHexString(_secondary!),
+        if (_baseElements != null) 'baseElements': toHexString(_baseElements!),
         if (_elementsOnColors != null)
-          'elementsOnColors': _elementsOnColors!.value.toRadixString(16),
-        if (_green != null) 'green': _green!.value.toRadixString(16),
-        if (_red != null) 'red': _red!.value.toRadixString(16),
-        if (_faded1 != null) 'faded1': _faded1!.value.toRadixString(16),
-        if (_faded2 != null) 'faded2': _faded2!.value.toRadixString(16),
-        if (_faded3 != null) 'faded3': _faded3!.value.toRadixString(16),
+          'elementsOnColors': toHexString(_elementsOnColors!),
+        if (_green != null) 'green': toHexString(_green!),
+        if (_red != null) 'red': toHexString(_red!),
+        if (_faded1 != null) 'faded1': toHexString(_faded1!),
+        if (_faded2 != null) 'faded2': toHexString(_faded2!),
+        if (_faded3 != null) 'faded3': toHexString(_faded3!),
       };
 }
 

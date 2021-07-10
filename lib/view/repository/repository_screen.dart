@@ -124,6 +124,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         ),
       ],
       child: Builder(builder: (context) {
+        final theme = Provider.of<PaletteSettings>(context).currentSetting;
+
         return SafeArea(
           child: Scaffold(
             backgroundColor:
@@ -249,18 +251,43 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   width: 16,
                                 ),
                                 ActionButton(
-                                  count: _repo.forksCount,
-                                  icon: Octicons.repo_forked,
-                                  action: 'Fork',
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                ActionButton(
                                   count: _repo.subscribersCount,
                                   icon: Octicons.eye,
                                   action: 'Watch',
                                 ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Octicons.repo_forked,
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .faded3,
+                                        size: 15,
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        _repo.forksCount.toString(),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: theme.faded3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // ActionButton(
+                                //   count: _repo.forksCount,
+                                //   icon: Octicons.repo_forked,
+                                //   action: 'Fork',
+                                // ),
                               ],
                             ),
                             const SizedBox(
@@ -276,6 +303,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                           'Code',
                           'Issues',
                           'Pull Requests',
+                          // 'Projects',
                           'More'
                         ],
                         bottomHeader: BranchButton(
@@ -297,6 +325,9 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                         PullsList(
                           scrollController: scrollController,
                         ),
+                        // ProjectsList(
+                        //   scrollController: scrollController,
+                        // ),
                         Column(
                           children: [
                             Padding(

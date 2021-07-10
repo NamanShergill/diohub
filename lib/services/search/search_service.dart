@@ -3,11 +3,8 @@ import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/search/search_issues_model.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/search/search_repos_model.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/search/search_users_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 
@@ -18,9 +15,9 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response =
-        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
-            .get(
+    final response = await API
+        .request(cacheOptions: CacheManager.search(refresh: refresh))
+        .get(
       '/search/users',
       queryParameters: {
         'q': query,
@@ -30,7 +27,7 @@ class SearchService {
         'page': page,
       },
     );
-    return SearchUsersModel.fromJson(response.data).items;
+    return SearchUsersModel.fromJson(response.data).items!;
   }
 
   static Future<List<RepositoryModel>> searchRepos(String query,
@@ -39,9 +36,9 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response =
-        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
-            .get(
+    final response = await API
+        .request(cacheOptions: CacheManager.search(refresh: refresh))
+        .get(
       '/search/repositories',
       queryParameters: {
         'q': query,
@@ -51,7 +48,7 @@ class SearchService {
         'page': page,
       },
     );
-    return SearchReposModel.fromJson(response.data).items;
+    return SearchReposModel.fromJson(response.data).items!;
   }
 
   static Future<List<IssueModel>> searchIssues(String query,
@@ -60,9 +57,9 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response =
-        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
-            .get(
+    final response = await API
+        .request(cacheOptions: CacheManager.search(refresh: refresh))
+        .get(
       '/search/issues',
       queryParameters: {
         'q': query,
@@ -72,7 +69,7 @@ class SearchService {
         'page': page,
       },
     );
-    return SearchIssuesModel.fromJson(response.data).items;
+    return SearchIssuesModel.fromJson(response.data).items!;
   }
 
   // static Future<List<TrendingReposModel>> trendingRepos() async {
@@ -87,7 +84,7 @@ class SearchService {
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
       searchMentionUsers(String query, String type, {String? cursor}) async {
     final q = '$query${' type:$type'}';
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
         SearchMentionUsersQuery(
             variables: SearchMentionUsersArguments(query: q, after: cursor)),
         cacheOptions: CacheManager.defaultGQLCache());

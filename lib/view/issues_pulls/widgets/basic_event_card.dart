@@ -2,7 +2,6 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';

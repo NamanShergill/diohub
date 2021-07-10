@@ -1,0 +1,67 @@
+query getRepoProjects($name: String!, $owner:String!, $cursor:String, $query:String, $states: [ProjectState!], $orderByField:ProjectOrderField!, $orderByDir:OrderDirection!){
+    repository(name:$name,owner: $owner ){
+        projects(first: 10, after: $cursor, search: $query, states: $states,
+            orderBy: {field:$orderByField,direction: $orderByDir}){
+            totalCount
+            edges{
+                cursor
+                node{
+                   ...project
+                }
+            }
+        }
+    }
+}
+
+query getProjectInfo($id:ID!){
+    node(id: $id){
+        __typename
+        ... on Project{
+            ...project
+        }
+    }
+}
+
+query getProjectColumns($id:ID!, $cursor:String){
+   node(id: $id){
+       __typename
+       ... on Project{
+           columns(first: 10, after: $cursor){
+               totalCount
+               edges{
+                   cursor
+                   node{
+                       name
+                       id
+                       updatedAt
+                   }
+               }
+           }
+       }
+   }
+}
+
+query getProjectColumnCards($id:ID!, $cursor:String, $archiveStates: [ProjectCardArchivedState!]){
+    node(id: $id){
+        __typename
+        ... on ProjectColumn{
+            cards(first: 10, archivedStates:$archiveStates, after: $cursor){
+                totalCount
+                edges{
+                    cursor
+                    node{
+                        note
+                        content{
+                            __typename
+                            ... on Issue{
+                                bodyHTML
+                                title
+                                number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

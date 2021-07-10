@@ -4,7 +4,6 @@ import 'package:dio_hub/common/events/cards/pull_event_card.dart';
 import 'package:dio_hub/common/events/cards/push_event_card.dart';
 import 'package:dio_hub/common/events/cards/watch_event_card.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/activity/events_service.dart';
@@ -28,7 +27,9 @@ class Events extends StatelessWidget {
     return InfiniteScrollWrapper<EventsModel>(
       firstDivider: false,
       topSpacing: 24,
-      spacing: 32,
+      separatorBuilder: (context, index) => const Divider(
+        height: 32,
+      ),
       scrollController: scrollController,
       isNestedScrollViewChild: true,
       filterFn: (items) {
@@ -81,17 +82,17 @@ class Events extends StatelessWidget {
                 refresh: refresh,
               );
             } else if (item.type == EventsType.CreateEvent) {
-              if (item.payload.refType == RefType.REPOSITORY) {
+              if (item.payload!.refType == RefType.REPOSITORY) {
                 return RepoEventCard(
                   item,
                   'created',
                   refresh: refresh,
                 );
-              } else if (item.payload.refType == RefType.BRANCH) {
+              } else if (item.payload!.refType == RefType.BRANCH) {
                 return RepoEventCard(
                   item,
-                  'created a new branch \'${item.payload.ref}\' in',
-                  branch: item.payload.ref,
+                  'created a new branch \'${item.payload!.ref}\' in',
+                  branch: item.payload!.ref,
                   refresh: refresh,
                 );
               }
@@ -104,11 +105,11 @@ class Events extends StatelessWidget {
               );
             } else if (item.type == EventsType.MemberEvent) {
               return AddedEventCard(item,
-                  '${item.payload.action} ${item.payload.member.login} to');
+                  '${item.payload!.action} ${item.payload!.member!.login} to');
             } else if (item.type == EventsType.DeleteEvent) {
               return RepoEventCard(
                 item,
-                'deleted a ${refTypeValues.reverse[item.payload.refType]} \'${item.payload.ref}\' in',
+                'deleted a ${refTypeValues.reverse![item.payload!.refType]} \'${item.payload!.ref}\' in',
                 refresh: refresh,
               );
             } else if (item.type == EventsType.PullRequestEvent) {
@@ -119,7 +120,7 @@ class Events extends StatelessWidget {
               return RepoEventCard(
                 item,
                 'forked',
-                repo: item.payload.forkee,
+                repo: item.payload!.forkee,
                 refresh: refresh,
               );
             } else if (item.type == EventsType.IssuesEvent) {
@@ -137,7 +138,7 @@ class Events extends StatelessWidget {
               ),
               child: Center(
                 child:
-                    Text('Unimplemented: ${eventsValues.reverse[item.type]}'),
+                    Text('Unimplemented: ${eventsValues.reverse![item.type]}'),
               ),
             );
           }),

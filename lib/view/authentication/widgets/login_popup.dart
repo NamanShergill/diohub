@@ -28,6 +28,7 @@ class _LoginPopupState extends State<LoginPopup> {
     return ScaleExpandedSection(
       child: StringButton(
         title: 'Login with GitHub',
+        listenToLoadingController: true,
         loading: loading,
         leadingIcon: Icon(
           Octicons.mark_github,
@@ -39,12 +40,13 @@ class _LoginPopupState extends State<LoginPopup> {
           showDialog(
             context: context,
             builder: (_) => AppDialog(
-              title: 'Choose login method',
+              title: 'Choose Login Method',
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   StringButton(
                       color: theme.secondary,
+                      listenToLoadingController: false,
                       onTap: () async {
                         Navigator.pop(context);
                         setState(() {
@@ -63,6 +65,7 @@ class _LoginPopupState extends State<LoginPopup> {
                   ),
                   StringButton(
                       color: theme.secondary,
+                      listenToLoadingController: false,
                       onTap: () {
                         Navigator.pop(context);
                         BlocProvider.of<AuthenticationBloc>(context)

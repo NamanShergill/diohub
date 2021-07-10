@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen>
                               : null,
                     ),
                     InfiniteScrollWrapper<
-                        GetViewerOrgs$Query$Viewer$Organizations$Edges>(
+                        GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
                       future: (pageNumber, pageSize, refresh, lastItem) {
                         return UserInfoService.getViewerOrgs(
                             refresh: refresh, after: lastItem?.cursor);
@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen>
                           children: [
                             Expanded(
                               child: ProfileTile(
-                                item.node?.avatarUrl.toString(),
+                                item!.node?.avatarUrl.toString(),
                                 userLogin: item.node?.login,
                                 showName: true,
                                 padding: const EdgeInsets.all(16),

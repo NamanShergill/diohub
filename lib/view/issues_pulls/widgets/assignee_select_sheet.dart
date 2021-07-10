@@ -67,6 +67,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Button(
+            listenToLoadingController: true,
             color:
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
             onTap: () async {

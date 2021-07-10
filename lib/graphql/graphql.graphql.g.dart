@@ -1,6 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart=2.12
-// ignore_for_file: always_require_non_null_named_parameters, annotate_overrides, avoid_function_literals_in_foreach_calls, avoid_init_to_null, avoid_null_checks_in_equality_operators, avoid_renaming_method_parameters, avoid_return_types_on_setters, avoid_returning_null_for_void, avoid_single_cascade_in_expression_statements, constant_identifier_names, control_flow_in_finally, empty_constructor_bodies, empty_statements, exhaustive_cases, implementation_imports, library_names, library_prefixes, null_closures, overridden_fields, package_names, prefer_adjacent_string_concatenation, prefer_collection_literals, prefer_conditional_assignment, prefer_contains, prefer_equal_for_default_values, prefer_final_fields, prefer_for_elements_to_map_fromIterable, prefer_function_declarations_over_variables, prefer_if_null_operators, prefer_initializing_formals, prefer_inlined_adds, prefer_is_not_operator, prefer_null_aware_operators, prefer_spread_collections, prefer_void_to_null, recursive_getters, slash_for_doc_comments, type_init_formals, unnecessary_brace_in_string_interps, unnecessary_const, unnecessary_getters_setters, unnecessary_new, unnecessary_null_in_if_null_operators, unnecessary_string_escapes, unnecessary_string_interpolations, unnecessary_this, use_function_type_syntax_for_parameters, use_rethrow_when_possible, valid_regexps, always_use_package_imports, avoid_relative_lib_imports, always_declare_return_types, avoid_double_and_int_checks, avoid_empty_else, avoid_print, avoid_private_typedef_functions, avoid_setters_without_getters, avoid_shadowing_type_parameters, avoid_slow_async_io, avoid_types_as_parameter_names, avoid_unused_constructor_parameters, await_only_futures, camel_case_extensions, camel_case_types, cancel_subscriptions, curly_braces_in_flow_control_structures, directives_ordering, file_names, flutter_style_todos, list_remove_unrelated_type, no_duplicate_case_values, non_constant_identifier_names, no_adjacent_strings_in_list, one_member_abstracts, only_throw_errors, package_api_docs, parameter_assignments, prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_literals_to_create_immutables, prefer_constructors_over_static_methods, prefer_asserts_with_message, prefer_asserts_in_initializer_lists, package_prefixed_library_names, prefer_final_in_for_each, prefer_final_locals, provide_deprecation_message, prefer_foreach, prefer_is_empty, prefer_is_not_empty, prefer_typing_uninitialized_variables, sort_child_properties_last, sort_constructors_first, use_setters_to_change_properties, use_string_buffers, sort_pub_dependencies, sort_unnamed_constructors_first, throw_in_finally, type_annotate_public_apis, unnecessary_await_in_return, unnecessary_lambdas, unnecessary_null_aware_assignments, unnecessary_overrides, unnecessary_parenthesis, unnecessary_statements, unrelated_type_equality_checks, unsafe_html, use_full_hex_values_for_flutter_colors, use_to_and_as_if_applicable, void_checks, always_put_control_body_on_new_line, avoid_bool_literals_in_conditional_expressions, avoid_catching_errors, avoid_field_initializers_in_const_classes, hash_and_equals, literal_only_boolean_expressions, join_return_with_assignment, invariant_booleans, avoid_classes_with_only_static_members, avoid_equals_and_hash_code_on_mutable_classes, avoid_positional_boolean_parameters, avoid_returning_null, avoid_returning_this, avoid_returning_null_for_future, avoid_types_on_closure_parameters, omit_local_variable_types, prefer_generic_function_type_aliases, prefer_interpolation_to_compose_strings, prefer_iterable_whereType, prefer_mixin, prefer_single_quotes, iterable_contains_unrelated_type, empty_catches, avoid_catches_without_on_clauses, lines_longer_than_80_chars
 
 part of 'graphql.graphql.dart';
 
@@ -3750,6 +3749,409 @@ Map<String, dynamic> _$IssueTemplates$QueryToJson(
       'repository': instance.repository?.toJson(),
     };
 
+GetRepoProjects$Query$Repository$Projects$Edges$Node
+    _$GetRepoProjects$Query$Repository$Projects$Edges$NodeFromJson(
+        Map<String, dynamic> json) {
+  return GetRepoProjects$Query$Repository$Projects$Edges$Node()
+    ..name = json['name'] as String
+    ..id = json['id'] as String
+    ..databaseId = json['databaseId'] as int?
+    ..updatedAt = DateTime.parse(json['updatedAt'] as String)
+    ..number = json['number'] as int
+    ..bodyHTML = json['bodyHTML'] as String
+    ..body = json['body'] as String?
+    ..closed = json['closed'] as bool
+    ..progress = ProjectMixin$Progress.fromJson(
+        json['progress'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$GetRepoProjects$Query$Repository$Projects$Edges$NodeToJson(
+            GetRepoProjects$Query$Repository$Projects$Edges$Node instance) =>
+        <String, dynamic>{
+          'name': instance.name,
+          'id': instance.id,
+          'databaseId': instance.databaseId,
+          'updatedAt': instance.updatedAt.toIso8601String(),
+          'number': instance.number,
+          'bodyHTML': instance.bodyHTML,
+          'body': instance.body,
+          'closed': instance.closed,
+          'progress': instance.progress.toJson(),
+        };
+
+GetRepoProjects$Query$Repository$Projects$Edges
+    _$GetRepoProjects$Query$Repository$Projects$EdgesFromJson(
+        Map<String, dynamic> json) {
+  return GetRepoProjects$Query$Repository$Projects$Edges()
+    ..cursor = json['cursor'] as String
+    ..node = json['node'] == null
+        ? null
+        : GetRepoProjects$Query$Repository$Projects$Edges$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetRepoProjects$Query$Repository$Projects$EdgesToJson(
+        GetRepoProjects$Query$Repository$Projects$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+GetRepoProjects$Query$Repository$Projects
+    _$GetRepoProjects$Query$Repository$ProjectsFromJson(
+        Map<String, dynamic> json) {
+  return GetRepoProjects$Query$Repository$Projects()
+    ..totalCount = json['totalCount'] as int
+    ..edges = (json['edges'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : GetRepoProjects$Query$Repository$Projects$Edges.fromJson(
+                e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic> _$GetRepoProjects$Query$Repository$ProjectsToJson(
+        GetRepoProjects$Query$Repository$Projects instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+GetRepoProjects$Query$Repository _$GetRepoProjects$Query$RepositoryFromJson(
+    Map<String, dynamic> json) {
+  return GetRepoProjects$Query$Repository()
+    ..projects = GetRepoProjects$Query$Repository$Projects.fromJson(
+        json['projects'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetRepoProjects$Query$RepositoryToJson(
+        GetRepoProjects$Query$Repository instance) =>
+    <String, dynamic>{
+      'projects': instance.projects.toJson(),
+    };
+
+GetRepoProjects$Query _$GetRepoProjects$QueryFromJson(
+    Map<String, dynamic> json) {
+  return GetRepoProjects$Query()
+    ..repository = json['repository'] == null
+        ? null
+        : GetRepoProjects$Query$Repository.fromJson(
+            json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetRepoProjects$QueryToJson(
+        GetRepoProjects$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
+ProjectMixin$Progress _$ProjectMixin$ProgressFromJson(
+    Map<String, dynamic> json) {
+  return ProjectMixin$Progress()
+    ..donePercentage = (json['donePercentage'] as num).toDouble();
+}
+
+Map<String, dynamic> _$ProjectMixin$ProgressToJson(
+        ProjectMixin$Progress instance) =>
+    <String, dynamic>{
+      'donePercentage': instance.donePercentage,
+    };
+
+GetProjectInfo$Query$Node$Project _$GetProjectInfo$Query$Node$ProjectFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectInfo$Query$Node$Project()
+    ..name = json['name'] as String
+    ..id = json['id'] as String
+    ..databaseId = json['databaseId'] as int?
+    ..updatedAt = DateTime.parse(json['updatedAt'] as String)
+    ..number = json['number'] as int
+    ..bodyHTML = json['bodyHTML'] as String
+    ..body = json['body'] as String?
+    ..closed = json['closed'] as bool
+    ..progress =
+        ProjectMixin$Progress.fromJson(json['progress'] as Map<String, dynamic>)
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$GetProjectInfo$Query$Node$ProjectToJson(
+        GetProjectInfo$Query$Node$Project instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'id': instance.id,
+      'databaseId': instance.databaseId,
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'number': instance.number,
+      'bodyHTML': instance.bodyHTML,
+      'body': instance.body,
+      'closed': instance.closed,
+      'progress': instance.progress.toJson(),
+      '__typename': instance.$$typename,
+    };
+
+GetProjectInfo$Query$Node _$GetProjectInfo$Query$NodeFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectInfo$Query$Node()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$GetProjectInfo$Query$NodeToJson(
+        GetProjectInfo$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetProjectInfo$Query _$GetProjectInfo$QueryFromJson(Map<String, dynamic> json) {
+  return GetProjectInfo$Query()
+    ..node = json['node'] == null
+        ? null
+        : GetProjectInfo$Query$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetProjectInfo$QueryToJson(
+        GetProjectInfo$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumns$Query$Node$Project$Columns$Edges$Node
+    _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumns$Query$Node$Project$Columns$Edges$Node()
+    ..name = json['name'] as String
+    ..id = json['id'] as String
+    ..updatedAt = DateTime.parse(json['updatedAt'] as String);
+}
+
+Map<String, dynamic>
+    _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeToJson(
+            GetProjectColumns$Query$Node$Project$Columns$Edges$Node instance) =>
+        <String, dynamic>{
+          'name': instance.name,
+          'id': instance.id,
+          'updatedAt': instance.updatedAt.toIso8601String(),
+        };
+
+GetProjectColumns$Query$Node$Project$Columns$Edges
+    _$GetProjectColumns$Query$Node$Project$Columns$EdgesFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumns$Query$Node$Project$Columns$Edges()
+    ..cursor = json['cursor'] as String
+    ..node = json['node'] == null
+        ? null
+        : GetProjectColumns$Query$Node$Project$Columns$Edges$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetProjectColumns$Query$Node$Project$Columns$EdgesToJson(
+        GetProjectColumns$Query$Node$Project$Columns$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumns$Query$Node$Project$Columns
+    _$GetProjectColumns$Query$Node$Project$ColumnsFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumns$Query$Node$Project$Columns()
+    ..totalCount = json['totalCount'] as int
+    ..edges = (json['edges'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : GetProjectColumns$Query$Node$Project$Columns$Edges.fromJson(
+                e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic> _$GetProjectColumns$Query$Node$Project$ColumnsToJson(
+        GetProjectColumns$Query$Node$Project$Columns instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+GetProjectColumns$Query$Node$Project
+    _$GetProjectColumns$Query$Node$ProjectFromJson(Map<String, dynamic> json) {
+  return GetProjectColumns$Query$Node$Project()
+    ..$$typename = json['__typename'] as String?
+    ..columns = GetProjectColumns$Query$Node$Project$Columns.fromJson(
+        json['columns'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetProjectColumns$Query$Node$ProjectToJson(
+        GetProjectColumns$Query$Node$Project instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'columns': instance.columns.toJson(),
+    };
+
+GetProjectColumns$Query$Node _$GetProjectColumns$Query$NodeFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectColumns$Query$Node()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$GetProjectColumns$Query$NodeToJson(
+        GetProjectColumns$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetProjectColumns$Query _$GetProjectColumns$QueryFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectColumns$Query()
+    ..node = json['node'] == null
+        ? null
+        : GetProjectColumns$Query$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetProjectColumns$QueryToJson(
+        GetProjectColumns$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue()
+    ..$$typename = json['__typename'] as String?
+    ..bodyHTML = json['bodyHTML'] as String
+    ..title = json['title'] as String
+    ..number = json['number'] as int;
+}
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'bodyHTML': instance.bodyHTML,
+          'title': instance.title,
+          'number': instance.number,
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node()
+    ..note = json['note'] as String?
+    ..content = json['content'] == null
+        ? null
+        : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+            .fromJson(json['content'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          'note': instance.note,
+          'content': instance.content?.toJson(),
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges()
+    ..cursor = json['cursor'] as String
+    ..node = json['node'] == null
+        ? null
+        : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+            .fromJson(json['node'] as Map<String, dynamic>);
+}
+
+Map<String,
+    dynamic> _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesToJson(
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node$ProjectColumn$Cards()
+    ..totalCount = json['totalCount'] as int
+    ..edges = (json['edges'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
+                .fromJson(e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards instance) =>
+        <String, dynamic>{
+          'totalCount': instance.totalCount,
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn
+    _$GetProjectColumnCards$Query$Node$ProjectColumnFromJson(
+        Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node$ProjectColumn()
+    ..$$typename = json['__typename'] as String?
+    ..cards = GetProjectColumnCards$Query$Node$ProjectColumn$Cards.fromJson(
+        json['cards'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetProjectColumnCards$Query$Node$ProjectColumnToJson(
+        GetProjectColumnCards$Query$Node$ProjectColumn instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'cards': instance.cards.toJson(),
+    };
+
+GetProjectColumnCards$Query$Node _$GetProjectColumnCards$Query$NodeFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query$Node()
+    ..$$typename = json['__typename'] as String?;
+}
+
+Map<String, dynamic> _$GetProjectColumnCards$Query$NodeToJson(
+        GetProjectColumnCards$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetProjectColumnCards$Query _$GetProjectColumnCards$QueryFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectColumnCards$Query()
+    ..node = json['node'] == null
+        ? null
+        : GetProjectColumnCards$Query$Node.fromJson(
+            json['node'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$GetProjectColumnCards$QueryToJson(
+        GetProjectColumnCards$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
 HasStarred$Query$Repository _$HasStarred$Query$RepositoryFromJson(
     Map<String, dynamic> json) {
   return HasStarred$Query$Repository()
@@ -4290,6 +4692,111 @@ Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
       'name': instance.name,
       'owner': instance.owner,
     };
+
+GetRepoProjectsArguments _$GetRepoProjectsArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return GetRepoProjectsArguments(
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+    cursor: json['cursor'] as String?,
+    query: json['query'] as String?,
+    states: (json['states'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ProjectStateEnumMap, e,
+            unknownValue: ProjectState.artemisUnknown))
+        .toList(),
+    orderByField: _$enumDecode(_$ProjectOrderFieldEnumMap, json['orderByField'],
+        unknownValue: ProjectOrderField.artemisUnknown),
+    orderByDir: _$enumDecode(_$OrderDirectionEnumMap, json['orderByDir'],
+        unknownValue: OrderDirection.artemisUnknown),
+  );
+}
+
+Map<String, dynamic> _$GetRepoProjectsArgumentsToJson(
+        GetRepoProjectsArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+      'cursor': instance.cursor,
+      'query': instance.query,
+      'states': instance.states?.map((e) => _$ProjectStateEnumMap[e]).toList(),
+      'orderByField': _$ProjectOrderFieldEnumMap[instance.orderByField],
+      'orderByDir': _$OrderDirectionEnumMap[instance.orderByDir],
+    };
+
+const _$ProjectStateEnumMap = {
+  ProjectState.closed: 'CLOSED',
+  ProjectState.open: 'OPEN',
+  ProjectState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$ProjectOrderFieldEnumMap = {
+  ProjectOrderField.createdAt: 'CREATED_AT',
+  ProjectOrderField.name: 'NAME',
+  ProjectOrderField.updatedAt: 'UPDATED_AT',
+  ProjectOrderField.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$OrderDirectionEnumMap = {
+  OrderDirection.asc: 'ASC',
+  OrderDirection.desc: 'DESC',
+  OrderDirection.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+GetProjectInfoArguments _$GetProjectInfoArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectInfoArguments(
+    id: json['id'] as String,
+  );
+}
+
+Map<String, dynamic> _$GetProjectInfoArgumentsToJson(
+        GetProjectInfoArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+GetProjectColumnsArguments _$GetProjectColumnsArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectColumnsArguments(
+    id: json['id'] as String,
+    cursor: json['cursor'] as String?,
+  );
+}
+
+Map<String, dynamic> _$GetProjectColumnsArgumentsToJson(
+        GetProjectColumnsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'cursor': instance.cursor,
+    };
+
+GetProjectColumnCardsArguments _$GetProjectColumnCardsArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return GetProjectColumnCardsArguments(
+    id: json['id'] as String,
+    cursor: json['cursor'] as String?,
+    archiveStates: (json['archiveStates'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ProjectCardArchivedStateEnumMap, e,
+            unknownValue: ProjectCardArchivedState.artemisUnknown))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$GetProjectColumnCardsArgumentsToJson(
+        GetProjectColumnCardsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'cursor': instance.cursor,
+      'archiveStates': instance.archiveStates
+          ?.map((e) => _$ProjectCardArchivedStateEnumMap[e])
+          .toList(),
+    };
+
+const _$ProjectCardArchivedStateEnumMap = {
+  ProjectCardArchivedState.archived: 'ARCHIVED',
+  ProjectCardArchivedState.notArchived: 'NOT_ARCHIVED',
+  ProjectCardArchivedState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
 HasStarredArguments _$HasStarredArgumentsFromJson(Map<String, dynamic> json) {
   return HasStarredArguments(

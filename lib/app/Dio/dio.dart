@@ -15,8 +15,8 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 typedef GQLResponse = gql_exec.Response;
 
-class GetDio {
-  static Dio getDio({
+class API {
+  static Dio request({
     bool loggedIn = true,
     bool cacheEnabled = true,
     String baseURL = apiBaseURL,
@@ -143,7 +143,7 @@ class GetDio {
     return dio;
   }
 
-  static Future<GQLResponse> gqlDio(
+  static Future<GQLResponse> gqlRequest(
     GraphQLQuery query, {
     bool loggedIn = true,
     bool cacheEnabled = true,
@@ -156,7 +156,7 @@ class GetDio {
     CustomCacheOptions? cacheOptions,
   }) async {
     return DioLink('$apiBaseURL/graphql',
-            client: getDio(
+            client: request(
                 loggedIn: loggedIn,
                 baseURL: '$apiBaseURL/graphql',
                 acceptHeader: acceptHeader,

@@ -10,6 +10,7 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/to_hex_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -70,21 +71,33 @@ class UserOverviewScreen extends StatelessWidget {
             'Contribution Graph',
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: SvgPicture.network(
-                'http://ghchart.rshah.org/0079FD/${userInfoModel!.login}',
-                placeholderBuilder: (context) {
-                  return ShimmerWidget(
-                    baseColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .secondary,
-                    highlightColor: Colors.grey.shade800,
-                    borderRadius: medBorderRadius,
-                    child: Container(
-                      height: 70,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
+              child: Column(
+                children: [
+                  SvgPicture.network(
+                    'http://ghchart.rshah.org/${toHexString(Provider.of<PaletteSettings>(context).currentSetting.accent).substring(2)}/${userInfoModel!.login}',
+                    placeholderBuilder: (context) {
+                      return ShimmerWidget(
+                        baseColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .secondary,
+                        highlightColor: Colors.grey.shade800,
+                        borderRadius: medBorderRadius,
+                        child: Container(
+                          height: 70,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
+                  // Row(
+                  //   children: [
+                  //     LinkText(
+                  //       'https://ghchart.rshah.org/',
+                  //       style: TextStyle(color: faded3(context)),
+                  //     ),
+                  //   ],
+                  // ),
+                ],
               ),
             ),
           ),

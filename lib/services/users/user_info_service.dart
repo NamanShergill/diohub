@@ -8,11 +8,11 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    final response =
-        await GetDio.getDio(cacheOptions: CacheManager.currentUserProfileInfo())
-            .get(
-      '/user',
-    );
+    final response = await API
+        .request(cacheOptions: CacheManager.currentUserProfileInfo())
+        .get(
+          '/user',
+        );
     return CurrentUserInfoModel.fromJson(response.data);
   }
 
@@ -24,8 +24,8 @@ class UserInfoService {
     String? sort,
     bool? ascending = false,
   }) async {
-    final response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/user/repos', queryParameters: {
       if (sort != null) 'sort': sort,
       if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
@@ -44,8 +44,8 @@ class UserInfoService {
     String? sort, {
     required bool refresh,
   }) async {
-    final response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '/users/$username/repos',
       queryParameters: {
@@ -62,15 +62,15 @@ class UserInfoService {
 
   static Future<UserInfoModel> getUserInfo(String? login) async {
     final response =
-        await GetDio.getDio(cacheOptions: CacheManager.defaultCache()).get(
-      '/users/$login',
-    );
+        await API.request(cacheOptions: CacheManager.defaultCache()).get(
+              '/users/$login',
+            );
     return UserInfoModel.fromJson(response.data);
   }
 
   static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
       getUserPinnedRepos(String user) async {
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
         GetUserPinnedReposQuery(
             variables: GetUserPinnedReposArguments(user: user)),
         cacheOptions: CacheManager.defaultGQLCache());
@@ -82,7 +82,7 @@ class UserInfoService {
 
   static Future<List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>>
       getViewerOrgs({String? after, required bool refresh}) async {
-    final res = await GetDio.gqlDio(
+    final res = await API.gqlRequest(
         GetViewerOrgsQuery(variables: GetViewerOrgsArguments(cursor: after)),
         cacheOptions: CacheManager.defaultGQLCache(refresh: refresh));
     return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;

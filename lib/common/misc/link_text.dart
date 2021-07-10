@@ -22,7 +22,7 @@ class LinkText extends StatelessWidget {
         },
         child: Text(
           text ?? link,
-          style: (style ?? const TextStyle()).copyWith(color: Colors.blue),
+          style: const TextStyle(color: Colors.blue).merge(style),
         ),
       ),
     );

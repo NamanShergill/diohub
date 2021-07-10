@@ -24,7 +24,10 @@ class BranchSelectSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<RepoBranchListItemModel>(
       listEndIndicator: false,
-      divider: false,
+      topSpacing: 8,
+      separatorBuilder: (context, index) => const SizedBox(
+        height: 16,
+      ),
       firstDivider: false,
       future: (pageNumber, perPage, refresh, _) {
         return RepositoryServices.fetchBranchList(repoURL, pageNumber, perPage,

@@ -35,8 +35,8 @@ class APIWrapper<T> extends StatefulWidget {
   _APIWrapperState<T> createState() => _APIWrapperState();
 }
 
-class _APIWrapperState<T> extends State<APIWrapper<T?>> {
-  T? data;
+class _APIWrapperState<T> extends State<APIWrapper<T>> {
+  late T data;
   bool loading = true;
   Object? error;
 
@@ -44,7 +44,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     if (widget.initialData == null) {
       await fetchData();
     } else {
-      data = widget.initialData;
+      data = widget.initialData!;
       if (mounted) {
         setState(() {
           loading = false;
@@ -75,7 +75,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T?>> {
     }
   }
 
-  void changeData(T? data) {
+  void changeData(T data) {
     setState(() {
       this.data = data;
     });
