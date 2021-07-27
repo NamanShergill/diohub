@@ -146,8 +146,7 @@ class AppRouter extends _i1.RootStackRouter {
     CommitInfoScreenRoute.name: (routeData) => _i1.CustomPage<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<CommitInfoScreenRouteArgs>(
-              orElse: () => const CommitInfoScreenRouteArgs());
+          final args = data.argsAs<CommitInfoScreenRouteArgs>();
           return _i13.CommitInfoScreen(
               key: args.key, commitURL: args.commitURL);
         },
@@ -347,7 +346,7 @@ class SearchOverlayScreenRouteArgs {
 
 class IssueScreenRoute extends _i1.PageRouteInfo<IssueScreenRouteArgs> {
   IssueScreenRoute(
-      {required String? issueURL,
+      {required String issueURL,
       int initialIndex = 0,
       DateTime? commentsSince,
       _i2.Key? key})
@@ -369,7 +368,7 @@ class IssueScreenRouteArgs {
       this.commentsSince,
       this.key});
 
-  final String? issueURL;
+  final String issueURL;
 
   final int initialIndex;
 
@@ -380,7 +379,7 @@ class IssueScreenRouteArgs {
 
 class PullScreenRoute extends _i1.PageRouteInfo<PullScreenRouteArgs> {
   PullScreenRoute(
-      {required String? pullURL,
+      {required String pullURL,
       int initialIndex = 0,
       DateTime? commentsSince,
       _i2.Key? key})
@@ -402,7 +401,7 @@ class PullScreenRouteArgs {
       this.commentsSince,
       this.key});
 
-  final String? pullURL;
+  final String pullURL;
 
   final int initialIndex;
 
@@ -414,7 +413,7 @@ class PullScreenRouteArgs {
 class RepositoryScreenRoute
     extends _i1.PageRouteInfo<RepositoryScreenRouteArgs> {
   RepositoryScreenRoute(
-      {required String? repositoryURL,
+      {required String repositoryURL,
       String? branch,
       int index = 0,
       _i19.DeepLinkData? deepLinkData,
@@ -442,7 +441,7 @@ class RepositoryScreenRouteArgs {
       this.key,
       this.initSHA});
 
-  final String? repositoryURL;
+  final String repositoryURL;
 
   final String? branch;
 
@@ -500,7 +499,7 @@ class FileViewerAPIRouteArgs {
 
 class CommitInfoScreenRoute
     extends _i1.PageRouteInfo<CommitInfoScreenRouteArgs> {
-  CommitInfoScreenRoute({_i2.Key? key, String? commitURL})
+  CommitInfoScreenRoute({_i2.Key? key, required String commitURL})
       : super(name,
             path: '/commit-info-screen',
             args: CommitInfoScreenRouteArgs(key: key, commitURL: commitURL));
@@ -509,11 +508,11 @@ class CommitInfoScreenRoute
 }
 
 class CommitInfoScreenRouteArgs {
-  const CommitInfoScreenRouteArgs({this.key, this.commitURL});
+  const CommitInfoScreenRouteArgs({this.key, required this.commitURL});
 
   final _i2.Key? key;
 
-  final String? commitURL;
+  final String commitURL;
 }
 
 class WikiViewerRoute extends _i1.PageRouteInfo<WikiViewerRouteArgs> {
@@ -568,7 +567,7 @@ class ChangesViewerRouteArgs {
 
 class OtherUserProfileScreenRoute
     extends _i1.PageRouteInfo<OtherUserProfileScreenRouteArgs> {
-  OtherUserProfileScreenRoute({required String? login, _i2.Key? key})
+  OtherUserProfileScreenRoute({required String login, _i2.Key? key})
       : super(name,
             path: '/other-user-profile-screen',
             args: OtherUserProfileScreenRouteArgs(login: login, key: key));
@@ -579,7 +578,7 @@ class OtherUserProfileScreenRoute
 class OtherUserProfileScreenRouteArgs {
   const OtherUserProfileScreenRouteArgs({required this.login, this.key});
 
-  final String? login;
+  final String login;
 
   final _i2.Key? key;
 }

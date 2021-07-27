@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen>
                         child:
                             ProviderLoadingProgressWrapper<CurrentUserProvider>(
                           childBuilder: (context, value) => CachedNetworkImage(
-                            imageUrl: value.currentUserInfo!.avatarUrl!,
+                            imageUrl: value.data.avatarUrl!,
                             placeholder: (context, _) {
                               return ShimmerWidget(
                                 child: Container(

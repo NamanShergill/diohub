@@ -39,7 +39,7 @@ class ProfileCard extends StatelessWidget {
           borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context)
-                .push(OtherUserProfileScreenRoute(login: user.login));
+                .push(OtherUserProfileScreenRoute(login: user.login!));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),

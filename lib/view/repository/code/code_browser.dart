@@ -75,7 +75,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA!.substring(0, 6)}.',
+                                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA.substring(0, 6)}.',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 12,
@@ -160,7 +160,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                     },
                                     child: Center(
                                       child: Text(
-                                        ' ${index == 0 ? Provider.of<RepositoryProvider>(context).repositoryModel!.name! : value.tree[index - 1].tree![value.pathIndex[index - 1]].path!}',
+                                        ' ${index == 0 ? Provider.of<RepositoryProvider>(context).data.name! : value.tree[index - 1].tree![value.pathIndex[index - 1]].path!}',
                                         style: TextStyle(
                                             color: index ==
                                                     value.tree.length - 1
@@ -210,7 +210,7 @@ class _CodeBrowserState extends State<CodeBrowser>
                                   value.tree.last.tree![index],
                                   Provider.of<RepositoryProvider>(context,
                                           listen: false)
-                                      .repositoryModel!
+                                      .data
                                       .url,
                                   index);
                             },
@@ -237,9 +237,9 @@ class _CodeBrowserState extends State<CodeBrowser>
 }
 
 void showCommitHistory(BuildContext context, String? currentSHA) {
-  final repoUrl = context.read<RepositoryProvider>().repositoryModel!.url;
+  final repoUrl = context.read<RepositoryProvider>().data.url;
 
-  final branchName = context.read<RepoBranchProvider>().currentSHA!;
+  final branchName = context.read<RepoBranchProvider>().currentSHA;
 
   final path = context.read<CodeProvider>().getPath();
 
@@ -284,7 +284,7 @@ void showCommitHistory(BuildContext context, String? currentSHA) {
         path: path,
         branchName: branchName,
         onSelected: (sha) {
-          return Provider.of<RepoBranchProvider>(context, listen: false)
+          Provider.of<RepoBranchProvider>(context, listen: false)
               .setBranch(sha, isCommitSha: true);
         },
       );

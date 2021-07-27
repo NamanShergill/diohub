@@ -31,7 +31,7 @@ class PRReviewScreen extends StatelessWidget {
       // See https://github.com/NamanShergill/diohub/issues/18 for info.
       body: APIWrapper<bool>(
         apiCall: PullsService.hasPendingReviews(pullNodeID,
-            context.read<CurrentUserProvider>().currentUserInfo!.login!),
+            context.read<CurrentUserProvider>().data.login!),
         responseBuilder: (context, repliesEnabled) {
           return InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges>(
             future: (pageNumber, pageSize, refresh, lastItem) {

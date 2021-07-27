@@ -2,7 +2,6 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/view/home/home.dart';
 import 'package:dio_hub/view/notifications/notifications.dart';
 import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
@@ -37,8 +36,6 @@ class _LandingScreenState extends State<LandingScreen> {
         backgroundColor:
             Provider.of<PaletteSettings>(context).currentSetting.primary,
         body: ScaffoldBody(
-          notificationController:
-              Provider.of<CurrentUserProvider>(context).notificationController,
           child: PageView(
             controller: _navProvider.controller,
             onPageChanged: _navProvider.setCurrentIndex,

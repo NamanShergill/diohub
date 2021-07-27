@@ -23,7 +23,7 @@ class IssueScreen extends StatefulWidget {
   const IssueScreen(this.issueURL,
       {this.initialIndex = 0, this.commentsSince, Key? key})
       : super(key: key);
-  final String? issueURL;
+  final String issueURL;
   final DateTime? commentsSince;
   final int initialIndex;
 
@@ -51,8 +51,8 @@ class _IssueScreenState extends State<IssueScreen>
           create: (_) => IssueProvider(
             widget.issueURL,
             Provider.of<CurrentUserProvider>(context, listen: false)
-                .currentUserInfo
-                ?.login,
+                .data
+                .login!,
           ),
         ),
         ChangeNotifierProvider(
@@ -70,7 +70,6 @@ class _IssueScreenState extends State<IssueScreen>
                       )
                     : null,
                 body: ScaffoldBody(
-                  notificationController: value.notificationController,
                   child: ProviderLoadingProgressWrapper<IssueProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
@@ -80,7 +79,7 @@ class _IssueScreenState extends State<IssueScreen>
                             .primary,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
-                          url: value.issueModel!.htmlUrl,
+                          url: value.data.htmlUrl,
                           tabs: const [
                             'Information',
                             'Discussion',
@@ -89,17 +88,16 @@ class _IssueScreenState extends State<IssueScreen>
                           expandedHeight: 250,
                           appBarWidget: Row(
                             children: [
-                              getIcon(value.issueModel!.state, 15)!,
+                              getIcon(value.data.state, 15)!,
                               const SizedBox(
                                 width: 4,
                               ),
                               Text(
-                                value.issueModel!.state == IssueState.OPEN
+                                value.data.state == IssueState.OPEN
                                     ? 'Open'
                                     : 'Closed',
                                 style: TextStyle(
-                                    color: value.issueModel!.state ==
-                                            IssueState.OPEN
+                                    color: value.data.state == IssueState.OPEN
                                         ? Provider.of<PaletteSettings>(context)
                                             .currentSetting
                                             .green
@@ -112,7 +110,7 @@ class _IssueScreenState extends State<IssueScreen>
                                 width: 8,
                               ),
                               Text(
-                                '#${value.issueModel!.number}',
+                                '#${value.data.number}',
                                 style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
@@ -127,25 +125,25 @@ class _IssueScreenState extends State<IssueScreen>
                             children: [
                               Row(
                                 children: [
-                                  getIcon(value.issueModel!.state, 20)!,
+                                  getIcon(value.data.state, 20)!,
                                   const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    value.issueModel!.state == IssueState.OPEN
+                                    value.data.state == IssueState.OPEN
                                         ? 'Open'
                                         : 'Closed',
                                     style: TextStyle(
-                                        color: value.issueModel!.state ==
-                                                IssueState.OPEN
-                                            ? Provider.of<PaletteSettings>(
-                                                    context)
-                                                .currentSetting
-                                                .green
-                                            : Provider.of<PaletteSettings>(
-                                                    context)
-                                                .currentSetting
-                                                .red,
+                                        color:
+                                            value.data.state == IssueState.OPEN
+                                                ? Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .green
+                                                : Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .red,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -153,7 +151,7 @@ class _IssueScreenState extends State<IssueScreen>
                                     width: 8,
                                   ),
                                   Text(
-                                    '#${value.issueModel!.number}',
+                                    '#${value.data.number}',
                                     style: TextStyle(
                                         color: Provider.of<PaletteSettings>(
                                                 context)
@@ -175,7 +173,7 @@ class _IssueScreenState extends State<IssueScreen>
                                     width: 4,
                                   ),
                                   Text(
-                                    '${value.issueModel!.comments} comments',
+                                    '${value.data.comments} comments',
                                     style: TextStyle(
                                         color: Provider.of<PaletteSettings>(
                                                 context)
@@ -189,7 +187,7 @@ class _IssueScreenState extends State<IssueScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.issueModel!.title!,
+                                value.data.title!,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
@@ -201,17 +199,15 @@ class _IssueScreenState extends State<IssueScreen>
                                   onTap: () {
                                     AutoRouter.of(context).push(
                                         RepositoryScreenRoute(
-                                            repositoryURL: value
-                                                .issueModel!.repositoryUrl));
+                                            repositoryURL:
+                                                value.data.repositoryUrl!));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: Text(
-                                      value.issueModel!.repositoryUrl!
-                                          .replaceFirst(
-                                              'https://api.github.com/repos/',
-                                              ''),
+                                      value.data.repositoryUrl!.replaceFirst(
+                                          'https://api.github.com/repos/', ''),
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 14),
                                     ),
@@ -219,9 +215,9 @@ class _IssueScreenState extends State<IssueScreen>
                                 ),
                               ),
                               Text(
-                                value.issueModel!.state == IssueState.CLOSED
-                                    ? 'By ${value.issueModel!.user!.login}, closed ${getDate(value.issueModel!.closedAt.toString(), shorten: false)}.'
-                                    : 'Opened ${getDate(value.issueModel!.createdAt.toString(), shorten: false)} by ${value.issueModel!.user!.login}',
+                                value.data.state == IssueState.CLOSED
+                                    ? 'By ${value.data.user!.login}, closed ${getDate(value.data.closedAt.toString(), shorten: false)}.'
+                                    : 'Opened ${getDate(value.data.createdAt.toString(), shorten: false)} by ${value.data.user!.login}',
                                 style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
@@ -236,23 +232,23 @@ class _IssueScreenState extends State<IssueScreen>
                           IssueInformation(),
                           Discussion(
                               commentsSince: widget.commentsSince,
-                              number: value.issueModel!.number!,
-                              owner: value.issueModel!.repositoryUrl!
+                              number: value.data.number!,
+                              owner: value.data.repositoryUrl!
                                   .replaceFirst(
                                       'https://api.github.com/repos/', '')
                                   .split('/')
                                   .first,
-                              repoName: value.issueModel!.repositoryUrl!
+                              repoName: value.data.repositoryUrl!
                                   .replaceFirst(
                                       'https://api.github.com/repos/', '')
                                   .split('/')
                                   .last,
                               isPull: false,
-                              isLocked: value.issueModel!.locked! &&
-                                  !value.editingEnabled,
+                              isLocked:
+                                  value.data.locked! && !value.editingEnabled,
                               scrollController: scrollController,
-                              createdAt: value.issueModel!.createdAt!,
-                              issueUrl: value.issueModel!.url!,
+                              createdAt: value.data.createdAt!,
+                              issueUrl: value.data.url!,
                               initComment: BaseComment(
                                   isMinimized: false,
                                   reactions: null,
@@ -263,18 +259,16 @@ class _IssueScreenState extends State<IssueScreen>
                                   viewerCanReact: false,
                                   viewerCanUpdate: false,
                                   viewerDidAuthor: false,
-                                  createdAt: value.issueModel!.createdAt!,
+                                  createdAt: value.data.createdAt!,
                                   author: Author(
-                                      Uri.parse(
-                                          value.issueModel!.user!.avatarUrl!),
-                                      value.issueModel!.user!.login!),
+                                      Uri.parse(value.data.user!.avatarUrl!),
+                                      value.data.user!.login!),
                                   body: '',
-                                  description:
-                                      value.issueModel!.bodyHtml!.isEmpty
-                                          ? 'No description provided.'
-                                          : null,
+                                  description: value.data.bodyHtml!.isEmpty
+                                      ? 'No description provided.'
+                                      : null,
                                   lastEditedAt: null,
-                                  bodyHTML: value.issueModel!.bodyHtml!,
+                                  bodyHTML: value.data.bodyHtml!,
                                   authorAssociation:
                                       CommentAuthorAssociation.none)),
                         ],

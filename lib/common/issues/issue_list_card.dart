@@ -51,7 +51,7 @@ class IssueListCard extends StatelessWidget {
           borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context).push(IssueScreenRoute(
-                issueURL: item.url,
+                issueURL: item.url!,
                 commentsSince: commentsSince,
                 initialIndex: commentsSince != null ? 1 : 0));
           },

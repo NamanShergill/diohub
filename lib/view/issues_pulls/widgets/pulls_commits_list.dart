@@ -13,7 +13,7 @@ class PullsCommitsList extends StatelessWidget {
     return InfiniteScrollWrapper<CommitListModel>(
       future: (pageNumber, perPage, refresh, _) {
         return PullsService.getPullCommits(
-            Provider.of<PullProvider>(context, listen: false).pullModel!.url,
+            Provider.of<PullProvider>(context, listen: false).data.url,
             perPage: perPage,
             refresh: refresh,
             pageNumber: pageNumber);

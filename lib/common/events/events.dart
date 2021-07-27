@@ -62,7 +62,7 @@ class Events extends StatelessWidget {
           return EventsService.getUserEvents(specificUser,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         } else if (privateEvents) {
-          return EventsService.getReceivedEvents(_user.currentUserInfo!.login,
+          return EventsService.getReceivedEvents(_user.data.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         } else {
           return EventsService.getPublicEvents(

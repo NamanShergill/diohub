@@ -10,11 +10,10 @@ import 'package:provider/provider.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
   const OtherUserProfileScreen(this.login, {Key? key}) : super(key: key);
-  final String? login;
+  final String login;
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<CurrentUserProvider>(context).currentUserInfo?.login ==
-        login) {
+    if (Provider.of<CurrentUserProvider>(context).data.login == login) {
       return const SafeArea(
           child: Scaffold(
         body: CurrentUserProfileScreen(),
@@ -31,12 +30,10 @@ class OtherUserProfileScreen extends StatelessWidget {
                   )
                 : null,
             body: ScaffoldBody(
-              notificationController:
-                  Provider.of<UserProvider>(context).notificationController,
               child: ProviderLoadingProgressWrapper<UserProvider>(
                 childBuilder: (context, value) {
                   return UserProfileScreen(
-                    value.currentUserInfo,
+                    value.data,
                     isCurrentUser: false,
                   );
                 },

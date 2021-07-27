@@ -13,7 +13,7 @@ class PullChangedFilesList extends StatelessWidget {
     return InfiniteScrollWrapper<FileElement>(
       future: (pageNumber, perPage, refresh, _) {
         return PullsService.getPullFiles(
-            Provider.of<PullProvider>(context, listen: false).pullModel!.url,
+            Provider.of<PullProvider>(context, listen: false).data.url,
             perPage: perPage,
             refresh: refresh,
             pageNumber: pageNumber);

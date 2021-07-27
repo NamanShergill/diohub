@@ -14,8 +14,8 @@ class ChangedFiles extends StatefulWidget {
 class _ChangedFilesState extends State<ChangedFiles> {
   @override
   Widget build(BuildContext context) {
-    final _commit = Provider.of<CommitProvider>(context).commit!;
-    final _files = Provider.of<CommitProvider>(context).commit!.files!;
+    final _commit = Provider.of<CommitProvider>(context).data;
+    final _files = Provider.of<CommitProvider>(context).data.files!;
     return ListView(
       children: [
         Padding(

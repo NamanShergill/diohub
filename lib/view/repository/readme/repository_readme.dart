@@ -38,10 +38,9 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
             },
             childBuilder: (context, value) {
               return MarkdownRenderAPI(
-                value.readme!.content!,
-                repoName: Provider.of<RepositoryProvider>(context)
-                    .repositoryModel!
-                    .fullName,
+                value.data!.content!,
+                repoName:
+                    Provider.of<RepositoryProvider>(context).data.fullName,
                 branch: Provider.of<RepoBranchProvider>(context).currentSHA,
               );
             },

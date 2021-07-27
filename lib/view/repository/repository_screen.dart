@@ -33,7 +33,7 @@ class RepositoryScreen extends StatefulWidget {
   const RepositoryScreen(this.repositoryURL,
       {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
       : super(key: key);
-  final String? repositoryURL;
+  final String repositoryURL;
   final String? branch;
   final int index;
   final String? initSHA;
@@ -159,11 +159,9 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                 }
               },
               child: ScaffoldBody(
-                notificationController: Provider.of<RepositoryProvider>(context)
-                    .notificationController,
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
                   childBuilder: (context, value) {
-                    final _repo = value.repositoryModel!;
+                    final _repo = value.data;
                     return AppScrollView(
                       scrollController: scrollController,
                       scrollViewAppBar: ScrollViewAppBar(
@@ -336,7 +334,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                 onTap: () {
                                   if (Provider.of<RepositoryProvider>(context,
                                           listen: false)
-                                      .repositoryModel!
+                                      .data
                                       .hasWiki!) {
                                     AutoRouter.of(context).push(WikiViewerRoute(
                                         repoURL: widget.repositoryURL));

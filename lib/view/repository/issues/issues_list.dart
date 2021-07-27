@@ -24,7 +24,7 @@ class IssuesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
-    final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
+    final _user = Provider.of<CurrentUserProvider>(context).data;
     return Stack(
       children: [
         SearchScrollWrapper(
@@ -33,26 +33,20 @@ class IssuesList extends StatelessWidget {
                   blacklist: [SearchQueryStrings.type]),
               defaultHiddenFilters: [
                 SearchQueries().type.toQueryString('issue'),
-                SearchQueries()
-                    .repo
-                    .toQueryString(_repo.repositoryModel!.fullName!),
+                SearchQueries().repo.toQueryString(_repo.data.fullName!),
               ]),
-          quickFilters: _user != null
-              ? {
-                  SearchQueries().assignee.toQueryString(_user.login!):
-                      'Assigned to you',
-                  SearchQueries().author.toQueryString(_user.login!):
-                      'Your issues',
-                  SearchQueries().mentions.toQueryString(_user.login!):
-                      'Mentions you',
-                }
-              : null,
+          quickFilters: {
+            SearchQueries().assignee.toQueryString(_user.login!):
+                'Assigned to you',
+            SearchQueries().author.toQueryString(_user.login!): 'Your issues',
+            SearchQueries().mentions.toQueryString(_user.login!):
+                'Mentions you',
+          },
           quickOptions: {
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
           scrollController: scrollController,
-          searchBarMessage:
-              'Search in ${_repo.repositoryModel!.name}\'s issues',
+          searchBarMessage: 'Search in ${_repo.data.name}\'s issues',
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           filterFn: (data) {
@@ -76,7 +70,7 @@ class IssuesList extends StatelessWidget {
               ),
               childBuilder: (context, value) => FloatingActionButton(
                 onPressed: () {
-                  if (value.templates.isNotEmpty) {
+                  if (value.data.isNotEmpty) {
                     showScrollableBottomActionsMenu(context,
                         child: (buildContext, scrollController, setState) =>
                             ListenableProvider.value(
@@ -86,23 +80,22 @@ class IssuesList extends StatelessWidget {
                                   controller: scrollController,
                                   padding: const EdgeInsets.only(bottom: 8),
                                   itemBuilder: (context, index) {
-                                    if (value.templates.length == index) {
+                                    if (value.data.length == index) {
                                       return const BlankIssueTemplate();
                                     } else {
                                       return IssueTemplateCard(
-                                          value.templates[index]);
+                                          value.data[index]);
                                     }
                                   },
                                   separatorBuilder: (context, index) =>
                                       const Divider(),
-                                  itemCount: value.templates.length + 1),
+                                  itemCount: value.data.length + 1),
                             ),
                         titleText: 'New Issue');
                   } else {
-                    final repo =
-                        context.read<RepositoryProvider>().repositoryModel;
+                    final repo = context.read<RepositoryProvider>().data;
                     AutoRouter.of(context).push(NewIssueScreenRoute(
-                        owner: repo!.owner!.login!, repo: repo.name!));
+                        owner: repo.owner!.login!, repo: repo.name!));
                   }
                 },
                 child: const Icon(Icons.add),
@@ -130,9 +123,9 @@ class IssueTemplateCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
         child: InkWell(
           onTap: () {
-            final repo = context.read<RepositoryProvider>().repositoryModel;
+            final repo = context.read<RepositoryProvider>().data;
             AutoRouter.of(context).push(NewIssueScreenRoute(
-                owner: repo!.owner!.login!,
+                owner: repo.owner!.login!,
                 repo: repo.name!,
                 template: isBlank ? null : template));
           },

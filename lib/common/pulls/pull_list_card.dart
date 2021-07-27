@@ -37,7 +37,7 @@ class PullListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(PullScreenRoute(pullURL: item.url));
+            AutoRouter.of(context).push(PullScreenRoute(pullURL: item.url!));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),

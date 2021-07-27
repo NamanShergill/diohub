@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
-class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
+class UserProfileScreen<T extends UserInfoModel> extends StatefulWidget {
   const UserProfileScreen(this.userData, {this.isCurrentUser, Key? key})
       : super(key: key);
   final bool? isCurrentUser;
@@ -19,7 +19,7 @@ class UserProfileScreen<T extends UserInfoModel?> extends StatefulWidget {
   _UserProfileScreenState<T> createState() => _UserProfileScreenState<T>();
 }
 
-class _UserProfileScreenState<T extends UserInfoModel?>
+class _UserProfileScreenState<T extends UserInfoModel>
     extends State<UserProfileScreen<T>> with SingleTickerProviderStateMixin {
   TabController? tabController;
   UserInfoModel? data;

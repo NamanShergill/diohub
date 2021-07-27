@@ -3,20 +3,20 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.3.0-10072021.internal
+version: 0.3.1-dev.internal
 
 environment:
   sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
-  animations: ^2.0.0
-  another_flushbar: ^1.10.23
+  animations: ^2.0.1
+  another_flushbar: ^1.10.24
   auto_route: ^2.2.0
-  cached_network_image: ^3.0.0
+  cached_network_image: ^3.1.0
   connectivity: ^3.0.6
-  device_info_plus: ^2.0.1
+  device_info_plus: ^2.1.0
   dio: ^4.0.0
-  dio_cache_interceptor: ^2.3.1
+  dio_cache_interceptor: ^3.0.1
   equatable: ^2.0.3
 
   # Modified to remove the current typing word indicator.
@@ -26,7 +26,7 @@ dependencies:
 
   flutter:
     sdk: flutter
-  flutter_appauth: ^1.0.0+1
+  flutter_appauth: ^1.1.0
   flutter_bloc: ^7.0.1
   flutter_colorpicker: ^0.4.0
   flutter_countdown_timer: ^4.1.0
@@ -50,7 +50,7 @@ dependencies:
       ref: master
 
   flutter_inappwebview: ^5.3.2
-  flutter_keyboard_visibility: ^5.0.2
+  flutter_keyboard_visibility: ^5.0.3
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^1.0.8
   flutter_scroll_to_top: ^1.1.0
@@ -69,7 +69,7 @@ dependencies:
 
   gql_exec: ^0.3.0
   gql_link: ^0.4.0
-  infinite_scroll_pagination: ^3.0.1+1
+  infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
   json_annotation: ^4.0.1
   line_icons: ^2.0.1
@@ -83,7 +83,7 @@ dependencies:
       ref: master
 
   mime: ^1.0.0
-  package_info_plus: ^1.0.3
+  package_info_plus: ^1.0.4
   path_provider: ^2.0.2
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0
@@ -103,7 +103,7 @@ dev_dependencies:
   build_runner: ^2.0.4
   change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.0
-  flutter_lints: ^1.0.3
+  flutter_lints: ^1.0.4
   flutter_native_splash: ^1.2.0
   flutter_test:
     sdk: flutter

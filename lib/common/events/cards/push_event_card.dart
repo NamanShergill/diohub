@@ -19,7 +19,7 @@ class PushEventCard extends StatelessWidget {
     return BaseEventCard(
       onTap: () {
         AutoRouter.of(context).push(RepositoryScreenRoute(
-            repositoryURL: event.repo!.url,
+            repositoryURL: event.repo!.url!,
             branch: data.ref!.split('/').last,
             index: 2));
       },
@@ -70,13 +70,13 @@ class PushEventCard extends StatelessWidget {
                     borderRadius: smallBorderRadius,
                     onTap: () {
                       AutoRouter.of(context).push(CommitInfoScreenRoute(
-                          commitURL: data.commits![index].url));
+                          commitURL: data.commits![index].url!));
                     },
                     onLongPress: () {
                       AutoRouter.of(context).push(RepositoryScreenRoute(
                           index: 2,
                           branch: data.ref!.split('/').last,
-                          repositoryURL: event.repo!.url,
+                          repositoryURL: event.repo!.url!,
                           initSHA: data.commits![index].sha));
                     },
                     child: Padding(
