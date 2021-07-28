@@ -1,4 +1,4 @@
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
 import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';

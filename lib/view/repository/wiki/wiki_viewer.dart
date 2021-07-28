@@ -1,6 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +31,7 @@ class _WikiViewerState extends State<WikiViewer> {
   }
 
   void setupHeaders() async {
-    final token = (await AuthService.getAccessTokenFromDevice())!;
+    // final token = (await AuthService.getAccessTokenFromDevice())!;
     // headers = {'Authorization': 'Bearer $token'};
   }
 

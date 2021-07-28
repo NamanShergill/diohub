@@ -17,6 +17,7 @@ dependencies:
   device_info_plus: ^2.1.0
   dio: ^4.0.0
   dio_cache_interceptor: ^3.0.1
+  dio_cache_interceptor_db_store: ^3.0.2
   equatable: ^2.0.3
 
   # Modified to remove the current typing word indicator.
@@ -91,7 +92,6 @@ dependencies:
   shared_preferences: ^2.0.6
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
-  sqlite3_flutter_libs: ^0.5.0
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
