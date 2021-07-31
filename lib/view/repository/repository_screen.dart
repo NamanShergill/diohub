@@ -13,6 +13,7 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
+import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -52,6 +53,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   late TabController tabController;
   late IssueTemplateProvider issueTemplateProvider;
   late RepositoryProvider repositoryProvider;
+  late PinnedIssuesProvider pinnedIssuesProvider;
   final ScrollController scrollController = ScrollController();
   late String? initBranch;
   @override
@@ -68,6 +70,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     issueTemplateProvider = IssueTemplateProvider();
+    pinnedIssuesProvider = PinnedIssuesProvider();
     super.initState();
   }
 
@@ -113,6 +116,11 @@ class _RepositoryScreenState extends State<RepositoryScreen>
         ChangeNotifierProxyProvider<RepositoryProvider, IssueTemplateProvider>(
           create: (_) => issueTemplateProvider,
           update: (_, repo, __) => issueTemplateProvider..updateProvider(repo),
+          lazy: false,
+        ),
+        ChangeNotifierProxyProvider<RepositoryProvider, PinnedIssuesProvider>(
+          create: (_) => pinnedIssuesProvider,
+          update: (_, repo, __) => pinnedIssuesProvider..updateProvider(repo),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(

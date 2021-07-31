@@ -54,6 +54,7 @@ class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
     if (!isCommitSha) {
       _currentBranch = branchName;
     }
+    loaded();
     return _currentSHA;
   }
 

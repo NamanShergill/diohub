@@ -28,11 +28,11 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   final StreamController<String> _treeController =
       StreamController<String>.broadcast();
 
-  /// Update the provider with new data.
-  @override
-  void updateProvider(RepoBranchProvider repoBranchProvider) async {
-    super.updateProvider(repoBranchProvider);
-  }
+  // /// Update the provider with new data.
+  // @override
+  // void updateProvider(RepoBranchProvider repoBranchProvider) async {
+  //   super.updateProvider(repoBranchProvider);
+  // }
 
   @override
   void customStreams() {
@@ -44,8 +44,9 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   }
 
   /// Fetch a [Tree] and load it in the provider.
-  Future<CodeTreeModel> _fetchTree(String treeSHA,
-      {required String currentRootSHA}) async {
+  Future<CodeTreeModel> _fetchTree(String? treeSHA,
+      {required String? currentRootSHA}) async {
+    loading();
     // Start with initial future to fetch code tree.
     final future = <Future>[
       GitDatabaseService.getTree(repoURL: _repoURL, sha: treeSHA),
@@ -67,6 +68,7 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
       // Add data to tree.
       _tree.add(_codeTree.copyWith(commit: _commit));
     }
+    loaded();
     return _tree.last;
   }
 

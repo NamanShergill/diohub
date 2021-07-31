@@ -3749,6 +3749,92 @@ Map<String, dynamic> _$IssueTemplates$QueryToJson(
       'repository': instance.repository?.toJson(),
     };
 
+PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
+    _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueFromJson(
+        Map<String, dynamic> json) {
+  return PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue()
+    ..url = Uri.parse(json['url'] as String)
+    ..title = json['title'] as String
+    ..number = json['number'] as int
+    ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+        unknownValue: IssueState.artemisUnknown)
+    ..repository = IssueMixin$Repository.fromJson(
+        json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic>
+    _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueToJson(
+            PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue instance) =>
+        <String, dynamic>{
+          'url': instance.url.toString(),
+          'title': instance.title,
+          'number': instance.number,
+          'issueState': _$IssueStateEnumMap[instance.issueState],
+          'repository': instance.repository.toJson(),
+        };
+
+PinnedIssues$Query$Repository$PinnedIssues$Nodes
+    _$PinnedIssues$Query$Repository$PinnedIssues$NodesFromJson(
+        Map<String, dynamic> json) {
+  return PinnedIssues$Query$Repository$PinnedIssues$Nodes()
+    ..issue = PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue.fromJson(
+        json['issue'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$PinnedIssues$Query$Repository$PinnedIssues$NodesToJson(
+        PinnedIssues$Query$Repository$PinnedIssues$Nodes instance) =>
+    <String, dynamic>{
+      'issue': instance.issue.toJson(),
+    };
+
+PinnedIssues$Query$Repository$PinnedIssues
+    _$PinnedIssues$Query$Repository$PinnedIssuesFromJson(
+        Map<String, dynamic> json) {
+  return PinnedIssues$Query$Repository$PinnedIssues()
+    ..totalCount = json['totalCount'] as int
+    ..nodes = (json['nodes'] as List<dynamic>?)
+        ?.map((e) => e == null
+            ? null
+            : PinnedIssues$Query$Repository$PinnedIssues$Nodes.fromJson(
+                e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic> _$PinnedIssues$Query$Repository$PinnedIssuesToJson(
+        PinnedIssues$Query$Repository$PinnedIssues instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+PinnedIssues$Query$Repository _$PinnedIssues$Query$RepositoryFromJson(
+    Map<String, dynamic> json) {
+  return PinnedIssues$Query$Repository()
+    ..pinnedIssues = json['pinnedIssues'] == null
+        ? null
+        : PinnedIssues$Query$Repository$PinnedIssues.fromJson(
+            json['pinnedIssues'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$PinnedIssues$Query$RepositoryToJson(
+        PinnedIssues$Query$Repository instance) =>
+    <String, dynamic>{
+      'pinnedIssues': instance.pinnedIssues?.toJson(),
+    };
+
+PinnedIssues$Query _$PinnedIssues$QueryFromJson(Map<String, dynamic> json) {
+  return PinnedIssues$Query()
+    ..repository = json['repository'] == null
+        ? null
+        : PinnedIssues$Query$Repository.fromJson(
+            json['repository'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$PinnedIssues$QueryToJson(PinnedIssues$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
 GetRepoProjects$Query$Repository$Projects$Edges$Node
     _$GetRepoProjects$Query$Repository$Projects$Edges$NodeFromJson(
         Map<String, dynamic> json) {
@@ -4688,6 +4774,21 @@ IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
 
 Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
         IssueTemplatesArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+    };
+
+PinnedIssuesArguments _$PinnedIssuesArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return PinnedIssuesArguments(
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+  );
+}
+
+Map<String, dynamic> _$PinnedIssuesArgumentsToJson(
+        PinnedIssuesArguments instance) =>
     <String, dynamic>{
       'name': instance.name,
       'owner': instance.owner,

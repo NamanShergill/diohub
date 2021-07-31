@@ -4206,6 +4206,91 @@ class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
+    extends JsonSerializable with EquatableMixin, IssueMixin {
+  PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue();
+
+  factory PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue.fromJson(
+          Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueFromJson(json);
+
+  @override
+  List<Object?> get props => [url, title, number, issueState, repository];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository$PinnedIssues$Nodes extends JsonSerializable
+    with EquatableMixin {
+  PinnedIssues$Query$Repository$PinnedIssues$Nodes();
+
+  factory PinnedIssues$Query$Repository$PinnedIssues$Nodes.fromJson(
+          Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$NodesFromJson(json);
+
+  late PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue issue;
+
+  @override
+  List<Object?> get props => [issue];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$NodesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository$PinnedIssues extends JsonSerializable
+    with EquatableMixin {
+  PinnedIssues$Query$Repository$PinnedIssues();
+
+  factory PinnedIssues$Query$Repository$PinnedIssues.fromJson(
+          Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$Repository$PinnedIssuesFromJson(json);
+
+  late int totalCount;
+
+  List<PinnedIssues$Query$Repository$PinnedIssues$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [totalCount, nodes];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PinnedIssues$Query$Repository$PinnedIssuesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  PinnedIssues$Query$Repository();
+
+  factory PinnedIssues$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$RepositoryFromJson(json);
+
+  PinnedIssues$Query$Repository$PinnedIssues? pinnedIssues;
+
+  @override
+  List<Object?> get props => [pinnedIssues];
+  @override
+  Map<String, dynamic> toJson() => _$PinnedIssues$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query extends JsonSerializable with EquatableMixin {
+  PinnedIssues$Query();
+
+  factory PinnedIssues$Query.fromJson(Map<String, dynamic> json) =>
+      _$PinnedIssues$QueryFromJson(json);
+
+  PinnedIssues$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  @override
+  Map<String, dynamic> toJson() => _$PinnedIssues$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetRepoProjects$Query$Repository$Projects$Edges$Node
     extends JsonSerializable with EquatableMixin, ProjectMixin {
   GetRepoProjects$Query$Repository$Projects$Edges$Node();
@@ -9848,6 +9933,165 @@ class IssueTemplatesQuery
   @override
   IssueTemplates$Query parse(Map<String, dynamic> json) =>
       IssueTemplates$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssuesArguments extends JsonSerializable with EquatableMixin {
+  PinnedIssuesArguments({required this.name, required this.owner});
+
+  @override
+  factory PinnedIssuesArguments.fromJson(Map<String, dynamic> json) =>
+      _$PinnedIssuesArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() => _$PinnedIssuesArgumentsToJson(this);
+}
+
+final PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'pinnedIssues'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'pinnedIssues'),
+                  alias: null,
+                  arguments: [
+                    ArgumentNode(
+                        name: NameNode(value: 'first'),
+                        value: IntValueNode(value: '3'))
+                  ],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'nodes'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'issue'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'issue'),
+                                    directives: [])
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'issue'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: NameNode(value: 'issueState'),
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'nameWithOwner'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
+class PinnedIssuesQuery
+    extends GraphQLQuery<PinnedIssues$Query, PinnedIssuesArguments> {
+  PinnedIssuesQuery({required this.variables});
+
+  @override
+  final DocumentNode document = PINNED_ISSUES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'pinnedIssues';
+
+  @override
+  final PinnedIssuesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  PinnedIssues$Query parse(Map<String, dynamic> json) =>
+      PinnedIssues$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

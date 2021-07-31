@@ -4,8 +4,8 @@ abstract class ProxyProvider<T, Parent extends BaseDataProvider>
     extends BaseDataProvider<T> {
   ProxyProvider([Status status = Status.initialized])
       : super(status: status, loadDataOnInit: false);
-  late Parent _parentProvider;
-  Parent get parentProvider => _parentProvider;
+  Parent? _parentProvider;
+  Parent get parentProvider => _parentProvider!;
 
   /// Update the provider with new data.
   void updateProvider(Parent parentProvider) async {
@@ -15,10 +15,10 @@ abstract class ProxyProvider<T, Parent extends BaseDataProvider>
       _parentProvider = parentProvider;
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
-      if (_parentProvider.status == Status.loaded) {
+      if (_parentProvider!.status == Status.loaded) {
         loadData();
       }
-      _parentProvider.statusStream.listen(
+      _parentProvider!.statusStream.listen(
         (event) async {
           // This event happens whenever the parent provider is reloaded, so this provider
           // is reset and new data is fetched.

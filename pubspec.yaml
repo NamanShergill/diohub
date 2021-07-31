@@ -28,7 +28,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_appauth: ^1.1.0
-  flutter_bloc: ^7.0.1
+  flutter_bloc: ^7.1.0
   flutter_colorpicker: ^0.4.0
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
@@ -55,7 +55,7 @@ dependencies:
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^1.0.8
   flutter_scroll_to_top: ^1.1.0
-  flutter_secure_storage: ^4.2.0
+  flutter_secure_storage: ^4.2.1
   flutter_slidable: ^0.6.0
   flutter_svg: ^0.22.0
   flutter_vector_icons: ^1.0.0
@@ -92,10 +92,12 @@ dependencies:
   shared_preferences: ^2.0.6
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
+  sqlite3_flutter_libs: ^0.5.0
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
   url_launcher: ^6.0.2
+  uuid: ^3.0.4
 
 dev_dependencies:
   artemis: ^7.0.0-beta.11
