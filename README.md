@@ -8,6 +8,8 @@ Next Release Roadmap:
 - Project Boards
 - Readme that delves deeper into the application and its features.
 
+[Like this project? Click here if you would like to support its development!](https://www.buymeacoffee.com/byefelixia)
+
 ![photo_2021-08-06_23-11-27](https://user-images.githubusercontent.com/33877135/128555096-5d5036f2-151b-4638-873e-96d01fe3e6dc.jpg)
 ![photo_2021-08-06_23-11-43](https://user-images.githubusercontent.com/33877135/128555100-842f2f15-ae31-4a2b-a9a5-46027978d754.jpg)
 ![photo_2021-08-06_23-11-48](https://user-images.githubusercontent.com/33877135/128555104-3b68a3de-4f30-4f4c-b09b-bfb9517dd34d.jpg)
