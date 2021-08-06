@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/animations/slide_expanded_widget.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -74,8 +74,7 @@ class IssuesList extends StatelessWidget {
                 loadingBuilder: (context) => Container(),
                 childBuilder: (context, value) {
                   if (value.data.totalCount > 0) {
-                    return SizeExpandedSection(
-                      axis: Axis.horizontal,
+                    return SlideExpandedSection(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

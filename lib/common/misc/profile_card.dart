@@ -3,8 +3,10 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/user_follow.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -43,64 +45,74 @@ class ProfileCard extends StatelessWidget {
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IgnorePointer(
-                  child: ProfileTile(
-                    user.avatarUrl,
-                    fullName: user.name,
-                    size: 30,
-                    showName: true,
-                    userLogin: user.login,
-                  ),
-                ),
-                if (user.bio != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Flexible(
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              user.bio!,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppThemeTextStyles.eventCardChildSubtitle(
-                                  context),
-                            ),
-                          ),
-                        ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IgnorePointer(
+                      child: ProfileTile(
+                        user.avatarUrl,
+                        fullName: user.name,
+                        size: 30,
+                        showName: true,
+                        userLogin: user.login,
                       ),
                     ),
-                  ),
-                if (!compact)
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 8,
+                    if (user.bio != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Flexible(
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  user.bio!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      AppThemeTextStyles.eventCardChildSubtitle(
+                                          context),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    if (!compact)
+                      Column(
                         children: [
-                          const Icon(
-                            LineIcons.users,
-                            size: 12,
-                          ),
                           const SizedBox(
-                            width: 4,
+                            height: 8,
                           ),
-                          Text(
-                            user.followers != null
-                                ? user.followers.toString()
-                                : 'None',
-                            style: AppThemeTextStyles.eventCardChildFooter(
-                                context),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                LineIcons.users,
+                                size: 12,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                user.followers != null
+                                    ? user.followers.toString()
+                                    : 'None',
+                                style: AppThemeTextStyles.eventCardChildFooter(
+                                    context),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                  ],
+                ),
+                if (user.login !=
+                    Provider.of<CurrentUserProvider>(context).data.login)
+                  UserFollow(user.login!),
               ],
             ),
           ),

@@ -10,8 +10,8 @@ import 'package:flutter_html/shims/dart_ui.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
-typedef StarBuilder = Widget Function(
-    BuildContext context, HasStarred$Query$Repository? starrredData);
+typedef StarBuilder = Widget Function(BuildContext context,
+    HasStarred$Query$Repository? starrredData, VoidCallback? onPress);
 
 class RepoStar extends StatefulWidget {
   const RepoStar(this.owner, this.repoName,
@@ -90,17 +90,13 @@ class _RepoStarState extends State<RepoStar> {
       apiCall: RepositoryServices.isStarred(widget.owner, widget.repoName),
       apiWrapperController: controller,
       loadingBuilder: (context) => widget.child != null
-          ? widget.child!(context, null)
+          ? widget.child!(context, null, null)
           : ShimmerWidget(
               child: iconButton(null),
             ),
       fadeIntoView: widget.fadeIntoView,
       responseBuilder: (context, data) => widget.child != null
-          ? InkWell(
-              onTap: onPress(data),
-              borderRadius: widget.inkWellRadius,
-              child: widget.child!(context, data),
-            )
+          ? widget.child!(context, data, onPress(data))
           : iconButton(data),
     );
   }

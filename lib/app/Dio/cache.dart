@@ -1,5 +1,6 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_hub/app/global.dart';
+import 'package:uuid/uuid.dart';
 
 class CacheManager {
   static CustomCacheOptions notifications({bool refresh = false}) =>
@@ -40,7 +41,7 @@ class CacheManager {
         maxAge: maxAge,
         cachePolicy: CachePolicy.refreshForceCache,
         keyBuilder: (request) {
-          return request.data.toString();
+          return generateUUID(request.data.toString());
         },
       );
 
@@ -72,3 +73,6 @@ class CustomCacheOptions extends CacheOptions {
   final Duration maxAge;
   final bool refresh;
 }
+
+String generateUUID(String string) =>
+    const Uuid().v5(Uuid.NAMESPACE_URL, string);

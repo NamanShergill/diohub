@@ -153,34 +153,24 @@ class RepositoryServices {
     }
   }
 
-  static Future<bool> isSubscribed(String owner, String name) async {
-    try {
-      final res = await API.request().get('/repos/$owner/$name/subscription');
-      if (res.statusCode == 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      if (e is DioError) {
-        if (e.response?.statusCode == 404) {
-          return false;
-        } else {
-          rethrow;
-        }
-      } else {
-        rethrow;
-      }
-    }
+  static Future<HasWatched$Query$Repository> isSubscribed(
+      String owner, String name) async {
+    return HasWatched$Query.fromJson((await API.gqlRequest(HasWatchedQuery(
+                variables: HasWatchedArguments(owner: owner, name: name))))
+            .data!)
+        .repository!;
   }
 
   static Future<bool> subscribeToRepo(String owner, String name,
-      {required bool isSubscribing}) async {
+      {required bool isSubscribing, bool ignored = false}) async {
     final res = isSubscribing
         ? await API
-            .request()
-            .put('/repos/$owner/$name/subscription', data: {'subscribed': true})
-        : await API.request().delete(
+            .request(debugLog: true)
+            .put('/repos/$owner/$name/subscription', data: {
+            if (ignored) 'ignored': true,
+            if (!ignored) 'subscribed': true
+          })
+        : await API.request(debugLog: true).delete(
               '/repos/$owner/$name/subscription',
             );
     if ((isSubscribing && res.statusCode == 200) ||

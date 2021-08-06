@@ -4589,6 +4589,135 @@ Map<String, dynamic> _$GetUserPinnedRepos$QueryToJson(
       'user': instance.user?.toJson(),
     };
 
+FollowStatusInfo$Query$User$Followers
+    _$FollowStatusInfo$Query$User$FollowersFromJson(Map<String, dynamic> json) {
+  return FollowStatusInfo$Query$User$Followers()
+    ..totalCount = json['totalCount'] as int;
+}
+
+Map<String, dynamic> _$FollowStatusInfo$Query$User$FollowersToJson(
+        FollowStatusInfo$Query$User$Followers instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+FollowStatusInfo$Query$User _$FollowStatusInfo$Query$UserFromJson(
+    Map<String, dynamic> json) {
+  return FollowStatusInfo$Query$User()
+    ..id = json['id'] as String
+    ..viewerIsFollowing = json['viewerIsFollowing'] as bool
+    ..viewerCanFollow = json['viewerCanFollow'] as bool
+    ..followers = FollowStatusInfo$Query$User$Followers.fromJson(
+        json['followers'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$FollowStatusInfo$Query$UserToJson(
+        FollowStatusInfo$Query$User instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'viewerIsFollowing': instance.viewerIsFollowing,
+      'viewerCanFollow': instance.viewerCanFollow,
+      'followers': instance.followers.toJson(),
+    };
+
+FollowStatusInfo$Query _$FollowStatusInfo$QueryFromJson(
+    Map<String, dynamic> json) {
+  return FollowStatusInfo$Query()
+    ..user = json['user'] == null
+        ? null
+        : FollowStatusInfo$Query$User.fromJson(
+            json['user'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$FollowStatusInfo$QueryToJson(
+        FollowStatusInfo$Query instance) =>
+    <String, dynamic>{
+      'user': instance.user?.toJson(),
+    };
+
+FollowUser$Mutation$FollowUser$User
+    _$FollowUser$Mutation$FollowUser$UserFromJson(Map<String, dynamic> json) {
+  return FollowUser$Mutation$FollowUser$User()..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$FollowUser$Mutation$FollowUser$UserToJson(
+        FollowUser$Mutation$FollowUser$User instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+FollowUser$Mutation$FollowUser _$FollowUser$Mutation$FollowUserFromJson(
+    Map<String, dynamic> json) {
+  return FollowUser$Mutation$FollowUser()
+    ..user = json['user'] == null
+        ? null
+        : FollowUser$Mutation$FollowUser$User.fromJson(
+            json['user'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$FollowUser$Mutation$FollowUserToJson(
+        FollowUser$Mutation$FollowUser instance) =>
+    <String, dynamic>{
+      'user': instance.user?.toJson(),
+    };
+
+FollowUser$Mutation _$FollowUser$MutationFromJson(Map<String, dynamic> json) {
+  return FollowUser$Mutation()
+    ..followUser = json['followUser'] == null
+        ? null
+        : FollowUser$Mutation$FollowUser.fromJson(
+            json['followUser'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$FollowUser$MutationToJson(
+        FollowUser$Mutation instance) =>
+    <String, dynamic>{
+      'followUser': instance.followUser?.toJson(),
+    };
+
+UnfollowUser$Mutation$UnfollowUser$User
+    _$UnfollowUser$Mutation$UnfollowUser$UserFromJson(
+        Map<String, dynamic> json) {
+  return UnfollowUser$Mutation$UnfollowUser$User()
+    ..login = json['login'] as String;
+}
+
+Map<String, dynamic> _$UnfollowUser$Mutation$UnfollowUser$UserToJson(
+        UnfollowUser$Mutation$UnfollowUser$User instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+UnfollowUser$Mutation$UnfollowUser _$UnfollowUser$Mutation$UnfollowUserFromJson(
+    Map<String, dynamic> json) {
+  return UnfollowUser$Mutation$UnfollowUser()
+    ..user = json['user'] == null
+        ? null
+        : UnfollowUser$Mutation$UnfollowUser$User.fromJson(
+            json['user'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$UnfollowUser$Mutation$UnfollowUserToJson(
+        UnfollowUser$Mutation$UnfollowUser instance) =>
+    <String, dynamic>{
+      'user': instance.user?.toJson(),
+    };
+
+UnfollowUser$Mutation _$UnfollowUser$MutationFromJson(
+    Map<String, dynamic> json) {
+  return UnfollowUser$Mutation()
+    ..unfollowUser = json['unfollowUser'] == null
+        ? null
+        : UnfollowUser$Mutation$UnfollowUser.fromJson(
+            json['unfollowUser'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$UnfollowUser$MutationToJson(
+        UnfollowUser$Mutation instance) =>
+    <String, dynamic>{
+      'unfollowUser': instance.unfollowUser?.toJson(),
+    };
+
 GetViewerOrgs$Query$Viewer$Organizations$Edges$Node
     _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeFromJson(
         Map<String, dynamic> json) {
@@ -4951,6 +5080,44 @@ GetUserPinnedReposArguments _$GetUserPinnedReposArgumentsFromJson(
 
 Map<String, dynamic> _$GetUserPinnedReposArgumentsToJson(
         GetUserPinnedReposArguments instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+FollowStatusInfoArguments _$FollowStatusInfoArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return FollowStatusInfoArguments(
+    user: json['user'] as String,
+  );
+}
+
+Map<String, dynamic> _$FollowStatusInfoArgumentsToJson(
+        FollowStatusInfoArguments instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+FollowUserArguments _$FollowUserArgumentsFromJson(Map<String, dynamic> json) {
+  return FollowUserArguments(
+    user: json['user'] as String,
+  );
+}
+
+Map<String, dynamic> _$FollowUserArgumentsToJson(
+        FollowUserArguments instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+UnfollowUserArguments _$UnfollowUserArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return UnfollowUserArguments(
+    user: json['user'] as String,
+  );
+}
+
+Map<String, dynamic> _$UnfollowUserArgumentsToJson(
+        UnfollowUserArguments instance) =>
     <String, dynamic>{
       'user': instance.user,
     };

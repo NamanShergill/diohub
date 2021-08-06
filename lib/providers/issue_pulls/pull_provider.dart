@@ -30,7 +30,7 @@ class PullProvider extends BaseDataProvider<PullRequestModel> {
   }
 
   @override
-  Future<PullRequestModel> setInitData() async {
+  Future<PullRequestModel> setInitData({bool isInitialisation = false}) async {
     final urlChunks = pullURL.split('/');
     _repoURL = urlChunks.sublist(0, urlChunks.length - 2).join('/');
     final futures = <Future>[

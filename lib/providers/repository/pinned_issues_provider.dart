@@ -7,7 +7,8 @@ import 'package:dio_hub/providers/repository/repository_provider.dart';
 class PinnedIssuesProvider extends ProxyProvider<
     PinnedIssues$Query$Repository$PinnedIssues, RepositoryProvider> {
   @override
-  Future<PinnedIssues$Query$Repository$PinnedIssues> setInitData() async {
+  Future<PinnedIssues$Query$Repository$PinnedIssues> setInitData(
+      {bool isInitialisation = false}) async {
     return PinnedIssues$Query.fromJson((await API.gqlRequest(
                 PinnedIssuesQuery(
                     variables: PinnedIssuesArguments(

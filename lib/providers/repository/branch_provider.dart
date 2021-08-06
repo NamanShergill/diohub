@@ -41,20 +41,23 @@ class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   }
 
   @override
-  Future<String> setInitData() {
+  Future<String> setInitData({bool isInitialisation = false}) {
     return setBranch(
         _initCommitSHA ?? _currentBranch ?? parentProvider.data.defaultBranch!,
-        isCommitSha: _initCommitSHA != null);
+        isCommitSha: _initCommitSHA != null,
+        setState: !isInitialisation);
   }
 
   Future<String> setBranch(String branchName,
-      {bool isCommitSha = false}) async {
+      {bool isCommitSha = false, bool setState = true}) async {
     _currentSHA = branchName;
     isCommit = isCommitSha;
     if (!isCommitSha) {
       _currentBranch = branchName;
     }
-    loaded();
+    if (setState) {
+      loaded();
+    }
     return _currentSHA;
   }
 

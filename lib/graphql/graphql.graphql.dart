@@ -5223,6 +5223,161 @@ class GetUserPinnedRepos$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class FollowStatusInfo$Query$User$Followers extends JsonSerializable
+    with EquatableMixin {
+  FollowStatusInfo$Query$User$Followers();
+
+  factory FollowStatusInfo$Query$User$Followers.fromJson(
+          Map<String, dynamic> json) =>
+      _$FollowStatusInfo$Query$User$FollowersFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FollowStatusInfo$Query$User$FollowersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfo$Query$User extends JsonSerializable with EquatableMixin {
+  FollowStatusInfo$Query$User();
+
+  factory FollowStatusInfo$Query$User.fromJson(Map<String, dynamic> json) =>
+      _$FollowStatusInfo$Query$UserFromJson(json);
+
+  late String id;
+
+  late bool viewerIsFollowing;
+
+  late bool viewerCanFollow;
+
+  late FollowStatusInfo$Query$User$Followers followers;
+
+  @override
+  List<Object?> get props =>
+      [id, viewerIsFollowing, viewerCanFollow, followers];
+  @override
+  Map<String, dynamic> toJson() => _$FollowStatusInfo$Query$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfo$Query extends JsonSerializable with EquatableMixin {
+  FollowStatusInfo$Query();
+
+  factory FollowStatusInfo$Query.fromJson(Map<String, dynamic> json) =>
+      _$FollowStatusInfo$QueryFromJson(json);
+
+  FollowStatusInfo$Query$User? user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowStatusInfo$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUser$Mutation$FollowUser$User extends JsonSerializable
+    with EquatableMixin {
+  FollowUser$Mutation$FollowUser$User();
+
+  factory FollowUser$Mutation$FollowUser$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$FollowUser$Mutation$FollowUser$UserFromJson(json);
+
+  late String login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FollowUser$Mutation$FollowUser$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUser$Mutation$FollowUser extends JsonSerializable
+    with EquatableMixin {
+  FollowUser$Mutation$FollowUser();
+
+  factory FollowUser$Mutation$FollowUser.fromJson(Map<String, dynamic> json) =>
+      _$FollowUser$Mutation$FollowUserFromJson(json);
+
+  FollowUser$Mutation$FollowUser$User? user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowUser$Mutation$FollowUserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUser$Mutation extends JsonSerializable with EquatableMixin {
+  FollowUser$Mutation();
+
+  factory FollowUser$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$FollowUser$MutationFromJson(json);
+
+  FollowUser$Mutation$FollowUser? followUser;
+
+  @override
+  List<Object?> get props => [followUser];
+  @override
+  Map<String, dynamic> toJson() => _$FollowUser$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUser$Mutation$UnfollowUser$User extends JsonSerializable
+    with EquatableMixin {
+  UnfollowUser$Mutation$UnfollowUser$User();
+
+  factory UnfollowUser$Mutation$UnfollowUser$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$UnfollowUser$Mutation$UnfollowUser$UserFromJson(json);
+
+  late String login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UnfollowUser$Mutation$UnfollowUser$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUser$Mutation$UnfollowUser extends JsonSerializable
+    with EquatableMixin {
+  UnfollowUser$Mutation$UnfollowUser();
+
+  factory UnfollowUser$Mutation$UnfollowUser.fromJson(
+          Map<String, dynamic> json) =>
+      _$UnfollowUser$Mutation$UnfollowUserFromJson(json);
+
+  UnfollowUser$Mutation$UnfollowUser$User? user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UnfollowUser$Mutation$UnfollowUserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUser$Mutation extends JsonSerializable with EquatableMixin {
+  UnfollowUser$Mutation();
+
+  factory UnfollowUser$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$UnfollowUser$MutationFromJson(json);
+
+  UnfollowUser$Mutation$UnfollowUser? unfollowUser;
+
+  @override
+  List<Object?> get props => [unfollowUser];
+  @override
+  Map<String, dynamic> toJson() => _$UnfollowUser$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetViewerOrgs$Query$Viewer$Organizations$Edges$Node
     extends JsonSerializable with EquatableMixin {
   GetViewerOrgs$Query$Viewer$Organizations$Edges$Node();
@@ -11381,6 +11536,261 @@ class GetUserPinnedReposQuery extends GraphQLQuery<GetUserPinnedRepos$Query,
   @override
   GetUserPinnedRepos$Query parse(Map<String, dynamic> json) =>
       GetUserPinnedRepos$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfoArguments extends JsonSerializable with EquatableMixin {
+  FollowStatusInfoArguments({required this.user});
+
+  @override
+  factory FollowStatusInfoArguments.fromJson(Map<String, dynamic> json) =>
+      _$FollowStatusInfoArgumentsFromJson(json);
+
+  late String user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowStatusInfoArgumentsToJson(this);
+}
+
+final FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'followStatusInfo'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'user')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'user'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'login'),
+                  value: VariableNode(name: NameNode(value: 'user')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'viewerIsFollowing'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'viewerCanFollow'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'followers'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class FollowStatusInfoQuery
+    extends GraphQLQuery<FollowStatusInfo$Query, FollowStatusInfoArguments> {
+  FollowStatusInfoQuery({required this.variables});
+
+  @override
+  final DocumentNode document = FOLLOW_STATUS_INFO_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'followStatusInfo';
+
+  @override
+  final FollowStatusInfoArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  FollowStatusInfo$Query parse(Map<String, dynamic> json) =>
+      FollowStatusInfo$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUserArguments extends JsonSerializable with EquatableMixin {
+  FollowUserArguments({required this.user});
+
+  @override
+  factory FollowUserArguments.fromJson(Map<String, dynamic> json) =>
+      _$FollowUserArgumentsFromJson(json);
+
+  late String user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowUserArgumentsToJson(this);
+}
+
+final FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'followUser'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'user')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'followUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'userId'),
+                        value: VariableNode(name: NameNode(value: 'user')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'login'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class FollowUserMutation
+    extends GraphQLQuery<FollowUser$Mutation, FollowUserArguments> {
+  FollowUserMutation({required this.variables});
+
+  @override
+  final DocumentNode document = FOLLOW_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = 'followUser';
+
+  @override
+  final FollowUserArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  FollowUser$Mutation parse(Map<String, dynamic> json) =>
+      FollowUser$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUserArguments extends JsonSerializable with EquatableMixin {
+  UnfollowUserArguments({required this.user});
+
+  @override
+  factory UnfollowUserArguments.fromJson(Map<String, dynamic> json) =>
+      _$UnfollowUserArgumentsFromJson(json);
+
+  late String user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$UnfollowUserArgumentsToJson(this);
+}
+
+final UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'unfollowUser'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'user')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'unfollowUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'userId'),
+                        value: VariableNode(name: NameNode(value: 'user')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'login'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class UnfollowUserMutation
+    extends GraphQLQuery<UnfollowUser$Mutation, UnfollowUserArguments> {
+  UnfollowUserMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UNFOLLOW_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = 'unfollowUser';
+
+  @override
+  final UnfollowUserArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UnfollowUser$Mutation parse(Map<String, dynamic> json) =>
+      UnfollowUser$Mutation.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

@@ -12,14 +12,14 @@ abstract class BaseDataProvider<T> extends BaseProvider {
 
   late T data;
 
-  Future<T> setInitData();
+  Future<T> setInitData({bool isInitialisation = false});
 
   void onError(Object error) {}
 
   void loadData() async {
     loading();
     try {
-      data = await setInitData();
+      data = await setInitData(isInitialisation: true);
       loaded();
     } catch (e) {
       error(error: e);

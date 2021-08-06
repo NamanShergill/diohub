@@ -30,7 +30,7 @@ class IssueProvider extends BaseDataProvider<IssueModel> {
   }
 
   @override
-  Future<IssueModel> setInitData() async {
+  Future<IssueModel> setInitData({bool isInitialisation = false}) async {
     final futures = <Future>[
       IssuesService.getIssueInfo(fullUrl: issueURL),
       RepositoryServices.checkUserRepoPerms(
@@ -44,7 +44,6 @@ class IssueProvider extends BaseDataProvider<IssueModel> {
           .replace(PullScreenRoute(pullURL: _issueModel.pullRequest!.url!));
     }
     _editingEnabled = data[1];
-
     return _issueModel;
   }
 }

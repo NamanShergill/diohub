@@ -7,7 +7,7 @@ class RepositoryProvider extends BaseDataProvider<RepositoryModel> {
   String url;
 
   @override
-  Future<RepositoryModel> setInitData() {
+  Future<RepositoryModel> setInitData({bool isInitialisation = false}) {
     return RepositoryServices.fetchRepository(url);
   }
 }

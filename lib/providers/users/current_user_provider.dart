@@ -36,7 +36,7 @@ class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   }
 
   @override
-  Future<CurrentUserInfoModel> setInitData() {
+  Future<CurrentUserInfoModel> setInitData({bool isInitialisation = false}) {
     return UserInfoService.getCurrentUserInfo();
   }
 }

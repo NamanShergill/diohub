@@ -87,4 +87,24 @@ class UserInfoService {
         cacheOptions: CacheManager.defaultGQLCache(refresh: refresh));
     return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;
   }
+
+  static Future<FollowStatusInfo$Query$User> getFollowInfo(String login) async {
+    return FollowStatusInfo$Query.fromJson((await API.gqlRequest(
+                FollowStatusInfoQuery(
+                    variables: FollowStatusInfoArguments(user: login))))
+            .data!)
+        .user!;
+  }
+
+  static Future changeFollowStatus(String id, {required bool follow}) async {
+    if (follow) {
+      return API.gqlRequest(
+          FollowUserMutation(variables: FollowUserArguments(user: id)),
+          debugLog: true);
+    } else {
+      return API.gqlRequest(
+          UnfollowUserMutation(variables: UnfollowUserArguments(user: id)),
+          debugLog: true);
+    }
+  }
 }

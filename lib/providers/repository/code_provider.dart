@@ -45,7 +45,7 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
 
   /// Fetch a [Tree] and load it in the provider.
   Future<CodeTreeModel> _fetchTree(String? treeSHA,
-      {required String? currentRootSHA}) async {
+      {required String? currentRootSHA, bool setState = true}) async {
     loading();
     // Start with initial future to fetch code tree.
     final future = <Future>[
@@ -68,7 +68,9 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
       // Add data to tree.
       _tree.add(_codeTree.copyWith(commit: _commit));
     }
-    loaded();
+    if (setState) {
+      loaded();
+    }
     return _tree.last;
   }
 
@@ -122,8 +124,8 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   }
 
   @override
-  Future<CodeTreeModel> setInitData() {
+  Future<CodeTreeModel> setInitData({bool isInitialisation = false}) {
     return _fetchTree(parentProvider.currentSHA,
-        currentRootSHA: parentProvider.currentSHA);
+        currentRootSHA: parentProvider.currentSHA, setState: !isInitialisation);
   }
 }

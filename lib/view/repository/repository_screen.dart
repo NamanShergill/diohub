@@ -25,6 +25,7 @@ import 'package:dio_hub/view/repository/readme/repository_readme.dart';
 import 'package:dio_hub/view/repository/widgets/about_repository.dart';
 import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:dio_hub/view/repository/widgets/branch_button.dart';
+import 'package:dio_hub/view/repository/widgets/watch_repo_wrapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -240,26 +241,31 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   _repo.name!,
                                   fadeIntoView: false,
                                   inkWellRadius: medBorderRadius,
-                                  child: (context, data) {
-                                    return IgnorePointer(
-                                      child: ActionButton(
-                                        count: data?.stargazerCount,
-                                        icon: Octicons.star,
-                                        onTap: () {},
-                                        doneColor: Colors.amber,
-                                        isDone: data?.viewerHasStarred,
-                                        action: 'Star',
-                                      ),
+                                  child: (context, data, onPress) {
+                                    return ActionButton(
+                                      count: data?.stargazerCount,
+                                      icon: Octicons.star,
+                                      onTap: onPress,
+                                      doneColor: Colors.amber,
+                                      isDone: data?.viewerHasStarred,
                                     );
                                   },
                                 ),
                                 const SizedBox(
                                   width: 16,
                                 ),
-                                ActionButton(
-                                  count: _repo.subscribersCount,
-                                  icon: Octicons.eye,
-                                  action: 'Watch',
+                                WatchRepoWrapper(
+                                  _repo.owner!.login!,
+                                  _repo.name!,
+                                  builder: (context, watchData, onPress) =>
+                                      ActionButton(
+                                    count: watchData?.watchers.totalCount,
+                                    onTap: onPress,
+                                    doneColor: Colors.greenAccent,
+                                    icon: Octicons.eye,
+                                    isDone: isSubscribedToRepo(
+                                        watchData?.viewerSubscription),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 16,
