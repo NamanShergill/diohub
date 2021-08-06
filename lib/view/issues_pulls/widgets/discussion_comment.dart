@@ -43,7 +43,7 @@ class BaseComment extends StatefulWidget {
   final CommentAuthorAssociation authorAssociation;
   final String body;
   final IconData? leading;
-  final String bodyHTML;
+  final String? bodyHTML;
   // Todo: Temp nullable
   final List<ReactionsMixin>? reactions;
   final DateTime? lastEditedAt;
@@ -250,16 +250,16 @@ class _BaseCommentState extends State<BaseComment> {
             padding: widget.headerPadding,
             child: widget.header!,
           ),
-        if (widget.bodyHTML.isNotEmpty)
+        if (widget.bodyHTML?.isNotEmpty == true)
           Row(
             children: [
               Flexible(
                   child: MarkdownBody(
-                widget.bodyHTML,
+                widget.bodyHTML!,
               )),
             ],
           ),
-        if (widget.footer != null && widget.bodyHTML.isEmpty)
+        if (widget.footer != null && widget.bodyHTML?.isEmpty == true)
           const SizedBox(
             height: 8,
           ),
@@ -268,7 +268,7 @@ class _BaseCommentState extends State<BaseComment> {
             padding: widget.footerPadding,
             child: widget.footer!,
           ),
-        if (widget.footer == null && widget.bodyHTML.isEmpty)
+        if (widget.footer == null && widget.bodyHTML?.isEmpty == true)
           const SizedBox(
             height: 8,
           ),

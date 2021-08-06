@@ -22,7 +22,7 @@ class API {
     String baseURL = apiBaseURL,
     bool applyBaseURL = true,
     bool loginRequired = true,
-    bool debugLog = kReleaseMode,
+    bool debugLog = false,
     bool buttonLock = true,
     bool showPopup = true,
     String? acceptHeader,
@@ -136,7 +136,7 @@ class API {
       );
     }
     // Log the request in the console for debugging if [debugLog] is true.
-    if (debugLog) {
+    if (debugLog && !kReleaseMode) {
       dio.interceptors.add(PrettyDioLogger(
           requestHeader: true, requestBody: true, responseHeader: true));
     }

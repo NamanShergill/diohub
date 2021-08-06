@@ -264,11 +264,12 @@ class _IssueScreenState extends State<IssueScreen>
                                       Uri.parse(value.data.user!.avatarUrl!),
                                       value.data.user!.login!),
                                   body: '',
-                                  description: value.data.bodyHtml!.isEmpty
-                                      ? 'No description provided.'
-                                      : null,
+                                  description:
+                                      value.data.bodyHtml?.isNotEmpty == true
+                                          ? null
+                                          : 'No description provided.',
                                   lastEditedAt: null,
-                                  bodyHTML: value.data.bodyHtml!,
+                                  bodyHTML: value.data.bodyHtml,
                                   authorAssociation:
                                       CommentAuthorAssociation.none)),
                         ],
