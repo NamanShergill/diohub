@@ -6,9 +6,8 @@ import 'package:dio_hub/providers/proxy_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
-import 'package:flutter/material.dart';
 
-class CodeProvider extends ProxyProvider<RepoBranchProvider> {
+class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   CodeProvider({String? repoURL}) : _repoURL = repoURL;
   List<CodeTreeModel> _tree = [];
 
@@ -29,51 +28,50 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   final StreamController<String> _treeController =
       StreamController<String>.broadcast();
 
-  /// Update the provider with new data.
-  @override
-  void updateProvider(RepoBranchProvider repoBranchProvider) async {
-    super.updateProvider(repoBranchProvider);
-  }
+  // /// Update the provider with new data.
+  // @override
+  // void updateProvider(RepoBranchProvider repoBranchProvider) async {
+  //   super.updateProvider(repoBranchProvider);
+  // }
 
   @override
   void customStreams() {
     // Listen to tree pop and push events and fetch data accordingly.
     _treeController.stream.listen((event) async {
       // Fetch the last tree in the list after the pop/push events are done,
-      await _fetchTree(event, currentRootSHA: parentProvider!.currentSHA!);
+      await _fetchTree(event, currentRootSHA: parentProvider.currentSHA);
     });
   }
 
   /// Fetch a [Tree] and load it in the provider.
-  Future _fetchTree(String treeSHA, {required String currentRootSHA}) async {
+  Future<CodeTreeModel> _fetchTree(String? treeSHA,
+      {required String? currentRootSHA, bool setState = true}) async {
     loading();
-    try {
-      // Start with initial future to fetch code tree.
-      final future = <Future>[
-        GitDatabaseService.getTree(repoURL: _repoURL, sha: treeSHA),
-        RepositoryServices.getCommitsList(
-            repoURL: _repoURL!,
-            sha: parentProvider!.currentSHA!,
-            path: getPath(),
-            pageNumber: 1,
-            pageSize: 1),
-      ];
-      // Run the futures.
-      final data = await Future.wait(future);
-      // Add data to tree if the selected branch has not been changed.
-      if (parentProvider!.currentSHA! == currentRootSHA) {
-        // Get _codeTree data from the completed futures.
-        final CodeTreeModel _codeTree = data[0];
-        // Get _commit data from the completed future.
-        final CommitListModel? _commit = data[1].first;
-        // Add data to tree.
-        _tree.add(_codeTree.copyWith(commit: _commit));
-        loaded();
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      error(error: e);
+    // Start with initial future to fetch code tree.
+    final future = <Future>[
+      GitDatabaseService.getTree(repoURL: _repoURL, sha: treeSHA),
+      RepositoryServices.getCommitsList(
+          repoURL: _repoURL!,
+          sha: parentProvider.currentSHA,
+          path: getPath(),
+          pageNumber: 1,
+          pageSize: 1),
+    ];
+    // Run the futures.
+    final data = await Future.wait(future);
+    // Add data to tree if the selected branch has not been changed.
+    if (parentProvider.currentSHA == currentRootSHA) {
+      // Get _codeTree data from the completed futures.
+      final CodeTreeModel _codeTree = data[0];
+      // Get _commit data from the completed future.
+      final CommitListModel? _commit = data[1].first;
+      // Add data to tree.
+      _tree.add(_codeTree.copyWith(commit: _commit));
     }
+    if (setState) {
+      loaded();
+    }
+    return _tree.last;
   }
 
   String getPath() {
@@ -126,8 +124,8 @@ class CodeProvider extends ProxyProvider<RepoBranchProvider> {
   }
 
   @override
-  void fetchData() {
-    _fetchTree(parentProvider!.currentSHA!,
-        currentRootSHA: parentProvider!.currentSHA!);
+  Future<CodeTreeModel> setInitData({bool isInitialisation = false}) {
+    return _fetchTree(parentProvider.currentSHA,
+        currentRootSHA: parentProvider.currentSHA, setState: !isInitialisation);
   }
 }

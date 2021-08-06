@@ -4206,6 +4206,91 @@ class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
+    extends JsonSerializable with EquatableMixin, IssueMixin {
+  PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue();
+
+  factory PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue.fromJson(
+          Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueFromJson(json);
+
+  @override
+  List<Object?> get props => [url, title, number, issueState, repository];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository$PinnedIssues$Nodes extends JsonSerializable
+    with EquatableMixin {
+  PinnedIssues$Query$Repository$PinnedIssues$Nodes();
+
+  factory PinnedIssues$Query$Repository$PinnedIssues$Nodes.fromJson(
+          Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$NodesFromJson(json);
+
+  late PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue issue;
+
+  @override
+  List<Object?> get props => [issue];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PinnedIssues$Query$Repository$PinnedIssues$NodesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository$PinnedIssues extends JsonSerializable
+    with EquatableMixin {
+  PinnedIssues$Query$Repository$PinnedIssues();
+
+  factory PinnedIssues$Query$Repository$PinnedIssues.fromJson(
+          Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$Repository$PinnedIssuesFromJson(json);
+
+  late int totalCount;
+
+  List<PinnedIssues$Query$Repository$PinnedIssues$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [totalCount, nodes];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PinnedIssues$Query$Repository$PinnedIssuesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  PinnedIssues$Query$Repository();
+
+  factory PinnedIssues$Query$Repository.fromJson(Map<String, dynamic> json) =>
+      _$PinnedIssues$Query$RepositoryFromJson(json);
+
+  PinnedIssues$Query$Repository$PinnedIssues? pinnedIssues;
+
+  @override
+  List<Object?> get props => [pinnedIssues];
+  @override
+  Map<String, dynamic> toJson() => _$PinnedIssues$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinnedIssues$Query extends JsonSerializable with EquatableMixin {
+  PinnedIssues$Query();
+
+  factory PinnedIssues$Query.fromJson(Map<String, dynamic> json) =>
+      _$PinnedIssues$QueryFromJson(json);
+
+  PinnedIssues$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+  @override
+  Map<String, dynamic> toJson() => _$PinnedIssues$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetRepoProjects$Query$Repository$Projects$Edges$Node
     extends JsonSerializable with EquatableMixin, ProjectMixin {
   GetRepoProjects$Query$Repository$Projects$Edges$Node();
@@ -5135,6 +5220,161 @@ class GetUserPinnedRepos$Query extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [user];
   @override
   Map<String, dynamic> toJson() => _$GetUserPinnedRepos$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfo$Query$User$Followers extends JsonSerializable
+    with EquatableMixin {
+  FollowStatusInfo$Query$User$Followers();
+
+  factory FollowStatusInfo$Query$User$Followers.fromJson(
+          Map<String, dynamic> json) =>
+      _$FollowStatusInfo$Query$User$FollowersFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FollowStatusInfo$Query$User$FollowersToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfo$Query$User extends JsonSerializable with EquatableMixin {
+  FollowStatusInfo$Query$User();
+
+  factory FollowStatusInfo$Query$User.fromJson(Map<String, dynamic> json) =>
+      _$FollowStatusInfo$Query$UserFromJson(json);
+
+  late String id;
+
+  late bool viewerIsFollowing;
+
+  late bool viewerCanFollow;
+
+  late FollowStatusInfo$Query$User$Followers followers;
+
+  @override
+  List<Object?> get props =>
+      [id, viewerIsFollowing, viewerCanFollow, followers];
+  @override
+  Map<String, dynamic> toJson() => _$FollowStatusInfo$Query$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfo$Query extends JsonSerializable with EquatableMixin {
+  FollowStatusInfo$Query();
+
+  factory FollowStatusInfo$Query.fromJson(Map<String, dynamic> json) =>
+      _$FollowStatusInfo$QueryFromJson(json);
+
+  FollowStatusInfo$Query$User? user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowStatusInfo$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUser$Mutation$FollowUser$User extends JsonSerializable
+    with EquatableMixin {
+  FollowUser$Mutation$FollowUser$User();
+
+  factory FollowUser$Mutation$FollowUser$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$FollowUser$Mutation$FollowUser$UserFromJson(json);
+
+  late String login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FollowUser$Mutation$FollowUser$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUser$Mutation$FollowUser extends JsonSerializable
+    with EquatableMixin {
+  FollowUser$Mutation$FollowUser();
+
+  factory FollowUser$Mutation$FollowUser.fromJson(Map<String, dynamic> json) =>
+      _$FollowUser$Mutation$FollowUserFromJson(json);
+
+  FollowUser$Mutation$FollowUser$User? user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowUser$Mutation$FollowUserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUser$Mutation extends JsonSerializable with EquatableMixin {
+  FollowUser$Mutation();
+
+  factory FollowUser$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$FollowUser$MutationFromJson(json);
+
+  FollowUser$Mutation$FollowUser? followUser;
+
+  @override
+  List<Object?> get props => [followUser];
+  @override
+  Map<String, dynamic> toJson() => _$FollowUser$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUser$Mutation$UnfollowUser$User extends JsonSerializable
+    with EquatableMixin {
+  UnfollowUser$Mutation$UnfollowUser$User();
+
+  factory UnfollowUser$Mutation$UnfollowUser$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$UnfollowUser$Mutation$UnfollowUser$UserFromJson(json);
+
+  late String login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UnfollowUser$Mutation$UnfollowUser$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUser$Mutation$UnfollowUser extends JsonSerializable
+    with EquatableMixin {
+  UnfollowUser$Mutation$UnfollowUser();
+
+  factory UnfollowUser$Mutation$UnfollowUser.fromJson(
+          Map<String, dynamic> json) =>
+      _$UnfollowUser$Mutation$UnfollowUserFromJson(json);
+
+  UnfollowUser$Mutation$UnfollowUser$User? user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UnfollowUser$Mutation$UnfollowUserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUser$Mutation extends JsonSerializable with EquatableMixin {
+  UnfollowUser$Mutation();
+
+  factory UnfollowUser$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$UnfollowUser$MutationFromJson(json);
+
+  UnfollowUser$Mutation$UnfollowUser? unfollowUser;
+
+  @override
+  List<Object?> get props => [unfollowUser];
+  @override
+  Map<String, dynamic> toJson() => _$UnfollowUser$MutationToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -9851,6 +10091,165 @@ class IssueTemplatesQuery
 }
 
 @JsonSerializable(explicitToJson: true)
+class PinnedIssuesArguments extends JsonSerializable with EquatableMixin {
+  PinnedIssuesArguments({required this.name, required this.owner});
+
+  @override
+  factory PinnedIssuesArguments.fromJson(Map<String, dynamic> json) =>
+      _$PinnedIssuesArgumentsFromJson(json);
+
+  late String name;
+
+  late String owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() => _$PinnedIssuesArgumentsToJson(this);
+}
+
+final PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'pinnedIssues'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'name')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'owner')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'name'),
+                  value: VariableNode(name: NameNode(value: 'name'))),
+              ArgumentNode(
+                  name: NameNode(value: 'owner'),
+                  value: VariableNode(name: NameNode(value: 'owner')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'pinnedIssues'),
+                  alias: null,
+                  arguments: [
+                    ArgumentNode(
+                        name: NameNode(value: 'first'),
+                        value: IntValueNode(value: '3'))
+                  ],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'nodes'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: 'issue'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'issue'),
+                                    directives: [])
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'issue'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: NameNode(value: 'issueState'),
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'nameWithOwner'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
+class PinnedIssuesQuery
+    extends GraphQLQuery<PinnedIssues$Query, PinnedIssuesArguments> {
+  PinnedIssuesQuery({required this.variables});
+
+  @override
+  final DocumentNode document = PINNED_ISSUES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'pinnedIssues';
+
+  @override
+  final PinnedIssuesArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  PinnedIssues$Query parse(Map<String, dynamic> json) =>
+      PinnedIssues$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetRepoProjectsArguments extends JsonSerializable with EquatableMixin {
   GetRepoProjectsArguments(
       {required this.name,
@@ -11137,6 +11536,261 @@ class GetUserPinnedReposQuery extends GraphQLQuery<GetUserPinnedRepos$Query,
   @override
   GetUserPinnedRepos$Query parse(Map<String, dynamic> json) =>
       GetUserPinnedRepos$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowStatusInfoArguments extends JsonSerializable with EquatableMixin {
+  FollowStatusInfoArguments({required this.user});
+
+  @override
+  factory FollowStatusInfoArguments.fromJson(Map<String, dynamic> json) =>
+      _$FollowStatusInfoArgumentsFromJson(json);
+
+  late String user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowStatusInfoArgumentsToJson(this);
+}
+
+final FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'followStatusInfo'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'user')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'user'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'login'),
+                  value: VariableNode(name: NameNode(value: 'user')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'viewerIsFollowing'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'viewerCanFollow'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'followers'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class FollowStatusInfoQuery
+    extends GraphQLQuery<FollowStatusInfo$Query, FollowStatusInfoArguments> {
+  FollowStatusInfoQuery({required this.variables});
+
+  @override
+  final DocumentNode document = FOLLOW_STATUS_INFO_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'followStatusInfo';
+
+  @override
+  final FollowStatusInfoArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  FollowStatusInfo$Query parse(Map<String, dynamic> json) =>
+      FollowStatusInfo$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FollowUserArguments extends JsonSerializable with EquatableMixin {
+  FollowUserArguments({required this.user});
+
+  @override
+  factory FollowUserArguments.fromJson(Map<String, dynamic> json) =>
+      _$FollowUserArgumentsFromJson(json);
+
+  late String user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$FollowUserArgumentsToJson(this);
+}
+
+final FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'followUser'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'user')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'followUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'userId'),
+                        value: VariableNode(name: NameNode(value: 'user')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'login'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class FollowUserMutation
+    extends GraphQLQuery<FollowUser$Mutation, FollowUserArguments> {
+  FollowUserMutation({required this.variables});
+
+  @override
+  final DocumentNode document = FOLLOW_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = 'followUser';
+
+  @override
+  final FollowUserArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  FollowUser$Mutation parse(Map<String, dynamic> json) =>
+      FollowUser$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UnfollowUserArguments extends JsonSerializable with EquatableMixin {
+  UnfollowUserArguments({required this.user});
+
+  @override
+  factory UnfollowUserArguments.fromJson(Map<String, dynamic> json) =>
+      _$UnfollowUserArgumentsFromJson(json);
+
+  late String user;
+
+  @override
+  List<Object?> get props => [user];
+  @override
+  Map<String, dynamic> toJson() => _$UnfollowUserArgumentsToJson(this);
+}
+
+final UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'unfollowUser'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'user')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'unfollowUser'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'userId'),
+                        value: VariableNode(name: NameNode(value: 'user')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'login'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class UnfollowUserMutation
+    extends GraphQLQuery<UnfollowUser$Mutation, UnfollowUserArguments> {
+  UnfollowUserMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UNFOLLOW_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = 'unfollowUser';
+
+  @override
+  final UnfollowUserArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UnfollowUser$Mutation parse(Map<String, dynamic> json) =>
+      UnfollowUser$Mutation.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

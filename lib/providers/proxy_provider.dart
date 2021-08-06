@@ -1,12 +1,14 @@
 import 'package:dio_hub/providers/base_provider.dart';
 
-abstract class ProxyProvider<T extends BaseProvider> extends BaseProvider {
-  ProxyProvider([Status status = Status.initialized]) : super(status);
-  T? _parentProvider;
-  T? get parentProvider => _parentProvider;
+abstract class ProxyProvider<T, Parent extends BaseDataProvider>
+    extends BaseDataProvider<T> {
+  ProxyProvider([Status status = Status.initialized])
+      : super(status: status, loadDataOnInit: false);
+  Parent? _parentProvider;
+  Parent get parentProvider => _parentProvider!;
 
   /// Update the provider with new data.
-  void updateProvider(T parentProvider) async {
+  void updateProvider(Parent parentProvider) async {
     // Only initialise streams if the provider is not equal,
     // ignore the call otherwise.
     if (_parentProvider != parentProvider) {
@@ -14,7 +16,7 @@ abstract class ProxyProvider<T extends BaseProvider> extends BaseProvider {
       // In case the provider loads lazily and the event of load is
       // already dispatched before it started listening to the stream.
       if (_parentProvider!.status == Status.loaded) {
-        fetchData();
+        loadData();
       }
       _parentProvider!.statusStream.listen(
         (event) async {
@@ -22,7 +24,7 @@ abstract class ProxyProvider<T extends BaseProvider> extends BaseProvider {
           // is reset and new data is fetched.
           if (event == Status.loaded) {
             reset();
-            fetchData();
+            loadData();
           }
         },
       );
@@ -31,6 +33,4 @@ abstract class ProxyProvider<T extends BaseProvider> extends BaseProvider {
   }
 
   void customStreams() {}
-
-  void fetchData();
 }

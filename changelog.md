@@ -1,10 +1,16 @@
-## [0.3.1] - In Development
+## [0.4.0] - In Development
 **Project Boards | WIP** 
 
+---
+## [0.3.1] - 06 August 2021
 **Enhancements**
-- View pinned issues on a repository. | WIP.
-- Watch buttons on repository screens now works. | WIP.
-- Follow button added to user profile screens. | WIP
+- View pinned issues on a repository.
+- Watch buttons on repository screens now works.
+- Follow button added to user profile screens.
+- Follow users from user cards themselves (For example, in search).
+
+**Bug Fixes**
+- Search type dropdown vanished on search screen.
 ---
 ## [0.3.0] - 10 July 2021
 **Authentication**

@@ -51,7 +51,7 @@ class IssueListCard extends StatelessWidget {
           borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context).push(IssueScreenRoute(
-                issueURL: item.url,
+                issueURL: item.url!,
                 commentsSince: commentsSince,
                 initialIndex: commentsSince != null ? 1 : 0));
           },
@@ -192,9 +192,11 @@ class IssueLoadingCard extends StatelessWidget {
   const IssueLoadingCard(this.url,
       {this.compact = false,
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+      this.backgroundColor,
       Key? key})
       : super(key: key);
   final String url;
+  final Color? backgroundColor;
   final bool compact;
   final EdgeInsets padding;
   @override
@@ -203,7 +205,8 @@ class IssueLoadingCard extends StatelessWidget {
       padding: padding,
       child: Material(
         elevation: 2,
-        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+        color: backgroundColor ??
+            Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<IssueModel>(
           apiCall: IssuesService.getIssueInfo(fullUrl: url),

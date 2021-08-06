@@ -20,7 +20,7 @@ class PullInformation extends StatelessWidget {
   const PullInformation({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _pull = Provider.of<PullProvider>(context).pullModel!;
+    final _pull = Provider.of<PullProvider>(context).data;
     final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return SingleChildScrollView(
       child: Column(
@@ -94,16 +94,16 @@ class PullInformation extends StatelessWidget {
               builder: (context, pull, _) {
                 return Row(
                   children: [
-                    pull.pullModel!.requestedReviewers!.isNotEmpty
+                    pull.data.requestedReviewers!.isNotEmpty
                         ? Flexible(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                                pull.pullModel!.requestedReviewers!.length,
+                                pull.data.requestedReviewers!.length,
                                 (index) => ProfileTile(
-                                      pull.pullModel!.requestedReviewers![index]
+                                      pull.data.requestedReviewers![index]
                                           .avatarUrl,
-                                      userLogin: pull.pullModel!
+                                      userLogin: pull.data
                                           .requestedReviewers![index].login,
                                       padding: const EdgeInsets.all(8),
                                       showName: true,
@@ -153,17 +153,16 @@ class PullInformation extends StatelessWidget {
               builder: (context, pull, _) {
                 return Row(
                   children: [
-                    pull.pullModel!.assignees!.isNotEmpty
+                    pull.data.assignees!.isNotEmpty
                         ? Flexible(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                                pull.pullModel!.assignees!.length,
+                                pull.data.assignees!.length,
                                 (index) => ProfileTile(
-                                      pull.pullModel!.assignees![index]
-                                          .avatarUrl,
-                                      userLogin: pull
-                                          .pullModel!.assignees![index].login,
+                                      pull.data.assignees![index].avatarUrl,
+                                      userLogin:
+                                          pull.data.assignees![index].login,
                                       padding: const EdgeInsets.all(8),
                                       showName: true,
                                     )),
@@ -210,7 +209,7 @@ class PullInformation extends StatelessWidget {
                 : null,
             child: Consumer<PullProvider>(
               builder: (context, pull, _) {
-                final _issue = pull.pullModel!;
+                final _issue = pull.data;
                 return Row(
                   children: [
                     (_issue.labels!.isNotEmpty)
@@ -295,7 +294,7 @@ class _BranchButton extends StatelessWidget {
             onTap: () {
               AutoRouter.of(context).push(RepositoryScreenRoute(
                   branch: base.label!.split(':').last,
-                  repositoryURL: base.repo!.url));
+                  repositoryURL: base.repo!.url!));
             },
             borderRadius: medBorderRadius,
             child: Container(

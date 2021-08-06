@@ -617,7 +617,8 @@ class _SearchBarState extends State<_SearchBar> {
     controller.text =
         controller.text.substring(0, controller.text.length - remove.length);
     // Add new text according to the parameters.
-    controller.text = '${controller.text}${'${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}'}${addQuotesAtEnd ? '""' : ''}';
+    controller.text =
+        '${controller.text}${'${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}'}${addQuotesAtEnd ? '""' : ''}';
     // Move controller to end, or end-1 if quotes were added.
     _moveControllerToEnd(addQuotesAtEnd ? 1 : 0);
     searchNode.requestFocus();
@@ -1055,11 +1056,8 @@ class _ValidQuery extends SpecialText {
                           style: textStyle.copyWith(fontSize: 14),
                           children: [
                             TextSpan(
-                                text: '${toString()
-                                        .trim()
-                                        .replaceAll('"', '')
-                                        .split(':')
-                                        .first} ',
+                                text:
+                                    '${toString().trim().replaceAll('"', '').split(':').first} ',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold)),
                             TextSpan(
@@ -1115,7 +1113,7 @@ class SearchData {
     bool multiType = false,
     List<String> defaultHiddenFilters = const [],
   })  : _defaultFilters = defaultHiddenFilters,
-        multiType = searchFilters == null && multiType;
+        multiType = searchFilters == null || multiType;
 
   /// Current query info without filters.
   final String query;

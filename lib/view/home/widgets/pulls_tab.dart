@@ -24,13 +24,13 @@ class _PullsTabState extends State<PullsTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
+    final _user = Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
           searchFilters:
               SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
           defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user!.login!),
+            SearchQueries().involves.toQueryString(_user.login!),
             SearchQueries().type.toQueryString('pr'),
           ],
           filterStrings: [

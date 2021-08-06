@@ -11,8 +11,8 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoScreen extends StatefulWidget {
-  const CommitInfoScreen({Key? key, this.commitURL}) : super(key: key);
-  final String? commitURL;
+  const CommitInfoScreen({Key? key, required this.commitURL}) : super(key: key);
+  final String commitURL;
 
   @override
   _CommitInfoScreenState createState() => _CommitInfoScreenState();
@@ -32,7 +32,7 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                       elevation: 0,
                     )
                   : DHAppBar(
-                      url: Provider.of<CommitProvider>(context).commit!.htmlUrl,
+                      url: Provider.of<CommitProvider>(context).data.htmlUrl,
                       title: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -45,7 +45,7 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                           ),
                           Text(
                             Provider.of<CommitProvider>(context)
-                                .commit!
+                                .data
                                 .sha!
                                 .substring(0, 6),
                             style: const TextStyle(fontSize: 14),
@@ -58,7 +58,6 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                   return ProviderLoadingProgressWrapper<CommitProvider>(
                     childBuilder: (context, value) {
                       return ScaffoldBody(
-                        notificationController: value.notificationController,
                         child: DefaultTabController(
                           length: 2,
                           initialIndex: 0,

@@ -12,7 +12,7 @@ class PullsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
-    final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
+    final _user = Provider.of<CurrentUserProvider>(context).data;
 
     return SearchScrollWrapper(
       SearchData(
@@ -20,27 +20,20 @@ class PullsList extends StatelessWidget {
               SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
           defaultHiddenFilters: [
             SearchQueries().type.toQueryString('pr'),
-            SearchQueries()
-                .repo
-                .toQueryString(_repo.repositoryModel!.fullName!),
+            SearchQueries().repo.toQueryString(_repo.data.fullName!),
           ]),
-      quickFilters: _user != null
-          ? {
-              SearchQueries().assignee.toQueryString(_user.login!):
-                  'Assigned to you',
-              SearchQueries().author.toQueryString(_user.login!):
-                  'Your pull requests',
-              SearchQueries().mentions.toQueryString(_user.login!):
-                  'Mentions you',
-            }
-          : null,
+      quickFilters: {
+        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned to you',
+        SearchQueries().author.toQueryString(_user.login!):
+            'Your pull requests',
+        SearchQueries().mentions.toQueryString(_user.login!): 'Mentions you',
+      },
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
       scrollController: scrollController,
       searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-      searchBarMessage:
-          'Search in ${_repo.repositoryModel!.name}\'s pull requests',
+      searchBarMessage: 'Search in ${_repo.data.name}\'s pull requests',
       searchHeroTag: 'repoPRSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       // replacementBuilder: (SearchData data, header, child) {

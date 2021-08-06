@@ -54,7 +54,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
           body: comment,
           owner: widget.owner,
           repo: widget.repo);
-      AutoRouter.of(context).replace(IssueScreenRoute(issueURL: res.url));
+      AutoRouter.of(context).replace(IssueScreenRoute(issueURL: res.url!));
       // setState(() {
       //   status = PageStatus.loaded;
       // });

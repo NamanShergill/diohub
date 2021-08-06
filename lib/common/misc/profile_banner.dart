@@ -38,7 +38,7 @@ class ProfileTile extends StatelessWidget {
         onTap: userLogin != null && !disableTap
             ? () {
                 AutoRouter.of(context)
-                    .push(OtherUserProfileScreenRoute(login: userLogin));
+                    .push(OtherUserProfileScreenRoute(login: userLogin!));
               }
             : null,
         child: Padding(

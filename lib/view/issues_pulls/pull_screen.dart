@@ -26,7 +26,7 @@ class PullScreen extends StatefulWidget {
   const PullScreen(this.pullURL,
       {this.initialIndex = 0, this.commentsSince, Key? key})
       : super(key: key);
-  final String? pullURL;
+  final String pullURL;
   final DateTime? commentsSince;
   final int initialIndex;
   @override
@@ -53,8 +53,8 @@ class _PullScreenState extends State<PullScreen>
           create: (_) => PullProvider(
               widget.pullURL,
               Provider.of<CurrentUserProvider>(context, listen: false)
-                  .currentUserInfo
-                  ?.login),
+                  .data
+                  .login!),
         ),
         ChangeNotifierProvider(
           create: (context) => CommentProvider(),
@@ -71,7 +71,6 @@ class _PullScreenState extends State<PullScreen>
                       )
                     : null,
                 body: ScaffoldBody(
-                  notificationController: value.notificationController,
                   child: ProviderLoadingProgressWrapper<PullProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
@@ -81,7 +80,7 @@ class _PullScreenState extends State<PullScreen>
                             .primary,
                         scrollViewAppBar: ScrollViewAppBar(
                           tabController: tabController,
-                          url: value.pullModel!.htmlUrl,
+                          url: value.data.htmlUrl,
                           tabs: const [
                             'Information',
                             'Discussion',
@@ -93,26 +92,25 @@ class _PullScreenState extends State<PullScreen>
                           appBarWidget: Row(
                             children: [
                               getIcon(
-                                value.pullModel!.state,
+                                value.data.state,
                                 15,
-                                merged: value.pullModel!.merged!,
+                                merged: value.data.merged!,
                               )!,
                               const SizedBox(
                                 width: 4,
                               ),
                               Text(
-                                value.pullModel!.state == IssueState.OPEN
+                                value.data.state == IssueState.OPEN
                                     ? 'Open'
-                                    : value.pullModel!.merged!
+                                    : value.data.merged!
                                         ? 'Merged'
                                         : 'Closed',
                                 style: TextStyle(
-                                    color: value.pullModel!.state ==
-                                            IssueState.OPEN
+                                    color: value.data.state == IssueState.OPEN
                                         ? Provider.of<PaletteSettings>(context)
                                             .currentSetting
                                             .green
-                                        : value.pullModel!.merged!
+                                        : value.data.merged!
                                             ? Colors.deepPurpleAccent
                                             : Provider.of<PaletteSettings>(
                                                     context)
@@ -124,7 +122,7 @@ class _PullScreenState extends State<PullScreen>
                                 width: 8,
                               ),
                               Text(
-                                '#${value.pullModel!.number}',
+                                '#${value.data.number}',
                                 style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
@@ -140,27 +138,27 @@ class _PullScreenState extends State<PullScreen>
                               Row(
                                 children: [
                                   getIcon(
-                                    value.pullModel!.state,
+                                    value.data.state,
                                     20,
-                                    merged: value.pullModel!.merged!,
+                                    merged: value.data.merged!,
                                   )!,
                                   const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    value.pullModel!.state == IssueState.OPEN
+                                    value.data.state == IssueState.OPEN
                                         ? 'Open'
-                                        : value.pullModel!.merged!
+                                        : value.data.merged!
                                             ? 'Merged'
                                             : 'Closed',
                                     style: TextStyle(
-                                        color: value.pullModel!.state ==
+                                        color: value.data.state ==
                                                 IssueState.OPEN
                                             ? Provider.of<PaletteSettings>(
                                                     context)
                                                 .currentSetting
                                                 .green
-                                            : value.pullModel!.merged!
+                                            : value.data.merged!
                                                 ? Colors.deepPurpleAccent
                                                 : Provider.of<PaletteSettings>(
                                                         context)
@@ -173,7 +171,7 @@ class _PullScreenState extends State<PullScreen>
                                     width: 8,
                                   ),
                                   Text(
-                                    '#${value.pullModel!.number}',
+                                    '#${value.data.number}',
                                     style: TextStyle(
                                         color: Provider.of<PaletteSettings>(
                                                 context)
@@ -195,7 +193,7 @@ class _PullScreenState extends State<PullScreen>
                                     width: 4,
                                   ),
                                   Text(
-                                    '${value.pullModel!.comments} comments',
+                                    '${value.data.comments} comments',
                                     style: TextStyle(
                                         color: Provider.of<PaletteSettings>(
                                                 context)
@@ -209,7 +207,7 @@ class _PullScreenState extends State<PullScreen>
                                 height: 8,
                               ),
                               Text(
-                                value.pullModel!.title!,
+                                value.data.title!,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
@@ -227,7 +225,7 @@ class _PullScreenState extends State<PullScreen>
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: Text(
-                                      value.repoURL!.replaceFirst(
+                                      value.repoURL.replaceFirst(
                                           'https://api.github.com/repos/', ''),
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 14),
@@ -236,9 +234,9 @@ class _PullScreenState extends State<PullScreen>
                                 ),
                               ),
                               Text(
-                                value.pullModel!.state == IssueState.CLOSED
-                                    ? 'By ${value.pullModel!.user!.login}, closed ${getDate(value.pullModel!.closedAt.toString(), shorten: false)}.'
-                                    : 'Opened ${getDate(value.pullModel!.createdAt.toString(), shorten: false)} by ${value.pullModel!.user!.login}',
+                                value.data.state == IssueState.CLOSED
+                                    ? 'By ${value.data.user!.login}, closed ${getDate(value.data.closedAt.toString(), shorten: false)}.'
+                                    : 'Opened ${getDate(value.data.createdAt.toString(), shorten: false)} by ${value.data.user!.login}',
                                 style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
@@ -253,24 +251,24 @@ class _PullScreenState extends State<PullScreen>
                           const PullInformation(),
                           Discussion(
                               scrollController: scrollController,
-                              pullNodeID: value.pullModel!.nodeId,
-                              number: value.pullModel!.number!,
-                              owner: value.repoURL!
+                              pullNodeID: value.data.nodeId,
+                              number: value.data.number!,
+                              owner: value.repoURL
                                   .replaceFirst(
                                       'https://api.github.com/repos/', '')
                                   .split('/')
                                   .first,
-                              repoName: value.repoURL!
+                              repoName: value.repoURL
                                   .replaceFirst(
                                       'https://api.github.com/repos/', '')
                                   .split('/')
                                   .last,
                               isPull: true,
                               commentsSince: widget.commentsSince,
-                              isLocked: value.pullModel!.locked! &&
-                                  !value.editingEnabled,
-                              createdAt: value.pullModel!.createdAt,
-                              issueUrl: value.pullModel!.issueUrl!,
+                              isLocked:
+                                  value.data.locked! && !value.editingEnabled,
+                              createdAt: value.data.createdAt,
+                              issueUrl: value.data.issueUrl!,
                               initComment: BaseComment(
                                   isMinimized: false,
                                   reactions: null,
@@ -281,18 +279,16 @@ class _PullScreenState extends State<PullScreen>
                                   viewerCanReact: false,
                                   viewerCanUpdate: false,
                                   viewerDidAuthor: false,
-                                  createdAt: value.pullModel!.createdAt!,
+                                  createdAt: value.data.createdAt!,
                                   author: Author(
-                                      Uri.parse(
-                                          value.pullModel!.user!.avatarUrl!),
-                                      value.pullModel!.user!.login!),
+                                      Uri.parse(value.data.user!.avatarUrl!),
+                                      value.data.user!.login!),
                                   body: '',
                                   lastEditedAt: null,
-                                  description:
-                                      value.pullModel!.bodyHtml!.isEmpty
-                                          ? 'No description provided.'
-                                          : null,
-                                  bodyHTML: value.pullModel!.bodyHtml!,
+                                  description: value.data.bodyHtml!.isEmpty
+                                      ? 'No description provided.'
+                                      : null,
+                                  bodyHTML: value.data.bodyHtml!,
                                   authorAssociation:
                                       CommentAuthorAssociation.none)),
                           const PullsCommitsList(),

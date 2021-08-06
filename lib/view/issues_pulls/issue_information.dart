@@ -23,7 +23,7 @@ class IssueInformation extends StatelessWidget {
   final APIWrapperController labelController = APIWrapperController();
   @override
   Widget build(BuildContext context) {
-    final _issue = Provider.of<IssueProvider>(context).issueModel!;
+    final _issue = Provider.of<IssueProvider>(context).data;
     final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
     return SingleChildScrollView(
       child: Column(
@@ -32,15 +32,13 @@ class IssueInformation extends StatelessWidget {
             height: 8,
           ),
           if (_editingEnabled ||
-              (Provider.of<CurrentUserProvider>(context)
-                          .currentUserInfo
-                          ?.login ==
+              (Provider.of<CurrentUserProvider>(context).data.login ==
                       _issue.user!.login &&
                   (!(_issue.state == IssueState.CLOSED) ||
                       _issue.closedBy!.login ==
                           Provider.of<CurrentUserProvider>(context)
-                              .currentUserInfo
-                              ?.login)))
+                              .data
+                              .login)))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: _IssueButton(_issue),
@@ -108,17 +106,16 @@ class IssueInformation extends StatelessWidget {
               builder: (context, value, _) {
                 return Row(
                   children: [
-                    value.issueModel!.assignees!.isNotEmpty
+                    value.data.assignees!.isNotEmpty
                         ? Flexible(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                                value.issueModel!.assignees!.length,
+                                value.data.assignees!.length,
                                 (index) => ProfileTile(
-                                      value.issueModel!.assignees![index]
-                                          .avatarUrl,
-                                      userLogin: value
-                                          .issueModel!.assignees![index].login,
+                                      value.data.assignees![index].avatarUrl,
+                                      userLogin:
+                                          value.data.assignees![index].login,
                                       padding: const EdgeInsets.all(8),
                                       showName: true,
                                     )),
@@ -163,7 +160,7 @@ class IssueInformation extends StatelessWidget {
                 : null,
             child: Consumer<IssueProvider>(
               builder: (context, issue, _) {
-                final _issue = issue.issueModel!;
+                final _issue = issue.data;
                 return Row(
                   children: [
                     (_issue.labels!.isNotEmpty)

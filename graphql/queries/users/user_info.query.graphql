@@ -42,3 +42,31 @@ query getUserPinnedRepos($user: String!){
         }
     }
 }
+
+
+query followStatusInfo($user:String!){
+    user(login: $user) {
+        id
+        viewerIsFollowing
+        viewerCanFollow
+        followers {
+            totalCount
+        }
+    }
+}
+
+mutation  followUser($user:ID!){
+    followUser(input: {userId: $user}){
+        user{
+            login
+        }
+    }
+}
+
+mutation  unfollowUser($user:ID!){
+    unfollowUser(input: {userId: $user}){
+        user{
+            login
+        }
+    }
+}

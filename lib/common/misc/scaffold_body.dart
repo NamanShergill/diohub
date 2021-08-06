@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
@@ -12,7 +10,6 @@ class ScaffoldBody extends StatefulWidget {
       this.child,
       this.header,
       this.footer,
-      this.notificationController,
       this.showFooter = true,
       this.showHeader = true})
       : super(key: key);
@@ -21,7 +18,6 @@ class ScaffoldBody extends StatefulWidget {
   final Widget? header;
   final bool showHeader;
   final bool showFooter;
-  final StreamController<Widget?>? notificationController;
 
   @override
   _ScaffoldBodyState createState() => _ScaffoldBodyState();
@@ -84,16 +80,16 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
             Expanded(child: widget.child ?? Container()),
           ],
         ),
-        Visibility(
-            visible: widget.showFooter,
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: StreamBuilder<Widget?>(
-                  stream: widget.notificationController!.stream,
-                  builder: (context, widget) {
-                    return widget.data ?? Container();
-                  },
-                ))),
+        // Visibility(
+        //     visible: widget.showFooter,
+        //     child: Align(
+        //         alignment: Alignment.bottomCenter,
+        //         child: StreamBuilder<Widget?>(
+        //           stream: widget.notificationController!.stream,
+        //           builder: (context, widget) {
+        //             return widget.data ?? Container();
+        //           },
+        //         ))),
       ],
     );
   }

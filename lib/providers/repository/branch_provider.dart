@@ -4,7 +4,7 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/proxy_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 
-class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
+class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   RepoBranchProvider({String? initialBranch, String? initCommitSHA})
       : _initialBranch = initialBranch,
         _initCommitSHA = initCommitSHA,
@@ -13,18 +13,19 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   final String? _initCommitSHA;
   final StreamController<String> _loadBranch =
       StreamController<String>.broadcast();
-  String? _currentSHA;
+  late String _currentSHA;
   String? _currentBranch;
-  String? get currentSHA => _currentSHA;
+  String get currentSHA => _currentSHA;
   bool isCommit = false;
 
-  void disposeStream() {
+  @override
+  void disposeStreams() {
+    super.disposeStreams();
     _loadBranch.close();
   }
 
   void reloadBranch() {
-    _loadBranch
-        .add(_currentBranch ?? parentProvider!.repositoryModel!.defaultBranch!);
+    _loadBranch.add(_currentBranch ?? parentProvider.data.defaultBranch!);
   }
 
   @override
@@ -40,21 +41,24 @@ class RepoBranchProvider extends ProxyProvider<RepositoryProvider> {
   }
 
   @override
-  void fetchData() {
-    setBranch(
-        _initCommitSHA ??
-            _currentBranch ??
-            parentProvider!.repositoryModel!.defaultBranch!,
-        isCommitSha: _initCommitSHA != null);
+  Future<String> setInitData({bool isInitialisation = false}) {
+    return setBranch(
+        _initCommitSHA ?? _currentBranch ?? parentProvider.data.defaultBranch!,
+        isCommitSha: _initCommitSHA != null,
+        setState: !isInitialisation);
   }
 
-  void setBranch(String branchName, {bool isCommitSha = false}) async {
+  Future<String> setBranch(String branchName,
+      {bool isCommitSha = false, bool setState = true}) async {
     _currentSHA = branchName;
     isCommit = isCommitSha;
     if (!isCommitSha) {
       _currentBranch = branchName;
     }
-    loaded();
+    if (setState) {
+      loaded();
+    }
+    return _currentSHA;
   }
 
   // void _fetchBranch(String branch, {bool isInitial = true}) async {

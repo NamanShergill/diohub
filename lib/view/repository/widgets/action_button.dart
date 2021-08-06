@@ -86,6 +86,13 @@ class _ActionButtonState extends State<ActionButton> {
                       fontSize: 13,
                     ),
                   ),
+                  if (widget.action != null)
+                    Text(
+                      ' ${widget.action!}',
+                      style: const TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
                 ],
               ),
             ),

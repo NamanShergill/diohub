@@ -49,15 +49,18 @@ class _LoginPopupState extends State<LoginPopup> {
                       listenToLoadingController: false,
                       onTap: () async {
                         Navigator.pop(context);
-                        setState(() {
-                          loading = true;
-                        });
-                        await _browserAuth().then((value) =>
-                            BlocProvider.of<AuthenticationBloc>(context)
-                                .add(AuthSuccessful(value)));
-                        setState(() {
-                          loading = false;
-                        });
+                        try {
+                          setState(() {
+                            loading = true;
+                          });
+                          await _browserAuth().then((value) =>
+                              BlocProvider.of<AuthenticationBloc>(context)
+                                  .add(AuthSuccessful(value)));
+                        } catch (e) {} finally {
+                          setState(() {
+                            loading = false;
+                          });
+                        }
                       },
                       title: 'Browser'),
                   const SizedBox(

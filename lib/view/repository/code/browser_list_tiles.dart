@@ -54,7 +54,7 @@ class BrowserListTile extends StatelessWidget {
                     .currentSHA,
                 repoName:
                     Provider.of<RepositoryProvider>(context, listen: false)
-                        .repositoryModel!
+                        .data
                         .fullName));
           }
         },

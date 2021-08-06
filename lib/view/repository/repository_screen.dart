@@ -13,6 +13,7 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
+import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -24,6 +25,7 @@ import 'package:dio_hub/view/repository/readme/repository_readme.dart';
 import 'package:dio_hub/view/repository/widgets/about_repository.dart';
 import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:dio_hub/view/repository/widgets/branch_button.dart';
+import 'package:dio_hub/view/repository/widgets/watch_repo_wrapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -33,7 +35,7 @@ class RepositoryScreen extends StatefulWidget {
   const RepositoryScreen(this.repositoryURL,
       {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
       : super(key: key);
-  final String? repositoryURL;
+  final String repositoryURL;
   final String? branch;
   final int index;
   final String? initSHA;
@@ -52,6 +54,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   late TabController tabController;
   late IssueTemplateProvider issueTemplateProvider;
   late RepositoryProvider repositoryProvider;
+  late PinnedIssuesProvider pinnedIssuesProvider;
   final ScrollController scrollController = ScrollController();
   late String? initBranch;
   @override
@@ -68,6 +71,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     issueTemplateProvider = IssueTemplateProvider();
+    pinnedIssuesProvider = PinnedIssuesProvider();
     super.initState();
   }
 
@@ -115,6 +119,11 @@ class _RepositoryScreenState extends State<RepositoryScreen>
           update: (_, repo, __) => issueTemplateProvider..updateProvider(repo),
           lazy: false,
         ),
+        ChangeNotifierProxyProvider<RepositoryProvider, PinnedIssuesProvider>(
+          create: (_) => pinnedIssuesProvider,
+          update: (_, repo, __) => pinnedIssuesProvider..updateProvider(repo),
+          lazy: false,
+        ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
             create: (_) => readmeProvider,
             update: (_, branch, __) => readmeProvider..updateProvider(branch)),
@@ -159,11 +168,9 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                 }
               },
               child: ScaffoldBody(
-                notificationController: Provider.of<RepositoryProvider>(context)
-                    .notificationController,
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
                   childBuilder: (context, value) {
-                    final _repo = value.repositoryModel!;
+                    final _repo = value.data;
                     return AppScrollView(
                       scrollController: scrollController,
                       scrollViewAppBar: ScrollViewAppBar(
@@ -234,26 +241,31 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                   _repo.name!,
                                   fadeIntoView: false,
                                   inkWellRadius: medBorderRadius,
-                                  child: (context, data) {
-                                    return IgnorePointer(
-                                      child: ActionButton(
-                                        count: data?.stargazerCount,
-                                        icon: Octicons.star,
-                                        onTap: () {},
-                                        doneColor: Colors.amber,
-                                        isDone: data?.viewerHasStarred,
-                                        action: 'Star',
-                                      ),
+                                  child: (context, data, onPress) {
+                                    return ActionButton(
+                                      count: data?.stargazerCount,
+                                      icon: Octicons.star,
+                                      onTap: onPress,
+                                      doneColor: Colors.amber,
+                                      isDone: data?.viewerHasStarred,
                                     );
                                   },
                                 ),
                                 const SizedBox(
                                   width: 16,
                                 ),
-                                ActionButton(
-                                  count: _repo.subscribersCount,
-                                  icon: Octicons.eye,
-                                  action: 'Watch',
+                                WatchRepoWrapper(
+                                  _repo.owner!.login!,
+                                  _repo.name!,
+                                  builder: (context, watchData, onPress) =>
+                                      ActionButton(
+                                    count: watchData?.watchers.totalCount,
+                                    onTap: onPress,
+                                    doneColor: Colors.greenAccent,
+                                    icon: Octicons.eye,
+                                    isDone: isSubscribedToRepo(
+                                        watchData?.viewerSubscription),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 16,
@@ -336,7 +348,7 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                                 onTap: () {
                                   if (Provider.of<RepositoryProvider>(context,
                                           listen: false)
-                                      .repositoryModel!
+                                      .data
                                       .hasWiki!) {
                                     AutoRouter.of(context).push(WikiViewerRoute(
                                         repoURL: widget.repositoryURL));

@@ -67,7 +67,7 @@ class _PullRequestNotificationCardState
       },
       onTap: () {
         return AutoRouter.of(context)
-            .push(PullScreenRoute(pullURL: widget.notification.subject!.url));
+            .push(PullScreenRoute(pullURL: widget.notification.subject!.url!));
       },
       loading: loading,
       footerBuilder: (context) {

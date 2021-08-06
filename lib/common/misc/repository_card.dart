@@ -46,7 +46,7 @@ class _RepositoryCardState extends State<RepositoryCard> {
           borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context).push(RepositoryScreenRoute(
-              repositoryURL: widget.repo!.url,
+              repositoryURL: widget.repo!.url!,
               branch: widget.branch,
             ));
           },

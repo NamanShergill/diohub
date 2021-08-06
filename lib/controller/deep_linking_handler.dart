@@ -105,13 +105,12 @@ List<PageRouteInfo>? _getRoutes(String link) {
     ));
   } else if (string.regexCompleteMatch(_commitPageURLPattern)) {
     temp.add(CommitInfoScreenRoute(
-        commitURL: '${_urlWithPrefix('repos/${DeepLinkData(string.string)
-                    .components
-                    .sublist(0, 2)
-                    .join('/')}')}/commits/${DeepLinkData(string.string).component(3)!}'));
+        commitURL:
+            '${_urlWithPrefix('repos/${DeepLinkData(string.string).components.sublist(0, 2).join('/')}')}/commits/${DeepLinkData(string.string).component(3)!}'));
   } else if (string.regexCompleteMatch(_repoPageURLPattern)) {
     temp.add(RepositoryScreenRoute(
-        repositoryURL: _urlWithPrefix('repos/${DeepLinkData(string.string).components.sublist(0, 2).join('/')}'),
+        repositoryURL: _urlWithPrefix(
+            'repos/${DeepLinkData(string.string).components.sublist(0, 2).join('/')}'),
         deepLinkData: DeepLinkData(string.string)));
   } else if (string.regexCompleteMatch(_chars)) {
     temp.add(OtherUserProfileScreenRoute(
@@ -192,11 +191,11 @@ String get _repoPageURLPattern => regexPattern([
               regexORCases(['tree', 'blob']),
               _slash,
               _chars,
-              optionalRegex(
-                regexPattern(
-                  [_slash, _any],
-                ),
-              ),
+              // optionalRegex(
+              //   regexPattern(
+              //     [_slash, _any],
+              //   ),
+              // ),
             ],
           ),
           '/issues',

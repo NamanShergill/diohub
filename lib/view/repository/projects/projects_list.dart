@@ -12,7 +12,7 @@ class ProjectsList extends StatelessWidget {
   final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
-    final repo = Provider.of<RepositoryProvider>(context).repositoryModel!;
+    final repo = Provider.of<RepositoryProvider>(context).data;
     return InfiniteScrollWrapper<
         GetRepoProjects$Query$Repository$Projects$Edges?>(
       future: (pageNumber, pageSize, refresh, lastItem) =>
