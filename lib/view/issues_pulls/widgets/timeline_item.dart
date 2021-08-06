@@ -11,6 +11,7 @@ import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:line_icons/line_icons.dart';
@@ -433,7 +434,11 @@ class GetTimelineItem extends StatelessWidget {
               textContent: 'Unpinned this.',
             );
           }
-          return Text(item.$$typename);
+          if (!kReleaseMode) {
+            return Text(item.$$typename);
+          } else {
+            return Container();
+          }
         },
       ),
     );
