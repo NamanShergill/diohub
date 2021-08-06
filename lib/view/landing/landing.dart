@@ -1,12 +1,7 @@
-import 'dart:async';
-
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/auth_popup/auth_popup.dart';
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/landing_navigation_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/home/home.dart';
 import 'package:dio_hub/view/notifications/notifications.dart';
 import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
@@ -20,8 +15,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
-  final DeepLinkData? deepLinkData;
   const LandingScreen({this.deepLinkData, Key? key}) : super(key: key);
+  final DeepLinkData? deepLinkData;
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -29,21 +24,8 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
-    //Show auth popup if user is not authenticated.
-    showAuthPopup();
     context.read<NavigationProvider>().setPath(widget.deepLinkData?.path);
     super.initState();
-  }
-
-  void showAuthPopup() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
-      showDialog(
-          context: context,
-          builder: (_) {
-            return const AuthPopup();
-          });
-    }
   }
 
   @override
@@ -51,15 +33,12 @@ class _LandingScreenState extends State<LandingScreen> {
     final _navProvider = Provider.of<NavigationProvider>(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.background,
+        backgroundColor:
+            Provider.of<PaletteSettings>(context).currentSetting.primary,
         body: ScaffoldBody(
-          notificationController:
-              Provider.of<CurrentUserProvider>(context).notificationController,
           child: PageView(
             controller: _navProvider.controller,
-            onPageChanged: (index) {
-              _navProvider.setCurrentIndex(index);
-            },
+            onPageChanged: _navProvider.setCurrentIndex,
             physics: const NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(
@@ -78,19 +57,35 @@ class _LandingScreenState extends State<LandingScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GNav(
-                backgroundColor: AppColor.background,
+                backgroundColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .primary,
                 selectedIndex: _navProvider.currentIndex,
-                onTabChange: (index) {
-                  _navProvider.animateToPage(index);
-                },
+                onTabChange: _navProvider.animateToPage,
                 gap: 10,
-                color: AppColor.grey,
-                activeColor: Colors.white,
-                rippleColor: Colors.grey[800]!,
-                hoverColor: Colors.grey[700]!,
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded1,
+                activeColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .baseElements,
+                rippleColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .faded3
+                    .withOpacity(0.4),
+                hoverColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .faded3
+                    .withOpacity(0.3),
                 iconSize: 20,
-                textStyle: const TextStyle(fontSize: 16, color: Colors.white),
-                tabBackgroundColor: Colors.grey[900]!,
+                textStyle: TextStyle(
+                    fontSize: 16,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .baseElements),
+                tabBackgroundColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .faded3
+                    .withOpacity(0.3),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16.5),
                 duration: const Duration(milliseconds: 250),
@@ -98,27 +93,27 @@ class _LandingScreenState extends State<LandingScreen> {
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',
-                    heroTag: 'homeNavButton',
+                    // heroTag: 'homeNavButton',
                   ),
                   GButton(
                     icon: LineIcons.search,
                     text: 'Search',
-                    heroTag: 'searchNavButton',
+                    // heroTag: 'searchNavButton',
                   ),
                   GButton(
                     icon: LineIcons.bell,
                     text: 'Inbox',
-                    heroTag: 'notificationsNavButton',
+                    // heroTag: 'notificationsNavButton',
                   ),
                   GButton(
                     icon: LineIcons.user,
                     text: 'Profile',
-                    heroTag: 'settingsNavButton',
+                    // heroTag: 'settingsNavButton',
                   ),
                   GButton(
-                    icon: LineIcons.infoCircle,
-                    text: 'About',
-                    heroTag: 'aboutNavButton',
+                    icon: LineIcons.cog,
+                    text: 'Settings',
+                    // heroTag: 'aboutNavButton',
                   ),
                 ],
               ),

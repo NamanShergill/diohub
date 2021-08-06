@@ -17,34 +17,34 @@ class ResponseHandler {
   static Stream<AppPopupData> get _successStream =>
       _successController.stream as Stream<AppPopupData>;
 
-  dispose() {
+  void dispose() {
     _errorController.close();
     _successController.close();
   }
 
-  static setErrorMessage(AppPopupData popupData) {
+  static void setErrorMessage(AppPopupData popupData) {
     _errorController.add(popupData);
   }
 
-  static setSuccessMessage(AppPopupData popupData) {
+  static void setSuccessMessage(AppPopupData popupData) {
     _successController.add(popupData);
   }
 
-  static getErrorStream() {
+  static void getErrorStream() {
     _errorStream.listen((error) {
       error.popupType = PopupType.failed;
       DialogHelper.appPopup(
-        Global.currentContext,
+        currentContext,
         error,
       );
     });
   }
 
-  static getSuccessStream() {
+  static void getSuccessStream() {
     _successStream.listen((success) {
       success.popupType = PopupType.success;
       DialogHelper.appPopup(
-        Global.currentContext,
+        currentContext,
         success,
       );
     });

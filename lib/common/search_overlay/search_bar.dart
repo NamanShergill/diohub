@@ -1,28 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {
-  final String? message;
-  final String _prompt;
-  final SearchData? searchData;
-  final bool updateBarOnChange;
-  final ValueChanged<SearchData> onSubmit;
-  final Color backgroundColor;
-  final String _heroTag;
-  final Map<String, String>? quickFilters;
-  final Map<String, String>? quickOptions;
-  final ValueChanged<String>? onSortChanged;
-  final bool isPinned;
-  final Widget? trailing;
-
   const SearchBar(
       {this.message,
       String? prompt,
@@ -34,12 +22,24 @@ class SearchBar extends StatefulWidget {
       this.updateBarOnChange = true,
       this.isPinned = false,
       this.onSortChanged,
-      this.backgroundColor = AppColor.onBackground,
+      this.backgroundColor,
       required this.onSubmit,
       Key? key})
       : _heroTag = heroTag ?? 'search_bar',
         _prompt = prompt ?? 'Search or Jump to...',
         super(key: key);
+  final String? message;
+  final String _prompt;
+  final SearchData? searchData;
+  final bool updateBarOnChange;
+  final ValueChanged<SearchData> onSubmit;
+  final Color? backgroundColor;
+  final String _heroTag;
+  final Map<String, String>? quickFilters;
+  final Map<String, String>? quickOptions;
+  final ValueChanged<String>? onSortChanged;
+  final bool isPinned;
+  final Widget? trailing;
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -64,16 +64,18 @@ class _SearchBarState extends State<SearchBar> {
 
   Map<String, String> getWithoutValue(
       String? exclude, Map<String, String> map) {
-    Map<String, String> tMap = {};
+    final tMap = <String, String>{};
     map.forEach((key, value) {
-      if (key != exclude) tMap.addAll({key: value});
+      if (key != exclude) {
+        tMap.addAll({key: value});
+      }
     });
     return tMap;
   }
 
   String getQuickFilterTitle(
       Map<String, String> qFilters, String? activeFilter) {
-    String qFilter = 'Quick Filters';
+    var qFilter = 'Quick Filters';
     qFilters.forEach((key, value) {
       if (StringFunctions(key).isStringEqual(activeFilter)) {
         qFilter = qFilters[key]!;
@@ -107,7 +109,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
-  didUpdateWidget(oldWidget) {
+  void didUpdateWidget(SearchBar oldWidget) {
     searchData = widget.searchData;
     super.didUpdateWidget(oldWidget);
   }
@@ -126,10 +128,10 @@ class _SearchBarState extends State<SearchBar> {
           )
         : child;
     Widget quickActions(context) => Material(
-          color: AppColor.background,
+          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: BorderRadius.only(
-              bottomLeft: AppThemeBorderRadius.medBorderRadius.bottomLeft,
-              bottomRight: AppThemeBorderRadius.medBorderRadius.bottomRight),
+              bottomLeft: medBorderRadius.bottomLeft,
+              bottomRight: medBorderRadius.bottomRight),
           child: Column(
             children: [
               const Divider(
@@ -141,16 +143,24 @@ class _SearchBarState extends State<SearchBar> {
                   title: Text(
                     'Sort & Quick Filters',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                        color: sortExpanded ? AppColor.accent : Colors.white),
+                        color: sortExpanded
+                            ? Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .accent
+                            : Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .baseElements),
                   ),
                   onTap: () {
                     setState(() {
                       quickActionsVisible = true;
                     });
                   },
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_drop_down,
-                    color: AppColor.grey3,
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
                   ),
                 ),
                 child: SizeExpandedSection(
@@ -183,10 +193,21 @@ class _SearchBarState extends State<SearchBar> {
                                             .subtitle2!
                                             .copyWith(
                                                 color: sortExpanded
-                                                    ? AppColor.accent
-                                                    : Colors.white),
+                                                    ? Provider.of<
+                                                                PaletteSettings>(
+                                                            context)
+                                                        .currentSetting
+                                                        .accent
+                                                    : Provider.of<
+                                                                PaletteSettings>(
+                                                            context)
+                                                        .currentSetting
+                                                        .baseElements),
                                       ),
                                       expanded: sortExpanded,
+                                      onTap: () {
+                                        changeSortExpanded();
+                                      },
                                       child: Column(
                                         children: [
                                           const Padding(
@@ -249,9 +270,6 @@ class _SearchBarState extends State<SearchBar> {
                                               }),
                                         ],
                                       ),
-                                      onTap: () {
-                                        changeSortExpanded();
-                                      },
                                     ))),
                           ),
                           if (widget.quickFilters != null)
@@ -276,10 +294,21 @@ class _SearchBarState extends State<SearchBar> {
                                               .subtitle2!
                                               .copyWith(
                                                   color: quickFiltersExpanded
-                                                      ? AppColor.accent
-                                                      : Colors.white),
+                                                      ? Provider.of<
+                                                                  PaletteSettings>(
+                                                              context)
+                                                          .currentSetting
+                                                          .accent
+                                                      : Provider.of<
+                                                                  PaletteSettings>(
+                                                              context)
+                                                          .currentSetting
+                                                          .baseElements),
                                         ),
                                         expanded: quickFiltersExpanded,
+                                        onTap: () {
+                                          changeQuickFiltersExpanded();
+                                        },
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -339,9 +368,6 @@ class _SearchBarState extends State<SearchBar> {
                                                 }),
                                           ],
                                         ),
-                                        onTap: () {
-                                          changeQuickFiltersExpanded();
-                                        },
                                       ))),
                             ),
                         ],
@@ -374,13 +400,17 @@ class _SearchBarState extends State<SearchBar> {
                                                   .textTheme
                                                   .subtitle2,
                                             ),
-                                            activeColor: AppColor.accent,
+                                            activeColor:
+                                                Provider.of<PaletteSettings>(
+                                                        context)
+                                                    .currentSetting
+                                                    .accent,
                                             value: searchData!.filterStrings
                                                 .contains(widget
                                                     .quickOptions!.keys
                                                     .toList()[index]),
                                             onChanged: (value) {
-                                              List<String> filters = searchData!
+                                              final filters = searchData!
                                                   .visibleStrings
                                                   .toList();
                                               if (value!) {
@@ -419,17 +449,18 @@ class _SearchBarState extends State<SearchBar> {
       child: Column(
         children: [
           Material(
-            color: widget.backgroundColor,
+            color: widget.backgroundColor ??
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
             borderRadius: widget.isPinned
                 ? null
                 : searchData?.searchFilters != null
                     // && searchData?.isActive == true
                     ? BorderRadius.only(
-                        topLeft: AppThemeBorderRadius.medBorderRadius.topLeft,
-                        topRight: AppThemeBorderRadius.medBorderRadius.topRight)
-                    : AppThemeBorderRadius.medBorderRadius,
+                        topLeft: medBorderRadius.topLeft,
+                        topRight: medBorderRadius.topRight)
+                    : medBorderRadius,
             child: InkWell(
-              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              borderRadius: medBorderRadius,
               onTap: () {
                 AutoRouter.of(context).push(SearchOverlayScreenRoute(
                     message: widget.message,
@@ -449,14 +480,14 @@ class _SearchBarState extends State<SearchBar> {
                 children: [
                   if (searchData != null && (searchData?.isActive ?? false))
                     Material(
-                      color: AppColor.accent,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .accent,
                       borderRadius: widget.isPinned
                           ? null
                           : BorderRadius.only(
-                              topRight: AppThemeBorderRadius
-                                  .medBorderRadius.bottomLeft,
-                              topLeft: AppThemeBorderRadius
-                                  .medBorderRadius.bottomRight),
+                              topRight: medBorderRadius.bottomLeft,
+                              topLeft: medBorderRadius.bottomRight),
                       child: Padding(
                         padding: widget.isPinned
                             ? EdgeInsets.symmetric(
@@ -469,7 +500,7 @@ class _SearchBarState extends State<SearchBar> {
                             : const EdgeInsets.all(8.0),
                         child: SizeExpandedSection(
                           child: Hero(
-                            tag: widget._heroTag + 'true',
+                            tag: '${widget._heroTag}true',
                             child: Material(
                               color: Colors.transparent,
                               child: _ActiveSearch(
@@ -491,7 +522,7 @@ class _SearchBarState extends State<SearchBar> {
                     expand: !(searchData?.isActive ?? false),
                     child: Hero(
                       tag: widget.updateBarOnChange
-                          ? widget._heroTag + 'false'
+                          ? '${widget._heroTag}false'
                           : widget._heroTag,
                       child: Material(
                         color: Colors.transparent,
@@ -499,23 +530,30 @@ class _SearchBarState extends State<SearchBar> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  LineIcons.search,
-                                  color: AppColor.grey3,
-                                ),
-                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  widget._prompt,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(
-                                          color:
-                                              AppColor.grey3.withOpacity(0.7)),
+                                child: Icon(
+                                  LineIcons.search,
+                                  color: Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3,
+                                ),
+                              ),
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    widget._prompt,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                            color: Provider.of<PaletteSettings>(
+                                                    context)
+                                                .currentSetting
+                                                .faded3
+                                                .withOpacity(0.7)),
+                                  ),
                                 ),
                               ),
                             ],
@@ -539,15 +577,15 @@ class _SearchBarState extends State<SearchBar> {
 }
 
 class _ActiveSearch extends StatelessWidget {
-  final SearchData searchData;
-  final Widget? trailing;
-  final ValueChanged<SearchData> onSubmit;
   const _ActiveSearch(
       {required this.searchData,
       this.trailing,
       required this.onSubmit,
       Key? key})
       : super(key: key);
+  final SearchData searchData;
+  final Widget? trailing;
+  final ValueChanged<SearchData> onSubmit;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -566,7 +604,6 @@ class _ActiveSearch extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Icon(
                           LineIcons.search,
-                          color: Colors.white,
                           size: 14,
                         ),
                       ),
@@ -579,8 +616,10 @@ class _ActiveSearch extends StatelessWidget {
                 ),
               if (searchData.visibleStrings.isNotEmpty &&
                   searchData.query.trim().isNotEmpty)
-                const Divider(
-                  color: Colors.white,
+                Divider(
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements,
                   thickness: 0.2,
                 ),
               Padding(
@@ -597,21 +636,13 @@ class _ActiveSearch extends StatelessWidget {
                                         Theme.of(context).textTheme.subtitle1,
                                     children: [
                                       TextSpan(
-                                          text: searchData.visibleStrings[index]
-                                                  .trim()
-                                                  .replaceAll('"', '')
-                                                  .split(':')
-                                                  .first +
-                                              ' ',
+                                          text:
+                                              '${searchData.visibleStrings[index].trim().replaceAll('"', '').split(':').first} ',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
-                                          text: searchData.visibleStrings[index]
-                                                  .trim()
-                                                  .replaceAll('"', '')
-                                                  .split(':')
-                                                  .last +
-                                              '${index == searchData.visibleStrings.length - 1 ? '' : ', '} '),
+                                          text:
+                                              '${searchData.visibleStrings[index].trim().replaceAll('"', '').split(':').last}${'${index == searchData.visibleStrings.length - 1 ? '' : ', '} '}'),
                                     ]),
                               ),
                             ],

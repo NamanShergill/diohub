@@ -1,22 +1,13 @@
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BaseEventCard extends StatelessWidget {
-  final Widget? child;
-  final String? avatarUrl;
-  final String? actor;
-  final String? userLogin;
-  final EdgeInsets childPadding;
-  final List<TextSpan> headerText;
-  final List<TextSpan> _topText;
-  final Function? onTap;
-  final DateTime? date;
-
-  BaseEventCard(
+  const BaseEventCard(
       {this.child,
       this.actor,
       this.avatarUrl,
@@ -26,12 +17,16 @@ class BaseEventCard extends StatelessWidget {
       this.date,
       this.childPadding = const EdgeInsets.all(16.0),
       Key? key})
-      : _topText = [
-              TextSpan(
-                  text: actor, style: AppThemeTextStyles.eventCardHeaderMed)
-            ] +
-            headerText,
-        super(key: key);
+      : super(key: key);
+  final Widget? child;
+  final String? avatarUrl;
+  final String? actor;
+  final String? userLogin;
+  final EdgeInsets childPadding;
+  final List<TextSpan> headerText;
+  final Function? onTap;
+  final DateTime? date;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -62,7 +57,14 @@ class BaseEventCard extends StatelessWidget {
                               .textTheme
                               .bodyText2!
                               .copyWith(fontSize: 15, letterSpacing: 0),
-                          children: _topText),
+                          children: [
+                                TextSpan(
+                                    text: actor,
+                                    style:
+                                        AppThemeTextStyles.eventCardHeaderMed(
+                                            context))
+                              ] +
+                              headerText),
                     ),
                   ),
                 ],
@@ -70,7 +72,11 @@ class BaseEventCard extends StatelessWidget {
             ),
             Text(
               getDate(date!.toString()),
-              style: const TextStyle(fontSize: 11, color: AppColor.grey3),
+              style: TextStyle(
+                  fontSize: 11,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3),
             ),
           ],
         ),
@@ -81,10 +87,10 @@ class BaseEventCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Material(
             elevation: 2,
-            color: AppColor.background,
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+            borderRadius: medBorderRadius,
             child: InkWell(
-              borderRadius: AppThemeBorderRadius.medBorderRadius,
+              borderRadius: medBorderRadius,
               onTap: onTap as void Function()?,
               child: SizedBox(
                 width: double.infinity,

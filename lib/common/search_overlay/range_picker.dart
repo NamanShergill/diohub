@@ -1,19 +1,21 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class RangePicker extends StatefulWidget {
+  const RangePicker({Key? key, required this.onAdded, required this.queryType})
+      : assert(queryType == QueryType.date || queryType == QueryType.number,
+            'Only show for date and number queries!'),
+        super(key: key);
   final ValueChanged<String> onAdded;
   final QueryType queryType;
-  const RangePicker({Key? key, required this.onAdded, required this.queryType})
-      : assert(queryType == QueryType.date || queryType == QueryType.number),
-        super(key: key);
 
   @override
   _RangePickerState createState() => _RangePickerState();
@@ -79,7 +81,7 @@ class _RangePickerState extends State<RangePicker> {
   }
 
   Future<DateTime> getDate({DateTime? firstDate, DateTime? lastDate}) async {
-    DateTime date = await showDatePicker(
+    final date = await showDatePicker(
             context: context,
             initialDate: lastDate ?? DateTime.now(),
             firstDate: firstDate ?? DateTime.utc(1969, 7, 20, 20, 18, 04),
@@ -91,9 +93,9 @@ class _RangePickerState extends State<RangePicker> {
   bool get checkValid {
     if (widget.queryType == QueryType.number) {
       return controller1.text.isNotEmpty &&
-          (isRanged ? controller2.text.isNotEmpty : true);
+          (!isRanged || controller2.text.isNotEmpty);
     } else if (widget.queryType == QueryType.date) {
-      return date1 != null && (isRanged ? date2 != null : true);
+      return date1 != null && (!isRanged || date2 != null);
     }
     return false;
   }
@@ -102,8 +104,8 @@ class _RangePickerState extends State<RangePicker> {
   Widget build(BuildContext context) {
     return SizeExpandedSection(
       child: Material(
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: AppColor.onBackground,
+        borderRadius: medBorderRadius,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -117,12 +119,15 @@ class _RangePickerState extends State<RangePicker> {
                   expanded = !expanded;
                 });
               },
+              expanded: expanded,
               child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return RadioListTile(
-                      activeColor: AppColor.accent,
+                      activeColor: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .accent,
                       groupValue: currentType,
                       value: types[index],
                       onChanged: (value) {
@@ -140,7 +145,6 @@ class _RangePickerState extends State<RangePicker> {
                   },
                   separatorBuilder: (context, index) => const Divider(),
                   itemCount: types.length),
-              expanded: expanded,
             ),
             if (widget.queryType == QueryType.number)
               Padding(
@@ -152,15 +156,20 @@ class _RangePickerState extends State<RangePicker> {
                         controller: controller1,
                         focusNode: node1,
                         onSubmitted: (string) {
-                          if (isRanged ? controller2.text.isEmpty : false) {
+                          if (isRanged && controller2.text.isEmpty) {
                             node2.requestFocus();
                           } else {
                             submit();
                           }
                         },
                         keyboardType: TextInputType.number,
-                        decoration: TextFieldTheme.inputDecoration(
-                            hintText: '00', enabledBorderColor: AppColor.grey3),
+                        decoration: inputDecoration(
+                            hintText: '00',
+                            context: context,
+                            enabledBorderColor:
+                                Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                       ),
                     ),
                     if (isRanged)
@@ -182,9 +191,13 @@ class _RangePickerState extends State<RangePicker> {
                               }
                             },
                             keyboardType: TextInputType.number,
-                            decoration: TextFieldTheme.inputDecoration(
+                            decoration: inputDecoration(
                                 hintText: '00',
-                                enabledBorderColor: AppColor.grey3),
+                                context: context,
+                                enabledBorderColor:
+                                    Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                           ),
                         ),
                       )
@@ -216,8 +229,12 @@ class _RangePickerState extends State<RangePicker> {
                                       date1?.subtract(const Duration(days: 1)));
                               setState(() {});
                             },
-                            decoration: TextFieldTheme.inputDecoration(
-                                enabledBorderColor: AppColor.grey3),
+                            decoration: inputDecoration(
+                                context: context,
+                                enabledBorderColor:
+                                    Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                           ),
                         ),
                       ),
@@ -239,8 +256,12 @@ class _RangePickerState extends State<RangePicker> {
                                   : null);
                           setState(() {});
                         },
-                        decoration: TextFieldTheme.inputDecoration(
-                            enabledBorderColor: AppColor.grey3),
+                        decoration: inputDecoration(
+                            context: context,
+                            enabledBorderColor:
+                                Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                       ),
                     ),
                   ],
@@ -253,7 +274,9 @@ class _RangePickerState extends State<RangePicker> {
                 child: CheckboxListTile(
                     value: inclusive,
                     title: const Text('Inclusive'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     onChanged: (value) {
                       setState(() {
                         inclusive = value!;
@@ -264,11 +287,7 @@ class _RangePickerState extends State<RangePicker> {
               height: 0,
             ),
             MaterialButton(
-              onPressed: checkValid
-                  ? () {
-                      submit();
-                    }
-                  : null,
+              onPressed: checkValid ? submit : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

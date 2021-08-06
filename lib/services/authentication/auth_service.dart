@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/keys.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
+import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -11,8 +14,8 @@ class AuthService {
   static const String _url = '/login/';
   static const _storage = FlutterSecureStorage();
 
-  static Future<bool> isAuthenticated() async {
-    var token = await _storage.read(key: 'accessToken');
+  static Future<bool> get isAuthenticated async {
+    final token = await _storage.read(key: 'accessToken');
     debugPrint('Auth token ${token ?? 'not found.'}');
     if (token != null) {
       return true;
@@ -22,12 +25,12 @@ class AuthService {
 
   static void storeAccessToken(AccessTokenModel accessTokenModel) async {
     await _storage.write(
-        key: "accessToken", value: accessTokenModel.accessToken);
+        key: 'accessToken', value: accessTokenModel.accessToken);
     await _storage.write(key: 'scope', value: accessTokenModel.scope);
   }
 
   static Future<String?> getAccessTokenFromDevice() async {
-    String? accessToken = await _storage.read(key: "accessToken");
+    final accessToken = await _storage.read(key: 'accessToken');
     if (accessToken != null) {
       return accessToken;
     }
@@ -35,16 +38,17 @@ class AuthService {
   }
 
   static Future<Response> getDeviceToken() async {
-    FormData formData = FormData.fromMap({
+    final formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
-      'scope': _scope,
+      'scope': scopeString,
     });
-    var response = await GetDio.getDio(
+    final response = await API
+        .request(
             loggedIn: false,
             baseURL: 'https://github.com/',
             debugLog: false,
             loginRequired: false)
-        .post("${_url}device/code", data: formData);
+        .post('${_url}device/code', data: formData);
     return response;
   }
 
@@ -56,33 +60,43 @@ class AuthService {
   //     'admin:org_hook gist user read:user user:email user:follow '
   //     'delete_repo write:discussion read:discussion write:packages read:packages'
   //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
-  static const String _scope = 'repo public_repo repo:invite '
-      'security_events admin:org'
-      ' gist notifications user '
-      'delete_repo write:discussion write:packages read:packages'
-      ' delete:packages workflow';
+
+  static String get scopeString => scopes.join(' ');
+  static const List<String> scopes = [
+    'repo',
+    'public_repo',
+    'repo:invite',
+    'write:org',
+    'gist',
+    'notifications',
+    'user',
+    'delete_repo',
+    'write:discussion',
+    'read:packages',
+    'delete:packages',
+  ];
 
   static Future<Response> getAccessToken({String? deviceCode}) async {
-    FormData formData = FormData.fromMap({
+    final formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
       'device_code': deviceCode,
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
     try {
-      Response response = await GetDio.getDio(
+      final response = await API
+          .request(
               loggedIn: false,
               loginRequired: false,
               cacheEnabled: false,
               debugLog: false,
               baseURL: 'https://github.com/',
               buttonLock: false)
-          .post("${_url}oauth/access_token", data: formData);
+          .post('${_url}oauth/access_token', data: formData);
       if (response.data['access_token'] != null) {
-        storeAccessToken(AccessTokenModel.fromJson(response.data));
         return response;
       } else if (response.data['error'] != null &&
-          response.data['error'] != "authorization_pending" &&
-          response.data['error'] != "slow_down") {
+          response.data['error'] != 'authorization_pending' &&
+          response.data['error'] != 'slow_down') {
         throw Exception(response.data['error_description']);
       }
       return response;
@@ -104,5 +118,6 @@ class AuthService {
   static void logOut() async {
     CacheManager.clearCache();
     await _storage.deleteAll();
+    AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
   }
 }

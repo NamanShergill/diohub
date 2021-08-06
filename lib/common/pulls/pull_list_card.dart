@@ -1,21 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:provider/provider.dart';
 
 class PullListCard extends StatelessWidget {
-  final PullRequestModel item;
-  final bool compact;
-  final bool disableMaterial;
-  final EdgeInsets padding;
-  final bool showRepoName;
-
   const PullListCard(this.item,
       {this.compact = false,
       this.disableMaterial = false,
@@ -23,18 +18,26 @@ class PullListCard extends StatelessWidget {
       this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
       Key? key})
       : super(key: key);
+  final PullRequestModel item;
+  final bool compact;
+  final bool disableMaterial;
+  final EdgeInsets padding;
+  final bool showRepoName;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: disableMaterial ? EdgeInsets.zero : padding,
       child: Material(
         elevation: disableMaterial ? 0 : 2,
-        color: disableMaterial ? Colors.transparent : AppColor.background,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        color: disableMaterial
+            ? Colors.transparent
+            : Provider.of<PaletteSettings>(context).currentSetting.primary,
+        borderRadius: medBorderRadius,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(PullScreenRoute(pullURL: item.url));
+            AutoRouter.of(context).push(PullScreenRoute(pullURL: item.url!));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -43,7 +46,7 @@ class PullListCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    getIcon(item.state, item.mergedAt)!,
+                    GetIcon(item.state, item.mergedAt),
                     const SizedBox(
                       width: 4,
                     ),
@@ -58,13 +61,19 @@ class PullListCard extends StatelessWidget {
                                 .sublist(0, 2)
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                           ),
                         ),
                       ),
                     Text(
                       '#${item.number}',
-                      style: const TextStyle(color: AppColor.grey3),
+                      style: TextStyle(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3),
                     ),
                   ],
                 ),
@@ -91,8 +100,11 @@ class PullListCard extends StatelessWidget {
                                 ? 'By ${item.user!.login}, merged ${getDate(item.mergedAt.toString(), shorten: false)}.'
                                 : 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: const TextStyle(
-                            color: AppColor.grey3, fontSize: 12),
+                        style: TextStyle(
+                            color: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .faded3,
+                            fontSize: 12),
                       ),
                       const SizedBox(
                         height: 8,
@@ -117,33 +129,40 @@ class PullListCard extends StatelessWidget {
   }
 }
 
-Widget? getIcon(IssueState? state, DateTime? mergedAt) {
-  switch (state) {
-    case IssueState.CLOSED:
-      if (mergedAt == null) {
+class GetIcon extends StatelessWidget {
+  const GetIcon(this.state, this.mergedAt, {Key? key}) : super(key: key);
+  final IssueState? state;
+  final DateTime? mergedAt;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (state) {
+      case IssueState.CLOSED:
+        if (mergedAt == null) {
+          return const Icon(
+            Octicons.git_pull_request,
+            color: Colors.red,
+            size: 15,
+          );
+        } else {
+          return const Icon(
+            Octicons.git_merge,
+            color: Colors.deepPurple,
+            size: 15,
+          );
+        }
+      case IssueState.OPEN:
         return const Icon(
           Octicons.git_pull_request,
-          color: Colors.red,
+          color: Colors.green,
           size: 15,
         );
-      } else {
-        return const Icon(
-          Octicons.git_merge,
-          color: Colors.deepPurple,
+      default:
+        return Icon(
+          Octicons.git_pull_request,
+          color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           size: 15,
         );
-      }
-    case IssueState.OPEN:
-      return const Icon(
-        Octicons.git_pull_request,
-        color: Colors.green,
-        size: 15,
-      );
-    default:
-      return const Icon(
-        Octicons.git_pull_request,
-        color: AppColor.grey3,
-        size: 15,
-      );
+    }
   }
 }

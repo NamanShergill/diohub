@@ -1,21 +1,17 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class BasicNotificationCard extends StatefulWidget {
-  final WidgetBuilder? iconBuilder;
-  final WidgetBuilder? footerBuilder;
-  final bool loading;
-  final NotificationModel? notification;
-  final Function? onTap;
   const BasicNotificationCard(
       {this.footerBuilder,
       this.loading = false,
@@ -24,6 +20,11 @@ class BasicNotificationCard extends StatefulWidget {
       this.notification,
       Key? key})
       : super(key: key);
+  final WidgetBuilder? iconBuilder;
+  final WidgetBuilder? footerBuilder;
+  final bool loading;
+  final NotificationModel? notification;
+  final Function? onTap;
 
   @override
   _BasicNotificationCardState createState() => _BasicNotificationCardState();
@@ -50,36 +51,21 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       actions: [
         IconSlideAction(
           icon: LineIcons.check,
-          color: AppColor.green,
+          color: Provider.of<PaletteSettings>(context).currentSetting.green,
           caption: 'Mark as read',
-          onTap: () {
-            markAsRead();
-          },
+          onTap: markAsRead,
         ),
       ],
       secondaryActions: [
         IconSlideAction(
           icon: LineIcons.check,
-          color: AppColor.green,
+          color: Provider.of<PaletteSettings>(context).currentSetting.green,
           caption: 'Mark as read',
-          onTap: () {
-            markAsRead();
-          },
+          onTap: markAsRead,
         ),
       ],
       actionExtentRatio: 0.4,
       dismissal: SlidableDismissal(
-        child: SizeExpandedSection(
-          axis: Axis.horizontal,
-          animationCurve: Curves.easeOutExpo,
-          child: Container(
-            height: 120,
-            color: AppColor.green,
-            child: const Center(
-              child: Text('Mark as read?'),
-            ),
-          ),
-        ),
         onWillDismiss: (_) {
           markAsRead();
           return false;
@@ -89,12 +75,23 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
           SlideActionType.primary: 0.4,
           SlideActionType.secondary: 0.4
         },
+        child: SizeExpandedSection(
+          axis: Axis.horizontal,
+          animationCurve: Curves.easeOutExpo,
+          child: Container(
+            height: 120,
+            color: Provider.of<PaletteSettings>(context).currentSetting.green,
+            child: const Center(
+              child: Text('Mark as read?'),
+            ),
+          ),
+        ),
       ),
       key: UniqueKey(),
       child: Material(
         key: key,
         color: widget.notification!.unread!
-            ? AppColor.onBackground
+            ? Provider.of<PaletteSettings>(context).currentSetting.secondary
             : Colors.transparent,
         child: InkWell(
           onTap: () {
@@ -119,7 +116,9 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                             child: Container(
                               height: 10,
                               width: 10,
-                              color: AppColor.accent,
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .accent,
                             ),
                           ),
                         )),
@@ -142,13 +141,19 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 widget.notification!.repository!.fullName!,
-                                style: const TextStyle(color: AppColor.grey3),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                               ),
                             ),
                           ),
                           Text(
                             getDate(widget.notification!.updatedAt.toString()),
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                           ),
                         ],
                       ),
@@ -157,8 +162,12 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                           widget.notification!.subject!.title!,
                           style: TextStyle(
                               color: widget.notification!.unread!
-                                  ? Colors.white
-                                  : AppColor.grey3,
+                                  ? Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .baseElements
+                                  : Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3,
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
                         ),
@@ -201,10 +210,11 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
         ),
         Expanded(
           child: ShimmerWidget(
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
             child: Container(
-              decoration: const BoxDecoration(
-                color: AppColor.grey,
+              decoration: BoxDecoration(
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded1,
               ),
               height: 20,
             ),

@@ -1,26 +1,26 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/bottom_sheet.dart';
-import 'package:dio_hub/common/info_card.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/markdown_body.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
-import 'package:dio_hub/providers/pulls/pull_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/assignee_select_sheet.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/label_select_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {
   const PullInformation({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _pull = Provider.of<PullProvider>(context).pullModel!;
+    final _pull = Provider.of<PullProvider>(context).data;
     final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return SingleChildScrollView(
       child: Column(
@@ -45,7 +45,7 @@ class PullInformation extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      _pull.commits.toString() + ' commits',
+                      '${_pull.commits} commits',
                       style: const TextStyle(
                           fontWeight: FontWeight.w300, fontSize: 12),
                     ),
@@ -59,9 +59,13 @@ class PullInformation extends StatelessWidget {
           InfoCard(
             'Requested Reviewers',
             headerTrailing: _editingEnabled
-                ? const Text(
+                ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -90,16 +94,16 @@ class PullInformation extends StatelessWidget {
               builder: (context, pull, _) {
                 return Row(
                   children: [
-                    pull.pullModel!.requestedReviewers!.isNotEmpty
+                    pull.data.requestedReviewers!.isNotEmpty
                         ? Flexible(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                                pull.pullModel!.requestedReviewers!.length,
+                                pull.data.requestedReviewers!.length,
                                 (index) => ProfileTile(
-                                      pull.pullModel!.requestedReviewers![index]
+                                      pull.data.requestedReviewers![index]
                                           .avatarUrl,
-                                      userLogin: pull.pullModel!
+                                      userLogin: pull.data
                                           .requestedReviewers![index].login,
                                       padding: const EdgeInsets.all(8),
                                       showName: true,
@@ -114,9 +118,13 @@ class PullInformation extends StatelessWidget {
           InfoCard(
             'Assignees',
             headerTrailing: _editingEnabled
-                ? const Text(
+                ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -124,7 +132,7 @@ class PullInformation extends StatelessWidget {
                     showScrollableBottomActionsMenu(
                       context,
                       titleText: 'Select Assignees',
-                      child: (sheetContext, scrollController) {
+                      child: (sheetContext, scrollController, setState) {
                         return AssigneeSelectSheet(
                           controller: scrollController,
                           repoURL:
@@ -145,17 +153,16 @@ class PullInformation extends StatelessWidget {
               builder: (context, pull, _) {
                 return Row(
                   children: [
-                    pull.pullModel!.assignees!.isNotEmpty
+                    pull.data.assignees!.isNotEmpty
                         ? Flexible(
                             child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                                pull.pullModel!.assignees!.length,
+                                pull.data.assignees!.length,
                                 (index) => ProfileTile(
-                                      pull.pullModel!.assignees![index]
-                                          .avatarUrl,
-                                      userLogin: pull
-                                          .pullModel!.assignees![index].login,
+                                      pull.data.assignees![index].avatarUrl,
+                                      userLogin:
+                                          pull.data.assignees![index].login,
                                       padding: const EdgeInsets.all(8),
                                       showName: true,
                                     )),
@@ -169,9 +176,13 @@ class PullInformation extends StatelessWidget {
           InfoCard(
             'Labels',
             headerTrailing: _editingEnabled
-                ? const Text(
+                ? Text(
                     'EDIT',
-                    style: TextStyle(color: AppColor.grey3, fontSize: 12),
+                    style: TextStyle(
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                        fontSize: 12),
                   )
                 : null,
             onTap: _editingEnabled
@@ -179,7 +190,7 @@ class PullInformation extends StatelessWidget {
                     showScrollableBottomActionsMenu(
                       context,
                       titleText: 'Select Labels',
-                      child: (sheetContext, scrollController) {
+                      child: (sheetContext, scrollController, setState) {
                         return LabelSelectSheet(
                           controller: scrollController,
                           repoURL:
@@ -198,7 +209,7 @@ class PullInformation extends StatelessWidget {
                 : null,
             child: Consumer<PullProvider>(
               builder: (context, pull, _) {
-                var _issue = pull.pullModel!;
+                final _issue = pull.data;
                 return Row(
                   children: [
                     (_issue.labels!.isNotEmpty)
@@ -214,7 +225,7 @@ class PullInformation extends StatelessWidget {
                                       )),
                             ),
                           )
-                        : const Text("No labels."),
+                        : const Text('No labels.'),
                   ],
                 );
               },
@@ -225,12 +236,12 @@ class PullInformation extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  child: _pull.body!.isEmpty
+                  child: _pull.bodyHtml!.isEmpty
                       ? const Text('No description provided.')
                       : ExpansionTile(
                           title: const Text('Tap to Expand'),
                           children: [
-                            MarkdownBody(_pull.body),
+                            MarkdownBody(_pull.bodyHtml!),
                           ],
                         ),
                 ),
@@ -267,30 +278,28 @@ class PullInformation extends StatelessWidget {
 }
 
 class _BranchButton extends StatelessWidget {
-  final Base base;
   const _BranchButton(this.base);
+  final Base base;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Material(
-        color: AppColor.background,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         elevation: 2,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        borderRadius: medBorderRadius,
         child: Container(
-          decoration:
-              BoxDecoration(borderRadius: AppThemeBorderRadius.medBorderRadius),
+          decoration: BoxDecoration(borderRadius: medBorderRadius),
           child: InkWell(
             onTap: () {
               AutoRouter.of(context).push(RepositoryScreenRoute(
                   branch: base.label!.split(':').last,
-                  repositoryURL: base.repo!.url));
+                  repositoryURL: base.repo!.url!));
             },
-            borderRadius: AppThemeBorderRadius.medBorderRadius,
+            borderRadius: medBorderRadius,
             child: Container(
               height: 55,
-              decoration: BoxDecoration(
-                  borderRadius: AppThemeBorderRadius.medBorderRadius),
+              decoration: BoxDecoration(borderRadius: medBorderRadius),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(

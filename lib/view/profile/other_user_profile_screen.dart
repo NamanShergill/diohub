@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/scaffold_body.dart';
+import 'package:dio_hub/common/misc/scaffold_body.dart';
+import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/providers/users/user_provider.dart';
@@ -9,12 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
-  final String? login;
   const OtherUserProfileScreen(this.login, {Key? key}) : super(key: key);
+  final String login;
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<CurrentUserProvider>(context).currentUserInfo?.login ==
-        login) {
+    if (Provider.of<CurrentUserProvider>(context).data.login == login) {
       return const SafeArea(
           child: Scaffold(
         body: CurrentUserProfileScreen(),
@@ -31,12 +30,10 @@ class OtherUserProfileScreen extends StatelessWidget {
                   )
                 : null,
             body: ScaffoldBody(
-              notificationController:
-                  Provider.of<UserProvider>(context).notificationController,
               child: ProviderLoadingProgressWrapper<UserProvider>(
                 childBuilder: (context, value) {
                   return UserProfileScreen(
-                    value.currentUserInfo,
+                    value.data,
                     isCurrentUser: false,
                   );
                 },

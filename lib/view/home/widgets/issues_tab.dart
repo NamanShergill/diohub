@@ -1,6 +1,6 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatefulWidget {
-  final ScrollController scrollController;
-  final DeepLinkData? deepLinkData;
-
   const IssuesTab({required this.scrollController, this.deepLinkData, Key? key})
       : super(key: key);
+  final ScrollController scrollController;
+  final DeepLinkData? deepLinkData;
 
   @override
   _IssuesTabState createState() => _IssuesTabState();
@@ -26,13 +25,13 @@ class _IssuesTabState extends State<IssuesTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
+    final _user = Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
           searchFilters:
               SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
           defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user!.login!),
+            SearchQueries().involves.toQueryString(_user.login!),
             SearchQueries().type.toQueryString('issue'),
           ],
           filterStrings: [
@@ -54,9 +53,11 @@ class _IssuesTabState extends State<IssuesTab>
       searchHeroTag: '${_user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       filterFn: (data) {
-        List<IssueModel> filteredData = [];
-        for (var item in data) {
-          if (item.pullRequest == null) filteredData.add(item);
+        final filteredData = <IssueModel>[];
+        for (final item in data) {
+          if (item.pullRequest == null) {
+            filteredData.add(item);
+          }
         }
         return filteredData;
       },

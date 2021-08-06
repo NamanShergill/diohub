@@ -1,0 +1,23 @@
+query issueTemplates($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+        issueTemplates {
+            name
+            title
+            body
+            about
+        }
+    }
+}
+
+query pinnedIssues($name: String!, $owner: String!){
+    repository(name: $name, owner: $owner) {
+        pinnedIssues(first: 3){
+            totalCount
+            nodes{
+                issue{
+                    ...issue
+                }
+            }
+        }
+    }
+}

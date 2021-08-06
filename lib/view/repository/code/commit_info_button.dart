@@ -1,9 +1,9 @@
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoButton extends StatelessWidget {
@@ -26,9 +26,7 @@ class CommitInfoButton extends StatelessWidget {
                   Flexible(
                     child: Text(
                       value.tree.last.commit!.commit!.message!.length > 25
-                          ? value.tree.last.commit!.commit!.message!
-                                  .substring(0, 25) +
-                              '...'
+                          ? '${value.tree.last.commit!.commit!.message!.substring(0, 25)}...'
                           : value.tree.last.commit!.commit!.message!,
                       style: const TextStyle(
                           fontSize: 13, fontWeight: FontWeight.bold),
@@ -60,23 +58,30 @@ class CommitInfoButton extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Octicons.git_commit,
                       size: 11,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                     const SizedBox(
                       width: 5,
                     ),
                     Text(
                       value.tree.last.commit!.sha!.substring(0, 6),
-                      style:
-                          const TextStyle(fontSize: 11, color: AppColor.grey3),
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.arrow_drop_down,
                       size: 13,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                   ],
                 ),
@@ -85,10 +90,12 @@ class CommitInfoButton extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.timelapse_outlined,
                       size: 11,
-                      color: AppColor.grey3,
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                     ),
                     const SizedBox(
                       width: 5,
@@ -98,9 +105,11 @@ class CommitInfoButton extends StatelessWidget {
                           value.tree.last.commit!.commit!.committer!.date
                               .toString(),
                           shorten: false),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
-                        color: AppColor.grey3,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
                       ),
                     ),
                   ],
