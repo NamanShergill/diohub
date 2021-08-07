@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.4.0-dev.internal
+version: 0.3.2-beta+3
 
 environment:
   sdk: '>=2.13.0 <3.0.0'

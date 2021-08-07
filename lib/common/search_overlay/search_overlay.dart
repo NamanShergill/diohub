@@ -455,6 +455,12 @@ class _SearchBarState extends State<_SearchBar> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant _SearchBar oldWidget) {
+    searchData = widget.searchData;
+    super.didUpdateWidget(oldWidget);
+  }
+
   bool expanded = false;
 
   @override
