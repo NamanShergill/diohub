@@ -3,31 +3,39 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.2.1-29042021.internal
+version: 0.4.0-dev.internal
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
-
+  animations: ^2.0.1
+  another_flushbar: ^1.10.24
   auto_route: ^2.2.0
-  another_flushbar: ^1.10.22
-  cached_network_image: ^3.0.0
-  connectivity: ^3.0.4
+  cached_network_image: ^3.1.0
+  connectivity: ^3.0.6
+  device_info_plus: ^2.1.0
   dio: ^4.0.0
-  dio_cache_interceptor: ^2.3.1
+  dio_cache_interceptor: ^3.0.1
+  dio_cache_interceptor_db_store: ^3.0.2
+  equatable: ^2.0.3
 
   # Modified to remove the current typing word indicator.
   extended_text_field:
     git:
       url: https://github.com/NamanShergill/extended_text_field.git
 
-  flutter_bloc: ^7.0.0
+  flutter:
+    sdk: flutter
+  flutter_appauth: ^1.1.0
+  flutter_bloc: ^7.1.0
+  flutter_colorpicker: ^0.4.0
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
-  flutter_emoji: ^2.2.1+1
+
+  # Null safe version until the package is updated.
+  flutter_emoji:
+    git: https://github.com/cek-cek/flutter-emoji
 
   # Modified to add background color option.
   flutter_highlight:
@@ -42,31 +50,29 @@ dependencies:
       url: https://github.com/Sub6Resources/flutter_html.git
       ref: master
 
-  flutter_icons: ^1.1.0
   flutter_inappwebview: ^5.3.2
-  flutter_keyboard_visibility: ^5.0.2
+  flutter_keyboard_visibility: ^5.0.3
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^1.0.8
   flutter_scroll_to_top: ^1.1.0
-
-  # Use this until official release that disables the logs.
-  flutter_secure_storage:
-    git:
-      url: https://github.com/mogol/flutter_secure_storage.git
-      ref: 2ad3cf2ea344b93742418af655537d2acc7043ec
-
+  flutter_secure_storage: ^4.2.1
   flutter_slidable: ^0.6.0
   flutter_svg: ^0.22.0
+  flutter_vector_icons: ^1.0.0
+  google_nav_bar: ^5.0.5
+  gql: ^0.13.0
 
-  # Modified to support hero tags. Might remove.
-  google_nav_bar:
+  # Added exception status codes for errors.
+  gql_dio_link:
     git:
-      url: https://github.com/NamanShergill/google_nav_bar.git
-      ref: master
+      url: https://github.com/NamanShergill/gql
+      path: links/gql_dio_link
 
-  graphql: ^5.0.0-nullsafety.3
-  infinite_scroll_pagination: ^3.0.1
+  gql_exec: ^0.3.0
+  gql_link: ^0.4.0
+  infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
+  json_annotation: ^4.0.1
   line_icons: ^2.0.1
   logger: ^1.0.0
   markdown: ^4.0.0
@@ -74,33 +80,40 @@ dependencies:
   # Modified for additional markdown options.
   markdown_editable_textinput:
     git:
-      url: https://github.com/NamanShergill/markdown-editable-textinput
+      url: https://github.com/NamanShergill/markdown-editable-textinput.git
       ref: master
 
   mime: ^1.0.0
-  path_provider: ^2.0.1
+  package_info_plus: ^1.0.4
+  path_provider: ^2.0.2
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^5.0.0
-  share: ^2.0.1
+  share: ^2.0.4
+  shared_preferences: ^2.0.6
   shimmer: ^2.0.0
-  sqlite3_flutter_libs: ^0.4.3
-  sliver_tools: ^0.2.2
+  sliver_tools: ^0.2.5
+  sqlite3_flutter_libs: ^0.5.0
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
   url_launcher: ^6.0.2
-
-  cupertino_icons: ^1.0.3
+  uuid: ^3.0.4
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  artemis: ^7.0.0-beta.11
   auto_route_generator: ^2.1.0
-  build_runner: ^2.0.3
+  build_runner: ^2.0.4
   change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.0
-#  flutter_native_splash: ^1.1.8+4
-  flutter_lints: ^1.0.2
+  flutter_lints: ^1.0.4
+  flutter_native_splash: ^1.2.0
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^4.1.3
+
+#Temporary workaround until https://github.com/Milad-Akarie/auto_route_library/issues/569 is fixed.
+dependency_overrides:
+  analyzer: 1.5.0
 
 flutter_native_splash:
   color: '#17181c'
@@ -113,48 +126,103 @@ flutter:
   fonts:
     - family: Montserrat
       fonts:
-        - asset: fonts/Montserrat-Thin.ttf
+        - asset: fonts/Montserrat/Montserrat-Thin.ttf
           weight: 100
-        - asset: fonts/Montserrat-ThinItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-ThinItalic.ttf
           style: italic
           weight: 100
-        - asset: fonts/Montserrat-ExtraLight.ttf
+        - asset: fonts/Montserrat/Montserrat-ExtraLight.ttf
           weight: 200
-        - asset: fonts/Montserrat-ExtraLightItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-ExtraLightItalic.ttf
           style: italic
           weight: 200
-        - asset: fonts/Montserrat-Light.ttf
+        - asset: fonts/Montserrat/Montserrat-Light.ttf
           weight: 300
-        - asset: fonts/Montserrat-LightItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-LightItalic.ttf
           style: italic
           weight: 300
-        - asset: fonts/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat/Montserrat-Regular.ttf
           weight: 400
-        - asset: fonts/Montserrat-Italic.ttf
+        - asset: fonts/Montserrat/Montserrat-Italic.ttf
           style: italic
           weight: 400
-        - asset: fonts/Montserrat-Medium.ttf
+        - asset: fonts/Montserrat/Montserrat-Medium.ttf
           weight: 500
-        - asset: fonts/Montserrat-MediumItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-MediumItalic.ttf
           style: italic
           weight: 500
-        - asset: fonts/Montserrat-SemiBold.ttf
+        - asset: fonts/Montserrat/Montserrat-SemiBold.ttf
           weight: 600
-        - asset: fonts/Montserrat-SemiBoldItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-SemiBoldItalic.ttf
           style: italic
           weight: 600
-        - asset: fonts/Montserrat-Bold.ttf
+        - asset: fonts/Montserrat/Montserrat-Bold.ttf
           weight: 700
-        - asset: fonts/Montserrat-BoldItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-BoldItalic.ttf
           style: italic
           weight: 700
-        - asset: fonts/Montserrat-ExtraBold.ttf
+        - asset: fonts/Montserrat/Montserrat-ExtraBold.ttf
           weight: 800
-        - asset: fonts/Montserrat-ExtraBoldItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf
           style: italic
           weight: 800
-        - asset: fonts/Montserrat-Black.ttf
+        - asset: fonts/Montserrat/Montserrat-Black.ttf
           weight: 900
-        - asset: fonts/Montserrat-BlackItalic.ttf
+        - asset: fonts/Montserrat/Montserrat-BlackItalic.ttf
           style: italic
           weight: 900
+    - family: Manrope
+      fonts:
+        - asset: fonts/Manrope/Manrope-ExtraLight.ttf
+          weight: 200
+        - asset: fonts/Manrope/Manrope-ExtraLightItalic.ttf
+          style: italic
+          weight: 200
+        - asset: fonts/Manrope/Manrope-Light.ttf
+          weight: 300
+        - asset: fonts/Manrope/Manrope-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: fonts/Manrope/Manrope-Regular.ttf
+          weight: 400
+        - asset: fonts/Manrope/Manrope-Italic.ttf
+          style: italic
+          weight: 400
+        - asset: fonts/Manrope/Manrope-Medium.ttf
+          weight: 500
+        - asset: fonts/Manrope/Manrope-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: fonts/Manrope/Manrope-SemiBold.ttf
+          weight: 600
+        - asset: fonts/Manrope/Manrope-SemiBoldItalic.ttf
+          style: italic
+          weight: 600
+        - asset: fonts/Manrope/Manrope-Bold.ttf
+          weight: 700
+        - asset: fonts/Manrope/Manrope-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: fonts/Manrope/Manrope-ExtraBold.ttf
+          weight: 800
+        - asset: fonts/Manrope/Manrope-ExtraBoldItalic.ttf
+          style: italic
+          weight: 800
+#    - family: AtkinsonHyperlegible
+#      fonts:
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular.ttf
+#          weight: 400
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic.ttf
+#          style: italic
+#          weight: 400
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold.ttf
+#          weight: 700
+#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic.ttf
+#          style: italic
+#          weight: 700
+    - family: OpenDyslexic3
+      fonts:
+        - asset: fonts/OpenDyslexic3/OpenDyslexic3-Regular.ttf
+          weight: 400
+        - asset: fonts/OpenDyslexic3/OpenDyslexic3-Bold.ttf
+          weight: 700

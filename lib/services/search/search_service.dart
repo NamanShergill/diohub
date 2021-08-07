@@ -1,15 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/app/graphQL/get_graphql.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/search/searchReposModel.dart';
 import 'package:dio_hub/models/search/search_issues_model.dart';
-import 'package:dio_hub/models/search/search_users_graphQL_model.dart';
+import 'package:dio_hub/models/search/search_repos_model.dart';
 import 'package:dio_hub/models/search/search_users_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:graphql/client.dart' hide Response;
 
 class SearchService {
   static Future<List<UserInfoModel>> searchUsers(String query,
@@ -18,9 +15,9 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    Response response =
-        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
-            .get(
+    final response = await API
+        .request(cacheOptions: CacheManager.search(refresh: refresh))
+        .get(
       '/search/users',
       queryParameters: {
         'q': query,
@@ -30,7 +27,7 @@ class SearchService {
         'page': page,
       },
     );
-    return SearchUsersModel.fromJson(response.data).items;
+    return SearchUsersModel.fromJson(response.data).items!;
   }
 
   static Future<List<RepositoryModel>> searchRepos(String query,
@@ -39,9 +36,9 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    Response response =
-        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
-            .get(
+    final response = await API
+        .request(cacheOptions: CacheManager.search(refresh: refresh))
+        .get(
       '/search/repositories',
       queryParameters: {
         'q': query,
@@ -51,7 +48,7 @@ class SearchService {
         'page': page,
       },
     );
-    return SearchReposModel.fromJson(response.data).items;
+    return SearchReposModel.fromJson(response.data).items!;
   }
 
   static Future<List<IssueModel>> searchIssues(String query,
@@ -60,9 +57,9 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    Response response =
-        await GetDio.getDio(cacheOptions: CacheManager.search(refresh: refresh))
-            .get(
+    final response = await API
+        .request(cacheOptions: CacheManager.search(refresh: refresh))
+        .get(
       '/search/issues',
       queryParameters: {
         'q': query,
@@ -72,7 +69,7 @@ class SearchService {
         'page': page,
       },
     );
-    return SearchIssuesModel.fromJson(response.data).items;
+    return SearchIssuesModel.fromJson(response.data).items!;
   }
 
   // static Future<List<TrendingReposModel>> trendingRepos() async {
@@ -84,33 +81,15 @@ class SearchService {
   //   return data.map((e) => TrendingReposModel.fromJson(e)).toList();
   // }
 
-  static Future<List<UserEdge>> searchMentionUsers(
-      String query, String type, String qType,
-      {String? cursor}) async {
-    String getUsers = '''
-        query (\$query:String!${cursor != null ? ',\$cursor:String!' : ''}){
-        search(query: \$query, type: USER, first: 20${cursor != null ? ', after:\$cursor' : ''}) {
-          edges {
-            node {
-              ... on $qType {
-                login
-                avatarUrl
-              }
-            }
-            cursor
-          }
-        }
-      }
-
-    ''';
-    final QueryOptions options =
-        QueryOptions(document: gql(getUsers), variables: <String, dynamic>{
-      'query': query + ' type:$type',
-      'cursor': cursor,
-    });
-    final QueryResult result = await GetGraphQL.client.query(options);
-    List<UserEdge> userEdges =
-        SearchUsersGraphQlModel.fromJson(result.data!).search.edges;
+  static Future<List<SearchMentionUsers$Query$Search$Edges?>>
+      searchMentionUsers(String query, String type, {String? cursor}) async {
+    final q = '$query${' type:$type'}';
+    final res = await API.gqlRequest(
+        SearchMentionUsersQuery(
+            variables: SearchMentionUsersArguments(query: q, after: cursor)),
+        cacheOptions: CacheManager.defaultGQLCache());
+    final userEdges =
+        SearchMentionUsers$Query.fromJson(res.data!).search.edges!;
     return userEdges;
   }
 }

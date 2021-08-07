@@ -1,25 +1,26 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dio_hub/common/api_wrapper_widget.dart';
-import 'package:dio_hub/common/code_block_view.dart';
-import 'package:dio_hub/common/markdown_body.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/code_block_view.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
+import 'package:provider/provider.dart';
 
 class FileViewerAPI extends StatefulWidget {
+  const FileViewerAPI(this.sha,
+      {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
+      : super(key: key);
   final String? repoURL;
   final String? branch;
   final String? repoName;
   final String? fileName;
   final String? sha;
-  const FileViewerAPI(this.sha,
-      {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
-      : super(key: key);
 
   @override
   _FileViewerAPIState createState() => _FileViewerAPIState();
@@ -45,14 +46,17 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   bool checkFileForWrap() {
     if (fileType != null && fileType!.startsWith('image')) {
       return false;
-    } else if (fileExtension == 'md') return false;
+    } else if (fileExtension == 'md') {
+      return false;
+    }
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
+      backgroundColor:
+          Provider.of<PaletteSettings>(context).currentSetting.primary,
       appBar: AppBar(
         title: Text(
           widget.fileName!,
@@ -62,7 +66,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
           // IconButton(
           //   icon: Icon(
           //     Icons.edit,
-          //     color: editing ? AppColor.accent : Colors.white,
+          //     color: editing ? Provider.of<PaletteSettings>(context).currentSetting.accent : Colors.white,
           //   ),
           //   onPressed: () {
           //     setState(() {
@@ -75,7 +79,13 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
             child: IconButton(
               icon: Icon(
                 Icons.wrap_text,
-                color: wrapText ? Colors.white : AppColor.grey3,
+                color: wrapText
+                    ? Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .baseElements
+                    : Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
               ),
               onPressed: () {
                 setState(() {
@@ -87,7 +97,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         ],
       ),
       body: APIWrapper<BlobModel>(
-        getCall: GitDatabaseService.getBlob(
+        apiCall: GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
           if (fileType != null && fileType!.startsWith('image')) {
@@ -123,22 +133,19 @@ class ContentViewController {
 }
 
 class TextViewer extends StatefulWidget {
+  const TextViewer(this.blob, this.fileName,
+      {this.contentViewController, this.branch, this.repoName, Key? key})
+      : super(key: key);
   final BlobModel blob;
   final String? fileName;
   final ContentViewController? contentViewController;
   final String? branch;
   final String? repoName;
-  const TextViewer(this.blob, this.fileName,
-      {this.contentViewController, this.branch, this.repoName, Key? key})
-      : super(key: key);
   @override
   _TextViewerState createState() => _TextViewerState();
 }
 
 class _TextViewerState extends State<TextViewer> {
-  _TextViewerState() {
-    widget.contentViewController?.wrap = changeWrap;
-  }
   bool loading = true;
   late List<String> content;
   bool wrapText = false;
@@ -148,12 +155,19 @@ class _TextViewerState extends State<TextViewer> {
   // final TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
+    setupController();
     content = parseBase64(widget.blob.content!).split('\n');
-    for (String str in content) {
-      if (str.length > numberOfMaxChars) numberOfMaxChars = str.length;
+    for (final str in content) {
+      if (str.length > numberOfMaxChars) {
+        numberOfMaxChars = str.length;
+      }
     }
     fileType = widget.fileName!.split('.').last;
     super.initState();
+  }
+
+  void setupController() {
+    widget.contentViewController?.wrap = changeWrap;
   }
 
   bool changeWrap() {
@@ -177,8 +191,8 @@ class _TextViewerState extends State<TextViewer> {
       child: Builder(builder: (context) {
         if (fileType == 'md') {
           return SingleChildScrollView(
-            child: MarkdownBody(content.join('\n'),
-                branch: widget.branch, repo: widget.repoName),
+            child: MarkdownRenderAPI(content.join('\n'),
+                repoName: widget.repoName),
           );
         }
         return SingleChildScrollView(
@@ -195,8 +209,12 @@ class _TextViewerState extends State<TextViewer> {
                 itemBuilder: (context, index) {
                   return Container(
                     color: index % 2 == 0
-                        ? AppColor.background
-                        : AppColor.onBackground,
+                        ? Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .primary
+                        : Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .secondary,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(

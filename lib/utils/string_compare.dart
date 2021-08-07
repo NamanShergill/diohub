@@ -1,17 +1,17 @@
 class StringFunctions {
-  final String string;
   StringFunctions(this.string);
+  final String string;
 
   @override
-  toString() => string;
+  String toString() => string;
 
   bool isStringEqual(String? string2) {
     return string.toLowerCase() == string2?.toLowerCase();
   }
 
   bool regexCompleteMatch(String pattern) {
-    RegExp regexp = RegExp(pattern);
-    String? match = regexp.firstMatch(string)?.group(0);
+    final regexp = RegExp(pattern);
+    final match = regexp.firstMatch(string)?.group(0);
     return match != null && match == string;
   }
 

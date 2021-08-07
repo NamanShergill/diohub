@@ -1,11 +1,11 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/custom_expand_tile.dart';
-import 'package:dio_hub/common/overlay_menu_widget.dart';
+import 'package:dio_hub/common/misc/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/overlay_menu_widget.dart';
+import 'package:dio_hub/common/misc/user_search_dropdown.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/range_picker.dart';
-import 'package:dio_hub/common/user_search_dropdown.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:extended_text_field/extended_text_field.dart';
@@ -16,18 +16,21 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class SearchOverlayScreen extends StatefulWidget {
+  const SearchOverlayScreen(this.searchData,
+      {this.message,
+      this.heroTag = 'search_bar',
+      required this.multiHero,
+      required this.onSubmit,
+      Key? key})
+      : super(key: key);
   final String? message;
   final ValueChanged<SearchData> onSubmit;
   final String heroTag;
   final SearchData searchData;
   final bool multiHero;
-  const SearchOverlayScreen(this.searchData,
-      {this.message,
-      this.heroTag = 'search_bar',
-      required this.multiHero,
-      required this.onSubmit, Key? key}):super(key:key);
   @override
   _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
 }
@@ -50,20 +53,19 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
       searchData.query.trim().isEmpty && searchData.visibleStrings.isEmpty;
 
   bool get isValid {
-    bool isValid = false;
-    for (String element in searchData.visibleStrings) {
-      SearchQuery query =
+    var isValid = false;
+    for (final element in searchData.visibleStrings) {
+      final query =
           searchData.searchFilters!.queryFromString(element.split(':').first)!;
-      if (query.qualifierQuery) isValid = true;
+      if (query.qualifierQuery) {
+        isValid = true;
+      }
     }
-    int numberOfAndOrNot = 0;
+    var numberOfAndOrNot = 0;
     searchData.query.splitMapJoin(
-      RegExp(SearchFilters.notOperatorRegExp.pattern +
-          '|' +
-          SearchFilters.andOperatorRegExp.pattern +
-          '|' +
-          SearchFilters.orOperatorRegExp.pattern),
-      onMatch: (Match m) {
+      RegExp(
+          '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}'),
+      onMatch: (m) {
         numberOfAndOrNot++;
         return '';
       },
@@ -92,7 +94,9 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
     return Portal(
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppColor.background,
+          backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
+              .currentSetting
+              .primary,
           body: Stack(
             fit: StackFit.expand,
             children: [
@@ -142,12 +146,17 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               expanded = !expanded;
                             });
                           },
+                          expanded: expanded,
                           child: ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return RadioListTile(
-                                  activeColor: AppColor.accent,
+                                  activeColor: Provider.of<PaletteSettings>(
+                                          context,
+                                          listen: false)
+                                      .currentSetting
+                                      .accent,
                                   groupValue:
                                       searchData.searchFilters!.searchType,
                                   value: searchTypeValues.map.values
@@ -172,7 +181,6 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               separatorBuilder: (context, index) =>
                                   const Divider(),
                               itemCount: searchTypeValues.map.keys.length),
-                          expanded: expanded,
                         ),
                       ),
                     const SizedBox(
@@ -193,8 +201,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     childAnchor: Alignment.topCenter,
                     portalAnchor: Alignment.bottomCenter,
                     overlay: Material(
-                      color: AppColor.onBackground,
-                      borderRadius: AppThemeBorderRadius.medBorderRadius,
+                      color:
+                          Provider.of<PaletteSettings>(context, listen: false)
+                              .currentSetting
+                              .secondary,
+                      borderRadius: medBorderRadius,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Theme(
@@ -320,7 +331,10 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               child: Material(
                                 elevation: 2,
                                 type: MaterialType.circle,
-                                color: AppColor.onBackground,
+                                color: Provider.of<PaletteSettings>(context,
+                                        listen: false)
+                                    .currentSetting
+                                    .secondary,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: IconButton(
@@ -329,7 +343,6 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       infoOverlay.tapped();
                                     },
                                     icon: const Icon(LineIcons.info),
-                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -346,7 +359,10 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              color: AppColor.onBackground,
+                              color: Provider.of<PaletteSettings>(context,
+                                      listen: false)
+                                  .currentSetting
+                                  .secondary,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
@@ -372,7 +388,10 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       widget.onSubmit(searchData);
                                     }
                                   : null,
-                              color: AppColor.onBackground,
+                              color: Provider.of<PaletteSettings>(context,
+                                      listen: false)
+                                  .currentSetting
+                                  .secondary,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Row(
@@ -399,18 +418,18 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
 }
 
 class _SearchBar extends StatefulWidget {
-  final SearchData searchData;
-  final String heroTag;
-  final String? message;
-  final ValueChanged<SearchData> onChanged;
-  final ValueChanged<void> onSubmit;
-  final bool multiHero;
   const _SearchBar(this.searchData,
       {this.message,
       required this.multiHero,
       required this.onChanged,
       required this.onSubmit,
       required this.heroTag});
+  final SearchData searchData;
+  final String heroTag;
+  final String? message;
+  final ValueChanged<SearchData> onChanged;
+  final ValueChanged<void> onSubmit;
+  final bool multiHero;
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -465,7 +484,7 @@ class _SearchBarState extends State<_SearchBar> {
                       controller.text = controller.text.replaceAll('\n', '');
                       // If the last char is not a space, enter a space.
                       if (!controller.text.endsWith(' ')) {
-                        controller.text = controller.text + ' ';
+                        controller.text = '${controller.text} ';
                       } else {
                         _parseQuery(pattern);
                         widget.onSubmit(null);
@@ -484,12 +503,13 @@ class _SearchBarState extends State<_SearchBar> {
                   },
                   specialTextSpanBuilder: _TextSpanBuilder(
                       widget.searchData.searchFilters!, controller,
-                      onChanged: (string) {
+                      context: context, onChanged: (string) {
                     controller.text = string;
                     _parseQuery(string);
                   }),
-                  decoration: TextFieldTheme.inputDecoration(
+                  decoration: inputDecoration(
                       hintText: widget.message,
+                      context: context,
                       labelText: 'Searching For',
                       focusNode: searchNode),
                 ),
@@ -516,9 +536,7 @@ class _SearchBarState extends State<_SearchBar> {
                     return ListTile(
                       onTap: () {
                         addString(
-                            widget.searchData.searchFilters!
-                                    .whiteListedQueries[index].query +
-                                ':',
+                            '${widget.searchData.searchFilters!.whiteListedQueries[index].query}:',
                             addSpaceAtEnd: false,
                             spaceAtStart: true);
                         setState(() {
@@ -550,7 +568,9 @@ class _SearchBarState extends State<_SearchBar> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
-                    color: AppColor.onBackground,
+                    color: Provider.of<PaletteSettings>(context, listen: false)
+                        .currentSetting
+                        .secondary,
                     onPressed: () {
                       setState(() {
                         controller.text = '';
@@ -597,9 +617,8 @@ class _SearchBarState extends State<_SearchBar> {
     controller.text =
         controller.text.substring(0, controller.text.length - remove.length);
     // Add new text according to the parameters.
-    controller.text = controller.text +
-        '${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}' +
-        (addQuotesAtEnd ? '""' : '');
+    controller.text =
+        '${controller.text}${'${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}'}${addQuotesAtEnd ? '""' : ''}';
     // Move controller to end, or end-1 if quotes were added.
     _moveControllerToEnd(addQuotesAtEnd ? 1 : 0);
     searchNode.requestFocus();
@@ -620,8 +639,8 @@ class _SearchBarState extends State<_SearchBar> {
 
   // Get all matches in a string from a certain Regexp.
   List<String> getMatches(RegExp regexp, String pattern) {
-    List<String> matches = [];
-    pattern.splitMapJoin(regexp, onMatch: (Match m) {
+    final matches = <String>[];
+    pattern.splitMapJoin(regexp, onMatch: (m) {
       matches.add(m.group(0)!);
       return m.group(0)!;
     });
@@ -629,12 +648,14 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   // Show a list dropdown for suggestions.
-  Widget list(int length, builder, {Key? key}) {
+  Widget list(int length, IndexedWidgetBuilder builder, {Key? key}) {
     return SizeExpandedSection(
       key: key,
       child: Material(
-        color: AppColor.onBackground,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        color: Provider.of<PaletteSettings>(context, listen: false)
+            .currentSetting
+            .secondary,
+        borderRadius: medBorderRadius,
         elevation: 8,
         child: ListView.separated(
             shrinkWrap: true,
@@ -666,43 +687,47 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void _parseQuery(String pattern) {
-    List<String> filterStrings = [];
-    List<SearchQuery> filters = [];
+    var str = pattern;
+    final filterStrings = <String>[];
+    final filters = <SearchQuery>[];
 
     // Handle case of number and date ranges with the bigger value before.
-    pattern.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
-        onMatch: (Match m) {
-      String string = m[0]!;
+    str.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
+        onMatch: (m) {
+      var string = m[0]!;
       if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
         string = m[0]!.splitMapJoin(
-            widget.searchData.searchFilters!.dateQRegExp!, onMatch: (Match m) {
-          String string = m[0]!.splitMapJoin(
+            widget.searchData.searchFilters!.dateQRegExp!, onMatch: (m) {
+          final string = m[0]!.splitMapJoin(
               RegExp(
                   '((([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])))([.][.])(([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))))'),
-              onMatch: (Match m) {
+              onMatch: (m) {
             String date(DateTime dateTime) {
               return DateFormat('yyyy-MM-dd').format(dateTime);
             }
 
-            String data = m[0]!;
-            DateTime one = DateTime.parse(data.split('..').first);
-            DateTime two = DateTime.parse(data.split('..').last);
-            if (one.isAfter(two)) return '${date(two)}..${date(one)}';
+            final data = m[0]!;
+            final one = DateTime.parse(data.split('..').first);
+            final two = DateTime.parse(data.split('..').last);
+            if (one.isAfter(two)) {
+              return '${date(two)}..${date(one)}';
+            }
             return '${date(one)}..${date(two)}';
           });
           return string;
         });
       } else if (widget.searchData.searchFilters!.numberQRegExp!
           .hasMatch(string)) {
-        string = string
-            .splitMapJoin(widget.searchData.searchFilters!.numberQRegExp!,
-                onMatch: (Match m) {
-          String string = m[0]!.splitMapJoin(
-              RegExp('((([0-9]+))([.][.])(([0-9]+)))'), onMatch: (Match m) {
-            String data = m[0]!;
-            int one = int.parse(data.split('..').first);
-            int two = int.parse(data.split('..').last);
-            if (one > two) return '$two..$one';
+        string = string.splitMapJoin(
+            widget.searchData.searchFilters!.numberQRegExp!, onMatch: (m) {
+          final string = m[0]!.splitMapJoin(
+              RegExp('((([0-9]+))([.][.])(([0-9]+)))'), onMatch: (m) {
+            final data = m[0]!;
+            final one = int.parse(data.split('..').first);
+            final two = int.parse(data.split('..').last);
+            if (one > two) {
+              return '$two..$one';
+            }
             return '$one..$two';
           });
           return string;
@@ -716,14 +741,14 @@ class _SearchBarState extends State<_SearchBar> {
     });
 
     // Remove all invalid queries from the string.
-    pattern = pattern.replaceAll(
+    str = str.replaceAll(
         widget.searchData.searchFilters!.allInvalidQueriesRegExp, '');
 
     // Convert all extra spaces to just a single space.
-    pattern = pattern.replaceAll(RegExp('(\\s+)'), ' ');
+    str = str.replaceAll(RegExp('(\\s+)'), ' ');
     // Send the new [SearchData] back.
     widget.onChanged(searchData.copyWith(
-      query: pattern,
+      query: str,
       filterStrings: filterStrings,
     ));
   }
@@ -734,19 +759,19 @@ class _SearchBarState extends State<_SearchBar> {
     // Get matches on the option queries on the supplied text.
     if (controller.selection.baseOffset == controller.text.length) {
       // Get all invalid or valid queries in the string.
-      List<String> matches = getMatches(
+      final matches = getMatches(
           RegExp(
               '${widget.searchData.searchFilters!.allValidQueriesRegexp.pattern}|${widget.searchData.searchFilters!.allInvalidQueriesRegExp.pattern}'),
           pattern);
       // Current typed data of the latest filter.
-      String typedData = '';
+      var typedData = '';
       // Current latest  query.
       SearchQuery? query;
       // Check if any of the matches above are the query currently being typed.
-      for (String element in matches) {
+      for (final element in matches) {
         if (isEndSame(pattern, element)) {
           typedData = element.substring(0).split(':')[1];
-          String queryString = element.split(':').first;
+          var queryString = element.split(':').first;
           if (queryString.startsWith('-')) {
             queryString = queryString.substring(1);
           }
@@ -754,35 +779,39 @@ class _SearchBarState extends State<_SearchBar> {
         }
       }
       // Get all completed valid queries.
-      List<String?> completedQueries = getMatches(
+      final List<String?> completedQueries = getMatches(
           RegExp(
               '${widget.searchData.searchFilters!.validSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.invalidSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.validBasicQueriesRegExp.pattern}'),
           pattern);
       // Check if the last query has been completed.
-      bool isLastQueryComplete = completedQueries.isNotEmpty &&
+      final isLastQueryComplete = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
       // Show filter suggestions if the last filter was not complete.
       if (!isLastQueryComplete) {
-        List<String> filteredOptions = [];
+        final filteredOptions = <String>[];
         // Last filter being typed.
         typedData = pattern.split(' ').last;
         // Remove the '-' from the case.
-        if (typedData.startsWith('-')) typedData = typedData.substring(1);
+        if (typedData.startsWith('-')) {
+          typedData = typedData.substring(1);
+        }
         if (typedData.isNotEmpty) {
-          for (String element
+          for (final element
               in widget.searchData.searchFilters!.whiteListedQueriesStrings) {
-            if (element.startsWith(typedData)) filteredOptions.add(element);
+            if (element.startsWith(typedData)) {
+              filteredOptions.add(element);
+            }
           }
           // Show overlay with the filtered options.
           _showOverlay(list(filteredOptions.length, (context, index) {
             return ListTile(
               onTap: () {
                 // Get query info from the string.
-                SearchQuery query = widget.searchData.searchFilters!
+                final query = widget.searchData.searchFilters!
                     .queryFromString(filteredOptions[index])!;
                 // Add string to text on tap, with quotes at the end if it is
                 // a spaced string with no auto complete options.
-                addString(filteredOptions[index] + ':',
+                addString('${filteredOptions[index]}:',
                     addQuotesAtEnd: query.options == null &&
                         query.type == QueryType.spacedString,
                     addSpaceAtEnd: false,
@@ -798,11 +827,7 @@ class _SearchBarState extends State<_SearchBar> {
       } else if ((query?.type == QueryType.number ||
               query?.type == QueryType.date) &&
           (typedData.isEmpty)) {
-        _showOverlay(RangePicker(
-            onAdded: (string) {
-              addString(string);
-            },
-            queryType: query!.type));
+        _showOverlay(RangePicker(onAdded: addString, queryType: query!.type));
       } else if ((query?.type == QueryType.user ||
               query?.type == QueryType.org) &&
           !typedData.endsWith(' ')) {
@@ -816,10 +841,12 @@ class _SearchBarState extends State<_SearchBar> {
           ),
         ));
       } else if (query?.options?.keys != null) {
-        List<String> filteredOptions = [];
+        final filteredOptions = <String>[];
         query!.options?.keys.toList().forEach(
           (element) {
-            if (element.startsWith(typedData)) filteredOptions.add(element);
+            if (element.startsWith(typedData)) {
+              filteredOptions.add(element);
+            }
           },
         );
         _showOverlay(list(filteredOptions.length, (context, index) {
@@ -838,70 +865,84 @@ class _SearchBarState extends State<_SearchBar> {
 
 class _TextSpanBuilder extends SpecialTextSpanBuilder {
   _TextSpanBuilder(this.searchFilters, this.controller,
-      {required this.onChanged})
+      {required this.onChanged, required this.context})
       : patternMap = {
-          searchFilters.validSensitiveQueriesRegExp: const TextStyle(
-            color: Colors.white,
+          searchFilters.validSensitiveQueriesRegExp: TextStyle(
+            color: Provider.of<PaletteSettings>(context, listen: false)
+                .currentSetting
+                .elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
-          searchFilters.validBasicQueriesRegExp: const TextStyle(
-            color: Colors.white,
+          searchFilters.validBasicQueriesRegExp: TextStyle(
+            color: Provider.of<PaletteSettings>(context, listen: false)
+                .currentSetting
+                .elementsOnColors,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
         },
         blacklistPatternMap = {
           searchFilters.invalidSensitiveQueriesRegExp: TextStyle(
-              color: AppColor.grey3,
+              color: Provider.of<PaletteSettings>(context, listen: false)
+                  .currentSetting
+                  .faded3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.invalidBasicQueriesRegExp: TextStyle(
-              color: AppColor.grey3,
+              color: Provider.of<PaletteSettings>(context, listen: false)
+                  .currentSetting
+                  .faded3,
               decoration: TextDecoration.combine([TextDecoration.lineThrough])),
           searchFilters.blacklistRegExp: TextStyle(
             color: Colors.red,
             decoration: TextDecoration.combine([TextDecoration.lineThrough]),
           ),
         };
+  final BuildContext context;
   final SearchFilters searchFilters;
   final Map<RegExp, TextStyle> patternMap;
   final Map<RegExp, TextStyle> blacklistPatternMap;
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   @override
-  TextSpan build(String data, {TextStyle? textStyle, onTap}) {
+  TextSpan build(String data,
+      {TextStyle? textStyle, void Function(dynamic)? onTap}) {
     if (data == '') {
       return const TextSpan(text: '');
     }
-    final List<InlineSpan> inlineList = <InlineSpan>[];
+    final inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
       data.splitMapJoin(RegExp(searchFilters.allValidQueriesRegexp.pattern),
-          onMatch: (Match m) {
+          onMatch: (m) {
         inlineList.add(
-          _ValidQuery(m[0]!, controller, textStyle, onChanged: (string) {
-            onChanged(string);
-          }).finishText(),
+          _ValidQuery(m[0]!, controller, textStyle,
+                  context: context, onChanged: onChanged)
+              .finishText(),
         );
         return '';
-      }, onNonMatch: (String string) {
+      }, onNonMatch: (string) {
         string.splitMapJoin(
-            RegExp(SearchFilters.notOperatorRegExp.pattern +
-                '|' +
-                SearchFilters.andOperatorRegExp.pattern +
-                '|' +
-                SearchFilters.orOperatorRegExp.pattern), onMatch: (Match m) {
-          TextStyle _textStyle = textStyle!;
+            RegExp(
+                '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}'),
+            onMatch: (m) {
+          var _textStyle = textStyle!;
           if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(color: AppColor.red);
+            _textStyle = _textStyle.copyWith(
+                color: Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .red);
           } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
             _textStyle = _textStyle.copyWith(color: Colors.amber);
           } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(color: AppColor.accent);
+            _textStyle = _textStyle.copyWith(
+                color: Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .accent);
           }
           inlineList.add(
               getSpan(m[0]!, _textStyle.copyWith(fontWeight: FontWeight.bold)));
           return '';
-        }, onNonMatch: (String string) {
+        }, onNonMatch: (string) {
           inlineList.add(getSpan(string, textStyle));
           return '';
         });
@@ -914,20 +955,22 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   }
 
   TextSpan getSpan(String text, TextStyle? style) {
-    List<TextSpan> children = [];
-    List<String> matches = [];
+    final children = <TextSpan>[];
+    final matches = <String>[];
     RegExp? allRegex;
-    String wlRegex = patternMap.keys.map((e) => e.pattern).join('|');
-    String blRegex = blacklistPatternMap.keys.map((e) => e.pattern).join('|');
-    Map<RegExp, TextStyle> combinedMap = {};
+    final wlRegex = patternMap.keys.map((e) => e.pattern).join('|');
+    final blRegex = blacklistPatternMap.keys.map((e) => e.pattern).join('|');
+    final combinedMap = <RegExp, TextStyle>{};
     combinedMap.addAll(patternMap);
     combinedMap.addAll(blacklistPatternMap);
     allRegex = RegExp('$wlRegex|$blRegex');
     text.splitMapJoin(
       allRegex,
-      onMatch: (Match m) {
-        if (!matches.contains(m[0])) matches.add(m[0]!);
-        RegExp? k = combinedMap.entries.firstWhere((element) {
+      onMatch: (m) {
+        if (!matches.contains(m[0])) {
+          matches.add(m[0]!);
+        }
+        final RegExp? k = combinedMap.entries.firstWhere((element) {
           return element.key.allMatches(m[0]!).isNotEmpty;
         }).key;
         children.add(
@@ -938,7 +981,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
         );
         return '';
       },
-      onNonMatch: (String span) {
+      onNonMatch: (span) {
         children.add(TextSpan(text: span, style: style));
         return span.toString();
       },
@@ -948,17 +991,21 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
 
   @override
   SpecialText? createSpecialText(String flag,
-      {TextStyle? textStyle, onTap, required int index}) {}
+      {TextStyle? textStyle,
+      void Function(dynamic)? onTap,
+      required int index}) {}
 }
 
 class _ValidQuery extends SpecialText {
   _ValidQuery(String startFlag, this.controller, TextStyle? textStyle,
-      {required this.onChanged})
+      {required this.onChanged, required this.context})
       : super(
           startFlag,
           '',
           textStyle ?? const TextStyle(),
         );
+  final BuildContext context;
+
   final ValueChanged<String> onChanged;
   final TextEditingController controller;
 
@@ -969,10 +1016,16 @@ class _ValidQuery extends SpecialText {
       child: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Material(
-            borderRadius: AppThemeBorderRadius.smallBorderRadius,
-            color: toString().startsWith('-') ? AppColor.red : AppColor.accent,
+            borderRadius: smallBorderRadius,
+            color: toString().startsWith('-')
+                ? Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .red
+                : Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .accent,
             child: InkWell(
-              borderRadius: AppThemeBorderRadius.smallBorderRadius,
+              borderRadius: smallBorderRadius,
               onTap: () {
                 if (!toString().trim().startsWith('-')) {
                   onChanged(controller.text.replaceFirst(
@@ -1003,12 +1056,8 @@ class _ValidQuery extends SpecialText {
                           style: textStyle.copyWith(fontSize: 14),
                           children: [
                             TextSpan(
-                                text: toString()
-                                        .trim()
-                                        .replaceAll('"', '')
-                                        .split(':')
-                                        .first +
-                                    ' ',
+                                text:
+                                    '${toString().trim().replaceAll('"', '').split(':').first} ',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold)),
                             TextSpan(
@@ -1024,12 +1073,21 @@ class _ValidQuery extends SpecialText {
                     ),
                     ClipOval(
                       child: Container(
-                        color: Colors.white,
+                        color:
+                            Provider.of<PaletteSettings>(context, listen: false)
+                                .currentSetting
+                                .elementsOnColors,
                         child: Icon(
                           Icons.close_rounded,
                           color: toString().startsWith('-')
-                              ? AppColor.red
-                              : AppColor.accent,
+                              ? Provider.of<PaletteSettings>(context,
+                                      listen: false)
+                                  .currentSetting
+                                  .red
+                              : Provider.of<PaletteSettings>(context,
+                                      listen: false)
+                                  .currentSetting
+                                  .accent,
                           size: 12,
                         ),
                       ),
@@ -1046,6 +1104,17 @@ class _ValidQuery extends SpecialText {
 }
 
 class SearchData {
+  SearchData({
+    this.query = '',
+    this.quickFilters = const [],
+    this.filterStrings = const [],
+    this.searchFilters,
+    this.sort = 'best',
+    bool multiType = false,
+    List<String> defaultHiddenFilters = const [],
+  })  : _defaultFilters = defaultHiddenFilters,
+        multiType = searchFilters == null || multiType;
+
   /// Current query info without filters.
   final String query;
 
@@ -1066,30 +1135,16 @@ class SearchData {
 
   /// Current sort setting, defaults to 'best', which returns null on being queried.
   final String sort;
-  SearchData({
-    this.query = '',
-    this.quickFilters = const [],
-    this.filterStrings = const [],
-    this.searchFilters,
-    this.sort = 'best',
-    bool multiType = false,
-    List<String> defaultHiddenFilters = const [],
-  })  : _defaultFilters = defaultHiddenFilters,
-        multiType = searchFilters == null ? true : multiType;
 
   /// Return string of the query without the default filters.
   @override
   String toString() {
-    return query.trim() + ' ' + filterStrings.join(' ').trim() + ' ';
+    return '${query.trim()} ${filterStrings.join(' ').trim()} ';
   }
 
   /// Return string of the query with the default filters.
   String get toQuery =>
-      query.trim() +
-      ' ' +
-      _defaultFilters.join(' ').trim() +
-      ' ' +
-      filterStrings.join(' ').trim();
+      '${query.trim()} ${_defaultFilters.join(' ').trim()} ${filterStrings.join(' ').trim()}';
 
   /// Get current sort setting. Returns null if it is "best".
   String? get getSort => sort != 'best' ? sort.split('-').first : null;
@@ -1101,20 +1156,22 @@ class SearchData {
   bool get isActive => toString().trim().isNotEmpty;
 
   /// All current filter strings.
-  @Deprecated(
-      'Todo: Kind of redundant to have this. Remove and directly reference filterStrings?')
   List<String> get visibleStrings => filterStrings;
 
   /// Get if a quick filter is currently in the filters.
   String? get activeQuickFilter {
-    List<String> active = [];
-    for (String element in filterStrings) {
-      for (String e in quickFilters) {
-        if (StringFunctions(e).isStringEqual(element)) active.add(element);
+    final active = <String>[];
+    for (final element in filterStrings) {
+      for (final e in quickFilters) {
+        if (StringFunctions(e).isStringEqual(element)) {
+          active.add(element);
+        }
       }
     }
     // Return null if more than one.
-    if (active.length == 1) return active.first;
+    if (active.length == 1) {
+      return active.first;
+    }
   }
 
   /// If current query is valid.
@@ -1129,11 +1186,13 @@ class SearchData {
 
   /// Replace the quick filters in all the filters and add a new one.
   List<String> _quickFilterChange(String quickFilter, List<String> allFilters) {
-    List<String> filters = allFilters.toList();
+    final filters = allFilters.toList();
     filters.removeWhere((element) {
-      bool exists = false;
-      for (String e in quickFilters) {
-        if (StringFunctions(e).isStringEqual(element)) exists = true;
+      var exists = false;
+      for (final e in quickFilters) {
+        if (StringFunctions(e).isStringEqual(element)) {
+          exists = true;
+        }
       }
       return exists;
     });
@@ -1149,9 +1208,11 @@ class SearchData {
       String? quickFilter,
       SearchFilters? searchFilters,
       String? sort}) {
-    List<String> filters = filterStrings ?? this.filterStrings;
+    var filters = filterStrings ?? this.filterStrings;
     // If a new quick filter is supplied, replace all current ones in the filters.
-    if (quickFilter != null) filters = _quickFilterChange(quickFilter, filters);
+    if (quickFilter != null) {
+      filters = _quickFilterChange(quickFilter, filters);
+    }
     return SearchData(
         query: query ?? this.query,
         filterStrings: filters,

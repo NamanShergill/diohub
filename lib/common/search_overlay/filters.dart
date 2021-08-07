@@ -1,85 +1,4 @@
 class SearchFilters {
-  final List<SearchQuery> _basicQueries = [];
-  final List<SearchQuery> _sensitiveQueries = [];
-  final List<SearchQuery> _blackList = [];
-  final SearchType _searchType;
-  final Map<String, String> _sortOptions;
-  RegExp? _numberQRegExp;
-  RegExp? _dateQRegExp;
-  final SearchQueries searchQueries = SearchQueries();
-
-  /// Get search type.
-  SearchType get searchType => _searchType;
-
-  /// Get regexp to match all valid queries in a string.
-  RegExp get allValidQueriesRegexp => RegExp(validBasicQueriesRegExp.pattern +
-      '|' +
-      validSensitiveQueriesRegExp.pattern);
-
-  /// Get regexp to match all invalid queries in a string.
-  RegExp get allInvalidQueriesRegExp =>
-      _getIncompleteRegExp(_basicQueries + _sensitiveQueries + _blackList);
-
-  /// Sort options for the given search filter.
-  Map<String, String> get sortOptions => _sortOptions;
-
-  /// Get regexp to match valid basic queries in a string.
-  RegExp get validBasicQueriesRegExp => _getRegExp(_basicQueries);
-
-  /// Get regexp to match valid sensitive queries in a string.
-  RegExp get validSensitiveQueriesRegExp =>
-      _getSensitiveQueryRegExp(_sensitiveQueries);
-
-  /// Get regexp to match all blacklisted queries in a string.
-  RegExp get blacklistRegExp => _getIncompleteRegExp(_blackList);
-
-  /// Get regexp to match invalid basic queries in a string.
-  RegExp get invalidBasicQueriesRegExp => _getIncompleteRegExp(_basicQueries);
-
-  /// Get regexp to match invalid sensitive queries in a string.
-  RegExp get invalidSensitiveQueriesRegExp =>
-      _getIncompleteRegExp(_sensitiveQueries);
-
-  /// Get regexp to match NOT operators in a string.
-  static RegExp get notOperatorRegExp =>
-      RegExp('(?:NOT)(?:\\s)(?!(NOT|OR|AND))(\\w+)');
-
-  /// Get regexp to match AND operators in a string.
-  static RegExp get andOperatorRegExp => RegExp(
-      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:AND)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
-
-  /// Get regexp to match OR operators in a string.
-  static RegExp get orOperatorRegExp => RegExp(
-      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:OR)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
-
-  /// Get regexp to match number queries in a string.
-  RegExp? get numberQRegExp => _numberQRegExp;
-
-  /// Get regexp to match date queries in a string.
-  RegExp? get dateQRegExp => _dateQRegExp;
-
-  /// Get all whitelisted queries for the [SearchFilters] instance.
-  List<SearchQuery> get whiteListedQueries {
-    List<SearchQuery> list = _sensitiveQueries + _basicQueries;
-    list.sort((a, b) => a.query.toLowerCase().compareTo(b.query.toLowerCase()));
-    return list;
-  }
-
-  /// Get all whitelisted query strings for the [SearchFilters] instance.
-  List<String> get whiteListedQueriesStrings =>
-      whiteListedQueries.map((e) => e.query).toList();
-
-  /// Get the corresponding [SearchQuery] instance in the lists from a given string.
-  SearchQuery? queryFromString(String query) {
-    SearchQuery? value;
-    if (query.startsWith('-')) query = query.substring(1);
-    for (SearchQuery element
-        in _basicQueries + _sensitiveQueries + _blackList) {
-      if (element.query == query) value = element;
-    }
-    return value;
-  }
-
   /// Create a [SearchFilters] instance with data of a repository search.
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-for-repositories
   SearchFilters.repositories({List<String> blacklist = const []})
@@ -281,16 +200,99 @@ class SearchFilters {
       searchQueries.user,
     ], blacklist);
   }
+  final List<SearchQuery> _basicQueries = [];
+  final List<SearchQuery> _sensitiveQueries = [];
+  final List<SearchQuery> _blackList = [];
+  final SearchType _searchType;
+  final Map<String, String> _sortOptions;
+  RegExp? _numberQRegExp;
+  RegExp? _dateQRegExp;
+  final SearchQueries searchQueries = SearchQueries();
+
+  /// Get search type.
+  SearchType get searchType => _searchType;
+
+  /// Get regexp to match all valid queries in a string.
+  RegExp get allValidQueriesRegexp => RegExp(
+      '${validBasicQueriesRegExp.pattern}|${validSensitiveQueriesRegExp.pattern}');
+
+  /// Get regexp to match all invalid queries in a string.
+  RegExp get allInvalidQueriesRegExp =>
+      _getIncompleteRegExp(_basicQueries + _sensitiveQueries + _blackList);
+
+  /// Sort options for the given search filter.
+  Map<String, String> get sortOptions => _sortOptions;
+
+  /// Get regexp to match valid basic queries in a string.
+  RegExp get validBasicQueriesRegExp => _getRegExp(_basicQueries);
+
+  /// Get regexp to match valid sensitive queries in a string.
+  RegExp get validSensitiveQueriesRegExp =>
+      _getSensitiveQueryRegExp(_sensitiveQueries);
+
+  /// Get regexp to match all blacklisted queries in a string.
+  RegExp get blacklistRegExp => _getIncompleteRegExp(_blackList);
+
+  /// Get regexp to match invalid basic queries in a string.
+  RegExp get invalidBasicQueriesRegExp => _getIncompleteRegExp(_basicQueries);
+
+  /// Get regexp to match invalid sensitive queries in a string.
+  RegExp get invalidSensitiveQueriesRegExp =>
+      _getIncompleteRegExp(_sensitiveQueries);
+
+  /// Get regexp to match NOT operators in a string.
+  static RegExp get notOperatorRegExp =>
+      RegExp('(?:NOT)(?:\\s)(?!(NOT|OR|AND))(\\w+)');
+
+  /// Get regexp to match AND operators in a string.
+  static RegExp get andOperatorRegExp => RegExp(
+      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:AND)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
+
+  /// Get regexp to match OR operators in a string.
+  static RegExp get orOperatorRegExp => RegExp(
+      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:OR)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
+
+  /// Get regexp to match number queries in a string.
+  RegExp? get numberQRegExp => _numberQRegExp;
+
+  /// Get regexp to match date queries in a string.
+  RegExp? get dateQRegExp => _dateQRegExp;
+
+  /// Get all whitelisted queries for the [SearchFilters] instance.
+  List<SearchQuery> get whiteListedQueries {
+    final list = _sensitiveQueries + _basicQueries;
+    list.sort((a, b) => a.query.toLowerCase().compareTo(b.query.toLowerCase()));
+    return list;
+  }
+
+  /// Get all whitelisted query strings for the [SearchFilters] instance.
+  List<String> get whiteListedQueriesStrings =>
+      whiteListedQueries.map((e) => e.query).toList();
+
+  /// Get the corresponding [SearchQuery] instance in the lists from a given string.
+  SearchQuery? queryFromString(String query) {
+    var data = query;
+    SearchQuery? value;
+    if (data.startsWith('-')) {
+      data = data.substring(1);
+    }
+    for (final element in _basicQueries + _sensitiveQueries + _blackList) {
+      if (element.query == query) {
+        value = element;
+      }
+    }
+    return value;
+  }
 
   /// Create regexp for sensitive queries.
   RegExp _getSensitiveQueryRegExp(List<SearchQuery> queries) {
-    List<SearchQuery> optionQ = [];
-    List<SearchQuery> dateQ = [];
-    List<SearchQuery> numberQ = [];
-    List<SearchQuery> userQ = [];
-    List<SearchQuery> spacedQ = [];
-    List<SearchQuery> customQ = [];
-    for (SearchQuery element in queries) {
+    final optionQ = <SearchQuery>[];
+    final dateQ = <SearchQuery>[];
+    final numberQ = <SearchQuery>[];
+    final userQ = <SearchQuery>[];
+    final spacedQ = <SearchQuery>[];
+    final customQ = <SearchQuery>[];
+    for (final element in queries) {
       if (element.type == QueryType.date) {
         dateQ.add(element);
       } else if (element.type == QueryType.number) {
@@ -315,20 +317,20 @@ class SearchFilters {
         (?:") -> Checks for end quote.
         (?=(\\s)(${spacedQs.join('|')})?|\$) ->  Ends with another query or end of line.
     */
-    List<String> spacedQs = spacedQ.map((e) => e.query + ':').toList();
-    String spacedRegExp =
+    final spacedQs = spacedQ.map((e) => '${e.query}:').toList();
+    final spacedRegExp =
         '(?:-)?(?:${spacedQs.join('|')})(((?:")((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:"))|((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+))(?=(\\s))';
 
     /*
         (?:-)? -> Optional [-] at start.
         (?:${optionsQ.join('|')}) -> Starts with the given queries.
     */
-    List<String> optionsQ = optionQ
+    final optionsQ = optionQ
         .map((query) => query.options!.keys
             .map((option) => '${query.query}:($option|"$option")')
             .join('|'))
         .toList();
-    String optionRegexp = '(?:-)?(?:${optionsQ.join('|')})(?=(\\s))';
+    final optionRegexp = '(?:-)?(?:${optionsQ.join('|')})(?=(\\s))';
 
     /*
     Common:
@@ -344,13 +346,13 @@ class SearchFilters {
         -----------------------
         ([*][.][.])([0-9]+) -> [*..10]
     */
-    List<String> numbersQ = numberQ.map((query) => '${query.query}:').toList();
-    String numberRegexp =
+    final numbersQ = numberQ.map((query) => '${query.query}:').toList();
+    final numberRegexp =
         '(?:-)?(?:${numbersQ.join('|')})${optionalQuotes(rangeRegExp('([0-9]+)'))}(?=(\\s))';
     _numberQRegExp = RegExp(numberRegexp.replaceAll('(?=(\\s))', ''));
 
-    List<String> datesQ = dateQ.map((query) => '${query.query}:').toList();
-    String dateRegexp =
+    final datesQ = dateQ.map((query) => '${query.query}:').toList();
+    final dateRegexp =
         '(?:-)?(?:${datesQ.join('|')})${optionalQuotes(rangeRegExp('([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))'))}(?=(\\s))';
     _dateQRegExp = RegExp(dateRegexp.replaceAll('(?=(\\s))', ''));
 
@@ -362,19 +364,28 @@ class SearchFilters {
         (?:") -> Checks for end quote.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    List<String> usersQ = userQ.map((query) => '${query.query}:').toList();
-    String userRegExp =
+    final usersQ = userQ.map((query) => '${query.query}:').toList();
+    final userRegExp =
         '(?:-)?(?:${usersQ.join('|')})${optionalQuotes('(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
-    // print(numberRegexp + '|' + userRegExp + '|' + boolRegexp);
 
-    List<String> finalRegex = [];
-    if (spacedQ.isNotEmpty) finalRegex.add(spacedRegExp);
-    if (userQ.isNotEmpty) finalRegex.add(userRegExp);
-    if (optionQ.isNotEmpty) finalRegex.add(optionRegexp);
-    if (numberQ.isNotEmpty) finalRegex.add(numberRegexp);
-    if (dateQ.isNotEmpty) finalRegex.add(dateRegexp);
+    final finalRegex = <String>[];
+    if (spacedQ.isNotEmpty) {
+      finalRegex.add(spacedRegExp);
+    }
+    if (userQ.isNotEmpty) {
+      finalRegex.add(userRegExp);
+    }
+    if (optionQ.isNotEmpty) {
+      finalRegex.add(optionRegexp);
+    }
+    if (numberQ.isNotEmpty) {
+      finalRegex.add(numberRegexp);
+    }
+    if (dateQ.isNotEmpty) {
+      finalRegex.add(dateRegexp);
+    }
     if (customQ.isNotEmpty) {
-      for (SearchQuery element in customQ) {
+      for (final element in customQ) {
         finalRegex.add(element.customRegex!);
       }
     }
@@ -382,39 +393,43 @@ class SearchFilters {
   }
 
   RegExp _getRegExp(List<SearchQuery> queries) {
-    List<String> strings = queries.map((e) => e.query + ':').toList();
-    String filter = strings.join('|');
+    final strings = queries.map((e) => '${e.query}:').toList();
+    final filter = strings.join('|');
     /*
         (?:-)? -> Optional [-] at start.
         (?:$filter) -> Starts with the given queries.
         ((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+) -> Any character following.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    String regex = '(?:-)?(?:$filter)${optionalQuotes('(.[^":]+)')}(?=(\\s))';
-    if (queries.isEmpty) regex = '(?!x)x';
+    var regex = '(?:-)?(?:$filter)${optionalQuotes('(.[^":]+)')}(?=(\\s))';
+    if (queries.isEmpty) {
+      regex = '(?!x)x';
+    }
     return RegExp(regex);
   }
 
   RegExp _getIncompleteRegExp(
     List<SearchQuery> queries,
   ) {
-    List<String> strings = queries.map((e) => e.query + ':').toList();
-    String filter = strings.join('|');
+    final strings = queries.map((e) => '${e.query}:').toList();
+    final filter = strings.join('|');
     /*
         (?:-)? -> Optional [-] at start.
         (?:$filter) -> Starts with the given queries.
         (.*) -> Any character following.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    String regex = '(?:-)?(?:$filter)(((?:")(.[^"]*)(?:"))|(.[^"| ]*))?(?:")?';
-    if (queries.isEmpty) regex = '(?!x)x';
+    var regex = '(?:-)?(?:$filter)(((?:")(.[^"]*)(?:"))|(.[^"| ]*))?(?:")?';
+    if (queries.isEmpty) {
+      regex = '(?!x)x';
+    }
     return RegExp(regex);
   }
 
   /// Filter queries into basic, sensitive, or blacklist groups.
   void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
-    List<SearchQuery> allQueries = searchQueries.allQueries;
-    for (SearchQuery element in original) {
+    final allQueries = searchQueries.allQueries;
+    for (final element in original) {
       if (!blacklist.contains(element.query)) {
         if (element.type != QueryType.basic || element.options != null) {
           _sensitiveQueries.add(element);
@@ -423,9 +438,11 @@ class SearchFilters {
         }
       }
     }
-    List<SearchQuery> filteredBlackList = [];
-    for (SearchQuery e in allQueries) {
-      if (!whiteListedQueries.contains(e)) filteredBlackList.add(e);
+    final filteredBlackList = <SearchQuery>[];
+    for (final e in allQueries) {
+      if (!whiteListedQueries.contains(e)) {
+        filteredBlackList.add(e);
+      }
     }
     _blackList.addAll(filteredBlackList);
   }
@@ -433,7 +450,9 @@ class SearchFilters {
   /// Get regex for optional quotes around a string.
   static String optionalQuotes(String string,
       {bool allowSpace = false, String? spacedRegex}) {
-    if (allowSpace) return '(((?:")$spacedRegex(?:"))|($string))';
+    if (allowSpace) {
+      return '(((?:")$spacedRegex(?:"))|($string))';
+    }
     return '(((?:")$string(?:"))|($string))';
   }
 
@@ -502,19 +521,22 @@ class SearchQueries {
   SearchQuery filename = SearchQuery(SearchQueryStrings.filename);
   SearchQuery followers =
       SearchQuery(SearchQueryStrings.followers, type: QueryType.number);
-  SearchQuery fork = SearchQuery(SearchQueryStrings.fork, options: {
-    'true': 'Include forks.',
-    'only': 'Only show forks.',
-  });
+  SearchQuery fork = SearchQuery(SearchQueryStrings.fork,
+      options: {
+        'true': 'Include forks.',
+        'only': 'Only show forks.',
+      },
+      qualifierQuery: false);
   SearchQuery forks =
       SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
   SearchQuery fullName =
       SearchQuery(SearchQueryStrings.fullName, type: QueryType.spacedString);
-  SearchQuery goodFirstIssues = SearchQuery(SearchQueryStrings.goodFirstIssues);
+  SearchQuery goodFirstIssues =
+      SearchQuery(SearchQueryStrings.goodFirstIssues, type: QueryType.number);
   SearchQuery hash = SearchQuery(SearchQueryStrings.hash);
   SearchQuery head = SearchQuery(SearchQueryStrings.head);
   SearchQuery helpWantedIssues =
-      SearchQuery(SearchQueryStrings.helpWantedIssues);
+      SearchQuery(SearchQueryStrings.helpWantedIssues, type: QueryType.number);
   SearchQuery iN = SearchQuery(SearchQueryStrings.iN, qualifierQuery: false);
   SearchQuery interactions =
       SearchQuery(SearchQueryStrings.interactions, type: QueryType.number);
@@ -788,12 +810,6 @@ class SearchQueryStrings {
 }
 
 class SearchQuery {
-  final String query;
-  final String? description;
-  final String? customRegex;
-  final bool qualifierQuery;
-  Map<String, String>? options;
-  final QueryType type;
   SearchQuery(this.query,
       {this.description,
       this.options,
@@ -806,12 +822,20 @@ class SearchQuery {
       options = {'true': '', 'false': ''};
     }
   }
+  final String query;
+  final String? description;
+  final String? customRegex;
+  final bool qualifierQuery;
+  Map<String, String>? options;
+  final QueryType type;
 
   String toQueryString(String data) =>
       data.contains(' ') ? '$query:"$data"' : '$query:$data';
 
   void addOptions(Map<String, String> options) {
-    if (this.options == null) this.options = {};
+    if (this.options == null) {
+      this.options = {};
+    }
 
     this.options!.addAll(options);
   }
@@ -832,25 +856,23 @@ enum SearchType {
 }
 
 final searchTypeValues = EnumValues({
-  "Repositories": SearchType.repositories,
+  'Repositories': SearchType.repositories,
   // "Topics": SearchType.topics,
   // "Code": SearchType.code,
   // "Commits": SearchType.commits,
-  "Issues and Pulls Requests": SearchType.issuesPulls,
+  'Issues and Pulls Requests': SearchType.issuesPulls,
   // "Discussions": SearchType.discussions,
-  "Users": SearchType.users,
+  'Users': SearchType.users,
   // "Packages": SearchType.packages,
   // "Wiki": SearchType.wiki,
 });
 
 class EnumValues<T> {
+  EnumValues(this.map);
   Map<String, T> map;
   Map<T, String>? reverseMap;
 
-  EnumValues(this.map);
-
   Map<T, String>? get reverse {
-    reverseMap ??= map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
+    return reverseMap ??= map.map((k, v) => MapEntry(v, k));
   }
 }

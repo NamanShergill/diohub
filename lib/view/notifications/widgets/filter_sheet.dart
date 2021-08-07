@@ -1,15 +1,24 @@
 import 'package:collection/collection.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/button.dart';
+import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 typedef FilterChange = Function(Map, Map);
 
 class FilterSheet extends StatefulWidget {
+  const FilterSheet(
+      {Key? key,
+      required this.onFiltersChanged,
+      this.apiFilters,
+      this.clientFilters,
+      this.controller})
+      : super(key: key);
+
   ///  Provides the selected filters, if any.
   final FilterChange onFiltersChanged;
 
@@ -21,14 +30,6 @@ class FilterSheet extends StatefulWidget {
 
   /// Controller to scroll the bottom sheet along with the [ListView].
   final ScrollController? controller;
-
-  const FilterSheet(
-      {Key? key,
-      required this.onFiltersChanged,
-      this.apiFilters,
-      this.clientFilters,
-      this.controller})
-      : super(key: key);
 
   @override
   _FilterSheetState createState() => _FilterSheetState();
@@ -67,11 +68,9 @@ class _FilterSheetState extends State<FilterSheet> {
 
   // Check if filters are modified to show the Apply Button accordingly.
   bool isModified() {
-    bool modified = false;
-    Function deepEq = const DeepCollectionEquality().equals;
-    modified = !(deepEq(clientFilters, widget.clientFilters) &&
+    final Function deepEq = const DeepCollectionEquality().equals;
+    return !(deepEq(clientFilters, widget.clientFilters) &&
         deepEq(apiFilters, widget.apiFilters));
-    return modified;
   }
 
   @override
@@ -89,7 +88,9 @@ class _FilterSheetState extends State<FilterSheet> {
                 },
                 child: SwitchListTile(
                     value: !apiFilters['all'],
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Only unread notifications',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -109,10 +110,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.bullseye,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('assign'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Assigned',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -130,10 +132,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.pen,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('author'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Author',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -151,10 +154,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.comment,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('comment'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Comment',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -172,10 +176,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.envelopeOpen,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('invitation'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Invitation',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -193,10 +198,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.exclamationCircle,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('manual'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Following',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -214,10 +220,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.at,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('mention'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Mentioned',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -235,11 +242,12 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.search,
-                      color: Colors.white,
                     ),
                     value:
                         clientFilters['show_only'].contains('review_requested'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Review Requested',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -257,11 +265,12 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.userSecret,
-                      color: Colors.white,
                     ),
                     value:
                         clientFilters['show_only'].contains('security_alert'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Security Alert',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -279,10 +288,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       Octicons.git_pull_request,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('state_change'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Actions',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -300,10 +310,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.envelope,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('subscribed'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Subscribed',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -321,10 +332,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 child: CheckboxListTile(
                     secondary: const Icon(
                       LineIcons.teamspeak,
-                      color: Colors.white,
                     ),
                     value: clientFilters['show_only'].contains('team_mention'),
-                    activeColor: AppColor.accent,
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
                     title: Text(
                       'Team Mention',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -342,7 +354,9 @@ class _FilterSheetState extends State<FilterSheet> {
               SizeExpandedSection(
                 expand: isModified(),
                 child: Container(
-                  color: AppColor.background,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .primary,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -352,9 +366,13 @@ class _FilterSheetState extends State<FilterSheet> {
                         child: Button(
                           onTap: () {
                             sendFilters();
-                            if (mounted) Navigator.pop(context);
+                            if (mounted) {
+                              Navigator.pop(context);
+                            }
                           },
-                          color: AppColor.onBackground,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .secondary,
                           child: Text(
                             'Apply Filters',
                             style: Theme.of(context).textTheme.bodyText1,
@@ -407,10 +425,10 @@ class _FilterSheetState extends State<FilterSheet> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Material(
         elevation: 2,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
-        color: AppColor.onBackground,
+        borderRadius: medBorderRadius,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: InkWell(
-          borderRadius: AppThemeBorderRadius.medBorderRadius,
+          borderRadius: medBorderRadius,
           onTap: () {
             setState(() {
               function!();

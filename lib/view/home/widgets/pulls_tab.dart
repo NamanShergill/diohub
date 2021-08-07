@@ -1,17 +1,16 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsTab extends StatefulWidget {
-  final ScrollController scrollController;
-  final DeepLinkData? deepLinkData;
-
   const PullsTab({required this.scrollController, this.deepLinkData, Key? key})
       : super(key: key);
+  final ScrollController scrollController;
+  final DeepLinkData? deepLinkData;
 
   @override
   _PullsTabState createState() => _PullsTabState();
@@ -25,13 +24,13 @@ class _PullsTabState extends State<PullsTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _user = Provider.of<CurrentUserProvider>(context).currentUserInfo;
+    final _user = Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
           searchFilters:
               SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
           defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user!.login!),
+            SearchQueries().involves.toQueryString(_user.login!),
             SearchQueries().type.toQueryString('pr'),
           ],
           filterStrings: [

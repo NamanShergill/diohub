@@ -1,23 +1,23 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/search_scroll_wrapper.dart';
+import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserRepositories extends StatelessWidget {
+  const UserRepositories(this.userInfoModel,
+      {this.currentUser = false, required this.scrollController, Key? key})
+      : super(key: key);
   final UserInfoModel userInfoModel;
   final bool? currentUser;
   final ScrollController scrollController;
 
-  const UserRepositories(this.userInfoModel,
-      {this.currentUser = false, required this.scrollController, Key? key})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.onBackground,
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: SearchScrollWrapper(
         SearchData(
             searchFilters: SearchFilters.repositories(

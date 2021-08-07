@@ -1,41 +1,45 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/api_wrapper_widget.dart';
-import 'package:dio_hub/common/loading_indicator.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/pulls/pull_list_card.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PullLoadingCard extends StatelessWidget {
+  const PullLoadingCard(this.url,
+      {this.compact = false,
+      this.issueModel,
+      this.disableMaterial = false,
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+      Key? key})
+      : super(key: key);
   final String url;
   final bool compact;
   final IssueModel? issueModel;
   final EdgeInsets padding;
-  const PullLoadingCard(this.url,
-      {this.compact = false,
-      this.issueModel,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
-      Key? key})
-      : super(key: key);
+  final bool disableMaterial;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: Material(
-        elevation: 2,
-        color: AppColor.background,
-        borderRadius: AppThemeBorderRadius.medBorderRadius,
+        elevation: disableMaterial ? 0 : 2,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+        borderRadius: medBorderRadius,
         child: APIWrapper<PullRequestModel>(
-          getCall: PullsService.getPullInformation(fullUrl: url),
+          apiCall: PullsService.getPullInformation(fullUrl: url),
           loadingBuilder: (context) {
             if (issueModel != null) {
               return InkWell(
-                borderRadius: AppThemeBorderRadius.medBorderRadius,
+                borderRadius: medBorderRadius,
                 onTap: () {
                   AutoRouter.of(context).push(PullScreenRoute(pullURL: url));
                 },
@@ -46,7 +50,7 @@ class PullLoadingCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          getIcon(null, null)!,
+                          const GetIcon(null, null),
                           const SizedBox(
                             width: 4,
                           ),
@@ -61,13 +65,19 @@ class PullLoadingCard extends StatelessWidget {
                                     .sublist(0, 2)
                                     .join('/'),
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(color: AppColor.grey3),
+                                style: TextStyle(
+                                    color: Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3),
                               ),
                             ),
                           ),
                           Text(
                             '#${issueModel!.number}',
-                            style: const TextStyle(color: AppColor.grey3),
+                            style: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3),
                           ),
                         ],
                       ),
@@ -88,8 +98,7 @@ class PullLoadingCard extends StatelessWidget {
                               height: 16,
                             ),
                             ShimmerWidget(
-                              borderRadius:
-                                  AppThemeBorderRadius.smallBorderRadius,
+                              borderRadius: smallBorderRadius,
                               child: Container(
                                 height: 20,
                                 width: double.infinity,

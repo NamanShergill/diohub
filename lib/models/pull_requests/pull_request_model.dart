@@ -49,6 +49,7 @@ class PullRequestModel {
       this.comments,
       this.deletions,
       this.additions,
+      this.bodyHtml,
       this.commits,
       this.changedFiles,
       this.maintainerCanModify,
@@ -67,6 +68,8 @@ class PullRequestModel {
   String? patchUrl;
   String? issueUrl;
   int? number;
+  String? bodyHtml;
+
   IssueState? state;
   bool? locked;
   String? title;
@@ -110,6 +113,7 @@ class PullRequestModel {
   PullRequestModel copyWith({
     String? url,
     int? id,
+    String? bodyHtml,
     String? nodeId,
     String? htmlUrl,
     String? diffUrl,
@@ -193,6 +197,7 @@ class PullRequestModel {
       PullRequestModel(
         url: json["url"] == null ? null : json["url"],
         id: json["id"] == null ? null : json["id"],
+        bodyHtml: json['body_html'],
         nodeId: json["node_id"] == null ? null : json["node_id"],
         htmlUrl: json["html_url"] == null ? null : json["html_url"],
         diffUrl: json["diff_url"] == null ? null : json["diff_url"],

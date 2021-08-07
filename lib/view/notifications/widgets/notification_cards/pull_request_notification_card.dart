@@ -1,21 +1,22 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/shimmer_widget.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/models/pull_requests/review_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:provider/provider.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
-  final NotificationModel notification;
   const PullRequestNotificationCard(this.notification, {Key? key})
       : super(key: key);
+  final NotificationModel notification;
   @override
   _PullRequestNotificationCardState createState() =>
       _PullRequestNotificationCardState();
@@ -41,17 +42,19 @@ class _PullRequestNotificationCardState
   void getInfo() async {
     // Get more information on the pull request to display
     // Todo: Update pull notification cards when I figure out how Github does it.
-    List<Future> futures = [
+    final futures = <Future>[
       PullsService.getPullInformation(
           fullUrl: widget.notification.subject!.url!),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
-    List<dynamic> data = await Future.wait(futures);
+    final data = await Future.wait(futures);
     pullRequest = data[0];
     // reviews = data[1];
-    setState(() {
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
@@ -64,7 +67,7 @@ class _PullRequestNotificationCardState
       },
       onTap: () {
         return AutoRouter.of(context)
-            .push(PullScreenRoute(pullURL: widget.notification.subject!.url));
+            .push(PullScreenRoute(pullURL: widget.notification.subject!.url!));
       },
       loading: loading,
       footerBuilder: (context) {
@@ -77,10 +80,9 @@ class _PullRequestNotificationCardState
   }
 
   Widget getPullFooter() {
-    return CardFooter(
-        pullRequest.user!.avatarUrl,
+    return CardFooter(pullRequest.user!.avatarUrl,
         'Status: ${pullRequest.merged! ? 'Merged' : stateValues.reverse![pullRequest.state!]!.substring(0, 1).toUpperCase() + stateValues.reverse![pullRequest.state!]!.substring(1)}',
-        widget.notification.unread);
+        unread: widget.notification.unread);
   }
 
   Widget getIcon() {
@@ -95,14 +97,14 @@ class _PullRequestNotificationCardState
         } else {
           return Icon(
             Octicons.git_pull_request,
-            color: AppColor.red,
+            color: Provider.of<PaletteSettings>(context).currentSetting.red,
             size: iconSize,
           );
         }
       } else if (pullRequest.state == IssueState.OPEN) {
         return Icon(
           Octicons.git_pull_request,
-          color: AppColor.green,
+          color: Provider.of<PaletteSettings>(context).currentSetting.green,
           size: iconSize,
         );
       } else {

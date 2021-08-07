@@ -1,17 +1,13 @@
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/common/profile_banner.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AssigneeSelectSheet extends StatefulWidget {
-  final String? repoURL;
-  final String? issueUrl;
-  final List<UserInfoModel>? assignees;
-  final ScrollController? controller;
-  final ValueChanged<List<UserInfoModel>?>? newAssignees;
   const AssigneeSelectSheet(
       {Key? key,
       this.assignees,
@@ -20,6 +16,11 @@ class AssigneeSelectSheet extends StatefulWidget {
       this.controller,
       this.newAssignees})
       : super(key: key);
+  final String? repoURL;
+  final String? issueUrl;
+  final List<UserInfoModel>? assignees;
+  final ScrollController? controller;
+  final ValueChanged<List<UserInfoModel>?>? newAssignees;
 
   @override
   _AssigneeSelectSheetState createState() => _AssigneeSelectSheetState();
@@ -35,12 +36,11 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
   }
 
   Future<List<UserInfoModel>?> updateAssignees() async {
-    List<String?> assigneesToRemove = [];
-    List<String?> assigneesToAdd = assignees;
-    List<String?> originalAssignees =
-        widget.assignees!.map((e) => e.login).toList();
-    List<Future> futures = [];
-    for (String? login in originalAssignees) {
+    final assigneesToRemove = <String?>[];
+    final assigneesToAdd = assignees;
+    final originalAssignees = widget.assignees!.map((e) => e.login).toList();
+    final futures = <Future>[];
+    for (final login in originalAssignees) {
       if (!assignees.contains(login)) {
         assigneesToRemove.add(login);
         assigneesToAdd.remove(login);
@@ -54,7 +54,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
       futures.add(IssuesService.addAssignees(widget.issueUrl, assigneesToAdd));
     }
     if (futures.isNotEmpty) {
-      List<dynamic> results = await Future.wait(futures);
+      final results = await Future.wait(futures);
       return results.last.assignees;
     }
     return widget.assignees;
@@ -67,10 +67,12 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Button(
-            color: AppColor.onBackground,
+            listenToLoadingController: true,
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
             onTap: () async {
               try {
-                List<UserInfoModel>? newAssignees = await updateAssignees();
+                final newAssignees = await updateAssignees();
                 Navigator.pop(context);
                 widget.newAssignees!(newAssignees);
               } catch (e) {}
@@ -83,17 +85,20 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         ),
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: const ExpansionTile(
-            title: Text('Note'),
+          child: ExpansionTile(
+            title: const Text('Note'),
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
-                  style: TextStyle(color: AppColor.grey3),
+                  style: TextStyle(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
             ],
@@ -109,9 +114,10 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             },
             scrollController: widget.controller,
             listEndIndicator: false,
-            builder: (context, item, index) {
+            builder: (context, item, index, refresh) {
               return CheckboxListTile(
-                activeColor: AppColor.accent,
+                activeColor:
+                    Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: assignees.contains(item.login),
                 onChanged: (value) {
                   setState(() {

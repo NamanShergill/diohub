@@ -37,6 +37,7 @@ class IssueModel {
     this.body,
     this.closedBy,
     this.timelineUrl,
+    this.bodyHtml,
     this.performedViaGithubApp,
     this.pullRequest,
   });
@@ -48,6 +49,7 @@ class IssueModel {
   String? eventsUrl;
   String? htmlUrl;
   int? id;
+  String? bodyHtml;
   UserInfoModel? closedBy;
 
   String? nodeId;
@@ -149,6 +151,7 @@ class IssueModel {
         commentsUrl: json["comments_url"] == null ? null : json["comments_url"],
         eventsUrl: json["events_url"] == null ? null : json["events_url"],
         htmlUrl: json["html_url"] == null ? null : json["html_url"],
+        bodyHtml: json['body_html'],
         id: json["id"] == null ? null : json["id"],
         nodeId: json["node_id"] == null ? null : json["node_id"],
         number: json["number"] == null ? null : json["number"],
@@ -202,6 +205,7 @@ class IssueModel {
         "labels_url": labelsUrl == null ? null : labelsUrl,
         "comments_url": commentsUrl == null ? null : commentsUrl,
         "events_url": eventsUrl == null ? null : eventsUrl,
+        "body_html": bodyHtml,
         "html_url": htmlUrl == null ? null : htmlUrl,
         "id": id == null ? null : id,
         "node_id": nodeId == null ? null : nodeId,

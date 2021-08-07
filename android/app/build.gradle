@@ -38,16 +38,21 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+
     lintOptions {
         disable 'InvalidPackage'
     }
 
     defaultConfig {
         applicationId "com.felix.diohub"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'auth.felix.diohub'
+        ]
     }
 
     signingConfigs {
@@ -72,4 +77,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.multidex:multidex:2.0.1'
 }

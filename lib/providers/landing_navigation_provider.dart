@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NavigationProvider extends BaseProvider {
-  late int _currentLandingIndex;
-  late PageController _landingController;
-
   NavigationProvider(String? deepLinkPath) {
     setPath(deepLinkPath);
   }
+  late int _currentLandingIndex;
+  late PageController _landingController;
 
   int get currentIndex => _currentLandingIndex;
   PageController get controller => _landingController;

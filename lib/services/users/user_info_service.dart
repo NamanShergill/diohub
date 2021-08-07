@@ -1,34 +1,31 @@
-import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/app/graphQL/get_graphql.dart';
+import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/models/users/pinned_repos_graphql_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:graphql/client.dart' hide Response;
 
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    Response response =
-        await GetDio.getDio(cacheOptions: CacheManager.currentUserProfileInfo())
-            .get(
-      '/user',
-    );
+    final response = await API
+        .request(cacheOptions: CacheManager.currentUserProfileInfo())
+        .get(
+          '/user',
+        );
     return CurrentUserInfoModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
     int perPage,
-    int pageNumber,
-    bool refresh, {
+    int pageNumber, {
+    required bool refresh,
     String? sort,
     bool? ascending = false,
   }) async {
-    Response response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('/user/repos', queryParameters: {
       if (sort != null) 'sort': sort,
       if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
@@ -36,16 +33,19 @@ class UserInfoService {
       'type': 'owner',
       'page': pageNumber
     });
-    List unParsedData = response.data;
-    List<RepositoryModel> data =
-        unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
-    return data;
+    final List unParsedData = response.data;
+    return unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
   }
 
-  static Future<List<RepositoryModel>> getUserRepos(String? username,
-      int perPage, int pageNumber, bool refresh, String? sort) async {
-    Response response = await GetDio.getDio(
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
+  static Future<List<RepositoryModel>> getUserRepos(
+    String? username,
+    int perPage,
+    int pageNumber,
+    String? sort, {
+    required bool refresh,
+  }) async {
+    final response = await API
+        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '/users/$username/repos',
       queryParameters: {
@@ -55,54 +55,56 @@ class UserInfoService {
         if (sort != null) 'sort': sort,
       },
     );
-    List unParsedData = response.data;
-    List<RepositoryModel> data =
-        unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
+    final List unParsedData = response.data;
+    final data = unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
     return data;
   }
 
   static Future<UserInfoModel> getUserInfo(String? login) async {
-    Response response =
-        await GetDio.getDio(cacheOptions: CacheManager.defaultCache()).get(
-      '/users/$login',
-    );
+    final response =
+        await API.request(cacheOptions: CacheManager.defaultCache()).get(
+              '/users/$login',
+            );
     return UserInfoModel.fromJson(response.data);
   }
 
-  static Future<PinnedReposModel> getUserPinnedRepos(
-      String? user, int first) async {
-    String getPinnedRepos = r'''
-          query ($user:String!, $first:Int!){ 
-                    user(login: $user) { 
-                      pinnedItems(first: $first, types:[REPOSITORY]){
-                        edges {
-                                node {
-                                  ... on Repository {
-                                    name
-                                    description
-                                    stargazerCount
-                                    updatedAt
-                                    url
-                                    languages(orderBy: {direction:DESC, field: SIZE}, first:1) {
-                                      edges {
-                                        node {
-                                          name
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                      }
-                    }
-                  }''';
-    final QueryOptions options = QueryOptions(
-        document: gql(getPinnedRepos),
-        variables: <String, dynamic>{
-          'user': user,
-          'first': first,
-        });
-    final QueryResult result = await GetGraphQL.client.query(options);
-    return PinnedReposModel.fromJson(result.data!);
+  static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
+      getUserPinnedRepos(String user) async {
+    final res = await API.gqlRequest(
+        GetUserPinnedReposQuery(
+            variables: GetUserPinnedReposArguments(user: user)),
+        cacheOptions: CacheManager.defaultGQLCache());
+    return GetUserPinnedRepos$Query.fromJson(res.data!)
+        .user!
+        .pinnedItems
+        .edges!;
+  }
+
+  static Future<List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>>
+      getViewerOrgs({String? after, required bool refresh}) async {
+    final res = await API.gqlRequest(
+        GetViewerOrgsQuery(variables: GetViewerOrgsArguments(cursor: after)),
+        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh));
+    return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;
+  }
+
+  static Future<FollowStatusInfo$Query$User> getFollowInfo(String login) async {
+    return FollowStatusInfo$Query.fromJson((await API.gqlRequest(
+                FollowStatusInfoQuery(
+                    variables: FollowStatusInfoArguments(user: login))))
+            .data!)
+        .user!;
+  }
+
+  static Future changeFollowStatus(String id, {required bool follow}) async {
+    if (follow) {
+      return API.gqlRequest(
+          FollowUserMutation(variables: FollowUserArguments(user: id)),
+          debugLog: true);
+    } else {
+      return API.gqlRequest(
+          UnfollowUserMutation(variables: UnfollowUserArguments(user: id)),
+          debugLog: true);
+    }
   }
 }

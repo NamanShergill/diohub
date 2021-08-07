@@ -1,65 +1,64 @@
 import 'dart:async';
 
 import 'package:dio_hub/providers/base_provider.dart';
+import 'package:dio_hub/providers/proxy_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 
-class RepoBranchProvider extends BaseProvider {
-  RepositoryProvider? _repositoryProvider;
-  final String? _initialBranch;
-  final String? _initCommitSHA;
-  final StreamController<String> _loadBranch =
-      StreamController<String>.broadcast();
-  String? _currentSHA;
-  String? _currentBranch;
-  String? get currentSHA => _currentSHA;
-  bool isCommit = false;
-
-  void disposeStream() {
-    _loadBranch.close();
-  }
-
+class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   RepoBranchProvider({String? initialBranch, String? initCommitSHA})
       : _initialBranch = initialBranch,
         _initCommitSHA = initCommitSHA,
         super(Status.loaded);
-  void updateProvider(RepositoryProvider repositoryProvider) {
-    _currentBranch = _initialBranch;
-    // Only initialise streams if the provider is not equal,
-    // ignore the call otherwise.
-    if (_repositoryProvider != repositoryProvider) {
-      _repositoryProvider = repositoryProvider;
-      // In case the provider loads lazily and the event of load is
-      // already dispatched before it started listening to the stream.
-      if (_repositoryProvider!.status == Status.loaded) {
-        setBranch(
-            _initCommitSHA ??
-                _currentBranch ??
-                _repositoryProvider!.repositoryModel!.defaultBranch!,
-            isCommitSha: _initCommitSHA != null);
-      }
-      repositoryProvider.statusStream.listen((event) {
-        if (event == Status.loaded) {
-          setBranch(_currentBranch ??
-              _repositoryProvider!.repositoryModel!.defaultBranch!);
-        }
-      });
-      // Listen if a new branch has been requested and fetch the same.
-      _loadBranch.stream.listen((event) {
-        setBranch(event);
-      });
-    }
+  final String? _initialBranch;
+  final String? _initCommitSHA;
+  final StreamController<String> _loadBranch =
+      StreamController<String>.broadcast();
+  late String _currentSHA;
+  String? _currentBranch;
+  String get currentSHA => _currentSHA;
+  bool isCommit = false;
+
+  @override
+  void disposeStreams() {
+    super.disposeStreams();
+    _loadBranch.close();
   }
 
   void reloadBranch() {
-    _loadBranch.add(
-        _currentBranch ?? _repositoryProvider!.repositoryModel!.defaultBranch!);
+    _loadBranch.add(_currentBranch ?? parentProvider.data.defaultBranch!);
   }
 
-  void setBranch(String branchName, {bool isCommitSha = false}) async {
+  @override
+  void updateProvider(RepositoryProvider parentProvider) {
+    _currentBranch = _initialBranch;
+    super.updateProvider(parentProvider);
+  }
+
+  @override
+  void customStreams() {
+    // Listen if a new branch has been requested and fetch the same.
+    _loadBranch.stream.listen(setBranch);
+  }
+
+  @override
+  Future<String> setInitData({bool isInitialisation = false}) {
+    return setBranch(
+        _initCommitSHA ?? _currentBranch ?? parentProvider.data.defaultBranch!,
+        isCommitSha: _initCommitSHA != null,
+        setState: !isInitialisation);
+  }
+
+  Future<String> setBranch(String branchName,
+      {bool isCommitSha = false, bool setState = true}) async {
     _currentSHA = branchName;
     isCommit = isCommitSha;
-    if (!isCommitSha) _currentBranch = branchName;
-    loaded();
+    if (!isCommitSha) {
+      _currentBranch = branchName;
+    }
+    if (setState) {
+      loaded();
+    }
+    return _currentSHA;
   }
 
   // void _fetchBranch(String branch, {bool isInitial = true}) async {

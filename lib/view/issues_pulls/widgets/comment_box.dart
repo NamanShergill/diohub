@@ -1,31 +1,127 @@
-import 'package:dio_hub/common/button.dart';
-import 'package:dio_hub/common/markdown_body.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
+import 'package:provider/provider.dart';
+
+typedef LoadingFuture = Future<void> Function();
+
+void showCommentSheet(BuildContext context,
+    {required LoadingFuture onSubmit,
+    String type = 'Comment',
+    required String? initialData,
+    required ValueChanged<String> onChanged,
+    required String owner,
+    required String repoName}) {
+  var markdownView = false;
+  var loading = false;
+  showBottomActionMenu(context, fullScreen: true, header: (context, setState) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              markdownView = !markdownView;
+            });
+          },
+          icon: const Icon(Icons.remove_red_eye_rounded),
+          color: markdownView
+              ? Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .baseElements
+              : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+        ),
+        Expanded(
+          child: InkWell(
+            borderRadius: medBorderRadius,
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      type,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    const Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: loading
+              ? null
+              : () async {
+                  setState(() {
+                    loading = true;
+                  });
+                  await onSubmit().then((_) {
+                    setState(() {
+                      loading = false;
+                    });
+                    Navigator.pop(context);
+                  });
+                },
+          disabledColor: Provider.of<PaletteSettings>(context)
+              .currentSetting
+              .faded3
+              .withOpacity(0.5),
+          icon: loading
+              ? const LoadingIndicator()
+              : const Icon(
+                  Icons.reply,
+                ),
+        )
+      ],
+    );
+  }, childWidget: (buildContext, setState) {
+    return Expanded(
+        child: CommentBox(
+      repoName: '$owner/$repoName',
+      markdownView: markdownView,
+      initialData: initialData,
+      onChanged: loading ? null : onChanged,
+    ));
+  });
+}
 
 class CommentBox extends StatefulWidget {
-  final String issueURL;
-  final ValueChanged<bool> onSubmit;
-  final String? initText;
-  const CommentBox(
-      {Key? key, required this.issueURL, this.initText, required this.onSubmit})
-      : super(key: key);
+  const CommentBox({
+    Key? key,
+    this.scrollController,
+    required this.initialData,
+    required this.onChanged,
+    required this.markdownView,
+    required this.repoName,
+  }) : super(key: key);
+  final String repoName;
+  final String? initialData;
+  final ValueChanged<String>? onChanged;
+  final bool markdownView;
+  final ScrollController? scrollController;
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
 }
 
 class _CommentBoxState extends State<CommentBox> {
-  late String commentBody;
-  int index = 0;
   bool loading = false;
+  late String data;
 
   @override
   void initState() {
-    commentBody = widget.initText ?? '';
+    data = widget.initialData ?? '';
     super.initState();
   }
 
@@ -33,99 +129,80 @@ class _CommentBoxState extends State<CommentBox> {
   Widget build(BuildContext context) {
     Widget textBox() {
       return MarkdownTextInput(
-        initialValue: commentBody,
-        maxLines: 999999,
-        onTextChanged: (value) {
-          setState(() {
-            commentBody = value;
-          });
-        },
-        toolbarDecoration: const BoxDecoration(color: AppColor.background),
-        inkwellBorderRadius: AppThemeBorderRadius.medBorderRadius,
-        boxDecoration: const BoxDecoration(
-          color: AppColor.onBackground,
+        initialValue: data,
+        autoFocus: true,
+        onTextChanged: widget.onChanged != null
+            ? (value) {
+                setState(() {
+                  // Provider.of<CommentProvider>(context, listen: false)
+                  //     .updateData(value);
+                  data = value;
+                });
+                widget.onChanged!(value);
+              }
+            : null,
+        maxLines: null,
+        toolbarDecoration: BoxDecoration(
+            color:
+                Provider.of<PaletteSettings>(context).currentSetting.primary),
+        inkwellBorderRadius: medBorderRadius,
+        boxDecoration: BoxDecoration(
+          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         ),
       );
     }
 
-    return SingleChildScrollView(
-      child: Container(
-        color: AppColor.onBackground,
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: Column(
-          children: [
-            Expanded(
-              child: IndexedStack(
-                index: index,
-                sizing: StackFit.expand,
-                children: [
-                  loading
-                      ? IgnorePointer(
-                          child: textBox(),
-                        )
-                      : textBox(),
-                  Container(
-                    color: AppColor.onBackground,
-                    child: SingleChildScrollView(
-                      child: MarkdownBody(
-                        commentBody,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              height: 0,
-            ),
-            Button(
-              onTap: () {
-                setState(() {
-                  if (index == 0) {
-                    index = 1;
-                  } else {
-                    index = 0;
-                  }
-                });
-              },
-              padding: const EdgeInsets.all(0),
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(index == 0 ? 'Preview' : 'Edit'),
-              ),
-              color: AppColor.background,
-              borderRadius: 0,
-              listenToLoadingController: false,
-            ),
-            const Divider(
-              height: 0,
-            ),
-            Button(
-              onTap: () async {
-                setState(() {
-                  loading = true;
-                });
-                bool status = await IssuesService.addComment(
-                    widget.issueURL, commentBody);
-                setState(() {
-                  loading = false;
-                });
-                widget.onSubmit(status);
-                Navigator.pop(context);
-              },
-              padding: const EdgeInsets.all(0),
-              elevation: 0,
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text('Add Comment'),
-              ),
-              color: AppColor.background,
-              borderRadius: 0,
-            ),
-          ],
-        ),
-      ),
+    return Container(
+      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: widget.markdownView
+          ? MarkdownRenderAPI(
+              data,
+              repoName: widget.repoName,
+            )
+          : textBox(),
     );
   }
 }
+
+// const Divider(
+//   height: 0,
+// ),
+// Button(
+//   onTap: () {},
+//   padding: const EdgeInsets.all(0),
+//   elevation: 0,
+//   child: Padding(
+//     padding: const EdgeInsets.all(16.0),
+//     child: Text('Preview'),
+//   ),
+//   color: Provider.of<PaletteSettings>(context).currentSetting.background,
+//   borderRadius: 0,
+//   listenToLoadingController: false,
+// ),
+// const Divider(
+//   height: 0,
+// ),
+// Button(
+//   onTap: () async {
+//     setState(() {
+//       loading = true;
+//     });
+//     bool status = await IssuesService.addComment(widget.issueURL,
+//         Provider.of<CommentProvider>(context, listen: false).data);
+//     setState(() {
+//       loading = false;
+//     });
+//     widget.onSubmit(status);
+//     Navigator.pop(context);
+//   },
+//   padding: const EdgeInsets.all(0),
+//   elevation: 0,
+//   child: const Padding(
+//     padding: EdgeInsets.all(16.0),
+//     child: Text('Add Comment'),
+//   ),
+//   color: Provider.of<PaletteSettings>(context).currentSetting.background,
+//   borderRadius: 0,
+// ),

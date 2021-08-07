@@ -9,28 +9,34 @@ class NotificationsService {
   // Add notification filters in the [filters] parameter as a [Map].
   // Ref: https://docs.github.com/en/rest/reference/activity#list-notifications-for-the-authenticated-user
   static Future<List<NotificationModel>> getNotifications(
-      {bool refresh = false, int? perPage, int? page, filters}) async {
+      {bool refresh = false,
+      int? perPage,
+      int? page,
+      Map<String, dynamic>? filters}) async {
     // Map the request parameters.
-    Map<String, dynamic> queryParameters = {
+    final queryParameters = <String, dynamic>{
       'per_page': perPage,
       'page': page,
       'all': true
     };
     // Add filters, if any, to the parameters.
-    if (filters != null) queryParameters.addAll(filters);
+    if (filters != null) {
+      queryParameters.addAll(filters);
+    }
     // Make API request to get a list of notifications;
-    List<NotificationModel> notifications = await GetDio.getDio(
-      cacheOptions: CacheManager.notifications(refresh: refresh),
-    )
+    final notifications = await API
+        .request(
+          cacheOptions: CacheManager.notifications(refresh: refresh),
+        )
         .get(
-      _url,
-      queryParameters: queryParameters,
-    )
+          _url,
+          queryParameters: queryParameters,
+        )
         .then((value) {
-      List<NotificationModel> parsedNotifications = [];
-      List unParsedNotifications = value.data;
+      final parsedNotifications = <NotificationModel>[];
+      final List unParsedNotifications = value.data;
       // Parse data in the list into notification models.
-      for (var notification in unParsedNotifications) {
+      for (final notification in unParsedNotifications) {
         parsedNotifications.add(NotificationModel.fromJson(notification));
       }
       return parsedNotifications;
@@ -41,13 +47,13 @@ class NotificationsService {
   // Mark a thread as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-a-thread-as-read
   static Future markThreadAsRead(String? id) async {
-    await GetDio.getDio().patch('/notifications/threads/$id');
+    await API.request().patch('/notifications/threads/$id');
   }
 
   // Mark all notifications as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-notifications-as-read
   static Future markAllAsRead() async {
-    await GetDio.getDio().put('/notifications', queryParameters: {
+    await API.request().put('/notifications', queryParameters: {
       'last_read_at': DateTime.now().toIso8601String(),
     });
   }
