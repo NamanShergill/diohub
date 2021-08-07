@@ -2,6 +2,7 @@ import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.da
 import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,12 @@ SharedPreferences get sharedPrefs => _sharedPrefs;
 
 Future setUpSharedPrefs() async {
   _sharedPrefs = await SharedPreferences.getInstance();
+  // Workaround for https://github.com/mogol/flutter_secure_storage/issues/210
+  if (sharedPrefs.getBool('first_run') ?? true) {
+    const storage = FlutterSecureStorage();
+    await storage.deleteAll();
+    sharedPrefs.setBool('first_run', false);
+  }
 }
 
 Future setupAppCache() async {

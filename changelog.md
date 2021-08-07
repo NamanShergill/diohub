@@ -2,6 +2,12 @@
 **Project Boards | WIP** 
 
 ---
+## [0.3.2] - 07 August 2021
+**Bug Fixes**
+- App getting stuck on splash screen on reinstall.
+- Search type getting reset on typing in search screens.
+- Fix a null value check on pull request screens.
+---
 ## [0.3.1] - 06 August 2021
 **Enhancements**
 - View pinned issues on a repository.

@@ -137,6 +137,7 @@ class _PatchViewerState extends State<PatchViewer> {
       _headerValuesString.addAll(element.split(','));
       _headerValues.add(int.parse(_headerValuesString[0]));
       _headerValues.add(int.parse(_headerValuesString[1]));
+
       if (_headerValues[0] < 0) {
         info.removeStartLine = _headerValues[0].abs();
         info.removeStartingLength = _headerValues[1];
@@ -162,9 +163,9 @@ class _PatchViewerState extends State<PatchViewer> {
       }
     }
 
-    int getRemoveIndex = codeChunks[chunkIndex]['startRemove'];
+    int getRemoveIndex = codeChunks[chunkIndex]['startRemove'] ?? 1;
 
-    int getAddIndex = codeChunks[chunkIndex]['startAdd'];
+    int getAddIndex = codeChunks[chunkIndex]['startAdd'] ?? 1;
 
     final displayCodeWithoutFirstLine =
         displayCode.sublist(getSublist()) as List<String>;

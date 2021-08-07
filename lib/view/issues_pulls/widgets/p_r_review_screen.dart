@@ -30,10 +30,10 @@ class PRReviewScreen extends StatelessWidget {
       // Check if user has pending reviews to disable reply button accordingly.
       // See https://github.com/NamanShergill/diohub/issues/18 for info.
       body: APIWrapper<bool>(
-        apiCall: PullsService.hasPendingReviews(pullNodeID,
-            context.read<CurrentUserProvider>().data.login!),
+        apiCall: PullsService.hasPendingReviews(
+            pullNodeID, context.read<CurrentUserProvider>().data.login!),
         responseBuilder: (context, repliesEnabled) {
-          return InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges>(
+          return InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
             future: (pageNumber, pageSize, refresh, lastItem) {
               return PullsService.getPRReview(nodeID,
                   refresh: refresh, cursor: lastItem?.cursor);
@@ -42,7 +42,7 @@ class PRReviewScreen extends StatelessWidget {
               height: 32,
             ),
             builder: (context, item, index, refresh) {
-              final comment = item.node!;
+              final comment = item!.node!;
               return ChangeNotifierProvider(
                 create: (_) => CommentProvider(),
                 builder: (context, child) {
@@ -238,12 +238,14 @@ class PRReviewScreen extends StatelessWidget {
                                                     CommentProvider>(context),
                                                 builder: (context, child) {
                                                   return InfiniteScrollWrapper<
-                                                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges>(
+                                                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
                                                     scrollController:
                                                         scrollController,
                                                     separatorBuilder:
                                                         (context, index) =>
-                                                            Container(),
+                                                            const SizedBox(
+                                                      height: 8,
+                                                    ),
                                                     future: (pageNumber,
                                                         pageSize,
                                                         refresh,
@@ -256,19 +258,20 @@ class PRReviewScreen extends StatelessWidget {
                                                     },
                                                     filterFn: (items) {
                                                       final temp = <
-                                                          ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges>[];
+                                                          ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
                                                       for (final item
                                                           in items) {
-                                                        if (item.node!.id !=
+                                                        if (item!.node!.id !=
                                                             comment.id) {
                                                           temp.add(item);
                                                         }
                                                       }
                                                       return temp;
                                                     },
+                                                    firstDivider: false,
                                                     builder: (cxt, item, index,
                                                         refresh) {
-                                                      final reply = item.node!;
+                                                      final reply = item!.node!;
                                                       return PaddingWrap(
                                                         child: BaseComment(
                                                             isMinimized: reply
