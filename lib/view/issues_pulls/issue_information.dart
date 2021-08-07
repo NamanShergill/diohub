@@ -187,16 +187,16 @@ class IssueInformation extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  child: _issue.bodyHtml == null || _issue.bodyHtml!.isEmpty
-                      ? const Text('No description provided.')
-                      : ExpansionTile(
+                  child: _issue.bodyHtml?.isNotEmpty == true
+                      ? ExpansionTile(
                           title: const Text('Tap to Expand'),
                           children: [
                             MarkdownBody(
                               _issue.bodyHtml!,
                             ),
                           ],
-                        ),
+                        )
+                      : const Text('No description provided.'),
                 ),
               ],
             ),

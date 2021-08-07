@@ -285,10 +285,11 @@ class _PullScreenState extends State<PullScreen>
                                       value.data.user!.login!),
                                   body: '',
                                   lastEditedAt: null,
-                                  description: value.data.bodyHtml!.isEmpty
-                                      ? 'No description provided.'
-                                      : null,
-                                  bodyHTML: value.data.bodyHtml!,
+                                  description:
+                                      value.data.bodyHtml?.isNotEmpty == true
+                                          ? null
+                                          : 'No description provided.',
+                                  bodyHTML: value.data.bodyHtml,
                                   authorAssociation:
                                       CommentAuthorAssociation.none)),
                           const PullsCommitsList(),
