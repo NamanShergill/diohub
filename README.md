@@ -10,7 +10,31 @@ It is under active development and aims to implement all the available features 
 
 ---
 
-Next Release Roadmap:
+**Features:**
+
+- Comprehensive Issues/Pulls timelines and discussion, with ability to view and reply to review comments
+
+- Access to all information from a repository, including pinned issues and issue templates
+
+- Advanced Search with context based filter suggestions and query helpers
+
+- Complete support for GitHub deeplinks
+
+- Completely customizable color palette and fonts, with ability to share them
+
+- Code browsing with support for specific commit browsing, viewing commit history of a specific directory and with syntax highlighting
+
+- User/Home Activity Timeline
+
+- Commits and patch viewer
+
+- GitHub Flavored Markdown Support
+
+- Caching for partial offline support
+
+---
+
+**Next Release Roadmap:**
 - Project Boards
 - Readme that delves deeper into the application and its features.
 
