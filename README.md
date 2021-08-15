@@ -67,8 +67,8 @@ It is under active development and aims to implement all the available features 
 - Create a file under `lib\app` named `keys.dart` with the following content:
     ```dart
   class PrivateKeys {
-  static const clientID = <ClientID of the app from the previous step>;
-  static const clientSecret = <ClientSecret of the app from the previous step>;
+  static const clientID = '<ClientID of the app from the previous step>';
+  static const clientSecret = '<ClientSecret of the app from the previous step>';
   }
   ```
 - Run `flutter pub get` and build the project.
