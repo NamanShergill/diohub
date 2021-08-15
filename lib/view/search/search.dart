@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen>
                             .currentSetting
                             .primary,
                         child: APIWrapper<List<RepositoryModel>>(
-                          apiCall: SearchService.searchRepos(
+                          apiCall: () => SearchService.searchRepos(
                               SearchQueries().pushed.toQueryString(
                                   '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}'),
                               page: 1,

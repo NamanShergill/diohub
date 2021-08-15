@@ -30,7 +30,7 @@ class PRReviewScreen extends StatelessWidget {
       // Check if user has pending reviews to disable reply button accordingly.
       // See https://github.com/NamanShergill/diohub/issues/18 for info.
       body: APIWrapper<bool>(
-        apiCall: PullsService.hasPendingReviews(
+        apiCall: () => PullsService.hasPendingReviews(
             pullNodeID, context.read<CurrentUserProvider>().data.login!),
         responseBuilder: (context, repliesEnabled) {
           return InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
@@ -190,7 +190,7 @@ class PRReviewScreen extends StatelessWidget {
                               const EdgeInsets.only(left: 8, right: 8),
                           footer: APIWrapper<
                               ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>(
-                            apiCall: PullsService.getPRReviewThreadID(
+                            apiCall: () => PullsService.getPRReviewThreadID(
                                 comment.id,
                                 name: comment.repository.name,
                                 owner: comment.repository.owner.login,

@@ -209,7 +209,7 @@ class IssueLoadingCard extends StatelessWidget {
             Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<IssueModel>(
-          apiCall: IssuesService.getIssueInfo(fullUrl: url),
+          apiCall: () => IssuesService.getIssueInfo(fullUrl: url),
           loadingBuilder: (context) {
             return const SizedBox(
                 height: 80, child: Center(child: LoadingIndicator()));
