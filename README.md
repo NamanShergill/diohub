@@ -1,20 +1,76 @@
 # DioHub for Github
 
+<!--ts-->
+   * [Summary](#summary)
+   * [Features](#features)
+   * [Roadmap](#roadmap)
+   * [Support](#support)
+   * [Screenshots](#screenshots)
+   * [Build Instructions](#build-instructions)
+<!--te-->
+
+## Summary
+
 DioHub is an open-source unofficial GitHub mobile client, that aims to deliver the ultimate GitHub experience on mobile devices.
 
 It is under active development and aims to implement all the available features on the GitHub website, and much more.
 
-Next Release Roadmap:
+<a href="https://play.google.com/store/apps/details?id=com.felix.diohub"><img src="https://user-images.githubusercontent.com/33877135/129138668-8d48aaf5-c844-4e38-bb9b-78df12af8ea9.png" width="300"></a>
+
+[Alternatively, download the latest apk from releases](https://github.com/NamanShergill/diohub/releases)
+
+---
+
+## Features:
+
+- Comprehensive Issues/Pulls timelines and discussion, with ability to view and reply to review comments
+
+- Access to all information from a repository, including pinned issues and issue templates
+
+- Advanced Search with context based filter suggestions and query helpers
+
+- Complete support for GitHub deeplinks
+
+- Completely customizable color palette and fonts, with ability to share them
+
+- Code browsing with support for specific commit browsing, viewing commit history of a specific directory and with syntax highlighting
+
+- User/Home Activity Timeline
+
+- Commits and patch viewer
+
+- GitHub Flavored Markdown Support
+
+- Caching for partial offline support
+
+---
+
+## Roadmap
 - Project Boards
 - Readme that delves deeper into the application and its features.
 
+## Support
+
 [Like this project? Click here if you would like to support its development!](https://www.buymeacoffee.com/byefelixia)
 
-![photo_2021-08-06_23-11-27](https://user-images.githubusercontent.com/33877135/128555096-5d5036f2-151b-4638-873e-96d01fe3e6dc.jpg)
-![photo_2021-08-06_23-11-43](https://user-images.githubusercontent.com/33877135/128555100-842f2f15-ae31-4a2b-a9a5-46027978d754.jpg)
-![photo_2021-08-06_23-11-48](https://user-images.githubusercontent.com/33877135/128555104-3b68a3de-4f30-4f4c-b09b-bfb9517dd34d.jpg)
-![photo_2021-08-06_23-11-53](https://user-images.githubusercontent.com/33877135/128555105-7e87c290-70aa-4bf5-9cdd-b8a89d5e5a4c.jpg)
-![photo_2021-08-06_23-11-56](https://user-images.githubusercontent.com/33877135/128555109-ed1eb03b-7133-46eb-a900-2b80ac512bd2.jpg)
+## Screenshots
+![Screenshot_20210806-230536408](https://user-images.githubusercontent.com/33877135/129139265-79be2054-e146-4198-b548-3a42f7e07967.jpg)
+![Screenshot_20210806-230547276](https://user-images.githubusercontent.com/33877135/129139267-8473fda5-a780-47a2-b875-99426f429829.jpg)
+![Screenshot_20210806-230607898](https://user-images.githubusercontent.com/33877135/129139268-5498be91-d845-4ad7-b5ba-e97fb976e5c6.jpg)
+![Screenshot_20210806-230622659](https://user-images.githubusercontent.com/33877135/129139269-2e658867-549d-4bd2-8b12-ffbeeda6d680.jpg)
+![Screenshot_20210806-231053046](https://user-images.githubusercontent.com/33877135/129139271-6505e352-ad9d-49be-aeaf-c168f9b4f435.jpg)
 
+## Build Instructions
+
+- [Install Flutter on your system.](https://flutter.dev/docs/get-started/install)
+- [Create a GitHub OAuth application.](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
+- Create a file under `lib\app` named `keys.dart` with the following content:
+    ```dart
+  class PrivateKeys {
+  static const clientID = '<ClientID of the app from the previous step>';
+  static const clientSecret = '<ClientSecret of the app from the previous step>';
+  }
+  ```
+- Run `flutter pub get` and build the project.
 
 This readme is just an initial draft so apologies for it not being as comprehensive.
