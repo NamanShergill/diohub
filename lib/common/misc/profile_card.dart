@@ -142,7 +142,7 @@ class ProfileCardLoading extends StatelessWidget {
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<UserInfoModel>(
-          apiCall: UserInfoService.getUserInfo(login),
+          apiCall: () => UserInfoService.getUserInfo(login),
           responseBuilder: (context, data) {
             return SizeExpandedSection(
                 child: Row(

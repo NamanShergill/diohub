@@ -28,7 +28,7 @@ class UserOverviewScreen extends StatelessWidget {
             'Pinned Repos',
             child: APIWrapper<
                 List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
-              apiCall:
+              apiCall: () =>
                   UserInfoService.getUserPinnedRepos(userInfoModel!.login!),
               responseBuilder: (context, data) {
                 return data.isEmpty

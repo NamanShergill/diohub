@@ -11,6 +11,7 @@ class APIWrapperController<T> {
 
 typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
+typedef APICall<T> = Future<T> Function();
 
 class APIWrapper<T> extends StatefulWidget {
   const APIWrapper({
@@ -23,7 +24,7 @@ class APIWrapper<T> extends StatefulWidget {
     this.errorBuilder,
     this.loadingBuilder,
   }) : super(key: key);
-  final Future<T> apiCall;
+  final APICall<T> apiCall;
   final ResponseBuilder<T> responseBuilder;
   final WidgetBuilder? loadingBuilder;
   final ErrorBuilder? errorBuilder;
@@ -61,7 +62,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
     }
     try {
       error = null;
-      data = await widget.apiCall;
+      data = await widget.apiCall();
       if (mounted) {
         setState(() {});
       }

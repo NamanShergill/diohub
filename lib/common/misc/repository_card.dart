@@ -238,7 +238,7 @@ class RepoCardLoading extends StatelessWidget {
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<RepositoryModel>(
-          apiCall:
+          apiCall: () =>
               RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
           loadingBuilder: (context) {
             return Padding(

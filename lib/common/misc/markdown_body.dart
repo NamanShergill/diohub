@@ -25,7 +25,7 @@ class MarkdownRenderAPI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return APIWrapper<String>(
-      apiCall: MarkdownService.renderMarkdown(data, context: repoName),
+      apiCall: () => MarkdownService.renderMarkdown(data, context: repoName),
       loadingBuilder: (context) {
         return const Padding(
           padding: EdgeInsets.symmetric(vertical: 48),

@@ -29,8 +29,7 @@ class CacheManager {
   static CustomCacheOptions reactions() => CustomCacheOptions(refresh: true);
 
   static CustomCacheOptions defaultCache(
-          {bool refresh = false,
-          Duration maxAge = const Duration(minutes: 10)}) =>
+          {bool refresh = false, Duration maxAge = _maxAge}) =>
       CustomCacheOptions(refresh: refresh, maxAge: maxAge);
 
   static CustomCacheOptions defaultGQLCache(

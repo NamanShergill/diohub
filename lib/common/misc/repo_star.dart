@@ -87,7 +87,8 @@ class _RepoStarState extends State<RepoStar> {
     }
 
     return APIWrapper<HasStarred$Query$Repository>(
-      apiCall: RepositoryServices.isStarred(widget.owner, widget.repoName),
+      apiCall: () =>
+          RepositoryServices.isStarred(widget.owner, widget.repoName),
       apiWrapperController: controller,
       loadingBuilder: (context) => widget.child != null
           ? widget.child!(context, null, null)
