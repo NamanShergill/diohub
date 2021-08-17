@@ -72,7 +72,7 @@ class API {
           // has not elapsed.
           if (cacheEnabled) {
             final key = cacheOptions?.allowPostMethod == true
-                ? options.data.toString()
+                ? generateUUIDFromRequest(options)
                 : CacheOptions.defaultCacheKeyBuilder(options);
             final cache = await cacheStore.get(key);
             if (cache != null &&
@@ -84,8 +84,10 @@ class API {
                 setButtonValue(value: false);
               }
               // Resolve the request and pass cached data as response.
-              return handler
-                  .resolve(cache.toResponse(options, fromNetwork: false));
+              return handler.resolve(
+                  cache.toResponse(options, fromNetwork: false)
+                    ..statusCode =
+                        cacheOptions.allowPostMethod == true ? 200 : 304);
             }
           }
           // Proceed with the request.

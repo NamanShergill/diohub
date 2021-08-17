@@ -5,7 +5,7 @@ import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showBottomActionMenu(BuildContext context,

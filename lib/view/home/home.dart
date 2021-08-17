@@ -127,21 +127,11 @@ class _HomeScreenState extends State<HomeScreen>
                     child: AppTabBar(
                       controller: _tabController,
                       tabs: const [
-                        AppTab(
-                          title: 'Activity',
-                        ),
-                        AppTab(
-                          title: 'Issues',
-                        ),
-                        AppTab(
-                          title: 'Pull Requests',
-                        ),
-                        AppTab(
-                          title: 'Organizations',
-                        ),
-                        AppTab(
-                          title: 'Public Activity',
-                        ),
+                        'Activity',
+                        'Issues',
+                        'Pull Requests',
+                        'Organizations',
+                        'Public Activity',
                       ],
                     ),
                   ),

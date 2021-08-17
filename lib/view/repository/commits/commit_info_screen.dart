@@ -62,19 +62,17 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                           length: 2,
                           initialIndex: 0,
                           child: Column(
-                            children: const [
-                              AppTabBar(tabs: [
-                                AppTab(
-                                  title: 'Commit Information',
-                                ),
-                                AppTab(
-                                  title: 'Changed Files',
-                                ),
+                            children: [
+                              AppTabBar(tabs: const [
+                                'Commit Information',
+
+                                'Changed Files',
+
                                 // AppTab(
                                 //   title: 'Comments',
                                 // ),
                               ]),
-                              Expanded(
+                              const Expanded(
                                 child: TabBarView(children: [
                                   CommitDetails(),
                                   ChangedFiles(),

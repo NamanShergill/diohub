@@ -35,7 +35,7 @@ class PullScreen extends StatefulWidget {
 
 class _PullScreenState extends State<PullScreen>
     with SingleTickerProviderStateMixin {
-  TabController? tabController;
+  late TabController tabController;
   final ScrollController scrollController = ScrollController();
 
   @override

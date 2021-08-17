@@ -25,7 +25,7 @@ class UserProfileScreen<T extends UserInfoModel> extends StatefulWidget {
 
 class _UserProfileScreenState<T extends UserInfoModel>
     extends State<UserProfileScreen<T>> with SingleTickerProviderStateMixin {
-  TabController? tabController;
+  late TabController tabController;
   late UserInfoModel data;
   final ScrollController scrollController = ScrollController();
 

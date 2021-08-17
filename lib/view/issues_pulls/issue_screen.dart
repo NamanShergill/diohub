@@ -33,7 +33,7 @@ class IssueScreen extends StatefulWidget {
 
 class _IssueScreenState extends State<IssueScreen>
     with SingleTickerProviderStateMixin {
-  TabController? tabController;
+  late TabController tabController;
   final ScrollController scrollController = ScrollController();
 
   @override
