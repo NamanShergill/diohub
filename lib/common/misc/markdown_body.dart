@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:html/parser.dart';
 import 'package:provider/provider.dart';
 
 class MarkdownRenderAPI extends StatelessWidget {
@@ -59,16 +60,26 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   void initState() {
-    content = widget.content;
+    updateData(widget.content);
     super.initState();
+  }
+
+  void updateData(String data) {
+    final document = parse(data);
+    // The list of tags to perform modifications on.
+    final tags = <String>['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+    for (final element in tags) {
+      final elements = document.getElementsByTagName(element);
+      performModifications(elements);
+    }
+    content = document.outerHtml;
   }
 
   @override
   void didUpdateWidget(covariant MarkdownBody oldWidget) {
-    content = widget.content;
+    updateData(widget.content);
     super.didUpdateWidget(oldWidget);
   }
-
   // void performModifications(elements) {
   //   for (dom.Element node in elements) {
   //     // Make a snapshot of the nodes list as the current one would change

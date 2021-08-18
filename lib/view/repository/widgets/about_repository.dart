@@ -28,7 +28,7 @@ class _AboutRepositoryState extends State<AboutRepository> {
   void initState() {
     tiles = [
       AboutScreenTile(
-        widget.repo.language!,
+        widget.repo.language ?? 'Code',
         icon: Octicons.code,
         onTap: () {
           widget.onTabOpened('Code');
