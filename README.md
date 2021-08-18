@@ -46,7 +46,7 @@ It is under active development and aims to implement all the available features 
 ---
 
 ## Roadmap
-- Project Boards
+- [Features Roadmap here](https://github.com/NamanShergill/diohub/issues/41)
 - Readme that delves deeper into the application and its features.
 
 ## Support
