@@ -46,7 +46,7 @@ It is under active development and aims to implement all the available features 
 ---
 
 ## Roadmap
-- Project Boards
+- [Features Roadmap here](https://github.com/NamanShergill/diohub/issues/41)
 - Readme that delves deeper into the application and its features.
 
 ## Support
@@ -64,6 +64,7 @@ It is under active development and aims to implement all the available features 
 
 - [Install Flutter on your system.](https://flutter.dev/docs/get-started/install)
 - [Create a GitHub OAuth application.](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
+  - Set the `Authorization callback URL` to `auth.felix.diohub://login-callback`.
 - Create a file under `lib\app` named `keys.dart` with the following content:
     ```dart
   class PrivateKeys {
