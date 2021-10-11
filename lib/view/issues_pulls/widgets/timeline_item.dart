@@ -114,12 +114,10 @@ class GetTimelineItem extends StatelessWidget {
             );
           } else if (item is CrossReferenceMixin) {
             String str;
-            if (item.isCrossRepository) {
-              str =
-                  'Referenced this in ${(item.source as dynamic).repository.nameWithOwner}.';
-            } else {
-              str = 'Referenced this.';
-            }
+            str = item.isCrossRepository
+                ? 'Referenced this in ${(item.source as dynamic).repository.nameWithOwner}.'
+                : 'Referenced this.';
+
             return BasicEventTextCard(
               textContent: str,
               footer: Builder(

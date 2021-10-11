@@ -4,6 +4,9 @@ include:
 analyzer:
   exclude:
     - lib/models/**
+  plugins:
+    - dart_code_metrics
+
 linter:
   rules:
     - always_require_non_null_named_parameters
@@ -143,3 +146,22 @@ linter:
 #    - public_member_api_docs
 #    - avoid_catches_without_on_clauses
 #    - lines_longer_than_80_chars
+
+#dart_code_metrics:
+#  anti-patterns:
+#    - long-method
+#    - long-parameter-list
+#  metrics:
+#    cyclomatic-complexity: 20
+#    maximum-nesting-level: 5
+#    number-of-parameters: 4
+#    source-lines-of-code: 50
+#  metrics-exclude:
+#    - test/**
+#  rules:
+#    - newline-before-return
+#    - no-boolean-literal-compare
+#    - no-empty-block
+##    - prefer-trailing-comma
+#    - prefer-conditional-expressions
+#    - no-equal-then-else

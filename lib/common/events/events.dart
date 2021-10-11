@@ -55,6 +55,7 @@ class Events extends StatelessWidget {
             temp.add(item);
           }
         }
+
         return temp;
       },
       future: (pageNumber, pageSize, refresh, _) {

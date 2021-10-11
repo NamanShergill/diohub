@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:provider/provider.dart';
 
@@ -80,58 +81,13 @@ class _MarkdownBodyState extends State<MarkdownBody> {
     updateData(widget.content);
     super.didUpdateWidget(oldWidget);
   }
-  // void performModifications(elements) {
-  //   for (dom.Element node in elements) {
-  //     // Make a snapshot of the nodes list as the current one would change
-  //     // in the loops.
-  //     List<dom.Node> unModifiedNodes = List.from(node.nodes);
-  //     for (int i = 0; i < unModifiedNodes.length; i++) {
-  //       // Select the child node.
-  //       dom.Node childNode = unModifiedNodes[i];
-  //       // Check if the node type is Text.
-  //       if (childNode is dom.Text) {
-  //         // Split strings if they start with @ or digits if they start with #.
-  //         RegExp exp =
-  //             RegExp(r'(@[a-zA-Z0-9_/]+?(?![a-zA-Z0-9_/]))|((?=/#(\d+)/))');
-  //         List<String?> strings = childNode.text.splitWithDelim(exp);
-  //         // Insert new elements just before the current element node.
-  //         strings.forEach(
-  //           (e) {
-  //             // Change @<string> to a URL to a Github profile.
-  //             if (e!.startsWith('@')) {
-  //               // If string has a '/' in it, it is likely a mention to a
-  //               // Github team.
-  //               if (e.contains('/'))
-  //                 node.insertBefore(
-  //                     parseFragment(
-  //                         '<a href="https://github.com/orgs/${e.split('/').first.substring(0)}/teams/${e.split('/').last}" style="color: #ffffff; font-weight:bold">$e</a>'),
-  //                     childNode);
-  //               else
-  //                 node.insertBefore(
-  //                     parseFragment(
-  //                         '<a href="https://github.com/${e.substring(1)}" style="color: #ffffff; font-weight:bold">$e</a>'),
-  //                     childNode);
-  //             }
-  //             // Change #<digits> to a URL to a repo issue. Will need issueURL.
-  //             else if (e.startsWith('#')) {
-  //               node.insertBefore(
-  //                   parseFragment(
-  //                       '<a href="https://github.com/${e.substring(1)}" style="font-weight:bold">$e</a>'),
-  //                   childNode);
-  //             }
-  //             // Just add the normal string if the cases above don't match.
-  //             else {
-  //               node.insertBefore(parseFragment(e), childNode);
-  //             }
-  //           },
-  //         );
-  //         // Remove the current element node, as the children inside have been
-  //         // accordingly parsed and changed.
-  //         childNode.remove();
-  //       }
-  //     }
-  //   }
-  // }
+
+  void performModifications(List<dom.Element> elements) {
+    for (final node in elements) {
+      node.attributes
+          .addAll({'id': node.text.toLowerCase().replaceAll(' ', '-')});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,22 +109,45 @@ class _MarkdownBodyState extends State<MarkdownBody> {
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.symmetric(vertical: 8),
           ),
+          'table': Style(
+            border: Border.all(
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
+                width: 0.2),
+          ),
+          'td': Style(
+            border: Border.all(
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
+                width: 0.2),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          ),
+          'th': Style(
+            border: Border.all(
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
+                width: 0.2),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          ),
+        },
+        onLinkTap: (url, rdrContext, attributes, element) {
+          return linkHandler(context, url);
         },
         customRender: {
-          'a': (renderContext, child) {
-            return GestureDetector(
-              onTap: () {
-                return linkHandler(
-                    context, renderContext.tree.attributes['href']);
-              },
-              onLongPress: () {
-                return linkHandler(
-                    context, renderContext.tree.attributes['href'],
-                    showSheetOnDeepLink: true);
-              },
-              child: child,
-            );
-          },
+          // 'a': (renderContext, child) {
+          //   return GestureDetector(
+          //     onTap: () {
+          //       return linkHandler(
+          //           context, renderContext.tree.attributes['href']);
+          //     },
+          //     onLongPress: () {
+          //       return linkHandler(
+          //           context, renderContext.tree.attributes['href'],
+          //           showSheetOnDeepLink: true);
+          //     },
+          //     child: child,
+          //   );
+          // },
           'blockquote': (context, child) {
             return Container(
               padding: const EdgeInsets.only(left: 12),
@@ -281,48 +260,48 @@ class _MarkdownBodyState extends State<MarkdownBody> {
                   .toWidget(renderContext),
             );
           },
-          'td': (renderContext, child) {
-            return Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                          width: 0.3),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: child,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-          'th': (renderContext, child) {
-            return Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                          width: 0.3),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: child,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+          // 'td': (renderContext, child) {
+          //   return Row(
+          //     children: [
+          //       Expanded(
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             border: Border.all(
+          //                 color: Provider.of<PaletteSettings>(context)
+          //                     .currentSetting
+          //                     .faded3,
+          //                 width: 0.3),
+          //           ),
+          //           child: Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: child,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   );
+          // },
+          // 'th': (renderContext, child) {
+          //   return Row(
+          //     children: [
+          //       Expanded(
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             border: Border.all(
+          //                 color: Provider.of<PaletteSettings>(context)
+          //                     .currentSetting
+          //                     .faded3,
+          //                 width: 0.3),
+          //           ),
+          //           child: Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: child,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   );
+          // },
         },
       ),
     );

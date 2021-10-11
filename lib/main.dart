@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
                 lazy: false,
                 create: (_) => CurrentUserProvider(
                     authenticationBloc:
-                        BlocProvider.of<AuthenticationBloc>(context)),
+                        BlocProvider.of<AuthenticationBloc>(context),),
               ),
               ChangeNotifierProvider(
                 create: (_) => NavigationProvider(''),
@@ -79,12 +79,12 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               final palette =
                   Provider.of<PaletteSettings>(context).currentSetting;
+
               return Portal(
                 child: MaterialApp.router(
                   theme: ThemeData(
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     unselectedWidgetColor: palette.faded1,
-                    accentColor: palette.accent,
                     cardColor: palette.primary,
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ButtonStyle(
@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
                       overline: TextStyle(),
                     ).apply(
                         displayColor: palette.baseElements,
-                        bodyColor: palette.baseElements),
+                        bodyColor: palette.baseElements,),
                     primaryColor: palette.accent,
                     scrollbarTheme: ScrollbarThemeData(
                         thumbColor:
@@ -126,7 +126,6 @@ class MyApp extends StatelessWidget {
                     scaffoldBackgroundColor: palette.primary,
                     primaryIconTheme:
                         IconThemeData(color: palette.baseElements),
-                    accentIconTheme: IconThemeData(color: palette.accent),
                     dividerColor: Colors.grey.withOpacity(0.7),
                     brightness: Brightness.dark,
                     backgroundColor: palette.primary,
@@ -141,6 +140,8 @@ class MyApp extends StatelessWidget {
                         color: palette.baseElements, thickness: 0.04),
                     fontFamily:
                         Provider.of<FontSettings>(context).currentSetting,
+                    colorScheme: ColorScheme.fromSwatch()
+                        .copyWith(secondary: palette.accent),
                   ),
                   routerDelegate: customRouter.delegate(initialRoutes: [
                     LandingLoadingScreenRoute(initLink: initDeepLink)

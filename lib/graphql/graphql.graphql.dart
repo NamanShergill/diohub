@@ -5485,6 +5485,14 @@ enum CommentAuthorAssociation {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+enum PullRequestReviewCommentState {
+  @JsonValue('PENDING')
+  pending,
+  @JsonValue('SUBMITTED')
+  submitted,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
 enum CommentCannotUpdateReason {
   @JsonValue('ARCHIVED')
   archived,
@@ -5500,14 +5508,6 @@ enum CommentCannotUpdateReason {
   maintenance,
   @JsonValue('VERIFIED_EMAIL_REQUIRED')
   verifiedEmailRequired,
-  @JsonValue('ARTEMIS_UNKNOWN')
-  artemisUnknown,
-}
-enum PullRequestReviewCommentState {
-  @JsonValue('PENDING')
-  pending,
-  @JsonValue('SUBMITTED')
-  submitted,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -5539,6 +5539,16 @@ enum IssueState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+enum PullRequestState {
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('MERGED')
+  merged,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
 enum LockReason {
   @JsonValue('OFF_TOPIC')
   offTopic,
@@ -5565,21 +5575,11 @@ enum PullRequestReviewState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
-enum PullRequestState {
+enum ProjectState {
   @JsonValue('CLOSED')
   closed,
-  @JsonValue('MERGED')
-  merged,
   @JsonValue('OPEN')
   open,
-  @JsonValue('ARTEMIS_UNKNOWN')
-  artemisUnknown,
-}
-enum OrderDirection {
-  @JsonValue('ASC')
-  asc,
-  @JsonValue('DESC')
-  desc,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -5593,11 +5593,11 @@ enum ProjectOrderField {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
-enum ProjectState {
-  @JsonValue('CLOSED')
-  closed,
-  @JsonValue('OPEN')
-  open,
+enum OrderDirection {
+  @JsonValue('ASC')
+  asc,
+  @JsonValue('DESC')
+  desc,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }

@@ -157,19 +157,20 @@ class API {
     String? acceptHeader,
     CustomCacheOptions? cacheOptions,
   }) async {
-    return DioLink('$apiBaseURL/graphql',
-            client: request(
-                loggedIn: loggedIn,
-                baseURL: '$apiBaseURL/graphql',
-                acceptHeader: acceptHeader,
-                debugLog: debugLog,
-                applyBaseURL: applyBaseURL,
-                buttonLock: buttonLock,
-                cacheEnabled: cacheEnabled,
-                cacheOptions: cacheOptions,
-                loginRequired: loginRequired,
-                showPopup: showPopup),
-            ignoreErrorCodes: [304])
+    return DioLink(
+      '$apiBaseURL/graphql',
+      client: request(
+          loggedIn: loggedIn,
+          baseURL: '$apiBaseURL/graphql',
+          acceptHeader: acceptHeader,
+          debugLog: debugLog,
+          applyBaseURL: applyBaseURL,
+          buttonLock: buttonLock,
+          cacheEnabled: cacheEnabled,
+          cacheOptions: cacheOptions,
+          loginRequired: loginRequired,
+          showPopup: showPopup),
+    )
         .request(gql_exec.Request(
           operation: gql_exec.Operation(document: query.document),
           variables: query.variables!.toJson(),

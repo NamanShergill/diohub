@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -17,12 +19,13 @@ import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart';
 import 'package:dio_hub/view/repository/issues/new_issue_screen.dart';
 import 'package:dio_hub/view/repository/repository_screen.dart';
 import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 @CustomAutoRouter(
-  transitionsBuilder: TransitionsBuilders.slideLeft,
+  transitionsBuilder: fadeThroughTransition,
   // durationInMilliseconds: 250,
   routes: <AutoRoute>[
     AutoRoute(page: AuthScreen),
@@ -65,4 +68,14 @@ class AuthGuard extends AutoRouteGuard {
       resolver.next(true);
     }
   }
+}
+
+Widget fadeThroughTransition(BuildContext context, Animation<double> animation,
+    Animation<double> secondaryAnimation, Widget child) {
+  return FadeThroughTransition(
+    animation: animation,
+    secondaryAnimation: secondaryAnimation,
+    fillColor: secondary(context),
+    child: child,
+  );
 }
