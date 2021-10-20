@@ -11,10 +11,10 @@ environment:
 dependencies:
   animations: ^2.0.1
   another_flushbar: ^1.10.24
-  auto_route: ^2.4.2
+  auto_route: ^3.0.0
   cached_network_image: ^3.1.0
   connectivity: ^3.0.6
-  device_info_plus: ^3.0.1
+  device_info_plus: ^3.1.0
   dio: ^4.0.0
   dio_cache_interceptor: ^3.0.2
   dio_cache_interceptor_db_store: ^3.0.2
@@ -28,11 +28,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_appauth: ^1.1.0+2
-  flutter_bloc: ^7.3.0
+  flutter_bloc: ^7.3.1
   flutter_colorpicker: ^0.6.0
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
-  flutter_dynamic_tabs: ^0.0.4
+
+  flutter_dynamic_tabs:
+    git:
+      url: https://github.com/NamanShergill/flutter_dynamic_tabs
 
   # Null safe version until the package is updated.
   flutter_emoji:
@@ -45,14 +48,9 @@ dependencies:
       ref: master
       path: flutter_highlight
 
-  # Use until official release that fixes the lists.
-  flutter_html:
-    git:
-      url: https://github.com/Sub6Resources/flutter_html.git
-      ref: master
-
+  flutter_html: ^2.1.2
   flutter_inappwebview: ^5.3.2
-  flutter_keyboard_visibility: ^5.0.3
+  flutter_keyboard_visibility: ^5.1.0
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^1.0.8
   flutter_scroll_to_top: ^1.1.0
@@ -67,7 +65,7 @@ dependencies:
   gql_link: ^0.4.0
   infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
-  json_annotation: ^4.1.0
+  json_annotation: ^4.3.0
   line_icons: ^2.0.1
   logger: ^1.1.0
   markdown: ^4.0.0
@@ -83,7 +81,7 @@ dependencies:
   path_provider: ^2.0.5
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^6.0.1
-  share_plus: ^3.0.2
+  share_plus: ^3.0.4
   shared_preferences: ^2.0.8
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
@@ -96,7 +94,7 @@ dependencies:
 
 dev_dependencies:
   artemis: ^7.2.0-beta.0
-  auto_route_generator: ^2.4.1
+  auto_route_generator: ^3.0.0
   build_runner: ^2.1.4
   change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.0
@@ -104,7 +102,7 @@ dev_dependencies:
   flutter_native_splash: ^1.2.4
   flutter_test:
     sdk: flutter
-  json_serializable: ^5.0.2
+  json_serializable: ^6.0.0
 
 #Temporary workaround until https://github.com/Milad-Akarie/auto_route_library/issues/569 is fixed.
 #dependency_overrides:

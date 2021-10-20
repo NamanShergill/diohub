@@ -5,8 +5,7 @@ import 'package:dio_hub/models/reactions/reactions_model.dart';
 class ReactionsService {
 // Ref: https://docs.github.com/en/rest/reference/reactions#list-reactions-for-an-issue-comment
   static Future<List<ReactionsModel>> getReactions(String? fullURL) async {
-    final response = await API
-        .request(
+    final response = await request(
             applyBaseURL: false,
             acceptHeader: 'application/vnd.github.squirrel-girl-preview',
             cacheOptions: CacheManager.reactions())
@@ -18,8 +17,7 @@ class ReactionsService {
   // Ref: https://docs.github.com/en/rest/reference/reactions#create-reaction-for-an-issue
   static Future<ReactionsModel?> createReaction(
       String? fullURL, String? reaction) async {
-    final response = await API
-        .request(
+    final response = await request(
       applyBaseURL: false,
       acceptHeader: 'application/vnd.github.squirrel-girl-preview',
     )
@@ -32,8 +30,8 @@ class ReactionsService {
 
   // Ref: https://docs.github.com/en/rest/reference/reactions#delete-an-issue-comment-reaction
   static Future deleteReaction(String? fullURL, int? reactionID) async {
-    await API
-        .request(
+    await
+        request(
             applyBaseURL: false,
             acceptHeader: 'application/vnd.github.squirrel-girl-preview')
         .delete('$fullURL/reactions/$reactionID');

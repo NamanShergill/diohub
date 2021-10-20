@@ -10,8 +10,8 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo({required String fullUrl}) async {
-    final response = await API
-        .request(
+    final response = await
+        request(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(),
             acceptHeader: 'application/vnd.github.VERSION.full+json')
@@ -22,8 +22,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
   static Future<IssueCommentsModel> getLatestComment(
       {required String fullUrl}) async {
-    final response = await API
-        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(fullUrl);
     return IssueCommentsModel.fromJson(response.data);
   }
@@ -47,8 +46,7 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
   static Future<List<IssueEventModel>> getIssueEvents(
       {required String fullUrl, String? since}) async {
-    final response = await API
-        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$fullUrl/events', queryParameters: {'since': since});
     final List unParsedEvents = response.data;
     final parsedEvents = <IssueEventModel>[];
@@ -66,8 +64,8 @@ class IssuesService {
     bool? ascending = false,
     String? sort,
   }) async {
-    final response = await API
-        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await
+        request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '/issues',
       queryParameters: {
@@ -91,8 +89,8 @@ class IssuesService {
     bool? ascending = false,
     required bool refresh,
   }) async {
-    final response = await API
-        .request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+    final response = await
+        request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(
       '$repoURL/issues',
       queryParameters: {
@@ -115,7 +113,7 @@ class IssuesService {
       required bool refresh,
       String? after,
       DateTime? since}) async {
-    final response = await API.gqlRequest(
+    final response = await gqlRequest(
         GetTimelineQuery(
             variables: GetTimelineArguments(
                 after: after,
@@ -135,8 +133,8 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned
   static Future<bool> checkIfUserCanBeAssigned(
       String login, String repoURL) async {
-    final response = await API
-        .request(
+    final response = await
+        request(
             applyBaseURL: false,
             showPopup: false,
             cacheOptions: CacheManager.defaultCache())
@@ -154,8 +152,8 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#list-assignees
   static Future<List<UserInfoModel>> listAssignees(
       String? repoURL, int page, int perPage) async {
-    final response = await API
-        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await
+        request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$repoURL/assignees', queryParameters: {
       'per_page': perPage,
       'page': page,
@@ -167,8 +165,8 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
   static Future<IssueModel> addAssignees(
       String? issueURL, List<String?> users) async {
-    final response = await API
-        .request(applyBaseURL: false)
+    final response = await
+        request(applyBaseURL: false)
         .post('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
@@ -176,16 +174,16 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#remove-assignees-from-an-issue
   static Future<IssueModel> removeAssignees(
       String? issueURL, List<String?> users) async {
-    final response = await API
-        .request(applyBaseURL: false)
+    final response = await
+        request(applyBaseURL: false)
         .delete('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-an-issue
   static Future<List<Label>> listLabels(String issueURL) async {
-    final response = await API
-        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await
+        request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$issueURL/labels');
     final List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();
@@ -194,8 +192,8 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
   static Future<List<Label>> listAvailableLabels(
       String? repoURL, int page, int perPage) async {
-    final response = await API
-        .request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await
+        request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$repoURL/labels', queryParameters: {
       'per_page': perPage,
       'page': page,
@@ -207,8 +205,8 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#set-labels-for-an-issue
   static Future<List<Label>> setLabels(
       String? issueURL, List<String?>? labels) async {
-    final response = await API
-        .request(applyBaseURL: false)
+    final response = await
+        request(applyBaseURL: false)
         .put('$issueURL/labels', data: {'labels': labels});
     final List data = response.data;
     return data.map((e) => Label.fromJson(e)).toList();
@@ -216,8 +214,7 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
   static Future<IssueModel> updateIssue(String issueURL, Map data) async {
-    final response = await API
-        .request(
+    final response = await request(
             applyBaseURL: false,
             acceptHeader: 'application/vnd.github.VERSION.full+json')
         .patch(issueURL, data: data);
@@ -226,8 +223,7 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue-comment
   static Future<bool> addComment(String issueURL, String body) async {
-    final response = await API
-        .request(applyBaseURL: false)
+    final response = await request(applyBaseURL: false)
         .post('$issueURL/comments', data: {'body': body});
     if (response.statusCode == 201) {
       return true;
@@ -244,7 +240,7 @@ class IssuesService {
       required String body,
       required String owner,
       required String repo}) async {
-    final res = await API.request().post('/repos/$owner/$repo/issues',
+    final res = await request().post('/repos/$owner/$repo/issues',
         data: {'title': title, if (body.isNotEmpty) 'body': body});
     return IssueModel.fromJson(res.data);
   }

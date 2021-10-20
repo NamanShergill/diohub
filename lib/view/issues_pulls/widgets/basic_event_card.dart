@@ -245,21 +245,22 @@ class BasicEventLabeledCard extends StatelessWidget {
 }
 
 class BasicIssueCrossReferencedCard extends StatelessWidget {
-  BasicIssueCrossReferencedCard(
+  const BasicIssueCrossReferencedCard(
       {this.user,
       this.content,
       required this.date,
       this.leading,
       this.iconColor,
       Key? key})
-      : _correctRepo = content!.issue!.repository!.fullName!,
+      :
+        // _correctRepo = content!.issue!.repository!.fullName!,
         super(key: key);
   final UserInfoModel? user;
   final IconData? leading;
   final Color? iconColor;
   final DateTime date;
   final Source? content;
-  final String _correctRepo;
+  // final String _correctRepo;
 
   // GitHub API sends the wrong links to the issue where the reference was in.
   // This is here to fix them.

@@ -13,7 +13,7 @@ class ProjectService {
           String? query,
           String? cursor,
           required OrderDirection orderByDir}) async {
-    final res = await API.gqlRequest(
+    final res = await gqlRequest(
         GetRepoProjectsQuery(
             variables: GetRepoProjectsArguments(
                 name: name,

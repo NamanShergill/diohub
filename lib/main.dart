@@ -5,7 +5,6 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
-import 'package:dio_hub/providers/landing_navigation_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -60,11 +59,9 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider(
                 lazy: false,
                 create: (_) => CurrentUserProvider(
-                    authenticationBloc:
-                        BlocProvider.of<AuthenticationBloc>(context),),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => NavigationProvider(''),
+                  authenticationBloc:
+                      BlocProvider.of<AuthenticationBloc>(context),
+                ),
               ),
               ChangeNotifierProvider(
                 create: (_) => SearchDataProvider(),
@@ -94,6 +91,27 @@ class MyApp extends StatelessWidget {
                     ),
                     appBarTheme:
                         AppBarTheme(color: palette.primary, elevation: 5),
+                    tabBarTheme: TabBarTheme(
+                      indicator: BoxDecoration(
+                          borderRadius: bigBorderRadius,
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .accent),
+                      unselectedLabelColor:
+                          Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
+                      unselectedLabelStyle: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+                      labelPadding: const EdgeInsets.only(
+                          left: 8, right: 8, bottom: 8, top: 0),
+                    ),
                     iconTheme: IconThemeData(color: palette.baseElements),
                     textTheme: const TextTheme(
                       bodyText1: TextStyle(),
@@ -110,8 +128,9 @@ class MyApp extends StatelessWidget {
                       button: TextStyle(),
                       overline: TextStyle(),
                     ).apply(
-                        displayColor: palette.baseElements,
-                        bodyColor: palette.baseElements,),
+                      displayColor: palette.baseElements,
+                      bodyColor: palette.baseElements,
+                    ),
                     primaryColor: palette.accent,
                     scrollbarTheme: ScrollbarThemeData(
                         thumbColor:
@@ -127,7 +146,7 @@ class MyApp extends StatelessWidget {
                     primaryIconTheme:
                         IconThemeData(color: palette.baseElements),
                     dividerColor: Colors.grey.withOpacity(0.7),
-                    brightness: Brightness.dark,
+                    // brightness: Brightness.dark,
                     backgroundColor: palette.primary,
                     buttonTheme: ButtonThemeData(
                       textTheme: ButtonTextTheme.primary,

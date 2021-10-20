@@ -3,15 +3,13 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/controller/dynamic_tabs.dart';
-import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppScrollView extends StatefulWidget {
   const AppScrollView(
       {this.scrollViewAppBar,
-      required this.tabController,
+      this.tabController,
       this.tabViews,
       required this.scrollController,
       this.child,
@@ -23,7 +21,7 @@ class AppScrollView extends StatefulWidget {
   final List<Widget>? tabViews;
   final Widget? child;
   final bool loading;
-  final TabController tabController;
+  final TabController? tabController;
   final Color? childrenColor;
   final ScrollController scrollController;
 
@@ -32,32 +30,6 @@ class AppScrollView extends StatefulWidget {
 }
 
 class _AppScrollViewState extends State<AppScrollView> {
-  late PageController pageController;
-
-  @override
-  void initState() {
-    pageController = PageController(initialPage: widget.tabController.index);
-    setupListener();
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant AppScrollView oldWidget) {
-    pageController.jumpToPage(
-      widget.tabController.index,
-    );
-    setupListener();
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void setupListener() {
-    widget.tabController.addListener(() {
-      pageController.animateToPage(widget.tabController.index,
-          duration: defaultAnimDuration, curve: Curves.decelerate);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
@@ -91,18 +63,17 @@ class _AppScrollViewState extends State<AppScrollView> {
                         ),
                       ],
                     ))
-                : widget.child ??
-                    Container(
-                      color: widget.childrenColor ??
-                          Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .secondary,
-                      child: PageView(
-                        controller: pageController,
-                        children: List.generate(widget.tabViews!.length,
-                            (index) => widget.tabViews![index]),
-                      ),
-                    ),
+                : Container(
+                    color: widget.childrenColor ??
+                        Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .secondary,
+                    child: widget.child ??
+                        TabBarView(
+                          controller: widget.tabController,
+                          children: widget.tabViews!,
+                        ),
+                  ),
           );
         }));
   }
@@ -115,13 +86,13 @@ class ScrollViewAppBar extends StatelessWidget {
       this.bottomHeader,
       this.backgroundColor,
       this.url,
-      this.dynamicTabsController,
       this.tabController,
       this.bottomPadding,
       this.padding,
       this.flexibleBackgroundWidget,
       this.collapsedHeight,
       this.expandedHeight,
+      this.tabBar,
       Key? key})
       : super(key: key);
   final List<String>? tabs;
@@ -130,15 +101,15 @@ class ScrollViewAppBar extends StatelessWidget {
   final Widget? flexibleBackgroundWidget;
   final double? collapsedHeight;
   final double? bottomPadding;
+  final PreferredSizeWidget? tabBar;
   final String? url;
-  final DynamicTabsController? dynamicTabsController;
   final TabController? tabController;
   final Widget? bottomHeader;
   final Color? backgroundColor;
   final EdgeInsets? padding;
   @override
   Widget build(BuildContext context) {
-    final hasTabs = tabs != null || dynamicTabsController != null;
+    final hasTabs = tabs != null || tabBar != null;
     return SliverAppBar(
       leading: Navigator.canPop(context)
           ? IconButton(
@@ -168,24 +139,28 @@ class ScrollViewAppBar extends StatelessWidget {
       bottom: hasTabs
           ? PreferredSize(
               preferredSize: Size.fromHeight(bottomPadding ?? 0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: bottomHeader ?? Container(),
-                  ),
-                  dynamicTabsController != null
-                      ? AppTabBar.dynamic(
-                          dynamicController: dynamicTabsController,
-                        )
-                      : AppTabBar(
-                          controller: tabController,
-                          tabs: List.generate(
-                            tabs!.length,
-                            (index) => tabs![index],
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: bottomHeader ?? Container(),
+                    ),
+                    tabBar != null
+                        ? tabBar!
+                        : AppTabBar(
+                            controller: tabController,
+                            tabs: List.generate(
+                              tabs!.length,
+                              (index) => tabs![index],
+                            ),
                           ),
-                        ),
-                ],
+                  ],
+                ),
               ),
             )
           : null,
