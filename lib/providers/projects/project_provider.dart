@@ -12,7 +12,7 @@ class ProjectProvider extends BaseProvider {
   void fetchProject() async {
     loading();
     try {
-      final res = await API.gqlRequest(
+      final res = await gqlRequest(
           GetProjectInfoQuery(variables: GetProjectInfoArguments(id: id)));
       project = GetProjectInfo$Query.fromJson(res.data!).node as ProjectMixin;
       loaded();

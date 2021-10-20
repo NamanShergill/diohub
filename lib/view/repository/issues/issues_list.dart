@@ -50,6 +50,7 @@ class IssuesList extends StatelessWidget {
           quickOptions: {
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
+          showRepoNameOnIssues: false,
           scrollController: scrollController,
           searchBarMessage: 'Search in ${_repo.data.name}\'s issues',
           searchHeroTag: 'repoIssueSearch',

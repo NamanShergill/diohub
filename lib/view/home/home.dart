@@ -9,8 +9,7 @@ import 'package:dio_hub/common/search_overlay/search_bar.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/providers/landing_navigation_provider.dart';
+import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
@@ -22,8 +21,11 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, this.deepLinkData}) : super(key: key);
+  const HomeScreen(
+      {Key? key, this.deepLinkData, required this.parentTabController})
+      : super(key: key);
   final DeepLinkData? deepLinkData;
+  final TabController parentTabController;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -75,9 +77,7 @@ class _HomeScreenState extends State<HomeScreen>
                     trailing: ClipOval(
                       child: InkWell(
                         onTap: () {
-                          Provider.of<NavigationProvider>(context,
-                                  listen: false)
-                              .animateToPage(3);
+                          widget.parentTabController.animateTo(3);
                         },
                         child:
                             ProviderLoadingProgressWrapper<CurrentUserProvider>(
@@ -111,8 +111,7 @@ class _HomeScreenState extends State<HomeScreen>
                       updateBarOnChange: false,
                       onSubmit: (data) {
                         _search.updateSearchData(data);
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .animateToPage(1);
+                        widget.parentTabController.animateTo(1);
                       },
                       heroTag: 'homeSearchBar',
                     ),

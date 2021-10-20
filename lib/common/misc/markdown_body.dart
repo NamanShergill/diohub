@@ -58,7 +58,7 @@ class MarkdownBody extends StatefulWidget {
 
 class _MarkdownBodyState extends State<MarkdownBody> {
   late String content;
-
+  late dom.Document doc;
   @override
   void initState() {
     updateData(widget.content);
@@ -73,7 +73,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
       final elements = document.getElementsByTagName(element);
       performModifications(elements);
     }
-    content = document.outerHtml;
+    doc = document;
   }
 
   @override
@@ -84,226 +84,226 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   void performModifications(List<dom.Element> elements) {
     for (final node in elements) {
-      node.attributes
-          .addAll({'id': node.text.toLowerCase().replaceAll(' ', '-')});
+      node.attributes.addAll({
+        'id': node.text
+            .toLowerCase()
+            .replaceAll(' ', '-')
+            .replaceAll(RegExp(r'[^0-9a-zA-Z-]+'), '')
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Html(
-        data: content,
-        // onLinkTap: (String? url, RenderContext rContext,
-        //     Map<String, String> attributes, data) {
-        //   return linkHandler(context, url);
+    return Html.fromDom(
+      document: doc,
+      // onLinkTap: (String? url, RenderContext rContext,
+      //     Map<String, String> attributes, data) {
+      //   return linkHandler(context, url);
+      // },
+      tagsList: Html.tags..add('g-emoji'),
+      style: {
+        'a': Style(textDecoration: TextDecoration.none),
+        'blockquote': Style(
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.zero,
+        ),
+        'p': Style(
+          padding: EdgeInsets.zero,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+        ),
+        'table': Style(
+          border: Border.all(
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
+              width: 0.2),
+        ),
+        'td': Style(
+          border: Border.all(
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
+              width: 0.2),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        ),
+        'th': Style(
+          border: Border.all(
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.faded3,
+              width: 0.2),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        ),
+      },
+      onLinkTap: (url, rdrContext, attributes, element) {
+        return linkHandler(context, url);
+      },
+      customRender: {
+        // 'a': (renderContext, child) {
+        //   return GestureDetector(
+        //     onTap: () {
+        //       return linkHandler(
+        //           context, renderContext.tree.attributes['href']);
+        //     },
+        //     onLongPress: () {
+        //       return linkHandler(
+        //           context, renderContext.tree.attributes['href'],
+        //           showSheetOnDeepLink: true);
+        //     },
+        //     child: child,
+        //   );
         // },
-        tagsList: Html.tags..add('g-emoji'),
-        style: {
-          'a': Style(textDecoration: TextDecoration.none),
-          'blockquote': Style(
-            padding: EdgeInsets.zero,
-            margin: EdgeInsets.zero,
-          ),
-          'p': Style(
-            padding: EdgeInsets.zero,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-          ),
-          'table': Style(
-            border: Border.all(
-                color:
-                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
-                width: 0.2),
-          ),
-          'td': Style(
-            border: Border.all(
-                color:
-                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
-                width: 0.2),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          ),
-          'th': Style(
-            border: Border.all(
-                color:
-                    Provider.of<PaletteSettings>(context).currentSetting.faded3,
-                width: 0.2),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          ),
+        'li': (context, child) {},
+        'blockquote': (context, child) {
+          return Container(
+            padding: const EdgeInsets.only(left: 12),
+            decoration: BoxDecoration(
+                border: Border(
+                    left: BorderSide(color: Colors.grey.shade400, width: 2))),
+            child: child,
+          );
         },
-        onLinkTap: (url, rdrContext, attributes, element) {
-          return linkHandler(context, url);
-        },
-        customRender: {
-          // 'a': (renderContext, child) {
-          //   return GestureDetector(
-          //     onTap: () {
-          //       return linkHandler(
-          //           context, renderContext.tree.attributes['href']);
-          //     },
-          //     onLongPress: () {
-          //       return linkHandler(
-          //           context, renderContext.tree.attributes['href'],
-          //           showSheetOnDeepLink: true);
-          //     },
-          //     child: child,
-          //   );
-          // },
-          'blockquote': (context, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 12),
-              decoration: BoxDecoration(
-                  border: Border(
-                      left: BorderSide(color: Colors.grey.shade400, width: 2))),
+        'code': (rdrCtx, child) {
+          return Container(
+            decoration: BoxDecoration(
+                color:
+                    Provider.of<PaletteSettings>(context).currentSetting.faded1,
+                borderRadius: smallBorderRadius),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
               child: child,
-            );
-          },
-          'code': (rdrCtx, child) {
+            ),
+          );
+        },
+        'div': (rdr, child) {
+          final divClass = rdr.tree.attributes['class'];
+          if (divClass == 'border rounded-1 my-2') {
             return Container(
               decoration: BoxDecoration(
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .faded1,
+                  border: Border.all(
+                      color: Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
+                      width: 0.3),
                   borderRadius: smallBorderRadius),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: child,
               ),
             );
-          },
-          'div': (rdr, child) {
-            final divClass = rdr.tree.attributes['class'];
-            if (divClass == 'border rounded-1 my-2') {
-              return Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .faded3,
-                        width: 0.3),
-                    borderRadius: smallBorderRadius),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: child,
-                ),
+          } else if (divClass == 'blob-wrapper blob-wrapper-embedded data') {
+            // Todo: Format embedded code.
+            // return Html(data: context.tree.element!.outerHtml);
+          } else if (rdr.tree.children.isNotEmpty) {
+            if (rdr.tree.children.first.name == 'pre') {
+              return _CodeView(
+                rdr.tree.children.first.element!.text,
+                language: rdr.tree.element?.attributes['class']
+                    ?.replaceAll('highlight highlight-source-', ''),
               );
-            } else if (divClass == 'blob-wrapper blob-wrapper-embedded data') {
-              // Todo: Format embedded code.
-              // return Html(data: context.tree.element!.outerHtml);
-            } else if (rdr.tree.children.isNotEmpty) {
-              if (rdr.tree.children.first.name == 'pre') {
-                return _CodeView(
-                  rdr.tree.children.first.element!.text,
-                  language: rdr.tree.element?.attributes['class']
-                      ?.replaceAll('highlight highlight-source-', ''),
-                );
-              }
             }
-            return child;
-          },
-          'g-emoji': (renderContext, child) {
-            return child;
-          },
-          'img': (renderContext, child) {
-            var src = renderContext.tree.element!.attributes['src']!;
-            if (!src.startsWith('https://') && !src.startsWith('http://')) {
-              src =
-                  'https://raw.githubusercontent.com/${widget.context}/${widget.branch}/$src';
-            } else if (src
-                .startsWith('https://github.com/${widget.context}/blob/')) {
-              src = src.replaceFirst(
-                  'https://github.com/${widget.context}/blob/',
-                  'https://raw.githubusercontent.com/${widget.context}/');
-            }
-            if (src.split('.').last.contains('svg')) {
-              return SvgPicture.network(src);
-            }
-            return Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ImageLoader(
-                src,
-                height: double.tryParse(
-                    renderContext.tree.element?.attributes['height'] ?? ''),
-                width: double.tryParse(
-                    renderContext.tree.element?.attributes['width'] ?? ''),
-                // Some SVGs don't have svg in their URL so will miss the
-                // if check above. They will fail in the image loader
-                // so will build here.
-                errorBuilder: (context) {
-                  return SvgPicture.network(src);
-                },
-              ),
-            );
-          },
-          // 'p': (RenderContext renderContext, Widget child) {
-          //   final String? pClass = renderContext.tree.attributes['class'];
-          //   if (pClass == 'mb-0 color-text-tertiary') {
-          //     return DefaultTextStyle(
-          //       style: renderContext.style
-          //           .generateTextStyle()
-          //           .copyWith(color: Provider.of<PaletteSettings>(context).currentSetting.grey3),
-          //       child: child,
-          //     );
-          //   }
-          //   return child;
-          // },
-          'pre': (renderContext, child) {
-            if (renderContext.tree.children.first.name == 'code') {
-              return _CodeView(renderContext.tree.element!.text);
-            }
-            return child;
-          },
-          'table': (renderContext, child) {
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: (renderContext.tree as TableLayoutElement)
-                  .toWidget(renderContext),
-            );
-          },
-          // 'td': (renderContext, child) {
-          //   return Row(
-          //     children: [
-          //       Expanded(
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //             border: Border.all(
-          //                 color: Provider.of<PaletteSettings>(context)
-          //                     .currentSetting
-          //                     .faded3,
-          //                 width: 0.3),
-          //           ),
-          //           child: Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: child,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   );
-          // },
-          // 'th': (renderContext, child) {
-          //   return Row(
-          //     children: [
-          //       Expanded(
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //             border: Border.all(
-          //                 color: Provider.of<PaletteSettings>(context)
-          //                     .currentSetting
-          //                     .faded3,
-          //                 width: 0.3),
-          //           ),
-          //           child: Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: child,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   );
-          // },
+          }
+          return child;
         },
-      ),
+        'g-emoji': (renderContext, child) {
+          return child;
+        },
+        'img': (renderContext, child) {
+          var src = renderContext.tree.element!.attributes['src']!;
+          if (!src.startsWith('https://') && !src.startsWith('http://')) {
+            src =
+                'https://raw.githubusercontent.com/${widget.context}/${widget.branch}/$src';
+          } else if (src
+              .startsWith('https://github.com/${widget.context}/blob/')) {
+            src = src.replaceFirst('https://github.com/${widget.context}/blob/',
+                'https://raw.githubusercontent.com/${widget.context}/');
+          }
+          if (src.split('.').last.contains('svg')) {
+            return SvgPicture.network(src);
+          }
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ImageLoader(
+              src,
+              height: double.tryParse(
+                  renderContext.tree.element?.attributes['height'] ?? ''),
+              width: double.tryParse(
+                  renderContext.tree.element?.attributes['width'] ?? ''),
+              // Some SVGs don't have svg in their URL so will miss the
+              // if check above. They will fail in the image loader
+              // so will build here.
+              errorBuilder: (context) {
+                return SvgPicture.network(src);
+              },
+            ),
+          );
+        },
+        // 'p': (RenderContext renderContext, Widget child) {
+        //   final String? pClass = renderContext.tree.attributes['class'];
+        //   if (pClass == 'mb-0 color-text-tertiary') {
+        //     return DefaultTextStyle(
+        //       style: renderContext.style
+        //           .generateTextStyle()
+        //           .copyWith(color: Provider.of<PaletteSettings>(context).currentSetting.grey3),
+        //       child: child,
+        //     );
+        //   }
+        //   return child;
+        // },
+        'pre': (renderContext, child) {
+          if (renderContext.tree.children.first.name == 'code') {
+            return _CodeView(renderContext.tree.element!.text);
+          }
+          return child;
+        },
+        'table': (renderContext, child) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: (renderContext.tree as TableLayoutElement)
+                .toWidget(renderContext),
+          );
+        },
+        // 'td': (renderContext, child) {
+        //   return Row(
+        //     children: [
+        //       Expanded(
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //             border: Border.all(
+        //                 color: Provider.of<PaletteSettings>(context)
+        //                     .currentSetting
+        //                     .faded3,
+        //                 width: 0.3),
+        //           ),
+        //           child: Padding(
+        //             padding: const EdgeInsets.all(8.0),
+        //             child: child,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   );
+        // },
+        // 'th': (renderContext, child) {
+        //   return Row(
+        //     children: [
+        //       Expanded(
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //             border: Border.all(
+        //                 color: Provider.of<PaletteSettings>(context)
+        //                     .currentSetting
+        //                     .faded3,
+        //                 width: 0.3),
+        //           ),
+        //           child: Padding(
+        //             padding: const EdgeInsets.all(8.0),
+        //             child: child,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   );
+        // },
+      },
     );
   }
 }

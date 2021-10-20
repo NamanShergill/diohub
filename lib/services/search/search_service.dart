@@ -15,8 +15,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response = await API
-        .request(cacheOptions: CacheManager.search(refresh: refresh))
+    final response = await request(cacheOptions: CacheManager.search(refresh: refresh))
         .get(
       '/search/users',
       queryParameters: {
@@ -36,8 +35,8 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response = await API
-        .request(cacheOptions: CacheManager.search(refresh: refresh))
+    final response = await
+        request(cacheOptions: CacheManager.search(refresh: refresh))
         .get(
       '/search/repositories',
       queryParameters: {
@@ -57,8 +56,8 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response = await API
-        .request(cacheOptions: CacheManager.search(refresh: refresh))
+    final response = await
+        request(cacheOptions: CacheManager.search(refresh: refresh))
         .get(
       '/search/issues',
       queryParameters: {
@@ -84,7 +83,7 @@ class SearchService {
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
       searchMentionUsers(String query, String type, {String? cursor}) async {
     final q = '$query${' type:$type'}';
-    final res = await API.gqlRequest(
+    final res = await gqlRequest(
         SearchMentionUsersQuery(
             variables: SearchMentionUsersArguments(query: q, after: cursor)),
         cacheOptions: CacheManager.defaultGQLCache());

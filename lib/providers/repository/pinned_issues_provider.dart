@@ -9,7 +9,7 @@ class PinnedIssuesProvider extends ProxyProvider<
   @override
   Future<PinnedIssues$Query$Repository$PinnedIssues> setInitData(
       {bool isInitialisation = false}) async {
-    return PinnedIssues$Query.fromJson((await API.gqlRequest(
+    return PinnedIssues$Query.fromJson((await gqlRequest(
                 PinnedIssuesQuery(
                     variables: PinnedIssuesArguments(
                         name: parentProvider.data.name!,

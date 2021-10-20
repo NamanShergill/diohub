@@ -42,8 +42,7 @@ class AuthService {
       'client_id': PrivateKeys.clientID,
       'scope': scopeString,
     });
-    final response = await API
-        .request(
+    final response = await request(
             loggedIn: false,
             baseURL: 'https://github.com/',
             debugLog: false,
@@ -83,8 +82,7 @@ class AuthService {
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
     try {
-      final response = await API
-          .request(
+      final response = await request(
               loggedIn: false,
               loginRequired: false,
               cacheEnabled: false,

@@ -35,6 +35,7 @@ class SearchScrollWrapper extends StatefulWidget {
       this.padding = const EdgeInsets.symmetric(horizontal: 8),
       this.searchHeroTag,
       this.filterFn,
+      this.showRepoNameOnIssues = true,
       Key? key})
       : _searchBarPadding = searchBarPadding ?? padding.copyWith(top: 8),
         super(key: key);
@@ -75,6 +76,8 @@ class SearchScrollWrapper extends StatefulWidget {
 
   /// Callback for when search data is changed.
   final ValueChanged<SearchData>? onChanged;
+
+  final bool showRepoNameOnIssues;
   @override
   _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
 }
@@ -184,6 +187,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                   child: IssueListCard(
                     item,
                     padding: EdgeInsets.zero,
+                    showRepoName: widget.showRepoNameOnIssues,
                   ),
                 );
               },

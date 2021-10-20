@@ -3,13 +3,12 @@ import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/repo_star.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
-import 'package:dio_hub/common/wrappers/dynamic_tabs_wrapper.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/controller/dynamic_tabs.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
@@ -30,24 +29,28 @@ import 'package:dio_hub/view/repository/widgets/branch_button.dart';
 import 'package:dio_hub/view/repository/widgets/watch_repo_wrapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
-class RepositoryScreen extends StatefulWidget {
+class RepositoryScreen extends DeepLinkWidget {
   const RepositoryScreen(this.repositoryURL,
-      {this.branch, this.index = 0, this.deepLinkData, Key? key, this.initSHA})
-      : super(key: key);
+      {this.branch,
+      this.index = 0,
+      DeepLinkData? deepLinkData,
+      Key? key,
+      this.initSHA})
+      : super(key: key, deepLinkData: deepLinkData);
   final String repositoryURL;
   final String? branch;
   final int index;
   final String? initSHA;
-  final DeepLinkData? deepLinkData;
 
   @override
   _RepositoryScreenState createState() => _RepositoryScreenState();
 }
 
-class _RepositoryScreenState extends State<RepositoryScreen>
+class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
     with TickerProviderStateMixin {
   bool loading = false;
   late RepoBranchProvider repoBranchProvider;
@@ -59,14 +62,39 @@ class _RepositoryScreenState extends State<RepositoryScreen>
   late PinnedIssuesProvider pinnedIssuesProvider;
   final ScrollController scrollController = ScrollController();
   late String? initBranch;
+
+  @override
+  void handleDeepLink(DeepLinkData deepLinkData) {
+    final data = deepLinkData;
+    if (_isDeepLinkCode(data)) {
+      initBranch = data.component(3);
+    } else if (data.componentIs(2, 'wiki')) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        AutoRouter.of(context)
+            .push(WikiViewerRoute(repoURL: widget.repositoryURL));
+      });
+    }
+  }
+
+  bool _isDeepLinkCode(DeepLinkData? data) {
+    return data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
+        true;
+  }
+
+  bool _isDeepLinkComp(String data) {
+    return widget.deepLinkData?.componentIs(2, data) ?? false;
+  }
+
   @override
   void initState() {
-    tabController =
-        DynamicTabsController(vsync: this, tabs: tabs, context: context);
+    tabController = DynamicTabsController();
     initBranch = widget.branch;
-    if (widget.deepLinkData != null) {
-      deepLinkHandler();
-    }
+    _setupProviders();
+    _setupTabs();
+    super.initState();
+  }
+
+  void _setupProviders() {
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
         initialBranch: initBranch, initCommitSHA: widget.initSHA);
@@ -74,45 +102,24 @@ class _RepositoryScreenState extends State<RepositoryScreen>
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     issueTemplateProvider = IssueTemplateProvider();
     pinnedIssuesProvider = PinnedIssuesProvider();
-    super.initState();
   }
 
-  List<DynamicTab> tabs = [
-    DynamicTab('About', isDismissible: false),
-    DynamicTab('Readme', isDismissible: false),
-    DynamicTab('Code'),
-    DynamicTab('Issues'),
-    DynamicTab('Pull Requests'),
-    DynamicTab('More')
-  ];
-
-  void deepLinkHandler() {
-    final data = widget.deepLinkData!;
-    if (data.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
-        true) {
-      // tabController.index = 2;
-      initBranch = widget.deepLinkData?.component(3);
-    }
-    // else if (data.component(2) == 'commit') {
-    //   tabController.index = 2;
-    //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //     AutoRouter.of(context).push(CommitInfoScreenRoute(
-    //         commitURL:
-    //             widget.repositoryURL! + '/commits/' + data.component(3)!));
-    //   });
-    // }
-    else if (data.component(2) == 'issues') {
-      // tabController.index = 3;
-    } else if (data.component(2) == 'pulls') {
-      // tabController.index = 4;
-    } else if (data.component(2) == 'wiki') {
-      // tabController.index = 5;
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-        AutoRouter.of(context)
-            .push(WikiViewerRoute(repoURL: widget.repositoryURL));
-      });
-    }
+  void _setupTabs() {
+    tabs = [
+      DynamicTab(label: 'About', isDismissible: false),
+      DynamicTab(label: 'Readme', isDismissible: false),
+      DynamicTab(
+        label: 'Code',
+        isFocusedOnInit: _isDeepLinkCode(widget.deepLinkData),
+      ),
+      DynamicTab(label: 'Issues', isFocusedOnInit: _isDeepLinkComp('issues')),
+      DynamicTab(
+          label: 'Pull Requests', isFocusedOnInit: _isDeepLinkComp('pulls')),
+      DynamicTab(label: 'More')
+    ];
   }
+
+  late List<DynamicTab> tabs;
 
   @override
   Widget build(BuildContext context) {
@@ -166,10 +173,8 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                 if (Provider.of<CodeProvider>(context, listen: false)
                             .tree
                             .length >
-                        1
-                    // &&
-                    // tabController.index == 2
-                    ) {
+                        1 &&
+                    tabController.activeIdentifier == 'Code') {
                   if (Provider.of<CodeProvider>(context, listen: false)
                           .status !=
                       Status.loading) {
@@ -185,13 +190,80 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                   childBuilder: (context, value) {
                     final _repo = value.data;
                     return DynamicTabsWrapper(
-                      dynamicTabsController: tabController,
-                      builder: (context, tabController) => AppScrollView(
+                      controller: tabController,
+                      tabs: tabs,
+                      tabBarSettings: DynamicTabSettings(
+                        indicatorPadding: const EdgeInsets.only(
+                            left: 8, right: 8, bottom: 8, top: 0),
+                      ),
+                      tabViews: [
+                        DynamicTabView(
+                            identifier: 'About',
+                            child: AboutRepository(
+                              _repo,
+                              onTabOpened: tabController.openTab,
+                            )),
+                        DynamicTabView(
+                          identifier: 'Readme',
+                          child: RepositoryReadme(_repo.url),
+                        ),
+                        DynamicTabView(
+                          identifier: 'Code',
+                          child: CodeBrowser(
+                            showCommitHistory:
+                                widget.deepLinkData?.component(2) == 'commits',
+                          ),
+                        ),
+                        DynamicTabView(
+                          identifier: 'Issues',
+                          child: IssuesList(
+                            scrollController: scrollController,
+                          ),
+                        ),
+                        DynamicTabView(
+                          identifier: 'Pull Requests',
+                          child: PullsList(
+                            scrollController: scrollController,
+                          ),
+                          // ProjectsList(
+                          //   scrollController: scrollController,
+                          // ),
+                        ),
+                        DynamicTabView(
+                          identifier: 'More',
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Button(
+                                  onTap: () {
+                                    if (Provider.of<RepositoryProvider>(context,
+                                            listen: false)
+                                        .data
+                                        .hasWiki!) {
+                                      AutoRouter.of(context).push(
+                                          WikiViewerRoute(
+                                              repoURL: widget.repositoryURL));
+                                    } else {
+                                      ResponseHandler.setErrorMessage(
+                                          AppPopupData(
+                                              title:
+                                                  'Repository has no wiki.'));
+                                    }
+                                  },
+                                  child: const Text('Open Wiki'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      builder: (context, tabs, tabView) => AppScrollView(
                         scrollController: scrollController,
                         scrollViewAppBar: ScrollViewAppBar(
                           expandedHeight: 340,
                           collapsedHeight: 150,
-                          dynamicTabsController: tabController,
+                          tabBar: tabs,
                           url: _repo.htmlUrl,
                           appBarWidget: Row(
                             children: [
@@ -325,77 +397,12 @@ class _RepositoryScreenState extends State<RepositoryScreen>
                             ],
                           ),
                           bottomPadding: 60,
-                          tabController: tabController.controller,
                           bottomHeader: BranchButton(
                             repo: _repo,
                           ),
                         ),
-                        tabController: tabController.controller,
                         loading: loading,
-                        tabViews: tabController.setTabs([
-                          DynamicTabView(
-                              identifier: 'About',
-                              child: AboutRepository(
-                                _repo,
-                                onTabOpened: tabController.openTab,
-                              )),
-                          DynamicTabView(
-                            identifier: 'Readme',
-                            child: RepositoryReadme(_repo.url),
-                          ),
-                          DynamicTabView(
-                            identifier: 'Code',
-                            child: CodeBrowser(
-                              showCommitHistory:
-                                  widget.deepLinkData?.component(2) ==
-                                      'commits',
-                            ),
-                          ),
-                          DynamicTabView(
-                            identifier: 'Issues',
-                            child: IssuesList(
-                              scrollController: scrollController,
-                            ),
-                          ),
-                          DynamicTabView(
-                            identifier: 'Pull Requests',
-                            child: PullsList(
-                              scrollController: scrollController,
-                            ),
-                            // ProjectsList(
-                            //   scrollController: scrollController,
-                            // ),
-                          ),
-                          DynamicTabView(
-                            identifier: 'More',
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Button(
-                                    onTap: () {
-                                      if (Provider.of<RepositoryProvider>(
-                                              context,
-                                              listen: false)
-                                          .data
-                                          .hasWiki!) {
-                                        AutoRouter.of(context).push(
-                                            WikiViewerRoute(
-                                                repoURL: widget.repositoryURL));
-                                      } else {
-                                        ResponseHandler.setErrorMessage(
-                                            AppPopupData(
-                                                title:
-                                                    'Repository has no wiki.'));
-                                      }
-                                    },
-                                    child: const Text('Open Wiki'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
+                        child: tabView,
                       ),
                     );
                   },

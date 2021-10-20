@@ -12,7 +12,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class AboutRepository extends StatefulWidget {
-  AboutRepository(this.repo, {Key? key, required this.onTabOpened})
+  const AboutRepository(this.repo, {Key? key, required this.onTabOpened})
       : super(key: key);
   final RepositoryModel repo;
   final ValueChanged<String> onTabOpened;

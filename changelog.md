@@ -1,6 +1,16 @@
 ## [0.4.0] - In Development
 **Project Boards | WIP** 
 
+**Dynamic Tabs**
+- Browser like openable/closeable tabs to prevent clutter on Repo, Issue, Pull screens.
+
+**Enhancements**
+- Anchor links now work in markdown.
+- Improved transition animations.
+
+**Bug Fixes**
+- Fixed case where multiple API calls might happen on widget rebuilds.
+
 ---
 ## [0.3.2] - 07 August 2021
 **Bug Fixes**
