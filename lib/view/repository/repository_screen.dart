@@ -89,9 +89,11 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   void initState() {
     tabController = DynamicTabsController();
     initBranch = widget.branch;
-    _setupProviders();
     _setupTabs();
     super.initState();
+    // This HAS to be after the super initState call as some required data
+    // is being set in handleDeepLink()!
+    _setupProviders();
   }
 
   void _setupProviders() {

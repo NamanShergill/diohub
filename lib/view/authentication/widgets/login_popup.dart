@@ -56,7 +56,8 @@ class _LoginPopupState extends State<LoginPopup> {
                           await _browserAuth().then((value) =>
                               BlocProvider.of<AuthenticationBloc>(context)
                                   .add(AuthSuccessful(value)));
-                        } catch (e) {} finally {
+                        } catch (e) {
+                        } finally {
                           setState(() {
                             loading = false;
                           });
@@ -93,8 +94,8 @@ Future<AccessTokenModel> _browserAuth() async {
       'auth.felix.diohub://login-callback',
       clientSecret: PrivateKeys.clientSecret,
       serviceConfiguration: const AuthorizationServiceConfiguration(
-          'https://github.com/login/oauth/authorize',
-          'https://github.com/login/oauth/access_token'),
+          authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+          tokenEndpoint: 'https://github.com/login/oauth/access_token'),
       scopes: AuthService.scopes,
     ),
   );
