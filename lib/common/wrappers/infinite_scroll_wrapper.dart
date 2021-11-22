@@ -46,8 +46,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.scrollController,
       this.shrinkWrap = false,
       this.listEndIndicator = true})
-      : assert(!isNestedScrollViewChild || scrollController != null,
-            'scrollController should be provided of parent NestedScrollView'),
+      : assert(!(isNestedScrollViewChild && scrollController != null),
+            'ScrollController cannot be provided for ScrollViews under NestedScrollView'),
         super(key: key);
 
   /// How to display the data. Give
@@ -120,76 +120,91 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
-  late ScrollController scrollController;
+  ScrollController? scrollController;
 
   @override
   void initState() {
-    scrollController = widget.scrollController ?? ScrollController();
+    scrollController = widget.isNestedScrollViewChild
+        ? null
+        : widget.scrollController ?? ScrollController();
     controller = widget.controller ?? InfiniteScrollWrapperController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget child = CustomScrollView(
-      controller: widget.isNestedScrollViewChild ? null : scrollController,
-      physics: widget.disableScroll
-          ? const NeverScrollableScrollPhysics()
-          : const BouncingScrollPhysics(),
-      shrinkWrap: widget.shrinkWrap,
-      slivers: [
-        if (widget.isNestedScrollViewChild)
-          SliverOverlapInjector(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          ),
-        MultiSliver(
-          children: [
-            if (widget.header != null)
-              SliverToBoxAdapter(
-                child: widget.header!(context),
+    Widget _scrollView(ScrollController? scrollController) => CustomScrollView(
+          controller: scrollController,
+          physics: widget.disableScroll
+              ? const NeverScrollableScrollPhysics()
+              : const BouncingScrollPhysics(),
+          shrinkWrap: widget.shrinkWrap,
+          slivers: [
+            if (widget.isNestedScrollViewChild)
+              SliverOverlapInjector(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               ),
-            _InfinitePagination<T>(
-              future: widget.future,
-              builder: widget.builder,
-              controller: controller,
-              key: widget.paginationKey,
-              filterFn: widget.filterFn,
-              firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
-              bottomSpacing: widget.bottomSpacing,
-              pageNumber: widget.pageNumber,
-              separatorBuilder: widget.separatorBuilder,
-              pageSize: widget.pageSize,
-              topSpacing: widget.topSpacing,
-              firstDivider: widget.firstDivider,
-              listEndIndicator: widget.listEndIndicator,
+            MultiSliver(
+              children: [
+                if (widget.header != null)
+                  SliverToBoxAdapter(
+                    child: widget.header!(context),
+                  ),
+                _InfinitePagination<T>(
+                  future: widget.future,
+                  builder: widget.builder,
+                  controller: controller,
+                  key: widget.paginationKey,
+                  filterFn: widget.filterFn,
+                  firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
+                  bottomSpacing: widget.bottomSpacing,
+                  pageNumber: widget.pageNumber,
+                  separatorBuilder: widget.separatorBuilder,
+                  pageSize: widget.pageSize,
+                  topSpacing: widget.topSpacing,
+                  firstDivider: widget.firstDivider,
+                  listEndIndicator: widget.listEndIndicator,
+                ),
+              ],
             ),
           ],
-        ),
-      ],
-    );
+        );
 
-    if (!widget.disableRefresh) {
-      child = RefreshIndicator(
-        color:
-            Provider.of<PaletteSettings>(context).currentSetting.baseElements,
-        onRefresh: () => Future.sync(() async {
-          controller.refresh();
-        }),
-        child: child,
-      );
+    Widget _refreshIndicator(ScrollController? scrollController) {
+      if (!widget.disableRefresh) {
+        return RefreshIndicator(
+          color:
+              Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+          onRefresh: () => Future.sync(() async {
+            controller.refresh();
+          }),
+          child: _scrollView(scrollController),
+        );
+      } else {
+        return _scrollView(scrollController);
+      }
     }
 
-    if (widget.showScrollToTopButton) {
-      child = ScrollWrapper(
-        scrollController: scrollController,
-        promptTheme: PromptButtonTheme(
-            color: Provider.of<PaletteSettings>(context).currentSetting.accent),
-        promptReplacementBuilder: widget.pinnedHeader,
-        child: child,
-      );
+    Widget _child() {
+      if (widget.showScrollToTopButton) {
+        return ScrollWrapper(
+          scrollController: scrollController,
+          fallbackToAlwaysVisibleOnMultipleScrollPositions: true,
+          alwaysVisibleAtOffset: widget.pinnedHeader != null,
+          promptTheme: PromptButtonTheme(
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.accent),
+          promptReplacementBuilder: widget.pinnedHeader,
+          builder: (context, properties) =>
+              _refreshIndicator(properties.scrollController),
+        );
+      } else {
+        return _refreshIndicator(scrollController);
+      }
     }
 
-    return child;
+    return _child();
   }
 }
 

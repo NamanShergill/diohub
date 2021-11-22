@@ -1,5 +1,4 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';
@@ -46,47 +45,39 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      actionPane: const SlidableDrawerActionPane(),
       enabled: widget.notification!.unread!,
-      actions: [
-        IconSlideAction(
-          icon: LineIcons.check,
-          color: Provider.of<PaletteSettings>(context).currentSetting.green,
-          caption: 'Mark as read',
-          onTap: markAsRead,
+      startActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        extentRatio: 0.4,
+        dismissible: DismissiblePane(
+          dismissThreshold: 0.4,
+          closeOnCancel: true,
+          confirmDismiss: () async {
+            markAsRead();
+            return false;
+          },
+          onDismissed: () {},
         ),
-      ],
-      secondaryActions: [
-        IconSlideAction(
-          icon: LineIcons.check,
-          color: Provider.of<PaletteSettings>(context).currentSetting.green,
-          caption: 'Mark as read',
-          onTap: markAsRead,
-        ),
-      ],
-      actionExtentRatio: 0.4,
-      dismissal: SlidableDismissal(
-        onWillDismiss: (_) {
-          markAsRead();
-          return false;
-        },
-        closeOnCanceled: true,
-        dismissThresholds: const {
-          SlideActionType.primary: 0.4,
-          SlideActionType.secondary: 0.4
-        },
-        child: SizeExpandedSection(
-          axis: Axis.horizontal,
-          animationCurve: Curves.easeOutExpo,
-          child: Container(
-            height: 120,
-            color: Provider.of<PaletteSettings>(context).currentSetting.green,
-            child: const Center(
-              child: Text('Mark as read?'),
-            ),
-          ),
-        ),
+        children: [
+          SlidableAction(
+            icon: LineIcons.check,
+            backgroundColor:
+                Provider.of<PaletteSettings>(context).currentSetting.green,
+            label: 'Mark as read',
+            onPressed: (_) => markAsRead,
+          )
+        ],
       ),
+      endActionPane:
+          ActionPane(motion: const DrawerMotion(), extentRatio: 0.4, children: [
+        SlidableAction(
+          icon: LineIcons.check,
+          backgroundColor:
+              Provider.of<PaletteSettings>(context).currentSetting.green,
+          label: 'Mark as read',
+          onPressed: (_) => markAsRead,
+        ),
+      ]),
       key: UniqueKey(),
       child: Material(
         key: key,
