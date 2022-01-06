@@ -118,7 +118,7 @@ PRReviewCommentsMixin$Comments$Edges$Node
               : PullRequestReviewCommentMixin$Author.fromJson(
                   json['author'] as Map<String, dynamic>)
           ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = _$enumDecode(
+          ..authorAssociation = $enumDecode(
               _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
               unknownValue: CommentAuthorAssociation.artemisUnknown)
           ..body = json['body'] as String
@@ -126,7 +126,7 @@ PRReviewCommentsMixin$Comments$Edges$Node
           ..lastEditedAt = json['lastEditedAt'] == null
               ? null
               : DateTime.parse(json['lastEditedAt'] as String)
-          ..state = _$enumDecode(
+          ..state = $enumDecode(
               _$PullRequestReviewCommentStateEnumMap, json['state'],
               unknownValue: PullRequestReviewCommentState.artemisUnknown)
           ..diffHunk = json['diffHunk'] as String
@@ -145,11 +145,11 @@ PRReviewCommentsMixin$Comments$Edges$Node
           ..viewerCanDelete = json['viewerCanDelete'] as bool
           ..viewerCanUpdate = json['viewerCanUpdate'] as bool
           ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons = (json['viewerCannotUpdateReasons']
-                  as List<dynamic>)
-              .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                  unknownValue: CommentCannotUpdateReason.artemisUnknown))
-              .toList()
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..viewerCanMinimize = json['viewerCanMinimize'] as bool
           ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
@@ -188,32 +188,6 @@ Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
       'pullRequest': instance.pullRequest.toJson(),
       'repository': instance.repository.toJson(),
     };
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
 
 const _$CommentAuthorAssociationEnumMap = {
   CommentAuthorAssociation.collaborator: 'COLLABORATOR',
@@ -306,7 +280,7 @@ PullRequestReviewCommentMixin$ReactionGroups
     _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(
             Map<String, dynamic> json) =>
         PullRequestReviewCommentMixin$ReactionGroups()
-          ..content = _$enumDecode(_$ReactionContentEnumMap, json['content'],
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
           ..users = ReactionsMixin$Users.fromJson(
@@ -541,7 +515,7 @@ ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
               : PullRequestReviewCommentMixin$Author.fromJson(
                   json['author'] as Map<String, dynamic>)
           ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = _$enumDecode(
+          ..authorAssociation = $enumDecode(
               _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
               unknownValue: CommentAuthorAssociation.artemisUnknown)
           ..body = json['body'] as String
@@ -549,7 +523,7 @@ ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
           ..lastEditedAt = json['lastEditedAt'] == null
               ? null
               : DateTime.parse(json['lastEditedAt'] as String)
-          ..state = _$enumDecode(
+          ..state = $enumDecode(
               _$PullRequestReviewCommentStateEnumMap, json['state'],
               unknownValue: PullRequestReviewCommentState.artemisUnknown)
           ..diffHunk = json['diffHunk'] as String
@@ -568,11 +542,11 @@ ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
           ..viewerCanDelete = json['viewerCanDelete'] as bool
           ..viewerCanUpdate = json['viewerCanUpdate'] as bool
           ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons = (json['viewerCannotUpdateReasons']
-                  as List<dynamic>)
-              .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                  unknownValue: CommentCannotUpdateReason.artemisUnknown))
-              .toList()
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..viewerCanMinimize = json['viewerCanMinimize'] as bool
           ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
@@ -915,7 +889,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$I
               : IssueCommentMixin$Author.fromJson(
                   json['author'] as Map<String, dynamic>)
           ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = _$enumDecode(
+          ..authorAssociation = $enumDecode(
               _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
               unknownValue: CommentAuthorAssociation.artemisUnknown)
           ..body = json['body'] as String
@@ -933,11 +907,11 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$I
           ..viewerCanDelete = json['viewerCanDelete'] as bool
           ..viewerCanUpdate = json['viewerCanUpdate'] as bool
           ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons = (json['viewerCannotUpdateReasons']
-                  as List<dynamic>)
-              .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                  unknownValue: CommentCannotUpdateReason.artemisUnknown))
-              .toList()
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..$$typename = json['__typename'] as String?;
 
@@ -1005,7 +979,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$L
               ? null
               : LockedMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..lockReason = _$enumDecodeNullable(
+          ..lockReason = $enumDecodeNullable(
               _$LockReasonEnumMap, json['lockReason'],
               unknownValue: LockReason.artemisUnknown)
           ..$$typename = json['__typename'] as String?;
@@ -1021,17 +995,6 @@ Map<String, dynamic>
           'lockReason': _$LockReasonEnumMap[instance.lockReason],
           '__typename': instance.$$typename,
         };
-
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
-}
 
 const _$LockReasonEnumMap = {
   LockReason.offTopic: 'OFF_TOPIC',
@@ -1774,7 +1737,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               : IssueCommentMixin$Author.fromJson(
                   json['author'] as Map<String, dynamic>)
           ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = _$enumDecode(
+          ..authorAssociation = $enumDecode(
               _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
               unknownValue: CommentAuthorAssociation.artemisUnknown)
           ..body = json['body'] as String
@@ -1792,11 +1755,11 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
           ..viewerCanDelete = json['viewerCanDelete'] as bool
           ..viewerCanUpdate = json['viewerCanUpdate'] as bool
           ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons = (json['viewerCannotUpdateReasons']
-                  as List<dynamic>)
-              .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                  unknownValue: CommentCannotUpdateReason.artemisUnknown))
-              .toList()
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..$$typename = json['__typename'] as String?;
 
@@ -1864,7 +1827,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               ? null
               : LockedMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..lockReason = _$enumDecodeNullable(
+          ..lockReason = $enumDecodeNullable(
               _$LockReasonEnumMap, json['lockReason'],
               unknownValue: LockReason.artemisUnknown)
           ..$$typename = json['__typename'] as String?;
@@ -2062,7 +2025,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               : PullRequestReviewMixin$Author.fromJson(
                   json['author'] as Map<String, dynamic>)
           ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = _$enumDecode(
+          ..authorAssociation = $enumDecode(
               _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
               unknownValue: CommentAuthorAssociation.artemisUnknown)
           ..body = json['body'] as String
@@ -2070,7 +2033,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
           ..lastEditedAt = json['lastEditedAt'] == null
               ? null
               : DateTime.parse(json['lastEditedAt'] as String)
-          ..state = _$enumDecode(_$PullRequestReviewStateEnumMap, json['state'],
+          ..state = $enumDecode(_$PullRequestReviewStateEnumMap, json['state'],
               unknownValue: PullRequestReviewState.artemisUnknown)
           ..comments = PullRequestReviewMixin$Comments.fromJson(
               json['comments'] as Map<String, dynamic>)
@@ -2081,11 +2044,11 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
           ..viewerCanDelete = json['viewerCanDelete'] as bool
           ..viewerCanUpdate = json['viewerCanUpdate'] as bool
           ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons = (json['viewerCannotUpdateReasons']
-                  as List<dynamic>)
-              .map((e) => _$enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                  unknownValue: CommentCannotUpdateReason.artemisUnknown))
-              .toList()
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..$$typename = json['__typename'] as String?;
 
@@ -2256,7 +2219,7 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
                   json['actor'] as Map<String, dynamic>)
           ..dismissalMessage = json['dismissalMessage'] as String?
           ..dismissalMessageHTML = json['dismissalMessageHTML'] as String?
-          ..previousReviewState = _$enumDecode(
+          ..previousReviewState = $enumDecode(
               _$PullRequestReviewStateEnumMap, json['previousReviewState'],
               unknownValue: PullRequestReviewState.artemisUnknown)
           ..$$typename = json['__typename'] as String?;
@@ -2677,7 +2640,7 @@ CrossReferenceMixin$Source$Issue _$CrossReferenceMixin$Source$IssueFromJson(
       ..url = Uri.parse(json['url'] as String)
       ..title = json['title'] as String
       ..number = json['number'] as int
-      ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+      ..issueState = $enumDecode(_$IssueStateEnumMap, json['issueState'],
           unknownValue: IssueState.artemisUnknown)
       ..repository = IssueMixin$Repository.fromJson(
           json['repository'] as Map<String, dynamic>)
@@ -2707,7 +2670,7 @@ CrossReferenceMixin$Source$PullRequest
           ..url = Uri.parse(json['url'] as String)
           ..title = json['title'] as String
           ..number = json['number'] as int
-          ..pullState = _$enumDecode(
+          ..pullState = $enumDecode(
               _$PullRequestStateEnumMap, json['pullState'],
               unknownValue: PullRequestState.artemisUnknown)
           ..repository = PullRequestMixin$Repository.fromJson(
@@ -2797,7 +2760,7 @@ Map<String, dynamic> _$IssueCommentMixin$AuthorToJson(
 IssueCommentMixin$ReactionGroups _$IssueCommentMixin$ReactionGroupsFromJson(
         Map<String, dynamic> json) =>
     IssueCommentMixin$ReactionGroups()
-      ..content = _$enumDecode(_$ReactionContentEnumMap, json['content'],
+      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
       ..users =
@@ -2864,7 +2827,7 @@ MarkedAsDuplicateMixin$Canonical$Issue
           ..url = Uri.parse(json['url'] as String)
           ..title = json['title'] as String
           ..number = json['number'] as int
-          ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+          ..issueState = $enumDecode(_$IssueStateEnumMap, json['issueState'],
               unknownValue: IssueState.artemisUnknown)
           ..repository = IssueMixin$Repository.fromJson(
               json['repository'] as Map<String, dynamic>)
@@ -2888,7 +2851,7 @@ MarkedAsDuplicateMixin$Canonical$PullRequest
           ..url = Uri.parse(json['url'] as String)
           ..title = json['title'] as String
           ..number = json['number'] as int
-          ..pullState = _$enumDecode(
+          ..pullState = $enumDecode(
               _$PullRequestStateEnumMap, json['pullState'],
               unknownValue: PullRequestState.artemisUnknown)
           ..repository = PullRequestMixin$Repository.fromJson(
@@ -3154,7 +3117,7 @@ UnmarkedAsDuplicateMixin$Canonical$Issue
           ..url = Uri.parse(json['url'] as String)
           ..title = json['title'] as String
           ..number = json['number'] as int
-          ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+          ..issueState = $enumDecode(_$IssueStateEnumMap, json['issueState'],
               unknownValue: IssueState.artemisUnknown)
           ..repository = IssueMixin$Repository.fromJson(
               json['repository'] as Map<String, dynamic>)
@@ -3178,7 +3141,7 @@ UnmarkedAsDuplicateMixin$Canonical$PullRequest
           ..url = Uri.parse(json['url'] as String)
           ..title = json['title'] as String
           ..number = json['number'] as int
-          ..pullState = _$enumDecode(
+          ..pullState = $enumDecode(
               _$PullRequestStateEnumMap, json['pullState'],
               unknownValue: PullRequestState.artemisUnknown)
           ..repository = PullRequestMixin$Repository.fromJson(
@@ -3474,7 +3437,7 @@ PullRequestReviewMixin$ReactionGroups
     _$PullRequestReviewMixin$ReactionGroupsFromJson(
             Map<String, dynamic> json) =>
         PullRequestReviewMixin$ReactionGroups()
-          ..content = _$enumDecode(_$ReactionContentEnumMap, json['content'],
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
           ..users = ReactionsMixin$Users.fromJson(
@@ -3627,7 +3590,7 @@ PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
           ..url = Uri.parse(json['url'] as String)
           ..title = json['title'] as String
           ..number = json['number'] as int
-          ..issueState = _$enumDecode(_$IssueStateEnumMap, json['issueState'],
+          ..issueState = $enumDecode(_$IssueStateEnumMap, json['issueState'],
               unknownValue: IssueState.artemisUnknown)
           ..repository = IssueMixin$Repository.fromJson(
               json['repository'] as Map<String, dynamic>);
@@ -4121,7 +4084,7 @@ Map<String, dynamic> _$HasWatched$Query$Repository$WatchersToJson(
 HasWatched$Query$Repository _$HasWatched$Query$RepositoryFromJson(
         Map<String, dynamic> json) =>
     HasWatched$Query$Repository()
-      ..viewerSubscription = _$enumDecodeNullable(
+      ..viewerSubscription = $enumDecodeNullable(
           _$SubscriptionStateEnumMap, json['viewerSubscription'],
           unknownValue: SubscriptionState.artemisUnknown)
       ..viewerCanSubscribe = json['viewerCanSubscribe'] as bool
@@ -4737,13 +4700,13 @@ GetRepoProjectsArguments _$GetRepoProjectsArgumentsFromJson(
       cursor: json['cursor'] as String?,
       query: json['query'] as String?,
       states: (json['states'] as List<dynamic>?)
-          ?.map((e) => _$enumDecode(_$ProjectStateEnumMap, e,
+          ?.map((e) => $enumDecode(_$ProjectStateEnumMap, e,
               unknownValue: ProjectState.artemisUnknown))
           .toList(),
-      orderByField: _$enumDecode(
+      orderByField: $enumDecode(
           _$ProjectOrderFieldEnumMap, json['orderByField'],
           unknownValue: ProjectOrderField.artemisUnknown),
-      orderByDir: _$enumDecode(_$OrderDirectionEnumMap, json['orderByDir'],
+      orderByDir: $enumDecode(_$OrderDirectionEnumMap, json['orderByDir'],
           unknownValue: OrderDirection.artemisUnknown),
     );
 
@@ -4810,7 +4773,7 @@ GetProjectColumnCardsArguments _$GetProjectColumnCardsArgumentsFromJson(
       id: json['id'] as String,
       cursor: json['cursor'] as String?,
       archiveStates: (json['archiveStates'] as List<dynamic>?)
-          ?.map((e) => _$enumDecode(_$ProjectCardArchivedStateEnumMap, e,
+          ?.map((e) => $enumDecode(_$ProjectCardArchivedStateEnumMap, e,
               unknownValue: ProjectCardArchivedState.artemisUnknown))
           .toList(),
     );

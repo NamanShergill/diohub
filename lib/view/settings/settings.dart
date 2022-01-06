@@ -12,7 +12,6 @@ import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
 import 'package:dio_hub/view/settings/widgets/language_setting_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -38,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   @override
   Widget build(BuildContext context) {
     return AppScrollView(
-      scrollController: scrollController,
+      nestedScrollViewController: scrollController,
       scrollViewAppBar: ScrollViewAppBar(
         expandedHeight: 180,
         collapsedHeight: 60,

@@ -1,8 +1,14 @@
+// **************************************************************************
+// AutoRouteGenerator
+// **************************************************************************
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // AutoRouteGenerator
 // **************************************************************************
+//
+// ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i16;
 import 'package:flutter/material.dart' as _i17;
@@ -241,10 +247,11 @@ class AppRouter extends _i16.RootStackRouter {
       ];
 }
 
-/// generated route for [_i1.AuthScreen]
+/// generated route for
+/// [_i1.AuthScreen]
 class AuthScreenRoute extends _i16.PageRouteInfo<AuthScreenRouteArgs> {
   AuthScreenRoute({_i17.Key? key, void Function()? onAuthenticated})
-      : super(name,
+      : super(AuthScreenRoute.name,
             path: '/auth-screen',
             args: AuthScreenRouteArgs(
                 key: key, onAuthenticated: onAuthenticated));
@@ -258,13 +265,19 @@ class AuthScreenRouteArgs {
   final _i17.Key? key;
 
   final void Function()? onAuthenticated;
+
+  @override
+  String toString() {
+    return 'AuthScreenRouteArgs{key: $key, onAuthenticated: $onAuthenticated}';
+  }
 }
 
-/// generated route for [_i2.LandingLoadingScreen]
+/// generated route for
+/// [_i2.LandingLoadingScreen]
 class LandingLoadingScreenRoute
     extends _i16.PageRouteInfo<LandingLoadingScreenRouteArgs> {
   LandingLoadingScreenRoute({_i17.Key? key, String? initLink})
-      : super(name,
+      : super(LandingLoadingScreenRoute.name,
             path: '/',
             args: LandingLoadingScreenRouteArgs(key: key, initLink: initLink));
 
@@ -277,12 +290,18 @@ class LandingLoadingScreenRouteArgs {
   final _i17.Key? key;
 
   final String? initLink;
+
+  @override
+  String toString() {
+    return 'LandingLoadingScreenRouteArgs{key: $key, initLink: $initLink}';
+  }
 }
 
-/// generated route for [_i3.LandingScreen]
+/// generated route for
+/// [_i3.LandingScreen]
 class LandingScreenRoute extends _i16.PageRouteInfo<LandingScreenRouteArgs> {
   LandingScreenRoute({_i19.DeepLinkData? deepLinkData, _i17.Key? key})
-      : super(name,
+      : super(LandingScreenRoute.name,
             path: '/landing-screen',
             args: LandingScreenRouteArgs(deepLinkData: deepLinkData, key: key));
 
@@ -295,16 +314,24 @@ class LandingScreenRouteArgs {
   final _i19.DeepLinkData? deepLinkData;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'LandingScreenRouteArgs{deepLinkData: $deepLinkData, key: $key}';
+  }
 }
 
-/// generated route for [_i4.PlaceHolderScreen]
+/// generated route for
+/// [_i4.PlaceHolderScreen]
 class PlaceHolderScreenRoute extends _i16.PageRouteInfo<void> {
-  const PlaceHolderScreenRoute() : super(name, path: '/place-holder-screen');
+  const PlaceHolderScreenRoute()
+      : super(PlaceHolderScreenRoute.name, path: '/place-holder-screen');
 
   static const String name = 'PlaceHolderScreenRoute';
 }
 
-/// generated route for [_i5.SearchOverlayScreen]
+/// generated route for
+/// [_i5.SearchOverlayScreen]
 class SearchOverlayScreenRoute
     extends _i16.PageRouteInfo<SearchOverlayScreenRouteArgs> {
   SearchOverlayScreenRoute(
@@ -314,7 +341,7 @@ class SearchOverlayScreenRoute
       required bool multiHero,
       required void Function(_i5.SearchData) onSubmit,
       _i17.Key? key})
-      : super(name,
+      : super(SearchOverlayScreenRoute.name,
             path: '/search-overlay-screen',
             args: SearchOverlayScreenRouteArgs(
                 searchData: searchData,
@@ -347,16 +374,22 @@ class SearchOverlayScreenRouteArgs {
   final void Function(_i5.SearchData) onSubmit;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'SearchOverlayScreenRouteArgs{searchData: $searchData, message: $message, heroTag: $heroTag, multiHero: $multiHero, onSubmit: $onSubmit, key: $key}';
+  }
 }
 
-/// generated route for [_i6.IssueScreen]
+/// generated route for
+/// [_i6.IssueScreen]
 class IssueScreenRoute extends _i16.PageRouteInfo<IssueScreenRouteArgs> {
   IssueScreenRoute(
       {required String issueURL,
       int initialIndex = 0,
       DateTime? commentsSince,
       _i17.Key? key})
-      : super(name,
+      : super(IssueScreenRoute.name,
             path: '/issue-screen',
             args: IssueScreenRouteArgs(
                 issueURL: issueURL,
@@ -381,16 +414,22 @@ class IssueScreenRouteArgs {
   final DateTime? commentsSince;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'IssueScreenRouteArgs{issueURL: $issueURL, initialIndex: $initialIndex, commentsSince: $commentsSince, key: $key}';
+  }
 }
 
-/// generated route for [_i7.PullScreen]
+/// generated route for
+/// [_i7.PullScreen]
 class PullScreenRoute extends _i16.PageRouteInfo<PullScreenRouteArgs> {
   PullScreenRoute(
       {required String pullURL,
       int initialIndex = 0,
       DateTime? commentsSince,
       _i17.Key? key})
-      : super(name,
+      : super(PullScreenRoute.name,
             path: '/pull-screen',
             args: PullScreenRouteArgs(
                 pullURL: pullURL,
@@ -415,9 +454,15 @@ class PullScreenRouteArgs {
   final DateTime? commentsSince;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'PullScreenRouteArgs{pullURL: $pullURL, initialIndex: $initialIndex, commentsSince: $commentsSince, key: $key}';
+  }
 }
 
-/// generated route for [_i8.RepositoryScreen]
+/// generated route for
+/// [_i8.RepositoryScreen]
 class RepositoryScreenRoute
     extends _i16.PageRouteInfo<RepositoryScreenRouteArgs> {
   RepositoryScreenRoute(
@@ -427,7 +472,7 @@ class RepositoryScreenRoute
       _i19.DeepLinkData? deepLinkData,
       _i17.Key? key,
       String? initSHA})
-      : super(name,
+      : super(RepositoryScreenRoute.name,
             path: '/repository-screen',
             args: RepositoryScreenRouteArgs(
                 repositoryURL: repositoryURL,
@@ -460,9 +505,15 @@ class RepositoryScreenRouteArgs {
   final _i17.Key? key;
 
   final String? initSHA;
+
+  @override
+  String toString() {
+    return 'RepositoryScreenRouteArgs{repositoryURL: $repositoryURL, branch: $branch, index: $index, deepLinkData: $deepLinkData, key: $key, initSHA: $initSHA}';
+  }
 }
 
-/// generated route for [_i9.FileViewerAPI]
+/// generated route for
+/// [_i9.FileViewerAPI]
 class FileViewerAPIRoute extends _i16.PageRouteInfo<FileViewerAPIRouteArgs> {
   FileViewerAPIRoute(
       {required String? sha,
@@ -471,7 +522,7 @@ class FileViewerAPIRoute extends _i16.PageRouteInfo<FileViewerAPIRouteArgs> {
       String? branch,
       String? repoName,
       _i17.Key? key})
-      : super(name,
+      : super(FileViewerAPIRoute.name,
             path: '/file-viewer-ap-i',
             args: FileViewerAPIRouteArgs(
                 sha: sha,
@@ -504,13 +555,19 @@ class FileViewerAPIRouteArgs {
   final String? repoName;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'FileViewerAPIRouteArgs{sha: $sha, repoURL: $repoURL, fileName: $fileName, branch: $branch, repoName: $repoName, key: $key}';
+  }
 }
 
-/// generated route for [_i10.CommitInfoScreen]
+/// generated route for
+/// [_i10.CommitInfoScreen]
 class CommitInfoScreenRoute
     extends _i16.PageRouteInfo<CommitInfoScreenRouteArgs> {
   CommitInfoScreenRoute({_i17.Key? key, required String commitURL})
-      : super(name,
+      : super(CommitInfoScreenRoute.name,
             path: '/commit-info-screen',
             args: CommitInfoScreenRouteArgs(key: key, commitURL: commitURL));
 
@@ -523,12 +580,18 @@ class CommitInfoScreenRouteArgs {
   final _i17.Key? key;
 
   final String commitURL;
+
+  @override
+  String toString() {
+    return 'CommitInfoScreenRouteArgs{key: $key, commitURL: $commitURL}';
+  }
 }
 
-/// generated route for [_i11.WikiViewer]
+/// generated route for
+/// [_i11.WikiViewer]
 class WikiViewerRoute extends _i16.PageRouteInfo<WikiViewerRouteArgs> {
   WikiViewerRoute({_i17.Key? key, String? repoURL})
-      : super(name,
+      : super(WikiViewerRoute.name,
             path: '/wiki-viewer',
             args: WikiViewerRouteArgs(key: key, repoURL: repoURL));
 
@@ -541,16 +604,22 @@ class WikiViewerRouteArgs {
   final _i17.Key? key;
 
   final String? repoURL;
+
+  @override
+  String toString() {
+    return 'WikiViewerRouteArgs{key: $key, repoURL: $repoURL}';
+  }
 }
 
-/// generated route for [_i12.ChangesViewer]
+/// generated route for
+/// [_i12.ChangesViewer]
 class ChangesViewerRoute extends _i16.PageRouteInfo<ChangesViewerRouteArgs> {
   ChangesViewerRoute(
       {required String? patch,
       required String? contentURL,
       required String? fileType,
       _i17.Key? key})
-      : super(name,
+      : super(ChangesViewerRoute.name,
             path: '/changes-viewer',
             args: ChangesViewerRouteArgs(
                 patch: patch,
@@ -575,13 +644,19 @@ class ChangesViewerRouteArgs {
   final String? fileType;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'ChangesViewerRouteArgs{patch: $patch, contentURL: $contentURL, fileType: $fileType, key: $key}';
+  }
 }
 
-/// generated route for [_i13.OtherUserProfileScreen]
+/// generated route for
+/// [_i13.OtherUserProfileScreen]
 class OtherUserProfileScreenRoute
     extends _i16.PageRouteInfo<OtherUserProfileScreenRouteArgs> {
   OtherUserProfileScreenRoute({required String login, _i17.Key? key})
-      : super(name,
+      : super(OtherUserProfileScreenRoute.name,
             path: '/other-user-profile-screen',
             args: OtherUserProfileScreenRouteArgs(login: login, key: key));
 
@@ -594,16 +669,22 @@ class OtherUserProfileScreenRouteArgs {
   final String login;
 
   final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'OtherUserProfileScreenRouteArgs{login: $login, key: $key}';
+  }
 }
 
-/// generated route for [_i14.NewIssueScreen]
+/// generated route for
+/// [_i14.NewIssueScreen]
 class NewIssueScreenRoute extends _i16.PageRouteInfo<NewIssueScreenRouteArgs> {
   NewIssueScreenRoute(
       {_i17.Key? key,
       _i20.IssueTemplates$Query$Repository$IssueTemplates? template,
       required String repo,
       required String owner})
-      : super(name,
+      : super(NewIssueScreenRoute.name,
             path: '/new-issue-screen',
             args: NewIssueScreenRouteArgs(
                 key: key, template: template, repo: repo, owner: owner));
@@ -622,13 +703,19 @@ class NewIssueScreenRouteArgs {
   final String repo;
 
   final String owner;
+
+  @override
+  String toString() {
+    return 'NewIssueScreenRouteArgs{key: $key, template: $template, repo: $repo, owner: $owner}';
+  }
 }
 
-/// generated route for [_i15.PRReviewScreen]
+/// generated route for
+/// [_i15.PRReviewScreen]
 class PRReviewScreenRoute extends _i16.PageRouteInfo<PRReviewScreenRouteArgs> {
   PRReviewScreenRoute(
       {required String nodeID, _i17.Key? key, required String pullNodeID})
-      : super(name,
+      : super(PRReviewScreenRoute.name,
             path: '/p-rreview-screen',
             args: PRReviewScreenRouteArgs(
                 nodeID: nodeID, key: key, pullNodeID: pullNodeID));
@@ -645,4 +732,9 @@ class PRReviewScreenRouteArgs {
   final _i17.Key? key;
 
   final String pullNodeID;
+
+  @override
+  String toString() {
+    return 'PRReviewScreenRouteArgs{nodeID: $nodeID, key: $key, pullNodeID: $pullNodeID}';
+  }
 }

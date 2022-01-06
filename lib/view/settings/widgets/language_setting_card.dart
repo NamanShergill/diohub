@@ -2,7 +2,6 @@ import 'package:dio_hub/app/settings/font.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';

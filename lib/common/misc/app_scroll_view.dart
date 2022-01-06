@@ -11,7 +11,7 @@ class AppScrollView extends StatefulWidget {
       {this.scrollViewAppBar,
       this.tabController,
       this.tabViews,
-      required this.scrollController,
+      required this.nestedScrollViewController,
       this.child,
       this.childrenColor,
       this.loading = false,
@@ -23,7 +23,7 @@ class AppScrollView extends StatefulWidget {
   final bool loading;
   final TabController? tabController;
   final Color? childrenColor;
-  final ScrollController scrollController;
+  final ScrollController nestedScrollViewController;
 
   @override
   _AppScrollViewState createState() => _AppScrollViewState();
@@ -33,7 +33,7 @@ class _AppScrollViewState extends State<AppScrollView> {
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-        controller: widget.scrollController,
+        controller: widget.nestedScrollViewController,
         headerSliverBuilder: (context, value) {
           return [
             SliverOverlapAbsorber(

@@ -7,7 +7,6 @@ import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -25,11 +24,11 @@ class Discussion extends StatefulWidget {
       required this.issueUrl,
       this.isLocked,
       required this.isPull,
-      required this.scrollController,
+      required this.nestedScrollViewController,
       this.createdAt,
       Key? key})
       : super(key: key);
-  final ScrollController scrollController;
+  final ScrollController nestedScrollViewController;
 
   /// Show  comments since.
   final DateTime? commentsSince;
@@ -230,7 +229,7 @@ class _DiscussionState extends State<Discussion>
                   );
                 },
                 isNestedScrollViewChild: true,
-                scrollController: widget.scrollController,
+                scrollController: widget.nestedScrollViewController,
                 header: (context) {
                   return header;
                 },

@@ -40,7 +40,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
   @override
   Widget build(BuildContext context) {
     return AppScrollView(
-      scrollController: scrollController,
+      nestedScrollViewController: scrollController,
       childrenColor:
           Provider.of<PaletteSettings>(context).currentSetting.primary,
       scrollViewAppBar: ScrollViewAppBar(
@@ -191,7 +191,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
             child: Events(
               specificUser: data.login,
-              scrollController: scrollController,
+              nestedScrollViewController: scrollController,
             ),
           ),
       ],

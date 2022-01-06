@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -28,6 +27,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       required this.future,
       required this.builder,
       this.controller,
+      // this.nestedScrollViewController,
       this.filterFn,
       this.paginationKey,
       this.bottomSpacing = 0,
@@ -46,8 +46,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.scrollController,
       this.shrinkWrap = false,
       this.listEndIndicator = true})
-      : assert(!(isNestedScrollViewChild && scrollController != null),
-            'ScrollController cannot be provided for ScrollViews under NestedScrollView'),
+      : assert(!isNestedScrollViewChild || scrollController != null,
+            'scrollController should be provided of parent NestedScrollView'),
         super(key: key);
 
   /// How to display the data. Give
@@ -93,6 +93,8 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   /// ListView ScrollController.
   final ScrollController? scrollController;
 
+  // final ScrollController? nestedScrollViewController;
+
   // Disable refreshing.
   final bool disableRefresh;
 
@@ -120,13 +122,14 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
-  ScrollController? scrollController;
+  late ScrollController scrollController;
 
   @override
   void initState() {
-    scrollController = widget.isNestedScrollViewChild
-        ? null
-        : widget.scrollController ?? ScrollController();
+    scrollController =
+        // widget.isNestedScrollViewChild
+        //     ? null:
+        widget.scrollController ?? ScrollController();
     controller = widget.controller ?? InfiniteScrollWrapperController();
     super.initState();
   }
@@ -134,7 +137,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   @override
   Widget build(BuildContext context) {
     Widget _scrollView(ScrollController? scrollController) => CustomScrollView(
-          controller: scrollController,
+          controller: widget.isNestedScrollViewChild ? null : scrollController,
           physics: widget.disableScroll
               ? const NeverScrollableScrollPhysics()
               : const BouncingScrollPhysics(),
@@ -189,16 +192,41 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
     Widget _child() {
       if (widget.showScrollToTopButton) {
         return ScrollWrapper(
+          // nestedScrollViewController: widget.nestedScrollViewController!,
           scrollController: scrollController,
-          fallbackToAlwaysVisibleOnMultipleScrollPositions: true,
-          alwaysVisibleAtOffset: widget.pinnedHeader != null,
+          // alwaysVisibleAtOffset: widget.pinnedHeader != null,
           promptTheme: PromptButtonTheme(
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
-          builder: (context, properties) =>
-              _refreshIndicator(properties.scrollController),
+          child: _refreshIndicator(scrollController),
         );
+
+        // if (widget.isNestedScrollViewChild) {
+        //   return ScrollWrapper(
+        //     // nestedScrollViewController: widget.nestedScrollViewController!,
+        //     scrollController: scrollController,
+        //     // alwaysVisibleAtOffset: widget.pinnedHeader != null,
+        //     promptTheme: PromptButtonTheme(
+        //         color: Provider.of<PaletteSettings>(context)
+        //             .currentSetting
+        //             .accent),
+        //     promptReplacementBuilder: widget.pinnedHeader,
+        //     child: _refreshIndicator(scrollController),
+        //   );
+        // } else {
+        //   return ScrollWrapper(
+        //     scrollController: scrollController,
+        //     alwaysVisibleAtOffset: widget.pinnedHeader != null,
+        //     promptTheme: PromptButtonTheme(
+        //         color: Provider.of<PaletteSettings>(context)
+        //             .currentSetting
+        //             .accent),
+        //     promptReplacementBuilder: widget.pinnedHeader,
+        //     builder: (context, properties) =>
+        //         _refreshIndicator(properties.scrollController),
+        //   );
+        // }
       } else {
         return _refreshIndicator(scrollController);
       }

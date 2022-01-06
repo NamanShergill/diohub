@@ -9,7 +9,6 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:extended_text_field/extended_text_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -1059,7 +1058,7 @@ class _ValidQuery extends SpecialText {
                     Flexible(
                         child: RichText(
                       text: TextSpan(
-                          style: textStyle.copyWith(fontSize: 14),
+                          style: textStyle?.copyWith(fontSize: 14),
                           children: [
                             TextSpan(
                                 text:

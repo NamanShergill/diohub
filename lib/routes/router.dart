@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
@@ -53,11 +52,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class $AppRouter {}
 
 class AuthGuard extends AutoRouteGuard {
+  AuthGuard(this.context);
+  final BuildContext context;
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (!BlocProvider.of<AuthenticationBloc>(currentContext)
-        .state
-        .authenticated) {
+    if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
       router.replaceAll([
         AuthScreenRoute(onAuthenticated: () {
           router.removeLast();

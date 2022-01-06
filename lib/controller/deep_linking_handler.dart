@@ -218,7 +218,7 @@ class DeepLinkData {
     }
   }
 
-  bool componentIs(int index, String data){
-    return component(index)==data;
+  bool componentIs(int index, String data) {
+    return component(index) == data;
   }
 }

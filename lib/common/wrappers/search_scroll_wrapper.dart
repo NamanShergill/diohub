@@ -11,7 +11,6 @@ import 'package:dio_hub/models/repositories/repository_model.dart' hide Type;
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/search/search_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +26,7 @@ class SearchScrollWrapper extends StatefulWidget {
       this.quickFilters,
       this.replacementBuilder,
       this.quickOptions,
+      this.nestedScrollViewController,
       this.isNestedScrollViewChild = true,
       EdgeInsets? searchBarPadding,
       this.onChanged,
@@ -63,6 +63,9 @@ class SearchScrollWrapper extends StatefulWidget {
 
   /// Quick options to be shown in the search bar as a checkbox.
   final Map<String, String>? quickOptions;
+
+  /// Scroll controller of the infinite list.
+  final ScrollController? nestedScrollViewController;
 
   /// Is the child of a nested scroll view.
   final bool isNestedScrollViewChild;
@@ -138,6 +141,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               searchData: searchData,
               filterFn: widget.filterFn,
               isNestedScrollViewChild: widget.isNestedScrollViewChild,
+              nestedScrollViewController: widget.nestedScrollViewController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
                 return SearchService.searchRepos(searchData.toQuery,
                     perPage: pageSize,
@@ -164,6 +168,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
+              nestedScrollViewController: widget.nestedScrollViewController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
                 return SearchService.searchIssues(searchData.toQuery,
                     perPage: pageSize,
@@ -191,6 +196,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
+              nestedScrollViewController: widget.nestedScrollViewController,
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
               searchFuture: (pageNumber, pageSize, refresh, _) {
@@ -235,6 +241,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       required this.header,
       this.isNestedScrollViewChild = true,
       required this.controller,
+      this.nestedScrollViewController,
       this.filterFn,
       this.pinnedHeader,
       required this.searchFuture,
@@ -248,6 +255,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
   final SearchData searchData;
   final FilterFn? filterFn;
   final bool isNestedScrollViewChild;
+  final ScrollController? nestedScrollViewController;
   final ReplacementBuilder? pinnedHeader;
 
   @override
@@ -257,6 +265,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       controller: controller,
       header: header,
       filterFn: filterFn,
+      scrollController: nestedScrollViewController,
       future: searchFuture,
       paginationKey: ValueKey(searchData.toQuery +
           searchData.isActive.toString() +

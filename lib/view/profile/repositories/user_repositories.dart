@@ -34,7 +34,7 @@ class UserRepositories extends StatelessWidget {
         quickOptions: {
           SearchQueries().fork.toQueryString('true'): 'Include forks',
         },
-        scrollController: scrollController,
+        nestedScrollViewController: scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
         searchHeroTag: '${userInfoModel.login}Search',

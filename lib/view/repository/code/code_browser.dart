@@ -12,7 +12,6 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/view/repository/code/browser_list_tiles.dart';
 import 'package:dio_hub/view/repository/code/commit_browser.dart';
 import 'package:dio_hub/view/repository/code/commit_info_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';

@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsList extends StatelessWidget {
-  const PullsList({required this.scrollController, Key? key}) : super(key: key);
-  final ScrollController scrollController;
+  const PullsList({required this.nestedScrollViewController, Key? key})
+      : super(key: key);
+  final ScrollController nestedScrollViewController;
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
@@ -31,7 +32,7 @@ class PullsList extends StatelessWidget {
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
-      scrollController: scrollController,
+      nestedScrollViewController: nestedScrollViewController,
       searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),
       searchBarMessage: 'Search in ${_repo.data.name}\'s pull requests',
       searchHeroTag: 'repoPRSearch',

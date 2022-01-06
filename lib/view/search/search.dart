@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen>
               _search.searchData, isNestedScrollViewChild: false,
               key: ValueKey(_search.searchData.toQuery),
               onChanged: _search.updateSearchData,
-              scrollController: scrollController,
+              nestedScrollViewController: scrollController,
               // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

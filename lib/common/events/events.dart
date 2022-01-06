@@ -14,12 +14,12 @@ class Events extends StatelessWidget {
   const Events(
       {this.privateEvents = true,
       this.specificUser,
-      required this.scrollController,
+      required this.nestedScrollViewController,
       Key? key})
       : super(key: key);
   final bool privateEvents;
   final String? specificUser;
-  final ScrollController scrollController;
+  final ScrollController nestedScrollViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class Events extends StatelessWidget {
       separatorBuilder: (context, index) => const Divider(
         height: 32,
       ),
-      scrollController: scrollController,
+      scrollController: nestedScrollViewController,
       isNestedScrollViewChild: true,
       filterFn: (items) {
         final temp = <EventsModel>[];

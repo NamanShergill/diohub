@@ -15,7 +15,6 @@ import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/view/home/widgets/issues_tab.dart';
 import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -152,17 +151,17 @@ class _HomeScreenState extends State<HomeScreen>
                   physics: const BouncingScrollPhysics(),
                   children: [
                     Events(
-                      scrollController: scrollController,
+                      nestedScrollViewController: scrollController,
                     ),
                     IssuesTab(
-                      scrollController: scrollController,
+                      nestedScrollViewController: scrollController,
                       deepLinkData:
                           widget.deepLinkData?.components.first == 'issues'
                               ? widget.deepLinkData
                               : null,
                     ),
                     PullsTab(
-                      scrollController: scrollController,
+                      nestedScrollViewController: scrollController,
                       deepLinkData:
                           widget.deepLinkData?.components.first == 'pulls'
                               ? widget.deepLinkData
@@ -196,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     Events(
                       privateEvents: false,
-                      scrollController: scrollController,
+                      nestedScrollViewController: scrollController,
                     ),
                   ],
                 );

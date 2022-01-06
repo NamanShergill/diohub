@@ -5,19 +5,21 @@ publish_to: 'none'
 
 version: 0.3.2-beta+4
 
+# flutter packages pub run build_runner watch --delete-conflicting-outputs
+
 environment:
   sdk: '>=2.14.0 <3.0.0'
 
 dependencies:
   animations: ^2.0.2
-  another_flushbar: ^1.10.25
-  auto_route: ^3.1.3
-  cached_network_image: ^3.1.0+1
+  another_flushbar: ^1.10.28
+  auto_route: ^3.2.1
+  cached_network_image: ^3.2.0
   connectivity: ^3.0.6
-  device_info_plus: ^3.1.1
-  dio: ^4.0.3
-  dio_cache_interceptor: ^3.0.2
-  dio_cache_interceptor_db_store: ^3.0.2
+  device_info_plus: ^3.2.1
+  dio: ^4.0.4
+  dio_cache_interceptor: ^3.1.0
+  dio_cache_interceptor_db_store: ^4.0.0
   equatable: ^2.0.3
 
   # Modified to remove the current typing word indicator.
@@ -27,9 +29,9 @@ dependencies:
 
   flutter:
     sdk: flutter
-  flutter_appauth: ^2.0.0
-  flutter_bloc: ^8.0.0
-  flutter_colorpicker: ^1.0.2
+  flutter_appauth: ^2.2.0
+  flutter_bloc: ^8.0.1
+  flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
 
@@ -48,19 +50,16 @@ dependencies:
       ref: master
       path: flutter_highlight
 
-  flutter_html: 2.1.2
+  flutter_html: ^2.2.1
   flutter_inappwebview: ^5.3.2
   flutter_keyboard_visibility: ^5.1.0
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^2.0.0+1
-  flutter_scroll_to_top:
-    git:
-      url: https://github.com/NamanShergill/flutter_scroll_to_top
-      ref: nsvFix
+  flutter_scroll_to_top: ^1.2.0
 
   flutter_secure_storage: ^5.0.2
-  flutter_slidable: ^1.1.0
-  flutter_svg: ^0.23.0+1
+  flutter_slidable: ^1.2.0
+  flutter_svg: ^1.0.0
   flutter_vector_icons: ^1.0.0
   google_nav_bar: ^5.0.5
   gql: ^0.13.0
@@ -69,7 +68,7 @@ dependencies:
   gql_link: ^0.4.0
   infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
-  json_annotation: ^4.3.0
+  json_annotation: ^4.4.0
   line_icons: ^2.0.1
   logger: ^1.1.0
   markdown: ^4.0.1
@@ -82,31 +81,34 @@ dependencies:
 
   mime: ^1.0.1
   package_info_plus: ^1.3.0
-  path_provider: ^2.0.7
+  path_provider: ^2.0.8
   pretty_dio_logger: ^1.2.0-beta-1
-  provider: ^6.0.1
+  provider: ^6.0.2
   share_plus: ^3.0.4
-  shared_preferences: ^2.0.9
+  shared_preferences: ^2.0.11
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
-  sqlite3_flutter_libs: ^0.5.1
+  sqlite3_flutter_libs: ^0.5.2
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
-  url_launcher: ^6.0.15
+  url_launcher: ^6.0.17
   uuid: ^3.0.5
 
 dev_dependencies:
   artemis: ^7.2.0-beta.0
-  auto_route_generator: ^3.1.0
-  build_runner: ^2.1.5
+  auto_route_generator: ^3.2.1
+  build_runner: ^2.1.7
   change_app_package_name: ^1.0.0
-  dependency_validator: ^3.1.0
+  dependency_validator: ^3.1.2
   flutter_lints: ^1.0.4
-  flutter_native_splash: ^1.3.1
+  flutter_native_splash: ^1.3.3
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.0.1
+  json_serializable: ^6.1.3
+
+dependency_overrides:
+  flutter_svg: ^1.0.0
 
 flutter_native_splash:
   color: '#17181c'

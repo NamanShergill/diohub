@@ -6,7 +6,6 @@ import 'package:dio_hub/view/notifications/notifications.dart';
 import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
 import 'package:dio_hub/view/search/search.dart';
 import 'package:dio_hub/view/settings/settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';

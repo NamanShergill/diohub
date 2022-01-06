@@ -73,7 +73,7 @@ class _IssueScreenState extends State<IssueScreen>
                   child: ProviderLoadingProgressWrapper<IssueProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
-                        scrollController: scrollController,
+                        nestedScrollViewController: scrollController,
                         childrenColor: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary,
@@ -246,7 +246,7 @@ class _IssueScreenState extends State<IssueScreen>
                               isPull: false,
                               isLocked:
                                   value.data.locked! && !value.editingEnabled,
-                              scrollController: scrollController,
+                              nestedScrollViewController: scrollController,
                               createdAt: value.data.createdAt!,
                               issueUrl: value.data.url!,
                               initComment: BaseComment(

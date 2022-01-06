@@ -74,7 +74,7 @@ class _PullScreenState extends State<PullScreen>
                   child: ProviderLoadingProgressWrapper<PullProvider>(
                     childBuilder: (context, value) {
                       return AppScrollView(
-                        scrollController: scrollController,
+                        nestedScrollViewController: scrollController,
                         childrenColor: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary,
@@ -250,7 +250,7 @@ class _PullScreenState extends State<PullScreen>
                         tabViews: [
                           const PullInformation(),
                           Discussion(
-                              scrollController: scrollController,
+                              nestedScrollViewController: scrollController,
                               pullNodeID: value.data.nodeId,
                               number: value.data.number!,
                               owner: value.repoURL

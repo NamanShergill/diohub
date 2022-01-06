@@ -74,104 +74,116 @@ class MyApp extends StatelessWidget {
               ),
             ],
             builder: (context, child) {
-              final palette =
-                  Provider.of<PaletteSettings>(context).currentSetting;
-
               return Portal(
-                child: MaterialApp.router(
-                  theme: ThemeData(
-                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                    unselectedWidgetColor: palette.faded1,
-                    cardColor: palette.primary,
-                    elevatedButtonTheme: ElevatedButtonThemeData(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(palette.secondary),
-                      ),
-                    ),
-                    appBarTheme:
-                        AppBarTheme(color: palette.primary, elevation: 5),
-                    tabBarTheme: TabBarTheme(
-                      indicator: BoxDecoration(
-                          borderRadius: bigBorderRadius,
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .accent),
-                      unselectedLabelColor:
-                          Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                      unselectedLabelStyle: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
-                      labelPadding: const EdgeInsets.only(
-                          left: 8, right: 8, bottom: 8, top: 0),
-                    ),
-                    iconTheme: IconThemeData(color: palette.baseElements),
-                    textTheme: const TextTheme(
-                      bodyText1: TextStyle(),
-                      bodyText2: TextStyle(),
-                      headline1: TextStyle(fontWeight: FontWeight.bold),
-                      headline2: TextStyle(fontWeight: FontWeight.bold),
-                      headline3: TextStyle(fontWeight: FontWeight.bold),
-                      headline4: TextStyle(fontWeight: FontWeight.bold),
-                      headline5: TextStyle(fontWeight: FontWeight.bold),
-                      headline6: TextStyle(fontWeight: FontWeight.bold),
-                      subtitle1: TextStyle(),
-                      subtitle2: TextStyle(),
-                      caption: TextStyle(),
-                      button: TextStyle(),
-                      overline: TextStyle(),
-                    ).apply(
-                      displayColor: palette.baseElements,
-                      bodyColor: palette.baseElements,
-                    ),
-                    primaryColor: palette.accent,
-                    scrollbarTheme: ScrollbarThemeData(
-                        thumbColor:
-                            MaterialStateProperty.all<Color>(Colors.grey)),
-                    dialogTheme: DialogTheme(
-                      backgroundColor: palette.primary,
-                      shape:
-                          RoundedRectangleBorder(borderRadius: medBorderRadius),
-                      titleTextStyle: TextStyle(color: palette.baseElements),
-                      contentTextStyle: TextStyle(color: palette.baseElements),
-                    ),
-                    scaffoldBackgroundColor: palette.primary,
-                    primaryIconTheme:
-                        IconThemeData(color: palette.baseElements),
-                    dividerColor: Colors.grey.withOpacity(0.7),
-                    // brightness: Brightness.dark,
-                    backgroundColor: palette.primary,
-                    buttonTheme: ButtonThemeData(
-                      textTheme: ButtonTextTheme.primary,
-                      padding: EdgeInsets.zero,
-                      colorScheme: const ColorScheme.dark(),
-                      shape:
-                          RoundedRectangleBorder(borderRadius: medBorderRadius),
-                    ),
-                    dividerTheme: DividerThemeData(
-                        color: palette.baseElements, thickness: 0.04),
-                    fontFamily:
-                        Provider.of<FontSettings>(context).currentSetting,
-                    colorScheme: ColorScheme.fromSwatch()
-                        .copyWith(secondary: palette.accent),
-                  ),
-                  routerDelegate: customRouter.delegate(initialRoutes: [
-                    LandingLoadingScreenRoute(initLink: initDeepLink)
-                  ]),
-                  routeInformationParser: customRouter.defaultRouteParser(),
+                child: RootApp(
+                  initDeepLink: initDeepLink,
                 ),
               );
             },
           );
         },
       ),
+    );
+  }
+}
+
+class RootApp extends StatefulWidget {
+  const RootApp({Key? key, this.initDeepLink}) : super(key: key);
+  final String? initDeepLink;
+
+  @override
+  State<RootApp> createState() => _RootAppState();
+}
+
+class _RootAppState extends State<RootApp> {
+  @override
+  void initState() {
+    setUpRouter(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = Provider.of<PaletteSettings>(context).currentSetting;
+    return MaterialApp.router(
+      theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        unselectedWidgetColor: palette.faded1,
+        cardColor: palette.primary,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(palette.secondary),
+          ),
+        ),
+        appBarTheme: AppBarTheme(color: palette.primary, elevation: 5),
+        tabBarTheme: TabBarTheme(
+          indicator: BoxDecoration(
+              borderRadius: bigBorderRadius,
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.accent),
+          unselectedLabelColor:
+              Provider.of<PaletteSettings>(context).currentSetting.faded3,
+          unselectedLabelStyle: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+          labelStyle: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+          labelPadding:
+              const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+        ),
+        iconTheme: IconThemeData(color: palette.baseElements),
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+          headline1: TextStyle(fontWeight: FontWeight.bold),
+          headline2: TextStyle(fontWeight: FontWeight.bold),
+          headline3: TextStyle(fontWeight: FontWeight.bold),
+          headline4: TextStyle(fontWeight: FontWeight.bold),
+          headline5: TextStyle(fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontWeight: FontWeight.bold),
+          subtitle1: TextStyle(),
+          subtitle2: TextStyle(),
+          caption: TextStyle(),
+          button: TextStyle(),
+          overline: TextStyle(),
+        ).apply(
+          displayColor: palette.baseElements,
+          bodyColor: palette.baseElements,
+        ),
+        primaryColor: palette.accent,
+        scrollbarTheme: ScrollbarThemeData(
+            thumbColor: MaterialStateProperty.all<Color>(Colors.grey)),
+        dialogTheme: DialogTheme(
+          backgroundColor: palette.primary,
+          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+          titleTextStyle: TextStyle(color: palette.baseElements),
+          contentTextStyle: TextStyle(color: palette.baseElements),
+        ),
+        scaffoldBackgroundColor: palette.primary,
+        primaryIconTheme: IconThemeData(color: palette.baseElements),
+        dividerColor: Colors.grey.withOpacity(0.7),
+        // brightness: Brightness.dark,
+        backgroundColor: palette.primary,
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+          padding: EdgeInsets.zero,
+          colorScheme: const ColorScheme.dark(),
+          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+        ),
+        dividerTheme:
+            DividerThemeData(color: palette.baseElements, thickness: 0.04),
+        fontFamily: Provider.of<FontSettings>(context).currentSetting,
+        colorScheme:
+            ColorScheme.fromSwatch().copyWith(secondary: palette.accent),
+      ),
+      routerDelegate: customRouter.delegate(initialRoutes: [
+        LandingLoadingScreenRoute(initLink: widget.initDeepLink)
+      ]),
+      routeInformationParser: customRouter.defaultRouteParser(),
     );
   }
 }

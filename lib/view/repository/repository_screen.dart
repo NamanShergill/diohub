@@ -27,7 +27,6 @@ import 'package:dio_hub/view/repository/widgets/about_repository.dart';
 import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:dio_hub/view/repository/widgets/branch_button.dart';
 import 'package:dio_hub/view/repository/widgets/watch_repo_wrapper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -219,13 +218,13 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         DynamicTabView(
                           identifier: 'Issues',
                           child: IssuesList(
-                            scrollController: scrollController,
+                            nestedScrollViewController: scrollController,
                           ),
                         ),
                         DynamicTabView(
                           identifier: 'Pull Requests',
                           child: PullsList(
-                            scrollController: scrollController,
+                            nestedScrollViewController: scrollController,
                           ),
                           // ProjectsList(
                           //   scrollController: scrollController,
@@ -261,7 +260,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         ),
                       ],
                       builder: (context, tabs, tabView) => AppScrollView(
-                        scrollController: scrollController,
+                        nestedScrollViewController: scrollController,
                         scrollViewAppBar: ScrollViewAppBar(
                           expandedHeight: 340,
                           collapsedHeight: 150,

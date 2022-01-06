@@ -7,8 +7,12 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final AppRouter _customRouter = AppRouter(authGuard: AuthGuard());
+late AppRouter _customRouter;
 AppRouter get customRouter => _customRouter;
+
+void setUpRouter(BuildContext context) {
+  _customRouter = AppRouter(authGuard: AuthGuard(context));
+}
 
 BuildContext get currentContext => customRouter.navigatorKey.currentContext!;
 
