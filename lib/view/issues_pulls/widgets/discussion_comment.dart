@@ -44,7 +44,7 @@ class BaseComment extends StatefulWidget {
   final IconData? leading;
   final String? bodyHTML;
   // Todo: Temp nullable
-  final List<ReactionsMixin>? reactions;
+  final List<ReactionGroupsMixin>? reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
   final bool isMinimized;

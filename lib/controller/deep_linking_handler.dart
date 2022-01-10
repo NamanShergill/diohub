@@ -5,6 +5,7 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/open_in_app_browser.dart';
 import 'package:dio_hub/utils/regex.dart';
 import 'package:dio_hub/utils/string_compare.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
@@ -64,7 +65,7 @@ void deepLinkNavigate(String link) {
   }
 }
 
-String _cleanURL(String link) {
+String githubURLtoPath(String link) {
   var str = link;
   if (str.endsWith('/')) {
     str = str.substring(0, str.length - 1);
@@ -84,7 +85,7 @@ RegExp get _themeLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
 List<PageRouteInfo>? _getRoutes(String link) {
-  final string = StringFunctions(_cleanURL(link));
+  final string = StringFunctions(githubURLtoPath(link));
   if (string.string.isEmpty) {
     return null;
   }
@@ -94,15 +95,9 @@ List<PageRouteInfo>? _getRoutes(String link) {
     openInAppBrowser(link);
   } else if (string.regexCompleteMatch(_landingPageURLPattern)) {
     temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
-  } else if (string.regexCompleteMatch(_issuePageURLPattern)) {
-    temp.add(IssueScreenRoute(
-      issueURL: _urlWithPrefix('repos/${string.string}'),
-    ));
-  } else if (string.regexCompleteMatch(_pullPageURLPattern)) {
-    temp.add(PullScreenRoute(
-      pullURL:
-          _urlWithPrefix('repos/${string.string.replaceAll('pull', 'pulls')}'),
-    ));
+  } else if (string.regexCompleteMatch(_issuePageURLPattern) ||
+      string.regexCompleteMatch(_pullPageURLPattern)) {
+    temp.add(issuePullScreenRoute(string.string));
   } else if (string.regexCompleteMatch(_commitPageURLPattern)) {
     temp.add(CommitInfoScreenRoute(
         commitURL:
@@ -206,10 +201,12 @@ String get _repoPageURLPattern => regexPattern([
     ]);
 
 class DeepLinkData {
-  DeepLinkData(this.path, {this.extData, this.parameters});
+  DeepLinkData(this.path);
+
+  DeepLinkData.fromURL(String url) : path = githubURLtoPath(url);
   final String path;
-  final Map? parameters;
-  final Map? extData;
+  // final Map? parameters;
+  // final Map? extData;
 
   List<String> get components => path.split('/');
   String? component(int index) {

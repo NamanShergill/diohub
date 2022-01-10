@@ -178,7 +178,7 @@ class GetTimelineItem extends StatelessWidget {
             return BaseComment(
               isMinimized: item.isMinimized,
               onQuote: onQuote,
-              reactions: item.reactionGroups as List<ReactionsMixin>,
+              reactions: item.reactionGroups as List<ReactionGroupsMixin>,
               minimizedReason: item.minimizedReason,
               viewerCanDelete: item.viewerCanDelete,
               viewerCanMinimize: item.viewerCanMinimize,
@@ -281,7 +281,7 @@ class GetTimelineItem extends StatelessWidget {
               onQuote: onQuote,
               leading: Icons.remove_red_eye_rounded,
               isMinimized: false,
-              reactions: item.reactionGroups as List<ReactionsMixin>,
+              reactions: item.reactionGroups as List<ReactionGroupsMixin>,
               minimizedReason: null,
               viewerCanDelete: item.viewerCanDelete,
               viewerCanMinimize: false,

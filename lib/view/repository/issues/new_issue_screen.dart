@@ -4,12 +4,13 @@ import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:dio_hub/style/text_styles.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,8 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
           body: comment,
           owner: widget.owner,
           repo: widget.repo);
-      AutoRouter.of(context).replace(IssueScreenRoute(issueURL: res.url!));
+      AutoRouter.of(context)
+          .replace(issuePullScreenRoute(githubURLtoPath(res.url!)));
       // setState(() {
       //   status = PageStatus.loaded;
       // });

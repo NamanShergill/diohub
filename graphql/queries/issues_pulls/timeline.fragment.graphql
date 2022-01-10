@@ -157,7 +157,7 @@ fragment issueComment on IssueComment{
     isMinimized
     minimizedReason
     reactionGroups{
-        ...reactions
+        ...reactionGroups
     }
     viewerCanMinimize
     viewerCanDelete
@@ -265,7 +265,7 @@ fragment  pullRequestReview on PullRequestReview{
         totalCount
     }
     reactionGroups{
-        ...reactions
+        ...reactionGroups
     }
     viewerCanDelete
     viewerCanUpdate
@@ -461,7 +461,7 @@ fragment commit on Commit{
 
 
 
-fragment  reactions on ReactionGroup{
+fragment  reactionGroups on ReactionGroup{
     content
     viewerHasReacted
     users{
@@ -489,7 +489,7 @@ fragment  pullRequestReviewComment on PullRequestReviewComment{
     }
     path
     reactionGroups{
-        ...reactions
+        ...reactionGroups
     }
     viewerCanDelete
     viewerCanUpdate

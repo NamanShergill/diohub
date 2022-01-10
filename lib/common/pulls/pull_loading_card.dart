@@ -41,7 +41,10 @@ class PullLoadingCard extends StatelessWidget {
               return InkWell(
                 borderRadius: medBorderRadius,
                 onTap: () {
-                  AutoRouter.of(context).push(PullScreenRoute(pullURL: url));
+                  AutoRouter.of(context).push(IssuePullScreenRoute(
+                      number: issueModel!.number!,
+                      ownerName: issueModel!.repository!.name!,
+                      repoName: issueModel!.repository!.owner!.login!));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

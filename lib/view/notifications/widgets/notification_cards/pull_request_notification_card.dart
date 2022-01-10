@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/models/pull_requests/review_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
@@ -66,8 +67,8 @@ class _PullRequestNotificationCardState
         return getIcon();
       },
       onTap: () {
-        return AutoRouter.of(context)
-            .push(PullScreenRoute(pullURL: widget.notification.subject!.url!));
+        return AutoRouter.of(context).push(issuePullScreenRoute(
+            githubURLtoPath(widget.notification.subject!.url!)));
       },
       loading: loading,
       footerBuilder: (context) {

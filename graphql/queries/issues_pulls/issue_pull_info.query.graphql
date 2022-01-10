@@ -1,0 +1,13 @@
+query issuePullInfo($user: String!, $repo: String!, $number: Int!){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...issueInfo
+            }
+            ... on PullRequest{
+                ...pullInfo
+            }
+        }
+    }
+}

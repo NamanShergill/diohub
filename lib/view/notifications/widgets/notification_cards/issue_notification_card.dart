@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_event_model.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
@@ -67,10 +68,8 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
         return getIcon();
       },
       onTap: () {
-        AutoRouter.of(context).push(IssueScreenRoute(
-            issueURL: widget.notification.subject!.url!,
-            initialIndex: 1,
-            commentsSince: latestComment.createdAt));
+        AutoRouter.of(context).push(issuePullScreenRoute(
+            githubURLtoPath(widget.notification.subject!.url!)));
       },
       loading: loading,
       footerBuilder: (context) {

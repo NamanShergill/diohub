@@ -7,6 +7,493 @@ part of 'graphql.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueFromJson(
+            Map<String, dynamic> json) =>
+        IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue()
+          ..activeLockReason = $enumDecodeNullable(
+              _$LockReasonEnumMap, json['activeLockReason'],
+              unknownValue: LockReason.artemisUnknown)
+          ..assignees = IssueInfoMixin$Assignees.fromJson(
+              json['assignees'] as Map<String, dynamic>)
+          ..author = json['author'] == null
+              ? null
+              : IssueInfoMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
+          ..bodyHTML = json['bodyHTML'] as String
+          ..body = json['body'] as String
+          ..closed = json['closed'] as bool
+          ..closedAt = json['closedAt'] == null
+              ? null
+              : DateTime.parse(json['closedAt'] as String)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..comments = IssueInfoMixin$Comments.fromJson(
+              json['comments'] as Map<String, dynamic>)
+          ..isPinned = json['isPinned'] as bool?
+          ..locked = json['locked'] as bool
+          ..number = json['number'] as int
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) => IssueInfoMixin$ReactionGroups.fromJson(
+                  e as Map<String, dynamic>))
+              .toList()
+          ..repository = IssueInfoMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          ..state = $enumDecode(_$IssueStateEnumMap, json['state'],
+              unknownValue: IssueState.artemisUnknown)
+          ..titleHTML = json['titleHTML'] as String
+          ..url = Uri.parse(json['url'] as String)
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic>
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueToJson(
+            IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue instance) =>
+        <String, dynamic>{
+          'activeLockReason': _$LockReasonEnumMap[instance.activeLockReason],
+          'assignees': instance.assignees.toJson(),
+          'author': instance.author?.toJson(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'bodyHTML': instance.bodyHTML,
+          'body': instance.body,
+          'closed': instance.closed,
+          'closedAt': instance.closedAt?.toIso8601String(),
+          'createdAt': instance.createdAt.toIso8601String(),
+          'comments': instance.comments.toJson(),
+          'isPinned': instance.isPinned,
+          'locked': instance.locked,
+          'number': instance.number,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'repository': instance.repository.toJson(),
+          'state': _$IssueStateEnumMap[instance.state],
+          'titleHTML': instance.titleHTML,
+          'url': instance.url.toString(),
+          'viewerCanReact': instance.viewerCanReact,
+          'viewerCanUpdate': instance.viewerCanUpdate,
+          '__typename': instance.$$typename,
+        };
+
+const _$LockReasonEnumMap = {
+  LockReason.offTopic: 'OFF_TOPIC',
+  LockReason.resolved: 'RESOLVED',
+  LockReason.spam: 'SPAM',
+  LockReason.tooHeated: 'TOO_HEATED',
+  LockReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$CommentAuthorAssociationEnumMap = {
+  CommentAuthorAssociation.collaborator: 'COLLABORATOR',
+  CommentAuthorAssociation.contributor: 'CONTRIBUTOR',
+  CommentAuthorAssociation.firstTimer: 'FIRST_TIMER',
+  CommentAuthorAssociation.firstTimeContributor: 'FIRST_TIME_CONTRIBUTOR',
+  CommentAuthorAssociation.mannequin: 'MANNEQUIN',
+  CommentAuthorAssociation.member: 'MEMBER',
+  CommentAuthorAssociation.none: 'NONE',
+  CommentAuthorAssociation.owner: 'OWNER',
+  CommentAuthorAssociation.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$IssueStateEnumMap = {
+  IssueState.closed: 'CLOSED',
+  IssueState.open: 'OPEN',
+  IssueState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestFromJson(
+            Map<String, dynamic> json) =>
+        IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest()
+          ..activeLockReason = $enumDecodeNullable(
+              _$LockReasonEnumMap, json['activeLockReason'],
+              unknownValue: LockReason.artemisUnknown)
+          ..assignees = PullInfoMixin$Assignees.fromJson(
+              json['assignees'] as Map<String, dynamic>)
+          ..author = json['author'] == null
+              ? null
+              : PullInfoMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
+          ..bodyHTML = json['bodyHTML'] as String
+          ..body = json['body'] as String
+          ..closed = json['closed'] as bool
+          ..closedAt = json['closedAt'] == null
+              ? null
+              : DateTime.parse(json['closedAt'] as String)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..comments = PullInfoMixin$Comments.fromJson(
+              json['comments'] as Map<String, dynamic>)
+          ..locked = json['locked'] as bool
+          ..number = json['number'] as int
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) => PullInfoMixin$ReactionGroups.fromJson(
+                  e as Map<String, dynamic>))
+              .toList()
+          ..repository = PullInfoMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          ..state = $enumDecode(_$PullRequestStateEnumMap, json['state'],
+              unknownValue: PullRequestState.artemisUnknown)
+          ..titleHTML = json['titleHTML'] as String
+          ..url = Uri.parse(json['url'] as String)
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..additions = json['additions'] as int
+          ..deletions = json['deletions'] as int
+          ..baseRef = json['baseRef'] == null
+              ? null
+              : PullInfoMixin$BaseRef.fromJson(
+                  json['baseRef'] as Map<String, dynamic>)
+          ..headRef = json['headRef'] == null
+              ? null
+              : PullInfoMixin$HeadRef.fromJson(
+                  json['headRef'] as Map<String, dynamic>)
+          ..changedFiles = json['changedFiles'] as int
+          ..closingIssuesReferences = json['closingIssuesReferences'] == null
+              ? null
+              : PullInfoMixin$ClosingIssuesReferences.fromJson(
+                  json['closingIssuesReferences'] as Map<String, dynamic>)
+          ..commits = PullInfoMixin$Commits.fromJson(
+              json['commits'] as Map<String, dynamic>)
+          ..isCrossRepository = json['isCrossRepository'] as bool
+          ..merged = json['merged'] as bool
+          ..reviewDecision = $enumDecodeNullable(
+              _$PullRequestReviewDecisionEnumMap, json['reviewDecision'],
+              unknownValue: PullRequestReviewDecision.artemisUnknown)
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic>
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestToJson(
+            IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
+                instance) =>
+        <String, dynamic>{
+          'activeLockReason': _$LockReasonEnumMap[instance.activeLockReason],
+          'assignees': instance.assignees.toJson(),
+          'author': instance.author?.toJson(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'bodyHTML': instance.bodyHTML,
+          'body': instance.body,
+          'closed': instance.closed,
+          'closedAt': instance.closedAt?.toIso8601String(),
+          'createdAt': instance.createdAt.toIso8601String(),
+          'comments': instance.comments.toJson(),
+          'locked': instance.locked,
+          'number': instance.number,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'repository': instance.repository.toJson(),
+          'state': _$PullRequestStateEnumMap[instance.state],
+          'titleHTML': instance.titleHTML,
+          'url': instance.url.toString(),
+          'viewerCanReact': instance.viewerCanReact,
+          'additions': instance.additions,
+          'deletions': instance.deletions,
+          'baseRef': instance.baseRef?.toJson(),
+          'headRef': instance.headRef?.toJson(),
+          'changedFiles': instance.changedFiles,
+          'closingIssuesReferences': instance.closingIssuesReferences?.toJson(),
+          'commits': instance.commits.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
+          'merged': instance.merged,
+          'reviewDecision':
+              _$PullRequestReviewDecisionEnumMap[instance.reviewDecision],
+          'viewerCanUpdate': instance.viewerCanUpdate,
+          '__typename': instance.$$typename,
+        };
+
+const _$PullRequestStateEnumMap = {
+  PullRequestState.closed: 'CLOSED',
+  PullRequestState.merged: 'MERGED',
+  PullRequestState.open: 'OPEN',
+  PullRequestState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$PullRequestReviewDecisionEnumMap = {
+  PullRequestReviewDecision.approved: 'APPROVED',
+  PullRequestReviewDecision.changesRequested: 'CHANGES_REQUESTED',
+  PullRequestReviewDecision.reviewRequired: 'REVIEW_REQUIRED',
+  PullRequestReviewDecision.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+IssuePullInfo$Query$Repository$IssueOrPullRequest
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequestFromJson(
+            Map<String, dynamic> json) =>
+        IssuePullInfo$Query$Repository$IssueOrPullRequest()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$IssuePullInfo$Query$Repository$IssueOrPullRequestToJson(
+        IssuePullInfo$Query$Repository$IssueOrPullRequest instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+IssuePullInfo$Query$Repository _$IssuePullInfo$Query$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    IssuePullInfo$Query$Repository()
+      ..issueOrPullRequest = json['issueOrPullRequest'] == null
+          ? null
+          : IssuePullInfo$Query$Repository$IssueOrPullRequest.fromJson(
+              json['issueOrPullRequest'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssuePullInfo$Query$RepositoryToJson(
+        IssuePullInfo$Query$Repository instance) =>
+    <String, dynamic>{
+      'issueOrPullRequest': instance.issueOrPullRequest?.toJson(),
+    };
+
+IssuePullInfo$Query _$IssuePullInfo$QueryFromJson(Map<String, dynamic> json) =>
+    IssuePullInfo$Query()
+      ..repository = json['repository'] == null
+          ? null
+          : IssuePullInfo$Query$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssuePullInfo$QueryToJson(
+        IssuePullInfo$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
+IssueInfoMixin$Assignees _$IssueInfoMixin$AssigneesFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Assignees()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$AssigneesToJson(
+        IssueInfoMixin$Assignees instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+IssueInfoMixin$Author _$IssueInfoMixin$AuthorFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Author()..login = json['login'] as String;
+
+Map<String, dynamic> _$IssueInfoMixin$AuthorToJson(
+        IssueInfoMixin$Author instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+IssueInfoMixin$Comments _$IssueInfoMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Comments()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$CommentsToJson(
+        IssueInfoMixin$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+IssueInfoMixin$ReactionGroups _$IssueInfoMixin$ReactionGroupsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$ReactionGroups()
+      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown)
+      ..viewerHasReacted = json['viewerHasReacted'] as bool
+      ..users = ReactionGroupsMixin$Users.fromJson(
+          json['users'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$ReactionGroupsToJson(
+        IssueInfoMixin$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'viewerHasReacted': instance.viewerHasReacted,
+      'users': instance.users.toJson(),
+    };
+
+const _$ReactionContentEnumMap = {
+  ReactionContent.confused: 'CONFUSED',
+  ReactionContent.eyes: 'EYES',
+  ReactionContent.heart: 'HEART',
+  ReactionContent.hooray: 'HOORAY',
+  ReactionContent.laugh: 'LAUGH',
+  ReactionContent.rocket: 'ROCKET',
+  ReactionContent.thumbsDown: 'THUMBS_DOWN',
+  ReactionContent.thumbsUp: 'THUMBS_UP',
+  ReactionContent.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+IssueInfoMixin$Repository$Owner _$IssueInfoMixin$Repository$OwnerFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Repository$Owner()..login = json['login'] as String;
+
+Map<String, dynamic> _$IssueInfoMixin$Repository$OwnerToJson(
+        IssueInfoMixin$Repository$Owner instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+IssueInfoMixin$Repository _$IssueInfoMixin$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Repository()
+      ..name = json['name'] as String
+      ..owner = IssueInfoMixin$Repository$Owner.fromJson(
+          json['owner'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$RepositoryToJson(
+        IssueInfoMixin$Repository instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner.toJson(),
+    };
+
+ReactionGroupsMixin$Users _$ReactionGroupsMixin$UsersFromJson(
+        Map<String, dynamic> json) =>
+    ReactionGroupsMixin$Users()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$ReactionGroupsMixin$UsersToJson(
+        ReactionGroupsMixin$Users instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$Assignees _$PullInfoMixin$AssigneesFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Assignees()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$AssigneesToJson(
+        PullInfoMixin$Assignees instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$Author _$PullInfoMixin$AuthorFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Author()..login = json['login'] as String;
+
+Map<String, dynamic> _$PullInfoMixin$AuthorToJson(
+        PullInfoMixin$Author instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+PullInfoMixin$Comments _$PullInfoMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Comments()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$CommentsToJson(
+        PullInfoMixin$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$ReactionGroups _$PullInfoMixin$ReactionGroupsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$ReactionGroups()
+      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown)
+      ..viewerHasReacted = json['viewerHasReacted'] as bool
+      ..users = ReactionGroupsMixin$Users.fromJson(
+          json['users'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$ReactionGroupsToJson(
+        PullInfoMixin$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'viewerHasReacted': instance.viewerHasReacted,
+      'users': instance.users.toJson(),
+    };
+
+PullInfoMixin$Repository$Owner _$PullInfoMixin$Repository$OwnerFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Repository$Owner()..login = json['login'] as String;
+
+Map<String, dynamic> _$PullInfoMixin$Repository$OwnerToJson(
+        PullInfoMixin$Repository$Owner instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+PullInfoMixin$Repository _$PullInfoMixin$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Repository()
+      ..name = json['name'] as String
+      ..owner = PullInfoMixin$Repository$Owner.fromJson(
+          json['owner'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$RepositoryToJson(
+        PullInfoMixin$Repository instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner.toJson(),
+    };
+
+PullInfoMixin$BaseRef$Repository _$PullInfoMixin$BaseRef$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$BaseRef$Repository()..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic> _$PullInfoMixin$BaseRef$RepositoryToJson(
+        PullInfoMixin$BaseRef$Repository instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+    };
+
+PullInfoMixin$BaseRef _$PullInfoMixin$BaseRefFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$BaseRef()
+      ..name = json['name'] as String
+      ..repository = PullInfoMixin$BaseRef$Repository.fromJson(
+          json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$BaseRefToJson(
+        PullInfoMixin$BaseRef instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'repository': instance.repository.toJson(),
+    };
+
+PullInfoMixin$HeadRef$Repository _$PullInfoMixin$HeadRef$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$HeadRef$Repository()..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic> _$PullInfoMixin$HeadRef$RepositoryToJson(
+        PullInfoMixin$HeadRef$Repository instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+    };
+
+PullInfoMixin$HeadRef _$PullInfoMixin$HeadRefFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$HeadRef()
+      ..name = json['name'] as String
+      ..repository = PullInfoMixin$HeadRef$Repository.fromJson(
+          json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$HeadRefToJson(
+        PullInfoMixin$HeadRef instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'repository': instance.repository.toJson(),
+    };
+
+PullInfoMixin$ClosingIssuesReferences
+    _$PullInfoMixin$ClosingIssuesReferencesFromJson(
+            Map<String, dynamic> json) =>
+        PullInfoMixin$ClosingIssuesReferences()
+          ..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$ClosingIssuesReferencesToJson(
+        PullInfoMixin$ClosingIssuesReferences instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$Commits _$PullInfoMixin$CommitsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Commits()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$CommitsToJson(
+        PullInfoMixin$Commits instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
 FetchReview$Query$Node$PullRequestReviewComment$Author
     _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(
             Map<String, dynamic> json) =>
@@ -189,18 +676,6 @@ Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
       'repository': instance.repository.toJson(),
     };
 
-const _$CommentAuthorAssociationEnumMap = {
-  CommentAuthorAssociation.collaborator: 'COLLABORATOR',
-  CommentAuthorAssociation.contributor: 'CONTRIBUTOR',
-  CommentAuthorAssociation.firstTimer: 'FIRST_TIMER',
-  CommentAuthorAssociation.firstTimeContributor: 'FIRST_TIME_CONTRIBUTOR',
-  CommentAuthorAssociation.mannequin: 'MANNEQUIN',
-  CommentAuthorAssociation.member: 'MEMBER',
-  CommentAuthorAssociation.none: 'NONE',
-  CommentAuthorAssociation.owner: 'OWNER',
-  CommentAuthorAssociation.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
 const _$PullRequestReviewCommentStateEnumMap = {
   PullRequestReviewCommentState.pending: 'PENDING',
   PullRequestReviewCommentState.submitted: 'SUBMITTED',
@@ -283,7 +758,7 @@ PullRequestReviewCommentMixin$ReactionGroups
           ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
-          ..users = ReactionsMixin$Users.fromJson(
+          ..users = ReactionGroupsMixin$Users.fromJson(
               json['users'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
@@ -293,18 +768,6 @@ Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
       'viewerHasReacted': instance.viewerHasReacted,
       'users': instance.users.toJson(),
     };
-
-const _$ReactionContentEnumMap = {
-  ReactionContent.confused: 'CONFUSED',
-  ReactionContent.eyes: 'EYES',
-  ReactionContent.heart: 'HEART',
-  ReactionContent.hooray: 'HOORAY',
-  ReactionContent.laugh: 'LAUGH',
-  ReactionContent.rocket: 'ROCKET',
-  ReactionContent.thumbsDown: 'THUMBS_DOWN',
-  ReactionContent.thumbsUp: 'THUMBS_UP',
-  ReactionContent.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 PullRequestReviewCommentMixin$PullRequest
     _$PullRequestReviewCommentMixin$PullRequestFromJson(
@@ -343,16 +806,6 @@ Map<String, dynamic> _$PullRequestReviewCommentMixin$RepositoryToJson(
     <String, dynamic>{
       'name': instance.name,
       'owner': instance.owner.toJson(),
-    };
-
-ReactionsMixin$Users _$ReactionsMixin$UsersFromJson(
-        Map<String, dynamic> json) =>
-    ReactionsMixin$Users()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$ReactionsMixin$UsersToJson(
-        ReactionsMixin$Users instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
     };
 
 ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
@@ -995,14 +1448,6 @@ Map<String, dynamic>
           'lockReason': _$LockReasonEnumMap[instance.lockReason],
           '__typename': instance.$$typename,
         };
-
-const _$LockReasonEnumMap = {
-  LockReason.offTopic: 'OFF_TOPIC',
-  LockReason.resolved: 'RESOLVED',
-  LockReason.spam: 'SPAM',
-  LockReason.tooHeated: 'TOO_HEATED',
-  LockReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
     _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
@@ -2657,12 +3102,6 @@ Map<String, dynamic> _$CrossReferenceMixin$Source$IssueToJson(
       '__typename': instance.$$typename,
     };
 
-const _$IssueStateEnumMap = {
-  IssueState.closed: 'CLOSED',
-  IssueState.open: 'OPEN',
-  IssueState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
 CrossReferenceMixin$Source$PullRequest
     _$CrossReferenceMixin$Source$PullRequestFromJson(
             Map<String, dynamic> json) =>
@@ -2687,13 +3126,6 @@ Map<String, dynamic> _$CrossReferenceMixin$Source$PullRequestToJson(
       'repository': instance.repository.toJson(),
       '__typename': instance.$$typename,
     };
-
-const _$PullRequestStateEnumMap = {
-  PullRequestState.closed: 'CLOSED',
-  PullRequestState.merged: 'MERGED',
-  PullRequestState.open: 'OPEN',
-  PullRequestState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 CrossReferenceMixin$Source _$CrossReferenceMixin$SourceFromJson(
         Map<String, dynamic> json) =>
@@ -2763,8 +3195,8 @@ IssueCommentMixin$ReactionGroups _$IssueCommentMixin$ReactionGroupsFromJson(
       ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
-      ..users =
-          ReactionsMixin$Users.fromJson(json['users'] as Map<String, dynamic>);
+      ..users = ReactionGroupsMixin$Users.fromJson(
+          json['users'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$IssueCommentMixin$ReactionGroupsToJson(
         IssueCommentMixin$ReactionGroups instance) =>
@@ -3440,7 +3872,7 @@ PullRequestReviewMixin$ReactionGroups
           ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
-          ..users = ReactionsMixin$Users.fromJson(
+          ..users = ReactionGroupsMixin$Users.fromJson(
               json['users'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
@@ -4567,6 +4999,22 @@ Map<String, dynamic> _$GetViewerOrgs$QueryToJson(
         GetViewerOrgs$Query instance) =>
     <String, dynamic>{
       'viewer': instance.viewer.toJson(),
+    };
+
+IssuePullInfoArguments _$IssuePullInfoArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    IssuePullInfoArguments(
+      user: json['user'] as String,
+      repo: json['repo'] as String,
+      number: json['number'] as int,
+    );
+
+Map<String, dynamic> _$IssuePullInfoArgumentsToJson(
+        IssuePullInfoArguments instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+      'repo': instance.repo,
+      'number': instance.number,
     };
 
 FetchReviewArguments _$FetchReviewArgumentsFromJson(

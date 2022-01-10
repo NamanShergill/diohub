@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -37,7 +38,10 @@ class PullListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(PullScreenRoute(pullURL: item.url!));
+            AutoRouter.of(context).push(IssuePullScreenRoute(
+                number: item.number!,
+                ownerName: DeepLinkData.fromURL(item.issueUrl!).component(0)!,
+                repoName: DeepLinkData.fromURL(item.issueUrl!).component(1)!));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),

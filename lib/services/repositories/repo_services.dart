@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -23,15 +22,16 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
   static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
       {String? branch}) async {
-    final response = await request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await request(
+            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$repoUrl/readme', queryParameters: {'ref': branch});
     return RepositoryReadmeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
   static Future<BranchModel> fetchBranch(String branchUrl) async {
-    final response = await
-        request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await request(
+            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get(branchUrl);
     return BranchModel.fromJson(response.data);
   }
@@ -71,8 +71,7 @@ class RepositoryServices {
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await
-        request(
+    final response = await request(
             applyBaseURL: false,
             cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$repoURL/commits', queryParameters: queryParams);
@@ -87,36 +86,34 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit
   static Future<CommitModel> getCommit(String commitURL,
       {bool refresh = false}) async {
-    final response = await
-        request(
-          applyBaseURL: false,
-          cacheOptions: CacheManager.defaultCache(refresh: refresh),
-        )
-        .get(commitURL);
+    final response = await request(
+      applyBaseURL: false,
+      cacheOptions: CacheManager.defaultCache(refresh: refresh),
+    ).get(commitURL);
     return CommitModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
-  static Future<bool> checkUserRepoPerms(String login, String? repoURL) async {
-    final response = await request(
-      applyBaseURL: false,
-      showPopup: false,
-      cacheOptions: CacheManager.defaultCache(),
-    )
-        .get(
-      '$repoURL/collaborators/$login/permission',
-      options: Options(
-        validateStatus: (status) {
-          return status! < 500;
-        },
-      ),
-    );
-    if (response.statusCode == 200 || response.statusCode == 304) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // static Future<bool> checkUserRepoPerms(String login, String? repoURL) async {
+  //   final response = await request(
+  //     applyBaseURL: false,
+  //     showPopup: false,
+  //     cacheOptions: CacheManager.defaultCache(),
+  //   )
+  //       .get(
+  //     '$repoURL/collaborators/$login/permission',
+  //     options: Options(
+  //       validateStatus: (status) {
+  //         return status! < 500;
+  //       },
+  //     ),
+  //   );
+  //   if (response.statusCode == 200 || response.statusCode == 304) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
       getIssueTemplates(String name, String owner) async {
@@ -160,15 +157,14 @@ class RepositoryServices {
   static Future<bool> subscribeToRepo(String owner, String name,
       {required bool isSubscribing, bool ignored = false}) async {
     final res = isSubscribing
-        ? await
-            request(debugLog: true)
-            .put('/repos/$owner/$name/subscription', data: {
-            if (ignored) 'ignored': true,
-            if (!ignored) 'subscribed': true
-          })
+        ? await request(debugLog: true).put('/repos/$owner/$name/subscription',
+            data: {
+                if (ignored) 'ignored': true,
+                if (!ignored) 'subscribed': true
+              })
         : await request(debugLog: true).delete(
-              '/repos/$owner/$name/subscription',
-            );
+            '/repos/$owner/$name/subscription',
+          );
     if ((isSubscribing && res.statusCode == 200) ||
         (!isSubscribing && res.statusCode == 204)) {
       return !isSubscribing;

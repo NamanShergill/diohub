@@ -5,8 +5,7 @@ import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/view/authentication/auth_screen.dart';
-import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
-import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/p_r_review_screen.dart';
 import 'package:dio_hub/view/landing/landing.dart';
 import 'package:dio_hub/view/landing/widgets/landing_loading_screen.dart';
@@ -35,8 +34,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
         page: SearchOverlayScreen,
         transitionsBuilder: TransitionsBuilders.fadeIn,
         guards: [AuthGuard]),
-    AutoRoute(page: IssueScreen, guards: [AuthGuard]),
-    AutoRoute(page: PullScreen, guards: [AuthGuard]),
+    AutoRoute(page: IssuePullScreen, guards: [AuthGuard]),
     AutoRoute(page: RepositoryScreen, guards: [AuthGuard]),
     AutoRoute(page: FileViewerAPI, guards: [AuthGuard]),
     AutoRoute(page: CommitInfoScreen, guards: [AuthGuard]),

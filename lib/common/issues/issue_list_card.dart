@@ -50,8 +50,10 @@ class IssueListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(IssueScreenRoute(
-                issueURL: item.url!,
+            AutoRouter.of(context).push(IssuePullScreenRoute(
+                number: item.number!,
+                ownerName: item.repository!.owner!.login!,
+                repoName: item.repository!.name!,
                 commentsSince: commentsSince,
                 initialIndex: commentsSince != null ? 1 : 0));
           },
