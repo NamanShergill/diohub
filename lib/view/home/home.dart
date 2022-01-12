@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen(
       {Key? key, this.deepLinkData, required this.parentTabController})
       : super(key: key);
-  final DeepLinkData? deepLinkData;
+  final PathData? deepLinkData;
   final TabController parentTabController;
   @override
   _HomeScreenState createState() => _HomeScreenState();

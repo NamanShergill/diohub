@@ -464,7 +464,7 @@ fragment commit on Commit{
 fragment  reactionGroups on ReactionGroup{
     content
     viewerHasReacted
-    users{
+    reactors{
         totalCount
     }
 }

@@ -4,7 +4,7 @@ fragment issueInfo on Issue{
         totalCount
     }
     author{
-        login
+        ...actor
     }
     authorAssociation
     bodyHTML
@@ -16,19 +16,25 @@ fragment issueInfo on Issue{
         totalCount
     }
     isPinned
+    labels(first: 100){
+        nodes{
+            ...label
+
+        }
+    }
     locked
     number
     reactionGroups{
         ...reactionGroups
     }
     repository{
-        name
-        owner{
-            login
-        }
+        ...repoInfo
     }
     state
     titleHTML
+    timelineItems{
+        totalCount
+    }
     url
     viewerCanReact
     viewerCanUpdate
@@ -40,7 +46,7 @@ fragment  pullInfo on PullRequest{
         totalCount
     }
     author{
-        login
+        ...actor
     }
     authorAssociation
     bodyHTML
@@ -51,18 +57,24 @@ fragment  pullInfo on PullRequest{
     comments{
         totalCount
     }
+    labels(first: 100){
+        nodes{
+            ...label
+
+        }
+    }
     locked
     number
     reactionGroups{
         ...reactionGroups
     }
     repository{
-        name
-        owner{
-            login
-        }
+        ...repoInfo
     }
     state
+    timelineItems{
+        totalCount
+    }
     titleHTML
     url
     viewerCanReact
@@ -91,4 +103,12 @@ fragment  pullInfo on PullRequest{
     merged
     reviewDecision
     viewerCanUpdate
+}
+
+fragment repoInfo on Repository{
+    name
+    owner{
+        login
+        avatarUrl
+    }
 }

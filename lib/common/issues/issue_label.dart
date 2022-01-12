@@ -4,26 +4,15 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 
 class IssueLabel extends StatelessWidget {
-  const IssueLabel(this.label, {Key? key}) : super(key: key);
-  final Label? label;
-  @override
-  Widget build(BuildContext context) {
-    return _IssueLabel(label!.name!, label!.color!);
-  }
-}
+  IssueLabel(Label label, {Key? key})
+      : name = label.name!,
+        color = label.color!,
+        super(key: key);
 
-class IssueLabelGQL extends StatelessWidget {
-  const IssueLabelGQL(this.label, {Key? key}) : super(key: key);
-  final LabelMixin label;
-
-  @override
-  Widget build(BuildContext context) {
-    return _IssueLabel(label.name, label.color);
-  }
-}
-
-class _IssueLabel extends StatelessWidget {
-  const _IssueLabel(this.name, this.color, {Key? key}) : super(key: key);
+  IssueLabel.gql(LabelMixin label, {Key? key})
+      : name = label.name,
+        color = label.color,
+        super(key: key);
   final String name;
   final String color;
 

@@ -68,7 +68,7 @@ class _PullRequestNotificationCardState
       },
       onTap: () {
         return AutoRouter.of(context).push(issuePullScreenRoute(
-            githubURLtoPath(widget.notification.subject!.url!)));
+            PathData.fromURL(widget.notification.subject!.url!)));
       },
       loading: loading,
       footerBuilder: (context) {

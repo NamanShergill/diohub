@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({this.deepLinkData, Key? key}) : super(key: key);
-  final DeepLinkData? deepLinkData;
+  final PathData? deepLinkData;
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }

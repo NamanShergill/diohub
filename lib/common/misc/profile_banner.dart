@@ -9,16 +9,18 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProfileTile extends StatelessWidget {
-  const ProfileTile(this.avatarUrl,
-      {this.userLogin,
-      this.padding = EdgeInsets.zero,
-      this.size = 25,
-      this.fullName,
-      this.disableTap = false,
-      this.showName = false,
-      this.textStyle,
-      Key? key})
-      : super(key: key);
+  const ProfileTile(
+    this.avatarUrl, {
+    this.userLogin,
+    this.padding = EdgeInsets.zero,
+    this.size = 25,
+    this.fullName,
+    this.disableTap = false,
+    this.showName = false,
+    this.textStyle,
+    this.showAvatar = true,
+    Key? key,
+  }) : super(key: key);
   final String? avatarUrl;
   final double size;
   final String? userLogin;
@@ -26,6 +28,7 @@ class ProfileTile extends StatelessWidget {
   final String? fullName;
   final TextStyle? textStyle;
   final EdgeInsets padding;
+  final bool showAvatar;
   final bool disableTap;
   @override
   Widget build(BuildContext context) {
@@ -45,28 +48,29 @@ class ProfileTile extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: avatarUrl ?? 'N/A',
-                  height: size,
-                  fit: BoxFit.fill,
-                  placeholder: (context, string) {
-                    return ShimmerWidget(
-                      child: Container(
-                        height: size,
-                        width: size,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
-                  errorWidget: (context, _, __) {
-                    return Icon(
-                      LineIcons.exclamationCircle,
-                      size: size,
-                    );
-                  },
+              if (showAvatar)
+                ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: avatarUrl ?? 'N/A',
+                    height: size,
+                    fit: BoxFit.fill,
+                    placeholder: (context, string) {
+                      return ShimmerWidget(
+                        child: Container(
+                          height: size,
+                          width: size,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                    errorWidget: (context, _, __) {
+                      return Icon(
+                        LineIcons.exclamationCircle,
+                        size: size,
+                      );
+                    },
+                  ),
                 ),
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -86,7 +90,7 @@ class ProfileTile extends StatelessWidget {
                     ),
                   if (showName)
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: EdgeInsets.only(left: size / 3),
                       child: Text(
                         userLogin ?? 'N/A',
                         style: textStyle,

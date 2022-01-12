@@ -33,6 +33,10 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
           ..comments = IssueInfoMixin$Comments.fromJson(
               json['comments'] as Map<String, dynamic>)
           ..isPinned = json['isPinned'] as bool?
+          ..labels = json['labels'] == null
+              ? null
+              : IssueInfoMixin$Labels.fromJson(
+                  json['labels'] as Map<String, dynamic>)
           ..locked = json['locked'] as bool
           ..number = json['number'] as int
           ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
@@ -65,6 +69,7 @@ Map<String, dynamic>
           'createdAt': instance.createdAt.toIso8601String(),
           'comments': instance.comments.toJson(),
           'isPinned': instance.isPinned,
+          'labels': instance.labels?.toJson(),
           'locked': instance.locked,
           'number': instance.number,
           'reactionGroups':
@@ -129,6 +134,10 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
           ..createdAt = DateTime.parse(json['createdAt'] as String)
           ..comments = PullInfoMixin$Comments.fromJson(
               json['comments'] as Map<String, dynamic>)
+          ..labels = json['labels'] == null
+              ? null
+              : PullInfoMixin$Labels.fromJson(
+                  json['labels'] as Map<String, dynamic>)
           ..locked = json['locked'] as bool
           ..number = json['number'] as int
           ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
@@ -183,6 +192,7 @@ Map<String, dynamic>
           'closedAt': instance.closedAt?.toIso8601String(),
           'createdAt': instance.createdAt.toIso8601String(),
           'comments': instance.comments.toJson(),
+          'labels': instance.labels?.toJson(),
           'locked': instance.locked,
           'number': instance.number,
           'reactionGroups':
@@ -272,11 +282,14 @@ Map<String, dynamic> _$IssueInfoMixin$AssigneesToJson(
 
 IssueInfoMixin$Author _$IssueInfoMixin$AuthorFromJson(
         Map<String, dynamic> json) =>
-    IssueInfoMixin$Author()..login = json['login'] as String;
+    IssueInfoMixin$Author()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
 
 Map<String, dynamic> _$IssueInfoMixin$AuthorToJson(
         IssueInfoMixin$Author instance) =>
     <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
     };
 
@@ -290,21 +303,49 @@ Map<String, dynamic> _$IssueInfoMixin$CommentsToJson(
       'totalCount': instance.totalCount,
     };
 
+IssueInfoMixin$Labels$Nodes _$IssueInfoMixin$Labels$NodesFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Labels$Nodes()
+      ..color = json['color'] as String
+      ..name = json['name'] as String;
+
+Map<String, dynamic> _$IssueInfoMixin$Labels$NodesToJson(
+        IssueInfoMixin$Labels$Nodes instance) =>
+    <String, dynamic>{
+      'color': instance.color,
+      'name': instance.name,
+    };
+
+IssueInfoMixin$Labels _$IssueInfoMixin$LabelsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Labels()
+      ..nodes = (json['nodes'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : IssueInfoMixin$Labels$Nodes.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$IssueInfoMixin$LabelsToJson(
+        IssueInfoMixin$Labels instance) =>
+    <String, dynamic>{
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
 IssueInfoMixin$ReactionGroups _$IssueInfoMixin$ReactionGroupsFromJson(
         Map<String, dynamic> json) =>
     IssueInfoMixin$ReactionGroups()
       ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
-      ..users = ReactionGroupsMixin$Users.fromJson(
-          json['users'] as Map<String, dynamic>);
+      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+          json['reactors'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$IssueInfoMixin$ReactionGroupsToJson(
         IssueInfoMixin$ReactionGroups instance) =>
     <String, dynamic>{
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
-      'users': instance.users.toJson(),
+      'reactors': instance.reactors.toJson(),
     };
 
 const _$ReactionContentEnumMap = {
@@ -319,22 +360,12 @@ const _$ReactionContentEnumMap = {
   ReactionContent.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
-IssueInfoMixin$Repository$Owner _$IssueInfoMixin$Repository$OwnerFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$Repository$Owner()..login = json['login'] as String;
-
-Map<String, dynamic> _$IssueInfoMixin$Repository$OwnerToJson(
-        IssueInfoMixin$Repository$Owner instance) =>
-    <String, dynamic>{
-      'login': instance.login,
-    };
-
 IssueInfoMixin$Repository _$IssueInfoMixin$RepositoryFromJson(
         Map<String, dynamic> json) =>
     IssueInfoMixin$Repository()
       ..name = json['name'] as String
-      ..owner = IssueInfoMixin$Repository$Owner.fromJson(
-          json['owner'] as Map<String, dynamic>);
+      ..owner =
+          RepoInfoMixin$Owner.fromJson(json['owner'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$IssueInfoMixin$RepositoryToJson(
         IssueInfoMixin$Repository instance) =>
@@ -343,14 +374,26 @@ Map<String, dynamic> _$IssueInfoMixin$RepositoryToJson(
       'owner': instance.owner.toJson(),
     };
 
-ReactionGroupsMixin$Users _$ReactionGroupsMixin$UsersFromJson(
+ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
         Map<String, dynamic> json) =>
-    ReactionGroupsMixin$Users()..totalCount = json['totalCount'] as int;
+    ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
 
-Map<String, dynamic> _$ReactionGroupsMixin$UsersToJson(
-        ReactionGroupsMixin$Users instance) =>
+Map<String, dynamic> _$ReactionGroupsMixin$ReactorsToJson(
+        ReactionGroupsMixin$Reactors instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
+    };
+
+RepoInfoMixin$Owner _$RepoInfoMixin$OwnerFromJson(Map<String, dynamic> json) =>
+    RepoInfoMixin$Owner()
+      ..login = json['login'] as String
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
+
+Map<String, dynamic> _$RepoInfoMixin$OwnerToJson(
+        RepoInfoMixin$Owner instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+      'avatarUrl': instance.avatarUrl.toString(),
     };
 
 PullInfoMixin$Assignees _$PullInfoMixin$AssigneesFromJson(
@@ -365,11 +408,14 @@ Map<String, dynamic> _$PullInfoMixin$AssigneesToJson(
 
 PullInfoMixin$Author _$PullInfoMixin$AuthorFromJson(
         Map<String, dynamic> json) =>
-    PullInfoMixin$Author()..login = json['login'] as String;
+    PullInfoMixin$Author()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
 
 Map<String, dynamic> _$PullInfoMixin$AuthorToJson(
         PullInfoMixin$Author instance) =>
     <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
     };
 
@@ -383,39 +429,57 @@ Map<String, dynamic> _$PullInfoMixin$CommentsToJson(
       'totalCount': instance.totalCount,
     };
 
+PullInfoMixin$Labels$Nodes _$PullInfoMixin$Labels$NodesFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Labels$Nodes()
+      ..color = json['color'] as String
+      ..name = json['name'] as String;
+
+Map<String, dynamic> _$PullInfoMixin$Labels$NodesToJson(
+        PullInfoMixin$Labels$Nodes instance) =>
+    <String, dynamic>{
+      'color': instance.color,
+      'name': instance.name,
+    };
+
+PullInfoMixin$Labels _$PullInfoMixin$LabelsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Labels()
+      ..nodes = (json['nodes'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : PullInfoMixin$Labels$Nodes.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$PullInfoMixin$LabelsToJson(
+        PullInfoMixin$Labels instance) =>
+    <String, dynamic>{
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
 PullInfoMixin$ReactionGroups _$PullInfoMixin$ReactionGroupsFromJson(
         Map<String, dynamic> json) =>
     PullInfoMixin$ReactionGroups()
       ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
-      ..users = ReactionGroupsMixin$Users.fromJson(
-          json['users'] as Map<String, dynamic>);
+      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+          json['reactors'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullInfoMixin$ReactionGroupsToJson(
         PullInfoMixin$ReactionGroups instance) =>
     <String, dynamic>{
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
-      'users': instance.users.toJson(),
-    };
-
-PullInfoMixin$Repository$Owner _$PullInfoMixin$Repository$OwnerFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Repository$Owner()..login = json['login'] as String;
-
-Map<String, dynamic> _$PullInfoMixin$Repository$OwnerToJson(
-        PullInfoMixin$Repository$Owner instance) =>
-    <String, dynamic>{
-      'login': instance.login,
+      'reactors': instance.reactors.toJson(),
     };
 
 PullInfoMixin$Repository _$PullInfoMixin$RepositoryFromJson(
         Map<String, dynamic> json) =>
     PullInfoMixin$Repository()
       ..name = json['name'] as String
-      ..owner = PullInfoMixin$Repository$Owner.fromJson(
-          json['owner'] as Map<String, dynamic>);
+      ..owner =
+          RepoInfoMixin$Owner.fromJson(json['owner'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullInfoMixin$RepositoryToJson(
         PullInfoMixin$Repository instance) =>
@@ -758,15 +822,15 @@ PullRequestReviewCommentMixin$ReactionGroups
           ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
-          ..users = ReactionGroupsMixin$Users.fromJson(
-              json['users'] as Map<String, dynamic>);
+          ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
         PullRequestReviewCommentMixin$ReactionGroups instance) =>
     <String, dynamic>{
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
-      'users': instance.users.toJson(),
+      'reactors': instance.reactors.toJson(),
     };
 
 PullRequestReviewCommentMixin$PullRequest
@@ -3195,15 +3259,15 @@ IssueCommentMixin$ReactionGroups _$IssueCommentMixin$ReactionGroupsFromJson(
       ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
-      ..users = ReactionGroupsMixin$Users.fromJson(
-          json['users'] as Map<String, dynamic>);
+      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+          json['reactors'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$IssueCommentMixin$ReactionGroupsToJson(
         IssueCommentMixin$ReactionGroups instance) =>
     <String, dynamic>{
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
-      'users': instance.users.toJson(),
+      'reactors': instance.reactors.toJson(),
     };
 
 LabeledMixin$Actor _$LabeledMixin$ActorFromJson(Map<String, dynamic> json) =>
@@ -3872,15 +3936,15 @@ PullRequestReviewMixin$ReactionGroups
           ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
-          ..users = ReactionGroupsMixin$Users.fromJson(
-              json['users'] as Map<String, dynamic>);
+          ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
         PullRequestReviewMixin$ReactionGroups instance) =>
     <String, dynamic>{
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
-      'users': instance.users.toJson(),
+      'reactors': instance.reactors.toJson(),
     };
 
 ReadyForReviewMixin$Actor _$ReadyForReviewMixin$ActorFromJson(

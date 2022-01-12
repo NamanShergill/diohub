@@ -226,7 +226,7 @@ class BasicEventLabeledCard extends StatelessWidget {
           const SizedBox(
             width: 8,
           ),
-          IssueLabelGQL(content),
+          IssueLabel.gql(content),
           const SizedBox(
             width: 8,
           ),

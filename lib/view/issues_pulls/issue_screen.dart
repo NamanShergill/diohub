@@ -1,5 +1,6 @@
 import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -29,7 +30,17 @@ class _IssueScreenState extends State<IssueScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final data = widget.issueInfo;
+    return IssuePullInfoTemplate(
+      number: data.number,
+      title: data.titleHTML,
+      repoInfo: data.repository,
+      state: IssuePullState(data.state),
+      body: data.bodyHTML,
+      labels: data.labels?.nodes,
+      createdAt: data.createdAt,
+      createdBy: data.author as ActorMixin,
+    );
   }
 
   Widget? getIcon(IssueState? state, double size) {

@@ -179,6 +179,9 @@ class _RootAppState extends State<RootApp> {
         fontFamily: Provider.of<FontSettings>(context).currentSetting,
         colorScheme:
             ColorScheme.fromSwatch().copyWith(secondary: palette.accent),
+        cardTheme: CardTheme(
+          color: palette.secondary,
+        ),
       ),
       routerDelegate: customRouter.delegate(initialRoutes: [
         LandingLoadingScreenRoute(initLink: widget.initDeepLink)
@@ -187,3 +190,5 @@ class _RootAppState extends State<RootApp> {
     );
   }
 }
+
+ThemeData theme(BuildContext context) => Theme.of(context);

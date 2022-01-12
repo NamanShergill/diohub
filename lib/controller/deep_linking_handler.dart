@@ -70,9 +70,12 @@ String githubURLtoPath(String link) {
   if (str.endsWith('/')) {
     str = str.substring(0, str.length - 1);
   }
-  return str
-      .toLowerCase()
-      .replaceFirst(RegExp('((http(s)?)(:(//)))?(www.)?(github.com)(/)?'), '');
+  return str.toLowerCase().replaceFirst(
+      RegExp('((http(s)?)(:(//)))?${regexORCases([
+            'www.',
+            'api.'
+          ])}?(github.com)(/)?'),
+      '');
 }
 
 bool isDeepLink(String link) {
@@ -85,31 +88,31 @@ RegExp get _themeLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
 List<PageRouteInfo>? _getRoutes(String link) {
-  final string = StringFunctions(githubURLtoPath(link));
-  if (string.string.isEmpty) {
+  final relPath = StringFunctions(githubURLtoPath(link));
+  if (relPath.string.isEmpty) {
     return null;
   }
 
   final temp = <PageRouteInfo>[];
-  if (string.regexCompleteMatch(_exceptionURLPatterns)) {
+  if (relPath.regexCompleteMatch(_exceptionURLPatterns)) {
     openInAppBrowser(link);
-  } else if (string.regexCompleteMatch(_landingPageURLPattern)) {
-    temp.add(LandingScreenRoute(deepLinkData: DeepLinkData(string.string)));
-  } else if (string.regexCompleteMatch(_issuePageURLPattern) ||
-      string.regexCompleteMatch(_pullPageURLPattern)) {
-    temp.add(issuePullScreenRoute(string.string));
-  } else if (string.regexCompleteMatch(_commitPageURLPattern)) {
+  } else if (relPath.regexCompleteMatch(_landingPageURLPattern)) {
+    temp.add(LandingScreenRoute(deepLinkData: relPath.toPathData));
+  } else if (relPath.regexCompleteMatch(_issuePageURLPattern) ||
+      relPath.regexCompleteMatch(_pullPageURLPattern)) {
+    temp.add(issuePullScreenRoute(relPath.toPathData));
+  } else if (relPath.regexCompleteMatch(_commitPageURLPattern)) {
     temp.add(CommitInfoScreenRoute(
         commitURL:
-            '${_urlWithPrefix('repos/${DeepLinkData(string.string).components.sublist(0, 2).join('/')}')}/commits/${DeepLinkData(string.string).component(3)!}'));
-  } else if (string.regexCompleteMatch(_repoPageURLPattern)) {
+            '${_urlWithPrefix('repos/${relPath.toPathData.components.sublist(0, 2).join('/')}')}/commits/${PathData(relPath.string).component(3)!}'));
+  } else if (relPath.regexCompleteMatch(_repoPageURLPattern)) {
     temp.add(RepositoryScreenRoute(
         repositoryURL: _urlWithPrefix(
-            'repos/${DeepLinkData(string.string).components.sublist(0, 2).join('/')}'),
-        deepLinkData: DeepLinkData(string.string)));
-  } else if (string.regexCompleteMatch(_chars)) {
+            'repos/${relPath.toPathData.components.sublist(0, 2).join('/')}'),
+        deepLinkData: relPath.toPathData));
+  } else if (relPath.regexCompleteMatch(_chars)) {
     temp.add(OtherUserProfileScreenRoute(
-      login: string.string,
+      login: relPath.string,
     ));
   } else {
     openInAppBrowser(link);
@@ -200,10 +203,10 @@ String get _repoPageURLPattern => regexPattern([
       ),
     ]);
 
-class DeepLinkData {
-  DeepLinkData(this.path);
+class PathData {
+  PathData(this.path);
 
-  DeepLinkData.fromURL(String url) : path = githubURLtoPath(url);
+  PathData.fromURL(String url) : path = githubURLtoPath(url);
   final String path;
   // final Map? parameters;
   // final Map? extData;
@@ -218,4 +221,8 @@ class DeepLinkData {
   bool componentIs(int index, String data) {
     return component(index) == data;
   }
+}
+
+extension on StringFunctions {
+  PathData get toPathData => PathData(string);
 }

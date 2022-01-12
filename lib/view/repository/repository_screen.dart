@@ -36,10 +36,10 @@ class RepositoryScreen extends DeepLinkWidget {
   const RepositoryScreen(this.repositoryURL,
       {this.branch,
       this.index = 0,
-      DeepLinkData? deepLinkData,
+      PathData? deepLinkData,
       Key? key,
       this.initSHA})
-      : super(key: key, deepLinkData: deepLinkData);
+      : super(key: key, pathData: deepLinkData);
   final String repositoryURL;
   final String? branch;
   final int index;
@@ -63,7 +63,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   late String? initBranch;
 
   @override
-  void handleDeepLink(DeepLinkData deepLinkData) {
+  void handleDeepLink(PathData deepLinkData) {
     final data = deepLinkData;
     if (_isDeepLinkCode(data)) {
       initBranch = data.component(3);
@@ -75,13 +75,13 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
     }
   }
 
-  bool _isDeepLinkCode(DeepLinkData? data) {
+  bool _isDeepLinkCode(PathData? data) {
     return data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
         true;
   }
 
   bool _isDeepLinkComp(String data) {
-    return widget.deepLinkData?.componentIs(2, data) ?? false;
+    return widget.pathData?.componentIs(2, data) ?? false;
   }
 
   @override
@@ -111,7 +111,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
       DynamicTab(label: 'Readme', isDismissible: false),
       DynamicTab(
         label: 'Code',
-        isFocusedOnInit: _isDeepLinkCode(widget.deepLinkData),
+        isFocusedOnInit: _isDeepLinkCode(widget.pathData),
       ),
       DynamicTab(label: 'Issues', isFocusedOnInit: _isDeepLinkComp('issues')),
       DynamicTab(
@@ -212,7 +212,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                           identifier: 'Code',
                           child: CodeBrowser(
                             showCommitHistory:
-                                widget.deepLinkData?.component(2) == 'commits',
+                                widget.pathData?.component(2) == 'commits',
                           ),
                         ),
                         DynamicTabView(

@@ -22,6 +22,7 @@ mixin IssueInfoMixin {
   late DateTime createdAt;
   late IssueInfoMixin$Comments comments;
   bool? isPinned;
+  IssueInfoMixin$Labels? labels;
   late bool locked;
   late int number;
   List<IssueInfoMixin$ReactionGroups>? reactionGroups;
@@ -33,13 +34,23 @@ mixin IssueInfoMixin {
   late bool viewerCanReact;
   late bool viewerCanUpdate;
 }
+mixin ActorMixin {
+  late Uri avatarUrl;
+  late String login;
+}
+mixin LabelMixin {
+  late String color;
+  late String name;
+}
 mixin ReactionGroupsMixin {
   @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
   late ReactionContent content;
   late bool viewerHasReacted;
-  @Deprecated(
-      'Reactors can now be mannequins, bots, and organizations. Use the `reactors` field instead. Removal on 2021-10-01 UTC.')
-  late ReactionGroupsMixin$Users users;
+  late ReactionGroupsMixin$Reactors reactors;
+}
+mixin RepoInfoMixin {
+  late String name;
+  late RepoInfoMixin$Owner owner;
 }
 mixin PullInfoMixin {
   @JsonKey(unknownEnumValue: LockReason.artemisUnknown)
@@ -54,6 +65,7 @@ mixin PullInfoMixin {
   DateTime? closedAt;
   late DateTime createdAt;
   late PullInfoMixin$Comments comments;
+  PullInfoMixin$Labels? labels;
   late bool locked;
   late int number;
   List<PullInfoMixin$ReactionGroups>? reactionGroups;
@@ -75,10 +87,6 @@ mixin PullInfoMixin {
   @JsonKey(unknownEnumValue: PullRequestReviewDecision.artemisUnknown)
   PullRequestReviewDecision? reviewDecision;
   late bool viewerCanUpdate;
-}
-mixin ActorMixin {
-  late Uri avatarUrl;
-  late String login;
 }
 mixin PRReviewCommentsMixin {
   late PRReviewCommentsMixin$Comments comments;
@@ -183,10 +191,6 @@ mixin LabeledMixin {
   late DateTime createdAt;
   LabeledMixin$Actor? actor;
   late LabeledMixin$Label label;
-}
-mixin LabelMixin {
-  late String color;
-  late String name;
 }
 mixin LockedMixin {
   late String id;
@@ -408,6 +412,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         createdAt,
         comments,
         isPinned,
+        labels,
         locked,
         number,
         reactionGroups,
@@ -446,6 +451,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
         closedAt,
         createdAt,
         comments,
+        labels,
         locked,
         number,
         reactionGroups,
@@ -559,16 +565,15 @@ class IssueInfoMixin$Assignees extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Author extends JsonSerializable with EquatableMixin {
+class IssueInfoMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
   IssueInfoMixin$Author();
 
   factory IssueInfoMixin$Author.fromJson(Map<String, dynamic> json) =>
       _$IssueInfoMixin$AuthorFromJson(json);
 
-  late String login;
-
   @override
-  List<Object?> get props => [login];
+  List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$AuthorToJson(this);
 }
@@ -589,6 +594,35 @@ class IssueInfoMixin$Comments extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Labels$Nodes extends JsonSerializable
+    with EquatableMixin, LabelMixin {
+  IssueInfoMixin$Labels$Nodes();
+
+  factory IssueInfoMixin$Labels$Nodes.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$Labels$NodesFromJson(json);
+
+  @override
+  List<Object?> get props => [color, name];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$Labels$NodesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Labels extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$Labels();
+
+  factory IssueInfoMixin$Labels.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LabelsFromJson(json);
+
+  List<IssueInfoMixin$Labels$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [nodes];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$LabelsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class IssueInfoMixin$ReactionGroups extends JsonSerializable
     with EquatableMixin, ReactionGroupsMixin {
   IssueInfoMixin$ReactionGroups();
@@ -597,38 +631,18 @@ class IssueInfoMixin$ReactionGroups extends JsonSerializable
       _$IssueInfoMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, users];
+  List<Object?> get props => [content, viewerHasReacted, reactors];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$ReactionGroupsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Repository$Owner extends JsonSerializable
-    with EquatableMixin {
-  IssueInfoMixin$Repository$Owner();
-
-  factory IssueInfoMixin$Repository$Owner.fromJson(Map<String, dynamic> json) =>
-      _$IssueInfoMixin$Repository$OwnerFromJson(json);
-
-  late String login;
-
-  @override
-  List<Object?> get props => [login];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$IssueInfoMixin$Repository$OwnerToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Repository extends JsonSerializable with EquatableMixin {
+class IssueInfoMixin$Repository extends JsonSerializable
+    with EquatableMixin, RepoInfoMixin {
   IssueInfoMixin$Repository();
 
   factory IssueInfoMixin$Repository.fromJson(Map<String, dynamic> json) =>
       _$IssueInfoMixin$RepositoryFromJson(json);
-
-  late String name;
-
-  late IssueInfoMixin$Repository$Owner owner;
 
   @override
   List<Object?> get props => [name, owner];
@@ -637,18 +651,36 @@ class IssueInfoMixin$Repository extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReactionGroupsMixin$Users extends JsonSerializable with EquatableMixin {
-  ReactionGroupsMixin$Users();
+class ReactionGroupsMixin$Reactors extends JsonSerializable
+    with EquatableMixin {
+  ReactionGroupsMixin$Reactors();
 
-  factory ReactionGroupsMixin$Users.fromJson(Map<String, dynamic> json) =>
-      _$ReactionGroupsMixin$UsersFromJson(json);
+  factory ReactionGroupsMixin$Reactors.fromJson(Map<String, dynamic> json) =>
+      _$ReactionGroupsMixin$ReactorsFromJson(json);
 
   late int totalCount;
 
   @override
   List<Object?> get props => [totalCount];
   @override
-  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$UsersToJson(this);
+  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$ReactorsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class RepoInfoMixin$Owner extends JsonSerializable with EquatableMixin {
+  RepoInfoMixin$Owner();
+
+  factory RepoInfoMixin$Owner.fromJson(Map<String, dynamic> json) =>
+      _$RepoInfoMixin$OwnerFromJson(json);
+
+  late String login;
+
+  late Uri avatarUrl;
+
+  @override
+  List<Object?> get props => [login, avatarUrl];
+  @override
+  Map<String, dynamic> toJson() => _$RepoInfoMixin$OwnerToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -667,16 +699,15 @@ class PullInfoMixin$Assignees extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullInfoMixin$Author extends JsonSerializable with EquatableMixin {
+class PullInfoMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
   PullInfoMixin$Author();
 
   factory PullInfoMixin$Author.fromJson(Map<String, dynamic> json) =>
       _$PullInfoMixin$AuthorFromJson(json);
 
-  late String login;
-
   @override
-  List<Object?> get props => [login];
+  List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$AuthorToJson(this);
 }
@@ -697,6 +728,35 @@ class PullInfoMixin$Comments extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PullInfoMixin$Labels$Nodes extends JsonSerializable
+    with EquatableMixin, LabelMixin {
+  PullInfoMixin$Labels$Nodes();
+
+  factory PullInfoMixin$Labels$Nodes.fromJson(Map<String, dynamic> json) =>
+      _$PullInfoMixin$Labels$NodesFromJson(json);
+
+  @override
+  List<Object?> get props => [color, name];
+  @override
+  Map<String, dynamic> toJson() => _$PullInfoMixin$Labels$NodesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullInfoMixin$Labels extends JsonSerializable with EquatableMixin {
+  PullInfoMixin$Labels();
+
+  factory PullInfoMixin$Labels.fromJson(Map<String, dynamic> json) =>
+      _$PullInfoMixin$LabelsFromJson(json);
+
+  List<PullInfoMixin$Labels$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [nodes];
+  @override
+  Map<String, dynamic> toJson() => _$PullInfoMixin$LabelsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class PullInfoMixin$ReactionGroups extends JsonSerializable
     with EquatableMixin, ReactionGroupsMixin {
   PullInfoMixin$ReactionGroups();
@@ -705,37 +765,18 @@ class PullInfoMixin$ReactionGroups extends JsonSerializable
       _$PullInfoMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, users];
+  List<Object?> get props => [content, viewerHasReacted, reactors];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$ReactionGroupsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullInfoMixin$Repository$Owner extends JsonSerializable
-    with EquatableMixin {
-  PullInfoMixin$Repository$Owner();
-
-  factory PullInfoMixin$Repository$Owner.fromJson(Map<String, dynamic> json) =>
-      _$PullInfoMixin$Repository$OwnerFromJson(json);
-
-  late String login;
-
-  @override
-  List<Object?> get props => [login];
-  @override
-  Map<String, dynamic> toJson() => _$PullInfoMixin$Repository$OwnerToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullInfoMixin$Repository extends JsonSerializable with EquatableMixin {
+class PullInfoMixin$Repository extends JsonSerializable
+    with EquatableMixin, RepoInfoMixin {
   PullInfoMixin$Repository();
 
   factory PullInfoMixin$Repository.fromJson(Map<String, dynamic> json) =>
       _$PullInfoMixin$RepositoryFromJson(json);
-
-  late String name;
-
-  late PullInfoMixin$Repository$Owner owner;
 
   @override
   List<Object?> get props => [name, owner];
@@ -1117,7 +1158,7 @@ class PullRequestReviewCommentMixin$ReactionGroups extends JsonSerializable
       _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, users];
+  List<Object?> get props => [content, viewerHasReacted, reactors];
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$ReactionGroupsToJson(this);
@@ -3715,7 +3756,7 @@ class IssueCommentMixin$ReactionGroups extends JsonSerializable
       _$IssueCommentMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, users];
+  List<Object?> get props => [content, viewerHasReacted, reactors];
   @override
   Map<String, dynamic> toJson() =>
       _$IssueCommentMixin$ReactionGroupsToJson(this);
@@ -4537,7 +4578,7 @@ class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
       _$PullRequestReviewMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, users];
+  List<Object?> get props => [content, viewerHasReacted, reactors];
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$ReactionGroupsToJson(this);
@@ -6268,12 +6309,7 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'login'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'authorAssociation'),
@@ -6331,6 +6367,26 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
             name: NameNode(value: 'locked'),
             alias: null,
             arguments: [],
@@ -6357,25 +6413,8 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'owner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'login'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'state'),
@@ -6409,6 +6448,44 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
+      name: NameNode(value: 'actor'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'login'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'label'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'color'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
       name: NameNode(value: 'reactionGroups'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -6428,13 +6505,46 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'users'),
+            name: NameNode(value: 'reactors'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'repoInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Repository'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'owner'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'login'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'avatarUrl'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -6473,12 +6583,7 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'login'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'authorAssociation'),
@@ -6530,6 +6635,26 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
                   selectionSet: null)
             ])),
         FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
             name: NameNode(value: 'locked'),
             alias: null,
             arguments: [],
@@ -6556,25 +6681,8 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'owner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'login'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'state'),
@@ -7209,7 +7317,7 @@ final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'users'),
+            name: NameNode(value: 'reactors'),
             alias: null,
             arguments: [],
             directives: [],
@@ -7806,7 +7914,7 @@ final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'users'),
+            name: NameNode(value: 'reactors'),
             alias: null,
             arguments: [],
             directives: [],
@@ -9741,7 +9849,7 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'users'),
+            name: NameNode(value: 'reactors'),
             alias: null,
             arguments: [],
             directives: [],

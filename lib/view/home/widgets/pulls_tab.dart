@@ -11,7 +11,7 @@ class PullsTab extends StatefulWidget {
       {required this.nestedScrollViewController, this.deepLinkData, Key? key})
       : super(key: key);
   final ScrollController nestedScrollViewController;
-  final DeepLinkData? deepLinkData;
+  final PathData? deepLinkData;
 
   @override
   _PullsTabState createState() => _PullsTabState();

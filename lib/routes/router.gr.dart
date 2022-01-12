@@ -287,7 +287,7 @@ class LandingLoadingScreenRouteArgs {
 /// generated route for
 /// [_i3.LandingScreen]
 class LandingScreenRoute extends _i15.PageRouteInfo<LandingScreenRouteArgs> {
-  LandingScreenRoute({_i18.DeepLinkData? deepLinkData, _i16.Key? key})
+  LandingScreenRoute({_i18.PathData? deepLinkData, _i16.Key? key})
       : super(LandingScreenRoute.name,
             path: '/landing-screen',
             args: LandingScreenRouteArgs(deepLinkData: deepLinkData, key: key));
@@ -298,7 +298,7 @@ class LandingScreenRoute extends _i15.PageRouteInfo<LandingScreenRouteArgs> {
 class LandingScreenRouteArgs {
   const LandingScreenRouteArgs({this.deepLinkData, this.key});
 
-  final _i18.DeepLinkData? deepLinkData;
+  final _i18.PathData? deepLinkData;
 
   final _i16.Key? key;
 
@@ -427,7 +427,7 @@ class RepositoryScreenRoute
       {required String repositoryURL,
       String? branch,
       int index = 0,
-      _i18.DeepLinkData? deepLinkData,
+      _i18.PathData? deepLinkData,
       _i16.Key? key,
       String? initSHA})
       : super(RepositoryScreenRoute.name,
@@ -458,7 +458,7 @@ class RepositoryScreenRouteArgs {
 
   final int index;
 
-  final _i18.DeepLinkData? deepLinkData;
+  final _i18.PathData? deepLinkData;
 
   final _i16.Key? key;
 

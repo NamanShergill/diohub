@@ -4,11 +4,12 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/pulls/pull_list_card.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,10 +42,8 @@ class PullLoadingCard extends StatelessWidget {
               return InkWell(
                 borderRadius: medBorderRadius,
                 onTap: () {
-                  AutoRouter.of(context).push(IssuePullScreenRoute(
-                      number: issueModel!.number!,
-                      ownerName: issueModel!.repository!.name!,
-                      repoName: issueModel!.repository!.owner!.login!));
+                  AutoRouter.of(context).push(
+                      issuePullScreenRoute(PathData.fromURL(issueModel!.url!)));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

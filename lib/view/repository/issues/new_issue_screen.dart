@@ -56,7 +56,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
           owner: widget.owner,
           repo: widget.repo);
       AutoRouter.of(context)
-          .replace(issuePullScreenRoute(githubURLtoPath(res.url!)));
+          .replace(issuePullScreenRoute(PathData.fromURL(res.url!)));
       // setState(() {
       //   status = PageStatus.loaded;
       // });

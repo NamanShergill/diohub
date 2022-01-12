@@ -4,11 +4,12 @@ import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/pulls/pull_loading_card.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -50,12 +51,8 @@ class IssueListCard extends StatelessWidget {
         child: InkWell(
           borderRadius: medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(IssuePullScreenRoute(
-                number: item.number!,
-                ownerName: item.repository!.owner!.login!,
-                repoName: item.repository!.name!,
-                commentsSince: commentsSince,
-                initialIndex: commentsSince != null ? 1 : 0));
+            AutoRouter.of(context)
+                .push(issuePullScreenRoute(PathData.fromURL(item.url!)));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
