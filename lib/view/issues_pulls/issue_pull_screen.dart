@@ -2,10 +2,12 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
+import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/routes/router.gr.dart';
@@ -94,93 +96,97 @@ class IssuePullInfoTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DHAppBar(
-        title: Row(
-          children: [
-            Icon(
-              state.icon,
-              color: state.color,
-              size: 16,
-            ),
-            // const SizedBox(
-            //   width: 8,
-            // ),
-            richText([
-              TextSpan(text: ' #$number '),
-              TextSpan(
-                  text: repoInfo.name,
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal, color: faded3(context))),
-            ]),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return EditingWrapper(
+      onSave: () {},
+      builder: (context) => Scaffold(
+        appBar: DHAppBar(
+          hasEditableChildren: true,
+          title: Row(
             children: [
-              Row(
-                children: [
-                  Card(
-                    color: state.color,
-                    margin: EdgeInsets.zero,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            state.icon,
-                            size: 16,
-                            // color: state.color,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(state.text),
-                        ],
+              Icon(
+                state.icon,
+                color: state.color,
+                size: 16,
+              ),
+              // const SizedBox(
+              //   width: 8,
+              // ),
+              richText([
+                TextSpan(text: ' #$number '),
+                TextSpan(
+                    text: repoInfo.name,
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal, color: faded3(context))),
+              ]),
+            ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Card(
+                      color: state.color,
+                      margin: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              state.icon,
+                              size: 16,
+                              // color: state.color,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(state.text),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const Text(' by '),
-                  ProfileTile(
-                    createdBy.avatarUrl.toString(),
-                    userLogin: createdBy.login,
-                    showName: true,
-                    size: 16,
-                  ),
-                  Text(' on ${getDate(createdAt.toString(), shorten: false)}'),
-                ],
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              MarkdownBody(
-                title,
-                // style: theme(context).textTheme.headline5,
-              ),
-              if (labels != null) ...[
+                    const Text(' by '),
+                    ProfileTile(
+                      createdBy.avatarUrl.toString(),
+                      userLogin: createdBy.login,
+                      showName: true,
+                      size: 16,
+                    ),
+                    Text(', ${getDate(createdAt.toString(), shorten: false)}'),
+                  ],
+                ),
                 const SizedBox(
                   height: 4,
                 ),
-                Wrap(
-                  children: labels!
-                      .map((e) => Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: IssueLabel.gql(e!),
-                          ))
-                      .toList(),
+                EditableTextItem(
+                  title,
+                  onChange: (value) {},
                 ),
+                if (labels != null) ...[
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Wrap(
+                    children: labels!
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: IssueLabel.gql(e!),
+                            ))
+                        .toList(),
+                  ),
+                ],
+                const SizedBox(
+                  height: 4,
+                ),
+                Card(
+                  child: MarkdownBody(body),
+                )
               ],
-              const SizedBox(
-                height: 4,
-              ),
-              Card(
-                child: MarkdownBody(body),
-              )
-            ],
+            ),
           ),
         ),
       ),
