@@ -21,6 +21,7 @@ dependencies:
   dio_cache_interceptor: ^3.1.0
   dio_cache_interceptor_db_store: ^4.0.0
   equatable: ^2.0.3
+  expand_widget: ^2.1.0
 
   # Modified to remove the current typing word indicator.
   extended_text_field:
@@ -56,9 +57,9 @@ dependencies:
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^2.0.0+1
   flutter_scroll_to_top: ^1.2.0
-
   flutter_secure_storage: ^5.0.2
   flutter_slidable: ^1.2.0
+  flutter_speed_dial: ^5.0.0+1
   flutter_svg: ^1.0.0
   flutter_vector_icons: ^1.0.0
   google_nav_bar: ^5.0.5

@@ -25,7 +25,8 @@ class MarkdownRenderAPI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return APIWrapper<String>(
-      apiCall: () => MarkdownService.renderMarkdown(data, context: repoName),
+      apiCall: (refresh) =>
+          MarkdownService.renderMarkdown(data, context: repoName),
       loadingBuilder: (context) {
         return const Padding(
           padding: EdgeInsets.symmetric(vertical: 48),
@@ -44,12 +45,13 @@ class MarkdownRenderAPI extends StatelessWidget {
 }
 
 class MarkdownBody extends StatefulWidget {
-  const MarkdownBody(this.content, {Key? key, this.context, this.branch})
+  const MarkdownBody(this.content,
+      {Key? key, this.context, this.branch, this.defaultBodyStyle})
       : super(key: key);
   final String content;
   final String? context;
   final String? branch;
-
+  final Style? defaultBodyStyle;
   @override
   _MarkdownBodyState createState() => _MarkdownBodyState();
 }
@@ -106,6 +108,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
           padding: EdgeInsets.zero,
           margin: EdgeInsets.zero,
         ),
+        if (widget.defaultBodyStyle != null) 'body': widget.defaultBodyStyle!,
         'p': Style(
           padding: EdgeInsets.zero,
           margin: const EdgeInsets.symmetric(vertical: 8),

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class SizeExpandedSection extends StatefulWidget {
   const SizeExpandedSection(
       {this.expand = true,
-      this.child,
+      required this.child,
       this.axisAlignment = 1.0,
       this.axis = Axis.vertical,
       this.duration,
       this.animationCurve,
       Key? key})
       : super(key: key);
-  final Widget? child;
+  final Widget child;
   final bool? expand;
   final Axis axis;
   final double axisAlignment;

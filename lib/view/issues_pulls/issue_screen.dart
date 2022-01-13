@@ -1,3 +1,4 @@
+import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
@@ -6,11 +7,15 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueScreen extends StatefulWidget {
   const IssueScreen(this.issueInfo,
-      {this.initialIndex = 0, this.commentsSince, Key? key})
+      {this.initialIndex = 0,
+      this.commentsSince,
+      Key? key,
+      required this.apiWrapperController})
       : super(key: key);
   final IssueInfoMixin issueInfo;
   final DateTime? commentsSince;
   final int initialIndex;
+  final APIWrapperController apiWrapperController;
 
   @override
   _IssueScreenState createState() => _IssueScreenState();
@@ -34,12 +39,15 @@ class _IssueScreenState extends State<IssueScreen>
     return IssuePullInfoTemplate(
       number: data.number,
       title: data.titleHTML,
+      commentCount: data.comments.totalCount,
       repoInfo: data.repository,
       state: IssuePullState(data.state),
-      body: data.bodyHTML,
-      labels: data.labels?.nodes,
+      bodyHTML: data.bodyHTML,
+      body: data.body,
+      labels: data.labels!.nodes!,
       createdAt: data.createdAt,
       createdBy: data.author as ActorMixin,
+      apiWrapperController: widget.apiWrapperController,
     );
   }
 

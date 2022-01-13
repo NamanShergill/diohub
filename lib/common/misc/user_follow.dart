@@ -81,7 +81,7 @@ class _UserFollowState extends State<UserFollow> {
     }
 
     return APIWrapper<FollowStatusInfo$Query$User>(
-      apiCall: () => UserInfoService.getFollowInfo(widget.login),
+      apiCall: (refresh) => UserInfoService.getFollowInfo(widget.login),
       apiWrapperController: controller,
       loadingBuilder: (context) => widget.child != null
           ? widget.child!(context, null, null)

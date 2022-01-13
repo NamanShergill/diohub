@@ -11,7 +11,7 @@ class APIWrapperController<T> {
 
 typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
-typedef APICall<T> = Future<T> Function();
+typedef APICall<T> = Future<T> Function(bool refresh);
 
 class APIWrapper<T> extends StatefulWidget {
   const APIWrapper({
@@ -43,7 +43,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
 
   void setupWidget() async {
     if (widget.initialData == null) {
-      await fetchData();
+      await fetchData(refresh: false);
     } else {
       data = widget.initialData!;
       if (mounted) {
@@ -54,7 +54,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
     }
   }
 
-  Future fetchData() async {
+  Future fetchData({bool refresh = true}) async {
     if (mounted) {
       setState(() {
         loading = true;
@@ -62,7 +62,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
     }
     try {
       error = null;
-      data = await widget.apiCall();
+      data = await widget.apiCall(refresh);
       if (mounted) {
         setState(() {});
       }
@@ -135,5 +135,25 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
       );
     }
     return widget.responseBuilder(context, data);
+  }
+}
+
+class PullToRefreshWrapper<T> extends StatelessWidget {
+  const PullToRefreshWrapper({
+    Key? key,
+    required this.apiWrapperController,
+    required this.child,
+  }) : super(key: key);
+  final APIWrapperController<T> apiWrapperController;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+        onRefresh: () => Future.sync(() async {
+              apiWrapperController.refresh();
+            }),
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        child: child);
   }
 }

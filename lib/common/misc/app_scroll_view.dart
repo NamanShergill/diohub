@@ -82,7 +82,7 @@ class _AppScrollViewState extends State<AppScrollView> {
 class ScrollViewAppBar extends StatelessWidget {
   const ScrollViewAppBar(
       {this.tabs,
-      this.appBarWidget,
+      required this.appBarWidget,
       this.bottomHeader,
       this.backgroundColor,
       this.url,
@@ -96,7 +96,7 @@ class ScrollViewAppBar extends StatelessWidget {
       Key? key})
       : super(key: key);
   final List<String>? tabs;
-  final Widget? appBarWidget;
+  final Widget appBarWidget;
   final double? expandedHeight;
   final Widget? flexibleBackgroundWidget;
   final double? collapsedHeight;
@@ -173,7 +173,7 @@ class SliverAppBarTitle extends StatefulWidget {
     Key? key,
     required this.child,
   }) : super(key: key);
-  final Widget? child;
+  final Widget child;
   @override
   _SliverAppBarTitleState createState() {
     return _SliverAppBarTitleState();

@@ -1,32 +1,61 @@
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:flutter/material.dart';
 
-class EditableTextItem extends EditWidget<String> {
-  const EditableTextItem(String value,
-      {this.builder, Key? key, required ValueChanged<String> onChange})
-      : super(value, onChange: onChange, key: key);
-  final WidgetBuilder? builder;
+class EditableTextItem extends StatefulWidget {
+  const EditableTextItem(this.editingController, {this.builder, Key? key})
+      : super(key: key);
+  final Widget Function(BuildContext context, String? newValue)? builder;
+  final EditingController<String> editingController;
+
   @override
-  _EditableTextState createState() => _EditableTextState();
+  State<EditableTextItem> createState() => _EditableTextItemState();
 }
 
-class _EditableTextState extends EditWidgetState<String, EditableTextItem> {
+class _EditableTextItemState extends State<EditableTextItem> {
+  late TextEditingController textEditingController;
   @override
-  String getNewValue() {
-    // TODO: implement getNewValue
-    throw UnimplementedError();
+  void initState() {
+    textEditingController =
+        TextEditingController(text: widget.editingController.initialValue);
+    widget.editingController.addListener(() {
+      textEditingController.text = widget.editingController.value;
+    });
+    widget.editingController.editingHandler = EditingHandler(
+      onSave: () {
+        widget.editingController.saveEdit(textEditingController.text);
+      },
+      // currentValue: () => textEditingController.text,
+    );
+    super.initState();
   }
 
   @override
-  Widget buildChild(BuildContext context, Widget editingTools) {
-    return Row(
-      children: [
-        if (!currentlyEditing)
-          widget.builder?.call(context) ?? Text(value)
-        else
-          Flexible(child: TextFormField()),
-        Flexible(child: editingTools),
-      ],
+  Widget build(BuildContext context) {
+    return EditWidget(
+      editingController: widget.editingController,
+      toolsAxis: Axis.vertical,
+      builder: (context, newValue, tools, currentlyEditing, state) {
+        return Row(
+          children: [
+            if (!currentlyEditing)
+              Expanded(
+                child: widget.builder
+                        ?.call(context, widget.editingController.newValue) ??
+                    Text(
+                      widget.editingController.newValue ??
+                          widget.editingController.value,
+                    ),
+              )
+            else
+              Expanded(
+                  child: TextFormField(
+                controller: textEditingController,
+                maxLines: null,
+              )),
+            tools,
+          ],
+        );
+      },
     );
   }
 }

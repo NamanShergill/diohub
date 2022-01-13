@@ -1,5 +1,4 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,10 +11,8 @@ InputDecoration inputDecoration(
         Widget? suffixIcon,
         required BuildContext context}) =>
     InputDecoration(
-      contentPadding: const EdgeInsets.all(16),
       labelText: labelText,
       hintText: hintText?.replaceRange(0, 0, ' '),
-      fillColor: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       suffixIcon: Padding(
         padding: const EdgeInsets.all(16.0),
         child: suffixIcon ??
@@ -29,28 +26,7 @@ InputDecoration inputDecoration(
                       .withOpacity(0.7),
             ),
       ),
-      hintStyle: TextStyle(
-          color: Provider.of<PaletteSettings>(context)
-              .currentSetting
-              .faded3
-              .withOpacity(0.7),
-          fontSize: 12),
-      filled: true,
-      enabledBorder: _enabledBorder(enabledBorderColor ?? Colors.transparent),
-      focusedBorder: _focusedBorder(context),
-      labelStyle: TextStyle(
-          color: Provider.of<PaletteSettings>(context).currentSetting.faded3),
-      border: _border,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: enabledBorderColor ?? Colors.transparent),
+      ),
     );
-
-final OutlineInputBorder _border = OutlineInputBorder(
-  borderRadius: medBorderRadius,
-);
-
-OutlineInputBorder _enabledBorder(Color borderColor) => OutlineInputBorder(
-    borderSide: BorderSide(color: borderColor), borderRadius: medBorderRadius);
-
-OutlineInputBorder _focusedBorder(BuildContext context) => OutlineInputBorder(
-    borderSide: BorderSide(
-        color: Provider.of<PaletteSettings>(context).currentSetting.faded3),
-    borderRadius: medBorderRadius);

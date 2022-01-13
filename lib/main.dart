@@ -182,6 +182,22 @@ class _RootAppState extends State<RootApp> {
         cardTheme: CardTheme(
           color: palette.secondary,
         ),
+        inputDecorationTheme: InputDecorationTheme(
+            contentPadding: const EdgeInsets.all(16),
+            fillColor: palette.secondary,
+            hintStyle:
+                TextStyle(color: palette.faded3.withOpacity(0.7), fontSize: 12),
+            filled: true,
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.transparent),
+                borderRadius: medBorderRadius),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: palette.faded3),
+                borderRadius: medBorderRadius),
+            labelStyle: TextStyle(color: palette.faded3),
+            border: OutlineInputBorder(
+              borderRadius: medBorderRadius,
+            )),
       ),
       routerDelegate: customRouter.delegate(initialRoutes: [
         LandingLoadingScreenRoute(initLink: widget.initDeepLink)

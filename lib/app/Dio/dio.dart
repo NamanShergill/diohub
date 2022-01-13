@@ -130,7 +130,7 @@ Dio request({
     dio.interceptors.add(
       DioCacheInterceptor(
           options: cacheOptions ??
-              CacheOptions(policy: CachePolicy.refresh, store: cacheStore)),
+              CacheOptions(policy: CachePolicy.request, store: cacheStore)),
     );
   }
   // Log the request in the console for debugging if [debugLog] is true.

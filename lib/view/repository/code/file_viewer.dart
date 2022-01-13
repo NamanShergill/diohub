@@ -97,7 +97,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         ],
       ),
       body: APIWrapper<BlobModel>(
-        apiCall: () => GitDatabaseService.getBlob(
+        apiCall: (refresh) => GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
           if (fileType != null && fileType!.startsWith('image')) {

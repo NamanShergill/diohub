@@ -20,12 +20,15 @@ class IssuesService {
 
   static Future<IssuePullInfo$Query$Repository$IssueOrPullRequest>
       getIssuePullInfo(int number,
-          {required String user, required String repo}) async {
+          {required String user,
+          required String repo,
+          bool refresh = false}) async {
     final response = await gqlRequest(
       IssuePullInfoQuery(
           variables:
               IssuePullInfoArguments(user: user, repo: repo, number: number)),
       // debugLog: true,
+      cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
     );
     return IssuePullInfo$Query.fromJson(response.data!)
         .repository!
