@@ -1,7 +1,7 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
@@ -34,6 +34,9 @@ String getReaction(ReactionContent reaction) {
   }
 }
 
+Widget _shimmer(Widget child, bool shimmer) =>
+    shimmer ? ShimmerWidget(child: child) : child;
+
 class ReactionBar extends StatefulWidget {
   const ReactionBar(this.reactionGroups,
       {Key? key, required this.viewerCanReact})
@@ -46,6 +49,36 @@ class ReactionBar extends StatefulWidget {
 }
 
 class _ReactionBarState extends State<ReactionBar> {
+  bool loading = false;
+  Future updateReaction(ReactionGroupsMixin value) async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      if (value.viewerHasReacted) {
+        await IssuesService.removeReaction(
+          value.content,
+          value.subject.id,
+        );
+        value.viewerHasReacted = false;
+        value.reactors.totalCount--;
+      } else {
+        await IssuesService.addReaction(
+          value.content,
+          value.subject.id,
+        );
+        value.viewerHasReacted = true;
+        value.reactors.totalCount++;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -61,69 +94,62 @@ class _ReactionBarState extends State<ReactionBar> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 2.0, vertical: 4),
-                    child: ClipRRect(
-                      borderRadius: bigBorderRadius,
-                      child: Material(
-                        // elevation: 2,
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .primary,
+                    child: IgnorePointer(
+                      ignoring: loading,
+                      child: ClipRRect(
                         borderRadius: bigBorderRadius,
-                        child: ReactionButton<ReactionGroupsMixin>(
-                          // splashColor: Colors.transparent,
-                          boxPadding: const EdgeInsets.all(16),
-                          shouldChangeReaction: false,
-                          boxPosition: Position.BOTTOM,
-                          boxColor: Provider.of<PaletteSettings>(context)
+                        child: Material(
+                          // elevation: 2,
+                          color: Provider.of<PaletteSettings>(context)
                               .currentSetting
                               .primary,
-                          onReactionChanged: (value) async {
-                            if (value!.viewerHasReacted) {
-                              // await ReactionsService.deleteReaction(
-                              //     widget.url, reactions[index].userReactionID);
-                              value.viewerHasReacted = false;
-                              value.reactors.totalCount--;
-                            } else {
-                              // await ReactionsService.createReaction(
-                              //         widget.url, reactions[index].reaction)
-                              //     .then((value) {
-                              // });
-                              value.viewerHasReacted = true;
-                              value.reactors.totalCount++;
-                            }
-                            setState(() {});
-                          },
-                          initialReaction: Reaction(
-                            icon: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: SizedBox(
-                                height: 36,
-                                child: Center(
-                                  child: Icon(
-                                    Icons.emoji_emotions_rounded,
-                                    color: Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .faded3,
-                                    size: 18,
+                          borderRadius: bigBorderRadius,
+                          child: ReactionButton<ReactionGroupsMixin>(
+                            // splashColor: Colors.transparent,
+                            boxPadding: const EdgeInsets.all(16),
+                            shouldChangeReaction: false,
+                            boxPosition: Position.BOTTOM,
+                            boxColor: Provider.of<PaletteSettings>(context)
+                                .currentSetting
+                                .primary,
+                            onReactionChanged: (value) async {
+                              updateReaction(value!);
+                            },
+                            initialReaction: Reaction(
+                              icon: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: SizedBox(
+                                  height: 36,
+                                  child: Center(
+                                    child: _shimmer(
+                                        Icon(
+                                          Icons.emoji_emotions_rounded,
+                                          color: Provider.of<PaletteSettings>(
+                                                  context)
+                                              .currentSetting
+                                              .faded3,
+                                          size: 18,
+                                        ),
+                                        loading),
                                   ),
                                 ),
                               ),
+                              value: null,
                             ),
-                            value: null,
-                          ),
-                          reactions: List.generate(
-                            widget.reactionGroups.length,
-                            (index) => Reaction(
-                              icon: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  getReaction(
-                                      widget.reactionGroups[index].content),
-                                  style: const TextStyle(fontSize: 18),
+                            reactions: List.generate(
+                              widget.reactionGroups.length,
+                              (index) => Reaction(
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    getReaction(
+                                        widget.reactionGroups[index].content),
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
                                 ),
+                                value: widget.reactionGroups[index],
                               ),
-                              value: widget.reactionGroups[index],
                             ),
                           ),
                         ),
@@ -132,10 +158,24 @@ class _ReactionBarState extends State<ReactionBar> {
                   ),
                 ...List.generate(
                   widget.reactionGroups.length,
-                  (index) => Visibility(
+                  (index) => ScaleSwitch(
                     visible:
                         widget.reactionGroups[index].reactors.totalCount > 0,
-                    child: ReactionItem(widget.reactionGroups[index]),
+                    child: IgnorePointer(
+                        ignoring: loading,
+                        child: ReactionItem(
+                          widget.reactionGroups[index],
+                          onTap: loading || !widget.viewerCanReact
+                              ? null
+                              : (group) async {
+                                  try {
+                                    await updateReaction(group);
+                                    return true;
+                                  } catch (e) {
+                                    debugPrint(e.toString());
+                                  }
+                                },
+                        )),
                   ),
                 )
               ],
@@ -151,7 +191,7 @@ class ReactionItem extends StatefulWidget {
   const ReactionItem(this.reactionGroup, {this.onTap, Key? key})
       : super(key: key);
   final ReactionGroupsMixin reactionGroup;
-  final Future<bool?> Function()? onTap;
+  final Future<bool?> Function(ReactionGroupsMixin group)? onTap;
 
   @override
   _ReactionItemState createState() => _ReactionItemState();
@@ -168,7 +208,7 @@ class _ReactionItemState extends State<ReactionItem> {
         },
       );
     }
-    await widget.onTap?.call();
+    await widget.onTap?.call(widget.reactionGroup);
 
     if (mounted) {
       setState(() {
@@ -179,115 +219,106 @@ class _ReactionItemState extends State<ReactionItem> {
 
   @override
   Widget build(BuildContext context) {
-    return SizeExpandedSection(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4),
-        child: Material(
-            elevation: 2,
-            color: widget.reactionGroup.viewerHasReacted
-                ? Provider.of<PaletteSettings>(context).currentSetting.accent
-                : Provider.of<PaletteSettings>(context).currentSetting.primary,
-            borderRadius: bigBorderRadius,
-            child: InkWell(
-              onTap: widget.onTap != null ? changeReaction : null,
-              onLongPress: () {
-                showDialog<void>(
-                  context: context,
-                  builder: (dialogContext) {
-                    return AlertDialog(
-                      scrollable: true,
-                      content:
-                          APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
-                        apiCall: (refresh) => IssuesService.getReactors(
-                          widget.reactionGroup.subject.id,
-                          widget.reactionGroup.content,
-                        ),
-                        responseBuilder: (context, data) => Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ...List.generate(
-                              data.length,
-                              // shrinkWrap: true,
-                              (index) {
-                                final actor = data[index]!.node as ActorMixin;
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 4),
-                                  child: Card(
-                                    margin: EdgeInsets.zero,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: ProfileTile(
-                                            actor.avatarUrl.toString(),
-                                            padding: const EdgeInsets.all(8),
-                                            userLogin: actor.login,
-                                            showName: true,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4),
+      child: Material(
+          elevation: 2,
+          color: widget.reactionGroup.viewerHasReacted
+              ? Provider.of<PaletteSettings>(context).currentSetting.accent
+              : Provider.of<PaletteSettings>(context).currentSetting.primary,
+          borderRadius: bigBorderRadius,
+          child: InkWell(
+            onTap: widget.onTap != null ? changeReaction : null,
+            onLongPress: () {
+              showDialog<void>(
+                context: context,
+                builder: (dialogContext) {
+                  return AlertDialog(
+                    scrollable: true,
+                    content:
+                        APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
+                      apiCall: (refresh) => IssuesService.getReactors(
+                        widget.reactionGroup.subject.id,
+                        widget.reactionGroup.content,
                       ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('buttonText'),
-                          onPressed: () {
-                            Navigator.of(dialogContext)
-                                .pop(); // Dismiss alert dialog
-                          },
+                      responseBuilder: (context, data) => Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ...List.generate(
+                            data.length,
+                            // shrinkWrap: true,
+                            (index) {
+                              final actor = data[index]!.node as ActorMixin;
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 4),
+                                child: Card(
+                                  margin: EdgeInsets.zero,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: ProfileTile(
+                                          actor.avatarUrl.toString(),
+                                          padding: const EdgeInsets.all(8),
+                                          userLogin: actor.login,
+                                          showName: true,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('buttonText'),
+                        onPressed: () {
+                          Navigator.of(dialogContext)
+                              .pop(); // Dismiss alert dialog
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            borderRadius: bigBorderRadius,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: SizedBox(
+                height: 36,
+                child: _shimmer(
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(getReaction(widget.reactionGroup.content)),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            widget.reactionGroup.reactors.totalCount.toString(),
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
                         ),
                       ],
-                    );
-                  },
-                );
-              },
-              borderRadius: bigBorderRadius,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: SizedBox(
-                  height: 36,
-                  child: loading
-                      ? const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: LoadingIndicator(
-                            size: 15,
-                          ),
-                        )
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(getReaction(widget.reactionGroup.content)),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text(
-                                widget.reactionGroup.reactors.totalCount
-                                    .toString(),
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                          ],
-                        ),
-                ),
+                    ),
+                    loading),
               ),
-            )),
-      ),
+            ),
+          )),
     );
   }
 }

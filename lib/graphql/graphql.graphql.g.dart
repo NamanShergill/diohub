@@ -393,38 +393,6 @@ Map<String, dynamic> _$IssueInfoMixin$TimelineItemsToJson(
       'totalCount': instance.totalCount,
     };
 
-ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
-        Map<String, dynamic> json) =>
-    ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$ReactionGroupsMixin$ReactorsToJson(
-        ReactionGroupsMixin$Reactors instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-ReactionGroupsMixin$Subject _$ReactionGroupsMixin$SubjectFromJson(
-        Map<String, dynamic> json) =>
-    ReactionGroupsMixin$Subject()..id = json['id'] as String;
-
-Map<String, dynamic> _$ReactionGroupsMixin$SubjectToJson(
-        ReactionGroupsMixin$Subject instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-RepoInfoMixin$Owner _$RepoInfoMixin$OwnerFromJson(Map<String, dynamic> json) =>
-    RepoInfoMixin$Owner()
-      ..login = json['login'] as String
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
-
-Map<String, dynamic> _$RepoInfoMixin$OwnerToJson(
-        RepoInfoMixin$Owner instance) =>
-    <String, dynamic>{
-      'login': instance.login,
-      'avatarUrl': instance.avatarUrl.toString(),
-    };
-
 PullInfoMixin$Assignees _$PullInfoMixin$AssigneesFromJson(
         Map<String, dynamic> json) =>
     PullInfoMixin$Assignees()..totalCount = json['totalCount'] as int;
@@ -600,6 +568,18 @@ Map<String, dynamic> _$PullInfoMixin$CommitsToJson(
       'totalCount': instance.totalCount,
     };
 
+RepoInfoMixin$Owner _$RepoInfoMixin$OwnerFromJson(Map<String, dynamic> json) =>
+    RepoInfoMixin$Owner()
+      ..login = json['login'] as String
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
+
+Map<String, dynamic> _$RepoInfoMixin$OwnerToJson(
+        RepoInfoMixin$Owner instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+      'avatarUrl': instance.avatarUrl.toString(),
+    };
+
 GetReactors$Query$Node$Issue$ReactionGroups
     _$GetReactors$Query$Node$Issue$ReactionGroupsFromJson(
             Map<String, dynamic> json) =>
@@ -689,62 +669,85 @@ Map<String, dynamic> _$GetReactors$QueryToJson(GetReactors$Query instance) =>
       'node': instance.node?.toJson(),
     };
 
-ReactorsGroupMixin$Reactors$Edges$Node$User
-    _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(
+AddReaction$Mutation$AddReaction$Reaction
+    _$AddReaction$Mutation$AddReaction$ReactionFromJson(
             Map<String, dynamic> json) =>
-        ReactorsGroupMixin$Reactors$Edges$Node$User()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String
-          ..$$typename = json['__typename'] as String?;
+        AddReaction$Mutation$AddReaction$Reaction()
+          ..createdAt = DateTime.parse(json['createdAt'] as String);
 
-Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(
-        ReactorsGroupMixin$Reactors$Edges$Node$User instance) =>
+Map<String, dynamic> _$AddReaction$Mutation$AddReaction$ReactionToJson(
+        AddReaction$Mutation$AddReaction$Reaction instance) =>
     <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-      '__typename': instance.$$typename,
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
-ReactorsGroupMixin$Reactors$Edges$Node
-    _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(
+AddReaction$Mutation$AddReaction _$AddReaction$Mutation$AddReactionFromJson(
+        Map<String, dynamic> json) =>
+    AddReaction$Mutation$AddReaction()
+      ..reaction = json['reaction'] == null
+          ? null
+          : AddReaction$Mutation$AddReaction$Reaction.fromJson(
+              json['reaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AddReaction$Mutation$AddReactionToJson(
+        AddReaction$Mutation$AddReaction instance) =>
+    <String, dynamic>{
+      'reaction': instance.reaction?.toJson(),
+    };
+
+AddReaction$Mutation _$AddReaction$MutationFromJson(
+        Map<String, dynamic> json) =>
+    AddReaction$Mutation()
+      ..addReaction = json['addReaction'] == null
+          ? null
+          : AddReaction$Mutation$AddReaction.fromJson(
+              json['addReaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AddReaction$MutationToJson(
+        AddReaction$Mutation instance) =>
+    <String, dynamic>{
+      'addReaction': instance.addReaction?.toJson(),
+    };
+
+RemoveReaction$Mutation$RemoveReaction$Reaction
+    _$RemoveReaction$Mutation$RemoveReaction$ReactionFromJson(
             Map<String, dynamic> json) =>
-        ReactorsGroupMixin$Reactors$Edges$Node()
-          ..$$typename = json['__typename'] as String?;
+        RemoveReaction$Mutation$RemoveReaction$Reaction()
+          ..createdAt = DateTime.parse(json['createdAt'] as String);
 
-Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(
-        ReactorsGroupMixin$Reactors$Edges$Node instance) =>
+Map<String, dynamic> _$RemoveReaction$Mutation$RemoveReaction$ReactionToJson(
+        RemoveReaction$Mutation$RemoveReaction$Reaction instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
-ReactorsGroupMixin$Reactors$Edges _$ReactorsGroupMixin$Reactors$EdgesFromJson(
-        Map<String, dynamic> json) =>
-    ReactorsGroupMixin$Reactors$Edges()
-      ..cursor = json['cursor'] as String
-      ..node = ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
-          json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$ReactorsGroupMixin$Reactors$EdgesToJson(
-        ReactorsGroupMixin$Reactors$Edges instance) =>
-    <String, dynamic>{
-      'cursor': instance.cursor,
-      'node': instance.node.toJson(),
-    };
-
-ReactorsGroupMixin$Reactors _$ReactorsGroupMixin$ReactorsFromJson(
-        Map<String, dynamic> json) =>
-    ReactorsGroupMixin$Reactors()
-      ..edges = (json['edges'] as List<dynamic>?)
-          ?.map((e) => e == null
+RemoveReaction$Mutation$RemoveReaction
+    _$RemoveReaction$Mutation$RemoveReactionFromJson(
+            Map<String, dynamic> json) =>
+        RemoveReaction$Mutation$RemoveReaction()
+          ..reaction = json['reaction'] == null
               ? null
-              : ReactorsGroupMixin$Reactors$Edges.fromJson(
-                  e as Map<String, dynamic>))
-          .toList();
+              : RemoveReaction$Mutation$RemoveReaction$Reaction.fromJson(
+                  json['reaction'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$ReactorsGroupMixin$ReactorsToJson(
-        ReactorsGroupMixin$Reactors instance) =>
+Map<String, dynamic> _$RemoveReaction$Mutation$RemoveReactionToJson(
+        RemoveReaction$Mutation$RemoveReaction instance) =>
     <String, dynamic>{
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+      'reaction': instance.reaction?.toJson(),
+    };
+
+RemoveReaction$Mutation _$RemoveReaction$MutationFromJson(
+        Map<String, dynamic> json) =>
+    RemoveReaction$Mutation()
+      ..removeReaction = json['removeReaction'] == null
+          ? null
+          : RemoveReaction$Mutation$RemoveReaction.fromJson(
+              json['removeReaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$RemoveReaction$MutationToJson(
+        RemoveReaction$Mutation instance) =>
+    <String, dynamic>{
+      'removeReaction': instance.removeReaction?.toJson(),
     };
 
 FetchReview$Query$Node$PullRequestReviewComment$Author
@@ -845,223 +848,6 @@ Map<String, dynamic> _$GetPRReviewComments$QueryToJson(
         GetPRReviewComments$Query instance) =>
     <String, dynamic>{
       'node': instance.node?.toJson(),
-    };
-
-PRReviewCommentsMixin$Comments$Edges$Node
-    _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        PRReviewCommentsMixin$Comments$Edges$Node()
-          ..id = json['id'] as String
-          ..databaseId = json['databaseId'] as int?
-          ..author = json['author'] == null
-              ? null
-              : PullRequestReviewCommentMixin$Author.fromJson(
-                  json['author'] as Map<String, dynamic>)
-          ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = $enumDecode(
-              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-              unknownValue: CommentAuthorAssociation.artemisUnknown)
-          ..body = json['body'] as String
-          ..bodyHTML = json['bodyHTML'] as String
-          ..lastEditedAt = json['lastEditedAt'] == null
-              ? null
-              : DateTime.parse(json['lastEditedAt'] as String)
-          ..state = $enumDecode(
-              _$PullRequestReviewCommentStateEnumMap, json['state'],
-              unknownValue: PullRequestReviewCommentState.artemisUnknown)
-          ..diffHunk = json['diffHunk'] as String
-          ..outdated = json['outdated'] as bool
-          ..isMinimized = json['isMinimized'] as bool
-          ..replyTo = json['replyTo'] == null
-              ? null
-              : PullRequestReviewCommentMixin$ReplyTo.fromJson(
-                  json['replyTo'] as Map<String, dynamic>)
-          ..path = json['path'] as String
-          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-              ?.map((e) =>
-                  PullRequestReviewCommentMixin$ReactionGroups.fromJson(
-                      e as Map<String, dynamic>))
-              .toList()
-          ..viewerCanDelete = json['viewerCanDelete'] as bool
-          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
-          ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons =
-              (json['viewerCannotUpdateReasons'] as List<dynamic>)
-                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
-                  .toList()
-          ..viewerCanReact = json['viewerCanReact'] as bool
-          ..viewerCanMinimize = json['viewerCanMinimize'] as bool
-          ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
-              json['pullRequest'] as Map<String, dynamic>)
-          ..repository = PullRequestReviewCommentMixin$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
-        PRReviewCommentsMixin$Comments$Edges$Node instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'databaseId': instance.databaseId,
-      'author': instance.author?.toJson(),
-      'createdAt': instance.createdAt.toIso8601String(),
-      'authorAssociation':
-          _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
-      'body': instance.body,
-      'bodyHTML': instance.bodyHTML,
-      'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
-      'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
-      'diffHunk': instance.diffHunk,
-      'outdated': instance.outdated,
-      'isMinimized': instance.isMinimized,
-      'replyTo': instance.replyTo?.toJson(),
-      'path': instance.path,
-      'reactionGroups':
-          instance.reactionGroups?.map((e) => e.toJson()).toList(),
-      'viewerCanDelete': instance.viewerCanDelete,
-      'viewerCanUpdate': instance.viewerCanUpdate,
-      'viewerDidAuthor': instance.viewerDidAuthor,
-      'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
-          .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
-          .toList(),
-      'viewerCanReact': instance.viewerCanReact,
-      'viewerCanMinimize': instance.viewerCanMinimize,
-      'pullRequest': instance.pullRequest.toJson(),
-      'repository': instance.repository.toJson(),
-    };
-
-const _$PullRequestReviewCommentStateEnumMap = {
-  PullRequestReviewCommentState.pending: 'PENDING',
-  PullRequestReviewCommentState.submitted: 'SUBMITTED',
-  PullRequestReviewCommentState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-const _$CommentCannotUpdateReasonEnumMap = {
-  CommentCannotUpdateReason.archived: 'ARCHIVED',
-  CommentCannotUpdateReason.denied: 'DENIED',
-  CommentCannotUpdateReason.insufficientAccess: 'INSUFFICIENT_ACCESS',
-  CommentCannotUpdateReason.locked: 'LOCKED',
-  CommentCannotUpdateReason.loginRequired: 'LOGIN_REQUIRED',
-  CommentCannotUpdateReason.maintenance: 'MAINTENANCE',
-  CommentCannotUpdateReason.verifiedEmailRequired: 'VERIFIED_EMAIL_REQUIRED',
-  CommentCannotUpdateReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-PRReviewCommentsMixin$Comments$Edges
-    _$PRReviewCommentsMixin$Comments$EdgesFromJson(Map<String, dynamic> json) =>
-        PRReviewCommentsMixin$Comments$Edges()
-          ..$$typename = json['__typename'] as String?
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
-              ? null
-              : PRReviewCommentsMixin$Comments$Edges$Node.fromJson(
-                  json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PRReviewCommentsMixin$Comments$EdgesToJson(
-        PRReviewCommentsMixin$Comments$Edges instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'cursor': instance.cursor,
-      'node': instance.node?.toJson(),
-    };
-
-PRReviewCommentsMixin$Comments _$PRReviewCommentsMixin$CommentsFromJson(
-        Map<String, dynamic> json) =>
-    PRReviewCommentsMixin$Comments()
-      ..edges = (json['edges'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : PRReviewCommentsMixin$Comments$Edges.fromJson(
-                  e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$PRReviewCommentsMixin$CommentsToJson(
-        PRReviewCommentsMixin$Comments instance) =>
-    <String, dynamic>{
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-PullRequestReviewCommentMixin$Author
-    _$PullRequestReviewCommentMixin$AuthorFromJson(Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$Author()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$AuthorToJson(
-        PullRequestReviewCommentMixin$Author instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullRequestReviewCommentMixin$ReplyTo
-    _$PullRequestReviewCommentMixin$ReplyToFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$ReplyTo()..id = json['id'] as String;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$ReplyToToJson(
-        PullRequestReviewCommentMixin$ReplyTo instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-PullRequestReviewCommentMixin$ReactionGroups
-    _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$ReactionGroups()
-          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
-              unknownValue: ReactionContent.artemisUnknown)
-          ..viewerHasReacted = json['viewerHasReacted'] as bool
-          ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-              json['reactors'] as Map<String, dynamic>)
-          ..subject = ReactionGroupsMixin$Subject.fromJson(
-              json['subject'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
-        PullRequestReviewCommentMixin$ReactionGroups instance) =>
-    <String, dynamic>{
-      'content': _$ReactionContentEnumMap[instance.content],
-      'viewerHasReacted': instance.viewerHasReacted,
-      'reactors': instance.reactors.toJson(),
-      'subject': instance.subject.toJson(),
-    };
-
-PullRequestReviewCommentMixin$PullRequest
-    _$PullRequestReviewCommentMixin$PullRequestFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$PullRequest()
-          ..number = json['number'] as int;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$PullRequestToJson(
-        PullRequestReviewCommentMixin$PullRequest instance) =>
-    <String, dynamic>{
-      'number': instance.number,
-    };
-
-PullRequestReviewCommentMixin$Repository$Owner
-    _$PullRequestReviewCommentMixin$Repository$OwnerFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$Repository$Owner()
-          ..login = json['login'] as String;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$Repository$OwnerToJson(
-        PullRequestReviewCommentMixin$Repository$Owner instance) =>
-    <String, dynamic>{
-      'login': instance.login,
-    };
-
-PullRequestReviewCommentMixin$Repository
-    _$PullRequestReviewCommentMixin$RepositoryFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$Repository()
-          ..name = json['name'] as String
-          ..owner = PullRequestReviewCommentMixin$Repository$Owner.fromJson(
-              json['owner'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$RepositoryToJson(
-        PullRequestReviewCommentMixin$Repository instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner.toJson(),
     };
 
 ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
@@ -1296,6 +1082,23 @@ Map<String, dynamic>
           'pullRequest': instance.pullRequest.toJson(),
           'repository': instance.repository.toJson(),
         };
+
+const _$PullRequestReviewCommentStateEnumMap = {
+  PullRequestReviewCommentState.pending: 'PENDING',
+  PullRequestReviewCommentState.submitted: 'SUBMITTED',
+  PullRequestReviewCommentState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$CommentCannotUpdateReasonEnumMap = {
+  CommentCannotUpdateReason.archived: 'ARCHIVED',
+  CommentCannotUpdateReason.denied: 'DENIED',
+  CommentCannotUpdateReason.insufficientAccess: 'INSUFFICIENT_ACCESS',
+  CommentCannotUpdateReason.locked: 'LOCKED',
+  CommentCannotUpdateReason.loginRequired: 'LOGIN_REQUIRED',
+  CommentCannotUpdateReason.maintenance: 'MAINTENANCE',
+  CommentCannotUpdateReason.verifiedEmailRequired: 'VERIFIED_EMAIL_REQUIRED',
+  CommentCannotUpdateReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
 ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
     _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesFromJson(
@@ -3311,12 +3114,100 @@ Map<String, dynamic> _$AssignedMixin$AssigneeToJson(
       '__typename': instance.$$typename,
     };
 
+BaseRefChangedMixin$Actor _$BaseRefChangedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    BaseRefChangedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$BaseRefChangedMixin$ActorToJson(
+        BaseRefChangedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+BaseRefDeletedMixin$Actor _$BaseRefDeletedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    BaseRefDeletedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$BaseRefDeletedMixin$ActorToJson(
+        BaseRefDeletedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+BaseRefForcePushedMixin$BeforeCommit
+    _$BaseRefForcePushedMixin$BeforeCommitFromJson(Map<String, dynamic> json) =>
+        BaseRefForcePushedMixin$BeforeCommit()
+          ..abbreviatedOid = json['abbreviatedOid'] as String
+          ..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$BeforeCommitToJson(
+        BaseRefForcePushedMixin$BeforeCommit instance) =>
+    <String, dynamic>{
+      'abbreviatedOid': instance.abbreviatedOid,
+      'url': instance.url.toString(),
+    };
+
+BaseRefForcePushedMixin$AfterCommit
+    _$BaseRefForcePushedMixin$AfterCommitFromJson(Map<String, dynamic> json) =>
+        BaseRefForcePushedMixin$AfterCommit()
+          ..url = Uri.parse(json['url'] as String)
+          ..abbreviatedOid = json['abbreviatedOid'] as String;
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$AfterCommitToJson(
+        BaseRefForcePushedMixin$AfterCommit instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'abbreviatedOid': instance.abbreviatedOid,
+    };
+
+BaseRefForcePushedMixin$Ref _$BaseRefForcePushedMixin$RefFromJson(
+        Map<String, dynamic> json) =>
+    BaseRefForcePushedMixin$Ref()..name = json['name'] as String;
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$RefToJson(
+        BaseRefForcePushedMixin$Ref instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+BaseRefForcePushedMixin$Actor _$BaseRefForcePushedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    BaseRefForcePushedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$BaseRefForcePushedMixin$ActorToJson(
+        BaseRefForcePushedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
 ClosedMixin$Actor _$ClosedMixin$ActorFromJson(Map<String, dynamic> json) =>
     ClosedMixin$Actor()
       ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
       ..login = json['login'] as String;
 
 Map<String, dynamic> _$ClosedMixin$ActorToJson(ClosedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ConvertedToDraftMixin$Actor _$ConvertedToDraftMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    ConvertedToDraftMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$ConvertedToDraftMixin$ActorToJson(
+        ConvertedToDraftMixin$Actor instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
@@ -3393,32 +3284,6 @@ Map<String, dynamic> _$CrossReferenceMixin$SourceToJson(
       '__typename': instance.$$typename,
     };
 
-IssueMixin$Repository _$IssueMixin$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    IssueMixin$Repository()
-      ..name = json['name'] as String
-      ..nameWithOwner = json['nameWithOwner'] as String;
-
-Map<String, dynamic> _$IssueMixin$RepositoryToJson(
-        IssueMixin$Repository instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'nameWithOwner': instance.nameWithOwner,
-    };
-
-PullRequestMixin$Repository _$PullRequestMixin$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    PullRequestMixin$Repository()
-      ..name = json['name'] as String
-      ..nameWithOwner = json['nameWithOwner'] as String;
-
-Map<String, dynamic> _$PullRequestMixin$RepositoryToJson(
-        PullRequestMixin$Repository instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'nameWithOwner': instance.nameWithOwner,
-    };
-
 DeMileStonedMixin$Actor _$DeMileStonedMixin$ActorFromJson(
         Map<String, dynamic> json) =>
     DeMileStonedMixin$Actor()
@@ -3427,6 +3292,81 @@ DeMileStonedMixin$Actor _$DeMileStonedMixin$ActorFromJson(
 
 Map<String, dynamic> _$DeMileStonedMixin$ActorToJson(
         DeMileStonedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+HeadRefDeletedMixin$Actor _$HeadRefDeletedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    HeadRefDeletedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$HeadRefDeletedMixin$ActorToJson(
+        HeadRefDeletedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+HeadRefForcePushedMixin$BeforeCommit
+    _$HeadRefForcePushedMixin$BeforeCommitFromJson(Map<String, dynamic> json) =>
+        HeadRefForcePushedMixin$BeforeCommit()
+          ..abbreviatedOid = json['abbreviatedOid'] as String
+          ..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$BeforeCommitToJson(
+        HeadRefForcePushedMixin$BeforeCommit instance) =>
+    <String, dynamic>{
+      'abbreviatedOid': instance.abbreviatedOid,
+      'url': instance.url.toString(),
+    };
+
+HeadRefForcePushedMixin$AfterCommit
+    _$HeadRefForcePushedMixin$AfterCommitFromJson(Map<String, dynamic> json) =>
+        HeadRefForcePushedMixin$AfterCommit()
+          ..url = Uri.parse(json['url'] as String)
+          ..abbreviatedOid = json['abbreviatedOid'] as String;
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$AfterCommitToJson(
+        HeadRefForcePushedMixin$AfterCommit instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+      'abbreviatedOid': instance.abbreviatedOid,
+    };
+
+HeadRefForcePushedMixin$Ref _$HeadRefForcePushedMixin$RefFromJson(
+        Map<String, dynamic> json) =>
+    HeadRefForcePushedMixin$Ref()..name = json['name'] as String;
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$RefToJson(
+        HeadRefForcePushedMixin$Ref instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+HeadRefForcePushedMixin$Actor _$HeadRefForcePushedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    HeadRefForcePushedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$HeadRefForcePushedMixin$ActorToJson(
+        HeadRefForcePushedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+HeadRefRestoredMixin$Actor _$HeadRefRestoredMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    HeadRefRestoredMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$HeadRefRestoredMixin$ActorToJson(
+        HeadRefRestoredMixin$Actor instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
@@ -3571,6 +3511,17 @@ Map<String, dynamic> _$MarkedAsDuplicateMixin$CanonicalToJson(
       '__typename': instance.$$typename,
     };
 
+MergedMixin$Actor _$MergedMixin$ActorFromJson(Map<String, dynamic> json) =>
+    MergedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$MergedMixin$ActorToJson(MergedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
 MileStonedMixin$Actor _$MileStonedMixin$ActorFromJson(
         Map<String, dynamic> json) =>
     MileStonedMixin$Actor()
@@ -3613,6 +3564,88 @@ PinnedMixin$Actor _$PinnedMixin$ActorFromJson(Map<String, dynamic> json) =>
       ..login = json['login'] as String;
 
 Map<String, dynamic> _$PinnedMixin$ActorToJson(PinnedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+PullRequestCommitMixin$Commit _$PullRequestCommitMixin$CommitFromJson(
+        Map<String, dynamic> json) =>
+    PullRequestCommitMixin$Commit()
+      ..additions = json['additions'] as int
+      ..authoredDate = DateTime.parse(json['authoredDate'] as String)
+      ..oid = json['oid'] as String
+      ..message = json['message'] as String
+      ..commitUrl = Uri.parse(json['commitUrl'] as String)
+      ..messageHeadline = json['messageHeadline'] as String
+      ..author = json['author'] == null
+          ? null
+          : CommitMixin$Author.fromJson(json['author'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullRequestCommitMixin$CommitToJson(
+        PullRequestCommitMixin$Commit instance) =>
+    <String, dynamic>{
+      'additions': instance.additions,
+      'authoredDate': instance.authoredDate.toIso8601String(),
+      'oid': instance.oid,
+      'message': instance.message,
+      'commitUrl': instance.commitUrl.toString(),
+      'messageHeadline': instance.messageHeadline,
+      'author': instance.author?.toJson(),
+    };
+
+PullRequestReviewMixin$Author _$PullRequestReviewMixin$AuthorFromJson(
+        Map<String, dynamic> json) =>
+    PullRequestReviewMixin$Author()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$PullRequestReviewMixin$AuthorToJson(
+        PullRequestReviewMixin$Author instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+PullRequestReviewMixin$Comments _$PullRequestReviewMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    PullRequestReviewMixin$Comments()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullRequestReviewMixin$CommentsToJson(
+        PullRequestReviewMixin$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullRequestReviewMixin$ReactionGroups
+    _$PullRequestReviewMixin$ReactionGroupsFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewMixin$ReactionGroups()
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+              unknownValue: ReactionContent.artemisUnknown)
+          ..viewerHasReacted = json['viewerHasReacted'] as bool
+          ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>)
+          ..subject = ReactionGroupsMixin$Subject.fromJson(
+              json['subject'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
+        PullRequestReviewMixin$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'viewerHasReacted': instance.viewerHasReacted,
+      'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
+    };
+
+ReadyForReviewMixin$Actor _$ReadyForReviewMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    ReadyForReviewMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$ReadyForReviewMixin$ActorToJson(
+        ReadyForReviewMixin$Actor instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
@@ -3664,6 +3697,78 @@ Map<String, dynamic> _$ReopenedMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
+    };
+
+ReviewDismissedMixin$Actor _$ReviewDismissedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    ReviewDismissedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$ReviewDismissedMixin$ActorToJson(
+        ReviewDismissedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ReviewRequestedMixin$Actor _$ReviewRequestedMixin$ActorFromJson(
+        Map<String, dynamic> json) =>
+    ReviewRequestedMixin$Actor()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$ReviewRequestedMixin$ActorToJson(
+        ReviewRequestedMixin$Actor instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+ReviewRequestedMixin$RequestedReviewer$User
+    _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(
+            Map<String, dynamic> json) =>
+        ReviewRequestedMixin$RequestedReviewer$User()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$UserToJson(
+        ReviewRequestedMixin$RequestedReviewer$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+ReviewRequestedMixin$RequestedReviewer$Team
+    _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(
+            Map<String, dynamic> json) =>
+        ReviewRequestedMixin$RequestedReviewer$Team()
+          ..$$typename = json['__typename'] as String?
+          ..avatar = json['avatar'] == null
+              ? null
+              : Uri.parse(json['avatar'] as String)
+          ..name = json['name'] as String;
+
+Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(
+        ReviewRequestedMixin$RequestedReviewer$Team instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'avatar': instance.avatar?.toString(),
+      'name': instance.name,
+    };
+
+ReviewRequestedMixin$RequestedReviewer
+    _$ReviewRequestedMixin$RequestedReviewerFromJson(
+            Map<String, dynamic> json) =>
+        ReviewRequestedMixin$RequestedReviewer()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewerToJson(
+        ReviewRequestedMixin$RequestedReviewer instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
     };
 
 UnassignedMixin$Actor _$UnassignedMixin$ActorFromJson(
@@ -3873,203 +3978,30 @@ Map<String, dynamic> _$UnpinnedMixin$ActorToJson(
       'login': instance.login,
     };
 
-BaseRefChangedMixin$Actor _$BaseRefChangedMixin$ActorFromJson(
+PullRequestMixin$Repository _$PullRequestMixin$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    BaseRefChangedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
+    PullRequestMixin$Repository()
+      ..name = json['name'] as String
+      ..nameWithOwner = json['nameWithOwner'] as String;
 
-Map<String, dynamic> _$BaseRefChangedMixin$ActorToJson(
-        BaseRefChangedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-BaseRefDeletedMixin$Actor _$BaseRefDeletedMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    BaseRefDeletedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$BaseRefDeletedMixin$ActorToJson(
-        BaseRefDeletedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-BaseRefForcePushedMixin$BeforeCommit
-    _$BaseRefForcePushedMixin$BeforeCommitFromJson(Map<String, dynamic> json) =>
-        BaseRefForcePushedMixin$BeforeCommit()
-          ..abbreviatedOid = json['abbreviatedOid'] as String
-          ..url = Uri.parse(json['url'] as String);
-
-Map<String, dynamic> _$BaseRefForcePushedMixin$BeforeCommitToJson(
-        BaseRefForcePushedMixin$BeforeCommit instance) =>
-    <String, dynamic>{
-      'abbreviatedOid': instance.abbreviatedOid,
-      'url': instance.url.toString(),
-    };
-
-BaseRefForcePushedMixin$AfterCommit
-    _$BaseRefForcePushedMixin$AfterCommitFromJson(Map<String, dynamic> json) =>
-        BaseRefForcePushedMixin$AfterCommit()
-          ..url = Uri.parse(json['url'] as String)
-          ..abbreviatedOid = json['abbreviatedOid'] as String;
-
-Map<String, dynamic> _$BaseRefForcePushedMixin$AfterCommitToJson(
-        BaseRefForcePushedMixin$AfterCommit instance) =>
-    <String, dynamic>{
-      'url': instance.url.toString(),
-      'abbreviatedOid': instance.abbreviatedOid,
-    };
-
-BaseRefForcePushedMixin$Ref _$BaseRefForcePushedMixin$RefFromJson(
-        Map<String, dynamic> json) =>
-    BaseRefForcePushedMixin$Ref()..name = json['name'] as String;
-
-Map<String, dynamic> _$BaseRefForcePushedMixin$RefToJson(
-        BaseRefForcePushedMixin$Ref instance) =>
+Map<String, dynamic> _$PullRequestMixin$RepositoryToJson(
+        PullRequestMixin$Repository instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'nameWithOwner': instance.nameWithOwner,
     };
 
-BaseRefForcePushedMixin$Actor _$BaseRefForcePushedMixin$ActorFromJson(
+IssueMixin$Repository _$IssueMixin$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    BaseRefForcePushedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
+    IssueMixin$Repository()
+      ..name = json['name'] as String
+      ..nameWithOwner = json['nameWithOwner'] as String;
 
-Map<String, dynamic> _$BaseRefForcePushedMixin$ActorToJson(
-        BaseRefForcePushedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ConvertedToDraftMixin$Actor _$ConvertedToDraftMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    ConvertedToDraftMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$ConvertedToDraftMixin$ActorToJson(
-        ConvertedToDraftMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-HeadRefDeletedMixin$Actor _$HeadRefDeletedMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    HeadRefDeletedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$HeadRefDeletedMixin$ActorToJson(
-        HeadRefDeletedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-HeadRefForcePushedMixin$BeforeCommit
-    _$HeadRefForcePushedMixin$BeforeCommitFromJson(Map<String, dynamic> json) =>
-        HeadRefForcePushedMixin$BeforeCommit()
-          ..abbreviatedOid = json['abbreviatedOid'] as String
-          ..url = Uri.parse(json['url'] as String);
-
-Map<String, dynamic> _$HeadRefForcePushedMixin$BeforeCommitToJson(
-        HeadRefForcePushedMixin$BeforeCommit instance) =>
-    <String, dynamic>{
-      'abbreviatedOid': instance.abbreviatedOid,
-      'url': instance.url.toString(),
-    };
-
-HeadRefForcePushedMixin$AfterCommit
-    _$HeadRefForcePushedMixin$AfterCommitFromJson(Map<String, dynamic> json) =>
-        HeadRefForcePushedMixin$AfterCommit()
-          ..url = Uri.parse(json['url'] as String)
-          ..abbreviatedOid = json['abbreviatedOid'] as String;
-
-Map<String, dynamic> _$HeadRefForcePushedMixin$AfterCommitToJson(
-        HeadRefForcePushedMixin$AfterCommit instance) =>
-    <String, dynamic>{
-      'url': instance.url.toString(),
-      'abbreviatedOid': instance.abbreviatedOid,
-    };
-
-HeadRefForcePushedMixin$Ref _$HeadRefForcePushedMixin$RefFromJson(
-        Map<String, dynamic> json) =>
-    HeadRefForcePushedMixin$Ref()..name = json['name'] as String;
-
-Map<String, dynamic> _$HeadRefForcePushedMixin$RefToJson(
-        HeadRefForcePushedMixin$Ref instance) =>
+Map<String, dynamic> _$IssueMixin$RepositoryToJson(
+        IssueMixin$Repository instance) =>
     <String, dynamic>{
       'name': instance.name,
-    };
-
-HeadRefForcePushedMixin$Actor _$HeadRefForcePushedMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    HeadRefForcePushedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$HeadRefForcePushedMixin$ActorToJson(
-        HeadRefForcePushedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-HeadRefRestoredMixin$Actor _$HeadRefRestoredMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    HeadRefRestoredMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$HeadRefRestoredMixin$ActorToJson(
-        HeadRefRestoredMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-MergedMixin$Actor _$MergedMixin$ActorFromJson(Map<String, dynamic> json) =>
-    MergedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$MergedMixin$ActorToJson(MergedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullRequestCommitMixin$Commit _$PullRequestCommitMixin$CommitFromJson(
-        Map<String, dynamic> json) =>
-    PullRequestCommitMixin$Commit()
-      ..additions = json['additions'] as int
-      ..authoredDate = DateTime.parse(json['authoredDate'] as String)
-      ..oid = json['oid'] as String
-      ..message = json['message'] as String
-      ..commitUrl = Uri.parse(json['commitUrl'] as String)
-      ..messageHeadline = json['messageHeadline'] as String
-      ..author = json['author'] == null
-          ? null
-          : CommitMixin$Author.fromJson(json['author'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullRequestCommitMixin$CommitToJson(
-        PullRequestCommitMixin$Commit instance) =>
-    <String, dynamic>{
-      'additions': instance.additions,
-      'authoredDate': instance.authoredDate.toIso8601String(),
-      'oid': instance.oid,
-      'message': instance.message,
-      'commitUrl': instance.commitUrl.toString(),
-      'messageHeadline': instance.messageHeadline,
-      'author': instance.author?.toJson(),
+      'nameWithOwner': instance.nameWithOwner,
     };
 
 CommitMixin$Author$User _$CommitMixin$Author$UserFromJson(
@@ -4101,33 +4033,112 @@ Map<String, dynamic> _$CommitMixin$AuthorToJson(CommitMixin$Author instance) =>
       'user': instance.user?.toJson(),
     };
 
-PullRequestReviewMixin$Author _$PullRequestReviewMixin$AuthorFromJson(
+ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
         Map<String, dynamic> json) =>
-    PullRequestReviewMixin$Author()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
+    ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
 
-Map<String, dynamic> _$PullRequestReviewMixin$AuthorToJson(
-        PullRequestReviewMixin$Author instance) =>
+Map<String, dynamic> _$ReactionGroupsMixin$ReactorsToJson(
+        ReactionGroupsMixin$Reactors instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+ReactionGroupsMixin$Subject _$ReactionGroupsMixin$SubjectFromJson(
+        Map<String, dynamic> json) =>
+    ReactionGroupsMixin$Subject()..id = json['id'] as String;
+
+Map<String, dynamic> _$ReactionGroupsMixin$SubjectToJson(
+        ReactionGroupsMixin$Subject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+ReactorsGroupMixin$Reactors$Edges$Node$User
+    _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(
+            Map<String, dynamic> json) =>
+        ReactorsGroupMixin$Reactors$Edges$Node$User()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(
+        ReactorsGroupMixin$Reactors$Edges$Node$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+ReactorsGroupMixin$Reactors$Edges$Node
+    _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        ReactorsGroupMixin$Reactors$Edges$Node()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(
+        ReactorsGroupMixin$Reactors$Edges$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+ReactorsGroupMixin$Reactors$Edges _$ReactorsGroupMixin$Reactors$EdgesFromJson(
+        Map<String, dynamic> json) =>
+    ReactorsGroupMixin$Reactors$Edges()
+      ..cursor = json['cursor'] as String
+      ..node = ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
+          json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$EdgesToJson(
+        ReactorsGroupMixin$Reactors$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node.toJson(),
+    };
+
+ReactorsGroupMixin$Reactors _$ReactorsGroupMixin$ReactorsFromJson(
+        Map<String, dynamic> json) =>
+    ReactorsGroupMixin$Reactors()
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : ReactorsGroupMixin$Reactors$Edges.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$ReactorsGroupMixin$ReactorsToJson(
+        ReactorsGroupMixin$Reactors instance) =>
+    <String, dynamic>{
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+PullRequestReviewCommentMixin$Author
+    _$PullRequestReviewCommentMixin$AuthorFromJson(Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$Author()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String;
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$AuthorToJson(
+        PullRequestReviewCommentMixin$Author instance) =>
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
     };
 
-PullRequestReviewMixin$Comments _$PullRequestReviewMixin$CommentsFromJson(
-        Map<String, dynamic> json) =>
-    PullRequestReviewMixin$Comments()..totalCount = json['totalCount'] as int;
+PullRequestReviewCommentMixin$ReplyTo
+    _$PullRequestReviewCommentMixin$ReplyToFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$ReplyTo()..id = json['id'] as String;
 
-Map<String, dynamic> _$PullRequestReviewMixin$CommentsToJson(
-        PullRequestReviewMixin$Comments instance) =>
+Map<String, dynamic> _$PullRequestReviewCommentMixin$ReplyToToJson(
+        PullRequestReviewCommentMixin$ReplyTo instance) =>
     <String, dynamic>{
-      'totalCount': instance.totalCount,
+      'id': instance.id,
     };
 
-PullRequestReviewMixin$ReactionGroups
-    _$PullRequestReviewMixin$ReactionGroupsFromJson(
+PullRequestReviewCommentMixin$ReactionGroups
+    _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(
             Map<String, dynamic> json) =>
-        PullRequestReviewMixin$ReactionGroups()
+        PullRequestReviewCommentMixin$ReactionGroups()
           ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
@@ -4136,8 +4147,8 @@ PullRequestReviewMixin$ReactionGroups
           ..subject = ReactionGroupsMixin$Subject.fromJson(
               json['subject'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
-        PullRequestReviewMixin$ReactionGroups instance) =>
+Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
+        PullRequestReviewCommentMixin$ReactionGroups instance) =>
     <String, dynamic>{
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
@@ -4145,89 +4156,159 @@ Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
       'subject': instance.subject.toJson(),
     };
 
-ReadyForReviewMixin$Actor _$ReadyForReviewMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    ReadyForReviewMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$ReadyForReviewMixin$ActorToJson(
-        ReadyForReviewMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ReviewDismissedMixin$Actor _$ReviewDismissedMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    ReviewDismissedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$ReviewDismissedMixin$ActorToJson(
-        ReviewDismissedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ReviewRequestedMixin$Actor _$ReviewRequestedMixin$ActorFromJson(
-        Map<String, dynamic> json) =>
-    ReviewRequestedMixin$Actor()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$ReviewRequestedMixin$ActorToJson(
-        ReviewRequestedMixin$Actor instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-ReviewRequestedMixin$RequestedReviewer$User
-    _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(
+PullRequestReviewCommentMixin$PullRequest
+    _$PullRequestReviewCommentMixin$PullRequestFromJson(
             Map<String, dynamic> json) =>
-        ReviewRequestedMixin$RequestedReviewer$User()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String
-          ..$$typename = json['__typename'] as String?;
+        PullRequestReviewCommentMixin$PullRequest()
+          ..number = json['number'] as int;
 
-Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$UserToJson(
-        ReviewRequestedMixin$RequestedReviewer$User instance) =>
+Map<String, dynamic> _$PullRequestReviewCommentMixin$PullRequestToJson(
+        PullRequestReviewCommentMixin$PullRequest instance) =>
     <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-      '__typename': instance.$$typename,
+      'number': instance.number,
     };
 
-ReviewRequestedMixin$RequestedReviewer$Team
-    _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(
+PullRequestReviewCommentMixin$Repository$Owner
+    _$PullRequestReviewCommentMixin$Repository$OwnerFromJson(
             Map<String, dynamic> json) =>
-        ReviewRequestedMixin$RequestedReviewer$Team()
-          ..$$typename = json['__typename'] as String?
-          ..avatar = json['avatar'] == null
-              ? null
-              : Uri.parse(json['avatar'] as String)
-          ..name = json['name'] as String;
+        PullRequestReviewCommentMixin$Repository$Owner()
+          ..login = json['login'] as String;
 
-Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(
-        ReviewRequestedMixin$RequestedReviewer$Team instance) =>
+Map<String, dynamic> _$PullRequestReviewCommentMixin$Repository$OwnerToJson(
+        PullRequestReviewCommentMixin$Repository$Owner instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
-      'avatar': instance.avatar?.toString(),
+      'login': instance.login,
+    };
+
+PullRequestReviewCommentMixin$Repository
+    _$PullRequestReviewCommentMixin$RepositoryFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$Repository()
+          ..name = json['name'] as String
+          ..owner = PullRequestReviewCommentMixin$Repository$Owner.fromJson(
+              json['owner'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$RepositoryToJson(
+        PullRequestReviewCommentMixin$Repository instance) =>
+    <String, dynamic>{
       'name': instance.name,
+      'owner': instance.owner.toJson(),
     };
 
-ReviewRequestedMixin$RequestedReviewer
-    _$ReviewRequestedMixin$RequestedReviewerFromJson(
+PRReviewCommentsMixin$Comments$Edges$Node
+    _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-        ReviewRequestedMixin$RequestedReviewer()
-          ..$$typename = json['__typename'] as String?;
+        PRReviewCommentsMixin$Comments$Edges$Node()
+          ..id = json['id'] as String
+          ..databaseId = json['databaseId'] as int?
+          ..author = json['author'] == null
+              ? null
+              : PullRequestReviewCommentMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
+          ..body = json['body'] as String
+          ..bodyHTML = json['bodyHTML'] as String
+          ..lastEditedAt = json['lastEditedAt'] == null
+              ? null
+              : DateTime.parse(json['lastEditedAt'] as String)
+          ..state = $enumDecode(
+              _$PullRequestReviewCommentStateEnumMap, json['state'],
+              unknownValue: PullRequestReviewCommentState.artemisUnknown)
+          ..diffHunk = json['diffHunk'] as String
+          ..outdated = json['outdated'] as bool
+          ..isMinimized = json['isMinimized'] as bool
+          ..replyTo = json['replyTo'] == null
+              ? null
+              : PullRequestReviewCommentMixin$ReplyTo.fromJson(
+                  json['replyTo'] as Map<String, dynamic>)
+          ..path = json['path'] as String
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) =>
+                  PullRequestReviewCommentMixin$ReactionGroups.fromJson(
+                      e as Map<String, dynamic>))
+              .toList()
+          ..viewerCanDelete = json['viewerCanDelete'] as bool
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+          ..viewerDidAuthor = json['viewerDidAuthor'] as bool
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..viewerCanMinimize = json['viewerCanMinimize'] as bool
+          ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
+              json['pullRequest'] as Map<String, dynamic>)
+          ..repository = PullRequestReviewCommentMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewerToJson(
-        ReviewRequestedMixin$RequestedReviewer instance) =>
+Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
+        PRReviewCommentsMixin$Comments$Edges$Node instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'databaseId': instance.databaseId,
+      'author': instance.author?.toJson(),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'authorAssociation':
+          _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+      'body': instance.body,
+      'bodyHTML': instance.bodyHTML,
+      'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
+      'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
+      'diffHunk': instance.diffHunk,
+      'outdated': instance.outdated,
+      'isMinimized': instance.isMinimized,
+      'replyTo': instance.replyTo?.toJson(),
+      'path': instance.path,
+      'reactionGroups':
+          instance.reactionGroups?.map((e) => e.toJson()).toList(),
+      'viewerCanDelete': instance.viewerCanDelete,
+      'viewerCanUpdate': instance.viewerCanUpdate,
+      'viewerDidAuthor': instance.viewerDidAuthor,
+      'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
+          .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
+          .toList(),
+      'viewerCanReact': instance.viewerCanReact,
+      'viewerCanMinimize': instance.viewerCanMinimize,
+      'pullRequest': instance.pullRequest.toJson(),
+      'repository': instance.repository.toJson(),
+    };
+
+PRReviewCommentsMixin$Comments$Edges
+    _$PRReviewCommentsMixin$Comments$EdgesFromJson(Map<String, dynamic> json) =>
+        PRReviewCommentsMixin$Comments$Edges()
+          ..$$typename = json['__typename'] as String?
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : PRReviewCommentsMixin$Comments$Edges$Node.fromJson(
+                  json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PRReviewCommentsMixin$Comments$EdgesToJson(
+        PRReviewCommentsMixin$Comments$Edges instance) =>
     <String, dynamic>{
       '__typename': instance.$$typename,
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+PRReviewCommentsMixin$Comments _$PRReviewCommentsMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    PRReviewCommentsMixin$Comments()
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : PRReviewCommentsMixin$Comments$Edges.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$PRReviewCommentsMixin$CommentsToJson(
+        PRReviewCommentsMixin$Comments instance) =>
+    <String, dynamic>{
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
     };
 
 IssueTemplates$Query$Repository$IssueTemplates
@@ -5289,6 +5370,36 @@ Map<String, dynamic> _$GetReactorsArgumentsToJson(
         GetReactorsArguments instance) =>
     <String, dynamic>{
       'id': instance.id,
+    };
+
+AddReactionArguments _$AddReactionArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddReactionArguments(
+      id: json['id'] as String,
+      content: $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown),
+    );
+
+Map<String, dynamic> _$AddReactionArgumentsToJson(
+        AddReactionArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': _$ReactionContentEnumMap[instance.content],
+    };
+
+RemoveReactionArguments _$RemoveReactionArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    RemoveReactionArguments(
+      id: json['id'] as String,
+      content: $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown),
+    );
+
+Map<String, dynamic> _$RemoveReactionArgumentsToJson(
+        RemoveReactionArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': _$ReactionContentEnumMap[instance.content],
     };
 
 FetchReviewArguments _$FetchReviewArgumentsFromJson(

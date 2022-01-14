@@ -35,6 +35,22 @@ class IssuesService {
         .issueOrPullRequest!;
   }
 
+  static Future<void> addReaction(ReactionContent content, String id) async {
+    await gqlMutation(
+      AddReactionMutation(
+        variables: AddReactionArguments(content: content, id: id),
+      ),
+    );
+  }
+
+  static Future<void> removeReaction(ReactionContent content, String id) async {
+    await gqlMutation(
+      RemoveReactionMutation(
+        variables: RemoveReactionArguments(content: content, id: id),
+      ),
+    );
+  }
+
   static Future<List<ReactorsGroupMixin$Reactors$Edges?>> getReactors(
       String reactableID, ReactionContent content) async {
     final res = await gqlRequest(

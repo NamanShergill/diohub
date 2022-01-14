@@ -35,25 +35,6 @@ mixin IssueInfoMixin {
   late bool viewerCanReact;
   late bool viewerCanUpdate;
 }
-mixin ActorMixin {
-  late Uri avatarUrl;
-  late String login;
-}
-mixin LabelMixin {
-  late String color;
-  late String name;
-}
-mixin ReactionGroupsMixin {
-  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
-  late ReactionContent content;
-  late bool viewerHasReacted;
-  late ReactionGroupsMixin$Reactors reactors;
-  late ReactionGroupsMixin$Subject subject;
-}
-mixin RepoInfoMixin {
-  late String name;
-  late RepoInfoMixin$Owner owner;
-}
 mixin PullInfoMixin {
   @JsonKey(unknownEnumValue: LockReason.artemisUnknown)
   LockReason? activeLockReason;
@@ -91,41 +72,9 @@ mixin PullInfoMixin {
   PullRequestReviewDecision? reviewDecision;
   late bool viewerCanUpdate;
 }
-mixin ReactorsGroupMixin {
-  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
-  late ReactionContent content;
-  late ReactorsGroupMixin$Reactors reactors;
-}
-mixin PRReviewCommentsMixin {
-  late PRReviewCommentsMixin$Comments comments;
-}
-mixin PullRequestReviewCommentMixin {
-  late String id;
-  int? databaseId;
-  PullRequestReviewCommentMixin$Author? author;
-  late DateTime createdAt;
-  @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
-  late CommentAuthorAssociation authorAssociation;
-  late String body;
-  late String bodyHTML;
-  DateTime? lastEditedAt;
-  @JsonKey(unknownEnumValue: PullRequestReviewCommentState.artemisUnknown)
-  late PullRequestReviewCommentState state;
-  late String diffHunk;
-  late bool outdated;
-  late bool isMinimized;
-  PullRequestReviewCommentMixin$ReplyTo? replyTo;
-  late String path;
-  List<PullRequestReviewCommentMixin$ReactionGroups>? reactionGroups;
-  late bool viewerCanDelete;
-  late bool viewerCanUpdate;
-  late bool viewerDidAuthor;
-  @JsonKey(unknownEnumValue: CommentCannotUpdateReason.artemisUnknown)
-  late List<CommentCannotUpdateReason> viewerCannotUpdateReasons;
-  late bool viewerCanReact;
-  late bool viewerCanMinimize;
-  late PullRequestReviewCommentMixin$PullRequest pullRequest;
-  late PullRequestReviewCommentMixin$Repository repository;
+mixin RepoInfoMixin {
+  late String name;
+  late RepoInfoMixin$Owner owner;
 }
 mixin AddedToProjectMixin {
   late String id;
@@ -140,10 +89,36 @@ mixin AssignedMixin {
   AssignedMixin$Actor? actor;
   AssignedMixin$Assignee? assignee;
 }
+mixin BaseRefChangedMixin {
+  late String id;
+  late DateTime createdAt;
+  BaseRefChangedMixin$Actor? actor;
+  late String currentRefName;
+  late String previousRefName;
+}
+mixin BaseRefDeletedMixin {
+  late String id;
+  late DateTime createdAt;
+  BaseRefDeletedMixin$Actor? actor;
+  String? baseRefName;
+}
+mixin BaseRefForcePushedMixin {
+  late String id;
+  late DateTime createdAt;
+  BaseRefForcePushedMixin$BeforeCommit? beforeCommit;
+  BaseRefForcePushedMixin$AfterCommit? afterCommit;
+  BaseRefForcePushedMixin$Ref? ref;
+  BaseRefForcePushedMixin$Actor? actor;
+}
 mixin ClosedMixin {
   late String id;
   late DateTime createdAt;
   ClosedMixin$Actor? actor;
+}
+mixin ConvertedToDraftMixin {
+  late String id;
+  late DateTime createdAt;
+  ConvertedToDraftMixin$Actor? actor;
 }
 mixin CrossReferenceMixin {
   late String id;
@@ -152,27 +127,30 @@ mixin CrossReferenceMixin {
   late CrossReferenceMixin$Source source;
   late bool isCrossRepository;
 }
-mixin IssueMixin {
-  late Uri url;
-  late String title;
-  late int number;
-  @JsonKey(unknownEnumValue: IssueState.artemisUnknown)
-  late IssueState issueState;
-  late IssueMixin$Repository repository;
-}
-mixin PullRequestMixin {
-  late Uri url;
-  late String title;
-  late int number;
-  @JsonKey(unknownEnumValue: PullRequestState.artemisUnknown)
-  late PullRequestState pullState;
-  late PullRequestMixin$Repository repository;
-}
 mixin DeMileStonedMixin {
   late String id;
   late DateTime createdAt;
   DeMileStonedMixin$Actor? actor;
   late String milestoneTitle;
+}
+mixin HeadRefDeletedMixin {
+  late String id;
+  late DateTime createdAt;
+  HeadRefDeletedMixin$Actor? actor;
+  late String headRefName;
+}
+mixin HeadRefForcePushedMixin {
+  late String id;
+  late DateTime createdAt;
+  HeadRefForcePushedMixin$BeforeCommit? beforeCommit;
+  HeadRefForcePushedMixin$AfterCommit? afterCommit;
+  HeadRefForcePushedMixin$Ref? ref;
+  HeadRefForcePushedMixin$Actor? actor;
+}
+mixin HeadRefRestoredMixin {
+  late String id;
+  late DateTime createdAt;
+  HeadRefRestoredMixin$Actor? actor;
 }
 mixin IssueCommentMixin {
   late String id;
@@ -214,6 +192,12 @@ mixin MarkedAsDuplicateMixin {
   late bool isCrossRepository;
   MarkedAsDuplicateMixin$Canonical? canonical;
 }
+mixin MergedMixin {
+  late String id;
+  late DateTime createdAt;
+  MergedMixin$Actor? actor;
+  late String mergeRefName;
+}
 mixin MileStonedMixin {
   late String id;
   late DateTime createdAt;
@@ -233,6 +217,35 @@ mixin PinnedMixin {
   late DateTime createdAt;
   PinnedMixin$Actor? actor;
 }
+mixin PullRequestCommitMixin {
+  late String id;
+  late PullRequestCommitMixin$Commit commit;
+}
+mixin PullRequestReviewMixin {
+  late String id;
+  PullRequestReviewMixin$Author? author;
+  late DateTime createdAt;
+  @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
+  late CommentAuthorAssociation authorAssociation;
+  late String body;
+  late String bodyHTML;
+  DateTime? lastEditedAt;
+  @JsonKey(unknownEnumValue: PullRequestReviewState.artemisUnknown)
+  late PullRequestReviewState state;
+  late PullRequestReviewMixin$Comments comments;
+  List<PullRequestReviewMixin$ReactionGroups>? reactionGroups;
+  late bool viewerCanDelete;
+  late bool viewerCanUpdate;
+  late bool viewerDidAuthor;
+  @JsonKey(unknownEnumValue: CommentCannotUpdateReason.artemisUnknown)
+  late List<CommentCannotUpdateReason> viewerCannotUpdateReasons;
+  late bool viewerCanReact;
+}
+mixin ReadyForReviewMixin {
+  late String id;
+  late DateTime createdAt;
+  ReadyForReviewMixin$Actor? actor;
+}
 mixin RemovedFromProjectMixin {
   late String id;
   late DateTime createdAt;
@@ -251,6 +264,21 @@ mixin ReopenedMixin {
   late String id;
   late DateTime createdAt;
   ReopenedMixin$Actor? actor;
+}
+mixin ReviewDismissedMixin {
+  late String id;
+  late DateTime createdAt;
+  ReviewDismissedMixin$Actor? actor;
+  String? dismissalMessage;
+  String? dismissalMessageHTML;
+  @JsonKey(unknownEnumValue: PullRequestReviewState.artemisUnknown)
+  late PullRequestReviewState previousReviewState;
+}
+mixin ReviewRequestedMixin {
+  late String id;
+  late DateTime createdAt;
+  ReviewRequestedMixin$Actor? actor;
+  ReviewRequestedMixin$RequestedReviewer? requestedReviewer;
 }
 mixin UnassignedMixin {
   late String id;
@@ -281,60 +309,33 @@ mixin UnpinnedMixin {
   late DateTime createdAt;
   UnpinnedMixin$Actor? actor;
 }
-mixin BaseRefChangedMixin {
-  late String id;
-  late DateTime createdAt;
-  BaseRefChangedMixin$Actor? actor;
-  late String currentRefName;
-  late String previousRefName;
+mixin ActorMixin {
+  late Uri avatarUrl;
+  late String login;
 }
-mixin BaseRefDeletedMixin {
-  late String id;
-  late DateTime createdAt;
-  BaseRefDeletedMixin$Actor? actor;
-  String? baseRefName;
+mixin PullRequestMixin {
+  late Uri url;
+  late String title;
+  late int number;
+  @JsonKey(unknownEnumValue: PullRequestState.artemisUnknown)
+  late PullRequestState pullState;
+  late PullRequestMixin$Repository repository;
 }
-mixin BaseRefForcePushedMixin {
-  late String id;
-  late DateTime createdAt;
-  BaseRefForcePushedMixin$BeforeCommit? beforeCommit;
-  BaseRefForcePushedMixin$AfterCommit? afterCommit;
-  BaseRefForcePushedMixin$Ref? ref;
-  BaseRefForcePushedMixin$Actor? actor;
+mixin IssueMixin {
+  late Uri url;
+  late String title;
+  late int number;
+  @JsonKey(unknownEnumValue: IssueState.artemisUnknown)
+  late IssueState issueState;
+  late IssueMixin$Repository repository;
 }
-mixin ConvertedToDraftMixin {
-  late String id;
-  late DateTime createdAt;
-  ConvertedToDraftMixin$Actor? actor;
+mixin RepoMixin {
+  late Uri url;
+  late String nameWithOwner;
 }
-mixin HeadRefDeletedMixin {
-  late String id;
-  late DateTime createdAt;
-  HeadRefDeletedMixin$Actor? actor;
-  late String headRefName;
-}
-mixin HeadRefForcePushedMixin {
-  late String id;
-  late DateTime createdAt;
-  HeadRefForcePushedMixin$BeforeCommit? beforeCommit;
-  HeadRefForcePushedMixin$AfterCommit? afterCommit;
-  HeadRefForcePushedMixin$Ref? ref;
-  HeadRefForcePushedMixin$Actor? actor;
-}
-mixin HeadRefRestoredMixin {
-  late String id;
-  late DateTime createdAt;
-  HeadRefRestoredMixin$Actor? actor;
-}
-mixin MergedMixin {
-  late String id;
-  late DateTime createdAt;
-  MergedMixin$Actor? actor;
-  late String mergeRefName;
-}
-mixin PullRequestCommitMixin {
-  late String id;
-  late PullRequestCommitMixin$Commit commit;
+mixin LabelMixin {
+  late String color;
+  late String name;
 }
 mixin CommitMixin {
   late int additions;
@@ -345,45 +346,52 @@ mixin CommitMixin {
   late String messageHeadline;
   CommitMixin$Author? author;
 }
-mixin PullRequestReviewMixin {
+mixin ReactionGroupsMixin {
+  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
+  late ReactionContent content;
+  late bool viewerHasReacted;
+  late ReactionGroupsMixin$Reactors reactors;
+  late ReactionGroupsMixin$Subject subject;
+}
+mixin ReactorsMixin {
+  late Uri avatarUrl;
+  late String login;
+}
+mixin ReactorsGroupMixin {
+  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
+  late ReactionContent content;
+  late ReactorsGroupMixin$Reactors reactors;
+}
+mixin PullRequestReviewCommentMixin {
   late String id;
-  PullRequestReviewMixin$Author? author;
+  int? databaseId;
+  PullRequestReviewCommentMixin$Author? author;
   late DateTime createdAt;
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
   late CommentAuthorAssociation authorAssociation;
   late String body;
   late String bodyHTML;
   DateTime? lastEditedAt;
-  @JsonKey(unknownEnumValue: PullRequestReviewState.artemisUnknown)
-  late PullRequestReviewState state;
-  late PullRequestReviewMixin$Comments comments;
-  List<PullRequestReviewMixin$ReactionGroups>? reactionGroups;
+  @JsonKey(unknownEnumValue: PullRequestReviewCommentState.artemisUnknown)
+  late PullRequestReviewCommentState state;
+  late String diffHunk;
+  late bool outdated;
+  late bool isMinimized;
+  PullRequestReviewCommentMixin$ReplyTo? replyTo;
+  late String path;
+  List<PullRequestReviewCommentMixin$ReactionGroups>? reactionGroups;
   late bool viewerCanDelete;
   late bool viewerCanUpdate;
   late bool viewerDidAuthor;
   @JsonKey(unknownEnumValue: CommentCannotUpdateReason.artemisUnknown)
   late List<CommentCannotUpdateReason> viewerCannotUpdateReasons;
   late bool viewerCanReact;
+  late bool viewerCanMinimize;
+  late PullRequestReviewCommentMixin$PullRequest pullRequest;
+  late PullRequestReviewCommentMixin$Repository repository;
 }
-mixin ReadyForReviewMixin {
-  late String id;
-  late DateTime createdAt;
-  ReadyForReviewMixin$Actor? actor;
-}
-mixin ReviewDismissedMixin {
-  late String id;
-  late DateTime createdAt;
-  ReviewDismissedMixin$Actor? actor;
-  String? dismissalMessage;
-  String? dismissalMessageHTML;
-  @JsonKey(unknownEnumValue: PullRequestReviewState.artemisUnknown)
-  late PullRequestReviewState previousReviewState;
-}
-mixin ReviewRequestedMixin {
-  late String id;
-  late DateTime createdAt;
-  ReviewRequestedMixin$Actor? actor;
-  ReviewRequestedMixin$RequestedReviewer? requestedReviewer;
+mixin PRReviewCommentsMixin {
+  late PRReviewCommentsMixin$Comments comments;
 }
 mixin ProjectMixin {
   late String name;
@@ -395,6 +403,10 @@ mixin ProjectMixin {
   String? body;
   late bool closed;
   late ProjectMixin$Progress progress;
+}
+mixin UserInfoMixin {
+  String? name;
+  late Uri avatarUrl;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -677,54 +689,6 @@ class IssueInfoMixin$TimelineItems extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReactionGroupsMixin$Reactors extends JsonSerializable
-    with EquatableMixin {
-  ReactionGroupsMixin$Reactors();
-
-  factory ReactionGroupsMixin$Reactors.fromJson(Map<String, dynamic> json) =>
-      _$ReactionGroupsMixin$ReactorsFromJson(json);
-
-  late int totalCount;
-
-  @override
-  List<Object?> get props => [totalCount];
-  @override
-  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$ReactorsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReactionGroupsMixin$Subject extends JsonSerializable with EquatableMixin {
-  ReactionGroupsMixin$Subject();
-
-  factory ReactionGroupsMixin$Subject.fromJson(Map<String, dynamic> json) =>
-      _$ReactionGroupsMixin$SubjectFromJson(json);
-
-  late String id;
-
-  @override
-  List<Object?> get props => [id];
-  @override
-  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$SubjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class RepoInfoMixin$Owner extends JsonSerializable with EquatableMixin {
-  RepoInfoMixin$Owner();
-
-  factory RepoInfoMixin$Owner.fromJson(Map<String, dynamic> json) =>
-      _$RepoInfoMixin$OwnerFromJson(json);
-
-  late String login;
-
-  late Uri avatarUrl;
-
-  @override
-  List<Object?> get props => [login, avatarUrl];
-  @override
-  Map<String, dynamic> toJson() => _$RepoInfoMixin$OwnerToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class PullInfoMixin$Assignees extends JsonSerializable with EquatableMixin {
   PullInfoMixin$Assignees();
 
@@ -944,6 +908,23 @@ class PullInfoMixin$Commits extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RepoInfoMixin$Owner extends JsonSerializable with EquatableMixin {
+  RepoInfoMixin$Owner();
+
+  factory RepoInfoMixin$Owner.fromJson(Map<String, dynamic> json) =>
+      _$RepoInfoMixin$OwnerFromJson(json);
+
+  late String login;
+
+  late Uri avatarUrl;
+
+  @override
+  List<Object?> get props => [login, avatarUrl];
+  @override
+  Map<String, dynamic> toJson() => _$RepoInfoMixin$OwnerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetReactors$Query$Node$Issue$ReactionGroups extends JsonSerializable
     with EquatableMixin, ReactorsGroupMixin {
   GetReactors$Query$Node$Issue$ReactionGroups();
@@ -1058,86 +1039,105 @@ class GetReactors$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReactorsGroupMixin$Reactors$Edges$Node$User
-    extends ReactorsGroupMixin$Reactors$Edges$Node
-    with EquatableMixin, ActorMixin {
-  ReactorsGroupMixin$Reactors$Edges$Node$User();
+class AddReaction$Mutation$AddReaction$Reaction extends JsonSerializable
+    with EquatableMixin {
+  AddReaction$Mutation$AddReaction$Reaction();
 
-  factory ReactorsGroupMixin$Reactors$Edges$Node$User.fromJson(
+  factory AddReaction$Mutation$AddReaction$Reaction.fromJson(
           Map<String, dynamic> json) =>
-      _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(json);
+      _$AddReaction$Mutation$AddReaction$ReactionFromJson(json);
+
+  late DateTime createdAt;
 
   @override
-  List<Object?> get props => [avatarUrl, login];
+  List<Object?> get props => [createdAt];
   @override
   Map<String, dynamic> toJson() =>
-      _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(this);
+      _$AddReaction$Mutation$AddReaction$ReactionToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReactorsGroupMixin$Reactors$Edges$Node extends JsonSerializable
+class AddReaction$Mutation$AddReaction extends JsonSerializable
     with EquatableMixin {
-  ReactorsGroupMixin$Reactors$Edges$Node();
+  AddReaction$Mutation$AddReaction();
 
-  factory ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
-      Map<String, dynamic> json) {
-    switch (json['__typename'].toString()) {
-      case r'User':
-        return ReactorsGroupMixin$Reactors$Edges$Node$User.fromJson(json);
-      default:
-    }
-    return _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(json);
-  }
-
-  @JsonKey(name: '__typename')
-  String? $$typename;
-
-  @override
-  List<Object?> get props => [$$typename];
-  @override
-  Map<String, dynamic> toJson() {
-    switch ($$typename) {
-      case r'User':
-        return (this as ReactorsGroupMixin$Reactors$Edges$Node$User).toJson();
-      default:
-    }
-    return _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(this);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReactorsGroupMixin$Reactors$Edges extends JsonSerializable
-    with EquatableMixin {
-  ReactorsGroupMixin$Reactors$Edges();
-
-  factory ReactorsGroupMixin$Reactors$Edges.fromJson(
+  factory AddReaction$Mutation$AddReaction.fromJson(
           Map<String, dynamic> json) =>
-      _$ReactorsGroupMixin$Reactors$EdgesFromJson(json);
+      _$AddReaction$Mutation$AddReactionFromJson(json);
 
-  late String cursor;
-
-  late ReactorsGroupMixin$Reactors$Edges$Node node;
+  AddReaction$Mutation$AddReaction$Reaction? reaction;
 
   @override
-  List<Object?> get props => [cursor, node];
+  List<Object?> get props => [reaction];
   @override
   Map<String, dynamic> toJson() =>
-      _$ReactorsGroupMixin$Reactors$EdgesToJson(this);
+      _$AddReaction$Mutation$AddReactionToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReactorsGroupMixin$Reactors extends JsonSerializable with EquatableMixin {
-  ReactorsGroupMixin$Reactors();
+class AddReaction$Mutation extends JsonSerializable with EquatableMixin {
+  AddReaction$Mutation();
 
-  factory ReactorsGroupMixin$Reactors.fromJson(Map<String, dynamic> json) =>
-      _$ReactorsGroupMixin$ReactorsFromJson(json);
+  factory AddReaction$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$AddReaction$MutationFromJson(json);
 
-  List<ReactorsGroupMixin$Reactors$Edges?>? edges;
+  AddReaction$Mutation$AddReaction? addReaction;
 
   @override
-  List<Object?> get props => [edges];
+  List<Object?> get props => [addReaction];
   @override
-  Map<String, dynamic> toJson() => _$ReactorsGroupMixin$ReactorsToJson(this);
+  Map<String, dynamic> toJson() => _$AddReaction$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class RemoveReaction$Mutation$RemoveReaction$Reaction extends JsonSerializable
+    with EquatableMixin {
+  RemoveReaction$Mutation$RemoveReaction$Reaction();
+
+  factory RemoveReaction$Mutation$RemoveReaction$Reaction.fromJson(
+          Map<String, dynamic> json) =>
+      _$RemoveReaction$Mutation$RemoveReaction$ReactionFromJson(json);
+
+  late DateTime createdAt;
+
+  @override
+  List<Object?> get props => [createdAt];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$RemoveReaction$Mutation$RemoveReaction$ReactionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class RemoveReaction$Mutation$RemoveReaction extends JsonSerializable
+    with EquatableMixin {
+  RemoveReaction$Mutation$RemoveReaction();
+
+  factory RemoveReaction$Mutation$RemoveReaction.fromJson(
+          Map<String, dynamic> json) =>
+      _$RemoveReaction$Mutation$RemoveReactionFromJson(json);
+
+  RemoveReaction$Mutation$RemoveReaction$Reaction? reaction;
+
+  @override
+  List<Object?> get props => [reaction];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$RemoveReaction$Mutation$RemoveReactionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class RemoveReaction$Mutation extends JsonSerializable with EquatableMixin {
+  RemoveReaction$Mutation();
+
+  factory RemoveReaction$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$RemoveReaction$MutationFromJson(json);
+
+  RemoveReaction$Mutation$RemoveReaction? removeReaction;
+
+  @override
+  List<Object?> get props => [removeReaction];
+  @override
+  Map<String, dynamic> toJson() => _$RemoveReaction$MutationToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1286,191 +1286,6 @@ class GetPRReviewComments$Query extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [node];
   @override
   Map<String, dynamic> toJson() => _$GetPRReviewComments$QueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
-    with EquatableMixin, PullRequestReviewCommentMixin {
-  PRReviewCommentsMixin$Comments$Edges$Node();
-
-  factory PRReviewCommentsMixin$Comments$Edges$Node.fromJson(
-          Map<String, dynamic> json) =>
-      _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(json);
-
-  @override
-  List<Object?> get props => [
-        id,
-        databaseId,
-        author,
-        createdAt,
-        authorAssociation,
-        body,
-        bodyHTML,
-        lastEditedAt,
-        state,
-        diffHunk,
-        outdated,
-        isMinimized,
-        replyTo,
-        path,
-        reactionGroups,
-        viewerCanDelete,
-        viewerCanUpdate,
-        viewerDidAuthor,
-        viewerCannotUpdateReasons,
-        viewerCanReact,
-        viewerCanMinimize,
-        pullRequest,
-        repository
-      ];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PRReviewCommentsMixin$Comments$Edges extends JsonSerializable
-    with EquatableMixin {
-  PRReviewCommentsMixin$Comments$Edges();
-
-  factory PRReviewCommentsMixin$Comments$Edges.fromJson(
-          Map<String, dynamic> json) =>
-      _$PRReviewCommentsMixin$Comments$EdgesFromJson(json);
-
-  @JsonKey(name: '__typename')
-  String? $$typename;
-
-  late String cursor;
-
-  PRReviewCommentsMixin$Comments$Edges$Node? node;
-
-  @override
-  List<Object?> get props => [$$typename, cursor, node];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PRReviewCommentsMixin$Comments$EdgesToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PRReviewCommentsMixin$Comments extends JsonSerializable
-    with EquatableMixin {
-  PRReviewCommentsMixin$Comments();
-
-  factory PRReviewCommentsMixin$Comments.fromJson(Map<String, dynamic> json) =>
-      _$PRReviewCommentsMixin$CommentsFromJson(json);
-
-  List<PRReviewCommentsMixin$Comments$Edges?>? edges;
-
-  @override
-  List<Object?> get props => [edges];
-  @override
-  Map<String, dynamic> toJson() => _$PRReviewCommentsMixin$CommentsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewCommentMixin$Author extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  PullRequestReviewCommentMixin$Author();
-
-  factory PullRequestReviewCommentMixin$Author.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestReviewCommentMixin$AuthorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewCommentMixin$AuthorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewCommentMixin$ReplyTo extends JsonSerializable
-    with EquatableMixin {
-  PullRequestReviewCommentMixin$ReplyTo();
-
-  factory PullRequestReviewCommentMixin$ReplyTo.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestReviewCommentMixin$ReplyToFromJson(json);
-
-  late String id;
-
-  @override
-  List<Object?> get props => [id];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewCommentMixin$ReplyToToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewCommentMixin$ReactionGroups extends JsonSerializable
-    with EquatableMixin, ReactionGroupsMixin {
-  PullRequestReviewCommentMixin$ReactionGroups();
-
-  factory PullRequestReviewCommentMixin$ReactionGroups.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(json);
-
-  @override
-  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewCommentMixin$ReactionGroupsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewCommentMixin$PullRequest extends JsonSerializable
-    with EquatableMixin {
-  PullRequestReviewCommentMixin$PullRequest();
-
-  factory PullRequestReviewCommentMixin$PullRequest.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestReviewCommentMixin$PullRequestFromJson(json);
-
-  late int number;
-
-  @override
-  List<Object?> get props => [number];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewCommentMixin$PullRequestToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewCommentMixin$Repository$Owner extends JsonSerializable
-    with EquatableMixin {
-  PullRequestReviewCommentMixin$Repository$Owner();
-
-  factory PullRequestReviewCommentMixin$Repository$Owner.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestReviewCommentMixin$Repository$OwnerFromJson(json);
-
-  late String login;
-
-  @override
-  List<Object?> get props => [login];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewCommentMixin$Repository$OwnerToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewCommentMixin$Repository extends JsonSerializable
-    with EquatableMixin {
-  PullRequestReviewCommentMixin$Repository();
-
-  factory PullRequestReviewCommentMixin$Repository.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestReviewCommentMixin$RepositoryFromJson(json);
-
-  late String name;
-
-  late PullRequestReviewCommentMixin$Repository$Owner owner;
-
-  @override
-  List<Object?> get props => [name, owner];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewCommentMixin$RepositoryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3845,6 +3660,103 @@ class AssignedMixin$Assignee extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class BaseRefChangedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  BaseRefChangedMixin$Actor();
+
+  factory BaseRefChangedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$BaseRefChangedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$BaseRefChangedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefDeletedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  BaseRefDeletedMixin$Actor();
+
+  factory BaseRefDeletedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$BaseRefDeletedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$BaseRefDeletedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$BeforeCommit extends JsonSerializable
+    with EquatableMixin {
+  BaseRefForcePushedMixin$BeforeCommit();
+
+  factory BaseRefForcePushedMixin$BeforeCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$BeforeCommitFromJson(json);
+
+  late String abbreviatedOid;
+
+  late Uri url;
+
+  @override
+  List<Object?> get props => [abbreviatedOid, url];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$BaseRefForcePushedMixin$BeforeCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$AfterCommit extends JsonSerializable
+    with EquatableMixin {
+  BaseRefForcePushedMixin$AfterCommit();
+
+  factory BaseRefForcePushedMixin$AfterCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$AfterCommitFromJson(json);
+
+  late Uri url;
+
+  late String abbreviatedOid;
+
+  @override
+  List<Object?> get props => [url, abbreviatedOid];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$BaseRefForcePushedMixin$AfterCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
+  BaseRefForcePushedMixin$Ref();
+
+  factory BaseRefForcePushedMixin$Ref.fromJson(Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$RefFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  @override
+  Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$RefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class BaseRefForcePushedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  BaseRefForcePushedMixin$Actor();
+
+  factory BaseRefForcePushedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$BaseRefForcePushedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ClosedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   ClosedMixin$Actor();
@@ -3856,6 +3768,20 @@ class ClosedMixin$Actor extends JsonSerializable
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$ClosedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ConvertedToDraftMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  ConvertedToDraftMixin$Actor();
+
+  factory ConvertedToDraftMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$ConvertedToDraftMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$ConvertedToDraftMixin$ActorToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3938,40 +3864,6 @@ class CrossReferenceMixin$Source extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueMixin$Repository extends JsonSerializable with EquatableMixin {
-  IssueMixin$Repository();
-
-  factory IssueMixin$Repository.fromJson(Map<String, dynamic> json) =>
-      _$IssueMixin$RepositoryFromJson(json);
-
-  late String name;
-
-  late String nameWithOwner;
-
-  @override
-  List<Object?> get props => [name, nameWithOwner];
-  @override
-  Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestMixin$Repository extends JsonSerializable with EquatableMixin {
-  PullRequestMixin$Repository();
-
-  factory PullRequestMixin$Repository.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestMixin$RepositoryFromJson(json);
-
-  late String name;
-
-  late String nameWithOwner;
-
-  @override
-  List<Object?> get props => [name, nameWithOwner];
-  @override
-  Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class DeMileStonedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   DeMileStonedMixin$Actor();
@@ -3983,6 +3875,103 @@ class DeMileStonedMixin$Actor extends JsonSerializable
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$DeMileStonedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefDeletedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  HeadRefDeletedMixin$Actor();
+
+  factory HeadRefDeletedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$HeadRefDeletedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$HeadRefDeletedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$BeforeCommit extends JsonSerializable
+    with EquatableMixin {
+  HeadRefForcePushedMixin$BeforeCommit();
+
+  factory HeadRefForcePushedMixin$BeforeCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$BeforeCommitFromJson(json);
+
+  late String abbreviatedOid;
+
+  late Uri url;
+
+  @override
+  List<Object?> get props => [abbreviatedOid, url];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$HeadRefForcePushedMixin$BeforeCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$AfterCommit extends JsonSerializable
+    with EquatableMixin {
+  HeadRefForcePushedMixin$AfterCommit();
+
+  factory HeadRefForcePushedMixin$AfterCommit.fromJson(
+          Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$AfterCommitFromJson(json);
+
+  late Uri url;
+
+  late String abbreviatedOid;
+
+  @override
+  List<Object?> get props => [url, abbreviatedOid];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$HeadRefForcePushedMixin$AfterCommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
+  HeadRefForcePushedMixin$Ref();
+
+  factory HeadRefForcePushedMixin$Ref.fromJson(Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$RefFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  @override
+  Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$RefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefForcePushedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  HeadRefForcePushedMixin$Actor();
+
+  factory HeadRefForcePushedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$HeadRefForcePushedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HeadRefRestoredMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  HeadRefRestoredMixin$Actor();
+
+  factory HeadRefRestoredMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$HeadRefRestoredMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$HeadRefRestoredMixin$ActorToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4139,6 +4128,20 @@ class MarkedAsDuplicateMixin$Canonical extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class MergedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  MergedMixin$Actor();
+
+  factory MergedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$MergedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$MergedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class MileStonedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   MileStonedMixin$Actor();
@@ -4201,6 +4204,89 @@ class PinnedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class PullRequestCommitMixin$Commit extends JsonSerializable
+    with EquatableMixin, CommitMixin {
+  PullRequestCommitMixin$Commit();
+
+  factory PullRequestCommitMixin$Commit.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestCommitMixin$CommitFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        additions,
+        authoredDate,
+        oid,
+        message,
+        commitUrl,
+        messageHeadline,
+        author
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$PullRequestCommitMixin$CommitToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  PullRequestReviewMixin$Author();
+
+  factory PullRequestReviewMixin$Author.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$AuthorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$Comments extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewMixin$Comments();
+
+  factory PullRequestReviewMixin$Comments.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$CommentsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewMixin$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
+    with EquatableMixin, ReactionGroupsMixin {
+  PullRequestReviewMixin$ReactionGroups();
+
+  factory PullRequestReviewMixin$ReactionGroups.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$ReactionGroupsFromJson(json);
+
+  @override
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewMixin$ReactionGroupsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReadyForReviewMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  ReadyForReviewMixin$Actor();
+
+  factory ReadyForReviewMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$ReadyForReviewMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$ReadyForReviewMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class RemovedFromProjectMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   RemovedFromProjectMixin$Actor();
@@ -4257,6 +4343,106 @@ class ReopenedMixin$Actor extends JsonSerializable
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$ReopenedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewDismissedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  ReviewDismissedMixin$Actor();
+
+  factory ReviewDismissedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$ReviewDismissedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$ReviewDismissedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewRequestedMixin$Actor extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  ReviewRequestedMixin$Actor();
+
+  factory ReviewRequestedMixin$Actor.fromJson(Map<String, dynamic> json) =>
+      _$ReviewRequestedMixin$ActorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$ReviewRequestedMixin$ActorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewRequestedMixin$RequestedReviewer$User
+    extends ReviewRequestedMixin$RequestedReviewer
+    with EquatableMixin, ActorMixin {
+  ReviewRequestedMixin$RequestedReviewer$User();
+
+  factory ReviewRequestedMixin$RequestedReviewer$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$ReviewRequestedMixin$RequestedReviewer$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewRequestedMixin$RequestedReviewer$Team
+    extends ReviewRequestedMixin$RequestedReviewer with EquatableMixin {
+  ReviewRequestedMixin$RequestedReviewer$Team();
+
+  factory ReviewRequestedMixin$RequestedReviewer$Team.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(json);
+
+  Uri? avatar;
+
+  late String name;
+
+  @override
+  List<Object?> get props => [avatar, name];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReviewRequestedMixin$RequestedReviewer extends JsonSerializable
+    with EquatableMixin {
+  ReviewRequestedMixin$RequestedReviewer();
+
+  factory ReviewRequestedMixin$RequestedReviewer.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'User':
+        return ReviewRequestedMixin$RequestedReviewer$User.fromJson(json);
+      case r'Team':
+        return ReviewRequestedMixin$RequestedReviewer$Team.fromJson(json);
+      default:
+    }
+    return _$ReviewRequestedMixin$RequestedReviewerFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'User':
+        return (this as ReviewRequestedMixin$RequestedReviewer$User).toJson();
+      case r'Team':
+        return (this as ReviewRequestedMixin$RequestedReviewer$Team).toJson();
+      default:
+    }
+    return _$ReviewRequestedMixin$RequestedReviewerToJson(this);
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4514,247 +4700,37 @@ class UnpinnedMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class BaseRefChangedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  BaseRefChangedMixin$Actor();
+class PullRequestMixin$Repository extends JsonSerializable with EquatableMixin {
+  PullRequestMixin$Repository();
 
-  factory BaseRefChangedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$BaseRefChangedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$BaseRefChangedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class BaseRefDeletedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  BaseRefDeletedMixin$Actor();
-
-  factory BaseRefDeletedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$BaseRefDeletedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$BaseRefDeletedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class BaseRefForcePushedMixin$BeforeCommit extends JsonSerializable
-    with EquatableMixin {
-  BaseRefForcePushedMixin$BeforeCommit();
-
-  factory BaseRefForcePushedMixin$BeforeCommit.fromJson(
-          Map<String, dynamic> json) =>
-      _$BaseRefForcePushedMixin$BeforeCommitFromJson(json);
-
-  late String abbreviatedOid;
-
-  late Uri url;
-
-  @override
-  List<Object?> get props => [abbreviatedOid, url];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$BaseRefForcePushedMixin$BeforeCommitToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class BaseRefForcePushedMixin$AfterCommit extends JsonSerializable
-    with EquatableMixin {
-  BaseRefForcePushedMixin$AfterCommit();
-
-  factory BaseRefForcePushedMixin$AfterCommit.fromJson(
-          Map<String, dynamic> json) =>
-      _$BaseRefForcePushedMixin$AfterCommitFromJson(json);
-
-  late Uri url;
-
-  late String abbreviatedOid;
-
-  @override
-  List<Object?> get props => [url, abbreviatedOid];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$BaseRefForcePushedMixin$AfterCommitToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class BaseRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
-  BaseRefForcePushedMixin$Ref();
-
-  factory BaseRefForcePushedMixin$Ref.fromJson(Map<String, dynamic> json) =>
-      _$BaseRefForcePushedMixin$RefFromJson(json);
+  factory PullRequestMixin$Repository.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestMixin$RepositoryFromJson(json);
 
   late String name;
 
+  late String nameWithOwner;
+
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, nameWithOwner];
   @override
-  Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$RefToJson(this);
+  Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class BaseRefForcePushedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  BaseRefForcePushedMixin$Actor();
+class IssueMixin$Repository extends JsonSerializable with EquatableMixin {
+  IssueMixin$Repository();
 
-  factory BaseRefForcePushedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$BaseRefForcePushedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ConvertedToDraftMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  ConvertedToDraftMixin$Actor();
-
-  factory ConvertedToDraftMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$ConvertedToDraftMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$ConvertedToDraftMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class HeadRefDeletedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  HeadRefDeletedMixin$Actor();
-
-  factory HeadRefDeletedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$HeadRefDeletedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$HeadRefDeletedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class HeadRefForcePushedMixin$BeforeCommit extends JsonSerializable
-    with EquatableMixin {
-  HeadRefForcePushedMixin$BeforeCommit();
-
-  factory HeadRefForcePushedMixin$BeforeCommit.fromJson(
-          Map<String, dynamic> json) =>
-      _$HeadRefForcePushedMixin$BeforeCommitFromJson(json);
-
-  late String abbreviatedOid;
-
-  late Uri url;
-
-  @override
-  List<Object?> get props => [abbreviatedOid, url];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$HeadRefForcePushedMixin$BeforeCommitToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class HeadRefForcePushedMixin$AfterCommit extends JsonSerializable
-    with EquatableMixin {
-  HeadRefForcePushedMixin$AfterCommit();
-
-  factory HeadRefForcePushedMixin$AfterCommit.fromJson(
-          Map<String, dynamic> json) =>
-      _$HeadRefForcePushedMixin$AfterCommitFromJson(json);
-
-  late Uri url;
-
-  late String abbreviatedOid;
-
-  @override
-  List<Object?> get props => [url, abbreviatedOid];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$HeadRefForcePushedMixin$AfterCommitToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class HeadRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
-  HeadRefForcePushedMixin$Ref();
-
-  factory HeadRefForcePushedMixin$Ref.fromJson(Map<String, dynamic> json) =>
-      _$HeadRefForcePushedMixin$RefFromJson(json);
+  factory IssueMixin$Repository.fromJson(Map<String, dynamic> json) =>
+      _$IssueMixin$RepositoryFromJson(json);
 
   late String name;
 
-  @override
-  List<Object?> get props => [name];
-  @override
-  Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$RefToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class HeadRefForcePushedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  HeadRefForcePushedMixin$Actor();
-
-  factory HeadRefForcePushedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$HeadRefForcePushedMixin$ActorFromJson(json);
+  late String nameWithOwner;
 
   @override
-  List<Object?> get props => [avatarUrl, login];
+  List<Object?> get props => [name, nameWithOwner];
   @override
-  Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class HeadRefRestoredMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  HeadRefRestoredMixin$Actor();
-
-  factory HeadRefRestoredMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$HeadRefRestoredMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$HeadRefRestoredMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class MergedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  MergedMixin$Actor();
-
-  factory MergedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$MergedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$MergedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestCommitMixin$Commit extends JsonSerializable
-    with EquatableMixin, CommitMixin {
-  PullRequestCommitMixin$Commit();
-
-  factory PullRequestCommitMixin$Commit.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestCommitMixin$CommitFromJson(json);
-
-  @override
-  List<Object?> get props => [
-        additions,
-        authoredDate,
-        oid,
-        message,
-        commitUrl,
-        messageHeadline,
-        author
-      ];
-  @override
-  Map<String, dynamic> toJson() => _$PullRequestCommitMixin$CommitToJson(this);
+  Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4791,146 +4767,66 @@ class CommitMixin$Author extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullRequestReviewMixin$Author extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  PullRequestReviewMixin$Author();
-
-  factory PullRequestReviewMixin$Author.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestReviewMixin$AuthorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PullRequestReviewMixin$Comments extends JsonSerializable
+class ReactionGroupsMixin$Reactors extends JsonSerializable
     with EquatableMixin {
-  PullRequestReviewMixin$Comments();
+  ReactionGroupsMixin$Reactors();
 
-  factory PullRequestReviewMixin$Comments.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestReviewMixin$CommentsFromJson(json);
+  factory ReactionGroupsMixin$Reactors.fromJson(Map<String, dynamic> json) =>
+      _$ReactionGroupsMixin$ReactorsFromJson(json);
 
   late int totalCount;
 
   @override
   List<Object?> get props => [totalCount];
   @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewMixin$CommentsToJson(this);
+  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$ReactorsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
-    with EquatableMixin, ReactionGroupsMixin {
-  PullRequestReviewMixin$ReactionGroups();
+class ReactionGroupsMixin$Subject extends JsonSerializable with EquatableMixin {
+  ReactionGroupsMixin$Subject();
 
-  factory PullRequestReviewMixin$ReactionGroups.fromJson(
+  factory ReactionGroupsMixin$Subject.fromJson(Map<String, dynamic> json) =>
+      _$ReactionGroupsMixin$SubjectFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$SubjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors$Edges$Node$User
+    extends ReactorsGroupMixin$Reactors$Edges$Node
+    with EquatableMixin, ActorMixin {
+  ReactorsGroupMixin$Reactors$Edges$Node$User();
+
+  factory ReactorsGroupMixin$Reactors$Edges$Node$User.fromJson(
           Map<String, dynamic> json) =>
-      _$PullRequestReviewMixin$ReactionGroupsFromJson(json);
-
-  @override
-  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$PullRequestReviewMixin$ReactionGroupsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReadyForReviewMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  ReadyForReviewMixin$Actor();
-
-  factory ReadyForReviewMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$ReadyForReviewMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$ReadyForReviewMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReviewDismissedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  ReviewDismissedMixin$Actor();
-
-  factory ReviewDismissedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$ReviewDismissedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$ReviewDismissedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReviewRequestedMixin$Actor extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  ReviewRequestedMixin$Actor();
-
-  factory ReviewRequestedMixin$Actor.fromJson(Map<String, dynamic> json) =>
-      _$ReviewRequestedMixin$ActorFromJson(json);
-
-  @override
-  List<Object?> get props => [avatarUrl, login];
-  @override
-  Map<String, dynamic> toJson() => _$ReviewRequestedMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReviewRequestedMixin$RequestedReviewer$User
-    extends ReviewRequestedMixin$RequestedReviewer
-    with EquatableMixin, ActorMixin {
-  ReviewRequestedMixin$RequestedReviewer$User();
-
-  factory ReviewRequestedMixin$RequestedReviewer$User.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(json);
+      _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(json);
 
   @override
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() =>
-      _$ReviewRequestedMixin$RequestedReviewer$UserToJson(this);
+      _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReviewRequestedMixin$RequestedReviewer$Team
-    extends ReviewRequestedMixin$RequestedReviewer with EquatableMixin {
-  ReviewRequestedMixin$RequestedReviewer$Team();
-
-  factory ReviewRequestedMixin$RequestedReviewer$Team.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReviewRequestedMixin$RequestedReviewer$TeamFromJson(json);
-
-  Uri? avatar;
-
-  late String name;
-
-  @override
-  List<Object?> get props => [avatar, name];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ReviewRequestedMixin$RequestedReviewer extends JsonSerializable
+class ReactorsGroupMixin$Reactors$Edges$Node extends JsonSerializable
     with EquatableMixin {
-  ReviewRequestedMixin$RequestedReviewer();
+  ReactorsGroupMixin$Reactors$Edges$Node();
 
-  factory ReviewRequestedMixin$RequestedReviewer.fromJson(
+  factory ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
       Map<String, dynamic> json) {
     switch (json['__typename'].toString()) {
       case r'User':
-        return ReviewRequestedMixin$RequestedReviewer$User.fromJson(json);
-      case r'Team':
-        return ReviewRequestedMixin$RequestedReviewer$Team.fromJson(json);
+        return ReactorsGroupMixin$Reactors$Edges$Node$User.fromJson(json);
       default:
     }
-    return _$ReviewRequestedMixin$RequestedReviewerFromJson(json);
+    return _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(json);
   }
 
   @JsonKey(name: '__typename')
@@ -4942,13 +4838,231 @@ class ReviewRequestedMixin$RequestedReviewer extends JsonSerializable
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
-        return (this as ReviewRequestedMixin$RequestedReviewer$User).toJson();
-      case r'Team':
-        return (this as ReviewRequestedMixin$RequestedReviewer$Team).toJson();
+        return (this as ReactorsGroupMixin$Reactors$Edges$Node$User).toJson();
       default:
     }
-    return _$ReviewRequestedMixin$RequestedReviewerToJson(this);
+    return _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(this);
   }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors$Edges extends JsonSerializable
+    with EquatableMixin {
+  ReactorsGroupMixin$Reactors$Edges();
+
+  factory ReactorsGroupMixin$Reactors$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReactorsGroupMixin$Reactors$EdgesFromJson(json);
+
+  late String cursor;
+
+  late ReactorsGroupMixin$Reactors$Edges$Node node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$ReactorsGroupMixin$Reactors$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors extends JsonSerializable with EquatableMixin {
+  ReactorsGroupMixin$Reactors();
+
+  factory ReactorsGroupMixin$Reactors.fromJson(Map<String, dynamic> json) =>
+      _$ReactorsGroupMixin$ReactorsFromJson(json);
+
+  List<ReactorsGroupMixin$Reactors$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [edges];
+  @override
+  Map<String, dynamic> toJson() => _$ReactorsGroupMixin$ReactorsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  PullRequestReviewCommentMixin$Author();
+
+  factory PullRequestReviewCommentMixin$Author.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$AuthorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$AuthorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$ReplyTo extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewCommentMixin$ReplyTo();
+
+  factory PullRequestReviewCommentMixin$ReplyTo.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$ReplyToFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$ReplyToToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$ReactionGroups extends JsonSerializable
+    with EquatableMixin, ReactionGroupsMixin {
+  PullRequestReviewCommentMixin$ReactionGroups();
+
+  factory PullRequestReviewCommentMixin$ReactionGroups.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(json);
+
+  @override
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$ReactionGroupsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$PullRequest extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewCommentMixin$PullRequest();
+
+  factory PullRequestReviewCommentMixin$PullRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$PullRequestFromJson(json);
+
+  late int number;
+
+  @override
+  List<Object?> get props => [number];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$PullRequestToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$Repository$Owner extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewCommentMixin$Repository$Owner();
+
+  factory PullRequestReviewCommentMixin$Repository$Owner.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$Repository$OwnerFromJson(json);
+
+  late String login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$Repository$OwnerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$Repository extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewCommentMixin$Repository();
+
+  factory PullRequestReviewCommentMixin$Repository.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$RepositoryFromJson(json);
+
+  late String name;
+
+  late PullRequestReviewCommentMixin$Repository$Owner owner;
+
+  @override
+  List<Object?> get props => [name, owner];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
+    with EquatableMixin, PullRequestReviewCommentMixin {
+  PRReviewCommentsMixin$Comments$Edges$Node();
+
+  factory PRReviewCommentsMixin$Comments$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        databaseId,
+        author,
+        createdAt,
+        authorAssociation,
+        body,
+        bodyHTML,
+        lastEditedAt,
+        state,
+        diffHunk,
+        outdated,
+        isMinimized,
+        replyTo,
+        path,
+        reactionGroups,
+        viewerCanDelete,
+        viewerCanUpdate,
+        viewerDidAuthor,
+        viewerCannotUpdateReasons,
+        viewerCanReact,
+        viewerCanMinimize,
+        pullRequest,
+        repository
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PRReviewCommentsMixin$Comments$Edges extends JsonSerializable
+    with EquatableMixin {
+  PRReviewCommentsMixin$Comments$Edges();
+
+  factory PRReviewCommentsMixin$Comments$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$PRReviewCommentsMixin$Comments$EdgesFromJson(json);
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  late String cursor;
+
+  PRReviewCommentsMixin$Comments$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [$$typename, cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PRReviewCommentsMixin$Comments$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PRReviewCommentsMixin$Comments extends JsonSerializable
+    with EquatableMixin {
+  PRReviewCommentsMixin$Comments();
+
+  factory PRReviewCommentsMixin$Comments.fromJson(Map<String, dynamic> json) =>
+      _$PRReviewCommentsMixin$CommentsFromJson(json);
+
+  List<PRReviewCommentsMixin$Comments$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [edges];
+  @override
+  Map<String, dynamic> toJson() => _$PRReviewCommentsMixin$CommentsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -6307,26 +6421,6 @@ enum IssueState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
-enum ReactionContent {
-  @JsonValue('CONFUSED')
-  confused,
-  @JsonValue('EYES')
-  eyes,
-  @JsonValue('HEART')
-  heart,
-  @JsonValue('HOORAY')
-  hooray,
-  @JsonValue('LAUGH')
-  laugh,
-  @JsonValue('ROCKET')
-  rocket,
-  @JsonValue('THUMBS_DOWN')
-  thumbsDown,
-  @JsonValue('THUMBS_UP')
-  thumbsUp,
-  @JsonValue('ARTEMIS_UNKNOWN')
-  artemisUnknown,
-}
 enum PullRequestState {
   @JsonValue('CLOSED')
   closed,
@@ -6347,11 +6441,23 @@ enum PullRequestReviewDecision {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
-enum PullRequestReviewCommentState {
-  @JsonValue('PENDING')
-  pending,
-  @JsonValue('SUBMITTED')
-  submitted,
+enum ReactionContent {
+  @JsonValue('CONFUSED')
+  confused,
+  @JsonValue('EYES')
+  eyes,
+  @JsonValue('HEART')
+  heart,
+  @JsonValue('HOORAY')
+  hooray,
+  @JsonValue('LAUGH')
+  laugh,
+  @JsonValue('ROCKET')
+  rocket,
+  @JsonValue('THUMBS_DOWN')
+  thumbsDown,
+  @JsonValue('THUMBS_UP')
+  thumbsUp,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -6384,6 +6490,14 @@ enum PullRequestReviewState {
   dismissed,
   @JsonValue('PENDING')
   pending,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+enum PullRequestReviewCommentState {
+  @JsonValue('PENDING')
+  pending,
+  @JsonValue('SUBMITTED')
+  submitted,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -6714,64 +6828,20 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'label'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'color'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reactionGroups'),
+      name: NameNode(value: 'pullInfo'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
-              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
+              name: NameNode(value: 'PullRequest'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'content'),
+            name: NameNode(value: 'activeLockReason'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'viewerHasReacted'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactors'),
+            name: NameNode(value: 'assignees'),
             alias: null,
             arguments: [],
             directives: [],
@@ -6784,18 +6854,269 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
                   selectionSet: null)
             ])),
         FieldNode(
-            name: NameNode(value: 'subject'),
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'id'),
+                  name: NameNode(value: 'totalCount'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null)
-            ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'locked'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'titleHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'additions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'deletions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'baseRef'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'repository'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'url'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'headRef'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'repository'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'url'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'changedFiles'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closingIssuesReferences'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'commits'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'merged'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reviewDecision'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'repoInfo'),
@@ -6829,6 +7150,292 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null)
             ]))
+      ]))
+]);
+
+class IssuePullInfoQuery
+    extends GraphQLQuery<IssuePullInfo$Query, IssuePullInfoArguments> {
+  IssuePullInfoQuery({required this.variables});
+
+  @override
+  final DocumentNode document = ISSUE_PULL_INFO_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'issuePullInfo';
+
+  @override
+  final IssuePullInfoArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  IssuePullInfo$Query parse(Map<String, dynamic> json) =>
+      IssuePullInfo$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactorsArguments extends JsonSerializable with EquatableMixin {
+  GetReactorsArguments({required this.id});
+
+  @override
+  factory GetReactorsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetReactorsArgumentsFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$GetReactorsArgumentsToJson(this);
+}
+
+final GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getReactors'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Issue'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'reactionGroups'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                              name: NameNode(value: 'reactorsGroup'),
+                              directives: [])
+                        ]))
+                  ])),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'PullRequest'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'reactionGroups'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                              name: NameNode(value: 'reactorsGroup'),
+                              directives: [])
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'issueInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'activeLockReason'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'assignees'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isPinned'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'locked'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'titleHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'pullInfo'),
@@ -7120,191 +7727,39 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: null)
-      ]))
-]);
-
-class IssuePullInfoQuery
-    extends GraphQLQuery<IssuePullInfo$Query, IssuePullInfoArguments> {
-  IssuePullInfoQuery({required this.variables});
-
-  @override
-  final DocumentNode document = ISSUE_PULL_INFO_QUERY_DOCUMENT;
-
-  @override
-  final String operationName = 'issuePullInfo';
-
-  @override
-  final IssuePullInfoArguments variables;
-
-  @override
-  List<Object?> get props => [document, operationName, variables];
-  @override
-  IssuePullInfo$Query parse(Map<String, dynamic> json) =>
-      IssuePullInfo$Query.fromJson(json);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetReactorsArguments extends JsonSerializable with EquatableMixin {
-  GetReactorsArguments({required this.id});
-
-  @override
-  factory GetReactorsArguments.fromJson(Map<String, dynamic> json) =>
-      _$GetReactorsArgumentsFromJson(json);
-
-  late String id;
-
-  @override
-  List<Object?> get props => [id];
-  @override
-  Map<String, dynamic> toJson() => _$GetReactorsArgumentsToJson(this);
-}
-
-final GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: [
-  OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'getReactors'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'id')),
-            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'repoInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Repository'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'node'),
+            name: NameNode(value: 'name'),
             alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'id'),
-                  value: VariableNode(name: NameNode(value: 'id')))
-            ],
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'owner'),
+            alias: null,
+            arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: '__typename'),
+                  name: NameNode(value: 'login'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Issue'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'reactionGroups'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'reactorsGroup'),
-                              directives: [])
-                        ]))
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PullRequest'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'reactionGroups'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'reactorsGroup'),
-                              directives: [])
-                        ]))
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reactorsGroup'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'content'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactors'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'first'),
-                  value: IntValueNode(value: '11'))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'edges'),
+                  name: NameNode(value: 'avatarUrl'),
                   alias: null,
                   arguments: [],
                   directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'cursor'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'node'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FieldNode(
-                              name: NameNode(value: '__typename'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: null),
-                          InlineFragmentNode(
-                              typeCondition: TypeConditionNode(
-                                  on: NamedTypeNode(
-                                      name: NameNode(value: 'User'),
-                                      isNonNull: false)),
-                              directives: [],
-                              selectionSet: SelectionSetNode(selections: [
-                                FragmentSpreadNode(
-                                    name: NameNode(value: 'actor'),
-                                    directives: [])
-                              ]))
-                        ]))
-                  ]))
+                  selectionSet: null)
             ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
       ]))
 ]);
 
@@ -7326,6 +7781,1202 @@ class GetReactorsQuery
   @override
   GetReactors$Query parse(Map<String, dynamic> json) =>
       GetReactors$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddReactionArguments extends JsonSerializable with EquatableMixin {
+  AddReactionArguments({required this.id, required this.content});
+
+  @override
+  factory AddReactionArguments.fromJson(Map<String, dynamic> json) =>
+      _$AddReactionArgumentsFromJson(json);
+
+  late String id;
+
+  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
+  late ReactionContent content;
+
+  @override
+  List<Object?> get props => [id, content];
+  @override
+  Map<String, dynamic> toJson() => _$AddReactionArgumentsToJson(this);
+}
+
+final ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  FragmentDefinitionNode(
+      name: NameNode(value: 'issueInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'activeLockReason'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'assignees'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isPinned'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'locked'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'titleHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'pullInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequest'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'activeLockReason'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'assignees'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'locked'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'titleHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'additions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'deletions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'baseRef'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'repository'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'url'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'headRef'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'repository'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'url'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'changedFiles'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closingIssuesReferences'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'commits'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'merged'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reviewDecision'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'repoInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Repository'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'owner'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'login'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'avatarUrl'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ])),
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'addReaction'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'content')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'ReactionContent'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'addReaction'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'subjectId'),
+                        value: VariableNode(name: NameNode(value: 'id'))),
+                    ObjectFieldNode(
+                        name: NameNode(value: 'content'),
+                        value: VariableNode(name: NameNode(value: 'content')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'reaction'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'createdAt'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class AddReactionMutation
+    extends GraphQLQuery<AddReaction$Mutation, AddReactionArguments> {
+  AddReactionMutation({required this.variables});
+
+  @override
+  final DocumentNode document = ADD_REACTION_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = 'addReaction';
+
+  @override
+  final AddReactionArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  AddReaction$Mutation parse(Map<String, dynamic> json) =>
+      AddReaction$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class RemoveReactionArguments extends JsonSerializable with EquatableMixin {
+  RemoveReactionArguments({required this.id, required this.content});
+
+  @override
+  factory RemoveReactionArguments.fromJson(Map<String, dynamic> json) =>
+      _$RemoveReactionArgumentsFromJson(json);
+
+  late String id;
+
+  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
+  late ReactionContent content;
+
+  @override
+  List<Object?> get props => [id, content];
+  @override
+  Map<String, dynamic> toJson() => _$RemoveReactionArgumentsToJson(this);
+}
+
+final REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  FragmentDefinitionNode(
+      name: NameNode(value: 'issueInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'activeLockReason'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'assignees'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isPinned'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'locked'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'titleHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'pullInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequest'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'activeLockReason'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'assignees'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'labels'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '100'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'nodes'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'label'), directives: [])
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'locked'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'repoInfo'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'titleHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'additions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'deletions'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'baseRef'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'repository'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'url'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'headRef'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'repository'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'url'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ])),
+        FieldNode(
+            name: NameNode(value: 'changedFiles'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closingIssuesReferences'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'commits'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'isCrossRepository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'merged'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reviewDecision'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'repoInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Repository'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'owner'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'login'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'avatarUrl'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ])),
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'removeReaction'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'content')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'ReactionContent'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'removeReaction'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: ObjectValueNode(fields: [
+                    ObjectFieldNode(
+                        name: NameNode(value: 'subjectId'),
+                        value: VariableNode(name: NameNode(value: 'id'))),
+                    ObjectFieldNode(
+                        name: NameNode(value: 'content'),
+                        value: VariableNode(name: NameNode(value: 'content')))
+                  ]))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'reaction'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'createdAt'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
+            ]))
+      ]))
+]);
+
+class RemoveReactionMutation
+    extends GraphQLQuery<RemoveReaction$Mutation, RemoveReactionArguments> {
+  RemoveReactionMutation({required this.variables});
+
+  @override
+  final DocumentNode document = REMOVE_REACTION_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = 'removeReaction';
+
+  @override
+  final RemoveReactionArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  RemoveReaction$Mutation parse(Map<String, dynamic> json) =>
+      RemoveReaction$Mutation.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -7409,25 +9060,6 @@ final FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: [
                         selectionSet: null)
                   ]))
             ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
       ]))
 ]);
 
@@ -7516,308 +9148,6 @@ final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
                         name: NameNode(value: 'PRReviewComments'),
                         directives: [])
                   ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'PRReviewComments'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PullRequestReview'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'comments'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'first'),
-                  value: IntValueNode(value: '10')),
-              ArgumentNode(
-                  name: NameNode(value: 'after'),
-                  value: VariableNode(name: NameNode(value: 'cursor')))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'edges'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: '__typename'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'cursor'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'node'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'pullRequestReviewComment'),
-                              directives: [])
-                        ]))
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'pullRequestReviewComment'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PullRequestReviewComment'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'databaseId'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'author'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'authorAssociation'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'body'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'bodyHTML'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'lastEditedAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'diffHunk'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'outdated'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'isMinimized'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'replyTo'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'path'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactionGroups'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(
-                  name: NameNode(value: 'reactionGroups'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'viewerCanDelete'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanUpdate'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerDidAuthor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCannotUpdateReasons'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanReact'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanMinimize'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'pullRequest'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'number'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'owner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'login'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reactionGroups'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'content'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerHasReacted'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactors'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'totalCount'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'subject'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
             ]))
       ]))
 ]);
@@ -8177,257 +9507,6 @@ final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
                               ]))
                         ]))
                   ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'pullRequestReviewComment'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PullRequestReviewComment'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'databaseId'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'author'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'authorAssociation'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'body'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'bodyHTML'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'lastEditedAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'diffHunk'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'outdated'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'isMinimized'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'replyTo'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'path'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactionGroups'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(
-                  name: NameNode(value: 'reactionGroups'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'viewerCanDelete'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanUpdate'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerDidAuthor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCannotUpdateReasons'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanReact'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerCanMinimize'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'pullRequest'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'number'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'owner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'login'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reactionGroups'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'content'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerHasReacted'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactors'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'totalCount'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'subject'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
             ]))
       ]))
 ]);
@@ -9897,25 +10976,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'actor'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'avatarUrl'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'login'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'assigned'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -9995,10 +11055,192 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
+      name: NameNode(value: 'baseRefChanged'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'BaseRefChangedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'currentRefName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'previousRefName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'baseRefDeleted'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'BaseRefDeletedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'baseRefName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'baseRefForcePushed'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'BaseRefForcePushedEvent'),
+              isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'beforeCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'afterCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'ref'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
       name: NameNode(value: 'closed'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
               name: NameNode(value: 'ClosedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'convertedToDraft'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ConvertToDraftEvent'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
@@ -10089,107 +11331,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'issue'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'title'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: NameNode(value: 'issueState'),
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'nameWithOwner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'pullRequest'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PullRequest'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'title'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: NameNode(value: 'pullState'),
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'nameWithOwner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'deMileStoned'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -10222,6 +11363,148 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'headRefDeleted'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'HeadRefDeletedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'headRefName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'headRefForcePushed'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'HeadRefForcePushedEvent'),
+              isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'beforeCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'afterCommit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'url'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'abbreviatedOid'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'ref'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'headRefRestored'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'HeadRefRestoredEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ]))
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'issueComment'),
@@ -10333,52 +11616,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'reactionGroups'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'content'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'viewerHasReacted'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'reactors'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'totalCount'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'subject'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ])),
-  FragmentDefinitionNode(
       name: NameNode(value: 'labeled'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -10413,25 +11650,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'label'), directives: [])
             ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'label'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'color'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'locked'),
@@ -10535,6 +11753,40 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
+      name: NameNode(value: 'merged'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'MergedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'mergeRefName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
       name: NameNode(value: 'mileStoned'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
@@ -10627,6 +11879,167 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
               name: NameNode(value: 'PinnedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'pullRequestCommit'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequestCommit'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'commit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'commit'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'pullRequestReview'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequestReview'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'author'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'authorAssociation'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'lastEditedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'state'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'reactionGroups'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                  name: NameNode(value: 'reactionGroups'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'viewerCanDelete'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanUpdate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerDidAuthor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCannotUpdateReasons'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerCanReact'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'readyForReview'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReadyForReviewEvent'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
@@ -10764,6 +12177,121 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reviewDismissed'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReviewDismissedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'dismissalMessage'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'dismissalMessageHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'previousReviewState'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reviewRequested'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReviewRequestedEvent'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'createdAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'actor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+            ])),
+        FieldNode(
+            name: NameNode(value: 'requestedReviewer'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'User'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'actor'), directives: [])
+                  ])),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Team'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'avatarUrl'),
+                        alias: NameNode(value: 'avatar'),
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
+                  ]))
             ]))
       ])),
   FragmentDefinitionNode(
@@ -11005,139 +12533,57 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'baseRefChanged'),
+      name: NameNode(value: 'actor'),
       typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'BaseRefChangedEvent'), isNonNull: false)),
+          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'avatarUrl'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'currentRefName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'previousRefName'),
+            name: NameNode(value: 'login'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'baseRefDeleted'),
+      name: NameNode(value: 'pullRequest'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
-              name: NameNode(value: 'BaseRefDeletedEvent'), isNonNull: false)),
+              name: NameNode(value: 'PullRequest'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'url'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
+            name: NameNode(value: 'title'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'baseRefName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'baseRefForcePushed'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'BaseRefForcePushedEvent'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'number'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
+            name: NameNode(value: 'state'),
+            alias: NameNode(value: 'pullState'),
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'beforeCommit'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'abbreviatedOid'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'url'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'afterCommit'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'url'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'abbreviatedOid'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'ref'),
+            name: NameNode(value: 'repository'),
             alias: null,
             arguments: [],
             directives: [],
@@ -11147,139 +12593,47 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                   alias: null,
                   arguments: [],
                   directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'nameWithOwner'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
                   selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'convertedToDraft'),
+      name: NameNode(value: 'issue'),
       typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ConvertToDraftEvent'), isNonNull: false)),
+          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'url'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
+            name: NameNode(value: 'title'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'headRefDeleted'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'HeadRefDeletedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'number'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
+            name: NameNode(value: 'state'),
+            alias: NameNode(value: 'issueState'),
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'headRefName'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'headRefForcePushed'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'HeadRefForcePushedEvent'),
-              isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'beforeCommit'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'abbreviatedOid'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'url'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'afterCommit'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'url'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'abbreviatedOid'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'ref'),
+            name: NameNode(value: 'repository'),
             alias: null,
             arguments: [],
             directives: [],
@@ -11289,101 +12643,53 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
                   alias: null,
                   arguments: [],
                   directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'nameWithOwner'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
                   selectionSet: null)
-            ])),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'headRefRestored'),
+      name: NameNode(value: 'repo'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
-              name: NameNode(value: 'HeadRefRestoredEvent'), isNonNull: false)),
+              name: NameNode(value: 'Repository'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'url'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'merged'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'MergedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'mergeRefName'),
+            name: NameNode(value: 'nameWithOwner'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null)
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'pullRequestCommit'),
+      name: NameNode(value: 'label'),
       typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'PullRequestCommit'), isNonNull: false)),
+          on: NamedTypeNode(name: NameNode(value: 'Label'), isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'color'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'commit'),
+            name: NameNode(value: 'name'),
             alias: null,
             arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(
-                  name: NameNode(value: 'commit'), directives: [])
-            ]))
+            selectionSet: null)
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'commit'),
@@ -11457,14 +12763,138 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             ]))
       ])),
   FragmentDefinitionNode(
-      name: NameNode(value: 'pullRequestReview'),
+      name: NameNode(value: 'reactionGroups'),
       typeCondition: TypeConditionNode(
           on: NamedTypeNode(
-              name: NameNode(value: 'PullRequestReview'), isNonNull: false)),
+              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'content'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'viewerHasReacted'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactors'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'subject'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reactors'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Reactor'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reactorsGroup'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'content'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactors'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '11'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'edges'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'cursor'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'node'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          InlineFragmentNode(
+                              typeCondition: TypeConditionNode(
+                                  on: NamedTypeNode(
+                                      name: NameNode(value: 'User'),
+                                      isNonNull: false)),
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'actor'),
+                                    directives: [])
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'pullRequestReviewComment'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequestReviewComment'),
+              isNonNull: false)),
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
             name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'databaseId'),
             alias: null,
             arguments: [],
             directives: [],
@@ -11514,18 +12944,42 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'comments'),
+            name: NameNode(value: 'diffHunk'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'outdated'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'isMinimized'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'replyTo'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'totalCount'),
+                  name: NameNode(value: 'id'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null)
             ])),
+        FieldNode(
+            name: NameNode(value: 'path'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
         FieldNode(
             name: NameNode(value: 'reactionGroups'),
             alias: null,
@@ -11564,148 +13018,101 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             alias: null,
             arguments: [],
             directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'readyForReview'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReadyForReviewEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
+            selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'id'),
+            name: NameNode(value: 'viewerCanMinimize'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: null),
         FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reviewDismissed'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReviewDismissedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'dismissalMessage'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'dismissalMessageHTML'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'previousReviewState'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'reviewRequested'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'ReviewRequestedEvent'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'createdAt'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'actor'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(name: NameNode(value: 'actor'), directives: [])
-            ])),
-        FieldNode(
-            name: NameNode(value: 'requestedReviewer'),
+            name: NameNode(value: 'pullRequest'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: '__typename'),
+                  name: NameNode(value: 'number'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'repository'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'name'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'User'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'actor'), directives: [])
-                  ])),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Team'), isNonNull: false)),
+              FieldNode(
+                  name: NameNode(value: 'owner'),
+                  alias: null,
+                  arguments: [],
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
                     FieldNode(
-                        name: NameNode(value: 'avatarUrl'),
-                        alias: NameNode(value: 'avatar'),
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'name'),
+                        name: NameNode(value: 'login'),
                         alias: null,
                         arguments: [],
                         directives: [],
                         selectionSet: null)
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'PRReviewComments'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'PullRequestReview'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '10')),
+              ArgumentNode(
+                  name: NameNode(value: 'after'),
+                  value: VariableNode(name: NameNode(value: 'cursor')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'edges'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: '__typename'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'cursor'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'node'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                              name: NameNode(value: 'pullRequestReviewComment'),
+                              directives: [])
+                        ]))
                   ]))
             ]))
       ]))
@@ -11922,56 +13329,6 @@ final PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: [
                               ]))
                         ]))
                   ]))
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'issue'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(name: NameNode(value: 'Issue'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'url'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'title'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'state'),
-            alias: NameNode(value: 'issueState'),
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'repository'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'name'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'nameWithOwner'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
             ]))
       ]))
 ]);
@@ -12271,45 +13628,6 @@ class GetProjectInfoArguments extends JsonSerializable with EquatableMixin {
 }
 
 final GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
-  OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'getProjectInfo'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'id')),
-            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'node'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'id'),
-                  value: VariableNode(name: NameNode(value: 'id')))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              InlineFragmentNode(
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Project'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FragmentSpreadNode(
-                        name: NameNode(value: 'project'), directives: [])
-                  ]))
-            ]))
-      ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'project'),
       typeCondition: TypeConditionNode(
@@ -12378,6 +13696,45 @@ final GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null)
             ]))
+      ])),
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getProjectInfo'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Project'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'project'), directives: [])
+                  ]))
+            ]))
       ]))
 ]);
 
@@ -12420,6 +13777,75 @@ class GetProjectColumnsArguments extends JsonSerializable with EquatableMixin {
 }
 
 final GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  FragmentDefinitionNode(
+      name: NameNode(value: 'project'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Project'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'databaseId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'updatedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'progress'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'donePercentage'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ])),
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'getProjectColumns'),
@@ -12568,6 +13994,75 @@ class GetProjectColumnCardsArguments extends JsonSerializable
 }
 
 final GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  FragmentDefinitionNode(
+      name: NameNode(value: 'project'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Project'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'databaseId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'updatedAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'bodyHTML'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'body'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'closed'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'progress'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'donePercentage'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ])),
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'getProjectColumnCards'),
@@ -13053,6 +14548,25 @@ final SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definitions: [
                         selectionSet: null)
                   ]))
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'UserInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'User'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ]))
 ]);
 
@@ -13262,6 +14776,25 @@ final GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitions: [
                         ]))
                   ]))
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'UserInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'User'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ]))
 ]);
 
@@ -13357,6 +14890,25 @@ final FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
                         selectionSet: null)
                   ]))
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'UserInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'User'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ]))
 ]);
 
@@ -13437,6 +14989,25 @@ final FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
                         selectionSet: null)
                   ]))
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'UserInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'User'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ]))
 ]);
 
@@ -13517,6 +15088,25 @@ final UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
                         selectionSet: null)
                   ]))
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'UserInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'User'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ]))
 ]);
 

@@ -186,15 +186,14 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
             context,
             widget.editingController.newValue,
             ScaleSwitch(
-              child: editing == EditingState.editMode
-                  ? (widget.toolsAxis == Axis.horizontal
-                      ? Row(
-                          children: items,
-                        )
-                      : Column(
-                          children: items,
-                        ))
-                  : Container(),
+              visible: editing == EditingState.editMode,
+              child: widget.toolsAxis == Axis.horizontal
+                  ? Row(
+                      children: items,
+                    )
+                  : Column(
+                      children: items,
+                    ),
             ),
             widget.editingController.currentlyEditing,
             editing);

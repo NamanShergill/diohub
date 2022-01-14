@@ -8,11 +8,10 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class UserInfoService {
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    final response = await
-        request(cacheOptions: CacheManager.currentUserProfileInfo())
-        .get(
-          '/user',
-        );
+    final response =
+        await request(cacheOptions: CacheManager.currentUserProfileInfo()).get(
+      '/user',
+    );
     return CurrentUserInfoModel.fromJson(response.data);
   }
 
@@ -24,8 +23,9 @@ class UserInfoService {
     String? sort,
     bool? ascending = false,
   }) async {
-    final response = await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('/user/repos', queryParameters: {
+    final response =
+        await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+            .get('/user/repos', queryParameters: {
       if (sort != null) 'sort': sort,
       if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       'per_page': perPage,
@@ -43,9 +43,9 @@ class UserInfoService {
     String? sort, {
     required bool refresh,
   }) async {
-    final response = await
-        request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get(
+    final response =
+        await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+            .get(
       '/users/$username/repos',
       queryParameters: {
         'sort': 'updated',
@@ -62,8 +62,8 @@ class UserInfoService {
   static Future<UserInfoModel> getUserInfo(String? login) async {
     final response =
         await request(cacheOptions: CacheManager.defaultCache()).get(
-              '/users/$login',
-            );
+      '/users/$login',
+    );
     return UserInfoModel.fromJson(response.data);
   }
 
@@ -97,13 +97,15 @@ class UserInfoService {
 
   static Future changeFollowStatus(String id, {required bool follow}) async {
     if (follow) {
-      return gqlRequest(
-          FollowUserMutation(variables: FollowUserArguments(user: id)),
-          debugLog: true);
+      return gqlMutation(
+        FollowUserMutation(
+          variables: FollowUserArguments(user: id),
+        ),
+      );
     } else {
-      return gqlRequest(
-          UnfollowUserMutation(variables: UnfollowUserArguments(user: id)),
-          debugLog: true);
+      return gqlMutation(
+        UnfollowUserMutation(variables: UnfollowUserArguments(user: id)),
+      );
     }
   }
 }

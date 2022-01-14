@@ -143,6 +143,29 @@ Dio request({
   return dio;
 }
 
+Future<GQLResponse> gqlMutation(
+  GraphQLQuery query, {
+  bool loggedIn = true,
+  bool cacheEnabled = true,
+  bool applyBaseURL = true,
+  bool loginRequired = true,
+  bool debugLog = kReleaseMode,
+  bool buttonLock = true,
+  bool showPopup = true,
+  String? acceptHeader,
+}) {
+  return gqlRequest(query,
+      acceptHeader: acceptHeader,
+      cacheOptions: CacheManager.noCache(),
+      applyBaseURL: applyBaseURL,
+      debugLog: debugLog,
+      buttonLock: buttonLock,
+      cacheEnabled: cacheEnabled,
+      loggedIn: loggedIn,
+      loginRequired: loginRequired,
+      showPopup: showPopup);
+}
+
 Future<GQLResponse> gqlRequest(
   GraphQLQuery query, {
   bool loggedIn = true,

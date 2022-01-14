@@ -1,3 +1,33 @@
+query issuePullInfo($user: String!, $repo: String!, $number: Int!){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...issueInfo
+            }
+            ... on PullRequest{
+                ...pullInfo
+            }
+        }
+    }
+}
+
+query getReactors($id:ID!){
+    node(id: $id){
+        __typename
+        ... on Issue{
+           reactionGroups{
+               ...reactorsGroup
+           }
+        }
+        ... on PullRequest{
+            reactionGroups{
+                ...reactorsGroup
+            }
+        }
+    }
+}
+
 fragment issueInfo on Issue{
     activeLockReason
     assignees{
@@ -40,7 +70,7 @@ fragment issueInfo on Issue{
     viewerCanUpdate
 }
 
-fragment  pullInfo on PullRequest{
+fragment pullInfo on PullRequest{
     activeLockReason
     assignees{
         totalCount
@@ -110,5 +140,21 @@ fragment repoInfo on Repository{
     owner{
         login
         avatarUrl
+    }
+}
+
+mutation addReaction($id:ID!, $content:ReactionContent!){
+    addReaction(input: {subjectId: $id, content: $content}){
+        reaction{
+            createdAt
+        }
+    }
+}
+
+mutation removeReaction($id:ID!, $content:ReactionContent!){
+    removeReaction(input: {subjectId: $id, content: $content}){
+        reaction{
+            createdAt
+        }
     }
 }

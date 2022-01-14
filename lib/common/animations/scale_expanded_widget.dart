@@ -72,14 +72,22 @@ class _ScaleExpandedSectionState extends State<ScaleExpandedSection>
 }
 
 class ScaleSwitch extends StatelessWidget {
-  const ScaleSwitch({Key? key, this.child, this.duration}) : super(key: key);
+  const ScaleSwitch(
+      {Key? key,
+      this.child,
+      this.duration,
+      this.visible = true,
+      this.replacement})
+      : super(key: key);
   final Widget? child;
+  final Widget? replacement;
+  final bool visible;
   final Duration? duration;
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: duration ?? defaultAnimDuration,
-      child: child,
+      child: visible ? child : replacement ?? Container(),
       transitionBuilder: (child, animation) => ScaleTransition(
         scale: animation,
         child: child,

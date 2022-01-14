@@ -70,3 +70,8 @@ mutation  unfollowUser($user:ID!){
         }
     }
 }
+
+fragment UserInfo on User{
+    name
+    avatarUrl
+}
