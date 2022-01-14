@@ -90,6 +90,7 @@ Dio request({
         handler.next(options);
       },
       onResponse: (response, handler) async {
+        // print(response);
         // Makes the buttons listening to this stream get enabled again.
         if (buttonLock) {
           setButtonValue(value: false);
@@ -129,8 +130,9 @@ Dio request({
   if (cacheEnabled) {
     dio.interceptors.add(
       DioCacheInterceptor(
-          options: cacheOptions ??
-              CacheOptions(policy: CachePolicy.request, store: cacheStore)),
+        options: cacheOptions ??
+            CacheOptions(policy: CachePolicy.request, store: cacheStore),
+      ),
     );
   }
   // Log the request in the console for debugging if [debugLog] is true.
@@ -153,6 +155,7 @@ Future<GQLResponse> gqlRequest(
   String? acceptHeader,
   CustomCacheOptions? cacheOptions,
 }) async {
+  final cache = cacheOptions ?? CacheManager.defaultGQLCache();
   return DioLink(
     '$apiBaseURL/graphql',
     client: request(
@@ -163,13 +166,15 @@ Future<GQLResponse> gqlRequest(
         applyBaseURL: applyBaseURL,
         buttonLock: buttonLock,
         cacheEnabled: cacheEnabled,
-        cacheOptions: cacheOptions,
+        cacheOptions: cache,
         loginRequired: loginRequired,
         showPopup: showPopup),
   )
-      .request(gql_exec.Request(
-        operation: gql_exec.Operation(document: query.document),
-        variables: query.variables!.toJson(),
-      ))
+      .request(
+        gql_exec.Request(
+          operation: gql_exec.Operation(document: query.document),
+          variables: query.variables!.toJson(),
+        ),
+      )
       .first;
 }

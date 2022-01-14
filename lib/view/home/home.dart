@@ -173,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen>
                         return UserInfoService.getViewerOrgs(
                             refresh: refresh, after: lastItem?.cursor);
                       },
-                      firstDivider: false,
+                      separatorBuilder: (context, index) => const Divider(
+                        height: 8,
+                      ),
                       topSpacing: 8,
                       listEndIndicator: false,
                       // divider: false,

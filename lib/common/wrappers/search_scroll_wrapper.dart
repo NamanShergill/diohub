@@ -273,7 +273,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(
         height: 4,
       ),
-      firstDivider: false,
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,
       isNestedScrollViewChild: isNestedScrollViewChild,

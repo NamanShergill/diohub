@@ -1,5 +1,6 @@
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:flutter/material.dart';
@@ -195,7 +196,7 @@ typedef ScrollChild = Widget Function(BuildContext context,
     ScrollController scrollController, StateSetter setState);
 
 void showScrollableBottomActionsMenu(BuildContext context,
-    {required ScrollChild child,
+    {required ScrollChild builder,
     String? titleText,
     StatefulWidgetBuilder? titleWidget}) {
   showModalBottomSheet(
@@ -259,7 +260,7 @@ void showScrollableBottomActionsMenu(BuildContext context,
                         ),
                   const Divider(),
                   Expanded(
-                    child: child(context, scrollController, setState),
+                    child: builder(context, scrollController, setState),
                   ),
                 ],
               );
@@ -268,5 +269,23 @@ void showScrollableBottomActionsMenu(BuildContext context,
         },
       );
     },
+  );
+}
+
+void showPaginatedBottomActionsMenu<T>(BuildContext context,
+    {required ScrollWrapperFuture<T> future,
+    required ScrollWrapperBuilder<T> builder,
+    String? titleText,
+    StatefulWidgetBuilder? titleWidget}) {
+  showScrollableBottomActionsMenu(
+    context,
+    builder: (context, scrollController, setState) => InfiniteScrollWrapper<T>(
+      future: future,
+      builder: builder,
+      pageSize: 2,
+      scrollController: scrollController,
+    ),
+    titleText: titleText,
+    titleWidget: titleWidget,
   );
 }

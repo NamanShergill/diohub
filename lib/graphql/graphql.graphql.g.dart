@@ -48,6 +48,8 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
           ..state = $enumDecode(_$IssueStateEnumMap, json['state'],
               unknownValue: IssueState.artemisUnknown)
           ..titleHTML = json['titleHTML'] as String
+          ..timelineItems = IssueInfoMixin$TimelineItems.fromJson(
+              json['timelineItems'] as Map<String, dynamic>)
           ..url = Uri.parse(json['url'] as String)
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..viewerCanUpdate = json['viewerCanUpdate'] as bool
@@ -77,6 +79,7 @@ Map<String, dynamic>
           'repository': instance.repository.toJson(),
           'state': _$IssueStateEnumMap[instance.state],
           'titleHTML': instance.titleHTML,
+          'timelineItems': instance.timelineItems.toJson(),
           'url': instance.url.toString(),
           'viewerCanReact': instance.viewerCanReact,
           'viewerCanUpdate': instance.viewerCanUpdate,
@@ -148,6 +151,8 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
               json['repository'] as Map<String, dynamic>)
           ..state = $enumDecode(_$PullRequestStateEnumMap, json['state'],
               unknownValue: PullRequestState.artemisUnknown)
+          ..timelineItems = PullInfoMixin$TimelineItems.fromJson(
+              json['timelineItems'] as Map<String, dynamic>)
           ..titleHTML = json['titleHTML'] as String
           ..url = Uri.parse(json['url'] as String)
           ..viewerCanReact = json['viewerCanReact'] as bool
@@ -199,6 +204,7 @@ Map<String, dynamic>
               instance.reactionGroups?.map((e) => e.toJson()).toList(),
           'repository': instance.repository.toJson(),
           'state': _$PullRequestStateEnumMap[instance.state],
+          'timelineItems': instance.timelineItems.toJson(),
           'titleHTML': instance.titleHTML,
           'url': instance.url.toString(),
           'viewerCanReact': instance.viewerCanReact,
@@ -338,7 +344,9 @@ IssueInfoMixin$ReactionGroups _$IssueInfoMixin$ReactionGroupsFromJson(
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
       ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-          json['reactors'] as Map<String, dynamic>);
+          json['reactors'] as Map<String, dynamic>)
+      ..subject = ReactionGroupsMixin$Subject.fromJson(
+          json['subject'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$IssueInfoMixin$ReactionGroupsToJson(
         IssueInfoMixin$ReactionGroups instance) =>
@@ -346,6 +354,7 @@ Map<String, dynamic> _$IssueInfoMixin$ReactionGroupsToJson(
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
       'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
     };
 
 const _$ReactionContentEnumMap = {
@@ -374,6 +383,16 @@ Map<String, dynamic> _$IssueInfoMixin$RepositoryToJson(
       'owner': instance.owner.toJson(),
     };
 
+IssueInfoMixin$TimelineItems _$IssueInfoMixin$TimelineItemsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$TimelineItems()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$TimelineItemsToJson(
+        IssueInfoMixin$TimelineItems instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
 ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
         Map<String, dynamic> json) =>
     ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
@@ -382,6 +401,16 @@ Map<String, dynamic> _$ReactionGroupsMixin$ReactorsToJson(
         ReactionGroupsMixin$Reactors instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
+    };
+
+ReactionGroupsMixin$Subject _$ReactionGroupsMixin$SubjectFromJson(
+        Map<String, dynamic> json) =>
+    ReactionGroupsMixin$Subject()..id = json['id'] as String;
+
+Map<String, dynamic> _$ReactionGroupsMixin$SubjectToJson(
+        ReactionGroupsMixin$Subject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
     };
 
 RepoInfoMixin$Owner _$RepoInfoMixin$OwnerFromJson(Map<String, dynamic> json) =>
@@ -464,7 +493,9 @@ PullInfoMixin$ReactionGroups _$PullInfoMixin$ReactionGroupsFromJson(
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
       ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-          json['reactors'] as Map<String, dynamic>);
+          json['reactors'] as Map<String, dynamic>)
+      ..subject = ReactionGroupsMixin$Subject.fromJson(
+          json['subject'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullInfoMixin$ReactionGroupsToJson(
         PullInfoMixin$ReactionGroups instance) =>
@@ -472,6 +503,7 @@ Map<String, dynamic> _$PullInfoMixin$ReactionGroupsToJson(
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
       'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
     };
 
 PullInfoMixin$Repository _$PullInfoMixin$RepositoryFromJson(
@@ -486,6 +518,16 @@ Map<String, dynamic> _$PullInfoMixin$RepositoryToJson(
     <String, dynamic>{
       'name': instance.name,
       'owner': instance.owner.toJson(),
+    };
+
+PullInfoMixin$TimelineItems _$PullInfoMixin$TimelineItemsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$TimelineItems()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$TimelineItemsToJson(
+        PullInfoMixin$TimelineItems instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
     };
 
 PullInfoMixin$BaseRef$Repository _$PullInfoMixin$BaseRef$RepositoryFromJson(
@@ -556,6 +598,153 @@ Map<String, dynamic> _$PullInfoMixin$CommitsToJson(
         PullInfoMixin$Commits instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
+    };
+
+GetReactors$Query$Node$Issue$ReactionGroups
+    _$GetReactors$Query$Node$Issue$ReactionGroupsFromJson(
+            Map<String, dynamic> json) =>
+        GetReactors$Query$Node$Issue$ReactionGroups()
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+              unknownValue: ReactionContent.artemisUnknown)
+          ..reactors = ReactorsGroupMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetReactors$Query$Node$Issue$ReactionGroupsToJson(
+        GetReactors$Query$Node$Issue$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'reactors': instance.reactors.toJson(),
+    };
+
+GetReactors$Query$Node$Issue _$GetReactors$Query$Node$IssueFromJson(
+        Map<String, dynamic> json) =>
+    GetReactors$Query$Node$Issue()
+      ..$$typename = json['__typename'] as String?
+      ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+          ?.map((e) => GetReactors$Query$Node$Issue$ReactionGroups.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetReactors$Query$Node$IssueToJson(
+        GetReactors$Query$Node$Issue instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'reactionGroups':
+          instance.reactionGroups?.map((e) => e.toJson()).toList(),
+    };
+
+GetReactors$Query$Node$PullRequest$ReactionGroups
+    _$GetReactors$Query$Node$PullRequest$ReactionGroupsFromJson(
+            Map<String, dynamic> json) =>
+        GetReactors$Query$Node$PullRequest$ReactionGroups()
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+              unknownValue: ReactionContent.artemisUnknown)
+          ..reactors = ReactorsGroupMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetReactors$Query$Node$PullRequest$ReactionGroupsToJson(
+        GetReactors$Query$Node$PullRequest$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'reactors': instance.reactors.toJson(),
+    };
+
+GetReactors$Query$Node$PullRequest _$GetReactors$Query$Node$PullRequestFromJson(
+        Map<String, dynamic> json) =>
+    GetReactors$Query$Node$PullRequest()
+      ..$$typename = json['__typename'] as String?
+      ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+          ?.map((e) =>
+              GetReactors$Query$Node$PullRequest$ReactionGroups.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetReactors$Query$Node$PullRequestToJson(
+        GetReactors$Query$Node$PullRequest instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'reactionGroups':
+          instance.reactionGroups?.map((e) => e.toJson()).toList(),
+    };
+
+GetReactors$Query$Node _$GetReactors$Query$NodeFromJson(
+        Map<String, dynamic> json) =>
+    GetReactors$Query$Node()..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetReactors$Query$NodeToJson(
+        GetReactors$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetReactors$Query _$GetReactors$QueryFromJson(Map<String, dynamic> json) =>
+    GetReactors$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetReactors$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetReactors$QueryToJson(GetReactors$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+ReactorsGroupMixin$Reactors$Edges$Node$User
+    _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(
+            Map<String, dynamic> json) =>
+        ReactorsGroupMixin$Reactors$Edges$Node$User()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(
+        ReactorsGroupMixin$Reactors$Edges$Node$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+ReactorsGroupMixin$Reactors$Edges$Node
+    _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        ReactorsGroupMixin$Reactors$Edges$Node()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(
+        ReactorsGroupMixin$Reactors$Edges$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+ReactorsGroupMixin$Reactors$Edges _$ReactorsGroupMixin$Reactors$EdgesFromJson(
+        Map<String, dynamic> json) =>
+    ReactorsGroupMixin$Reactors$Edges()
+      ..cursor = json['cursor'] as String
+      ..node = ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
+          json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$EdgesToJson(
+        ReactorsGroupMixin$Reactors$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node.toJson(),
+    };
+
+ReactorsGroupMixin$Reactors _$ReactorsGroupMixin$ReactorsFromJson(
+        Map<String, dynamic> json) =>
+    ReactorsGroupMixin$Reactors()
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : ReactorsGroupMixin$Reactors$Edges.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$ReactorsGroupMixin$ReactorsToJson(
+        ReactorsGroupMixin$Reactors instance) =>
+    <String, dynamic>{
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
     };
 
 FetchReview$Query$Node$PullRequestReviewComment$Author
@@ -823,7 +1012,9 @@ PullRequestReviewCommentMixin$ReactionGroups
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
           ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-              json['reactors'] as Map<String, dynamic>);
+              json['reactors'] as Map<String, dynamic>)
+          ..subject = ReactionGroupsMixin$Subject.fromJson(
+              json['subject'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
         PullRequestReviewCommentMixin$ReactionGroups instance) =>
@@ -831,6 +1022,7 @@ Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
       'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
     };
 
 PullRequestReviewCommentMixin$PullRequest
@@ -3260,7 +3452,9 @@ IssueCommentMixin$ReactionGroups _$IssueCommentMixin$ReactionGroupsFromJson(
           unknownValue: ReactionContent.artemisUnknown)
       ..viewerHasReacted = json['viewerHasReacted'] as bool
       ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-          json['reactors'] as Map<String, dynamic>);
+          json['reactors'] as Map<String, dynamic>)
+      ..subject = ReactionGroupsMixin$Subject.fromJson(
+          json['subject'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$IssueCommentMixin$ReactionGroupsToJson(
         IssueCommentMixin$ReactionGroups instance) =>
@@ -3268,6 +3462,7 @@ Map<String, dynamic> _$IssueCommentMixin$ReactionGroupsToJson(
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
       'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
     };
 
 LabeledMixin$Actor _$LabeledMixin$ActorFromJson(Map<String, dynamic> json) =>
@@ -3937,7 +4132,9 @@ PullRequestReviewMixin$ReactionGroups
               unknownValue: ReactionContent.artemisUnknown)
           ..viewerHasReacted = json['viewerHasReacted'] as bool
           ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-              json['reactors'] as Map<String, dynamic>);
+              json['reactors'] as Map<String, dynamic>)
+          ..subject = ReactionGroupsMixin$Subject.fromJson(
+              json['subject'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
         PullRequestReviewMixin$ReactionGroups instance) =>
@@ -3945,6 +4142,7 @@ Map<String, dynamic> _$PullRequestReviewMixin$ReactionGroupsToJson(
       'content': _$ReactionContentEnumMap[instance.content],
       'viewerHasReacted': instance.viewerHasReacted,
       'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
     };
 
 ReadyForReviewMixin$Actor _$ReadyForReviewMixin$ActorFromJson(
@@ -5079,6 +5277,18 @@ Map<String, dynamic> _$IssuePullInfoArgumentsToJson(
       'user': instance.user,
       'repo': instance.repo,
       'number': instance.number,
+    };
+
+GetReactorsArguments _$GetReactorsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetReactorsArguments(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$GetReactorsArgumentsToJson(
+        GetReactorsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
     };
 
 FetchReviewArguments _$FetchReviewArgumentsFromJson(

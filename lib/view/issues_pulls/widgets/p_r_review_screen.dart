@@ -231,7 +231,7 @@ class PRReviewScreen extends StatelessWidget {
                                           showScrollableBottomActionsMenu(
                                             context,
                                             titleText: 'Replies',
-                                            child: (sheetContext,
+                                            builder: (sheetContext,
                                                 scrollController, setState) {
                                               return ListenableProvider.value(
                                                 value: Provider.of<
@@ -268,7 +268,6 @@ class PRReviewScreen extends StatelessWidget {
                                                       }
                                                       return temp;
                                                     },
-                                                    firstDivider: false,
                                                     builder: (cxt, item, index,
                                                         refresh) {
                                                       final reply = item!.node!;

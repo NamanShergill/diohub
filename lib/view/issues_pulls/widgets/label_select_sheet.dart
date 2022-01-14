@@ -61,11 +61,13 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
         ),
         Expanded(
           child: InfiniteScrollWrapper<Label>(
-            firstDivider: false,
             future: (pageNumber, pageSize, refresh, _) {
               return IssuesService.listAvailableLabels(
                   widget.repoURL, pageNumber, pageSize);
             },
+            separatorBuilder: (context, index) => const Divider(
+              height: 8,
+            ),
             scrollController: widget.controller,
             listEndIndicator: false,
             builder: (context, item, index, refresh) {

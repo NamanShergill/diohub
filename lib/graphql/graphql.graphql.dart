@@ -30,6 +30,7 @@ mixin IssueInfoMixin {
   @JsonKey(unknownEnumValue: IssueState.artemisUnknown)
   late IssueState state;
   late String titleHTML;
+  late IssueInfoMixin$TimelineItems timelineItems;
   late Uri url;
   late bool viewerCanReact;
   late bool viewerCanUpdate;
@@ -47,6 +48,7 @@ mixin ReactionGroupsMixin {
   late ReactionContent content;
   late bool viewerHasReacted;
   late ReactionGroupsMixin$Reactors reactors;
+  late ReactionGroupsMixin$Subject subject;
 }
 mixin RepoInfoMixin {
   late String name;
@@ -72,6 +74,7 @@ mixin PullInfoMixin {
   late PullInfoMixin$Repository repository;
   @JsonKey(unknownEnumValue: PullRequestState.artemisUnknown)
   late PullRequestState state;
+  late PullInfoMixin$TimelineItems timelineItems;
   late String titleHTML;
   late Uri url;
   late bool viewerCanReact;
@@ -87,6 +90,11 @@ mixin PullInfoMixin {
   @JsonKey(unknownEnumValue: PullRequestReviewDecision.artemisUnknown)
   PullRequestReviewDecision? reviewDecision;
   late bool viewerCanUpdate;
+}
+mixin ReactorsGroupMixin {
+  @JsonKey(unknownEnumValue: ReactionContent.artemisUnknown)
+  late ReactionContent content;
+  late ReactorsGroupMixin$Reactors reactors;
 }
 mixin PRReviewCommentsMixin {
   late PRReviewCommentsMixin$Comments comments;
@@ -419,6 +427,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         repository,
         state,
         titleHTML,
+        timelineItems,
         url,
         viewerCanReact,
         viewerCanUpdate
@@ -457,6 +466,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
         reactionGroups,
         repository,
         state,
+        timelineItems,
         titleHTML,
         url,
         viewerCanReact,
@@ -631,7 +641,7 @@ class IssueInfoMixin$ReactionGroups extends JsonSerializable
       _$IssueInfoMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, reactors];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$ReactionGroupsToJson(this);
 }
@@ -651,6 +661,22 @@ class IssueInfoMixin$Repository extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TimelineItems extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TimelineItems();
+
+  factory IssueInfoMixin$TimelineItems.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TimelineItemsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$TimelineItemsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReactionGroupsMixin$Reactors extends JsonSerializable
     with EquatableMixin {
   ReactionGroupsMixin$Reactors();
@@ -664,6 +690,21 @@ class ReactionGroupsMixin$Reactors extends JsonSerializable
   List<Object?> get props => [totalCount];
   @override
   Map<String, dynamic> toJson() => _$ReactionGroupsMixin$ReactorsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactionGroupsMixin$Subject extends JsonSerializable with EquatableMixin {
+  ReactionGroupsMixin$Subject();
+
+  factory ReactionGroupsMixin$Subject.fromJson(Map<String, dynamic> json) =>
+      _$ReactionGroupsMixin$SubjectFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$ReactionGroupsMixin$SubjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -765,7 +806,7 @@ class PullInfoMixin$ReactionGroups extends JsonSerializable
       _$PullInfoMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, reactors];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$ReactionGroupsToJson(this);
 }
@@ -782,6 +823,21 @@ class PullInfoMixin$Repository extends JsonSerializable
   List<Object?> get props => [name, owner];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullInfoMixin$TimelineItems extends JsonSerializable with EquatableMixin {
+  PullInfoMixin$TimelineItems();
+
+  factory PullInfoMixin$TimelineItems.fromJson(Map<String, dynamic> json) =>
+      _$PullInfoMixin$TimelineItemsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$PullInfoMixin$TimelineItemsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -885,6 +941,203 @@ class PullInfoMixin$Commits extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [totalCount];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$CommitsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactors$Query$Node$Issue$ReactionGroups extends JsonSerializable
+    with EquatableMixin, ReactorsGroupMixin {
+  GetReactors$Query$Node$Issue$ReactionGroups();
+
+  factory GetReactors$Query$Node$Issue$ReactionGroups.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetReactors$Query$Node$Issue$ReactionGroupsFromJson(json);
+
+  @override
+  List<Object?> get props => [content, reactors];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetReactors$Query$Node$Issue$ReactionGroupsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactors$Query$Node$Issue extends GetReactors$Query$Node
+    with EquatableMixin {
+  GetReactors$Query$Node$Issue();
+
+  factory GetReactors$Query$Node$Issue.fromJson(Map<String, dynamic> json) =>
+      _$GetReactors$Query$Node$IssueFromJson(json);
+
+  List<GetReactors$Query$Node$Issue$ReactionGroups>? reactionGroups;
+
+  @override
+  List<Object?> get props => [reactionGroups];
+  @override
+  Map<String, dynamic> toJson() => _$GetReactors$Query$Node$IssueToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactors$Query$Node$PullRequest$ReactionGroups extends JsonSerializable
+    with EquatableMixin, ReactorsGroupMixin {
+  GetReactors$Query$Node$PullRequest$ReactionGroups();
+
+  factory GetReactors$Query$Node$PullRequest$ReactionGroups.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetReactors$Query$Node$PullRequest$ReactionGroupsFromJson(json);
+
+  @override
+  List<Object?> get props => [content, reactors];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetReactors$Query$Node$PullRequest$ReactionGroupsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactors$Query$Node$PullRequest extends GetReactors$Query$Node
+    with EquatableMixin {
+  GetReactors$Query$Node$PullRequest();
+
+  factory GetReactors$Query$Node$PullRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetReactors$Query$Node$PullRequestFromJson(json);
+
+  List<GetReactors$Query$Node$PullRequest$ReactionGroups>? reactionGroups;
+
+  @override
+  List<Object?> get props => [reactionGroups];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetReactors$Query$Node$PullRequestToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactors$Query$Node extends JsonSerializable with EquatableMixin {
+  GetReactors$Query$Node();
+
+  factory GetReactors$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Issue':
+        return GetReactors$Query$Node$Issue.fromJson(json);
+      case r'PullRequest':
+        return GetReactors$Query$Node$PullRequest.fromJson(json);
+      default:
+    }
+    return _$GetReactors$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Issue':
+        return (this as GetReactors$Query$Node$Issue).toJson();
+      case r'PullRequest':
+        return (this as GetReactors$Query$Node$PullRequest).toJson();
+      default:
+    }
+    return _$GetReactors$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactors$Query extends JsonSerializable with EquatableMixin {
+  GetReactors$Query();
+
+  factory GetReactors$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetReactors$QueryFromJson(json);
+
+  GetReactors$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() => _$GetReactors$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors$Edges$Node$User
+    extends ReactorsGroupMixin$Reactors$Edges$Node
+    with EquatableMixin, ActorMixin {
+  ReactorsGroupMixin$Reactors$Edges$Node$User();
+
+  factory ReactorsGroupMixin$Reactors$Edges$Node$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors$Edges$Node extends JsonSerializable
+    with EquatableMixin {
+  ReactorsGroupMixin$Reactors$Edges$Node();
+
+  factory ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'User':
+        return ReactorsGroupMixin$Reactors$Edges$Node$User.fromJson(json);
+      default:
+    }
+    return _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'User':
+        return (this as ReactorsGroupMixin$Reactors$Edges$Node$User).toJson();
+      default:
+    }
+    return _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors$Edges extends JsonSerializable
+    with EquatableMixin {
+  ReactorsGroupMixin$Reactors$Edges();
+
+  factory ReactorsGroupMixin$Reactors$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReactorsGroupMixin$Reactors$EdgesFromJson(json);
+
+  late String cursor;
+
+  late ReactorsGroupMixin$Reactors$Edges$Node node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$ReactorsGroupMixin$Reactors$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactorsGroupMixin$Reactors extends JsonSerializable with EquatableMixin {
+  ReactorsGroupMixin$Reactors();
+
+  factory ReactorsGroupMixin$Reactors.fromJson(Map<String, dynamic> json) =>
+      _$ReactorsGroupMixin$ReactorsFromJson(json);
+
+  List<ReactorsGroupMixin$Reactors$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [edges];
+  @override
+  Map<String, dynamic> toJson() => _$ReactorsGroupMixin$ReactorsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1158,7 +1411,7 @@ class PullRequestReviewCommentMixin$ReactionGroups extends JsonSerializable
       _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, reactors];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$ReactionGroupsToJson(this);
@@ -3756,7 +4009,7 @@ class IssueCommentMixin$ReactionGroups extends JsonSerializable
       _$IssueCommentMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, reactors];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
   @override
   Map<String, dynamic> toJson() =>
       _$IssueCommentMixin$ReactionGroupsToJson(this);
@@ -4578,7 +4831,7 @@ class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
       _$PullRequestReviewMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => [content, viewerHasReacted, reactors];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$ReactionGroupsToJson(this);
@@ -6429,6 +6682,19 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
             name: NameNode(value: 'url'),
             alias: null,
             arguments: [],
@@ -6512,6 +6778,19 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'subject'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -6691,6 +6970,19 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
             selectionSet: null),
         FieldNode(
+            name: NameNode(value: 'timelineItems'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
             name: NameNode(value: 'titleHTML'),
             alias: null,
             arguments: [],
@@ -6849,6 +7141,191 @@ class IssuePullInfoQuery
   @override
   IssuePullInfo$Query parse(Map<String, dynamic> json) =>
       IssuePullInfo$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetReactorsArguments extends JsonSerializable with EquatableMixin {
+  GetReactorsArguments({required this.id});
+
+  @override
+  factory GetReactorsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetReactorsArgumentsFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$GetReactorsArgumentsToJson(this);
+}
+
+final GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'getReactors'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'id')),
+            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'id'),
+                  value: VariableNode(name: NameNode(value: 'id')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: '__typename'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'Issue'), isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'reactionGroups'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                              name: NameNode(value: 'reactorsGroup'),
+                              directives: [])
+                        ]))
+                  ])),
+              InlineFragmentNode(
+                  typeCondition: TypeConditionNode(
+                      on: NamedTypeNode(
+                          name: NameNode(value: 'PullRequest'),
+                          isNonNull: false)),
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'reactionGroups'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                              name: NameNode(value: 'reactorsGroup'),
+                              directives: [])
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'reactorsGroup'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'ReactionGroup'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'content'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'reactors'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '11'))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'edges'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'cursor'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'node'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                              name: NameNode(value: '__typename'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: null),
+                          InlineFragmentNode(
+                              typeCondition: TypeConditionNode(
+                                  on: NamedTypeNode(
+                                      name: NameNode(value: 'User'),
+                                      isNonNull: false)),
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'actor'),
+                                    directives: [])
+                              ]))
+                        ]))
+                  ]))
+            ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'actor'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(name: NameNode(value: 'Actor'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'avatarUrl'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'login'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ]))
+]);
+
+class GetReactorsQuery
+    extends GraphQLQuery<GetReactors$Query, GetReactorsArguments> {
+  GetReactorsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_REACTORS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = 'getReactors';
+
+  @override
+  final GetReactorsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetReactors$Query parse(Map<String, dynamic> json) =>
+      GetReactors$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -7324,6 +7801,19 @@ final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'subject'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -7921,6 +8411,19 @@ final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'subject'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
                   alias: null,
                   arguments: [],
                   directives: [],
@@ -9856,6 +10359,19 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'subject'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'id'),
                   alias: null,
                   arguments: [],
                   directives: [],

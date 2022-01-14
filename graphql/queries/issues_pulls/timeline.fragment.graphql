@@ -461,11 +461,33 @@ fragment commit on Commit{
 
 
 
-fragment  reactionGroups on ReactionGroup{
+fragment reactionGroups on ReactionGroup{
     content
     viewerHasReacted
     reactors{
         totalCount
+    }
+    subject{
+        id
+    }
+}
+
+fragment reactors on Reactor{
+    ...actor
+}
+
+fragment reactorsGroup on ReactionGroup{
+    content
+    reactors(first: 11){
+        edges{
+            cursor
+            node{
+                __typename
+                ... on User{
+                    ...actor
+                }
+            }
+        }
     }
 }
 

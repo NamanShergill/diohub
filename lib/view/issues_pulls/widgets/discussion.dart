@@ -233,7 +233,6 @@ class _DiscussionState extends State<Discussion>
                 header: (context) {
                   return header;
                 },
-                firstDivider: false,
                 topSpacing: 8,
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 8,

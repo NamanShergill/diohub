@@ -28,7 +28,6 @@ class BranchSelectSheet extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(
         height: 16,
       ),
-      firstDivider: false,
       future: (pageNumber, perPage, refresh, _) {
         return RepositoryServices.fetchBranchList(repoURL, pageNumber, perPage,
             refresh: refresh);

@@ -107,11 +107,13 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         const Divider(),
         Expanded(
           child: InfiniteScrollWrapper<UserInfoModel>(
-            firstDivider: false,
             future: (pageNumber, pageSize, refresh, _) {
               return IssuesService.listAssignees(
                   widget.repoURL, pageNumber, pageSize);
             },
+            separatorBuilder: (context, index) => const Divider(
+              height: 8,
+            ),
             scrollController: widget.controller,
             listEndIndicator: false,
             builder: (context, item, index, refresh) {

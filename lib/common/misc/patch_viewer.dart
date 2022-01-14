@@ -296,7 +296,7 @@ class _PatchViewerState extends State<PatchViewer> {
                                     ),
                                   );
                                 },
-                                child: (context, scrollController, setState) {
+                                builder: (context, scrollController, setState) {
                                   return SingleChildScrollView(
                                     controller: scrollController,
                                     child: PatchViewer(

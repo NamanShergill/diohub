@@ -6,6 +6,7 @@ import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/reaction_bar.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -89,26 +90,30 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
 }
 
 class IssuePullInfoTemplate extends StatefulWidget {
-  const IssuePullInfoTemplate(
-      {Key? key,
-      required this.number,
-      required this.title,
-      required this.repoInfo,
-      required this.state,
-      required this.bodyHTML,
-      required this.labels,
-      required this.createdAt,
-      required this.createdBy,
-      required this.apiWrapperController,
-      required this.body,
-      required this.commentCount})
-      : super(key: key);
+  const IssuePullInfoTemplate({
+    Key? key,
+    required this.number,
+    required this.title,
+    required this.repoInfo,
+    required this.state,
+    required this.bodyHTML,
+    required this.labels,
+    required this.createdAt,
+    required this.createdBy,
+    required this.apiWrapperController,
+    required this.body,
+    required this.commentCount,
+    required this.reactionGroups,
+    required this.viewerCanReact,
+  }) : super(key: key);
   final int number;
   final int commentCount;
+  final bool viewerCanReact;
   final String title;
   final String bodyHTML;
   final String body;
   final RepoInfoMixin repoInfo;
+  final List<ReactionGroupsMixin> reactionGroups;
   final IssuePullState state;
   final List<LabelMixin?> labels;
   final DateTime createdAt;
@@ -160,17 +165,19 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               // const SizedBox(
               //   width: 8,
               // ),
-              richText(
-                [
-                  TextSpan(text: ' #${widget.number} '),
-                  TextSpan(
-                    text: widget.repoInfo.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: faded3(context),
+              Expanded(
+                child: richText(
+                  [
+                    TextSpan(text: ' #${widget.number} '),
+                    TextSpan(
+                      text: widget.repoInfo.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: faded3(context),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -249,7 +256,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                       if (widget.labels.isNotEmpty == true) {
                         return Row(
                           children: [
-                            Expanded(
+                            Flexible(
                               child: Wrap(
                                 children: widget.labels
                                     .map(
@@ -268,11 +275,15 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                         return Row(
                           children: [
                             if (state == EditingState.editMode)
-                              Text(
-                                'No labels',
-                                style: TextStyle(
-                                  color: faded3(context),
-                                  fontStyle: FontStyle.italic,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  'No labels',
+                                  style: TextStyle(
+                                    color: faded3(context),
+                                    fontStyle: FontStyle.italic,
+                                  ),
                                 ),
                               ),
                             tools,
@@ -290,6 +301,13 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                     margin: EdgeInsets.zero,
                     child: Column(
                       children: [
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        ReactionBar(
+                          widget.reactionGroups,
+                          viewerCanReact: widget.viewerCanReact,
+                        ),
                         EditWidget(
                           editingController: descEditingController,
                           builder: (context, newValue, tools, currentlyEditing,
@@ -299,7 +317,8 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                 if (widget.bodyHTML.isNotEmpty)
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
                                       child: widget.body.length > 400
                                           ? ExpandChild(
                                               collapsedHint: 'Description',
@@ -321,8 +340,10 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
                                     child: Text(
-                                      'No Description Provided',
-                                      style: TextStyle(color: faded3(context)),
+                                      'No Description Provided.',
+                                      style: TextStyle(
+                                          color: faded3(context),
+                                          fontStyle: FontStyle.italic),
                                     ),
                                   ),
                                 tools,
@@ -330,41 +351,41 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                             );
                           },
                         ),
-                        // const Divider(),
-                        const Placeholder(
-                          fallbackHeight: 40,
-                        ),
-                        const Divider(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Octicons.comment_discussion,
-                                      size: 15,
-                                      color: faded3(context),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${widget.commentCount} replies',
-                                    style: TextStyle(color: faded3(context)),
-                                  ),
-                                ],
-                              ),
-                              Icon(
-                                Icons.arrow_right_rounded,
-                                color: faded3(context),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: accent(context),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: medBorderRadius.bottomLeft,
+                                bottomRight: medBorderRadius.bottomRight),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Octicons.comment_discussion,
+                                        size: 15,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.commentCount} replies',
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.arrow_right_rounded,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),

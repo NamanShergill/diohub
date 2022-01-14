@@ -18,8 +18,8 @@ dependencies:
   connectivity: ^3.0.6
   device_info_plus: ^3.2.1
   dio: ^4.0.4
-  dio_cache_interceptor: ^3.1.0
-  dio_cache_interceptor_db_store: ^4.0.0
+  dio_cache_interceptor: ^3.2.2
+  dio_cache_interceptor_db_store: ^4.1.0
   equatable: ^2.0.3
   expand_widget: ^2.1.0
 
@@ -60,7 +60,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   flutter_slidable: ^1.2.0
   flutter_speed_dial: ^5.0.0+1
-  flutter_svg: ^1.0.0
+  flutter_svg: ^1.0.1
   flutter_vector_icons: ^1.0.0
   google_nav_bar: ^5.0.5
   gql: ^0.13.0
@@ -87,27 +87,27 @@ dependencies:
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^6.0.2
   share_plus: ^3.0.4
-  shared_preferences: ^2.0.11
+  shared_preferences: ^2.0.12
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
-  sqlite3_flutter_libs: ^0.5.2
+  sqlite3_flutter_libs: ^0.5.3
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
-  url_launcher: ^6.0.17
+  url_launcher: ^6.0.18
   uuid: ^3.0.5
 
 dev_dependencies:
   artemis: '>=7.0.0 <8.0.0'
   auto_route_generator: ^3.2.1
   build_runner: ^2.1.7
-  change_app_package_name: ^1.0.0
+#  change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.2
   flutter_lints: ^1.0.4
   flutter_native_splash: ^1.3.3
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.1.3
+  json_serializable: ^6.1.4
 
 dependency_overrides:
   flutter_svg: ^1.0.0

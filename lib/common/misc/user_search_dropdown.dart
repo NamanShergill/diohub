@@ -38,8 +38,10 @@ class UserSearchDropdown extends StatelessWidget {
                     shrinkWrap: true,
                     showScrollToTopButton: false,
                     paginationKey: ValueKey(query),
+                    separatorBuilder: (context, index) => const Divider(
+                      height: 8,
+                    ),
                     disableRefresh: true,
-                    firstDivider: false,
                     topSpacing: 8,
                     bottomSpacing: 8,
                     listEndIndicator: false,

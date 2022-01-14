@@ -274,7 +274,7 @@ void showCommitHistory(BuildContext context, String? currentSHA) {
         ),
       );
     },
-    child: (sheetContext, controller, setState) {
+    builder: (sheetContext, controller, setState) {
       return CommitBrowser(
         controller: controller,
         currentSHA: currentSHA,

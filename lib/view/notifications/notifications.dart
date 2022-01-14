@@ -51,7 +51,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   /// Show bottom sheet to apply filters.
   void showFilterSheet() {
     showScrollableBottomActionsMenu(context, titleText: 'Filter Notifications',
-        child: (context, scrollController, setState) {
+        builder: (context, scrollController, setState) {
       return FilterSheet(
         apiFilters: apiFilters,
         controller: scrollController,
@@ -195,7 +195,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   separatorBuilder: (context, index) => const Divider(
                     height: 0,
                   ),
-                  firstDivider: false,
                   topSpacing: 16,
                   isNestedScrollViewChild: true,
                   future: (pageNumber, pageSize, refresh, _) {

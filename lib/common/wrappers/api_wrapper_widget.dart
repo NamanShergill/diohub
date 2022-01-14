@@ -67,6 +67,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
         setState(() {});
       }
     } catch (e) {
+      // debugPrint(e.toString());
       error = e;
     }
     if (mounted) {

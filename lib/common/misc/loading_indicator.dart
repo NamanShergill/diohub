@@ -44,20 +44,38 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
 
   @override
   Widget build(BuildContext context) {
+    // return Center(
+    //   child: SizedBox(
+    //     height: widget.size,
+    //     width: widget.size,
+    //     child: ShimmerWidget(
+    //       baseColor: faded3(context),
+    //       highlightColor: elementsOnColors(context),
+    //       child: Image.asset(
+    //         'assets/loading.png',
+    //         color: widget.color ??
+    //             Provider.of<PaletteSettings>(context)
+    //                 .currentSetting
+    //                 .baseElements,
+    //       ),
+    //     ),
+    //   ),
+    // );
     return Center(
       child: Transform(
         transform: Matrix4.identity()..rotateZ((_animation.value) * math.pi),
         alignment: FractionalOffset.center,
         child: SizedBox(
-            height: widget.size,
-            width: widget.size,
-            child: Image.asset(
-              'assets/loading.png',
+          height: widget.size,
+          width: widget.size,
+          child: Image.asset('assets/loading.png',
               color: widget.color ??
                   Provider.of<PaletteSettings>(context)
                       .currentSetting
-                      .baseElements,
-            )),
+                      .baseElements
+              // .withOpacity(0.8),
+              ),
+        ),
       ),
     );
   }

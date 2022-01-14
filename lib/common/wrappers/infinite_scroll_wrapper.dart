@@ -41,7 +41,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.isNestedScrollViewChild = false,
       this.disableScroll = false,
       this.disableRefresh = false,
-      this.firstDivider = true,
       this.firstPageLoadingBuilder,
       this.scrollController,
       this.shrinkWrap = false,
@@ -64,9 +63,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   final int pageNumber;
 
   final IndexedWidgetBuilder? separatorBuilder;
-
-  /// Show divider above the first item.
-  final bool firstDivider;
 
   /// Filter the results before displaying them.
   /// Gives the list of results that can be modified and returned.
@@ -166,7 +162,6 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
                   separatorBuilder: widget.separatorBuilder,
                   pageSize: widget.pageSize,
                   topSpacing: widget.topSpacing,
-                  firstDivider: widget.firstDivider,
                   listEndIndicator: widget.listEndIndicator,
                 ),
               ],
@@ -249,7 +244,6 @@ class _InfinitePagination<T> extends StatefulWidget {
     required this.pageSize,
     required this.topSpacing,
     required this.separatorBuilder,
-    required this.firstDivider,
     required this.listEndIndicator,
   }) : super(key: key);
 
@@ -265,9 +259,6 @@ class _InfinitePagination<T> extends StatefulWidget {
 
   /// Page Number to start with. Default value is **1**.
   final int pageNumber;
-
-  /// Show divider above the first item.
-  final bool firstDivider;
 
   /// Filter the results before displaying them.
   /// Gives the list of results that can be modified and returned.
@@ -384,30 +375,21 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   Widget build(BuildContext context) {
     return PagedSliverList<int, _ListItem<T>>.separated(
       pagingController: _pagingController,
-      separatorBuilder: (context, index) => widget.separatorBuilder != null
-          ? widget.separatorBuilder!(context, index)
-          : const Divider(
-              height: 8,
-            ),
+      separatorBuilder: widget.separatorBuilder ?? (_, __) => Container(),
       builderDelegate: PagedChildBuilderDelegate<_ListItem<T>>(
         itemBuilder: (context, item, index) => Column(children: [
           if (index == 0)
             SizedBox(
               height: widget.topSpacing,
             ),
-          Visibility(
-            visible: index == 0 && widget.firstDivider,
-            child: const Divider(),
-          ),
           widget.builder(context, item.item, index, item.refreshChildren),
         ]),
         firstPageProgressIndicatorBuilder: (context) =>
-            widget.firstPageLoadingBuilder != null
-                ? widget.firstPageLoadingBuilder!(context)
-                : const Padding(
-                    padding: EdgeInsets.all(32.0),
-                    child: LoadingIndicator(),
-                  ),
+            widget.firstPageLoadingBuilder?.call(context) ??
+            const Padding(
+              padding: EdgeInsets.all(32.0),
+              child: LoadingIndicator(),
+            ),
         newPageProgressIndicatorBuilder: (context) => const Padding(
           padding: EdgeInsets.all(32.0),
           child: LoadingIndicator(),
@@ -423,7 +405,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'And then there were none.',
+                    'Nothing to see here.',
                     style: TextStyle(
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
@@ -441,7 +423,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                 child: Column(
                   children: [
                     Text(
-                      'The end of the line.',
+                      'Nothing more.',
                       style: TextStyle(
                           color: Provider.of<PaletteSettings>(context)
                               .currentSetting

@@ -24,7 +24,6 @@ class ProjectsList extends StatelessWidget {
               orderByDir: OrderDirection.desc),
       builder: (context, item, index, refresh) =>
           ProjectListTile(item!.node as ProjectMixin),
-      firstDivider: false,
       topSpacing: 8,
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,

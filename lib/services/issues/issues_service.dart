@@ -35,6 +35,23 @@ class IssuesService {
         .issueOrPullRequest!;
   }
 
+  static Future<List<ReactorsGroupMixin$Reactors$Edges?>> getReactors(
+      String reactableID, ReactionContent content) async {
+    final res = await gqlRequest(
+      GetReactorsQuery(
+        variables: GetReactorsArguments(
+          id: reactableID,
+        ),
+      ),
+    );
+    return (GetReactors$Query.fromJson(res.data!).node
+            as GetReactors$Query$Node$Issue)
+        .reactionGroups!
+        .firstWhere((element) => element.content == content)
+        .reactors
+        .edges!;
+  }
+
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
   static Future<IssueCommentsModel> getLatestComment(
       {required String fullUrl}) async {

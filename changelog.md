@@ -4,6 +4,13 @@
 **Dynamic Tabs**
 - Browser like openable/closeable tabs to prevent clutter on Repo, Issue, Pull screens.
 
+**Issue/Pull Screen Redesign**
+- Redesigned issue/pull screen.
+- Comment reactions re-enabled.
+
+**Editing System**
+- Editing system that integrates with the UI redesigns mentioned in this changelog.
+
 **Enhancements**
 - Anchor links now work in markdown.
 - Improved transition animations.

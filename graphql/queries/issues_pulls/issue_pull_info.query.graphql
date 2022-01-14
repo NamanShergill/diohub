@@ -11,3 +11,19 @@ query issuePullInfo($user: String!, $repo: String!, $number: Int!){
         }
     }
 }
+
+query getReactors($id:ID!){
+    node(id: $id){
+        __typename
+        ... on Issue{
+           reactionGroups{
+               ...reactorsGroup
+           }
+        }
+        ... on PullRequest{
+            reactionGroups{
+                ...reactorsGroup
+            }
+        }
+    }
+}

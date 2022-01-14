@@ -39,6 +39,8 @@ class _IssueScreenState extends State<IssueScreen>
     return IssuePullInfoTemplate(
       number: data.number,
       title: data.titleHTML,
+      reactionGroups: data.reactionGroups!,
+      viewerCanReact: data.viewerCanReact,
       commentCount: data.comments.totalCount,
       repoInfo: data.repository,
       state: IssuePullState(data.state),

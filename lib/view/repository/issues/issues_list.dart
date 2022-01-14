@@ -84,7 +84,7 @@ class IssuesList extends StatelessWidget {
                             child: FloatingActionButton.extended(
                               onPressed: () {
                                 showScrollableBottomActionsMenu(context,
-                                    child: (buildContext, scrollController,
+                                    builder: (buildContext, scrollController,
                                             setState) =>
                                         ListView.separated(
                                             controller: scrollController,
@@ -128,7 +128,8 @@ class IssuesList extends StatelessWidget {
                     onPressed: () {
                       if (value.data.isNotEmpty) {
                         showScrollableBottomActionsMenu(context,
-                            child: (buildContext, scrollController, setState) =>
+                            builder: (buildContext, scrollController,
+                                    setState) =>
                                 ListenableProvider.value(
                                   value: Provider.of<RepositoryProvider>(
                                       context,

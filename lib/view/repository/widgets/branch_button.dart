@@ -57,7 +57,7 @@ class BranchButton extends StatelessWidget {
 
                       showScrollableBottomActionsMenu(context,
                           titleText: 'Select Branch',
-                          child: (context, scrollController, setState) {
+                          builder: (context, scrollController, setState) {
                         return BranchSelectSheet(
                           _repo!.url!,
                           controller: scrollController,
