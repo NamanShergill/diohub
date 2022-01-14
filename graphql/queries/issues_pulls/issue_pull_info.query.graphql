@@ -1,0 +1,46 @@
+query issuePullInfo($user: String!, $repo: String!, $number: Int!){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...issueInfo
+            }
+            ... on PullRequest{
+                ...pullInfo
+            }
+        }
+    }
+}
+
+query getReactors($id:ID!){
+    node(id: $id){
+        __typename
+        ... on Issue{
+           reactionGroups{
+               ...reactorsGroup
+           }
+        }
+        ... on PullRequest{
+            reactionGroups{
+                ...reactorsGroup
+            }
+        }
+    }
+}
+
+
+mutation addReaction($id:ID!, $content:ReactionContent!){
+    addReaction(input: {subjectId: $id, content: $content}){
+        reaction{
+            createdAt
+        }
+    }
+}
+
+mutation removeReaction($id:ID!, $content:ReactionContent!){
+    removeReaction(input: {subjectId: $id, content: $content}){
+        reaction{
+            createdAt
+        }
+    }
+}

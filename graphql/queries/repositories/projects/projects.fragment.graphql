@@ -1,0 +1,13 @@
+fragment project on Project{
+    name
+    id
+    databaseId
+    updatedAt
+    number
+    bodyHTML
+    body
+    closed
+    progress{
+        donePercentage
+    }
+}

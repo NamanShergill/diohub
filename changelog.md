@@ -6,7 +6,9 @@
 
 **Issue/Pull Screen Redesign**
 - Redesigned issue/pull screen.
-- Comment reactions re-enabled.
+- Comment reactions are here!
+- Dynamic tabs added to these screens.
+- Issues and pulls are editable now.
 
 **Editing System**
 - Editing system that integrates with the UI redesigns mentioned in this changelog.
@@ -17,6 +19,7 @@
 
 **Bug Fixes**
 - Fixed case where multiple API calls might happen on widget rebuilds.
+- Fixed an issue with graphQL requests not caching.
 
 ---
 ## [0.3.2] - 07 August 2021

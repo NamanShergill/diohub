@@ -27,7 +27,7 @@ class IssuesService {
       IssuePullInfoQuery(
           variables:
               IssuePullInfoArguments(user: user, repo: repo, number: number)),
-      // debugLog: true,
+      debugLog: true,
       cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
     );
     return IssuePullInfo$Query.fromJson(response.data!)

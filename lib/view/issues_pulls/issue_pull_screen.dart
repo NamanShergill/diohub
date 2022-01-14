@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
@@ -22,6 +23,7 @@ import 'package:dio_hub/utils/rich_text.dart';
 import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
 import 'package:expand_widget/expand_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -226,7 +228,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                         size: 16,
                       ),
                       Text(
-                        ' ${getDate(widget.createdAt.toString(), shorten: false)}',
+                        '  ${getDate(widget.createdAt.toString(), shorten: false)}',
                         style: TextStyle(color: faded3(context)),
                       ),
                     ],
@@ -234,9 +236,27 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                   const Divider(
                     height: 16,
                   ),
-                  Text(
-                    '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                    style: TextStyle(color: faded3(context), fontSize: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: richText([
+                      TextSpan(
+                        text: '#${widget.number} ',
+                        style: TextStyle(
+                            color: faded3(context),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text:
+                              'in ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              AutoRouter.of(context).push(RepositoryScreenRoute(
+                                  repositoryURL: 'repositoryURL'));
+                            }),
+                    ],
+                        defaultStyle:
+                            TextStyle(color: faded3(context), fontSize: 18)),
                   ),
                   const SizedBox(
                     height: 4,
