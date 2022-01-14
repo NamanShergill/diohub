@@ -197,66 +197,39 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Card(
-                        color: widget.state.color,
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                widget.state.icon,
-                                size: 16,
-                                // color: state.color,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(widget.state.text),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Text(' by '),
-                      ProfileTile(
-                        widget.createdBy.avatarUrl.toString(),
-                        userLogin: widget.createdBy.login,
-                        showName: true,
-                        size: 16,
-                      ),
-                      Text(
-                        '  ${getDate(widget.createdAt.toString(), shorten: false)}',
-                        style: TextStyle(color: faded3(context)),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    height: 16,
-                  ),
+                  //
+                  // const Divider(
+                  //   height: 16,
+                  // ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: richText([
-                      TextSpan(
-                        text: '#${widget.number} ',
-                        style: TextStyle(
-                            color: faded3(context),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                          text:
-                              'in ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              AutoRouter.of(context).push(RepositoryScreenRoute(
-                                  repositoryURL: 'repositoryURL'));
-                            }),
-                    ],
-                        defaultStyle:
-                            TextStyle(color: faded3(context), fontSize: 18)),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+                    child: Row(
+                      children: [
+                        ProfileTile(
+                          widget.repoInfo.owner.avatarUrl.toString(),
+                          disableTap: true,
+                          size: 16,
+                        ),
+                        richText([
+                          TextSpan(
+                              text:
+                                  '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  AutoRouter.of(context).push(
+                                      RepositoryScreenRoute(
+                                          repositoryURL: 'repositoryURL'));
+                                }),
+                          TextSpan(
+                            text: ' #${widget.number}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                            defaultStyle: TextStyle(
+                                color: faded3(context), fontSize: 17)),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 4,
@@ -275,30 +248,30 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                               theme(context).textTheme.headline5?.fontWeight),
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
                   EditWidget(
                     editingController: labelsEditingController,
                     builder:
                         (context, newValue, tools, currentlyEditing, state) {
                       if (widget.labels.isNotEmpty == true) {
-                        return Row(
-                          children: [
-                            Flexible(
-                              child: Wrap(
-                                children: widget.labels
-                                    .map(
-                                      (e) => Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: IssueLabel.gql(e!),
-                                      ),
-                                    )
-                                    .toList(),
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Wrap(
+                                  children: widget.labels
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: IssueLabel.gql(e!),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                               ),
-                            ),
-                            tools,
-                          ],
+                              tools,
+                            ],
+                          ),
                         );
                       } else {
                         return Row(
@@ -324,8 +297,52 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                       }
                     },
                   ),
-                  const SizedBox(
+                  const Divider(
                     height: 16,
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    children: [
+                      Card(
+                        color: widget.state.color,
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                widget.state.icon,
+                                size: 16,
+                                // color: state.color,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(widget.state.text),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      ProfileTile(
+                        widget.createdBy.avatarUrl.toString(),
+                        userLogin: widget.createdBy.login,
+                        showName: true,
+                        size: 16,
+                      ),
+                      Text(
+                        '  ${getDate(widget.createdAt.toString(), shorten: false)}',
+                        style: TextStyle(color: faded3(context)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
                   ),
                   Card(
                     shape:
@@ -477,7 +494,7 @@ class IssuePullState {
     } else if (isDraft) {
       return 'Draft';
     } else if (state == IssueState.open || state == PullRequestState.open) {
-      return 'Opened';
+      return 'Open';
     } else if (state == PullRequestState.merged) {
       return 'Merged';
     } else {

@@ -51,6 +51,9 @@ class _SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     searchData = widget.searchData;
+    if (searchData?.searchFilters != null && widget.quickFilters != null) {
+      quickActionsAnim = true;
+    }
     if (widget.quickFilters != null) {
       searchData = searchData?.copyWith(
           quickFilters: widget.quickFilters?.keys.toList());
@@ -111,17 +114,19 @@ class _SearchBarState extends State<SearchBar> {
     super.didUpdateWidget(oldWidget);
   }
 
+  bool quickActionsAnim = false;
   late bool quickActionsVisible;
   bool sortExpanded = false;
   bool quickFiltersExpanded = false;
   @override
   Widget build(BuildContext context) {
-    Widget quickActionsExpandAnim(context, expand, child) =>
-        SizeExpandedSection(
-          axis: Axis.horizontal,
-          expand: expand,
-          child: child,
-        );
+    Widget quickActionsExpandAnim(context, expand, child) => quickActionsAnim
+        ? SizeExpandedSection(
+            axis: Axis.horizontal,
+            expand: expand,
+            child: child,
+          )
+        : child;
     Widget quickActions(context) => Material(
           color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: BorderRadius.only(
