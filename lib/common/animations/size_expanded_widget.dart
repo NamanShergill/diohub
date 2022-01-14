@@ -11,7 +11,7 @@ class SizeExpandedSection extends StatefulWidget {
       this.animationCurve,
       Key? key})
       : super(key: key);
-  final Widget child;
+  final Widget? child;
   final bool? expand;
   final Axis axis;
   final double axisAlignment;
@@ -72,6 +72,23 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
       sizeFactor: animation,
       axis: widget.axis,
       child: widget.child,
+    );
+  }
+}
+
+class SizeSwitch extends StatelessWidget {
+  const SizeSwitch({Key? key, this.child, this.duration}) : super(key: key);
+  final Widget? child;
+  final Duration? duration;
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: duration ?? defaultAnimDuration,
+      child: child,
+      transitionBuilder: (child, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: child,
+      ),
     );
   }
 }

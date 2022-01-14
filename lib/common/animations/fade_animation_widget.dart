@@ -70,3 +70,20 @@ class _FadeAnimationSectionState extends State<FadeAnimationSection>
     );
   }
 }
+
+class FadeSwitch extends StatelessWidget {
+  const FadeSwitch({Key? key, this.child, this.duration}) : super(key: key);
+  final Widget? child;
+  final Duration? duration;
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: duration ?? defaultAnimDuration,
+      child: child,
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
@@ -202,6 +203,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(
                                 widget.state.icon,
@@ -229,8 +231,15 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                       ),
                     ],
                   ),
+                  const Divider(
+                    height: 16,
+                  ),
+                  Text(
+                    '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                    style: TextStyle(color: faded3(context), fontSize: 16),
+                  ),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   EditableTextItem(
                     titleEditingController,
@@ -274,18 +283,21 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                       } else {
                         return Row(
                           children: [
-                            if (state == EditingState.editMode)
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: Text(
-                                  'No labels',
-                                  style: TextStyle(
-                                    color: faded3(context),
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              ),
+                            ScaleSwitch(
+                              child: state == EditingState.editMode
+                                  ? Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Text(
+                                        'No labels',
+                                        style: TextStyle(
+                                          color: faded3(context),
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                            ),
                             tools,
                           ],
                         );
@@ -293,7 +305,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                     },
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   Card(
                     shape:
@@ -334,18 +346,21 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                           : MarkdownBody(widget.bodyHTML),
                                     ),
                                   ),
-                                if (widget.bodyHTML.isEmpty &&
-                                    state == EditingState.editMode)
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: Text(
-                                      'No Description Provided.',
-                                      style: TextStyle(
-                                          color: faded3(context),
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
+                                ScaleSwitch(
+                                  child: widget.bodyHTML.isEmpty &&
+                                          state == EditingState.editMode
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          child: Text(
+                                            'No Description Provided.',
+                                            style: TextStyle(
+                                                color: faded3(context),
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        )
+                                      : Container(),
+                                ),
                                 tools,
                               ],
                             );

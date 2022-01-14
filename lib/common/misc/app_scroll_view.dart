@@ -222,7 +222,7 @@ class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
   Widget build(BuildContext context) {
     return SizeExpandedSection(
       axisAlignment: -1.0,
-      expand: _visible,
+      expand: _visible!,
       child: widget.child,
     );
   }

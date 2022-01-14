@@ -1,4 +1,6 @@
+import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
+import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class EditableTextItem extends StatefulWidget {
@@ -37,21 +39,22 @@ class _EditableTextItemState extends State<EditableTextItem> {
       builder: (context, newValue, tools, currentlyEditing, state) {
         return Row(
           children: [
-            if (!currentlyEditing)
-              Expanded(
-                child: widget.builder
-                        ?.call(context, widget.editingController.newValue) ??
-                    Text(
-                      widget.editingController.newValue ??
-                          widget.editingController.value,
-                    ),
-              )
-            else
-              Expanded(
-                  child: TextFormField(
-                controller: textEditingController,
-                maxLines: null,
-              )),
+            Expanded(
+              child: FadeSwitch(
+                duration: defaultAnimDuration,
+                child: currentlyEditing
+                    ? TextFormField(
+                        controller: textEditingController,
+                        maxLines: null,
+                      )
+                    : widget.builder?.call(
+                            context, widget.editingController.newValue) ??
+                        Text(
+                          widget.editingController.newValue ??
+                              widget.editingController.value,
+                        ),
+              ),
+            ),
             tools,
           ],
         );

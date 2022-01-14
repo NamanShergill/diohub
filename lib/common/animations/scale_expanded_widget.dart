@@ -32,9 +32,7 @@ class _ScaleExpandedSectionState extends State<ScaleExpandedSection>
   //Setting up the animation
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this,
-        duration:
-            widget.duration ?? transitionAnimDuration);
+        vsync: this, duration: widget.duration ?? transitionAnimDuration);
     animation = CurvedAnimation(
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
@@ -68,7 +66,24 @@ class _ScaleExpandedSectionState extends State<ScaleExpandedSection>
   Widget build(BuildContext context) {
     return ScaleTransition(
       scale: animation,
-      child: widget.child,
+      child: widget.expand ? widget.child : null,
+    );
+  }
+}
+
+class ScaleSwitch extends StatelessWidget {
+  const ScaleSwitch({Key? key, this.child, this.duration}) : super(key: key);
+  final Widget? child;
+  final Duration? duration;
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: duration ?? defaultAnimDuration,
+      child: child,
+      transitionBuilder: (child, animation) => ScaleTransition(
+        scale: animation,
+        child: child,
+      ),
     );
   }
 }

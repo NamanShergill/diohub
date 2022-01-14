@@ -64,7 +64,7 @@ class _ReactionBarState extends State<ReactionBar> {
                     child: ClipRRect(
                       borderRadius: bigBorderRadius,
                       child: Material(
-                        elevation: 2,
+                        // elevation: 2,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary,
@@ -101,10 +101,11 @@ class _ReactionBarState extends State<ReactionBar> {
                                 height: 36,
                                 child: Center(
                                   child: Icon(
-                                    Icons.add,
+                                    Icons.emoji_emotions_rounded,
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
                                         .faded3,
+                                    size: 18,
                                   ),
                                 ),
                               ),
@@ -134,12 +135,7 @@ class _ReactionBarState extends State<ReactionBar> {
                   (index) => Visibility(
                     visible:
                         widget.reactionGroups[index].reactors.totalCount > 0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ReactionItem(widget.reactionGroups[index]),
-                      ],
-                    ),
+                    child: ReactionItem(widget.reactionGroups[index]),
                   ),
                 )
               ],

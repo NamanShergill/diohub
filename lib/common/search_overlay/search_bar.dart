@@ -173,13 +173,7 @@ class _SearchBarState extends State<SearchBar> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Flexible(
-                            flex: !quickFiltersExpanded ? 1 : 0,
                             child: Container(
-                                constraints: BoxConstraints(
-                                    maxWidth: !quickFiltersExpanded
-                                        ? 1000
-                                        : MediaQuery.of(context).size.width *
-                                            0.45),
                                 child: quickActionsExpandAnim(
                                     context,
                                     !quickFiltersExpanded,
@@ -274,13 +268,7 @@ class _SearchBarState extends State<SearchBar> {
                           ),
                           if (widget.quickFilters != null)
                             Flexible(
-                              flex: !sortExpanded ? 1 : 0,
                               child: Container(
-                                  constraints: BoxConstraints(
-                                      maxWidth: !sortExpanded
-                                          ? 1000
-                                          : MediaQuery.of(context).size.width *
-                                              0.45),
                                   child: quickActionsExpandAnim(
                                       context,
                                       !sortExpanded,

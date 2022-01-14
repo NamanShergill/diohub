@@ -1,5 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui.dart';
@@ -124,10 +124,10 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
         final editing = context.watch<EditingProvider>().editingState;
         final controller = context.watch<EditingController>();
         final items = <Widget>[
-          SizeExpandedSection(
+          ScaleExpandedSection(
             expand: editing == EditingState.editMode &&
                 !controller.currentlyEditing,
-            axis: widget.toolsAxis,
+            // axis: widget.toolsAxis,
             child: RoundButton(
               onPressed: widget.editingController.edit,
               icon: const Icon(
@@ -138,11 +138,11 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
               color: _buttonColor,
             ),
           ),
-          SizeExpandedSection(
+          ScaleExpandedSection(
             expand: editing == EditingState.editMode &&
-                widget.editingController.newValue != null &&
-                !widget.editingController.currentlyEditing,
-            axis: widget.toolsAxis,
+                controller.newValue != null &&
+                !controller.currentlyEditing,
+            // axis: widget.toolsAxis,
             child: RoundButton(
               onPressed: widget.editingController.revertEdit,
               icon: const Icon(
@@ -153,12 +153,12 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
               color: _buttonColor,
             ),
           ),
-          SizeExpandedSection(
+          ScaleExpandedSection(
             expand:
                 editing == EditingState.editMode && controller.currentlyEditing,
-            axis: widget.toolsAxis,
+            // axis: widget.toolsAxis,
             child: RoundButton(
-              onPressed: widget.editingController.editingHandler?.onSave,
+              onPressed: controller.editingHandler?.onSave,
               icon: const Icon(
                 Icons.save,
                 size: 15,
@@ -167,10 +167,10 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
               color: _buttonColor,
             ),
           ),
-          SizeExpandedSection(
+          ScaleExpandedSection(
             expand:
                 controller.currentlyEditing && editing == EditingState.editMode,
-            axis: widget.toolsAxis,
+            // axis: widget.toolsAxis,
             child: RoundButton(
               onPressed: widget.editingController.stopEdit,
               icon: const Icon(
@@ -185,15 +185,17 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
         return widget.builder(
             context,
             widget.editingController.newValue,
-            Visibility(
-                visible: editing == EditingState.editMode,
-                child: widget.toolsAxis == Axis.horizontal
-                    ? Row(
-                        children: items,
-                      )
-                    : Column(
-                        children: items,
-                      )),
+            ScaleSwitch(
+              child: editing == EditingState.editMode
+                  ? (widget.toolsAxis == Axis.horizontal
+                      ? Row(
+                          children: items,
+                        )
+                      : Column(
+                          children: items,
+                        ))
+                  : Container(),
+            ),
             widget.editingController.currentlyEditing,
             editing);
       },
