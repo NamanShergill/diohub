@@ -30,10 +30,12 @@ void main() async {
   final initLink = await initUniLink();
   uniLinkStream();
   final auth = await AuthService.isAuthenticated;
-  runApp(MyApp(
-    initLink,
-    authenticated: auth,
-  ));
+  runApp(
+    MyApp(
+      initLink,
+      authenticated: auth,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

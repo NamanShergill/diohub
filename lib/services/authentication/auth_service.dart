@@ -8,6 +8,7 @@ import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
@@ -15,7 +16,7 @@ class AuthService {
   static const _storage = FlutterSecureStorage();
 
   static Future<bool> get isAuthenticated async {
-    final token = await _storage.read(key: 'accessToken');
+    final token = await getAccessTokenFromDevice();
     debugPrint('Auth token ${token ?? 'not found.'}');
     if (token != null) {
       return true;
@@ -30,11 +31,13 @@ class AuthService {
   }
 
   static Future<String?> getAccessTokenFromDevice() async {
-    final accessToken = await _storage.read(key: 'accessToken');
-    if (accessToken != null) {
+    try {
+      final accessToken = await _storage.read(key: 'accessToken');
       return accessToken;
+    } on PlatformException catch (e) {
+      // Workaround for https://github.com/mogol/flutter_secure_storage/issues/43
+      AuthService.logOut(sendToAuthScreen: false);
     }
-    return null;
   }
 
   static Future<Response> getDeviceToken() async {
@@ -113,7 +116,7 @@ class AuthService {
     throw Exception('Some error occurred.');
   }
 
-  static void logOut() async {
+  static void logOut({bool sendToAuthScreen = true}) async {
     CacheManager.clearCache();
     await _storage.deleteAll();
     AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
