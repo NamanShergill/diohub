@@ -138,20 +138,22 @@ class _MarkdownBodyState extends State<MarkdownBody> {
         return linkHandler(context, url);
       },
       customRender: {
-        // 'a': (renderContext, child) {
-        //   return GestureDetector(
-        //     onTap: () {
-        //       return linkHandler(
-        //           context, renderContext.tree.attributes['href']);
-        //     },
-        //     onLongPress: () {
-        //       return linkHandler(
-        //           context, renderContext.tree.attributes['href'],
-        //           showSheetOnDeepLink: true);
-        //     },
-        //     child: child,
-        //   );
-        // },
+        'a': (renderContext, child) {
+          if (renderContext.tree.attributes['href']?.startsWith('#') == true) {
+            return null;
+          }
+          return GestureDetector(
+            onTap: () {
+              return linkHandler(
+                  context, renderContext.tree.attributes['href']);
+            },
+            onLongPress: () {
+              return linkHandler(context, renderContext.tree.attributes['href'],
+                  showSheetOnDeepLink: true);
+            },
+            child: child,
+          );
+        },
         'li': (context, child) {},
         'blockquote': (context, child) {
           return Container(

@@ -119,6 +119,8 @@ class AuthService {
   static void logOut({bool sendToAuthScreen = true}) async {
     CacheManager.clearCache();
     await _storage.deleteAll();
-    AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
+    if (sendToAuthScreen) {
+      AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
+    }
   }
 }

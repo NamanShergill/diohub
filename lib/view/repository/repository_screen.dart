@@ -7,6 +7,7 @@ import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/repo_star.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
+import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
@@ -190,13 +191,9 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
                   childBuilder: (context, value) {
                     final _repo = value.data;
-                    return DynamicTabsWrapper(
+                    return DynamicTabsParent(
                       controller: tabController,
                       tabs: tabs,
-                      tabBarSettings: DynamicTabSettings(
-                        indicatorPadding: const EdgeInsets.only(
-                            left: 8, right: 8, bottom: 8, top: 0),
-                      ),
                       tabViews: [
                         DynamicTabView(
                             identifier: 'About',

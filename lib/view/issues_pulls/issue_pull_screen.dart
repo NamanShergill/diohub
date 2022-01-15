@@ -27,6 +27,7 @@ import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:image_stack/image_stack.dart';
@@ -125,6 +126,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.reactionGroups,
     required this.viewerCanReact,
     required this.assigneesInfo,
+    this.dynamicTabs,
   }) : super(key: key);
   final int number;
   final int commentCount;
@@ -140,7 +142,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final DateTime createdAt;
   final ActorMixin createdBy;
   final APIWrapperController apiWrapperController;
-
+  final List<DynamicTab>? dynamicTabs;
   @override
   State<IssuePullInfoTemplate> createState() => _IssuePullInfoTemplateState();
 }
@@ -150,7 +152,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   late EditingController<String> descEditingController;
   late EditingController<List<LabelMixin?>> labelsEditingController;
   late EditingController assigneeEditingController;
-
+  final DynamicTabsController dynamicTabsController = DynamicTabsController();
   @override
   void initState() {
     titleEditingController = EditingController<String>(widget.title);
@@ -171,338 +173,352 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    return EditingWrapper(
-      onSave: () {},
-      editingControllers: [
-        titleEditingController,
-        labelsEditingController,
-        descEditingController,
-        assigneeEditingController,
+    return DynamicTabsWrapper.segregated(
+      controller: dynamicTabsController,
+      tabs: (widget.dynamicTabs ?? [])
+        ..addAll([
+          DynamicTab(label: 'About', identifier: 'about'),
+          DynamicTab(label: 'Conversation', identifier: 'conversation')
+        ]),
+      tabViews: [
+        DynamicTabView(identifier: 'about', child: Container()),
+        DynamicTabView(identifier: 'conversation', child: Container()),
       ],
-      builder: (context) => Scaffold(
-        appBar: DHAppBar(
-          hasEditableChildren: true,
-          title: Row(
-            children: [
-              Icon(
-                widget.state.icon,
-                color: widget.state.color,
-                size: 16,
-              ),
-              // const SizedBox(
-              //   width: 8,
-              // ),
-              Expanded(
-                child: richText(
-                  [
-                    TextSpan(text: ' #${widget.number} '),
-                    TextSpan(
-                      text: widget.repoInfo.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: faded3(context),
+      builder: (context, tabBar, tabView) => EditingWrapper(
+        onSave: () {},
+        editingControllers: [
+          titleEditingController,
+          labelsEditingController,
+          descEditingController,
+          assigneeEditingController,
+        ],
+        builder: (context) => Scaffold(
+          appBar: DHAppBar(
+            hasEditableChildren: true,
+            title: Row(
+              children: [
+                Icon(
+                  widget.state.icon,
+                  color: widget.state.color,
+                  size: 16,
+                ),
+                // const SizedBox(
+                //   width: 8,
+                // ),
+                Expanded(
+                  child: richText(
+                    [
+                      TextSpan(text: ' #${widget.number} '),
+                      TextSpan(
+                        text: widget.repoInfo.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: faded3(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: RefreshIndicator(
+            onRefresh: () => Future.sync(
+              () => widget.apiWrapperController.refresh(),
+            ),
+            triggerMode: RefreshIndicatorTriggerMode.anywhere,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //
+                    // const Divider(
+                    //   height: 16,
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 0),
+                      child: Row(
+                        children: [
+                          ProfileTile(
+                            widget.repoInfo.owner.avatarUrl.toString(),
+                            disableTap: true,
+                            size: 16,
+                          ),
+                          richText([
+                            TextSpan(
+                                text:
+                                    '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    AutoRouter.of(context).push(
+                                        RepositoryScreenRoute(
+                                            repositoryURL: 'repositoryURL'));
+                                  }),
+                            TextSpan(
+                              text: ' #${widget.number}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                              defaultStyle: TextStyle(
+                                  color: faded3(context), fontSize: 17)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    EditableTextItem(
+                      titleEditingController,
+                      builder: (context, newValue) => MarkdownBody(
+                        newValue != null ? mdToHtml(newValue) : widget.title,
+                        defaultBodyStyle: Style(
+                            padding: EdgeInsets.zero,
+                            margin: EdgeInsets.zero,
+                            fontSize: FontSize(
+                              theme(context).textTheme.headline5?.fontSize,
+                            ),
+                            fontWeight:
+                                theme(context).textTheme.headline5?.fontWeight),
+                      ),
+                    ),
+                    EditWidget(
+                      editingController: labelsEditingController,
+                      builder:
+                          (context, newValue, tools, currentlyEditing, state) {
+                        if (widget.labels.isNotEmpty == true) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Wrap(
+                                    children: widget.labels
+                                        .map(
+                                          (e) => Padding(
+                                            padding: const EdgeInsets.all(4),
+                                            child: IssueLabel.gql(e!),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                                tools,
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Row(
+                            children: [
+                              ScaleSwitch(
+                                child: state == EditingState.editMode
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: Text(
+                                          'No labels',
+                                          style: TextStyle(
+                                            color: faded3(context),
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ),
+                              tools,
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    const Divider(
+                      height: 16,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Card(
+                          color: widget.state.color,
+                          margin: EdgeInsets.zero,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  widget.state.icon,
+                                  size: 16,
+                                  // color: state.color,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(widget.state.text),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        ProfileTile(
+                          widget.createdBy.avatarUrl.toString(),
+                          userLogin: widget.createdBy.login,
+                          showName: true,
+                          size: 16,
+                        ),
+                        Text(
+                          '  ${getDate(widget.createdAt.toString(), shorten: false)}',
+                          style: TextStyle(color: faded3(context)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Card(
+                      shape:
+                          RoundedRectangleBorder(borderRadius: medBorderRadius),
+                      margin: EdgeInsets.zero,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          ReactionBar(
+                            widget.reactionGroups,
+                            viewerCanReact: widget.viewerCanReact,
+                          ),
+                          EditWidget(
+                            editingController: descEditingController,
+                            builder: (context, newValue, tools,
+                                currentlyEditing, state) {
+                              return Row(
+                                children: [
+                                  if (widget.bodyHTML.isNotEmpty)
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: widget.body.length > 400
+                                            ? ExpandChild(
+                                                collapsedHint: 'Description',
+                                                expandArrowStyle:
+                                                    ExpandArrowStyle.both,
+                                                icon: Icons
+                                                    .arrow_drop_down_rounded,
+                                                // hintTextStyle: TextStyle(
+                                                //     color: faded3(context)),
+                                                child: MarkdownBody(
+                                                    widget.bodyHTML),
+                                              )
+                                            : MarkdownBody(widget.bodyHTML),
+                                      ),
+                                    ),
+                                  ScaleSwitch(
+                                    child: widget.bodyHTML.isEmpty &&
+                                            state == EditingState.editMode
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Text(
+                                              'No Description',
+                                              style: TextStyle(
+                                                  color: faded3(context),
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ),
+                                  tools,
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: accent(context),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: medBorderRadius.bottomLeft,
+                                  bottomRight: medBorderRadius.bottomRight),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Octicons.comment_discussion,
+                                          size: 15,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${widget.commentCount} replies',
+                                      ),
+                                    ],
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_right_rounded,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    EditWidget(
+                      editingController: assigneeEditingController,
+                      builder: (context, newValue, tools, currentlyEditing,
+                              currentState) =>
+                          Row(
+                        children: [
+                          Expanded(
+                            child: DropDownInfoCard(
+                              title: 'Assignees',
+                              trailing: ImageStack.widgets(
+                                totalCount: widget.assigneesInfo.totalCount,
+                                backgroundColor: secondary(context),
+                                widgetBorderColor: secondary(context),
+                                // extraCountBorderColor: faded2(context),
+                                widgetCount: 3,
+                                extraCountTextStyle: TextStyle(
+                                  color: faded3(context),
+                                ),
+                                children: widget.assigneesInfo.edges!
+                                    .map((e) => ProfileTile(
+                                        e!.node!.avatarUrl.toString()))
+                                    .toList(),
+                              ),
+                              child: Container(
+                                height: 60,
+                                width: 90,
+                              ),
+                            ),
+                          ),
+                          tools,
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        ),
-        body: RefreshIndicator(
-          onRefresh: () => Future.sync(
-            () => widget.apiWrapperController.refresh(),
-          ),
-          triggerMode: RefreshIndicatorTriggerMode.anywhere,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //
-                  // const Divider(
-                  //   height: 16,
-                  // ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-                    child: Row(
-                      children: [
-                        ProfileTile(
-                          widget.repoInfo.owner.avatarUrl.toString(),
-                          disableTap: true,
-                          size: 16,
-                        ),
-                        richText([
-                          TextSpan(
-                              text:
-                                  '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  AutoRouter.of(context).push(
-                                      RepositoryScreenRoute(
-                                          repositoryURL: 'repositoryURL'));
-                                }),
-                          TextSpan(
-                            text: ' #${widget.number}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                            defaultStyle: TextStyle(
-                                color: faded3(context), fontSize: 17)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  EditableTextItem(
-                    titleEditingController,
-                    builder: (context, newValue) => MarkdownBody(
-                      newValue != null ? mdToHtml(newValue) : widget.title,
-                      defaultBodyStyle: Style(
-                          padding: EdgeInsets.zero,
-                          margin: EdgeInsets.zero,
-                          fontSize: FontSize(
-                            theme(context).textTheme.headline5?.fontSize,
-                          ),
-                          fontWeight:
-                              theme(context).textTheme.headline5?.fontWeight),
-                    ),
-                  ),
-                  EditWidget(
-                    editingController: labelsEditingController,
-                    builder:
-                        (context, newValue, tools, currentlyEditing, state) {
-                      if (widget.labels.isNotEmpty == true) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Wrap(
-                                  children: widget.labels
-                                      .map(
-                                        (e) => Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: IssueLabel.gql(e!),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
-                              tools,
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Row(
-                          children: [
-                            ScaleSwitch(
-                              child: state == EditingState.editMode
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: Text(
-                                        'No labels',
-                                        style: TextStyle(
-                                          color: faded3(context),
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
-                            ),
-                            tools,
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                  const Divider(
-                    height: 16,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      Card(
-                        color: widget.state.color,
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                widget.state.icon,
-                                size: 16,
-                                // color: state.color,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(widget.state.text),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      ProfileTile(
-                        widget.createdBy.avatarUrl.toString(),
-                        userLogin: widget.createdBy.login,
-                        showName: true,
-                        size: 16,
-                      ),
-                      Text(
-                        '  ${getDate(widget.createdAt.toString(), shorten: false)}',
-                        style: TextStyle(color: faded3(context)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Card(
-                    shape:
-                        RoundedRectangleBorder(borderRadius: medBorderRadius),
-                    margin: EdgeInsets.zero,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        ReactionBar(
-                          widget.reactionGroups,
-                          viewerCanReact: widget.viewerCanReact,
-                        ),
-                        EditWidget(
-                          editingController: descEditingController,
-                          builder: (context, newValue, tools, currentlyEditing,
-                              state) {
-                            return Row(
-                              children: [
-                                if (widget.bodyHTML.isNotEmpty)
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: widget.body.length > 400
-                                          ? ExpandChild(
-                                              collapsedHint: 'Description',
-                                              expandArrowStyle:
-                                                  ExpandArrowStyle.both,
-                                              icon:
-                                                  Icons.arrow_drop_down_rounded,
-                                              // hintTextStyle: TextStyle(
-                                              //     color: faded3(context)),
-                                              child:
-                                                  MarkdownBody(widget.bodyHTML),
-                                            )
-                                          : MarkdownBody(widget.bodyHTML),
-                                    ),
-                                  ),
-                                ScaleSwitch(
-                                  child: widget.bodyHTML.isEmpty &&
-                                          state == EditingState.editMode
-                                      ? Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          child: Text(
-                                            'No Description',
-                                            style: TextStyle(
-                                                color: faded3(context),
-                                                fontStyle: FontStyle.italic),
-                                          ),
-                                        )
-                                      : Container(),
-                                ),
-                                tools,
-                              ],
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: accent(context),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: medBorderRadius.bottomLeft,
-                                bottomRight: medBorderRadius.bottomRight),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Octicons.comment_discussion,
-                                        size: 15,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${widget.commentCount} replies',
-                                    ),
-                                  ],
-                                ),
-                                const Icon(
-                                  Icons.arrow_right_rounded,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  EditWidget(
-                    editingController: assigneeEditingController,
-                    builder: (context, newValue, tools, currentlyEditing,
-                            currentState) =>
-                        Row(
-                      children: [
-                        Expanded(
-                          child: DropDownInfoCard(
-                            title: 'Assignees',
-                            trailing: ImageStack.widgets(
-                              totalCount: widget.assigneesInfo.totalCount,
-                              backgroundColor: secondary(context),
-                              widgetBorderColor: secondary(context),
-                              // extraCountBorderColor: faded2(context),
-                              widgetCount: 3,
-                              extraCountTextStyle: TextStyle(
-                                color: faded3(context),
-                              ),
-                              children: widget.assigneesInfo.edges!
-                                  .map((e) => ProfileTile(
-                                      e!.node!.avatarUrl.toString()))
-                                  .toList(),
-                            ),
-                            child: Container(
-                              height: 60,
-                              width: 90,
-                            ),
-                          ),
-                        ),
-                        tools,
-                      ],
-                    ),
-                  ),
-                ],
               ),
             ),
           ),
