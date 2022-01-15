@@ -126,14 +126,14 @@ class _RootAppState extends State<RootApp> {
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           unselectedLabelColor:
               Provider.of<PaletteSettings>(context).currentSetting.faded3,
-          unselectedLabelStyle: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
-          labelStyle: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+          // unselectedLabelStyle: Theme.of(context)
+          //     .textTheme
+          //     .headline6!
+          //     .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+          // labelStyle: Theme.of(context)
+          //     .textTheme
+          //     .headline6!
+          //     .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
           labelPadding:
               const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
         ),

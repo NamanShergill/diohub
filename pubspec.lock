@@ -496,7 +496,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a073f9436287fb6e41c6e55e7a80ebd2c6517cdb
+      resolved-ref: "808997ffbeefa1597b0d4b7fb4ba3c0cd449649c"
       url: "https://github.com/NamanShergill/flutter_dynamic_tabs"
     source: git
     version: "0.0.4"

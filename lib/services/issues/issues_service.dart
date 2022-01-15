@@ -173,6 +173,7 @@ class IssuesService {
                 repoName: repo,
                 since: since)),
         cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
+        debugLog: true,
         acceptHeader: 'application/vnd.github.starfox-preview+json');
     return (GetTimeline$Query.fromJson(response.data!) as dynamic)
         .repository!

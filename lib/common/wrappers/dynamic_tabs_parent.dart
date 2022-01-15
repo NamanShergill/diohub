@@ -38,13 +38,15 @@ class DynamicTabsParent extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16)
                         .copyWith(right: tab.isDismissible ? 0 : 16),
-                    child: Text(tab.label!),
+                    child: Text(
+                      tab.label!,
+                    ),
                   ),
                   if (tab.isDismissible)
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: RoundButton(
-                        color: accent(context),
+                        color: elementsOnColors(context),
                         padding: const EdgeInsets.all(4),
                         onPressed: () {
                           controller.closeTab(tab.identifier, showDialog: true);
@@ -52,9 +54,10 @@ class DynamicTabsParent extends StatelessWidget {
                         onLongPress: () {
                           controller.closeTab(tab.identifier);
                         },
-                        icon: const Icon(
-                          Icons.close,
+                        icon: Icon(
+                          Icons.close_rounded,
                           size: 12,
+                          color: accent(context),
                         ),
                       ),
                     )

@@ -177,9 +177,9 @@ class _DiscussionState extends State<Discussion>
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              // const SizedBox(
+              //   height: 16,
+              // ),
               PaddingWrap(
                 child: widget.initComment,
               ),

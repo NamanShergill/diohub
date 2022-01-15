@@ -8,7 +8,7 @@ class AppTabBar extends StatelessWidget {
   AppTabBar({TabController? controller, required List<String> tabs, Key? key})
       : _tabController = controller,
         tabs = tabs
-            .map((e) => DynamicTab(label: e, isDismissible: false))
+            .map((e) => DynamicTab(identifier: e, isDismissible: false))
             .toList(),
         super(key: key);
 

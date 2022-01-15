@@ -108,16 +108,18 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
 
   void _setupTabs() {
     tabs = [
-      DynamicTab(label: 'About', isDismissible: false),
-      DynamicTab(label: 'Readme', isDismissible: false),
+      DynamicTab(identifier: 'About', isDismissible: false),
+      DynamicTab(identifier: 'Readme', isDismissible: false),
       DynamicTab(
-        label: 'Code',
+        identifier: 'Code',
         isFocusedOnInit: _isDeepLinkCode(widget.pathData),
       ),
-      DynamicTab(label: 'Issues', isFocusedOnInit: _isDeepLinkComp('issues')),
       DynamicTab(
-          label: 'Pull Requests', isFocusedOnInit: _isDeepLinkComp('pulls')),
-      DynamicTab(label: 'More')
+          identifier: 'Issues', isFocusedOnInit: _isDeepLinkComp('issues')),
+      DynamicTab(
+          identifier: 'Pull Requests',
+          isFocusedOnInit: _isDeepLinkComp('pulls')),
+      DynamicTab(identifier: 'More')
     ];
   }
 

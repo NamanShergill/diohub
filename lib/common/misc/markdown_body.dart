@@ -200,7 +200,9 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               return _CodeView(
                 rdr.tree.children.first.element!.text,
                 language: rdr.tree.element?.attributes['class']
-                    ?.replaceAll('highlight highlight-source-', ''),
+                    ?.replaceAll('highlight highlight-source-', '')
+                    .split(' ')
+                    .first,
               );
             }
           }

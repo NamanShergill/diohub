@@ -4,6 +4,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
+import 'package:dio_hub/common/misc/reaction_bar.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/style/text_styles.dart';
@@ -271,14 +272,10 @@ class _BaseCommentState extends State<BaseComment> {
           const SizedBox(
             height: 8,
           ),
-        // if (url != null)
-        //   ReactionBar(
-        //     url,
-        //     Provider.of<CurrentUserProvider>(context, listen: false)
-        //         .currentUserInfo
-        //         ?.login,
-        //     isEnabled: !isLocked!,
-        //   ),
+        ReactionBar(
+          widget.reactions!,
+          viewerCanReact: widget.viewerCanReact,
+        ),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
@@ -8,9 +9,11 @@ import 'package:dio_hub/common/misc/drop_down_info_card.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
+import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/reaction_bar.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -24,9 +27,12 @@ import 'package:dio_hub/utils/markdown_to_html.dart';
 import 'package:dio_hub/utils/rich_text.dart';
 import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -153,6 +159,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   late EditingController<List<LabelMixin?>> labelsEditingController;
   late EditingController assigneeEditingController;
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
+  final ScrollController scrollController = ScrollController();
   @override
   void initState() {
     titleEditingController = EditingController<String>(widget.title);
@@ -173,173 +180,23 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    return DynamicTabsWrapper.segregated(
+    return DynamicTabsParent(
       controller: dynamicTabsController,
       tabs: (widget.dynamicTabs ?? [])
         ..addAll([
-          DynamicTab(label: 'About', identifier: 'about'),
-          DynamicTab(label: 'Conversation', identifier: 'conversation')
+          DynamicTab(identifier: 'About', isDismissible: false),
+          DynamicTab(identifier: 'Conversation')
         ]),
       tabViews: [
-        DynamicTabView(identifier: 'about', child: Container()),
-        DynamicTabView(identifier: 'conversation', child: Container()),
-      ],
-      builder: (context, tabBar, tabView) => EditingWrapper(
-        onSave: () {},
-        editingControllers: [
-          titleEditingController,
-          labelsEditingController,
-          descEditingController,
-          assigneeEditingController,
-        ],
-        builder: (context) => Scaffold(
-          appBar: DHAppBar(
-            hasEditableChildren: true,
-            title: Row(
-              children: [
-                Icon(
-                  widget.state.icon,
-                  color: widget.state.color,
-                  size: 16,
-                ),
-                // const SizedBox(
-                //   width: 8,
-                // ),
-                Expanded(
-                  child: richText(
-                    [
-                      TextSpan(text: ' #${widget.number} '),
-                      TextSpan(
-                        text: widget.repoInfo.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: faded3(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          body: RefreshIndicator(
-            onRefresh: () => Future.sync(
-              () => widget.apiWrapperController.refresh(),
-            ),
-            triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        DynamicTabView(
+            identifier: 'About',
             child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //
-                    // const Divider(
-                    //   height: 16,
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 0),
-                      child: Row(
-                        children: [
-                          ProfileTile(
-                            widget.repoInfo.owner.avatarUrl.toString(),
-                            disableTap: true,
-                            size: 16,
-                          ),
-                          richText([
-                            TextSpan(
-                                text:
-                                    '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    AutoRouter.of(context).push(
-                                        RepositoryScreenRoute(
-                                            repositoryURL: 'repositoryURL'));
-                                  }),
-                            TextSpan(
-                              text: ' #${widget.number}',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                              defaultStyle: TextStyle(
-                                  color: faded3(context), fontSize: 17)),
-                        ],
-                      ),
-                    ),
                     const SizedBox(
-                      height: 4,
-                    ),
-                    EditableTextItem(
-                      titleEditingController,
-                      builder: (context, newValue) => MarkdownBody(
-                        newValue != null ? mdToHtml(newValue) : widget.title,
-                        defaultBodyStyle: Style(
-                            padding: EdgeInsets.zero,
-                            margin: EdgeInsets.zero,
-                            fontSize: FontSize(
-                              theme(context).textTheme.headline5?.fontSize,
-                            ),
-                            fontWeight:
-                                theme(context).textTheme.headline5?.fontWeight),
-                      ),
-                    ),
-                    EditWidget(
-                      editingController: labelsEditingController,
-                      builder:
-                          (context, newValue, tools, currentlyEditing, state) {
-                        if (widget.labels.isNotEmpty == true) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  child: Wrap(
-                                    children: widget.labels
-                                        .map(
-                                          (e) => Padding(
-                                            padding: const EdgeInsets.all(4),
-                                            child: IssueLabel.gql(e!),
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                ),
-                                tools,
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Row(
-                            children: [
-                              ScaleSwitch(
-                                child: state == EditingState.editMode
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Text(
-                                          'No labels',
-                                          style: TextStyle(
-                                            color: faded3(context),
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                              tools,
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                    const Divider(
-                      height: 16,
-                    ),
-                    const SizedBox(
-                      height: 4,
+                      height: 12,
                     ),
                     Row(
                       children: [
@@ -444,37 +301,50 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                           const SizedBox(
                             height: 8,
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: accent(context),
+                          Material(
+                            color: accent(context),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: medBorderRadius.bottomLeft,
+                                bottomRight: medBorderRadius.bottomRight),
+                            child: InkWell(
+                              onTap: () {
+                                dynamicTabsController.openTab('Conversation');
+                              },
                               borderRadius: BorderRadius.only(
                                   bottomLeft: medBorderRadius.bottomLeft,
                                   bottomRight: medBorderRadius.bottomRight),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: medBorderRadius.bottomLeft,
+                                      bottomRight: medBorderRadius.bottomRight),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          Octicons.comment_discussion,
-                                          size: 15,
-                                        ),
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Octicons.comment_discussion,
+                                              size: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${widget.commentCount} replies',
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        '${widget.commentCount} replies',
+                                      const Icon(
+                                        Icons.arrow_right_rounded,
                                       ),
                                     ],
                                   ),
-                                  const Icon(
-                                    Icons.arrow_right_rounded,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
@@ -520,7 +390,238 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                   ],
                 ),
               ),
+            )),
+        DynamicTabView(
+          identifier: 'Conversation',
+          child: Discussion(
+            number: widget.number,
+            isLocked: false,
+            createdAt: widget.createdAt,
+            owner: widget.repoInfo.owner.login,
+            repoName: widget.repoInfo.name,
+            initComment: BaseComment(
+                onQuote: () {},
+                isMinimized: false,
+                reactions: widget.reactionGroups,
+                viewerCanDelete: false,
+                viewerCanMinimize: false,
+                viewerCannotUpdateReasons: null,
+                viewerCanReact: widget.viewerCanReact,
+                viewerCanUpdate: false,
+                viewerDidAuthor: false,
+                createdAt: widget.createdAt,
+                author: widget.createdBy,
+                body: widget.body,
+                lastEditedAt: null,
+                bodyHTML: widget.bodyHTML,
+                authorAssociation: CommentAuthorAssociation.none),
+            issueUrl: '',
+            isPull: false,
+            nestedScrollViewController: scrollController,
+          ),
+        ),
+      ],
+      builder: (context, tabBar, tabView) => EditingWrapper(
+        onSave: () {},
+        editingControllers: [
+          titleEditingController,
+          labelsEditingController,
+          descEditingController,
+          assigneeEditingController,
+        ],
+        builder: (context) => Scaffold(
+          appBar: DHAppBar(
+            hasEditableChildren: true,
+            title: Row(
+              children: [
+                Icon(
+                  widget.state.icon,
+                  color: widget.state.color,
+                  size: 16,
+                ),
+                // const SizedBox(
+                //   width: 8,
+                // ),
+                Expanded(
+                  child: richText(
+                    [
+                      TextSpan(text: ' #${widget.number} '),
+                      TextSpan(
+                        text: widget.repoInfo.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: faded3(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+          ),
+          body: RefreshIndicator(
+            onRefresh: () => Future.sync(
+              () => widget.apiWrapperController.refresh(),
+            ),
+            triggerMode: RefreshIndicatorTriggerMode.anywhere,
+            child: NestedScroll(
+                header: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //
+                    // const Divider(
+                    //   height: 16,
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 0),
+                            child: Row(
+                              children: [
+                                ProfileTile(
+                                  widget.repoInfo.owner.avatarUrl.toString(),
+                                  disableTap: true,
+                                  size: 16,
+                                ),
+                                richText([
+                                  TextSpan(
+                                      text:
+                                          '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          AutoRouter.of(context).push(
+                                              RepositoryScreenRoute(
+                                                  repositoryURL:
+                                                      'repositoryURL'));
+                                        }),
+                                  TextSpan(
+                                    text: ' #${widget.number}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                                    defaultStyle: TextStyle(
+                                        color: faded3(context), fontSize: 17)),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          EditableTextItem(
+                            titleEditingController,
+                            builder: (context, newValue) => MarkdownBody(
+                              newValue != null
+                                  ? mdToHtml(newValue)
+                                  : widget.title,
+                              defaultBodyStyle: Style(
+                                  padding: EdgeInsets.zero,
+                                  margin: EdgeInsets.zero,
+                                  fontSize: FontSize(
+                                    theme(context)
+                                        .textTheme
+                                        .headline5
+                                        ?.fontSize,
+                                  ),
+                                  fontWeight: theme(context)
+                                      .textTheme
+                                      .headline5
+                                      ?.fontWeight),
+                            ),
+                          ),
+                          EditWidget(
+                            editingController: labelsEditingController,
+                            builder: (context, newValue, tools,
+                                currentlyEditing, state) {
+                              if (widget.labels.isNotEmpty == true) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Wrap(
+                                          children: widget.labels
+                                              .map(
+                                                (e) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  child: IssueLabel.gql(e!),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                      ),
+                                      tools,
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return Row(
+                                  children: [
+                                    ScaleSwitch(
+                                      child: state == EditingState.editMode
+                                          ? Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Text(
+                                                'No labels',
+                                                style: TextStyle(
+                                                  color: faded3(context),
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                              ),
+                                            )
+                                          : Container(),
+                                    ),
+                                    tools,
+                                  ],
+                                );
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          const Divider(
+                            height: 0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                body: Column(
+                  children: [
+                    SizeExpandedSection(
+                      expand: dynamicTabsController.activeLength > 1,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          tabBar,
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Divider(
+                              height: 0,
+                            ),
+                          ),
+                          // const SizedBox(
+                          //   height: 8,
+                          // ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: tabView,
+                    )
+                  ],
+                ),
+                scrollController: scrollController),
           ),
         ),
       ),
