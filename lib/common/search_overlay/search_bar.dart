@@ -625,7 +625,7 @@ class _ActiveSearch extends StatelessWidget {
                               RichText(
                                 text: TextSpan(
                                     style:
-                                        Theme.of(context).textTheme.subtitle1,
+                                        Theme.of(context).textTheme.subtitle2,
                                     children: [
                                       TextSpan(
                                           text:

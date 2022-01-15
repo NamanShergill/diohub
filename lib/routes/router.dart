@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
+import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/view/authentication/auth_screen.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
@@ -75,4 +76,13 @@ Widget fadeThroughTransition(BuildContext context, Animation<double> animation,
     fillColor: secondary(context),
     child: child,
   );
+}
+
+T getRoute<T extends PageRouteInfo>(PathData path,
+    {required T Function(PathData path) onDeepLink,
+    T Function(PathData path)? onAPILink}) {
+  if (path.isAPIPath && onAPILink != null) {
+    return onAPILink(path);
+  }
+  return onDeepLink(path);
 }

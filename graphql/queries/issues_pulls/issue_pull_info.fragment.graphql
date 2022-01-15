@@ -1,7 +1,7 @@
 fragment issueInfo on Issue{
     activeLockReason
-    assignees{
-        totalCount
+    assignees(first: 5){
+        ...assigneeInfo
     }
     author{
         ...actor
@@ -15,6 +15,10 @@ fragment issueInfo on Issue{
     comments{
         totalCount
     }
+    userContentEdits{
+        totalCount
+    }
+    includesCreatedEdit
     isPinned
     labels(first: 100){
         nodes{
@@ -35,6 +39,7 @@ fragment issueInfo on Issue{
     timelineItems{
         totalCount
     }
+
     url
     viewerCanReact
     viewerCanUpdate
@@ -42,8 +47,8 @@ fragment issueInfo on Issue{
 
 fragment  pullInfo on PullRequest{
     activeLockReason
-    assignees{
-        totalCount
+    assignees(first: 5){
+        ...assigneeInfo
     }
     author{
         ...actor
@@ -75,8 +80,13 @@ fragment  pullInfo on PullRequest{
     timelineItems{
         totalCount
     }
+
     titleHTML
     url
+    userContentEdits{
+        totalCount
+    }
+    includesCreatedEdit
     viewerCanReact
     additions
     deletions
@@ -110,5 +120,15 @@ fragment repoInfo on Repository{
     owner{
         login
         avatarUrl
+    }
+}
+
+
+fragment assigneeInfo on UserConnection{
+    totalCount
+    edges{
+        node{
+          ...actor
+        }
     }
 }

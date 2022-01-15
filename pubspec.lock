@@ -538,7 +538,7 @@ packages:
       name: flutter_keyboard_visibility
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "5.1.1"
   flutter_keyboard_visibility_platform_interface:
     dependency: transitive
     description:
@@ -894,13 +894,6 @@ packages:
       url: "https://github.com/NamanShergill/markdown-editable-textinput.git"
     source: git
     version: "1.0.2"
-  marquee_widget:
-    dependency: "direct main"
-    description:
-      name: marquee_widget
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   matcher:
     dependency: transitive
     description:

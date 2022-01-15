@@ -82,6 +82,12 @@ bool isDeepLink(String link) {
   return link.startsWith(_deepLinkPattern);
 }
 
+bool isAPILink(String link) {
+  return link.startsWith(_apiLinkPattern);
+}
+
+RegExp get _apiLinkPattern =>
+    RegExp('((http(s)?)(:(//)))?(api.)(github.com)(/)?');
 RegExp get _deepLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(www.)?(github.com)(/)?');
 RegExp get _themeLinkPattern =>
@@ -204,10 +210,13 @@ String get _repoPageURLPattern => regexPattern([
     ]);
 
 class PathData {
-  PathData(this.path);
+  PathData(this.path, {this.isAPIPath = false});
 
-  PathData.fromURL(String url) : path = githubURLtoPath(url);
+  PathData.fromURL(String url)
+      : path = githubURLtoPath(url),
+        isAPIPath = isAPILink(url);
   final String path;
+  final bool isAPIPath;
   // final Map? parameters;
   // final Map? extData;
 
@@ -221,6 +230,9 @@ class PathData {
   bool componentIs(int index, String data) {
     return component(index) == data;
   }
+
+  @override
+  String toString() => path;
 }
 
 extension on StringFunctions {

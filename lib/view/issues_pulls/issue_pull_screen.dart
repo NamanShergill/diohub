@@ -4,6 +4,7 @@ import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
+import 'package:dio_hub/common/misc/drop_down_info_card.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
@@ -14,6 +15,7 @@ import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/main.dart';
+import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -27,12 +29,26 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:image_stack/image_stack.dart';
 
 IssuePullScreenRoute issuePullScreenRoute(PathData path) {
-  return IssuePullScreenRoute(
-      ownerName: path.component(1)!,
-      repoName: path.component(2)!,
-      number: int.parse(path.component(4)!));
+  return getRoute<IssuePullScreenRoute>(
+    path,
+    onDeepLink: (path) {
+      return IssuePullScreenRoute(
+        ownerName: path.component(0)!,
+        repoName: path.component(1)!,
+        number: int.parse(path.component(3)!),
+      );
+    },
+    onAPILink: (path) {
+      return IssuePullScreenRoute(
+        ownerName: path.component(1)!,
+        repoName: path.component(2)!,
+        number: int.parse(path.component(4)!),
+      );
+    },
+  );
 }
 
 class IssuePullScreen extends DeepLinkWidget {
@@ -108,6 +124,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.commentCount,
     required this.reactionGroups,
     required this.viewerCanReact,
+    required this.assigneesInfo,
   }) : super(key: key);
   final int number;
   final int commentCount;
@@ -118,6 +135,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final RepoInfoMixin repoInfo;
   final List<ReactionGroupsMixin> reactionGroups;
   final IssuePullState state;
+  final AssigneeInfoMixin assigneesInfo;
   final List<LabelMixin?> labels;
   final DateTime createdAt;
   final ActorMixin createdBy;
@@ -131,6 +149,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   late EditingController<String> titleEditingController;
   late EditingController<String> descEditingController;
   late EditingController<List<LabelMixin?>> labelsEditingController;
+  late EditingController assigneeEditingController;
 
   @override
   void initState() {
@@ -140,6 +159,10 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       onEditTap: () {},
     );
     descEditingController = EditingController<String>(
+      widget.body,
+      onEditTap: () {},
+    );
+    assigneeEditingController = EditingController(
       widget.body,
       onEditTap: () {},
     );
@@ -154,6 +177,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
         titleEditingController,
         labelsEditingController,
         descEditingController,
+        assigneeEditingController,
       ],
       builder: (context) => Scaffold(
         appBar: DHAppBar(
@@ -390,7 +414,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 16),
                                           child: Text(
-                                            'No Description Provided.',
+                                            'No Description',
                                             style: TextStyle(
                                                 color: faded3(context),
                                                 fontStyle: FontStyle.italic),
@@ -420,8 +444,8 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                               children: [
                                 Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         Octicons.comment_discussion,
                                         size: 15,
@@ -432,13 +456,49 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                     ),
                                   ],
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.arrow_right_rounded,
                                 ),
                               ],
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  EditWidget(
+                    editingController: assigneeEditingController,
+                    builder: (context, newValue, tools, currentlyEditing,
+                            currentState) =>
+                        Row(
+                      children: [
+                        Expanded(
+                          child: DropDownInfoCard(
+                            title: 'Assignees',
+                            trailing: ImageStack.widgets(
+                              totalCount: widget.assigneesInfo.totalCount,
+                              backgroundColor: secondary(context),
+                              widgetBorderColor: secondary(context),
+                              // extraCountBorderColor: faded2(context),
+                              widgetCount: 3,
+                              extraCountTextStyle: TextStyle(
+                                color: faded3(context),
+                              ),
+                              children: widget.assigneesInfo.edges!
+                                  .map((e) => ProfileTile(
+                                      e!.node!.avatarUrl.toString()))
+                                  .toList(),
+                            ),
+                            child: Container(
+                              height: 60,
+                              width: 90,
+                            ),
+                          ),
+                        ),
+                        tools,
                       ],
                     ),
                   ),

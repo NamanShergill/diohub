@@ -58,6 +58,12 @@ class EditingController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  void discard() {
+    newValue = null;
+    _currentlyEditing = false;
+    notifyListeners();
+  }
+
   void saveEdit(T value) {
     if (isNotSame(value)) {
       newValue = value;
@@ -215,7 +221,7 @@ class EditingProvider extends ChangeNotifier {
   void viewMode() {
     editingState = EditingState.viewMode;
     for (final element in controllers) {
-      element.stopEdit();
+      element.discard();
     }
     notifyListeners();
   }

@@ -3,7 +3,7 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.3.2-beta+4
+version: 0.4.0-internal.1+5
 
 # flutter packages pub run build_runner watch --delete-conflicting-outputs
 
@@ -53,7 +53,7 @@ dependencies:
 
   flutter_html: 2.1.2
   flutter_inappwebview: ^5.3.2
-  flutter_keyboard_visibility: ^5.1.0
+  flutter_keyboard_visibility: ^5.1.1
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^2.0.0+1
   flutter_scroll_to_top: ^1.2.0
@@ -110,7 +110,7 @@ dev_dependencies:
   json_serializable: ^6.1.4
 
 dependency_overrides:
-  flutter_svg: ^1.0.0
+  flutter_svg: ^1.0.1
 
 flutter_native_splash:
   color: '#17181c'

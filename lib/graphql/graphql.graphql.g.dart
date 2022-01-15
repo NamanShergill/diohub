@@ -32,6 +32,11 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
           ..createdAt = DateTime.parse(json['createdAt'] as String)
           ..comments = IssueInfoMixin$Comments.fromJson(
               json['comments'] as Map<String, dynamic>)
+          ..userContentEdits = json['userContentEdits'] == null
+              ? null
+              : IssueInfoMixin$UserContentEdits.fromJson(
+                  json['userContentEdits'] as Map<String, dynamic>)
+          ..includesCreatedEdit = json['includesCreatedEdit'] as bool
           ..isPinned = json['isPinned'] as bool?
           ..labels = json['labels'] == null
               ? null
@@ -70,6 +75,8 @@ Map<String, dynamic>
           'closedAt': instance.closedAt?.toIso8601String(),
           'createdAt': instance.createdAt.toIso8601String(),
           'comments': instance.comments.toJson(),
+          'userContentEdits': instance.userContentEdits?.toJson(),
+          'includesCreatedEdit': instance.includesCreatedEdit,
           'isPinned': instance.isPinned,
           'labels': instance.labels?.toJson(),
           'locked': instance.locked,
@@ -155,6 +162,11 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
               json['timelineItems'] as Map<String, dynamic>)
           ..titleHTML = json['titleHTML'] as String
           ..url = Uri.parse(json['url'] as String)
+          ..userContentEdits = json['userContentEdits'] == null
+              ? null
+              : PullInfoMixin$UserContentEdits.fromJson(
+                  json['userContentEdits'] as Map<String, dynamic>)
+          ..includesCreatedEdit = json['includesCreatedEdit'] as bool
           ..viewerCanReact = json['viewerCanReact'] as bool
           ..additions = json['additions'] as int
           ..deletions = json['deletions'] as int
@@ -207,6 +219,8 @@ Map<String, dynamic>
           'timelineItems': instance.timelineItems.toJson(),
           'titleHTML': instance.titleHTML,
           'url': instance.url.toString(),
+          'userContentEdits': instance.userContentEdits?.toJson(),
+          'includesCreatedEdit': instance.includesCreatedEdit,
           'viewerCanReact': instance.viewerCanReact,
           'additions': instance.additions,
           'deletions': instance.deletions,
@@ -278,12 +292,19 @@ Map<String, dynamic> _$IssuePullInfo$QueryToJson(
 
 IssueInfoMixin$Assignees _$IssueInfoMixin$AssigneesFromJson(
         Map<String, dynamic> json) =>
-    IssueInfoMixin$Assignees()..totalCount = json['totalCount'] as int;
+    IssueInfoMixin$Assignees()
+      ..totalCount = json['totalCount'] as int
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AssigneeInfoMixin$Edges.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$IssueInfoMixin$AssigneesToJson(
         IssueInfoMixin$Assignees instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
     };
 
 IssueInfoMixin$Author _$IssueInfoMixin$AuthorFromJson(
@@ -305,6 +326,16 @@ IssueInfoMixin$Comments _$IssueInfoMixin$CommentsFromJson(
 
 Map<String, dynamic> _$IssueInfoMixin$CommentsToJson(
         IssueInfoMixin$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+IssueInfoMixin$UserContentEdits _$IssueInfoMixin$UserContentEditsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$UserContentEdits()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$UserContentEditsToJson(
+        IssueInfoMixin$UserContentEdits instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
     };
@@ -393,6 +424,33 @@ Map<String, dynamic> _$IssueInfoMixin$TimelineItemsToJson(
       'totalCount': instance.totalCount,
     };
 
+AssigneeInfoMixin$Edges$Node _$AssigneeInfoMixin$Edges$NodeFromJson(
+        Map<String, dynamic> json) =>
+    AssigneeInfoMixin$Edges$Node()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$AssigneeInfoMixin$Edges$NodeToJson(
+        AssigneeInfoMixin$Edges$Node instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+AssigneeInfoMixin$Edges _$AssigneeInfoMixin$EdgesFromJson(
+        Map<String, dynamic> json) =>
+    AssigneeInfoMixin$Edges()
+      ..node = json['node'] == null
+          ? null
+          : AssigneeInfoMixin$Edges$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AssigneeInfoMixin$EdgesToJson(
+        AssigneeInfoMixin$Edges instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
 ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
         Map<String, dynamic> json) =>
     ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
@@ -427,12 +485,19 @@ Map<String, dynamic> _$RepoInfoMixin$OwnerToJson(
 
 PullInfoMixin$Assignees _$PullInfoMixin$AssigneesFromJson(
         Map<String, dynamic> json) =>
-    PullInfoMixin$Assignees()..totalCount = json['totalCount'] as int;
+    PullInfoMixin$Assignees()
+      ..totalCount = json['totalCount'] as int
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AssigneeInfoMixin$Edges.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$PullInfoMixin$AssigneesToJson(
         PullInfoMixin$Assignees instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
     };
 
 PullInfoMixin$Author _$PullInfoMixin$AuthorFromJson(
@@ -526,6 +591,16 @@ PullInfoMixin$TimelineItems _$PullInfoMixin$TimelineItemsFromJson(
 
 Map<String, dynamic> _$PullInfoMixin$TimelineItemsToJson(
         PullInfoMixin$TimelineItems instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$UserContentEdits _$PullInfoMixin$UserContentEditsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$UserContentEdits()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$UserContentEditsToJson(
+        PullInfoMixin$UserContentEdits instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
     };

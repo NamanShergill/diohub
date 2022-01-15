@@ -55,7 +55,7 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
     }
     if (futures.isNotEmpty) {
       final results = await Future.wait(futures);
-      return results.last.assignees;
+      return results.last.assigneesInfo;
     }
     return widget.assignees;
   }

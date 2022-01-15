@@ -45,6 +45,7 @@ class _IssueScreenState extends State<IssueScreen>
       repoInfo: data.repository,
       state: IssuePullState(data.state),
       bodyHTML: data.bodyHTML,
+      assigneesInfo: data.assignees,
       body: data.body,
       labels: data.labels!.nodes!,
       createdAt: data.createdAt,

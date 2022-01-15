@@ -21,6 +21,8 @@ mixin IssueInfoMixin {
   DateTime? closedAt;
   late DateTime createdAt;
   late IssueInfoMixin$Comments comments;
+  IssueInfoMixin$UserContentEdits? userContentEdits;
+  late bool includesCreatedEdit;
   bool? isPinned;
   IssueInfoMixin$Labels? labels;
   late bool locked;
@@ -34,6 +36,10 @@ mixin IssueInfoMixin {
   late Uri url;
   late bool viewerCanReact;
   late bool viewerCanUpdate;
+}
+mixin AssigneeInfoMixin {
+  late int totalCount;
+  List<AssigneeInfoMixin$Edges?>? edges;
 }
 mixin ActorMixin {
   late Uri avatarUrl;
@@ -77,6 +83,8 @@ mixin PullInfoMixin {
   late PullInfoMixin$TimelineItems timelineItems;
   late String titleHTML;
   late Uri url;
+  PullInfoMixin$UserContentEdits? userContentEdits;
+  late bool includesCreatedEdit;
   late bool viewerCanReact;
   late int additions;
   late int deletions;
@@ -419,6 +427,8 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         closedAt,
         createdAt,
         comments,
+        userContentEdits,
+        includesCreatedEdit,
         isPinned,
         labels,
         locked,
@@ -469,6 +479,8 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
         timelineItems,
         titleHTML,
         url,
+        userContentEdits,
+        includesCreatedEdit,
         viewerCanReact,
         additions,
         deletions,
@@ -560,16 +572,15 @@ class IssuePullInfo$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Assignees extends JsonSerializable with EquatableMixin {
+class IssueInfoMixin$Assignees extends JsonSerializable
+    with EquatableMixin, AssigneeInfoMixin {
   IssueInfoMixin$Assignees();
 
   factory IssueInfoMixin$Assignees.fromJson(Map<String, dynamic> json) =>
       _$IssueInfoMixin$AssigneesFromJson(json);
 
-  late int totalCount;
-
   @override
-  List<Object?> get props => [totalCount];
+  List<Object?> get props => [totalCount, edges];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$AssigneesToJson(this);
 }
@@ -601,6 +612,23 @@ class IssueInfoMixin$Comments extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [totalCount];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$UserContentEdits extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$UserContentEdits();
+
+  factory IssueInfoMixin$UserContentEdits.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$UserContentEditsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$UserContentEditsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -677,6 +705,35 @@ class IssueInfoMixin$TimelineItems extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class AssigneeInfoMixin$Edges$Node extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  AssigneeInfoMixin$Edges$Node();
+
+  factory AssigneeInfoMixin$Edges$Node.fromJson(Map<String, dynamic> json) =>
+      _$AssigneeInfoMixin$Edges$NodeFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$AssigneeInfoMixin$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AssigneeInfoMixin$Edges extends JsonSerializable with EquatableMixin {
+  AssigneeInfoMixin$Edges();
+
+  factory AssigneeInfoMixin$Edges.fromJson(Map<String, dynamic> json) =>
+      _$AssigneeInfoMixin$EdgesFromJson(json);
+
+  AssigneeInfoMixin$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() => _$AssigneeInfoMixin$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReactionGroupsMixin$Reactors extends JsonSerializable
     with EquatableMixin {
   ReactionGroupsMixin$Reactors();
@@ -725,16 +782,15 @@ class RepoInfoMixin$Owner extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullInfoMixin$Assignees extends JsonSerializable with EquatableMixin {
+class PullInfoMixin$Assignees extends JsonSerializable
+    with EquatableMixin, AssigneeInfoMixin {
   PullInfoMixin$Assignees();
 
   factory PullInfoMixin$Assignees.fromJson(Map<String, dynamic> json) =>
       _$PullInfoMixin$AssigneesFromJson(json);
 
-  late int totalCount;
-
   @override
-  List<Object?> get props => [totalCount];
+  List<Object?> get props => [totalCount, edges];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$AssigneesToJson(this);
 }
@@ -838,6 +894,22 @@ class PullInfoMixin$TimelineItems extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [totalCount];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$TimelineItemsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullInfoMixin$UserContentEdits extends JsonSerializable
+    with EquatableMixin {
+  PullInfoMixin$UserContentEdits();
+
+  factory PullInfoMixin$UserContentEdits.fromJson(Map<String, dynamic> json) =>
+      _$PullInfoMixin$UserContentEditsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$PullInfoMixin$UserContentEditsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -6648,15 +6720,15 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
         FieldNode(
             name: NameNode(value: 'assignees'),
             alias: null,
-            arguments: [],
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '5'))
+            ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'totalCount'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(
+                  name: NameNode(value: 'assigneeInfo'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'author'),
@@ -6715,6 +6787,25 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
                   directives: [],
                   selectionSet: null)
             ])),
+        FieldNode(
+            name: NameNode(value: 'userContentEdits'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'includesCreatedEdit'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
         FieldNode(
             name: NameNode(value: 'isPinned'),
             alias: null,
@@ -6814,6 +6905,36 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [],
             directives: [],
             selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'assigneeInfo'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'UserConnection'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'node'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FragmentSpreadNode(
+                        name: NameNode(value: 'actor'), directives: [])
+                  ]))
+            ]))
       ])),
   FragmentDefinitionNode(
       name: NameNode(value: 'actor'),
@@ -6948,15 +7069,15 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
         FieldNode(
             name: NameNode(value: 'assignees'),
             alias: null,
-            arguments: [],
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'first'),
+                  value: IntValueNode(value: '5'))
+            ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'totalCount'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
+              FragmentSpreadNode(
+                  name: NameNode(value: 'assigneeInfo'), directives: [])
             ])),
         FieldNode(
             name: NameNode(value: 'author'),
@@ -7092,6 +7213,25 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             selectionSet: null),
         FieldNode(
             name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'userContentEdits'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 'totalCount'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ])),
+        FieldNode(
+            name: NameNode(value: 'includesCreatedEdit'),
             alias: null,
             arguments: [],
             directives: [],
