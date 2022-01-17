@@ -49,7 +49,7 @@ class _IssueScreenState extends State<IssueScreen>
       body: data.body,
       labels: data.labels!.nodes!,
       createdAt: data.createdAt,
-      createdBy: data.author as ActorMixin,
+      createdBy: data.author as ActorMixin?,
       apiWrapperController: widget.apiWrapperController,
     );
   }

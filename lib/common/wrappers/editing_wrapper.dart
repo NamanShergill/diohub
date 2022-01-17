@@ -124,8 +124,8 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => widget.editingController,
+    return ChangeNotifierProvider.value(
+      value: widget.editingController,
       builder: (context, child) {
         final editing = context.watch<EditingProvider>().editingState;
         final controller = context.watch<EditingController>();

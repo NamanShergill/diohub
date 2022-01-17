@@ -219,6 +219,7 @@ class _DiscussionState extends State<Discussion>
                           ?.toUtc()
                           .subtract(const Duration(seconds: 30)));
                 },
+                scrollController: widget.nestedScrollViewController,
                 controller: commentsSinceController,
                 firstPageLoadingBuilder: (context) {
                   return Container(
@@ -228,8 +229,8 @@ class _DiscussionState extends State<Discussion>
                     child: const LoadingIndicator(),
                   );
                 },
-                isNestedScrollViewChild: true,
-                scrollController: widget.nestedScrollViewController,
+                // isNestedScrollViewChild: true,
+                // scrollController: widget.nestedScrollViewController,
                 header: (context) {
                   return header;
                 },
