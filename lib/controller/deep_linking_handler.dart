@@ -225,6 +225,7 @@ class PathData {
     if (components.length > index) {
       return components[index];
     }
+    return null;
   }
 
   bool componentIs(int index, String data) {
