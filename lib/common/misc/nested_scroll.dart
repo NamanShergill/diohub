@@ -55,19 +55,32 @@ class _NestedScrollState extends State<NestedScroll> {
 class ScrollAbsorber {
   ScrollAbsorber(this.nestedScrollViewKey);
   final GlobalKey<NestedScrollViewState> nestedScrollViewKey;
+
   void absorbScrollNotification(Notification notification) {
     final nestedScrollView =
         nestedScrollViewKey.currentWidget as NestedScrollView;
     var scrolled = 0.0;
-
-    if (notification is OverscrollNotification) {
-      if (notification.metrics.axis == Axis.vertical) {
-        scrolled = notification.overscroll;
-      }
-    }
-    if (notification is ScrollUpdateNotification) {
-      if (notification.metrics.axis == Axis.vertical) {
-        scrolled = notification.scrollDelta ?? 0;
+    // if (notification is OverscrollNotification) {
+    //   // print(notification.overscroll);
+    //   if (notification.metrics.axis == Axis.vertical) {
+    //     scrolled = notification.overscroll;
+    //   }
+    // }
+    // if (notification is ScrollUpdateNotification) {
+    //   if (notification.metrics.axis == Axis.vertical &&
+    //       (notification.scrollDelta ?? 0) > 0) {
+    //     scrolled = notification.scrollDelta ?? 0;
+    //   }
+    // }
+    print(notification.runtimeType);
+    if (notification is ScrollNotification &&
+        notification.metrics.axis == Axis.vertical) {
+      scrolled = notification.metrics.pixels;
+      // print(notification.metrics.axisDirection);
+      if (scrolled < 0) {
+        scrolled = scrolled / 5;
+      } else {
+        scrolled = scrolled / 10;
       }
     }
 

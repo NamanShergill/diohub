@@ -56,7 +56,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.1.1
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^2.0.0+1
-  flutter_scroll_to_top: ^1.2.0
+  flutter_scroll_to_top: ^2.1.1
   flutter_secure_storage: ^5.0.2
   flutter_slidable: ^1.2.0
   flutter_speed_dial: ^5.0.0+1

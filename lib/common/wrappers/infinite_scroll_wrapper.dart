@@ -189,12 +189,12 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
         return ScrollWrapper(
           // nestedScrollViewController: widget.nestedScrollViewController!,
           scrollController: scrollController,
-          // alwaysVisibleAtOffset: widget.pinnedHeader != null,
+          alwaysVisibleAtOffset: widget.pinnedHeader != null,
           promptTheme: PromptButtonTheme(
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
-          child: _refreshIndicator(scrollController),
+          builder: (context, properties) => _refreshIndicator(scrollController),
         );
 
         // if (widget.isNestedScrollViewChild) {
