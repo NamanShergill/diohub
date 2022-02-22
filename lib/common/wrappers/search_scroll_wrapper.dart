@@ -2,6 +2,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
+import 'package:dio_hub/common/misc/round_button.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
@@ -109,11 +110,15 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
           searchData: searchData,
           isPinned: function != null,
           trailing: function != null
-              ? IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_up_rounded),
-                  onPressed: () {
-                    function();
-                  })
+              ? RoundButton(
+                  icon: Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    // size: 15,
+                    color: accent(context),
+                  ),
+                  padding: const EdgeInsets.all(4),
+                  color: elementsOnColors(context),
+                  onPressed: function)
               : null,
           prompt: widget.searchBarMessage,
           backgroundColor: widget.searchBarColor ??

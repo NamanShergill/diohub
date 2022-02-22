@@ -322,7 +322,7 @@ packages:
       name: device_info_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.0+1"
   device_info_plus_web:
     dependency: transitive
     description:
@@ -601,7 +601,7 @@ packages:
       name: flutter_scroll_to_top
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "2.1.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -1593,7 +1593,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.6"
   xdg_directories:
     dependency: transitive
     description:

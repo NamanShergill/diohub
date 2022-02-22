@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
+import 'package:dio_hub/common/misc/round_button.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -645,8 +646,14 @@ class _ActiveSearch extends StatelessWidget {
           ),
         ),
         trailing ??
-            IconButton(
-                icon: const Icon(Icons.close),
+            RoundButton(
+                icon: Icon(
+                  Icons.close,
+                  size: 15,
+                  color: accent(context),
+                ),
+                padding: const EdgeInsets.all(4),
+                color: elementsOnColors(context),
                 onPressed: () {
                   onSubmit(searchData.cleared);
                 })

@@ -37,6 +37,7 @@ import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:image_stack/image_stack.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 IssuePullScreenRoute issuePullScreenRoute(PathData path) {
   return getRoute<IssuePullScreenRoute>(
@@ -67,25 +68,26 @@ class IssuePullScreen extends DeepLinkWidget {
       this.commentsSince,
       this.initialIndex = 0})
       : super(key: key);
-  final String repoName;
-  final String ownerName;
-  final int number;
+
   final DateTime? commentsSince;
   final int initialIndex;
+  final int number;
+  final String ownerName;
+  final String repoName;
 
   @override
   State<IssuePullScreen> createState() => _IssuePullScreenState();
 }
 
 class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
+  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
+      apiWrapperController =
+      APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>();
+
   @override
   void handleDeepLink(PathData deepLinkData) {
     // TODO: implement handleDeepLink
   }
-
-  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
-      apiWrapperController =
-      APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>();
 
   @override
   Widget build(BuildContext context) {
@@ -134,32 +136,36 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.assigneesInfo,
     this.dynamicTabs,
   }) : super(key: key);
-  final int number;
-  final int commentCount;
-  final bool viewerCanReact;
-  final String title;
-  final String bodyHTML;
-  final String body;
-  final RepoInfoMixin repoInfo;
-  final List<ReactionGroupsMixin> reactionGroups;
-  final IssuePullState state;
-  final AssigneeInfoMixin assigneesInfo;
-  final List<LabelMixin?> labels;
-  final DateTime createdAt;
-  final ActorMixin createdBy;
+
   final APIWrapperController apiWrapperController;
+  final AssigneeInfoMixin assigneesInfo;
+  final String body;
+  final String bodyHTML;
+  final int commentCount;
+  final DateTime createdAt;
+  final ActorMixin? createdBy;
   final List<DynamicTab>? dynamicTabs;
+  final List<LabelMixin?> labels;
+  final int number;
+  final List<ReactionGroupsMixin> reactionGroups;
+  final RepoInfoMixin repoInfo;
+  final IssuePullState state;
+  final String title;
+  final bool viewerCanReact;
+
   @override
   State<IssuePullInfoTemplate> createState() => _IssuePullInfoTemplateState();
 }
 
 class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
-  late EditingController<String> titleEditingController;
-  late EditingController<String> descEditingController;
-  late EditingController<List<LabelMixin?>> labelsEditingController;
   late EditingController assigneeEditingController;
+  late EditingController<String> descEditingController;
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
+  late EditingController<List<LabelMixin?>> labelsEditingController;
   final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController2 = ScrollController();
+  late EditingController<String> titleEditingController;
+
   @override
   void initState() {
     titleEditingController = EditingController<String>(widget.title);
@@ -184,13 +190,14 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       controller: dynamicTabsController,
       tabs: (widget.dynamicTabs ?? [])
         ..addAll([
-          DynamicTab(identifier: 'About', isDismissible: false),
+          DynamicTab(identifier: 'About', isDismissible: false,),
           DynamicTab(identifier: 'Conversation')
         ]),
       tabViews: [
         DynamicTabView(
             identifier: 'About',
             child: SingleChildScrollView(
+            controller: scrollController2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
@@ -224,12 +231,13 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                         const SizedBox(
                           width: 8,
                         ),
-                        ProfileTile(
-                          widget.createdBy.avatarUrl.toString(),
-                          userLogin: widget.createdBy.login,
-                          showName: true,
-                          size: 16,
-                        ),
+                        if (widget.createdBy != null)
+                          ProfileTile(
+                            widget.createdBy!.avatarUrl.toString(),
+                            userLogin: widget.createdBy!.login,
+                            showName: true,
+                            size: 16,
+                          ),
                         Text(
                           '  ${getDate(widget.createdAt.toString(), shorten: false)}',
                           style: TextStyle(color: faded3(context)),
@@ -465,163 +473,164 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
             ),
             triggerMode: RefreshIndicatorTriggerMode.anywhere,
             child: NestedScroll(
-                header: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //
-                    // const Divider(
-                    //   height: 16,
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 0),
-                            child: Row(
-                              children: [
-                                ProfileTile(
-                                  widget.repoInfo.owner.avatarUrl.toString(),
-                                  disableTap: true,
-                                  size: 16,
-                                ),
-                                richText([
-                                  TextSpan(
-                                      text:
-                                          '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          AutoRouter.of(context).push(
-                                              RepositoryScreenRoute(
-                                                  repositoryURL:
-                                                      'repositoryURL'));
-                                        }),
-                                  TextSpan(
-                                    text: ' #${widget.number}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
+              header: (context, value) => [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //
+                      // const Divider(
+                      //   height: 16,
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 0),
+                              child: Row(
+                                children: [
+                                  ProfileTile(
+                                    widget.repoInfo.owner.avatarUrl.toString(),
+                                    disableTap: true,
+                                    size: 16,
                                   ),
+                                  richText([
+                                    TextSpan(
+                                        text:
+                                            '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            AutoRouter.of(context).push(
+                                                RepositoryScreenRoute(
+                                                    repositoryURL:
+                                                        'repositoryURL'));
+                                          }),
+                                    TextSpan(
+                                      text: ' #${widget.number}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                      defaultStyle: TextStyle(
+                                          color: faded3(context),
+                                          fontSize: 17)),
                                 ],
-                                    defaultStyle: TextStyle(
-                                        color: faded3(context), fontSize: 17)),
-                              ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          EditableTextItem(
-                            titleEditingController,
-                            builder: (context, newValue) => MarkdownBody(
-                              newValue != null
-                                  ? mdToHtml(newValue)
-                                  : widget.title,
-                              defaultBodyStyle: Style(
-                                  padding: EdgeInsets.zero,
-                                  margin: EdgeInsets.zero,
-                                  fontSize: FontSize(
-                                    theme(context)
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            EditableTextItem(
+                              titleEditingController,
+                              builder: (context, newValue) => MarkdownBody(
+                                newValue != null
+                                    ? mdToHtml(newValue)
+                                    : widget.title,
+                                defaultBodyStyle: Style(
+                                    padding: EdgeInsets.zero,
+                                    margin: EdgeInsets.zero,
+                                    fontSize: FontSize(
+                                      theme(context)
+                                          .textTheme
+                                          .headline5
+                                          ?.fontSize,
+                                    ),
+                                    fontWeight: theme(context)
                                         .textTheme
                                         .headline5
-                                        ?.fontSize,
-                                  ),
-                                  fontWeight: theme(context)
-                                      .textTheme
-                                      .headline5
-                                      ?.fontWeight),
+                                        ?.fontWeight),
+                              ),
                             ),
-                          ),
-                          EditWidget(
-                            editingController: labelsEditingController,
-                            builder: (context, newValue, tools,
-                                currentlyEditing, state) {
-                              if (widget.labels.isNotEmpty == true) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Row(
+                            EditWidget(
+                              editingController: labelsEditingController,
+                              builder: (context, newValue, tools,
+                                  currentlyEditing, state) {
+                                if (widget.labels.isNotEmpty == true) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Row(
+                                      children: [
+                                        Flexible(
+                                          child: Wrap(
+                                            children: widget.labels
+                                                .map(
+                                                  (e) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    child: IssueLabel.gql(e!),
+                                                  ),
+                                                )
+                                                .toList(),
+                                          ),
+                                        ),
+                                        tools,
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Row(
                                     children: [
-                                      Flexible(
-                                        child: Wrap(
-                                          children: widget.labels
-                                              .map(
-                                                (e) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4),
-                                                  child: IssueLabel.gql(e!),
+                                      ScaleSwitch(
+                                        child: state == EditingState.editMode
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Text(
+                                                  'No labels',
+                                                  style: TextStyle(
+                                                    color: faded3(context),
+                                                    fontStyle: FontStyle.italic,
+                                                  ),
                                                 ),
                                               )
-                                              .toList(),
-                                        ),
+                                            : Container(),
                                       ),
                                       tools,
                                     ],
-                                  ),
-                                );
-                              } else {
-                                return Row(
-                                  children: [
-                                    ScaleSwitch(
-                                      child: state == EditingState.editMode
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
-                                              child: Text(
-                                                'No labels',
-                                                style: TextStyle(
-                                                  color: faded3(context),
-                                                  fontStyle: FontStyle.italic,
-                                                ),
-                                              ),
-                                            )
-                                          : Container(),
-                                    ),
-                                    tools,
-                                  ],
-                                );
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          const Divider(
-                            height: 0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                body: Column(
-                  children: [
-                    SizeExpandedSection(
-                      expand: dynamicTabsController.activeLength > 1,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          tabBar,
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Divider(
+                                  );
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const Divider(
                               height: 0,
                             ),
-                          ),
-                          // const SizedBox(
-                          //   height: 8,
-                          // ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: tabView,
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-                scrollController: scrollController),
+                SliverPinnedHeader(
+                  child: SizeExpandedSection(
+                    expand: dynamicTabsController.activeLength > 1,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        tabBar,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Divider(
+                            height: 0,
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 8,
+                        // ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+              body: tabView,
+            ),
           ),
         ),
       ),
@@ -633,8 +642,9 @@ class IssuePullState {
   IssuePullState(this.state, {this.isDraft = false})
       : assert(state is PullRequestState || state is IssueState,
             'Not a valid state!');
-  final dynamic state;
+
   final bool isDraft;
+  final dynamic state;
 
   IconData get icon {
     if (state == IssueState.open) {

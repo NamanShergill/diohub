@@ -129,8 +129,8 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => repositoryProvider,
+        ChangeNotifierProvider.value(
+          value: repositoryProvider,
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
           create: (_) => repoBranchProvider,
