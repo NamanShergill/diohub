@@ -15,7 +15,7 @@ dependencies:
   another_flushbar: ^1.10.28
   auto_route: ^3.2.1
   cached_network_image: ^3.2.0
-  connectivity: ^3.0.6
+  connectivity_plus: ^2.2.1
   device_info_plus: ^3.2.1
   dio: ^4.0.4
   dio_cache_interceptor: ^3.2.2
