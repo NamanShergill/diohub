@@ -190,7 +190,8 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       controller: dynamicTabsController,
       tabs: (widget.dynamicTabs ?? [])
         ..addAll([
-          DynamicTab(identifier: 'About', isDismissible: false,),
+          DynamicTab(identifier: 'About', isDismissible: false,
+          ),
           DynamicTab(identifier: 'Conversation')
         ]),
       tabViews: [

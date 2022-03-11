@@ -7,7 +7,7 @@ import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:oauth2_client/github_oauth2_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +57,7 @@ class _LoginPopupState extends State<LoginPopup> {
                               BlocProvider.of<AuthenticationBloc>(context)
                                   .add(AuthSuccessful(value)));
                         } catch (e) {
+                          print(e);
                         } finally {
                           setState(() {
                             loading = false;
@@ -87,18 +88,12 @@ class _LoginPopupState extends State<LoginPopup> {
 }
 
 Future<AccessTokenModel> _browserAuth() async {
-  final appAuth = FlutterAppAuth();
-  final result = await appAuth.authorizeAndExchangeCode(
-    AuthorizationTokenRequest(
-      PrivateKeys.clientID,
-      'auth.felix.diohub://login-callback',
-      clientSecret: PrivateKeys.clientSecret,
-      serviceConfiguration: const AuthorizationServiceConfiguration(
-          authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-          tokenEndpoint: 'https://github.com/login/oauth/access_token'),
-      scopes: AuthService.scopes,
-    ),
+  final appAuth = GitHubOAuth2Client(customUriScheme: 'auth.felix.diohub', redirectUri: 'auth.felix.diohub://login-callback', );
+  final result = await appAuth.getTokenWithAuthCodeFlow(
+    clientId: PrivateKeys.clientID,
+    clientSecret: PrivateKeys.clientSecret,
+    scopes: AuthService.scopes,
   );
   return AccessTokenModel(
-      accessToken: result!.accessToken, scope: AuthService.scopeString);
+      accessToken: result.accessToken, scope: AuthService.scopeString);
 }

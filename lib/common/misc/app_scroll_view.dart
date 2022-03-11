@@ -113,7 +113,7 @@ class ScrollViewAppBar extends StatelessWidget {
     return SliverAppBar(
       leading: Navigator.canPop(context)
           ? IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon:  Icon(Icons.adaptive.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
