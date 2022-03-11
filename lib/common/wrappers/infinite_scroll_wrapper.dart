@@ -188,7 +188,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
       if (widget.showScrollToTopButton) {
         return ScrollWrapper(
           // nestedScrollViewController: widget.nestedScrollViewController!,
-          scrollController: scrollController,
+          // scrollController: scrollController,
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
           promptTheme: PromptButtonTheme(
               color:

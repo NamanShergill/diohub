@@ -163,7 +163,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
   late EditingController<List<LabelMixin?>> labelsEditingController;
   final ScrollController scrollController = ScrollController();
-  final ScrollController scrollController2 = ScrollController();
+  // final ScrollController scrollController2 = ScrollController();
   late EditingController<String> titleEditingController;
 
   @override
@@ -190,7 +190,9 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       controller: dynamicTabsController,
       tabs: (widget.dynamicTabs ?? [])
         ..addAll([
-          DynamicTab(identifier: 'About', isDismissible: false,
+          DynamicTab(
+            identifier: 'About',
+            isDismissible: false,
           ),
           DynamicTab(identifier: 'Conversation')
         ]),
@@ -198,7 +200,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
         DynamicTabView(
             identifier: 'About',
             child: SingleChildScrollView(
-            controller: scrollController2,
+              // controller: scrollController2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(

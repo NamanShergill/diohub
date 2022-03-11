@@ -72,19 +72,23 @@ class ScrollAbsorber {
     //     scrolled = notification.scrollDelta ?? 0;
     //   }
     // }
-    print(notification.runtimeType);
-    if (notification is ScrollNotification &&
+
+    if (notification is ScrollMetricsNotification &&
         notification.metrics.axis == Axis.vertical) {
       scrolled = notification.metrics.pixels;
-      // print(notification.metrics.axisDirection);
+      // print(scrolled);
+      if (scrolled > -10 && scrolled < 20) {
+        return;
+      }
       if (scrolled < 0) {
         scrolled = scrolled / 5;
       } else {
         scrolled = scrolled / 10;
       }
     }
-
-    final primaryScrollController = nestedScrollView.controller!;
-    primaryScrollController.jumpTo(primaryScrollController.offset + scrolled);
+    if (scrolled < -2 || scrolled > 2) {
+      final primaryScrollController = nestedScrollView.controller!;
+      primaryScrollController.jumpTo(primaryScrollController.offset + scrolled);
+    }
   }
 }
