@@ -24,11 +24,11 @@ class Discussion extends StatefulWidget {
       required this.issueUrl,
       this.isLocked,
       required this.isPull,
-      required this.nestedScrollViewController,
+      // required this.nestedScrollViewController,
       this.createdAt,
       Key? key})
       : super(key: key);
-  final ScrollController nestedScrollViewController;
+  // final ScrollController nestedScrollViewController;
 
   /// Show  comments since.
   final DateTime? commentsSince;
@@ -219,7 +219,7 @@ class _DiscussionState extends State<Discussion>
                           ?.toUtc()
                           .subtract(const Duration(seconds: 30)));
                 },
-                scrollController: widget.nestedScrollViewController,
+                // scrollController: widget.nestedScrollViewController,
                 controller: commentsSinceController,
                 firstPageLoadingBuilder: (context) {
                   return Container(
@@ -229,7 +229,6 @@ class _DiscussionState extends State<Discussion>
                     child: const LoadingIndicator(),
                   );
                 },
-                // isNestedScrollViewChild: true,
                 // scrollController: widget.nestedScrollViewController,
                 header: (context) {
                   return header;

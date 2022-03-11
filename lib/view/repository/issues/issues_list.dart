@@ -23,9 +23,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
-  const IssuesList({required this.nestedScrollViewController, Key? key})
-      : super(key: key);
-  final ScrollController nestedScrollViewController;
+  const IssuesList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _repo = Provider.of<RepositoryProvider>(context);
@@ -51,7 +49,6 @@ class IssuesList extends StatelessWidget {
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
           showRepoNameOnIssues: false,
-          nestedScrollViewController: nestedScrollViewController,
           searchBarMessage: 'Search in ${_repo.data.name}\'s issues',
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

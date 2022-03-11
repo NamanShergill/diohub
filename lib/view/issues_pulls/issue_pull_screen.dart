@@ -162,7 +162,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   late EditingController<String> descEditingController;
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
   late EditingController<List<LabelMixin?>> labelsEditingController;
-  final ScrollController scrollController = ScrollController();
+  // final ScrollController scrollController = ScrollController();
   // final ScrollController scrollController2 = ScrollController();
   late EditingController<String> titleEditingController;
 
@@ -428,7 +428,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                 authorAssociation: CommentAuthorAssociation.none),
             issueUrl: '',
             isPull: false,
-            nestedScrollViewController: scrollController,
+            // nestedScrollViewController: scrollController,
           ),
         ),
       ],

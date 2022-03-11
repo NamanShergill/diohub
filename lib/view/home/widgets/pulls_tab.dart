@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsTab extends StatefulWidget {
-  const PullsTab(
-      {required this.nestedScrollViewController, this.deepLinkData, Key? key})
-      : super(key: key);
-  final ScrollController nestedScrollViewController;
+  const PullsTab({this.deepLinkData, Key? key}) : super(key: key);
   final PathData? deepLinkData;
 
   @override
@@ -48,7 +45,6 @@ class _PullsTabState extends State<PullsTab>
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
-      nestedScrollViewController: widget.nestedScrollViewController,
       searchBarMessage: 'Search in your pull requests',
       searchHeroTag: '${_user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

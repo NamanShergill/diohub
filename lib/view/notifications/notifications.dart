@@ -3,6 +3,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
+import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';
@@ -21,8 +22,6 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
-  final ScrollController scrollController = ScrollController();
-
   /// Filters to be supplied to the API.
   Map<String, dynamic> apiFilters = {'all': true};
 
@@ -71,41 +70,34 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return NestedScrollView(
-      controller: scrollController,
-      headerSliverBuilder: (context, _) {
+    return NestedScroll(
+      header: (context, _) {
         return [
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: SliverSafeArea(
-              sliver: SliverAppBar(
-                expandedHeight: 150,
-                collapsedHeight: 100,
-                pinned: true,
-                elevation: 2,
-                backgroundColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .primary,
-                flexibleSpace: GestureDetector(
-                  onTap: () {
+          SliverAppBar(
+            expandedHeight: 150,
+            collapsedHeight: 100,
+            pinned: true,
+            elevation: 2,
+            backgroundColor:
+                Provider.of<PaletteSettings>(context).currentSetting.primary,
+            flexibleSpace: GestureDetector(
+              onTap: () {
+                setState(() {
+                  expanded = !expanded;
+                });
+              },
+              child: CollapsibleAppBar(
+                minHeight: 100,
+                maxHeight: 150,
+                expandedParentPadding: 0,
+                title: 'Inbox',
+                trailing: IconButton(
+                  icon: const Icon(Icons.sort),
+                  onPressed: () {
                     setState(() {
                       expanded = !expanded;
                     });
                   },
-                  child: CollapsibleAppBar(
-                    minHeight: 100,
-                    maxHeight: 150,
-                    expandedParentPadding: 0,
-                    title: 'Inbox',
-                    trailing: IconButton(
-                      icon: const Icon(Icons.sort),
-                      onPressed: () {
-                        setState(() {
-                          expanded = !expanded;
-                        });
-                      },
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -191,12 +183,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
               Expanded(
                 child: InfiniteScrollWrapper<NotificationModel>(
                   controller: _controller,
-                  scrollController: scrollController,
                   separatorBuilder: (context, index) => const Divider(
                     height: 0,
                   ),
                   topSpacing: 16,
-                  isNestedScrollViewChild: true,
                   future: (pageNumber, pageSize, refresh, _) {
                     return NotificationsService.getNotifications(
                         page: pageNumber,

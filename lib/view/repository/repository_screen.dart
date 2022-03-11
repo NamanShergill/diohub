@@ -60,7 +60,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   late IssueTemplateProvider issueTemplateProvider;
   late RepositoryProvider repositoryProvider;
   late PinnedIssuesProvider pinnedIssuesProvider;
-  final ScrollController scrollController = ScrollController();
+  // final ScrollController scrollController = ScrollController();
   late String? initBranch;
 
   @override
@@ -217,14 +217,14 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         DynamicTabView(
                           identifier: 'Issues',
                           child: IssuesList(
-                            nestedScrollViewController: scrollController,
-                          ),
+                              // nestedScrollViewController: scrollController,
+                              ),
                         ),
                         DynamicTabView(
                           identifier: 'Pull Requests',
                           child: PullsList(
-                            nestedScrollViewController: scrollController,
-                          ),
+                              // nestedScrollViewController: scrollController,
+                              ),
                           // ProjectsList(
                           //   scrollController: scrollController,
                           // ),
@@ -259,7 +259,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         ),
                       ],
                       builder: (context, tabs, tabView) => AppScrollView(
-                        nestedScrollViewController: scrollController,
+                        // nestedScrollViewController: scrollController,
                         scrollViewAppBar: ScrollViewAppBar(
                           expandedHeight: 340,
                           collapsedHeight: 150,

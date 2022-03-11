@@ -3,6 +3,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
+import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
@@ -34,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   bool get wantKeepAlive => true;
   late TabController _tabController;
-  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -52,87 +52,79 @@ class _HomeScreenState extends State<HomeScreen>
     final _search = Provider.of<SearchDataProvider>(context);
 
     super.build(context);
-    return NestedScrollView(
-      controller: scrollController,
-      headerSliverBuilder: (context, _) {
+    return NestedScroll(
+      header: (context, _) {
         return [
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: SliverSafeArea(
-              sliver: SliverAppBar(
-                expandedHeight: 300,
-                collapsedHeight: 155,
-                pinned: true,
-                elevation: 2,
-                backgroundColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .primary,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0),
-                  child: CollapsibleAppBar(
-                    minHeight: 155,
-                    maxHeight: 300,
-                    title: 'Home',
-                    trailing: ClipOval(
-                      child: InkWell(
-                        onTap: () {
-                          widget.parentTabController.animateTo(3);
+          SliverAppBar(
+            expandedHeight: 300,
+            collapsedHeight: 155,
+            pinned: true,
+            elevation: 2,
+            backgroundColor:
+                Provider.of<PaletteSettings>(context).currentSetting.primary,
+            flexibleSpace: Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: CollapsibleAppBar(
+                minHeight: 155,
+                maxHeight: 300,
+                title: 'Home',
+                trailing: ClipOval(
+                  child: InkWell(
+                    onTap: () {
+                      widget.parentTabController.animateTo(3);
+                    },
+                    child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                      childBuilder: (context, value) => CachedNetworkImage(
+                        imageUrl: value.data.avatarUrl!,
+                        placeholder: (context, _) {
+                          return ShimmerWidget(
+                            child: Container(
+                              color: Colors.grey,
+                            ),
+                          );
                         },
-                        child:
-                            ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                          childBuilder: (context, value) => CachedNetworkImage(
-                            imageUrl: value.data.avatarUrl!,
-                            placeholder: (context, _) {
-                              return ShimmerWidget(
-                                child: Container(
-                                  color: Colors.grey,
-                                ),
-                              );
-                            },
-                          ),
-                          errorBuilder: (context, error) {
-                            return const Icon(
-                              LineIcons.exclamationCircle,
-                              size: 40,
-                            );
-                          },
-                          loadingBuilder: (context) {
-                            return ShimmerWidget(
-                              child: Container(
-                                color: Colors.grey,
-                              ),
-                            );
-                          },
-                        ),
                       ),
-                    ),
-                    child: SearchBar(
-                      updateBarOnChange: false,
-                      onSubmit: (data) {
-                        _search.updateSearchData(data);
-                        widget.parentTabController.animateTo(1);
+                      errorBuilder: (context, error) {
+                        return const Icon(
+                          LineIcons.exclamationCircle,
+                          size: 40,
+                        );
                       },
-                      heroTag: 'homeSearchBar',
+                      loadingBuilder: (context) {
+                        return ShimmerWidget(
+                          child: Container(
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(0),
-                  child: Container(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
-                    child: AppTabBar(
-                      controller: _tabController,
-                      tabs: const [
-                        'Activity',
-                        'Issues',
-                        'Pull Requests',
-                        'Organizations',
-                        'Public Activity',
-                      ],
-                    ),
-                  ),
+                child: SearchBar(
+                  updateBarOnChange: false,
+                  onSubmit: (data) {
+                    _search.updateSearchData(data);
+                    widget.parentTabController.animateTo(1);
+                  },
+                  heroTag: 'homeSearchBar',
+                ),
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .primary,
+                child: AppTabBar(
+                  controller: _tabController,
+                  tabs: const [
+                    'Activity',
+                    'Issues',
+                    'Pull Requests',
+                    'Organizations',
+                    'Public Activity',
+                  ],
                 ),
               ),
             ),
@@ -150,18 +142,14 @@ class _HomeScreenState extends State<HomeScreen>
                   controller: _tabController,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Events(
-                      nestedScrollViewController: scrollController,
-                    ),
+                    Events(),
                     IssuesTab(
-                      nestedScrollViewController: scrollController,
                       deepLinkData:
                           widget.deepLinkData?.components.first == 'issues'
                               ? widget.deepLinkData
                               : null,
                     ),
                     PullsTab(
-                      nestedScrollViewController: scrollController,
                       deepLinkData:
                           widget.deepLinkData?.components.first == 'pulls'
                               ? widget.deepLinkData
@@ -197,7 +185,6 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     Events(
                       privateEvents: false,
-                      nestedScrollViewController: scrollController,
                     ),
                   ],
                 );

@@ -8,11 +8,10 @@ import 'package:provider/provider.dart';
 
 class UserRepositories extends StatelessWidget {
   const UserRepositories(this.userInfoModel,
-      {this.currentUser = false, required this.scrollController, Key? key})
+      {this.currentUser = false, Key? key})
       : super(key: key);
   final UserInfoModel userInfoModel;
   final bool? currentUser;
-  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,6 @@ class UserRepositories extends StatelessWidget {
         quickOptions: {
           SearchQueries().fork.toQueryString('true'): 'Include forks',
         },
-        nestedScrollViewController: scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
         searchHeroTag: '${userInfoModel.login}Search',

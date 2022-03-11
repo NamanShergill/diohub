@@ -6,24 +6,26 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'nested_scroll.dart';
+
 class AppScrollView extends StatefulWidget {
   const AppScrollView(
-      {this.scrollViewAppBar,
+      {required this.scrollViewAppBar,
       this.tabController,
       this.tabViews,
-      required this.nestedScrollViewController,
+      // required this.nestedScrollViewController,
       this.child,
       this.childrenColor,
       this.loading = false,
       Key? key})
       : super(key: key);
-  final Widget? scrollViewAppBar;
+  final Widget scrollViewAppBar;
   final List<Widget>? tabViews;
   final Widget? child;
   final bool loading;
   final TabController? tabController;
   final Color? childrenColor;
-  final ScrollController nestedScrollViewController;
+  // final ScrollController nestedScrollViewController;
 
   @override
   _AppScrollViewState createState() => _AppScrollViewState();
@@ -32,50 +34,41 @@ class AppScrollView extends StatefulWidget {
 class _AppScrollViewState extends State<AppScrollView> {
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-        controller: widget.nestedScrollViewController,
-        headerSliverBuilder: (context, value) {
+    return NestedScroll(
+        // controller: widget.nestedScrollViewController,
+        header: (context, value) {
           return [
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverSafeArea(
-                sliver: widget.scrollViewAppBar!,
-              ),
-            )
+            widget.scrollViewAppBar,
           ];
         },
-        body: Builder(builder: (context) {
-          NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 50),
-            child: widget.loading
-                ? Container(
-                    color: widget.childrenColor ??
-                        Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
-                    child: Column(
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.only(top: 48.0),
-                          child: LoadingIndicator(),
-                        ),
-                      ],
-                    ))
-                : Container(
-                    color: widget.childrenColor ??
-                        Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
-                    child: widget.child ??
-                        TabBarView(
-                          controller: widget.tabController,
-                          children: widget.tabViews!,
-                        ),
-                  ),
-          );
-        }));
+        body: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 50),
+          child: widget.loading
+              ? Container(
+                  color: widget.childrenColor ??
+                      Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .secondary,
+                  child: Column(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(top: 48.0),
+                        child: LoadingIndicator(),
+                      ),
+                    ],
+                  ))
+              : Container(
+                  color: widget.childrenColor ??
+                      Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .secondary,
+                  child: widget.child ??
+                      TabBarView(
+                        controller: widget.tabController,
+                        children: widget.tabViews!,
+                      ),
+                ),
+        ));
   }
 }
 
@@ -113,7 +106,7 @@ class ScrollViewAppBar extends StatelessWidget {
     return SliverAppBar(
       leading: Navigator.canPop(context)
           ? IconButton(
-              icon:  Icon(Icons.adaptive.arrow_back),
+              icon: Icon(Icons.adaptive.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },

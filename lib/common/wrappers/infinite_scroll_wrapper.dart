@@ -38,16 +38,13 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
       this.pageNumber = 1,
       this.pageSize = 10,
       this.topSpacing = 0,
-      this.isNestedScrollViewChild = false,
       this.disableScroll = false,
       this.disableRefresh = false,
       this.firstPageLoadingBuilder,
       this.scrollController,
       this.shrinkWrap = false,
       this.listEndIndicator = true})
-      : assert(!isNestedScrollViewChild || scrollController != null,
-            'scrollController should be provided of parent NestedScrollView'),
-        super(key: key);
+      : super(key: key);
 
   /// How to display the data. Give
   final ScrollWrapperBuilder<T> builder;
@@ -99,9 +96,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
   final bool shrinkWrap;
 
-  /// Is the child of a nested scroll view.
-  final bool isNestedScrollViewChild;
-
   /// Pinned header to show on scroll.
   final ReplacementBuilder? pinnedHeader;
 
@@ -124,7 +118,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   void initState() {
     scrollController =
         // widget.isNestedScrollViewChild
-        //     ? null:
+        //     ? null :
         widget.scrollController ?? ScrollController();
     controller = widget.controller ?? InfiniteScrollWrapperController();
     super.initState();
@@ -132,18 +126,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _scrollView(ScrollController? scrollController) => CustomScrollView(
-          controller: widget.isNestedScrollViewChild ? null : scrollController,
+    Widget _scrollView(ScrollController scrollController) => CustomScrollView(
+          controller: scrollController,
           physics: widget.disableScroll
               ? const NeverScrollableScrollPhysics()
               : const BouncingScrollPhysics(),
           shrinkWrap: widget.shrinkWrap,
           slivers: [
-            if (widget.isNestedScrollViewChild)
-              SliverOverlapInjector(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              ),
             MultiSliver(
               children: [
                 if (widget.header != null)
@@ -169,7 +158,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           ],
         );
 
-    Widget _refreshIndicator(ScrollController? scrollController) {
+    Widget _refreshIndicator(ScrollController scrollController) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -188,7 +177,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
       if (widget.showScrollToTopButton) {
         return ScrollWrapper(
           // nestedScrollViewController: widget.nestedScrollViewController!,
-          // scrollController: scrollController,
+          scrollController: scrollController,
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
           promptTheme: PromptButtonTheme(
               color:

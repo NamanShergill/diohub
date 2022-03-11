@@ -22,8 +22,6 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin {
-  final ScrollController scrollController = ScrollController();
-
   @override
   bool get wantKeepAlive => true;
 
@@ -35,10 +33,9 @@ class _SearchScreenState extends State<SearchScreen>
       color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: _search.searchData.searchFilters != null
           ? SearchScrollWrapper(
-              _search.searchData, isNestedScrollViewChild: false,
+              _search.searchData,
               key: ValueKey(_search.searchData.toQuery),
               onChanged: _search.updateSearchData,
-              nestedScrollViewController: scrollController,
               // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

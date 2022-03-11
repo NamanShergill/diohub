@@ -11,15 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
-  const Events(
-      {this.privateEvents = true,
-      this.specificUser,
-      required this.nestedScrollViewController,
-      Key? key})
+  const Events({this.privateEvents = true, this.specificUser, Key? key})
       : super(key: key);
   final bool privateEvents;
   final String? specificUser;
-  final ScrollController nestedScrollViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +24,6 @@ class Events extends StatelessWidget {
       separatorBuilder: (context, index) => const Divider(
         height: 32,
       ),
-      scrollController: nestedScrollViewController,
-      isNestedScrollViewChild: true,
       filterFn: (items) {
         final temp = <EventsModel>[];
         for (final item in items) {

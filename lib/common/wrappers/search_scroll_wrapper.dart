@@ -27,8 +27,6 @@ class SearchScrollWrapper extends StatefulWidget {
       this.quickFilters,
       this.replacementBuilder,
       this.quickOptions,
-      this.nestedScrollViewController,
-      this.isNestedScrollViewChild = true,
       EdgeInsets? searchBarPadding,
       this.onChanged,
       this.searchBarColor,
@@ -64,12 +62,6 @@ class SearchScrollWrapper extends StatefulWidget {
 
   /// Quick options to be shown in the search bar as a checkbox.
   final Map<String, String>? quickOptions;
-
-  /// Scroll controller of the infinite list.
-  final ScrollController? nestedScrollViewController;
-
-  /// Is the child of a nested scroll view.
-  final bool isNestedScrollViewChild;
 
   /// Replacement builder if search data is empty.
   final WrapperReplacementBuilder? replacementBuilder;
@@ -145,8 +137,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               controller: controller,
               searchData: searchData,
               filterFn: widget.filterFn,
-              isNestedScrollViewChild: widget.isNestedScrollViewChild,
-              nestedScrollViewController: widget.nestedScrollViewController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
                 return SearchService.searchRepos(searchData.toQuery,
                     perPage: pageSize,
@@ -173,7 +163,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
-              nestedScrollViewController: widget.nestedScrollViewController,
               searchFuture: (pageNumber, pageSize, refresh, _) {
                 return SearchService.searchIssues(searchData.toQuery,
                     perPage: pageSize,
@@ -182,7 +171,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                     ascending: searchData.isSortAsc,
                     refresh: refresh);
               },
-              isNestedScrollViewChild: widget.isNestedScrollViewChild,
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
               builder: (context, item, index, refresh) {
@@ -201,7 +189,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
-              nestedScrollViewController: widget.nestedScrollViewController,
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
               searchFuture: (pageNumber, pageSize, refresh, _) {
@@ -212,7 +199,6 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                     ascending: searchData.isSortAsc,
                     refresh: refresh);
               },
-              isNestedScrollViewChild: widget.isNestedScrollViewChild,
               builder: (context, item, index, refresh) {
                 return Row(
                   children: [
@@ -244,9 +230,7 @@ class _InfiniteWrapper<T> extends StatelessWidget {
   const _InfiniteWrapper(
       {required this.builder,
       required this.header,
-      this.isNestedScrollViewChild = true,
       required this.controller,
-      this.nestedScrollViewController,
       this.filterFn,
       this.pinnedHeader,
       required this.searchFuture,
@@ -259,8 +243,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
   final ScrollWrapperBuilder builder;
   final SearchData searchData;
   final FilterFn? filterFn;
-  final bool isNestedScrollViewChild;
-  final ScrollController? nestedScrollViewController;
   final ReplacementBuilder? pinnedHeader;
 
   @override
@@ -270,7 +252,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       controller: controller,
       header: header,
       filterFn: filterFn,
-      scrollController: nestedScrollViewController,
       future: searchFuture,
       paginationKey: ValueKey(searchData.toQuery +
           searchData.isActive.toString() +
@@ -280,7 +261,6 @@ class _InfiniteWrapper<T> extends StatelessWidget {
       ),
       pinnedHeader: pinnedHeader,
       shrinkWrap: true,
-      isNestedScrollViewChild: isNestedScrollViewChild,
       topSpacing: 0,
       builder: builder,
     );

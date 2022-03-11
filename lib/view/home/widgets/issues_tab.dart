@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatefulWidget {
-  const IssuesTab(
-      {required this.nestedScrollViewController, this.deepLinkData, Key? key})
-      : super(key: key);
-  final ScrollController nestedScrollViewController;
+  const IssuesTab({this.deepLinkData, Key? key}) : super(key: key);
   final PathData? deepLinkData;
 
   @override
@@ -49,7 +46,6 @@ class _IssuesTabState extends State<IssuesTab>
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open issues only',
       },
-      nestedScrollViewController: widget.nestedScrollViewController,
       searchBarMessage: 'Search in your issues',
       searchHeroTag: '${_user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
