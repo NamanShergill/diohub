@@ -23,8 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
-@CustomAutoRouter(
-  transitionsBuilder: fadeThroughTransition,
+@AdaptiveAutoRouter(
   // durationInMilliseconds: 250,
   routes: <AutoRoute>[
     AutoRoute(page: AuthScreen),
@@ -68,15 +67,15 @@ class AuthGuard extends AutoRouteGuard {
   }
 }
 
-Widget fadeThroughTransition(BuildContext context, Animation<double> animation,
-    Animation<double> secondaryAnimation, Widget child) {
-  return FadeThroughTransition(
-    animation: animation,
-    secondaryAnimation: secondaryAnimation,
-    fillColor: secondary(context),
-    child: child,
-  );
-}
+// Widget fadeThroughTransition(BuildContext context, Animation<double> animation,
+//     Animation<double> secondaryAnimation, Widget child) {
+//   return FadeThroughTransition(
+//     animation: animation,
+//     secondaryAnimation: secondaryAnimation,
+//     fillColor: secondary(context),
+//     child: child,
+//   );
+// }
 
 T getRoute<T extends PageRouteInfo>(PathData path,
     {required T Function(PathData path) onDeepLink,

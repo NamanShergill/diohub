@@ -11,25 +11,27 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i15;
+import 'package:dio_hub/common/search_overlay/search_overlay.dart' as _i5;
+import 'package:dio_hub/controller/deep_linking_handler.dart' as _i18;
+import 'package:dio_hub/graphql/graphql.dart' as _i19;
+import 'package:dio_hub/routes/router.dart' as _i17;
+import 'package:dio_hub/view/authentication/auth_screen.dart' as _i1;
+import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart' as _i6;
+import 'package:dio_hub/view/issues_pulls/widgets/p_r_review_screen.dart'
+    as _i14;
+import 'package:dio_hub/view/landing/landing.dart' as _i3;
+import 'package:dio_hub/view/landing/widgets/landing_loading_screen.dart'
+    as _i2;
+import 'package:dio_hub/view/landing/widgets/place_holder_screen.dart' as _i4;
+import 'package:dio_hub/view/profile/other_user_profile_screen.dart' as _i12;
+import 'package:dio_hub/view/repository/code/file_viewer.dart' as _i8;
+import 'package:dio_hub/view/repository/commits/commit_info_screen.dart' as _i9;
+import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart'
+    as _i11;
+import 'package:dio_hub/view/repository/issues/new_issue_screen.dart' as _i13;
+import 'package:dio_hub/view/repository/repository_screen.dart' as _i7;
+import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart' as _i10;
 import 'package:flutter/material.dart' as _i16;
-
-import '../common/search_overlay/search_overlay.dart' as _i5;
-import '../controller/deep_linking_handler.dart' as _i18;
-import '../graphql/graphql.dart' as _i19;
-import '../view/authentication/auth_screen.dart' as _i1;
-import '../view/issues_pulls/issue_pull_screen.dart' as _i6;
-import '../view/issues_pulls/widgets/p_r_review_screen.dart' as _i14;
-import '../view/landing/landing.dart' as _i3;
-import '../view/landing/widgets/landing_loading_screen.dart' as _i2;
-import '../view/landing/widgets/place_holder_screen.dart' as _i4;
-import '../view/profile/other_user_profile_screen.dart' as _i12;
-import '../view/repository/code/file_viewer.dart' as _i8;
-import '../view/repository/commits/commit_info_screen.dart' as _i9;
-import '../view/repository/commits/widgets/changes_viewer.dart' as _i11;
-import '../view/repository/issues/new_issue_screen.dart' as _i13;
-import '../view/repository/repository_screen.dart' as _i7;
-import '../view/repository/wiki/wiki_viewer.dart' as _i10;
-import 'router.dart' as _i17;
 
 class AppRouter extends _i15.RootStackRouter {
   AppRouter(
@@ -44,43 +46,30 @@ class AppRouter extends _i15.RootStackRouter {
     AuthScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AuthScreenRouteArgs>(
           orElse: () => const AuthScreenRouteArgs());
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i1.AuthScreen(
-              key: args.key, onAuthenticated: args.onAuthenticated),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              key: args.key, onAuthenticated: args.onAuthenticated));
     },
     LandingLoadingScreenRoute.name: (routeData) {
       final args = routeData.argsAs<LandingLoadingScreenRouteArgs>(
           orElse: () => const LandingLoadingScreenRouteArgs());
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child:
-              _i2.LandingLoadingScreen(key: args.key, initLink: args.initLink),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              _i2.LandingLoadingScreen(key: args.key, initLink: args.initLink));
     },
     LandingScreenRoute.name: (routeData) {
       final args = routeData.argsAs<LandingScreenRouteArgs>(
           orElse: () => const LandingScreenRouteArgs());
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
-          child:
-              _i3.LandingScreen(deepLinkData: args.deepLinkData, key: args.key),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+          child: _i3.LandingScreen(
+              deepLinkData: args.deepLinkData, key: args.key));
     },
     PlaceHolderScreenRoute.name: (routeData) {
-      return _i15.CustomPage<dynamic>(
-          routeData: routeData,
-          child: const _i4.PlaceHolderScreen(),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+      return _i15.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i4.PlaceHolderScreen());
     },
     SearchOverlayScreenRoute.name: (routeData) {
       final args = routeData.argsAs<SearchOverlayScreenRouteArgs>();
@@ -98,7 +87,7 @@ class AppRouter extends _i15.RootStackRouter {
     },
     IssuePullScreenRoute.name: (routeData) {
       final args = routeData.argsAs<IssuePullScreenRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i6.IssuePullScreen(
               number: args.number,
@@ -106,99 +95,73 @@ class AppRouter extends _i15.RootStackRouter {
               ownerName: args.ownerName,
               key: args.key,
               commentsSince: args.commentsSince,
-              initialIndex: args.initialIndex),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              initialIndex: args.initialIndex));
     },
     RepositoryScreenRoute.name: (routeData) {
       final args = routeData.argsAs<RepositoryScreenRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i7.RepositoryScreen(args.repositoryURL,
               branch: args.branch,
               index: args.index,
               deepLinkData: args.deepLinkData,
               key: args.key,
-              initSHA: args.initSHA),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              initSHA: args.initSHA));
     },
     FileViewerAPIRoute.name: (routeData) {
       final args = routeData.argsAs<FileViewerAPIRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i8.FileViewerAPI(args.sha,
               repoURL: args.repoURL,
               fileName: args.fileName,
               branch: args.branch,
               repoName: args.repoName,
-              key: args.key),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              key: args.key));
     },
     CommitInfoScreenRoute.name: (routeData) {
       final args = routeData.argsAs<CommitInfoScreenRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
-          child: _i9.CommitInfoScreen(key: args.key, commitURL: args.commitURL),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+          child:
+              _i9.CommitInfoScreen(key: args.key, commitURL: args.commitURL));
     },
     WikiViewerRoute.name: (routeData) {
       final args = routeData.argsAs<WikiViewerRouteArgs>(
           orElse: () => const WikiViewerRouteArgs());
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
-          child: _i10.WikiViewer(key: args.key, repoURL: args.repoURL),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+          child: _i10.WikiViewer(key: args.key, repoURL: args.repoURL));
     },
     ChangesViewerRoute.name: (routeData) {
       final args = routeData.argsAs<ChangesViewerRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i11.ChangesViewer(args.patch, args.contentURL, args.fileType,
-              key: args.key),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              key: args.key));
     },
     OtherUserProfileScreenRoute.name: (routeData) {
       final args = routeData.argsAs<OtherUserProfileScreenRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
-          child: _i12.OtherUserProfileScreen(args.login, key: args.key),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+          child: _i12.OtherUserProfileScreen(args.login, key: args.key));
     },
     NewIssueScreenRoute.name: (routeData) {
       final args = routeData.argsAs<NewIssueScreenRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i13.NewIssueScreen(
               key: args.key,
               template: args.template,
               repo: args.repo,
-              owner: args.owner),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              owner: args.owner));
     },
     PRReviewScreenRoute.name: (routeData) {
       final args = routeData.argsAs<PRReviewScreenRouteArgs>();
-      return _i15.CustomPage<dynamic>(
+      return _i15.AdaptivePage<dynamic>(
           routeData: routeData,
           child: _i14.PRReviewScreen(args.nodeID,
-              key: args.key, pullNodeID: args.pullNodeID),
-          transitionsBuilder: _i17.fadeThroughTransition,
-          opaque: true,
-          barrierDismissible: false);
+              key: args.key, pullNodeID: args.pullNodeID));
     }
   };
 

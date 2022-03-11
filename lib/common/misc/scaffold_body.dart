@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ScaffoldBody extends StatefulWidget {
-  const ScaffoldBody(
+  const   ScaffoldBody(
       {Key? key,
       this.child,
       this.header,

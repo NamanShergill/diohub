@@ -118,6 +118,12 @@ class _RootAppState extends State<RootApp> {
                 MaterialStateProperty.all<Color>(palette.secondary),
           ),
         ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            // TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
         appBarTheme: AppBarTheme(color: palette.primary, elevation: 5),
         tabBarTheme: TabBarTheme(
           indicator: BoxDecoration(

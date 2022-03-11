@@ -7,111 +7,455 @@ part of 'graphql.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
-    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueFromJson(
+GetRepoProjects$Query$Repository$Projects$Edges$Node
+    _$GetRepoProjects$Query$Repository$Projects$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-        IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue()
-          ..activeLockReason = $enumDecodeNullable(
-              _$LockReasonEnumMap, json['activeLockReason'],
-              unknownValue: LockReason.artemisUnknown)
-          ..assignees = IssueInfoMixin$Assignees.fromJson(
-              json['assignees'] as Map<String, dynamic>)
-          ..author = json['author'] == null
-              ? null
-              : IssueInfoMixin$Author.fromJson(
-                  json['author'] as Map<String, dynamic>)
-          ..authorAssociation = $enumDecode(
-              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-              unknownValue: CommentAuthorAssociation.artemisUnknown)
-          ..bodyHTML = json['bodyHTML'] as String
-          ..body = json['body'] as String
-          ..closed = json['closed'] as bool
-          ..closedAt = json['closedAt'] == null
-              ? null
-              : DateTime.parse(json['closedAt'] as String)
-          ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..comments = IssueInfoMixin$Comments.fromJson(
-              json['comments'] as Map<String, dynamic>)
-          ..userContentEdits = json['userContentEdits'] == null
-              ? null
-              : IssueInfoMixin$UserContentEdits.fromJson(
-                  json['userContentEdits'] as Map<String, dynamic>)
-          ..includesCreatedEdit = json['includesCreatedEdit'] as bool
-          ..isPinned = json['isPinned'] as bool?
-          ..labels = json['labels'] == null
-              ? null
-              : IssueInfoMixin$Labels.fromJson(
-                  json['labels'] as Map<String, dynamic>)
-          ..locked = json['locked'] as bool
+        GetRepoProjects$Query$Repository$Projects$Edges$Node()
+          ..name = json['name'] as String
+          ..id = json['id'] as String
+          ..databaseId = json['databaseId'] as int?
+          ..updatedAt = DateTime.parse(json['updatedAt'] as String)
           ..number = json['number'] as int
-          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-              ?.map((e) => IssueInfoMixin$ReactionGroups.fromJson(
-                  e as Map<String, dynamic>))
-              .toList()
-          ..repository = IssueInfoMixin$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>)
-          ..state = $enumDecode(_$IssueStateEnumMap, json['state'],
-              unknownValue: IssueState.artemisUnknown)
-          ..titleHTML = json['titleHTML'] as String
-          ..timelineItems = IssueInfoMixin$TimelineItems.fromJson(
-              json['timelineItems'] as Map<String, dynamic>)
-          ..url = Uri.parse(json['url'] as String)
-          ..viewerCanReact = json['viewerCanReact'] as bool
-          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
-          ..$$typename = json['__typename'] as String?;
+          ..bodyHTML = json['bodyHTML'] as String
+          ..body = json['body'] as String?
+          ..closed = json['closed'] as bool
+          ..progress = ProjectMixin$Progress.fromJson(
+              json['progress'] as Map<String, dynamic>);
 
 Map<String, dynamic>
-    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueToJson(
-            IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue instance) =>
+    _$GetRepoProjects$Query$Repository$Projects$Edges$NodeToJson(
+            GetRepoProjects$Query$Repository$Projects$Edges$Node instance) =>
         <String, dynamic>{
-          'activeLockReason': _$LockReasonEnumMap[instance.activeLockReason],
-          'assignees': instance.assignees.toJson(),
-          'author': instance.author?.toJson(),
-          'authorAssociation':
-              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'name': instance.name,
+          'id': instance.id,
+          'databaseId': instance.databaseId,
+          'updatedAt': instance.updatedAt.toIso8601String(),
+          'number': instance.number,
           'bodyHTML': instance.bodyHTML,
           'body': instance.body,
           'closed': instance.closed,
-          'closedAt': instance.closedAt?.toIso8601String(),
-          'createdAt': instance.createdAt.toIso8601String(),
-          'comments': instance.comments.toJson(),
-          'userContentEdits': instance.userContentEdits?.toJson(),
-          'includesCreatedEdit': instance.includesCreatedEdit,
-          'isPinned': instance.isPinned,
-          'labels': instance.labels?.toJson(),
-          'locked': instance.locked,
+          'progress': instance.progress.toJson(),
+        };
+
+GetRepoProjects$Query$Repository$Projects$Edges
+    _$GetRepoProjects$Query$Repository$Projects$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        GetRepoProjects$Query$Repository$Projects$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : GetRepoProjects$Query$Repository$Projects$Edges$Node.fromJson(
+                  json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetRepoProjects$Query$Repository$Projects$EdgesToJson(
+        GetRepoProjects$Query$Repository$Projects$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+GetRepoProjects$Query$Repository$Projects
+    _$GetRepoProjects$Query$Repository$ProjectsFromJson(
+            Map<String, dynamic> json) =>
+        GetRepoProjects$Query$Repository$Projects()
+          ..totalCount = json['totalCount'] as int
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetRepoProjects$Query$Repository$Projects$Edges.fromJson(
+                      e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetRepoProjects$Query$Repository$ProjectsToJson(
+        GetRepoProjects$Query$Repository$Projects instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+GetRepoProjects$Query$Repository _$GetRepoProjects$Query$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    GetRepoProjects$Query$Repository()
+      ..projects = GetRepoProjects$Query$Repository$Projects.fromJson(
+          json['projects'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetRepoProjects$Query$RepositoryToJson(
+        GetRepoProjects$Query$Repository instance) =>
+    <String, dynamic>{
+      'projects': instance.projects.toJson(),
+    };
+
+GetRepoProjects$Query _$GetRepoProjects$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetRepoProjects$Query()
+      ..repository = json['repository'] == null
+          ? null
+          : GetRepoProjects$Query$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetRepoProjects$QueryToJson(
+        GetRepoProjects$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
+ProjectMixin$Progress _$ProjectMixin$ProgressFromJson(
+        Map<String, dynamic> json) =>
+    ProjectMixin$Progress()
+      ..donePercentage = (json['donePercentage'] as num).toDouble();
+
+Map<String, dynamic> _$ProjectMixin$ProgressToJson(
+        ProjectMixin$Progress instance) =>
+    <String, dynamic>{
+      'donePercentage': instance.donePercentage,
+    };
+
+GetProjectInfo$Query$Node$Project _$GetProjectInfo$Query$Node$ProjectFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectInfo$Query$Node$Project()
+      ..name = json['name'] as String
+      ..id = json['id'] as String
+      ..databaseId = json['databaseId'] as int?
+      ..updatedAt = DateTime.parse(json['updatedAt'] as String)
+      ..number = json['number'] as int
+      ..bodyHTML = json['bodyHTML'] as String
+      ..body = json['body'] as String?
+      ..closed = json['closed'] as bool
+      ..progress = ProjectMixin$Progress.fromJson(
+          json['progress'] as Map<String, dynamic>)
+      ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetProjectInfo$Query$Node$ProjectToJson(
+        GetProjectInfo$Query$Node$Project instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'id': instance.id,
+      'databaseId': instance.databaseId,
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'number': instance.number,
+      'bodyHTML': instance.bodyHTML,
+      'body': instance.body,
+      'closed': instance.closed,
+      'progress': instance.progress.toJson(),
+      '__typename': instance.$$typename,
+    };
+
+GetProjectInfo$Query$Node _$GetProjectInfo$Query$NodeFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectInfo$Query$Node()..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetProjectInfo$Query$NodeToJson(
+        GetProjectInfo$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetProjectInfo$Query _$GetProjectInfo$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectInfo$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetProjectInfo$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetProjectInfo$QueryToJson(
+        GetProjectInfo$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumns$Query$Node$Project$Columns$Edges$Node
+    _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumns$Query$Node$Project$Columns$Edges$Node()
+          ..name = json['name'] as String
+          ..id = json['id'] as String
+          ..updatedAt = DateTime.parse(json['updatedAt'] as String);
+
+Map<String, dynamic>
+    _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeToJson(
+            GetProjectColumns$Query$Node$Project$Columns$Edges$Node instance) =>
+        <String, dynamic>{
+          'name': instance.name,
+          'id': instance.id,
+          'updatedAt': instance.updatedAt.toIso8601String(),
+        };
+
+GetProjectColumns$Query$Node$Project$Columns$Edges
+    _$GetProjectColumns$Query$Node$Project$Columns$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumns$Query$Node$Project$Columns$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : GetProjectColumns$Query$Node$Project$Columns$Edges$Node
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetProjectColumns$Query$Node$Project$Columns$EdgesToJson(
+        GetProjectColumns$Query$Node$Project$Columns$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumns$Query$Node$Project$Columns
+    _$GetProjectColumns$Query$Node$Project$ColumnsFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumns$Query$Node$Project$Columns()
+          ..totalCount = json['totalCount'] as int
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetProjectColumns$Query$Node$Project$Columns$Edges.fromJson(
+                      e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetProjectColumns$Query$Node$Project$ColumnsToJson(
+        GetProjectColumns$Query$Node$Project$Columns instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+GetProjectColumns$Query$Node$Project
+    _$GetProjectColumns$Query$Node$ProjectFromJson(Map<String, dynamic> json) =>
+        GetProjectColumns$Query$Node$Project()
+          ..$$typename = json['__typename'] as String?
+          ..columns = GetProjectColumns$Query$Node$Project$Columns.fromJson(
+              json['columns'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetProjectColumns$Query$Node$ProjectToJson(
+        GetProjectColumns$Query$Node$Project instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'columns': instance.columns.toJson(),
+    };
+
+GetProjectColumns$Query$Node _$GetProjectColumns$Query$NodeFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectColumns$Query$Node()..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetProjectColumns$Query$NodeToJson(
+        GetProjectColumns$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetProjectColumns$Query _$GetProjectColumns$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectColumns$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetProjectColumns$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetProjectColumns$QueryToJson(
+        GetProjectColumns$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue()
+          ..$$typename = json['__typename'] as String?
+          ..bodyHTML = json['bodyHTML'] as String
+          ..title = json['title'] as String
+          ..number = json['number'] as int;
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'bodyHTML': instance.bodyHTML,
+          'title': instance.title,
           'number': instance.number,
-          'reactionGroups':
-              instance.reactionGroups?.map((e) => e.toJson()).toList(),
-          'repository': instance.repository.toJson(),
-          'state': _$IssueStateEnumMap[instance.state],
-          'titleHTML': instance.titleHTML,
-          'timelineItems': instance.timelineItems.toJson(),
-          'url': instance.url.toString(),
-          'viewerCanReact': instance.viewerCanReact,
-          'viewerCanUpdate': instance.viewerCanUpdate,
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+                instance) =>
+        <String, dynamic>{
           '__typename': instance.$$typename,
         };
 
-const _$LockReasonEnumMap = {
-  LockReason.offTopic: 'OFF_TOPIC',
-  LockReason.resolved: 'RESOLVED',
-  LockReason.spam: 'SPAM',
-  LockReason.tooHeated: 'TOO_HEATED',
-  LockReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node()
+          ..note = json['note'] as String?
+          ..content = json['content'] == null
+              ? null
+              : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
+                  .fromJson(json['content'] as Map<String, dynamic>);
 
-const _$CommentAuthorAssociationEnumMap = {
-  CommentAuthorAssociation.collaborator: 'COLLABORATOR',
-  CommentAuthorAssociation.contributor: 'CONTRIBUTOR',
-  CommentAuthorAssociation.firstTimer: 'FIRST_TIMER',
-  CommentAuthorAssociation.firstTimeContributor: 'FIRST_TIME_CONTRIBUTOR',
-  CommentAuthorAssociation.mannequin: 'MANNEQUIN',
-  CommentAuthorAssociation.member: 'MEMBER',
-  CommentAuthorAssociation.none: 'NONE',
-  CommentAuthorAssociation.owner: 'OWNER',
-  CommentAuthorAssociation.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          'note': instance.note,
+          'content': instance.content?.toJson(),
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String,
+    dynamic> _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesToJson(
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+GetProjectColumnCards$Query$Node$ProjectColumn$Cards
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumnCards$Query$Node$ProjectColumn$Cards()
+          ..totalCount = json['totalCount'] as int
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic>
+    _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsToJson(
+            GetProjectColumnCards$Query$Node$ProjectColumn$Cards instance) =>
+        <String, dynamic>{
+          'totalCount': instance.totalCount,
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+GetProjectColumnCards$Query$Node$ProjectColumn
+    _$GetProjectColumnCards$Query$Node$ProjectColumnFromJson(
+            Map<String, dynamic> json) =>
+        GetProjectColumnCards$Query$Node$ProjectColumn()
+          ..$$typename = json['__typename'] as String?
+          ..cards =
+              GetProjectColumnCards$Query$Node$ProjectColumn$Cards.fromJson(
+                  json['cards'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetProjectColumnCards$Query$Node$ProjectColumnToJson(
+        GetProjectColumnCards$Query$Node$ProjectColumn instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'cards': instance.cards.toJson(),
+    };
+
+GetProjectColumnCards$Query$Node _$GetProjectColumnCards$Query$NodeFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectColumnCards$Query$Node()
+      ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetProjectColumnCards$Query$NodeToJson(
+        GetProjectColumnCards$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetProjectColumnCards$Query _$GetProjectColumnCards$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetProjectColumnCards$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetProjectColumnCards$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetProjectColumnCards$QueryToJson(
+        GetProjectColumnCards$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+IssueTemplates$Query$Repository$IssueTemplates
+    _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(
+            Map<String, dynamic> json) =>
+        IssueTemplates$Query$Repository$IssueTemplates()
+          ..name = json['name'] as String
+          ..title = json['title'] as String?
+          ..body = json['body'] as String?
+          ..about = json['about'] as String?;
+
+Map<String, dynamic> _$IssueTemplates$Query$Repository$IssueTemplatesToJson(
+        IssueTemplates$Query$Repository$IssueTemplates instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'title': instance.title,
+      'body': instance.body,
+      'about': instance.about,
+    };
+
+IssueTemplates$Query$Repository _$IssueTemplates$Query$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    IssueTemplates$Query$Repository()
+      ..issueTemplates = (json['issueTemplates'] as List<dynamic>?)
+          ?.map((e) => IssueTemplates$Query$Repository$IssueTemplates.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$IssueTemplates$Query$RepositoryToJson(
+        IssueTemplates$Query$Repository instance) =>
+    <String, dynamic>{
+      'issueTemplates':
+          instance.issueTemplates?.map((e) => e.toJson()).toList(),
+    };
+
+IssueTemplates$Query _$IssueTemplates$QueryFromJson(
+        Map<String, dynamic> json) =>
+    IssueTemplates$Query()
+      ..repository = json['repository'] == null
+          ? null
+          : IssueTemplates$Query$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueTemplates$QueryToJson(
+        IssueTemplates$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
+PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
+    _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueFromJson(
+            Map<String, dynamic> json) =>
+        PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue()
+          ..url = Uri.parse(json['url'] as String)
+          ..title = json['title'] as String
+          ..number = json['number'] as int
+          ..issueState = $enumDecode(_$IssueStateEnumMap, json['issueState'],
+              unknownValue: IssueState.artemisUnknown)
+          ..repository = IssueMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueToJson(
+            PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue instance) =>
+        <String, dynamic>{
+          'url': instance.url.toString(),
+          'title': instance.title,
+          'number': instance.number,
+          'issueState': _$IssueStateEnumMap[instance.issueState],
+          'repository': instance.repository.toJson(),
+        };
 
 const _$IssueStateEnumMap = {
   IssueState.closed: 'CLOSED',
@@ -119,1495 +463,222 @@ const _$IssueStateEnumMap = {
   IssueState.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
-IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
-    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestFromJson(
+PinnedIssues$Query$Repository$PinnedIssues$Nodes
+    _$PinnedIssues$Query$Repository$PinnedIssues$NodesFromJson(
             Map<String, dynamic> json) =>
-        IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest()
-          ..activeLockReason = $enumDecodeNullable(
-              _$LockReasonEnumMap, json['activeLockReason'],
-              unknownValue: LockReason.artemisUnknown)
-          ..assignees = PullInfoMixin$Assignees.fromJson(
-              json['assignees'] as Map<String, dynamic>)
-          ..author = json['author'] == null
-              ? null
-              : PullInfoMixin$Author.fromJson(
-                  json['author'] as Map<String, dynamic>)
-          ..authorAssociation = $enumDecode(
-              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-              unknownValue: CommentAuthorAssociation.artemisUnknown)
-          ..bodyHTML = json['bodyHTML'] as String
-          ..body = json['body'] as String
-          ..closed = json['closed'] as bool
-          ..closedAt = json['closedAt'] == null
-              ? null
-              : DateTime.parse(json['closedAt'] as String)
-          ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..comments = PullInfoMixin$Comments.fromJson(
-              json['comments'] as Map<String, dynamic>)
-          ..labels = json['labels'] == null
-              ? null
-              : PullInfoMixin$Labels.fromJson(
-                  json['labels'] as Map<String, dynamic>)
-          ..locked = json['locked'] as bool
-          ..number = json['number'] as int
-          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-              ?.map((e) => PullInfoMixin$ReactionGroups.fromJson(
-                  e as Map<String, dynamic>))
-              .toList()
-          ..repository = PullInfoMixin$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>)
-          ..state = $enumDecode(_$PullRequestStateEnumMap, json['state'],
-              unknownValue: PullRequestState.artemisUnknown)
-          ..timelineItems = PullInfoMixin$TimelineItems.fromJson(
-              json['timelineItems'] as Map<String, dynamic>)
-          ..titleHTML = json['titleHTML'] as String
-          ..url = Uri.parse(json['url'] as String)
-          ..userContentEdits = json['userContentEdits'] == null
-              ? null
-              : PullInfoMixin$UserContentEdits.fromJson(
-                  json['userContentEdits'] as Map<String, dynamic>)
-          ..includesCreatedEdit = json['includesCreatedEdit'] as bool
-          ..viewerCanReact = json['viewerCanReact'] as bool
-          ..additions = json['additions'] as int
-          ..deletions = json['deletions'] as int
-          ..baseRef = json['baseRef'] == null
-              ? null
-              : PullInfoMixin$BaseRef.fromJson(
-                  json['baseRef'] as Map<String, dynamic>)
-          ..headRef = json['headRef'] == null
-              ? null
-              : PullInfoMixin$HeadRef.fromJson(
-                  json['headRef'] as Map<String, dynamic>)
-          ..changedFiles = json['changedFiles'] as int
-          ..closingIssuesReferences = json['closingIssuesReferences'] == null
-              ? null
-              : PullInfoMixin$ClosingIssuesReferences.fromJson(
-                  json['closingIssuesReferences'] as Map<String, dynamic>)
-          ..commits = PullInfoMixin$Commits.fromJson(
-              json['commits'] as Map<String, dynamic>)
-          ..isCrossRepository = json['isCrossRepository'] as bool
-          ..merged = json['merged'] as bool
-          ..reviewDecision = $enumDecodeNullable(
-              _$PullRequestReviewDecisionEnumMap, json['reviewDecision'],
-              unknownValue: PullRequestReviewDecision.artemisUnknown)
-          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
-          ..$$typename = json['__typename'] as String?;
+        PinnedIssues$Query$Repository$PinnedIssues$Nodes()
+          ..issue =
+              PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue.fromJson(
+                  json['issue'] as Map<String, dynamic>);
 
-Map<String, dynamic>
-    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestToJson(
-            IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
-                instance) =>
-        <String, dynamic>{
-          'activeLockReason': _$LockReasonEnumMap[instance.activeLockReason],
-          'assignees': instance.assignees.toJson(),
-          'author': instance.author?.toJson(),
-          'authorAssociation':
-              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
-          'bodyHTML': instance.bodyHTML,
-          'body': instance.body,
-          'closed': instance.closed,
-          'closedAt': instance.closedAt?.toIso8601String(),
-          'createdAt': instance.createdAt.toIso8601String(),
-          'comments': instance.comments.toJson(),
-          'labels': instance.labels?.toJson(),
-          'locked': instance.locked,
-          'number': instance.number,
-          'reactionGroups':
-              instance.reactionGroups?.map((e) => e.toJson()).toList(),
-          'repository': instance.repository.toJson(),
-          'state': _$PullRequestStateEnumMap[instance.state],
-          'timelineItems': instance.timelineItems.toJson(),
-          'titleHTML': instance.titleHTML,
-          'url': instance.url.toString(),
-          'userContentEdits': instance.userContentEdits?.toJson(),
-          'includesCreatedEdit': instance.includesCreatedEdit,
-          'viewerCanReact': instance.viewerCanReact,
-          'additions': instance.additions,
-          'deletions': instance.deletions,
-          'baseRef': instance.baseRef?.toJson(),
-          'headRef': instance.headRef?.toJson(),
-          'changedFiles': instance.changedFiles,
-          'closingIssuesReferences': instance.closingIssuesReferences?.toJson(),
-          'commits': instance.commits.toJson(),
-          'isCrossRepository': instance.isCrossRepository,
-          'merged': instance.merged,
-          'reviewDecision':
-              _$PullRequestReviewDecisionEnumMap[instance.reviewDecision],
-          'viewerCanUpdate': instance.viewerCanUpdate,
-          '__typename': instance.$$typename,
-        };
-
-const _$PullRequestStateEnumMap = {
-  PullRequestState.closed: 'CLOSED',
-  PullRequestState.merged: 'MERGED',
-  PullRequestState.open: 'OPEN',
-  PullRequestState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-const _$PullRequestReviewDecisionEnumMap = {
-  PullRequestReviewDecision.approved: 'APPROVED',
-  PullRequestReviewDecision.changesRequested: 'CHANGES_REQUESTED',
-  PullRequestReviewDecision.reviewRequired: 'REVIEW_REQUIRED',
-  PullRequestReviewDecision.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-IssuePullInfo$Query$Repository$IssueOrPullRequest
-    _$IssuePullInfo$Query$Repository$IssueOrPullRequestFromJson(
-            Map<String, dynamic> json) =>
-        IssuePullInfo$Query$Repository$IssueOrPullRequest()
-          ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$IssuePullInfo$Query$Repository$IssueOrPullRequestToJson(
-        IssuePullInfo$Query$Repository$IssueOrPullRequest instance) =>
+Map<String, dynamic> _$PinnedIssues$Query$Repository$PinnedIssues$NodesToJson(
+        PinnedIssues$Query$Repository$PinnedIssues$Nodes instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
+      'issue': instance.issue.toJson(),
     };
 
-IssuePullInfo$Query$Repository _$IssuePullInfo$Query$RepositoryFromJson(
+PinnedIssues$Query$Repository$PinnedIssues
+    _$PinnedIssues$Query$Repository$PinnedIssuesFromJson(
+            Map<String, dynamic> json) =>
+        PinnedIssues$Query$Repository$PinnedIssues()
+          ..totalCount = json['totalCount'] as int
+          ..nodes = (json['nodes'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : PinnedIssues$Query$Repository$PinnedIssues$Nodes.fromJson(
+                      e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$PinnedIssues$Query$Repository$PinnedIssuesToJson(
+        PinnedIssues$Query$Repository$PinnedIssues instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+PinnedIssues$Query$Repository _$PinnedIssues$Query$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    IssuePullInfo$Query$Repository()
-      ..issueOrPullRequest = json['issueOrPullRequest'] == null
+    PinnedIssues$Query$Repository()
+      ..pinnedIssues = json['pinnedIssues'] == null
           ? null
-          : IssuePullInfo$Query$Repository$IssueOrPullRequest.fromJson(
-              json['issueOrPullRequest'] as Map<String, dynamic>);
+          : PinnedIssues$Query$Repository$PinnedIssues.fromJson(
+              json['pinnedIssues'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$IssuePullInfo$Query$RepositoryToJson(
-        IssuePullInfo$Query$Repository instance) =>
+Map<String, dynamic> _$PinnedIssues$Query$RepositoryToJson(
+        PinnedIssues$Query$Repository instance) =>
     <String, dynamic>{
-      'issueOrPullRequest': instance.issueOrPullRequest?.toJson(),
+      'pinnedIssues': instance.pinnedIssues?.toJson(),
     };
 
-IssuePullInfo$Query _$IssuePullInfo$QueryFromJson(Map<String, dynamic> json) =>
-    IssuePullInfo$Query()
+PinnedIssues$Query _$PinnedIssues$QueryFromJson(Map<String, dynamic> json) =>
+    PinnedIssues$Query()
       ..repository = json['repository'] == null
           ? null
-          : IssuePullInfo$Query$Repository.fromJson(
+          : PinnedIssues$Query$Repository.fromJson(
               json['repository'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$IssuePullInfo$QueryToJson(
-        IssuePullInfo$Query instance) =>
+Map<String, dynamic> _$PinnedIssues$QueryToJson(PinnedIssues$Query instance) =>
     <String, dynamic>{
       'repository': instance.repository?.toJson(),
     };
 
-IssueInfoMixin$Assignees _$IssueInfoMixin$AssigneesFromJson(
+IssueMixin$Repository _$IssueMixin$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    IssueInfoMixin$Assignees()
-      ..totalCount = json['totalCount'] as int
-      ..edges = (json['edges'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : AssigneeInfoMixin$Edges.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$IssueInfoMixin$AssigneesToJson(
-        IssueInfoMixin$Assignees instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-IssueInfoMixin$Author _$IssueInfoMixin$AuthorFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$Author()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$IssueInfoMixin$AuthorToJson(
-        IssueInfoMixin$Author instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-IssueInfoMixin$Comments _$IssueInfoMixin$CommentsFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$Comments()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$IssueInfoMixin$CommentsToJson(
-        IssueInfoMixin$Comments instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-IssueInfoMixin$UserContentEdits _$IssueInfoMixin$UserContentEditsFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$UserContentEdits()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$IssueInfoMixin$UserContentEditsToJson(
-        IssueInfoMixin$UserContentEdits instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-IssueInfoMixin$Labels$Nodes _$IssueInfoMixin$Labels$NodesFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$Labels$Nodes()
-      ..color = json['color'] as String
-      ..name = json['name'] as String;
-
-Map<String, dynamic> _$IssueInfoMixin$Labels$NodesToJson(
-        IssueInfoMixin$Labels$Nodes instance) =>
-    <String, dynamic>{
-      'color': instance.color,
-      'name': instance.name,
-    };
-
-IssueInfoMixin$Labels _$IssueInfoMixin$LabelsFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$Labels()
-      ..nodes = (json['nodes'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : IssueInfoMixin$Labels$Nodes.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$IssueInfoMixin$LabelsToJson(
-        IssueInfoMixin$Labels instance) =>
-    <String, dynamic>{
-      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
-    };
-
-IssueInfoMixin$ReactionGroups _$IssueInfoMixin$ReactionGroupsFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$ReactionGroups()
-      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
-          unknownValue: ReactionContent.artemisUnknown)
-      ..viewerHasReacted = json['viewerHasReacted'] as bool
-      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-          json['reactors'] as Map<String, dynamic>)
-      ..subject = ReactionGroupsMixin$Subject.fromJson(
-          json['subject'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$IssueInfoMixin$ReactionGroupsToJson(
-        IssueInfoMixin$ReactionGroups instance) =>
-    <String, dynamic>{
-      'content': _$ReactionContentEnumMap[instance.content],
-      'viewerHasReacted': instance.viewerHasReacted,
-      'reactors': instance.reactors.toJson(),
-      'subject': instance.subject.toJson(),
-    };
-
-const _$ReactionContentEnumMap = {
-  ReactionContent.confused: 'CONFUSED',
-  ReactionContent.eyes: 'EYES',
-  ReactionContent.heart: 'HEART',
-  ReactionContent.hooray: 'HOORAY',
-  ReactionContent.laugh: 'LAUGH',
-  ReactionContent.rocket: 'ROCKET',
-  ReactionContent.thumbsDown: 'THUMBS_DOWN',
-  ReactionContent.thumbsUp: 'THUMBS_UP',
-  ReactionContent.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-IssueInfoMixin$Repository _$IssueInfoMixin$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    IssueInfoMixin$Repository()
+    IssueMixin$Repository()
       ..name = json['name'] as String
-      ..owner =
-          RepoInfoMixin$Owner.fromJson(json['owner'] as Map<String, dynamic>);
+      ..nameWithOwner = json['nameWithOwner'] as String;
 
-Map<String, dynamic> _$IssueInfoMixin$RepositoryToJson(
-        IssueInfoMixin$Repository instance) =>
+Map<String, dynamic> _$IssueMixin$RepositoryToJson(
+        IssueMixin$Repository instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'owner': instance.owner.toJson(),
+      'nameWithOwner': instance.nameWithOwner,
     };
 
-IssueInfoMixin$TimelineItems _$IssueInfoMixin$TimelineItemsFromJson(
+HasStarred$Query$Repository _$HasStarred$Query$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    IssueInfoMixin$TimelineItems()..totalCount = json['totalCount'] as int;
+    HasStarred$Query$Repository()
+      ..viewerHasStarred = json['viewerHasStarred'] as bool
+      ..stargazerCount = json['stargazerCount'] as int;
 
-Map<String, dynamic> _$IssueInfoMixin$TimelineItemsToJson(
-        IssueInfoMixin$TimelineItems instance) =>
+Map<String, dynamic> _$HasStarred$Query$RepositoryToJson(
+        HasStarred$Query$Repository instance) =>
     <String, dynamic>{
-      'totalCount': instance.totalCount,
+      'viewerHasStarred': instance.viewerHasStarred,
+      'stargazerCount': instance.stargazerCount,
     };
 
-AssigneeInfoMixin$Edges$Node _$AssigneeInfoMixin$Edges$NodeFromJson(
-        Map<String, dynamic> json) =>
-    AssigneeInfoMixin$Edges$Node()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$AssigneeInfoMixin$Edges$NodeToJson(
-        AssigneeInfoMixin$Edges$Node instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-AssigneeInfoMixin$Edges _$AssigneeInfoMixin$EdgesFromJson(
-        Map<String, dynamic> json) =>
-    AssigneeInfoMixin$Edges()
-      ..node = json['node'] == null
+HasStarred$Query _$HasStarred$QueryFromJson(Map<String, dynamic> json) =>
+    HasStarred$Query()
+      ..repository = json['repository'] == null
           ? null
-          : AssigneeInfoMixin$Edges$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
+          : HasStarred$Query$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$AssigneeInfoMixin$EdgesToJson(
-        AssigneeInfoMixin$Edges instance) =>
+Map<String, dynamic> _$HasStarred$QueryToJson(HasStarred$Query instance) =>
     <String, dynamic>{
-      'node': instance.node?.toJson(),
+      'repository': instance.repository?.toJson(),
     };
 
-ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
-        Map<String, dynamic> json) =>
-    ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$ReactionGroupsMixin$ReactorsToJson(
-        ReactionGroupsMixin$Reactors instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-ReactionGroupsMixin$Subject _$ReactionGroupsMixin$SubjectFromJson(
-        Map<String, dynamic> json) =>
-    ReactionGroupsMixin$Subject()..id = json['id'] as String;
-
-Map<String, dynamic> _$ReactionGroupsMixin$SubjectToJson(
-        ReactionGroupsMixin$Subject instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-RepoInfoMixin$Owner _$RepoInfoMixin$OwnerFromJson(Map<String, dynamic> json) =>
-    RepoInfoMixin$Owner()
-      ..login = json['login'] as String
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
-
-Map<String, dynamic> _$RepoInfoMixin$OwnerToJson(
-        RepoInfoMixin$Owner instance) =>
-    <String, dynamic>{
-      'login': instance.login,
-      'avatarUrl': instance.avatarUrl.toString(),
-    };
-
-PullInfoMixin$Assignees _$PullInfoMixin$AssigneesFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Assignees()
-      ..totalCount = json['totalCount'] as int
-      ..edges = (json['edges'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : AssigneeInfoMixin$Edges.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$PullInfoMixin$AssigneesToJson(
-        PullInfoMixin$Assignees instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-PullInfoMixin$Author _$PullInfoMixin$AuthorFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Author()
-      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-      ..login = json['login'] as String;
-
-Map<String, dynamic> _$PullInfoMixin$AuthorToJson(
-        PullInfoMixin$Author instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullInfoMixin$Comments _$PullInfoMixin$CommentsFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Comments()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$PullInfoMixin$CommentsToJson(
-        PullInfoMixin$Comments instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-PullInfoMixin$Labels$Nodes _$PullInfoMixin$Labels$NodesFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Labels$Nodes()
-      ..color = json['color'] as String
-      ..name = json['name'] as String;
-
-Map<String, dynamic> _$PullInfoMixin$Labels$NodesToJson(
-        PullInfoMixin$Labels$Nodes instance) =>
-    <String, dynamic>{
-      'color': instance.color,
-      'name': instance.name,
-    };
-
-PullInfoMixin$Labels _$PullInfoMixin$LabelsFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Labels()
-      ..nodes = (json['nodes'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : PullInfoMixin$Labels$Nodes.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$PullInfoMixin$LabelsToJson(
-        PullInfoMixin$Labels instance) =>
-    <String, dynamic>{
-      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
-    };
-
-PullInfoMixin$ReactionGroups _$PullInfoMixin$ReactionGroupsFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$ReactionGroups()
-      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
-          unknownValue: ReactionContent.artemisUnknown)
-      ..viewerHasReacted = json['viewerHasReacted'] as bool
-      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-          json['reactors'] as Map<String, dynamic>)
-      ..subject = ReactionGroupsMixin$Subject.fromJson(
-          json['subject'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullInfoMixin$ReactionGroupsToJson(
-        PullInfoMixin$ReactionGroups instance) =>
-    <String, dynamic>{
-      'content': _$ReactionContentEnumMap[instance.content],
-      'viewerHasReacted': instance.viewerHasReacted,
-      'reactors': instance.reactors.toJson(),
-      'subject': instance.subject.toJson(),
-    };
-
-PullInfoMixin$Repository _$PullInfoMixin$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$Repository()
-      ..name = json['name'] as String
-      ..owner =
-          RepoInfoMixin$Owner.fromJson(json['owner'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullInfoMixin$RepositoryToJson(
-        PullInfoMixin$Repository instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner.toJson(),
-    };
-
-PullInfoMixin$TimelineItems _$PullInfoMixin$TimelineItemsFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$TimelineItems()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$PullInfoMixin$TimelineItemsToJson(
-        PullInfoMixin$TimelineItems instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-PullInfoMixin$UserContentEdits _$PullInfoMixin$UserContentEditsFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$UserContentEdits()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$PullInfoMixin$UserContentEditsToJson(
-        PullInfoMixin$UserContentEdits instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-    };
-
-PullInfoMixin$BaseRef$Repository _$PullInfoMixin$BaseRef$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$BaseRef$Repository()..url = Uri.parse(json['url'] as String);
-
-Map<String, dynamic> _$PullInfoMixin$BaseRef$RepositoryToJson(
-        PullInfoMixin$BaseRef$Repository instance) =>
-    <String, dynamic>{
-      'url': instance.url.toString(),
-    };
-
-PullInfoMixin$BaseRef _$PullInfoMixin$BaseRefFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$BaseRef()
-      ..name = json['name'] as String
-      ..repository = PullInfoMixin$BaseRef$Repository.fromJson(
-          json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullInfoMixin$BaseRefToJson(
-        PullInfoMixin$BaseRef instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'repository': instance.repository.toJson(),
-    };
-
-PullInfoMixin$HeadRef$Repository _$PullInfoMixin$HeadRef$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$HeadRef$Repository()..url = Uri.parse(json['url'] as String);
-
-Map<String, dynamic> _$PullInfoMixin$HeadRef$RepositoryToJson(
-        PullInfoMixin$HeadRef$Repository instance) =>
-    <String, dynamic>{
-      'url': instance.url.toString(),
-    };
-
-PullInfoMixin$HeadRef _$PullInfoMixin$HeadRefFromJson(
-        Map<String, dynamic> json) =>
-    PullInfoMixin$HeadRef()
-      ..name = json['name'] as String
-      ..repository = PullInfoMixin$HeadRef$Repository.fromJson(
-          json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullInfoMixin$HeadRefToJson(
-        PullInfoMixin$HeadRef instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'repository': instance.repository.toJson(),
-    };
-
-PullInfoMixin$ClosingIssuesReferences
-    _$PullInfoMixin$ClosingIssuesReferencesFromJson(
-            Map<String, dynamic> json) =>
-        PullInfoMixin$ClosingIssuesReferences()
+HasWatched$Query$Repository$Watchers
+    _$HasWatched$Query$Repository$WatchersFromJson(Map<String, dynamic> json) =>
+        HasWatched$Query$Repository$Watchers()
           ..totalCount = json['totalCount'] as int;
 
-Map<String, dynamic> _$PullInfoMixin$ClosingIssuesReferencesToJson(
-        PullInfoMixin$ClosingIssuesReferences instance) =>
+Map<String, dynamic> _$HasWatched$Query$Repository$WatchersToJson(
+        HasWatched$Query$Repository$Watchers instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
     };
 
-PullInfoMixin$Commits _$PullInfoMixin$CommitsFromJson(
+HasWatched$Query$Repository _$HasWatched$Query$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    PullInfoMixin$Commits()..totalCount = json['totalCount'] as int;
+    HasWatched$Query$Repository()
+      ..viewerSubscription = $enumDecodeNullable(
+          _$SubscriptionStateEnumMap, json['viewerSubscription'],
+          unknownValue: SubscriptionState.artemisUnknown)
+      ..viewerCanSubscribe = json['viewerCanSubscribe'] as bool
+      ..watchers = HasWatched$Query$Repository$Watchers.fromJson(
+          json['watchers'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$PullInfoMixin$CommitsToJson(
-        PullInfoMixin$Commits instance) =>
+Map<String, dynamic> _$HasWatched$Query$RepositoryToJson(
+        HasWatched$Query$Repository instance) =>
     <String, dynamic>{
-      'totalCount': instance.totalCount,
+      'viewerSubscription':
+          _$SubscriptionStateEnumMap[instance.viewerSubscription],
+      'viewerCanSubscribe': instance.viewerCanSubscribe,
+      'watchers': instance.watchers.toJson(),
     };
 
-GetReactors$Query$Node$Issue$ReactionGroups
-    _$GetReactors$Query$Node$Issue$ReactionGroupsFromJson(
-            Map<String, dynamic> json) =>
-        GetReactors$Query$Node$Issue$ReactionGroups()
-          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
-              unknownValue: ReactionContent.artemisUnknown)
-          ..reactors = ReactorsGroupMixin$Reactors.fromJson(
-              json['reactors'] as Map<String, dynamic>);
+const _$SubscriptionStateEnumMap = {
+  SubscriptionState.ignored: 'IGNORED',
+  SubscriptionState.subscribed: 'SUBSCRIBED',
+  SubscriptionState.unsubscribed: 'UNSUBSCRIBED',
+  SubscriptionState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
-Map<String, dynamic> _$GetReactors$Query$Node$Issue$ReactionGroupsToJson(
-        GetReactors$Query$Node$Issue$ReactionGroups instance) =>
-    <String, dynamic>{
-      'content': _$ReactionContentEnumMap[instance.content],
-      'reactors': instance.reactors.toJson(),
-    };
-
-GetReactors$Query$Node$Issue _$GetReactors$Query$Node$IssueFromJson(
-        Map<String, dynamic> json) =>
-    GetReactors$Query$Node$Issue()
-      ..$$typename = json['__typename'] as String?
-      ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-          ?.map((e) => GetReactors$Query$Node$Issue$ReactionGroups.fromJson(
-              e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$GetReactors$Query$Node$IssueToJson(
-        GetReactors$Query$Node$Issue instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'reactionGroups':
-          instance.reactionGroups?.map((e) => e.toJson()).toList(),
-    };
-
-GetReactors$Query$Node$PullRequest$ReactionGroups
-    _$GetReactors$Query$Node$PullRequest$ReactionGroupsFromJson(
-            Map<String, dynamic> json) =>
-        GetReactors$Query$Node$PullRequest$ReactionGroups()
-          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
-              unknownValue: ReactionContent.artemisUnknown)
-          ..reactors = ReactorsGroupMixin$Reactors.fromJson(
-              json['reactors'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetReactors$Query$Node$PullRequest$ReactionGroupsToJson(
-        GetReactors$Query$Node$PullRequest$ReactionGroups instance) =>
-    <String, dynamic>{
-      'content': _$ReactionContentEnumMap[instance.content],
-      'reactors': instance.reactors.toJson(),
-    };
-
-GetReactors$Query$Node$PullRequest _$GetReactors$Query$Node$PullRequestFromJson(
-        Map<String, dynamic> json) =>
-    GetReactors$Query$Node$PullRequest()
-      ..$$typename = json['__typename'] as String?
-      ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-          ?.map((e) =>
-              GetReactors$Query$Node$PullRequest$ReactionGroups.fromJson(
-                  e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$GetReactors$Query$Node$PullRequestToJson(
-        GetReactors$Query$Node$PullRequest instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'reactionGroups':
-          instance.reactionGroups?.map((e) => e.toJson()).toList(),
-    };
-
-GetReactors$Query$Node _$GetReactors$Query$NodeFromJson(
-        Map<String, dynamic> json) =>
-    GetReactors$Query$Node()..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetReactors$Query$NodeToJson(
-        GetReactors$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-GetReactors$Query _$GetReactors$QueryFromJson(Map<String, dynamic> json) =>
-    GetReactors$Query()
-      ..node = json['node'] == null
+HasWatched$Query _$HasWatched$QueryFromJson(Map<String, dynamic> json) =>
+    HasWatched$Query()
+      ..repository = json['repository'] == null
           ? null
-          : GetReactors$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
+          : HasWatched$Query$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$GetReactors$QueryToJson(GetReactors$Query instance) =>
+Map<String, dynamic> _$HasWatched$QueryToJson(HasWatched$Query instance) =>
     <String, dynamic>{
-      'node': instance.node?.toJson(),
+      'repository': instance.repository?.toJson(),
     };
 
-ReactorsGroupMixin$Reactors$Edges$Node$User
-    _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(
+GetViewerOrgs$Query$Viewer$Organizations$Edges$Node
+    _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-        ReactorsGroupMixin$Reactors$Edges$Node$User()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String
-          ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(
-        ReactorsGroupMixin$Reactors$Edges$Node$User instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-      '__typename': instance.$$typename,
-    };
-
-ReactorsGroupMixin$Reactors$Edges$Node
-    _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        ReactorsGroupMixin$Reactors$Edges$Node()
-          ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(
-        ReactorsGroupMixin$Reactors$Edges$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-ReactorsGroupMixin$Reactors$Edges _$ReactorsGroupMixin$Reactors$EdgesFromJson(
-        Map<String, dynamic> json) =>
-    ReactorsGroupMixin$Reactors$Edges()
-      ..cursor = json['cursor'] as String
-      ..node = ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
-          json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$ReactorsGroupMixin$Reactors$EdgesToJson(
-        ReactorsGroupMixin$Reactors$Edges instance) =>
-    <String, dynamic>{
-      'cursor': instance.cursor,
-      'node': instance.node.toJson(),
-    };
-
-ReactorsGroupMixin$Reactors _$ReactorsGroupMixin$ReactorsFromJson(
-        Map<String, dynamic> json) =>
-    ReactorsGroupMixin$Reactors()
-      ..edges = (json['edges'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : ReactorsGroupMixin$Reactors$Edges.fromJson(
-                  e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$ReactorsGroupMixin$ReactorsToJson(
-        ReactorsGroupMixin$Reactors instance) =>
-    <String, dynamic>{
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-AddReaction$Mutation$AddReaction$Reaction
-    _$AddReaction$Mutation$AddReaction$ReactionFromJson(
-            Map<String, dynamic> json) =>
-        AddReaction$Mutation$AddReaction$Reaction()
-          ..createdAt = DateTime.parse(json['createdAt'] as String);
-
-Map<String, dynamic> _$AddReaction$Mutation$AddReaction$ReactionToJson(
-        AddReaction$Mutation$AddReaction$Reaction instance) =>
-    <String, dynamic>{
-      'createdAt': instance.createdAt.toIso8601String(),
-    };
-
-AddReaction$Mutation$AddReaction _$AddReaction$Mutation$AddReactionFromJson(
-        Map<String, dynamic> json) =>
-    AddReaction$Mutation$AddReaction()
-      ..reaction = json['reaction'] == null
-          ? null
-          : AddReaction$Mutation$AddReaction$Reaction.fromJson(
-              json['reaction'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$AddReaction$Mutation$AddReactionToJson(
-        AddReaction$Mutation$AddReaction instance) =>
-    <String, dynamic>{
-      'reaction': instance.reaction?.toJson(),
-    };
-
-AddReaction$Mutation _$AddReaction$MutationFromJson(
-        Map<String, dynamic> json) =>
-    AddReaction$Mutation()
-      ..addReaction = json['addReaction'] == null
-          ? null
-          : AddReaction$Mutation$AddReaction.fromJson(
-              json['addReaction'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$AddReaction$MutationToJson(
-        AddReaction$Mutation instance) =>
-    <String, dynamic>{
-      'addReaction': instance.addReaction?.toJson(),
-    };
-
-RemoveReaction$Mutation$RemoveReaction$Reaction
-    _$RemoveReaction$Mutation$RemoveReaction$ReactionFromJson(
-            Map<String, dynamic> json) =>
-        RemoveReaction$Mutation$RemoveReaction$Reaction()
-          ..createdAt = DateTime.parse(json['createdAt'] as String);
-
-Map<String, dynamic> _$RemoveReaction$Mutation$RemoveReaction$ReactionToJson(
-        RemoveReaction$Mutation$RemoveReaction$Reaction instance) =>
-    <String, dynamic>{
-      'createdAt': instance.createdAt.toIso8601String(),
-    };
-
-RemoveReaction$Mutation$RemoveReaction
-    _$RemoveReaction$Mutation$RemoveReactionFromJson(
-            Map<String, dynamic> json) =>
-        RemoveReaction$Mutation$RemoveReaction()
-          ..reaction = json['reaction'] == null
-              ? null
-              : RemoveReaction$Mutation$RemoveReaction$Reaction.fromJson(
-                  json['reaction'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$RemoveReaction$Mutation$RemoveReactionToJson(
-        RemoveReaction$Mutation$RemoveReaction instance) =>
-    <String, dynamic>{
-      'reaction': instance.reaction?.toJson(),
-    };
-
-RemoveReaction$Mutation _$RemoveReaction$MutationFromJson(
-        Map<String, dynamic> json) =>
-    RemoveReaction$Mutation()
-      ..removeReaction = json['removeReaction'] == null
-          ? null
-          : RemoveReaction$Mutation$RemoveReaction.fromJson(
-              json['removeReaction'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$RemoveReaction$MutationToJson(
-        RemoveReaction$Mutation instance) =>
-    <String, dynamic>{
-      'removeReaction': instance.removeReaction?.toJson(),
-    };
-
-FetchReview$Query$Node$PullRequestReviewComment$Author
-    _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(
-            Map<String, dynamic> json) =>
-        FetchReview$Query$Node$PullRequestReviewComment$Author()
+        GetViewerOrgs$Query$Viewer$Organizations$Edges$Node()
           ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
           ..login = json['login'] as String;
 
 Map<String, dynamic>
-    _$FetchReview$Query$Node$PullRequestReviewComment$AuthorToJson(
-            FetchReview$Query$Node$PullRequestReviewComment$Author instance) =>
+    _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeToJson(
+            GetViewerOrgs$Query$Viewer$Organizations$Edges$Node instance) =>
         <String, dynamic>{
           'avatarUrl': instance.avatarUrl.toString(),
           'login': instance.login,
         };
 
-FetchReview$Query$Node$PullRequestReviewComment
-    _$FetchReview$Query$Node$PullRequestReviewCommentFromJson(
+GetViewerOrgs$Query$Viewer$Organizations$Edges
+    _$GetViewerOrgs$Query$Viewer$Organizations$EdgesFromJson(
             Map<String, dynamic> json) =>
-        FetchReview$Query$Node$PullRequestReviewComment()
-          ..$$typename = json['__typename'] as String?
-          ..bodyHTML = json['bodyHTML'] as String
-          ..author = json['author'] == null
-              ? null
-              : FetchReview$Query$Node$PullRequestReviewComment$Author.fromJson(
-                  json['author'] as Map<String, dynamic>)
-          ..diffHunk = json['diffHunk'] as String
-          ..path = json['path'] as String;
-
-Map<String, dynamic> _$FetchReview$Query$Node$PullRequestReviewCommentToJson(
-        FetchReview$Query$Node$PullRequestReviewComment instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'bodyHTML': instance.bodyHTML,
-      'author': instance.author?.toJson(),
-      'diffHunk': instance.diffHunk,
-      'path': instance.path,
-    };
-
-FetchReview$Query$Node _$FetchReview$Query$NodeFromJson(
-        Map<String, dynamic> json) =>
-    FetchReview$Query$Node()..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$FetchReview$Query$NodeToJson(
-        FetchReview$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-FetchReview$Query _$FetchReview$QueryFromJson(Map<String, dynamic> json) =>
-    FetchReview$Query()
-      ..node = json['node'] == null
-          ? null
-          : FetchReview$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$FetchReview$QueryToJson(FetchReview$Query instance) =>
-    <String, dynamic>{
-      'node': instance.node?.toJson(),
-    };
-
-GetPRReviewComments$Query$Node$PullRequestReview
-    _$GetPRReviewComments$Query$Node$PullRequestReviewFromJson(
-            Map<String, dynamic> json) =>
-        GetPRReviewComments$Query$Node$PullRequestReview()
-          ..comments = PRReviewCommentsMixin$Comments.fromJson(
-              json['comments'] as Map<String, dynamic>)
-          ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetPRReviewComments$Query$Node$PullRequestReviewToJson(
-        GetPRReviewComments$Query$Node$PullRequestReview instance) =>
-    <String, dynamic>{
-      'comments': instance.comments.toJson(),
-      '__typename': instance.$$typename,
-    };
-
-GetPRReviewComments$Query$Node _$GetPRReviewComments$Query$NodeFromJson(
-        Map<String, dynamic> json) =>
-    GetPRReviewComments$Query$Node()
-      ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetPRReviewComments$Query$NodeToJson(
-        GetPRReviewComments$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-GetPRReviewComments$Query _$GetPRReviewComments$QueryFromJson(
-        Map<String, dynamic> json) =>
-    GetPRReviewComments$Query()
-      ..node = json['node'] == null
-          ? null
-          : GetPRReviewComments$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetPRReviewComments$QueryToJson(
-        GetPRReviewComments$Query instance) =>
-    <String, dynamic>{
-      'node': instance.node?.toJson(),
-    };
-
-PRReviewCommentsMixin$Comments$Edges$Node
-    _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        PRReviewCommentsMixin$Comments$Edges$Node()
-          ..id = json['id'] as String
-          ..databaseId = json['databaseId'] as int?
-          ..author = json['author'] == null
-              ? null
-              : PullRequestReviewCommentMixin$Author.fromJson(
-                  json['author'] as Map<String, dynamic>)
-          ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = $enumDecode(
-              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-              unknownValue: CommentAuthorAssociation.artemisUnknown)
-          ..body = json['body'] as String
-          ..bodyHTML = json['bodyHTML'] as String
-          ..lastEditedAt = json['lastEditedAt'] == null
-              ? null
-              : DateTime.parse(json['lastEditedAt'] as String)
-          ..state = $enumDecode(
-              _$PullRequestReviewCommentStateEnumMap, json['state'],
-              unknownValue: PullRequestReviewCommentState.artemisUnknown)
-          ..diffHunk = json['diffHunk'] as String
-          ..outdated = json['outdated'] as bool
-          ..isMinimized = json['isMinimized'] as bool
-          ..replyTo = json['replyTo'] == null
-              ? null
-              : PullRequestReviewCommentMixin$ReplyTo.fromJson(
-                  json['replyTo'] as Map<String, dynamic>)
-          ..path = json['path'] as String
-          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-              ?.map((e) =>
-                  PullRequestReviewCommentMixin$ReactionGroups.fromJson(
-                      e as Map<String, dynamic>))
-              .toList()
-          ..viewerCanDelete = json['viewerCanDelete'] as bool
-          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
-          ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons =
-              (json['viewerCannotUpdateReasons'] as List<dynamic>)
-                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
-                  .toList()
-          ..viewerCanReact = json['viewerCanReact'] as bool
-          ..viewerCanMinimize = json['viewerCanMinimize'] as bool
-          ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
-              json['pullRequest'] as Map<String, dynamic>)
-          ..repository = PullRequestReviewCommentMixin$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
-        PRReviewCommentsMixin$Comments$Edges$Node instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'databaseId': instance.databaseId,
-      'author': instance.author?.toJson(),
-      'createdAt': instance.createdAt.toIso8601String(),
-      'authorAssociation':
-          _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
-      'body': instance.body,
-      'bodyHTML': instance.bodyHTML,
-      'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
-      'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
-      'diffHunk': instance.diffHunk,
-      'outdated': instance.outdated,
-      'isMinimized': instance.isMinimized,
-      'replyTo': instance.replyTo?.toJson(),
-      'path': instance.path,
-      'reactionGroups':
-          instance.reactionGroups?.map((e) => e.toJson()).toList(),
-      'viewerCanDelete': instance.viewerCanDelete,
-      'viewerCanUpdate': instance.viewerCanUpdate,
-      'viewerDidAuthor': instance.viewerDidAuthor,
-      'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
-          .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
-          .toList(),
-      'viewerCanReact': instance.viewerCanReact,
-      'viewerCanMinimize': instance.viewerCanMinimize,
-      'pullRequest': instance.pullRequest.toJson(),
-      'repository': instance.repository.toJson(),
-    };
-
-const _$PullRequestReviewCommentStateEnumMap = {
-  PullRequestReviewCommentState.pending: 'PENDING',
-  PullRequestReviewCommentState.submitted: 'SUBMITTED',
-  PullRequestReviewCommentState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-const _$CommentCannotUpdateReasonEnumMap = {
-  CommentCannotUpdateReason.archived: 'ARCHIVED',
-  CommentCannotUpdateReason.denied: 'DENIED',
-  CommentCannotUpdateReason.insufficientAccess: 'INSUFFICIENT_ACCESS',
-  CommentCannotUpdateReason.locked: 'LOCKED',
-  CommentCannotUpdateReason.loginRequired: 'LOGIN_REQUIRED',
-  CommentCannotUpdateReason.maintenance: 'MAINTENANCE',
-  CommentCannotUpdateReason.verifiedEmailRequired: 'VERIFIED_EMAIL_REQUIRED',
-  CommentCannotUpdateReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-PRReviewCommentsMixin$Comments$Edges
-    _$PRReviewCommentsMixin$Comments$EdgesFromJson(Map<String, dynamic> json) =>
-        PRReviewCommentsMixin$Comments$Edges()
-          ..$$typename = json['__typename'] as String?
+        GetViewerOrgs$Query$Viewer$Organizations$Edges()
           ..cursor = json['cursor'] as String
           ..node = json['node'] == null
               ? null
-              : PRReviewCommentsMixin$Comments$Edges$Node.fromJson(
+              : GetViewerOrgs$Query$Viewer$Organizations$Edges$Node.fromJson(
                   json['node'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$PRReviewCommentsMixin$Comments$EdgesToJson(
-        PRReviewCommentsMixin$Comments$Edges instance) =>
+Map<String, dynamic> _$GetViewerOrgs$Query$Viewer$Organizations$EdgesToJson(
+        GetViewerOrgs$Query$Viewer$Organizations$Edges instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
       'cursor': instance.cursor,
       'node': instance.node?.toJson(),
     };
 
-PRReviewCommentsMixin$Comments _$PRReviewCommentsMixin$CommentsFromJson(
-        Map<String, dynamic> json) =>
-    PRReviewCommentsMixin$Comments()
-      ..edges = (json['edges'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : PRReviewCommentsMixin$Comments$Edges.fromJson(
-                  e as Map<String, dynamic>))
-          .toList();
+GetViewerOrgs$Query$Viewer$Organizations
+    _$GetViewerOrgs$Query$Viewer$OrganizationsFromJson(
+            Map<String, dynamic> json) =>
+        GetViewerOrgs$Query$Viewer$Organizations()
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetViewerOrgs$Query$Viewer$Organizations$Edges.fromJson(
+                      e as Map<String, dynamic>))
+              .toList();
 
-Map<String, dynamic> _$PRReviewCommentsMixin$CommentsToJson(
-        PRReviewCommentsMixin$Comments instance) =>
+Map<String, dynamic> _$GetViewerOrgs$Query$Viewer$OrganizationsToJson(
+        GetViewerOrgs$Query$Viewer$Organizations instance) =>
     <String, dynamic>{
       'edges': instance.edges?.map((e) => e?.toJson()).toList(),
     };
 
-PullRequestReviewCommentMixin$Author
-    _$PullRequestReviewCommentMixin$AuthorFromJson(Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$Author()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$AuthorToJson(
-        PullRequestReviewCommentMixin$Author instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-PullRequestReviewCommentMixin$ReplyTo
-    _$PullRequestReviewCommentMixin$ReplyToFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$ReplyTo()..id = json['id'] as String;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$ReplyToToJson(
-        PullRequestReviewCommentMixin$ReplyTo instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-PullRequestReviewCommentMixin$ReactionGroups
-    _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$ReactionGroups()
-          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
-              unknownValue: ReactionContent.artemisUnknown)
-          ..viewerHasReacted = json['viewerHasReacted'] as bool
-          ..reactors = ReactionGroupsMixin$Reactors.fromJson(
-              json['reactors'] as Map<String, dynamic>)
-          ..subject = ReactionGroupsMixin$Subject.fromJson(
-              json['subject'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
-        PullRequestReviewCommentMixin$ReactionGroups instance) =>
-    <String, dynamic>{
-      'content': _$ReactionContentEnumMap[instance.content],
-      'viewerHasReacted': instance.viewerHasReacted,
-      'reactors': instance.reactors.toJson(),
-      'subject': instance.subject.toJson(),
-    };
-
-PullRequestReviewCommentMixin$PullRequest
-    _$PullRequestReviewCommentMixin$PullRequestFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$PullRequest()
-          ..number = json['number'] as int;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$PullRequestToJson(
-        PullRequestReviewCommentMixin$PullRequest instance) =>
-    <String, dynamic>{
-      'number': instance.number,
-    };
-
-PullRequestReviewCommentMixin$Repository$Owner
-    _$PullRequestReviewCommentMixin$Repository$OwnerFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$Repository$Owner()
-          ..login = json['login'] as String;
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$Repository$OwnerToJson(
-        PullRequestReviewCommentMixin$Repository$Owner instance) =>
-    <String, dynamic>{
-      'login': instance.login,
-    };
-
-PullRequestReviewCommentMixin$Repository
-    _$PullRequestReviewCommentMixin$RepositoryFromJson(
-            Map<String, dynamic> json) =>
-        PullRequestReviewCommentMixin$Repository()
-          ..name = json['name'] as String
-          ..owner = PullRequestReviewCommentMixin$Repository$Owner.fromJson(
-              json['owner'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PullRequestReviewCommentMixin$RepositoryToJson(
-        PullRequestReviewCommentMixin$Repository instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner.toJson(),
-    };
-
-ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$NodesFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes()
-          ..id = json['id'] as String;
-
-Map<String, dynamic>
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$NodesToJson(
-            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-        };
-
-ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$CommentsFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments()
-          ..totalCount = json['totalCount'] as int
-          ..nodes = (json['nodes'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic>
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$CommentsToJson(
-            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
-                instance) =>
-        <String, dynamic>{
-          'totalCount': instance.totalCount,
-          'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
-        };
-
-ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node()
-          ..id = json['id'] as String
-          ..viewerCanResolve = json['viewerCanResolve'] as bool
-          ..viewerCanUnresolve = json['viewerCanUnresolve'] as bool
-          ..viewerCanReply = json['viewerCanReply'] as bool
-          ..isOutdated = json['isOutdated'] as bool
-          ..isCollapsed = json['isCollapsed'] as bool
-          ..isResolved = json['isResolved'] as bool
-          ..comments =
-              ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
-                  .fromJson(json['comments'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeToJson(
-            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'viewerCanResolve': instance.viewerCanResolve,
-          'viewerCanUnresolve': instance.viewerCanUnresolve,
-          'viewerCanReply': instance.viewerCanReply,
-          'isOutdated': instance.isOutdated,
-          'isCollapsed': instance.isCollapsed,
-          'isResolved': instance.isResolved,
-          'comments': instance.comments.toJson(),
-        };
-
-ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$EdgesFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
-              ? null
-              : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node
-                  .fromJson(json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$EdgesToJson(
-            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
-                instance) =>
-        <String, dynamic>{
-          'cursor': instance.cursor,
-          'node': instance.node?.toJson(),
-        };
-
-ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreadsFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads()
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic>
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreadsToJson(
-            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
-                instance) =>
-        <String, dynamic>{
-          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-        };
-
-ReviewThreadFirstCommentQuery$Query$Repository$PullRequest
-    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequestFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest()
-          ..id = json['id'] as String
-          ..reviewThreads =
-              ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
-                  .fromJson(json['reviewThreads'] as Map<String, dynamic>);
-
-Map<String,
-    dynamic> _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequestToJson(
-        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'reviewThreads': instance.reviewThreads.toJson(),
-    };
-
-ReviewThreadFirstCommentQuery$Query$Repository
-    _$ReviewThreadFirstCommentQuery$Query$RepositoryFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query$Repository()
-          ..pullRequest = json['pullRequest'] == null
-              ? null
-              : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest
-                  .fromJson(json['pullRequest'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$ReviewThreadFirstCommentQuery$Query$RepositoryToJson(
-        ReviewThreadFirstCommentQuery$Query$Repository instance) =>
-    <String, dynamic>{
-      'pullRequest': instance.pullRequest?.toJson(),
-    };
-
-ReviewThreadFirstCommentQuery$Query
-    _$ReviewThreadFirstCommentQuery$QueryFromJson(Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQuery$Query()
-          ..repository = json['repository'] == null
-              ? null
-              : ReviewThreadFirstCommentQuery$Query$Repository.fromJson(
-                  json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$ReviewThreadFirstCommentQuery$QueryToJson(
-        ReviewThreadFirstCommentQuery$Query instance) =>
-    <String, dynamic>{
-      'repository': instance.repository?.toJson(),
-    };
-
-ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
-          ..id = json['id'] as String
-          ..databaseId = json['databaseId'] as int?
-          ..author = json['author'] == null
-              ? null
-              : PullRequestReviewCommentMixin$Author.fromJson(
-                  json['author'] as Map<String, dynamic>)
-          ..createdAt = DateTime.parse(json['createdAt'] as String)
-          ..authorAssociation = $enumDecode(
-              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
-              unknownValue: CommentAuthorAssociation.artemisUnknown)
-          ..body = json['body'] as String
-          ..bodyHTML = json['bodyHTML'] as String
-          ..lastEditedAt = json['lastEditedAt'] == null
-              ? null
-              : DateTime.parse(json['lastEditedAt'] as String)
-          ..state = $enumDecode(
-              _$PullRequestReviewCommentStateEnumMap, json['state'],
-              unknownValue: PullRequestReviewCommentState.artemisUnknown)
-          ..diffHunk = json['diffHunk'] as String
-          ..outdated = json['outdated'] as bool
-          ..isMinimized = json['isMinimized'] as bool
-          ..replyTo = json['replyTo'] == null
-              ? null
-              : PullRequestReviewCommentMixin$ReplyTo.fromJson(
-                  json['replyTo'] as Map<String, dynamic>)
-          ..path = json['path'] as String
-          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
-              ?.map((e) =>
-                  PullRequestReviewCommentMixin$ReactionGroups.fromJson(
-                      e as Map<String, dynamic>))
-              .toList()
-          ..viewerCanDelete = json['viewerCanDelete'] as bool
-          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
-          ..viewerDidAuthor = json['viewerDidAuthor'] as bool
-          ..viewerCannotUpdateReasons =
-              (json['viewerCannotUpdateReasons'] as List<dynamic>)
-                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
-                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
-                  .toList()
-          ..viewerCanReact = json['viewerCanReact'] as bool
-          ..viewerCanMinimize = json['viewerCanMinimize'] as bool
-          ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
-              json['pullRequest'] as Map<String, dynamic>)
-          ..repository = PullRequestReviewCommentMixin$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
-            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'databaseId': instance.databaseId,
-          'author': instance.author?.toJson(),
-          'createdAt': instance.createdAt.toIso8601String(),
-          'authorAssociation':
-              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
-          'body': instance.body,
-          'bodyHTML': instance.bodyHTML,
-          'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
-          'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
-          'diffHunk': instance.diffHunk,
-          'outdated': instance.outdated,
-          'isMinimized': instance.isMinimized,
-          'replyTo': instance.replyTo?.toJson(),
-          'path': instance.path,
-          'reactionGroups':
-              instance.reactionGroups?.map((e) => e.toJson()).toList(),
-          'viewerCanDelete': instance.viewerCanDelete,
-          'viewerCanUpdate': instance.viewerCanUpdate,
-          'viewerDidAuthor': instance.viewerDidAuthor,
-          'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
-              .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
-              .toList(),
-          'viewerCanReact': instance.viewerCanReact,
-          'viewerCanMinimize': instance.viewerCanMinimize,
-          'pullRequest': instance.pullRequest.toJson(),
-          'repository': instance.repository.toJson(),
-        };
-
-ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
-              ? null
-              : ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
-                  .fromJson(json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesToJson(
-            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
-                instance) =>
-        <String, dynamic>{
-          'cursor': instance.cursor,
-          'node': instance.node?.toJson(),
-        };
-
-ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments()
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic>
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsToJson(
-            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
-                instance) =>
-        <String, dynamic>{
-          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-        };
-
-ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread()
-          ..$$typename = json['__typename'] as String?
-          ..comments =
-              ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
-                  .fromJson(json['comments'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadToJson(
-            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
-                instance) =>
-        <String, dynamic>{
-          '__typename': instance.$$typename,
-          'comments': instance.comments.toJson(),
-        };
-
-ReviewThreadCommentsQuery$Query$Node
-    _$ReviewThreadCommentsQuery$Query$NodeFromJson(Map<String, dynamic> json) =>
-        ReviewThreadCommentsQuery$Query$Node()
-          ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$ReviewThreadCommentsQuery$Query$NodeToJson(
-        ReviewThreadCommentsQuery$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-ReviewThreadCommentsQuery$Query _$ReviewThreadCommentsQuery$QueryFromJson(
+GetViewerOrgs$Query$Viewer _$GetViewerOrgs$Query$ViewerFromJson(
         Map<String, dynamic> json) =>
-    ReviewThreadCommentsQuery$Query()
-      ..node = json['node'] == null
-          ? null
-          : ReviewThreadCommentsQuery$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
+    GetViewerOrgs$Query$Viewer()
+      ..organizations = GetViewerOrgs$Query$Viewer$Organizations.fromJson(
+          json['organizations'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$ReviewThreadCommentsQuery$QueryToJson(
-        ReviewThreadCommentsQuery$Query instance) =>
+Map<String, dynamic> _$GetViewerOrgs$Query$ViewerToJson(
+        GetViewerOrgs$Query$Viewer instance) =>
     <String, dynamic>{
-      'node': instance.node?.toJson(),
+      'organizations': instance.organizations.toJson(),
     };
 
-CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
-    _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesFromJson(
-            Map<String, dynamic> json) =>
-        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes()
-          ..url = Uri.parse(json['url'] as String);
+GetViewerOrgs$Query _$GetViewerOrgs$QueryFromJson(Map<String, dynamic> json) =>
+    GetViewerOrgs$Query()
+      ..viewer = GetViewerOrgs$Query$Viewer.fromJson(
+          json['viewer'] as Map<String, dynamic>);
 
-Map<String, dynamic>
-    _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesToJson(
-            CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
-                instance) =>
-        <String, dynamic>{
-          'url': instance.url.toString(),
-        };
-
-CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
-    _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsFromJson(
-            Map<String, dynamic> json) =>
-        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews()
-          ..totalCount = json['totalCount'] as int
-          ..nodes = (json['nodes'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String,
-    dynamic> _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsToJson(
-        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews instance) =>
+Map<String, dynamic> _$GetViewerOrgs$QueryToJson(
+        GetViewerOrgs$Query instance) =>
     <String, dynamic>{
-      'totalCount': instance.totalCount,
-      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
-    };
-
-CheckPendingViewerReviews$Query$Node$PullRequest
-    _$CheckPendingViewerReviews$Query$Node$PullRequestFromJson(
-            Map<String, dynamic> json) =>
-        CheckPendingViewerReviews$Query$Node$PullRequest()
-          ..$$typename = json['__typename'] as String?
-          ..reviews = json['reviews'] == null
-              ? null
-              : CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
-                  .fromJson(json['reviews'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$CheckPendingViewerReviews$Query$Node$PullRequestToJson(
-        CheckPendingViewerReviews$Query$Node$PullRequest instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'reviews': instance.reviews?.toJson(),
-    };
-
-CheckPendingViewerReviews$Query$Node
-    _$CheckPendingViewerReviews$Query$NodeFromJson(Map<String, dynamic> json) =>
-        CheckPendingViewerReviews$Query$Node()
-          ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$CheckPendingViewerReviews$Query$NodeToJson(
-        CheckPendingViewerReviews$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-CheckPendingViewerReviews$Query _$CheckPendingViewerReviews$QueryFromJson(
-        Map<String, dynamic> json) =>
-    CheckPendingViewerReviews$Query()
-      ..node = json['node'] == null
-          ? null
-          : CheckPendingViewerReviews$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$CheckPendingViewerReviews$QueryToJson(
-        CheckPendingViewerReviews$Query instance) =>
-    <String, dynamic>{
-      'node': instance.node?.toJson(),
+      'viewer': instance.viewer.toJson(),
     };
 
 GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEvent
@@ -1808,6 +879,29 @@ Map<String, dynamic>
           '__typename': instance.$$typename,
         };
 
+const _$CommentAuthorAssociationEnumMap = {
+  CommentAuthorAssociation.collaborator: 'COLLABORATOR',
+  CommentAuthorAssociation.contributor: 'CONTRIBUTOR',
+  CommentAuthorAssociation.firstTimer: 'FIRST_TIMER',
+  CommentAuthorAssociation.firstTimeContributor: 'FIRST_TIME_CONTRIBUTOR',
+  CommentAuthorAssociation.mannequin: 'MANNEQUIN',
+  CommentAuthorAssociation.member: 'MEMBER',
+  CommentAuthorAssociation.none: 'NONE',
+  CommentAuthorAssociation.owner: 'OWNER',
+  CommentAuthorAssociation.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$CommentCannotUpdateReasonEnumMap = {
+  CommentCannotUpdateReason.archived: 'ARCHIVED',
+  CommentCannotUpdateReason.denied: 'DENIED',
+  CommentCannotUpdateReason.insufficientAccess: 'INSUFFICIENT_ACCESS',
+  CommentCannotUpdateReason.locked: 'LOCKED',
+  CommentCannotUpdateReason.loginRequired: 'LOGIN_REQUIRED',
+  CommentCannotUpdateReason.maintenance: 'MAINTENANCE',
+  CommentCannotUpdateReason.verifiedEmailRequired: 'VERIFIED_EMAIL_REQUIRED',
+  CommentCannotUpdateReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
 GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEvent
     _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventFromJson(
             Map<String, dynamic> json) =>
@@ -1860,6 +954,14 @@ Map<String, dynamic>
           'lockReason': _$LockReasonEnumMap[instance.lockReason],
           '__typename': instance.$$typename,
         };
+
+const _$LockReasonEnumMap = {
+  LockReason.offTopic: 'OFF_TOPIC',
+  LockReason.resolved: 'RESOLVED',
+  LockReason.spam: 'SPAM',
+  LockReason.tooHeated: 'TOO_HEATED',
+  LockReason.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
 GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEvent
     _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventFromJson(
@@ -3539,6 +2641,13 @@ Map<String, dynamic> _$CrossReferenceMixin$Source$PullRequestToJson(
       '__typename': instance.$$typename,
     };
 
+const _$PullRequestStateEnumMap = {
+  PullRequestState.closed: 'CLOSED',
+  PullRequestState.merged: 'MERGED',
+  PullRequestState.open: 'OPEN',
+  PullRequestState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
 CrossReferenceMixin$Source _$CrossReferenceMixin$SourceFromJson(
         Map<String, dynamic> json) =>
     CrossReferenceMixin$Source()..$$typename = json['__typename'] as String?;
@@ -3547,19 +2656,6 @@ Map<String, dynamic> _$CrossReferenceMixin$SourceToJson(
         CrossReferenceMixin$Source instance) =>
     <String, dynamic>{
       '__typename': instance.$$typename,
-    };
-
-IssueMixin$Repository _$IssueMixin$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    IssueMixin$Repository()
-      ..name = json['name'] as String
-      ..nameWithOwner = json['nameWithOwner'] as String;
-
-Map<String, dynamic> _$IssueMixin$RepositoryToJson(
-        IssueMixin$Repository instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'nameWithOwner': instance.nameWithOwner,
     };
 
 PullRequestMixin$Repository _$PullRequestMixin$RepositoryFromJson(
@@ -3619,6 +2715,38 @@ Map<String, dynamic> _$IssueCommentMixin$ReactionGroupsToJson(
       'viewerHasReacted': instance.viewerHasReacted,
       'reactors': instance.reactors.toJson(),
       'subject': instance.subject.toJson(),
+    };
+
+const _$ReactionContentEnumMap = {
+  ReactionContent.confused: 'CONFUSED',
+  ReactionContent.eyes: 'EYES',
+  ReactionContent.heart: 'HEART',
+  ReactionContent.hooray: 'HOORAY',
+  ReactionContent.laugh: 'LAUGH',
+  ReactionContent.rocket: 'ROCKET',
+  ReactionContent.thumbsDown: 'THUMBS_DOWN',
+  ReactionContent.thumbsUp: 'THUMBS_UP',
+  ReactionContent.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+ReactionGroupsMixin$Reactors _$ReactionGroupsMixin$ReactorsFromJson(
+        Map<String, dynamic> json) =>
+    ReactionGroupsMixin$Reactors()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$ReactionGroupsMixin$ReactorsToJson(
+        ReactionGroupsMixin$Reactors instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+ReactionGroupsMixin$Subject _$ReactionGroupsMixin$SubjectFromJson(
+        Map<String, dynamic> json) =>
+    ReactionGroupsMixin$Subject()..id = json['id'] as String;
+
+Map<String, dynamic> _$ReactionGroupsMixin$SubjectToJson(
+        ReactionGroupsMixin$Subject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
     };
 
 LabeledMixin$Actor _$LabeledMixin$ActorFromJson(Map<String, dynamic> json) =>
@@ -4386,587 +3514,1531 @@ Map<String, dynamic> _$ReviewRequestedMixin$RequestedReviewerToJson(
       '__typename': instance.$$typename,
     };
 
-IssueTemplates$Query$Repository$IssueTemplates
-    _$IssueTemplates$Query$Repository$IssueTemplatesFromJson(
+GetPRReviewComments$Query$Node$PullRequestReview
+    _$GetPRReviewComments$Query$Node$PullRequestReviewFromJson(
             Map<String, dynamic> json) =>
-        IssueTemplates$Query$Repository$IssueTemplates()
-          ..name = json['name'] as String
-          ..title = json['title'] as String?
-          ..body = json['body'] as String?
-          ..about = json['about'] as String?;
+        GetPRReviewComments$Query$Node$PullRequestReview()
+          ..comments = PRReviewCommentsMixin$Comments.fromJson(
+              json['comments'] as Map<String, dynamic>)
+          ..$$typename = json['__typename'] as String?;
 
-Map<String, dynamic> _$IssueTemplates$Query$Repository$IssueTemplatesToJson(
-        IssueTemplates$Query$Repository$IssueTemplates instance) =>
+Map<String, dynamic> _$GetPRReviewComments$Query$Node$PullRequestReviewToJson(
+        GetPRReviewComments$Query$Node$PullRequestReview instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'title': instance.title,
-      'body': instance.body,
-      'about': instance.about,
+      'comments': instance.comments.toJson(),
+      '__typename': instance.$$typename,
     };
 
-IssueTemplates$Query$Repository _$IssueTemplates$Query$RepositoryFromJson(
+GetPRReviewComments$Query$Node _$GetPRReviewComments$Query$NodeFromJson(
         Map<String, dynamic> json) =>
-    IssueTemplates$Query$Repository()
-      ..issueTemplates = (json['issueTemplates'] as List<dynamic>?)
-          ?.map((e) => IssueTemplates$Query$Repository$IssueTemplates.fromJson(
-              e as Map<String, dynamic>))
+    GetPRReviewComments$Query$Node()
+      ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetPRReviewComments$Query$NodeToJson(
+        GetPRReviewComments$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetPRReviewComments$Query _$GetPRReviewComments$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetPRReviewComments$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetPRReviewComments$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetPRReviewComments$QueryToJson(
+        GetPRReviewComments$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+PRReviewCommentsMixin$Comments$Edges$Node
+    _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        PRReviewCommentsMixin$Comments$Edges$Node()
+          ..id = json['id'] as String
+          ..databaseId = json['databaseId'] as int?
+          ..author = json['author'] == null
+              ? null
+              : PullRequestReviewCommentMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
+          ..body = json['body'] as String
+          ..bodyHTML = json['bodyHTML'] as String
+          ..lastEditedAt = json['lastEditedAt'] == null
+              ? null
+              : DateTime.parse(json['lastEditedAt'] as String)
+          ..state = $enumDecode(
+              _$PullRequestReviewCommentStateEnumMap, json['state'],
+              unknownValue: PullRequestReviewCommentState.artemisUnknown)
+          ..diffHunk = json['diffHunk'] as String
+          ..outdated = json['outdated'] as bool
+          ..isMinimized = json['isMinimized'] as bool
+          ..replyTo = json['replyTo'] == null
+              ? null
+              : PullRequestReviewCommentMixin$ReplyTo.fromJson(
+                  json['replyTo'] as Map<String, dynamic>)
+          ..path = json['path'] as String
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) =>
+                  PullRequestReviewCommentMixin$ReactionGroups.fromJson(
+                      e as Map<String, dynamic>))
+              .toList()
+          ..viewerCanDelete = json['viewerCanDelete'] as bool
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+          ..viewerDidAuthor = json['viewerDidAuthor'] as bool
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..viewerCanMinimize = json['viewerCanMinimize'] as bool
+          ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
+              json['pullRequest'] as Map<String, dynamic>)
+          ..repository = PullRequestReviewCommentMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
+        PRReviewCommentsMixin$Comments$Edges$Node instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'databaseId': instance.databaseId,
+      'author': instance.author?.toJson(),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'authorAssociation':
+          _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+      'body': instance.body,
+      'bodyHTML': instance.bodyHTML,
+      'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
+      'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
+      'diffHunk': instance.diffHunk,
+      'outdated': instance.outdated,
+      'isMinimized': instance.isMinimized,
+      'replyTo': instance.replyTo?.toJson(),
+      'path': instance.path,
+      'reactionGroups':
+          instance.reactionGroups?.map((e) => e.toJson()).toList(),
+      'viewerCanDelete': instance.viewerCanDelete,
+      'viewerCanUpdate': instance.viewerCanUpdate,
+      'viewerDidAuthor': instance.viewerDidAuthor,
+      'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
+          .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
+          .toList(),
+      'viewerCanReact': instance.viewerCanReact,
+      'viewerCanMinimize': instance.viewerCanMinimize,
+      'pullRequest': instance.pullRequest.toJson(),
+      'repository': instance.repository.toJson(),
+    };
+
+const _$PullRequestReviewCommentStateEnumMap = {
+  PullRequestReviewCommentState.pending: 'PENDING',
+  PullRequestReviewCommentState.submitted: 'SUBMITTED',
+  PullRequestReviewCommentState.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+PRReviewCommentsMixin$Comments$Edges
+    _$PRReviewCommentsMixin$Comments$EdgesFromJson(Map<String, dynamic> json) =>
+        PRReviewCommentsMixin$Comments$Edges()
+          ..$$typename = json['__typename'] as String?
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : PRReviewCommentsMixin$Comments$Edges$Node.fromJson(
+                  json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PRReviewCommentsMixin$Comments$EdgesToJson(
+        PRReviewCommentsMixin$Comments$Edges instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+PRReviewCommentsMixin$Comments _$PRReviewCommentsMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    PRReviewCommentsMixin$Comments()
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : PRReviewCommentsMixin$Comments$Edges.fromJson(
+                  e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$IssueTemplates$Query$RepositoryToJson(
-        IssueTemplates$Query$Repository instance) =>
+Map<String, dynamic> _$PRReviewCommentsMixin$CommentsToJson(
+        PRReviewCommentsMixin$Comments instance) =>
     <String, dynamic>{
-      'issueTemplates':
-          instance.issueTemplates?.map((e) => e.toJson()).toList(),
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
     };
 
-IssueTemplates$Query _$IssueTemplates$QueryFromJson(
-        Map<String, dynamic> json) =>
-    IssueTemplates$Query()
-      ..repository = json['repository'] == null
-          ? null
-          : IssueTemplates$Query$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
+PullRequestReviewCommentMixin$Author
+    _$PullRequestReviewCommentMixin$AuthorFromJson(Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$Author()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String;
 
-Map<String, dynamic> _$IssueTemplates$QueryToJson(
-        IssueTemplates$Query instance) =>
+Map<String, dynamic> _$PullRequestReviewCommentMixin$AuthorToJson(
+        PullRequestReviewCommentMixin$Author instance) =>
     <String, dynamic>{
-      'repository': instance.repository?.toJson(),
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
     };
 
-PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
-    _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueFromJson(
+PullRequestReviewCommentMixin$ReplyTo
+    _$PullRequestReviewCommentMixin$ReplyToFromJson(
             Map<String, dynamic> json) =>
-        PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue()
-          ..url = Uri.parse(json['url'] as String)
-          ..title = json['title'] as String
-          ..number = json['number'] as int
-          ..issueState = $enumDecode(_$IssueStateEnumMap, json['issueState'],
-              unknownValue: IssueState.artemisUnknown)
-          ..repository = IssueMixin$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
+        PullRequestReviewCommentMixin$ReplyTo()..id = json['id'] as String;
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$ReplyToToJson(
+        PullRequestReviewCommentMixin$ReplyTo instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+PullRequestReviewCommentMixin$ReactionGroups
+    _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$ReactionGroups()
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+              unknownValue: ReactionContent.artemisUnknown)
+          ..viewerHasReacted = json['viewerHasReacted'] as bool
+          ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>)
+          ..subject = ReactionGroupsMixin$Subject.fromJson(
+              json['subject'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$ReactionGroupsToJson(
+        PullRequestReviewCommentMixin$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'viewerHasReacted': instance.viewerHasReacted,
+      'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
+    };
+
+PullRequestReviewCommentMixin$PullRequest
+    _$PullRequestReviewCommentMixin$PullRequestFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$PullRequest()
+          ..number = json['number'] as int;
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$PullRequestToJson(
+        PullRequestReviewCommentMixin$PullRequest instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+    };
+
+PullRequestReviewCommentMixin$Repository$Owner
+    _$PullRequestReviewCommentMixin$Repository$OwnerFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$Repository$Owner()
+          ..login = json['login'] as String;
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$Repository$OwnerToJson(
+        PullRequestReviewCommentMixin$Repository$Owner instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+    };
+
+PullRequestReviewCommentMixin$Repository
+    _$PullRequestReviewCommentMixin$RepositoryFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$Repository()
+          ..name = json['name'] as String
+          ..owner = PullRequestReviewCommentMixin$Repository$Owner.fromJson(
+              json['owner'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$RepositoryToJson(
+        PullRequestReviewCommentMixin$Repository instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner.toJson(),
+    };
+
+ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$NodesFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes()
+          ..id = json['id'] as String;
 
 Map<String, dynamic>
-    _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueToJson(
-            PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue instance) =>
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$NodesToJson(
+            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
+                instance) =>
         <String, dynamic>{
-          'url': instance.url.toString(),
-          'title': instance.title,
-          'number': instance.number,
-          'issueState': _$IssueStateEnumMap[instance.issueState],
-          'repository': instance.repository.toJson(),
+          'id': instance.id,
         };
 
-PinnedIssues$Query$Repository$PinnedIssues$Nodes
-    _$PinnedIssues$Query$Repository$PinnedIssues$NodesFromJson(
+ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$CommentsFromJson(
             Map<String, dynamic> json) =>
-        PinnedIssues$Query$Repository$PinnedIssues$Nodes()
-          ..issue =
-              PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue.fromJson(
-                  json['issue'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PinnedIssues$Query$Repository$PinnedIssues$NodesToJson(
-        PinnedIssues$Query$Repository$PinnedIssues$Nodes instance) =>
-    <String, dynamic>{
-      'issue': instance.issue.toJson(),
-    };
-
-PinnedIssues$Query$Repository$PinnedIssues
-    _$PinnedIssues$Query$Repository$PinnedIssuesFromJson(
-            Map<String, dynamic> json) =>
-        PinnedIssues$Query$Repository$PinnedIssues()
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments()
           ..totalCount = json['totalCount'] as int
           ..nodes = (json['nodes'] as List<dynamic>?)
               ?.map((e) => e == null
                   ? null
-                  : PinnedIssues$Query$Repository$PinnedIssues$Nodes.fromJson(
-                      e as Map<String, dynamic>))
+                  : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$Nodes
+                      .fromJson(e as Map<String, dynamic>))
               .toList();
 
-Map<String, dynamic> _$PinnedIssues$Query$Repository$PinnedIssuesToJson(
-        PinnedIssues$Query$Repository$PinnedIssues instance) =>
+Map<String, dynamic>
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$CommentsToJson(
+            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
+                instance) =>
+        <String, dynamic>{
+          'totalCount': instance.totalCount,
+          'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+        };
+
+ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node()
+          ..id = json['id'] as String
+          ..viewerCanResolve = json['viewerCanResolve'] as bool
+          ..viewerCanUnresolve = json['viewerCanUnresolve'] as bool
+          ..viewerCanReply = json['viewerCanReply'] as bool
+          ..isOutdated = json['isOutdated'] as bool
+          ..isCollapsed = json['isCollapsed'] as bool
+          ..isResolved = json['isResolved'] as bool
+          ..comments =
+              ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments
+                  .fromJson(json['comments'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeToJson(
+            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'viewerCanResolve': instance.viewerCanResolve,
+          'viewerCanUnresolve': instance.viewerCanUnresolve,
+          'viewerCanReply': instance.viewerCanReply,
+          'isOutdated': instance.isOutdated,
+          'isCollapsed': instance.isCollapsed,
+          'isResolved': instance.isResolved,
+          'comments': instance.comments.toJson(),
+        };
+
+ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$EdgesToJson(
+            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
+                instance) =>
+        <String, dynamic>{
+          'cursor': instance.cursor,
+          'node': instance.node?.toJson(),
+        };
+
+ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreadsFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads()
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic>
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreadsToJson(
+            ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
+                instance) =>
+        <String, dynamic>{
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+ReviewThreadFirstCommentQuery$Query$Repository$PullRequest
+    _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequestFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest()
+          ..id = json['id'] as String
+          ..reviewThreads =
+              ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
+                  .fromJson(json['reviewThreads'] as Map<String, dynamic>);
+
+Map<String,
+    dynamic> _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequestToJson(
+        ReviewThreadFirstCommentQuery$Query$Repository$PullRequest instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'reviewThreads': instance.reviewThreads.toJson(),
+    };
+
+ReviewThreadFirstCommentQuery$Query$Repository
+    _$ReviewThreadFirstCommentQuery$Query$RepositoryFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query$Repository()
+          ..pullRequest = json['pullRequest'] == null
+              ? null
+              : ReviewThreadFirstCommentQuery$Query$Repository$PullRequest
+                  .fromJson(json['pullRequest'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$ReviewThreadFirstCommentQuery$Query$RepositoryToJson(
+        ReviewThreadFirstCommentQuery$Query$Repository instance) =>
+    <String, dynamic>{
+      'pullRequest': instance.pullRequest?.toJson(),
+    };
+
+ReviewThreadFirstCommentQuery$Query
+    _$ReviewThreadFirstCommentQuery$QueryFromJson(Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQuery$Query()
+          ..repository = json['repository'] == null
+              ? null
+              : ReviewThreadFirstCommentQuery$Query$Repository.fromJson(
+                  json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$ReviewThreadFirstCommentQuery$QueryToJson(
+        ReviewThreadFirstCommentQuery$Query instance) =>
+    <String, dynamic>{
+      'repository': instance.repository?.toJson(),
+    };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
+          ..id = json['id'] as String
+          ..databaseId = json['databaseId'] as int?
+          ..author = json['author'] == null
+              ? null
+              : PullRequestReviewCommentMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
+          ..body = json['body'] as String
+          ..bodyHTML = json['bodyHTML'] as String
+          ..lastEditedAt = json['lastEditedAt'] == null
+              ? null
+              : DateTime.parse(json['lastEditedAt'] as String)
+          ..state = $enumDecode(
+              _$PullRequestReviewCommentStateEnumMap, json['state'],
+              unknownValue: PullRequestReviewCommentState.artemisUnknown)
+          ..diffHunk = json['diffHunk'] as String
+          ..outdated = json['outdated'] as bool
+          ..isMinimized = json['isMinimized'] as bool
+          ..replyTo = json['replyTo'] == null
+              ? null
+              : PullRequestReviewCommentMixin$ReplyTo.fromJson(
+                  json['replyTo'] as Map<String, dynamic>)
+          ..path = json['path'] as String
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) =>
+                  PullRequestReviewCommentMixin$ReactionGroups.fromJson(
+                      e as Map<String, dynamic>))
+              .toList()
+          ..viewerCanDelete = json['viewerCanDelete'] as bool
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+          ..viewerDidAuthor = json['viewerDidAuthor'] as bool
+          ..viewerCannotUpdateReasons =
+              (json['viewerCannotUpdateReasons'] as List<dynamic>)
+                  .map((e) => $enumDecode(_$CommentCannotUpdateReasonEnumMap, e,
+                      unknownValue: CommentCannotUpdateReason.artemisUnknown))
+                  .toList()
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..viewerCanMinimize = json['viewerCanMinimize'] as bool
+          ..pullRequest = PullRequestReviewCommentMixin$PullRequest.fromJson(
+              json['pullRequest'] as Map<String, dynamic>)
+          ..repository = PullRequestReviewCommentMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'databaseId': instance.databaseId,
+          'author': instance.author?.toJson(),
+          'createdAt': instance.createdAt.toIso8601String(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'body': instance.body,
+          'bodyHTML': instance.bodyHTML,
+          'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
+          'state': _$PullRequestReviewCommentStateEnumMap[instance.state],
+          'diffHunk': instance.diffHunk,
+          'outdated': instance.outdated,
+          'isMinimized': instance.isMinimized,
+          'replyTo': instance.replyTo?.toJson(),
+          'path': instance.path,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'viewerCanDelete': instance.viewerCanDelete,
+          'viewerCanUpdate': instance.viewerCanUpdate,
+          'viewerDidAuthor': instance.viewerDidAuthor,
+          'viewerCannotUpdateReasons': instance.viewerCannotUpdateReasons
+              .map((e) => _$CommentCannotUpdateReasonEnumMap[e])
+              .toList(),
+          'viewerCanReact': instance.viewerCanReact,
+          'viewerCanMinimize': instance.viewerCanMinimize,
+          'pullRequest': instance.pullRequest.toJson(),
+          'repository': instance.repository.toJson(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+                instance) =>
+        <String, dynamic>{
+          'cursor': instance.cursor,
+          'node': instance.node?.toJson(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments()
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+                instance) =>
+        <String, dynamic>{
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread()
+          ..$$typename = json['__typename'] as String?
+          ..comments =
+              ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
+                  .fromJson(json['comments'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadToJson(
+            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
+                instance) =>
+        <String, dynamic>{
+          '__typename': instance.$$typename,
+          'comments': instance.comments.toJson(),
+        };
+
+ReviewThreadCommentsQuery$Query$Node
+    _$ReviewThreadCommentsQuery$Query$NodeFromJson(Map<String, dynamic> json) =>
+        ReviewThreadCommentsQuery$Query$Node()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReviewThreadCommentsQuery$Query$NodeToJson(
+        ReviewThreadCommentsQuery$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+ReviewThreadCommentsQuery$Query _$ReviewThreadCommentsQuery$QueryFromJson(
+        Map<String, dynamic> json) =>
+    ReviewThreadCommentsQuery$Query()
+      ..node = json['node'] == null
+          ? null
+          : ReviewThreadCommentsQuery$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$ReviewThreadCommentsQuery$QueryToJson(
+        ReviewThreadCommentsQuery$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+    _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesFromJson(
+            Map<String, dynamic> json) =>
+        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes()
+          ..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic>
+    _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesToJson(
+            CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+                instance) =>
+        <String, dynamic>{
+          'url': instance.url.toString(),
+        };
+
+CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
+    _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsFromJson(
+            Map<String, dynamic> json) =>
+        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews()
+          ..totalCount = json['totalCount'] as int
+          ..nodes = (json['nodes'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String,
+    dynamic> _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsToJson(
+        CheckPendingViewerReviews$Query$Node$PullRequest$Reviews instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
       'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
     };
 
-PinnedIssues$Query$Repository _$PinnedIssues$Query$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    PinnedIssues$Query$Repository()
-      ..pinnedIssues = json['pinnedIssues'] == null
-          ? null
-          : PinnedIssues$Query$Repository$PinnedIssues.fromJson(
-              json['pinnedIssues'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PinnedIssues$Query$RepositoryToJson(
-        PinnedIssues$Query$Repository instance) =>
-    <String, dynamic>{
-      'pinnedIssues': instance.pinnedIssues?.toJson(),
-    };
-
-PinnedIssues$Query _$PinnedIssues$QueryFromJson(Map<String, dynamic> json) =>
-    PinnedIssues$Query()
-      ..repository = json['repository'] == null
-          ? null
-          : PinnedIssues$Query$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PinnedIssues$QueryToJson(PinnedIssues$Query instance) =>
-    <String, dynamic>{
-      'repository': instance.repository?.toJson(),
-    };
-
-GetRepoProjects$Query$Repository$Projects$Edges$Node
-    _$GetRepoProjects$Query$Repository$Projects$Edges$NodeFromJson(
+CheckPendingViewerReviews$Query$Node$PullRequest
+    _$CheckPendingViewerReviews$Query$Node$PullRequestFromJson(
             Map<String, dynamic> json) =>
-        GetRepoProjects$Query$Repository$Projects$Edges$Node()
-          ..name = json['name'] as String
-          ..id = json['id'] as String
-          ..databaseId = json['databaseId'] as int?
-          ..updatedAt = DateTime.parse(json['updatedAt'] as String)
-          ..number = json['number'] as int
-          ..bodyHTML = json['bodyHTML'] as String
-          ..body = json['body'] as String?
-          ..closed = json['closed'] as bool
-          ..progress = ProjectMixin$Progress.fromJson(
-              json['progress'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$GetRepoProjects$Query$Repository$Projects$Edges$NodeToJson(
-            GetRepoProjects$Query$Repository$Projects$Edges$Node instance) =>
-        <String, dynamic>{
-          'name': instance.name,
-          'id': instance.id,
-          'databaseId': instance.databaseId,
-          'updatedAt': instance.updatedAt.toIso8601String(),
-          'number': instance.number,
-          'bodyHTML': instance.bodyHTML,
-          'body': instance.body,
-          'closed': instance.closed,
-          'progress': instance.progress.toJson(),
-        };
-
-GetRepoProjects$Query$Repository$Projects$Edges
-    _$GetRepoProjects$Query$Repository$Projects$EdgesFromJson(
-            Map<String, dynamic> json) =>
-        GetRepoProjects$Query$Repository$Projects$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
+        CheckPendingViewerReviews$Query$Node$PullRequest()
+          ..$$typename = json['__typename'] as String?
+          ..reviews = json['reviews'] == null
               ? null
-              : GetRepoProjects$Query$Repository$Projects$Edges$Node.fromJson(
-                  json['node'] as Map<String, dynamic>);
+              : CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
+                  .fromJson(json['reviews'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$GetRepoProjects$Query$Repository$Projects$EdgesToJson(
-        GetRepoProjects$Query$Repository$Projects$Edges instance) =>
+Map<String, dynamic> _$CheckPendingViewerReviews$Query$Node$PullRequestToJson(
+        CheckPendingViewerReviews$Query$Node$PullRequest instance) =>
     <String, dynamic>{
-      'cursor': instance.cursor,
+      '__typename': instance.$$typename,
+      'reviews': instance.reviews?.toJson(),
+    };
+
+CheckPendingViewerReviews$Query$Node
+    _$CheckPendingViewerReviews$Query$NodeFromJson(Map<String, dynamic> json) =>
+        CheckPendingViewerReviews$Query$Node()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$CheckPendingViewerReviews$Query$NodeToJson(
+        CheckPendingViewerReviews$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+CheckPendingViewerReviews$Query _$CheckPendingViewerReviews$QueryFromJson(
+        Map<String, dynamic> json) =>
+    CheckPendingViewerReviews$Query()
+      ..node = json['node'] == null
+          ? null
+          : CheckPendingViewerReviews$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$CheckPendingViewerReviews$QueryToJson(
+        CheckPendingViewerReviews$Query instance) =>
+    <String, dynamic>{
       'node': instance.node?.toJson(),
     };
 
-GetRepoProjects$Query$Repository$Projects
-    _$GetRepoProjects$Query$Repository$ProjectsFromJson(
+FetchReview$Query$Node$PullRequestReviewComment$Author
+    _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(
             Map<String, dynamic> json) =>
-        GetRepoProjects$Query$Repository$Projects()
-          ..totalCount = json['totalCount'] as int
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : GetRepoProjects$Query$Repository$Projects$Edges.fromJson(
-                      e as Map<String, dynamic>))
-              .toList();
+        FetchReview$Query$Node$PullRequestReviewComment$Author()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String;
 
-Map<String, dynamic> _$GetRepoProjects$Query$Repository$ProjectsToJson(
-        GetRepoProjects$Query$Repository$Projects instance) =>
+Map<String, dynamic>
+    _$FetchReview$Query$Node$PullRequestReviewComment$AuthorToJson(
+            FetchReview$Query$Node$PullRequestReviewComment$Author instance) =>
+        <String, dynamic>{
+          'avatarUrl': instance.avatarUrl.toString(),
+          'login': instance.login,
+        };
+
+FetchReview$Query$Node$PullRequestReviewComment
+    _$FetchReview$Query$Node$PullRequestReviewCommentFromJson(
+            Map<String, dynamic> json) =>
+        FetchReview$Query$Node$PullRequestReviewComment()
+          ..$$typename = json['__typename'] as String?
+          ..bodyHTML = json['bodyHTML'] as String
+          ..author = json['author'] == null
+              ? null
+              : FetchReview$Query$Node$PullRequestReviewComment$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..diffHunk = json['diffHunk'] as String
+          ..path = json['path'] as String;
+
+Map<String, dynamic> _$FetchReview$Query$Node$PullRequestReviewCommentToJson(
+        FetchReview$Query$Node$PullRequestReviewComment instance) =>
     <String, dynamic>{
-      'totalCount': instance.totalCount,
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-GetRepoProjects$Query$Repository _$GetRepoProjects$Query$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    GetRepoProjects$Query$Repository()
-      ..projects = GetRepoProjects$Query$Repository$Projects.fromJson(
-          json['projects'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetRepoProjects$Query$RepositoryToJson(
-        GetRepoProjects$Query$Repository instance) =>
-    <String, dynamic>{
-      'projects': instance.projects.toJson(),
-    };
-
-GetRepoProjects$Query _$GetRepoProjects$QueryFromJson(
-        Map<String, dynamic> json) =>
-    GetRepoProjects$Query()
-      ..repository = json['repository'] == null
-          ? null
-          : GetRepoProjects$Query$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetRepoProjects$QueryToJson(
-        GetRepoProjects$Query instance) =>
-    <String, dynamic>{
-      'repository': instance.repository?.toJson(),
-    };
-
-ProjectMixin$Progress _$ProjectMixin$ProgressFromJson(
-        Map<String, dynamic> json) =>
-    ProjectMixin$Progress()
-      ..donePercentage = (json['donePercentage'] as num).toDouble();
-
-Map<String, dynamic> _$ProjectMixin$ProgressToJson(
-        ProjectMixin$Progress instance) =>
-    <String, dynamic>{
-      'donePercentage': instance.donePercentage,
-    };
-
-GetProjectInfo$Query$Node$Project _$GetProjectInfo$Query$Node$ProjectFromJson(
-        Map<String, dynamic> json) =>
-    GetProjectInfo$Query$Node$Project()
-      ..name = json['name'] as String
-      ..id = json['id'] as String
-      ..databaseId = json['databaseId'] as int?
-      ..updatedAt = DateTime.parse(json['updatedAt'] as String)
-      ..number = json['number'] as int
-      ..bodyHTML = json['bodyHTML'] as String
-      ..body = json['body'] as String?
-      ..closed = json['closed'] as bool
-      ..progress = ProjectMixin$Progress.fromJson(
-          json['progress'] as Map<String, dynamic>)
-      ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetProjectInfo$Query$Node$ProjectToJson(
-        GetProjectInfo$Query$Node$Project instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'id': instance.id,
-      'databaseId': instance.databaseId,
-      'updatedAt': instance.updatedAt.toIso8601String(),
-      'number': instance.number,
+      '__typename': instance.$$typename,
       'bodyHTML': instance.bodyHTML,
-      'body': instance.body,
-      'closed': instance.closed,
-      'progress': instance.progress.toJson(),
-      '__typename': instance.$$typename,
+      'author': instance.author?.toJson(),
+      'diffHunk': instance.diffHunk,
+      'path': instance.path,
     };
 
-GetProjectInfo$Query$Node _$GetProjectInfo$Query$NodeFromJson(
+FetchReview$Query$Node _$FetchReview$Query$NodeFromJson(
         Map<String, dynamic> json) =>
-    GetProjectInfo$Query$Node()..$$typename = json['__typename'] as String?;
+    FetchReview$Query$Node()..$$typename = json['__typename'] as String?;
 
-Map<String, dynamic> _$GetProjectInfo$Query$NodeToJson(
-        GetProjectInfo$Query$Node instance) =>
+Map<String, dynamic> _$FetchReview$Query$NodeToJson(
+        FetchReview$Query$Node instance) =>
     <String, dynamic>{
       '__typename': instance.$$typename,
     };
 
-GetProjectInfo$Query _$GetProjectInfo$QueryFromJson(
-        Map<String, dynamic> json) =>
-    GetProjectInfo$Query()
+FetchReview$Query _$FetchReview$QueryFromJson(Map<String, dynamic> json) =>
+    FetchReview$Query()
       ..node = json['node'] == null
           ? null
-          : GetProjectInfo$Query$Node.fromJson(
+          : FetchReview$Query$Node.fromJson(
               json['node'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$GetProjectInfo$QueryToJson(
-        GetProjectInfo$Query instance) =>
+Map<String, dynamic> _$FetchReview$QueryToJson(FetchReview$Query instance) =>
     <String, dynamic>{
       'node': instance.node?.toJson(),
     };
 
-GetProjectColumns$Query$Node$Project$Columns$Edges$Node
-    _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeFromJson(
+IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueFromJson(
             Map<String, dynamic> json) =>
-        GetProjectColumns$Query$Node$Project$Columns$Edges$Node()
-          ..name = json['name'] as String
-          ..id = json['id'] as String
-          ..updatedAt = DateTime.parse(json['updatedAt'] as String);
-
-Map<String, dynamic>
-    _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeToJson(
-            GetProjectColumns$Query$Node$Project$Columns$Edges$Node instance) =>
-        <String, dynamic>{
-          'name': instance.name,
-          'id': instance.id,
-          'updatedAt': instance.updatedAt.toIso8601String(),
-        };
-
-GetProjectColumns$Query$Node$Project$Columns$Edges
-    _$GetProjectColumns$Query$Node$Project$Columns$EdgesFromJson(
-            Map<String, dynamic> json) =>
-        GetProjectColumns$Query$Node$Project$Columns$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
+        IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue()
+          ..activeLockReason = $enumDecodeNullable(
+              _$LockReasonEnumMap, json['activeLockReason'],
+              unknownValue: LockReason.artemisUnknown)
+          ..assignees = IssueInfoMixin$Assignees.fromJson(
+              json['assignees'] as Map<String, dynamic>)
+          ..author = json['author'] == null
               ? null
-              : GetProjectColumns$Query$Node$Project$Columns$Edges$Node
-                  .fromJson(json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetProjectColumns$Query$Node$Project$Columns$EdgesToJson(
-        GetProjectColumns$Query$Node$Project$Columns$Edges instance) =>
-    <String, dynamic>{
-      'cursor': instance.cursor,
-      'node': instance.node?.toJson(),
-    };
-
-GetProjectColumns$Query$Node$Project$Columns
-    _$GetProjectColumns$Query$Node$Project$ColumnsFromJson(
-            Map<String, dynamic> json) =>
-        GetProjectColumns$Query$Node$Project$Columns()
-          ..totalCount = json['totalCount'] as int
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : GetProjectColumns$Query$Node$Project$Columns$Edges.fromJson(
-                      e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic> _$GetProjectColumns$Query$Node$Project$ColumnsToJson(
-        GetProjectColumns$Query$Node$Project$Columns instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-GetProjectColumns$Query$Node$Project
-    _$GetProjectColumns$Query$Node$ProjectFromJson(Map<String, dynamic> json) =>
-        GetProjectColumns$Query$Node$Project()
-          ..$$typename = json['__typename'] as String?
-          ..columns = GetProjectColumns$Query$Node$Project$Columns.fromJson(
-              json['columns'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetProjectColumns$Query$Node$ProjectToJson(
-        GetProjectColumns$Query$Node$Project instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'columns': instance.columns.toJson(),
-    };
-
-GetProjectColumns$Query$Node _$GetProjectColumns$Query$NodeFromJson(
-        Map<String, dynamic> json) =>
-    GetProjectColumns$Query$Node()..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetProjectColumns$Query$NodeToJson(
-        GetProjectColumns$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-GetProjectColumns$Query _$GetProjectColumns$QueryFromJson(
-        Map<String, dynamic> json) =>
-    GetProjectColumns$Query()
-      ..node = json['node'] == null
-          ? null
-          : GetProjectColumns$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetProjectColumns$QueryToJson(
-        GetProjectColumns$Query instance) =>
-    <String, dynamic>{
-      'node': instance.node?.toJson(),
-    };
-
-GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueFromJson(
-            Map<String, dynamic> json) =>
-        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue()
-          ..$$typename = json['__typename'] as String?
+              : IssueInfoMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
           ..bodyHTML = json['bodyHTML'] as String
-          ..title = json['title'] as String
-          ..number = json['number'] as int;
-
-Map<String, dynamic>
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueToJson(
-            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Issue
-                instance) =>
-        <String, dynamic>{
-          '__typename': instance.$$typename,
-          'bodyHTML': instance.bodyHTML,
-          'title': instance.title,
-          'number': instance.number,
-        };
-
-GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentFromJson(
-            Map<String, dynamic> json) =>
-        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content()
+          ..body = json['body'] as String
+          ..closed = json['closed'] as bool
+          ..closedAt = json['closedAt'] == null
+              ? null
+              : DateTime.parse(json['closedAt'] as String)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..comments = IssueInfoMixin$Comments.fromJson(
+              json['comments'] as Map<String, dynamic>)
+          ..userContentEdits = json['userContentEdits'] == null
+              ? null
+              : IssueInfoMixin$UserContentEdits.fromJson(
+                  json['userContentEdits'] as Map<String, dynamic>)
+          ..includesCreatedEdit = json['includesCreatedEdit'] as bool
+          ..isPinned = json['isPinned'] as bool?
+          ..labels = json['labels'] == null
+              ? null
+              : IssueInfoMixin$Labels.fromJson(
+                  json['labels'] as Map<String, dynamic>)
+          ..locked = json['locked'] as bool
+          ..number = json['number'] as int
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) => IssueInfoMixin$ReactionGroups.fromJson(
+                  e as Map<String, dynamic>))
+              .toList()
+          ..repository = IssueInfoMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          ..state = $enumDecode(_$IssueStateEnumMap, json['state'],
+              unknownValue: IssueState.artemisUnknown)
+          ..titleHTML = json['titleHTML'] as String
+          ..timelineItems = IssueInfoMixin$TimelineItems.fromJson(
+              json['timelineItems'] as Map<String, dynamic>)
+          ..url = Uri.parse(json['url'] as String)
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$ContentToJson(
-            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
-                instance) =>
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueToJson(
+            IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue instance) =>
         <String, dynamic>{
+          'activeLockReason': _$LockReasonEnumMap[instance.activeLockReason],
+          'assignees': instance.assignees.toJson(),
+          'author': instance.author?.toJson(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'bodyHTML': instance.bodyHTML,
+          'body': instance.body,
+          'closed': instance.closed,
+          'closedAt': instance.closedAt?.toIso8601String(),
+          'createdAt': instance.createdAt.toIso8601String(),
+          'comments': instance.comments.toJson(),
+          'userContentEdits': instance.userContentEdits?.toJson(),
+          'includesCreatedEdit': instance.includesCreatedEdit,
+          'isPinned': instance.isPinned,
+          'labels': instance.labels?.toJson(),
+          'locked': instance.locked,
+          'number': instance.number,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'repository': instance.repository.toJson(),
+          'state': _$IssueStateEnumMap[instance.state],
+          'titleHTML': instance.titleHTML,
+          'timelineItems': instance.timelineItems.toJson(),
+          'url': instance.url.toString(),
+          'viewerCanReact': instance.viewerCanReact,
+          'viewerCanUpdate': instance.viewerCanUpdate,
           '__typename': instance.$$typename,
         };
 
-GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeFromJson(
+IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestFromJson(
             Map<String, dynamic> json) =>
-        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node()
-          ..note = json['note'] as String?
-          ..content = json['content'] == null
+        IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest()
+          ..activeLockReason = $enumDecodeNullable(
+              _$LockReasonEnumMap, json['activeLockReason'],
+              unknownValue: LockReason.artemisUnknown)
+          ..assignees = PullInfoMixin$Assignees.fromJson(
+              json['assignees'] as Map<String, dynamic>)
+          ..author = json['author'] == null
               ? null
-              : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
-                  .fromJson(json['content'] as Map<String, dynamic>);
+              : PullInfoMixin$Author.fromJson(
+                  json['author'] as Map<String, dynamic>)
+          ..authorAssociation = $enumDecode(
+              _$CommentAuthorAssociationEnumMap, json['authorAssociation'],
+              unknownValue: CommentAuthorAssociation.artemisUnknown)
+          ..bodyHTML = json['bodyHTML'] as String
+          ..body = json['body'] as String
+          ..closed = json['closed'] as bool
+          ..closedAt = json['closedAt'] == null
+              ? null
+              : DateTime.parse(json['closedAt'] as String)
+          ..createdAt = DateTime.parse(json['createdAt'] as String)
+          ..comments = PullInfoMixin$Comments.fromJson(
+              json['comments'] as Map<String, dynamic>)
+          ..labels = json['labels'] == null
+              ? null
+              : PullInfoMixin$Labels.fromJson(
+                  json['labels'] as Map<String, dynamic>)
+          ..locked = json['locked'] as bool
+          ..number = json['number'] as int
+          ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+              ?.map((e) => PullInfoMixin$ReactionGroups.fromJson(
+                  e as Map<String, dynamic>))
+              .toList()
+          ..repository = PullInfoMixin$Repository.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          ..state = $enumDecode(_$PullRequestStateEnumMap, json['state'],
+              unknownValue: PullRequestState.artemisUnknown)
+          ..timelineItems = PullInfoMixin$TimelineItems.fromJson(
+              json['timelineItems'] as Map<String, dynamic>)
+          ..titleHTML = json['titleHTML'] as String
+          ..url = Uri.parse(json['url'] as String)
+          ..userContentEdits = json['userContentEdits'] == null
+              ? null
+              : PullInfoMixin$UserContentEdits.fromJson(
+                  json['userContentEdits'] as Map<String, dynamic>)
+          ..includesCreatedEdit = json['includesCreatedEdit'] as bool
+          ..viewerCanReact = json['viewerCanReact'] as bool
+          ..additions = json['additions'] as int
+          ..deletions = json['deletions'] as int
+          ..baseRef = json['baseRef'] == null
+              ? null
+              : PullInfoMixin$BaseRef.fromJson(
+                  json['baseRef'] as Map<String, dynamic>)
+          ..headRef = json['headRef'] == null
+              ? null
+              : PullInfoMixin$HeadRef.fromJson(
+                  json['headRef'] as Map<String, dynamic>)
+          ..changedFiles = json['changedFiles'] as int
+          ..closingIssuesReferences = json['closingIssuesReferences'] == null
+              ? null
+              : PullInfoMixin$ClosingIssuesReferences.fromJson(
+                  json['closingIssuesReferences'] as Map<String, dynamic>)
+          ..commits = PullInfoMixin$Commits.fromJson(
+              json['commits'] as Map<String, dynamic>)
+          ..isCrossRepository = json['isCrossRepository'] as bool
+          ..merged = json['merged'] as bool
+          ..reviewDecision = $enumDecodeNullable(
+              _$PullRequestReviewDecisionEnumMap, json['reviewDecision'],
+              unknownValue: PullRequestReviewDecision.artemisUnknown)
+          ..viewerCanUpdate = json['viewerCanUpdate'] as bool
+          ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeToJson(
-            GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestToJson(
+            IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
                 instance) =>
         <String, dynamic>{
-          'note': instance.note,
-          'content': instance.content?.toJson(),
+          'activeLockReason': _$LockReasonEnumMap[instance.activeLockReason],
+          'assignees': instance.assignees.toJson(),
+          'author': instance.author?.toJson(),
+          'authorAssociation':
+              _$CommentAuthorAssociationEnumMap[instance.authorAssociation],
+          'bodyHTML': instance.bodyHTML,
+          'body': instance.body,
+          'closed': instance.closed,
+          'closedAt': instance.closedAt?.toIso8601String(),
+          'createdAt': instance.createdAt.toIso8601String(),
+          'comments': instance.comments.toJson(),
+          'labels': instance.labels?.toJson(),
+          'locked': instance.locked,
+          'number': instance.number,
+          'reactionGroups':
+              instance.reactionGroups?.map((e) => e.toJson()).toList(),
+          'repository': instance.repository.toJson(),
+          'state': _$PullRequestStateEnumMap[instance.state],
+          'timelineItems': instance.timelineItems.toJson(),
+          'titleHTML': instance.titleHTML,
+          'url': instance.url.toString(),
+          'userContentEdits': instance.userContentEdits?.toJson(),
+          'includesCreatedEdit': instance.includesCreatedEdit,
+          'viewerCanReact': instance.viewerCanReact,
+          'additions': instance.additions,
+          'deletions': instance.deletions,
+          'baseRef': instance.baseRef?.toJson(),
+          'headRef': instance.headRef?.toJson(),
+          'changedFiles': instance.changedFiles,
+          'closingIssuesReferences': instance.closingIssuesReferences?.toJson(),
+          'commits': instance.commits.toJson(),
+          'isCrossRepository': instance.isCrossRepository,
+          'merged': instance.merged,
+          'reviewDecision':
+              _$PullRequestReviewDecisionEnumMap[instance.reviewDecision],
+          'viewerCanUpdate': instance.viewerCanUpdate,
+          '__typename': instance.$$typename,
         };
 
-GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesFromJson(
+const _$PullRequestReviewDecisionEnumMap = {
+  PullRequestReviewDecision.approved: 'APPROVED',
+  PullRequestReviewDecision.changesRequested: 'CHANGES_REQUESTED',
+  PullRequestReviewDecision.reviewRequired: 'REVIEW_REQUIRED',
+  PullRequestReviewDecision.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+IssuePullInfo$Query$Repository$IssueOrPullRequest
+    _$IssuePullInfo$Query$Repository$IssueOrPullRequestFromJson(
             Map<String, dynamic> json) =>
-        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
-              ? null
-              : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
-                  .fromJson(json['node'] as Map<String, dynamic>);
+        IssuePullInfo$Query$Repository$IssueOrPullRequest()
+          ..$$typename = json['__typename'] as String?;
 
-Map<String,
-    dynamic> _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesToJson(
-        GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges instance) =>
-    <String, dynamic>{
-      'cursor': instance.cursor,
-      'node': instance.node?.toJson(),
-    };
-
-GetProjectColumnCards$Query$Node$ProjectColumn$Cards
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsFromJson(
-            Map<String, dynamic> json) =>
-        GetProjectColumnCards$Query$Node$ProjectColumn$Cards()
-          ..totalCount = json['totalCount'] as int
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic>
-    _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsToJson(
-            GetProjectColumnCards$Query$Node$ProjectColumn$Cards instance) =>
-        <String, dynamic>{
-          'totalCount': instance.totalCount,
-          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-        };
-
-GetProjectColumnCards$Query$Node$ProjectColumn
-    _$GetProjectColumnCards$Query$Node$ProjectColumnFromJson(
-            Map<String, dynamic> json) =>
-        GetProjectColumnCards$Query$Node$ProjectColumn()
-          ..$$typename = json['__typename'] as String?
-          ..cards =
-              GetProjectColumnCards$Query$Node$ProjectColumn$Cards.fromJson(
-                  json['cards'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetProjectColumnCards$Query$Node$ProjectColumnToJson(
-        GetProjectColumnCards$Query$Node$ProjectColumn instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'cards': instance.cards.toJson(),
-    };
-
-GetProjectColumnCards$Query$Node _$GetProjectColumnCards$Query$NodeFromJson(
-        Map<String, dynamic> json) =>
-    GetProjectColumnCards$Query$Node()
-      ..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetProjectColumnCards$Query$NodeToJson(
-        GetProjectColumnCards$Query$Node instance) =>
+Map<String, dynamic> _$IssuePullInfo$Query$Repository$IssueOrPullRequestToJson(
+        IssuePullInfo$Query$Repository$IssueOrPullRequest instance) =>
     <String, dynamic>{
       '__typename': instance.$$typename,
     };
 
-GetProjectColumnCards$Query _$GetProjectColumnCards$QueryFromJson(
+IssuePullInfo$Query$Repository _$IssuePullInfo$Query$RepositoryFromJson(
         Map<String, dynamic> json) =>
-    GetProjectColumnCards$Query()
-      ..node = json['node'] == null
+    IssuePullInfo$Query$Repository()
+      ..issueOrPullRequest = json['issueOrPullRequest'] == null
           ? null
-          : GetProjectColumnCards$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
+          : IssuePullInfo$Query$Repository$IssueOrPullRequest.fromJson(
+              json['issueOrPullRequest'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$GetProjectColumnCards$QueryToJson(
-        GetProjectColumnCards$Query instance) =>
+Map<String, dynamic> _$IssuePullInfo$Query$RepositoryToJson(
+        IssuePullInfo$Query$Repository instance) =>
     <String, dynamic>{
-      'node': instance.node?.toJson(),
+      'issueOrPullRequest': instance.issueOrPullRequest?.toJson(),
     };
 
-HasStarred$Query$Repository _$HasStarred$Query$RepositoryFromJson(
-        Map<String, dynamic> json) =>
-    HasStarred$Query$Repository()
-      ..viewerHasStarred = json['viewerHasStarred'] as bool
-      ..stargazerCount = json['stargazerCount'] as int;
-
-Map<String, dynamic> _$HasStarred$Query$RepositoryToJson(
-        HasStarred$Query$Repository instance) =>
-    <String, dynamic>{
-      'viewerHasStarred': instance.viewerHasStarred,
-      'stargazerCount': instance.stargazerCount,
-    };
-
-HasStarred$Query _$HasStarred$QueryFromJson(Map<String, dynamic> json) =>
-    HasStarred$Query()
+IssuePullInfo$Query _$IssuePullInfo$QueryFromJson(Map<String, dynamic> json) =>
+    IssuePullInfo$Query()
       ..repository = json['repository'] == null
           ? null
-          : HasStarred$Query$Repository.fromJson(
+          : IssuePullInfo$Query$Repository.fromJson(
               json['repository'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$HasStarred$QueryToJson(HasStarred$Query instance) =>
+Map<String, dynamic> _$IssuePullInfo$QueryToJson(
+        IssuePullInfo$Query instance) =>
     <String, dynamic>{
       'repository': instance.repository?.toJson(),
     };
 
-HasWatched$Query$Repository$Watchers
-    _$HasWatched$Query$Repository$WatchersFromJson(Map<String, dynamic> json) =>
-        HasWatched$Query$Repository$Watchers()
-          ..totalCount = json['totalCount'] as int;
+IssueInfoMixin$Assignees _$IssueInfoMixin$AssigneesFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Assignees()
+      ..totalCount = json['totalCount'] as int
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AssigneeInfoMixin$Edges.fromJson(e as Map<String, dynamic>))
+          .toList();
 
-Map<String, dynamic> _$HasWatched$Query$Repository$WatchersToJson(
-        HasWatched$Query$Repository$Watchers instance) =>
+Map<String, dynamic> _$IssueInfoMixin$AssigneesToJson(
+        IssueInfoMixin$Assignees instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+IssueInfoMixin$Author _$IssueInfoMixin$AuthorFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Author()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$IssueInfoMixin$AuthorToJson(
+        IssueInfoMixin$Author instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+IssueInfoMixin$Comments _$IssueInfoMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Comments()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$CommentsToJson(
+        IssueInfoMixin$Comments instance) =>
     <String, dynamic>{
       'totalCount': instance.totalCount,
     };
 
-HasWatched$Query$Repository _$HasWatched$Query$RepositoryFromJson(
+IssueInfoMixin$UserContentEdits _$IssueInfoMixin$UserContentEditsFromJson(
         Map<String, dynamic> json) =>
-    HasWatched$Query$Repository()
-      ..viewerSubscription = $enumDecodeNullable(
-          _$SubscriptionStateEnumMap, json['viewerSubscription'],
-          unknownValue: SubscriptionState.artemisUnknown)
-      ..viewerCanSubscribe = json['viewerCanSubscribe'] as bool
-      ..watchers = HasWatched$Query$Repository$Watchers.fromJson(
-          json['watchers'] as Map<String, dynamic>);
+    IssueInfoMixin$UserContentEdits()..totalCount = json['totalCount'] as int;
 
-Map<String, dynamic> _$HasWatched$Query$RepositoryToJson(
-        HasWatched$Query$Repository instance) =>
+Map<String, dynamic> _$IssueInfoMixin$UserContentEditsToJson(
+        IssueInfoMixin$UserContentEdits instance) =>
     <String, dynamic>{
-      'viewerSubscription':
-          _$SubscriptionStateEnumMap[instance.viewerSubscription],
-      'viewerCanSubscribe': instance.viewerCanSubscribe,
-      'watchers': instance.watchers.toJson(),
+      'totalCount': instance.totalCount,
     };
 
-const _$SubscriptionStateEnumMap = {
-  SubscriptionState.ignored: 'IGNORED',
-  SubscriptionState.subscribed: 'SUBSCRIBED',
-  SubscriptionState.unsubscribed: 'UNSUBSCRIBED',
-  SubscriptionState.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
+IssueInfoMixin$Labels$Nodes _$IssueInfoMixin$Labels$NodesFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Labels$Nodes()
+      ..color = json['color'] as String
+      ..name = json['name'] as String;
 
-HasWatched$Query _$HasWatched$QueryFromJson(Map<String, dynamic> json) =>
-    HasWatched$Query()
-      ..repository = json['repository'] == null
-          ? null
-          : HasWatched$Query$Repository.fromJson(
-              json['repository'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$HasWatched$QueryToJson(HasWatched$Query instance) =>
+Map<String, dynamic> _$IssueInfoMixin$Labels$NodesToJson(
+        IssueInfoMixin$Labels$Nodes instance) =>
     <String, dynamic>{
-      'repository': instance.repository?.toJson(),
+      'color': instance.color,
+      'name': instance.name,
+    };
+
+IssueInfoMixin$Labels _$IssueInfoMixin$LabelsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Labels()
+      ..nodes = (json['nodes'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : IssueInfoMixin$Labels$Nodes.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$IssueInfoMixin$LabelsToJson(
+        IssueInfoMixin$Labels instance) =>
+    <String, dynamic>{
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+IssueInfoMixin$ReactionGroups _$IssueInfoMixin$ReactionGroupsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$ReactionGroups()
+      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown)
+      ..viewerHasReacted = json['viewerHasReacted'] as bool
+      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+          json['reactors'] as Map<String, dynamic>)
+      ..subject = ReactionGroupsMixin$Subject.fromJson(
+          json['subject'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$ReactionGroupsToJson(
+        IssueInfoMixin$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'viewerHasReacted': instance.viewerHasReacted,
+      'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
+    };
+
+IssueInfoMixin$Repository _$IssueInfoMixin$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Repository()
+      ..name = json['name'] as String
+      ..owner =
+          RepoInfoMixin$Owner.fromJson(json['owner'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$RepositoryToJson(
+        IssueInfoMixin$Repository instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner.toJson(),
+    };
+
+IssueInfoMixin$TimelineItems _$IssueInfoMixin$TimelineItemsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$TimelineItems()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$TimelineItemsToJson(
+        IssueInfoMixin$TimelineItems instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+AssigneeInfoMixin$Edges$Node _$AssigneeInfoMixin$Edges$NodeFromJson(
+        Map<String, dynamic> json) =>
+    AssigneeInfoMixin$Edges$Node()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$AssigneeInfoMixin$Edges$NodeToJson(
+        AssigneeInfoMixin$Edges$Node instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+AssigneeInfoMixin$Edges _$AssigneeInfoMixin$EdgesFromJson(
+        Map<String, dynamic> json) =>
+    AssigneeInfoMixin$Edges()
+      ..node = json['node'] == null
+          ? null
+          : AssigneeInfoMixin$Edges$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AssigneeInfoMixin$EdgesToJson(
+        AssigneeInfoMixin$Edges instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+RepoInfoMixin$Owner _$RepoInfoMixin$OwnerFromJson(Map<String, dynamic> json) =>
+    RepoInfoMixin$Owner()
+      ..login = json['login'] as String
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String);
+
+Map<String, dynamic> _$RepoInfoMixin$OwnerToJson(
+        RepoInfoMixin$Owner instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+      'avatarUrl': instance.avatarUrl.toString(),
+    };
+
+PullInfoMixin$Assignees _$PullInfoMixin$AssigneesFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Assignees()
+      ..totalCount = json['totalCount'] as int
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : AssigneeInfoMixin$Edges.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$PullInfoMixin$AssigneesToJson(
+        PullInfoMixin$Assignees instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+PullInfoMixin$Author _$PullInfoMixin$AuthorFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Author()
+      ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+      ..login = json['login'] as String;
+
+Map<String, dynamic> _$PullInfoMixin$AuthorToJson(
+        PullInfoMixin$Author instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+PullInfoMixin$Comments _$PullInfoMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Comments()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$CommentsToJson(
+        PullInfoMixin$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$Labels$Nodes _$PullInfoMixin$Labels$NodesFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Labels$Nodes()
+      ..color = json['color'] as String
+      ..name = json['name'] as String;
+
+Map<String, dynamic> _$PullInfoMixin$Labels$NodesToJson(
+        PullInfoMixin$Labels$Nodes instance) =>
+    <String, dynamic>{
+      'color': instance.color,
+      'name': instance.name,
+    };
+
+PullInfoMixin$Labels _$PullInfoMixin$LabelsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Labels()
+      ..nodes = (json['nodes'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : PullInfoMixin$Labels$Nodes.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$PullInfoMixin$LabelsToJson(
+        PullInfoMixin$Labels instance) =>
+    <String, dynamic>{
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+PullInfoMixin$ReactionGroups _$PullInfoMixin$ReactionGroupsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$ReactionGroups()
+      ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown)
+      ..viewerHasReacted = json['viewerHasReacted'] as bool
+      ..reactors = ReactionGroupsMixin$Reactors.fromJson(
+          json['reactors'] as Map<String, dynamic>)
+      ..subject = ReactionGroupsMixin$Subject.fromJson(
+          json['subject'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$ReactionGroupsToJson(
+        PullInfoMixin$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'viewerHasReacted': instance.viewerHasReacted,
+      'reactors': instance.reactors.toJson(),
+      'subject': instance.subject.toJson(),
+    };
+
+PullInfoMixin$Repository _$PullInfoMixin$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Repository()
+      ..name = json['name'] as String
+      ..owner =
+          RepoInfoMixin$Owner.fromJson(json['owner'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$RepositoryToJson(
+        PullInfoMixin$Repository instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner.toJson(),
+    };
+
+PullInfoMixin$TimelineItems _$PullInfoMixin$TimelineItemsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$TimelineItems()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$TimelineItemsToJson(
+        PullInfoMixin$TimelineItems instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$UserContentEdits _$PullInfoMixin$UserContentEditsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$UserContentEdits()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$UserContentEditsToJson(
+        PullInfoMixin$UserContentEdits instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$BaseRef$Repository _$PullInfoMixin$BaseRef$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$BaseRef$Repository()..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic> _$PullInfoMixin$BaseRef$RepositoryToJson(
+        PullInfoMixin$BaseRef$Repository instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+    };
+
+PullInfoMixin$BaseRef _$PullInfoMixin$BaseRefFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$BaseRef()
+      ..name = json['name'] as String
+      ..repository = PullInfoMixin$BaseRef$Repository.fromJson(
+          json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$BaseRefToJson(
+        PullInfoMixin$BaseRef instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'repository': instance.repository.toJson(),
+    };
+
+PullInfoMixin$HeadRef$Repository _$PullInfoMixin$HeadRef$RepositoryFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$HeadRef$Repository()..url = Uri.parse(json['url'] as String);
+
+Map<String, dynamic> _$PullInfoMixin$HeadRef$RepositoryToJson(
+        PullInfoMixin$HeadRef$Repository instance) =>
+    <String, dynamic>{
+      'url': instance.url.toString(),
+    };
+
+PullInfoMixin$HeadRef _$PullInfoMixin$HeadRefFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$HeadRef()
+      ..name = json['name'] as String
+      ..repository = PullInfoMixin$HeadRef$Repository.fromJson(
+          json['repository'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullInfoMixin$HeadRefToJson(
+        PullInfoMixin$HeadRef instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'repository': instance.repository.toJson(),
+    };
+
+PullInfoMixin$ClosingIssuesReferences
+    _$PullInfoMixin$ClosingIssuesReferencesFromJson(
+            Map<String, dynamic> json) =>
+        PullInfoMixin$ClosingIssuesReferences()
+          ..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$ClosingIssuesReferencesToJson(
+        PullInfoMixin$ClosingIssuesReferences instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$Commits _$PullInfoMixin$CommitsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$Commits()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$CommitsToJson(
+        PullInfoMixin$Commits instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+GetReactors$Query$Node$Issue$ReactionGroups
+    _$GetReactors$Query$Node$Issue$ReactionGroupsFromJson(
+            Map<String, dynamic> json) =>
+        GetReactors$Query$Node$Issue$ReactionGroups()
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+              unknownValue: ReactionContent.artemisUnknown)
+          ..reactors = ReactorsGroupMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetReactors$Query$Node$Issue$ReactionGroupsToJson(
+        GetReactors$Query$Node$Issue$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'reactors': instance.reactors.toJson(),
+    };
+
+GetReactors$Query$Node$Issue _$GetReactors$Query$Node$IssueFromJson(
+        Map<String, dynamic> json) =>
+    GetReactors$Query$Node$Issue()
+      ..$$typename = json['__typename'] as String?
+      ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+          ?.map((e) => GetReactors$Query$Node$Issue$ReactionGroups.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetReactors$Query$Node$IssueToJson(
+        GetReactors$Query$Node$Issue instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'reactionGroups':
+          instance.reactionGroups?.map((e) => e.toJson()).toList(),
+    };
+
+GetReactors$Query$Node$PullRequest$ReactionGroups
+    _$GetReactors$Query$Node$PullRequest$ReactionGroupsFromJson(
+            Map<String, dynamic> json) =>
+        GetReactors$Query$Node$PullRequest$ReactionGroups()
+          ..content = $enumDecode(_$ReactionContentEnumMap, json['content'],
+              unknownValue: ReactionContent.artemisUnknown)
+          ..reactors = ReactorsGroupMixin$Reactors.fromJson(
+              json['reactors'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetReactors$Query$Node$PullRequest$ReactionGroupsToJson(
+        GetReactors$Query$Node$PullRequest$ReactionGroups instance) =>
+    <String, dynamic>{
+      'content': _$ReactionContentEnumMap[instance.content],
+      'reactors': instance.reactors.toJson(),
+    };
+
+GetReactors$Query$Node$PullRequest _$GetReactors$Query$Node$PullRequestFromJson(
+        Map<String, dynamic> json) =>
+    GetReactors$Query$Node$PullRequest()
+      ..$$typename = json['__typename'] as String?
+      ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
+          ?.map((e) =>
+              GetReactors$Query$Node$PullRequest$ReactionGroups.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetReactors$Query$Node$PullRequestToJson(
+        GetReactors$Query$Node$PullRequest instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'reactionGroups':
+          instance.reactionGroups?.map((e) => e.toJson()).toList(),
+    };
+
+GetReactors$Query$Node _$GetReactors$Query$NodeFromJson(
+        Map<String, dynamic> json) =>
+    GetReactors$Query$Node()..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetReactors$Query$NodeToJson(
+        GetReactors$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetReactors$Query _$GetReactors$QueryFromJson(Map<String, dynamic> json) =>
+    GetReactors$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetReactors$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetReactors$QueryToJson(GetReactors$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
+ReactorsGroupMixin$Reactors$Edges$Node$User
+    _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(
+            Map<String, dynamic> json) =>
+        ReactorsGroupMixin$Reactors$Edges$Node$User()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(
+        ReactorsGroupMixin$Reactors$Edges$Node$User instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+      '__typename': instance.$$typename,
+    };
+
+ReactorsGroupMixin$Reactors$Edges$Node
+    _$ReactorsGroupMixin$Reactors$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        ReactorsGroupMixin$Reactors$Edges$Node()
+          ..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$Edges$NodeToJson(
+        ReactorsGroupMixin$Reactors$Edges$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+ReactorsGroupMixin$Reactors$Edges _$ReactorsGroupMixin$Reactors$EdgesFromJson(
+        Map<String, dynamic> json) =>
+    ReactorsGroupMixin$Reactors$Edges()
+      ..cursor = json['cursor'] as String
+      ..node = ReactorsGroupMixin$Reactors$Edges$Node.fromJson(
+          json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$ReactorsGroupMixin$Reactors$EdgesToJson(
+        ReactorsGroupMixin$Reactors$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node.toJson(),
+    };
+
+ReactorsGroupMixin$Reactors _$ReactorsGroupMixin$ReactorsFromJson(
+        Map<String, dynamic> json) =>
+    ReactorsGroupMixin$Reactors()
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : ReactorsGroupMixin$Reactors$Edges.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$ReactorsGroupMixin$ReactorsToJson(
+        ReactorsGroupMixin$Reactors instance) =>
+    <String, dynamic>{
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+AddReaction$Mutation$AddReaction$Reaction
+    _$AddReaction$Mutation$AddReaction$ReactionFromJson(
+            Map<String, dynamic> json) =>
+        AddReaction$Mutation$AddReaction$Reaction()
+          ..createdAt = DateTime.parse(json['createdAt'] as String);
+
+Map<String, dynamic> _$AddReaction$Mutation$AddReaction$ReactionToJson(
+        AddReaction$Mutation$AddReaction$Reaction instance) =>
+    <String, dynamic>{
+      'createdAt': instance.createdAt.toIso8601String(),
+    };
+
+AddReaction$Mutation$AddReaction _$AddReaction$Mutation$AddReactionFromJson(
+        Map<String, dynamic> json) =>
+    AddReaction$Mutation$AddReaction()
+      ..reaction = json['reaction'] == null
+          ? null
+          : AddReaction$Mutation$AddReaction$Reaction.fromJson(
+              json['reaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AddReaction$Mutation$AddReactionToJson(
+        AddReaction$Mutation$AddReaction instance) =>
+    <String, dynamic>{
+      'reaction': instance.reaction?.toJson(),
+    };
+
+AddReaction$Mutation _$AddReaction$MutationFromJson(
+        Map<String, dynamic> json) =>
+    AddReaction$Mutation()
+      ..addReaction = json['addReaction'] == null
+          ? null
+          : AddReaction$Mutation$AddReaction.fromJson(
+              json['addReaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$AddReaction$MutationToJson(
+        AddReaction$Mutation instance) =>
+    <String, dynamic>{
+      'addReaction': instance.addReaction?.toJson(),
+    };
+
+RemoveReaction$Mutation$RemoveReaction$Reaction
+    _$RemoveReaction$Mutation$RemoveReaction$ReactionFromJson(
+            Map<String, dynamic> json) =>
+        RemoveReaction$Mutation$RemoveReaction$Reaction()
+          ..createdAt = DateTime.parse(json['createdAt'] as String);
+
+Map<String, dynamic> _$RemoveReaction$Mutation$RemoveReaction$ReactionToJson(
+        RemoveReaction$Mutation$RemoveReaction$Reaction instance) =>
+    <String, dynamic>{
+      'createdAt': instance.createdAt.toIso8601String(),
+    };
+
+RemoveReaction$Mutation$RemoveReaction
+    _$RemoveReaction$Mutation$RemoveReactionFromJson(
+            Map<String, dynamic> json) =>
+        RemoveReaction$Mutation$RemoveReaction()
+          ..reaction = json['reaction'] == null
+              ? null
+              : RemoveReaction$Mutation$RemoveReaction$Reaction.fromJson(
+                  json['reaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$RemoveReaction$Mutation$RemoveReactionToJson(
+        RemoveReaction$Mutation$RemoveReaction instance) =>
+    <String, dynamic>{
+      'reaction': instance.reaction?.toJson(),
+    };
+
+RemoveReaction$Mutation _$RemoveReaction$MutationFromJson(
+        Map<String, dynamic> json) =>
+    RemoveReaction$Mutation()
+      ..removeReaction = json['removeReaction'] == null
+          ? null
+          : RemoveReaction$Mutation$RemoveReaction.fromJson(
+              json['removeReaction'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$RemoveReaction$MutationToJson(
+        RemoveReaction$Mutation instance) =>
+    <String, dynamic>{
+      'removeReaction': instance.removeReaction?.toJson(),
     };
 
 SearchMentionUsers$Query$Search$Edges$Node$User
@@ -5347,259 +5419,6 @@ Map<String, dynamic> _$UnfollowUser$MutationToJson(
       'unfollowUser': instance.unfollowUser?.toJson(),
     };
 
-GetViewerOrgs$Query$Viewer$Organizations$Edges$Node
-    _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        GetViewerOrgs$Query$Viewer$Organizations$Edges$Node()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String;
-
-Map<String, dynamic>
-    _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeToJson(
-            GetViewerOrgs$Query$Viewer$Organizations$Edges$Node instance) =>
-        <String, dynamic>{
-          'avatarUrl': instance.avatarUrl.toString(),
-          'login': instance.login,
-        };
-
-GetViewerOrgs$Query$Viewer$Organizations$Edges
-    _$GetViewerOrgs$Query$Viewer$Organizations$EdgesFromJson(
-            Map<String, dynamic> json) =>
-        GetViewerOrgs$Query$Viewer$Organizations$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
-              ? null
-              : GetViewerOrgs$Query$Viewer$Organizations$Edges$Node.fromJson(
-                  json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetViewerOrgs$Query$Viewer$Organizations$EdgesToJson(
-        GetViewerOrgs$Query$Viewer$Organizations$Edges instance) =>
-    <String, dynamic>{
-      'cursor': instance.cursor,
-      'node': instance.node?.toJson(),
-    };
-
-GetViewerOrgs$Query$Viewer$Organizations
-    _$GetViewerOrgs$Query$Viewer$OrganizationsFromJson(
-            Map<String, dynamic> json) =>
-        GetViewerOrgs$Query$Viewer$Organizations()
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : GetViewerOrgs$Query$Viewer$Organizations$Edges.fromJson(
-                      e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic> _$GetViewerOrgs$Query$Viewer$OrganizationsToJson(
-        GetViewerOrgs$Query$Viewer$Organizations instance) =>
-    <String, dynamic>{
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-GetViewerOrgs$Query$Viewer _$GetViewerOrgs$Query$ViewerFromJson(
-        Map<String, dynamic> json) =>
-    GetViewerOrgs$Query$Viewer()
-      ..organizations = GetViewerOrgs$Query$Viewer$Organizations.fromJson(
-          json['organizations'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetViewerOrgs$Query$ViewerToJson(
-        GetViewerOrgs$Query$Viewer instance) =>
-    <String, dynamic>{
-      'organizations': instance.organizations.toJson(),
-    };
-
-GetViewerOrgs$Query _$GetViewerOrgs$QueryFromJson(Map<String, dynamic> json) =>
-    GetViewerOrgs$Query()
-      ..viewer = GetViewerOrgs$Query$Viewer.fromJson(
-          json['viewer'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetViewerOrgs$QueryToJson(
-        GetViewerOrgs$Query instance) =>
-    <String, dynamic>{
-      'viewer': instance.viewer.toJson(),
-    };
-
-IssuePullInfoArguments _$IssuePullInfoArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    IssuePullInfoArguments(
-      user: json['user'] as String,
-      repo: json['repo'] as String,
-      number: json['number'] as int,
-    );
-
-Map<String, dynamic> _$IssuePullInfoArgumentsToJson(
-        IssuePullInfoArguments instance) =>
-    <String, dynamic>{
-      'user': instance.user,
-      'repo': instance.repo,
-      'number': instance.number,
-    };
-
-GetReactorsArguments _$GetReactorsArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    GetReactorsArguments(
-      id: json['id'] as String,
-    );
-
-Map<String, dynamic> _$GetReactorsArgumentsToJson(
-        GetReactorsArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-AddReactionArguments _$AddReactionArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    AddReactionArguments(
-      id: json['id'] as String,
-      content: $enumDecode(_$ReactionContentEnumMap, json['content'],
-          unknownValue: ReactionContent.artemisUnknown),
-    );
-
-Map<String, dynamic> _$AddReactionArgumentsToJson(
-        AddReactionArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'content': _$ReactionContentEnumMap[instance.content],
-    };
-
-RemoveReactionArguments _$RemoveReactionArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    RemoveReactionArguments(
-      id: json['id'] as String,
-      content: $enumDecode(_$ReactionContentEnumMap, json['content'],
-          unknownValue: ReactionContent.artemisUnknown),
-    );
-
-Map<String, dynamic> _$RemoveReactionArgumentsToJson(
-        RemoveReactionArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'content': _$ReactionContentEnumMap[instance.content],
-    };
-
-FetchReviewArguments _$FetchReviewArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    FetchReviewArguments(
-      id: json['id'] as String,
-    );
-
-Map<String, dynamic> _$FetchReviewArgumentsToJson(
-        FetchReviewArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-GetPRReviewCommentsArguments _$GetPRReviewCommentsArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    GetPRReviewCommentsArguments(
-      id: json['id'] as String,
-      cursor: json['cursor'] as String?,
-    );
-
-Map<String, dynamic> _$GetPRReviewCommentsArgumentsToJson(
-        GetPRReviewCommentsArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'cursor': instance.cursor,
-    };
-
-ReviewThreadFirstCommentQueryArguments
-    _$ReviewThreadFirstCommentQueryArgumentsFromJson(
-            Map<String, dynamic> json) =>
-        ReviewThreadFirstCommentQueryArguments(
-          name: json['name'] as String,
-          owner: json['owner'] as String,
-          number: json['number'] as int,
-          cursor: json['cursor'] as String?,
-        );
-
-Map<String, dynamic> _$ReviewThreadFirstCommentQueryArgumentsToJson(
-        ReviewThreadFirstCommentQueryArguments instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner,
-      'number': instance.number,
-      'cursor': instance.cursor,
-    };
-
-ReviewThreadCommentsQueryArguments _$ReviewThreadCommentsQueryArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    ReviewThreadCommentsQueryArguments(
-      nodeID: json['nodeID'] as String,
-      cursor: json['cursor'] as String?,
-    );
-
-Map<String, dynamic> _$ReviewThreadCommentsQueryArgumentsToJson(
-        ReviewThreadCommentsQueryArguments instance) =>
-    <String, dynamic>{
-      'nodeID': instance.nodeID,
-      'cursor': instance.cursor,
-    };
-
-CheckPendingViewerReviewsArguments _$CheckPendingViewerReviewsArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    CheckPendingViewerReviewsArguments(
-      pullNodeID: json['pullNodeID'] as String,
-      author: json['author'] as String,
-    );
-
-Map<String, dynamic> _$CheckPendingViewerReviewsArgumentsToJson(
-        CheckPendingViewerReviewsArguments instance) =>
-    <String, dynamic>{
-      'pullNodeID': instance.pullNodeID,
-      'author': instance.author,
-    };
-
-GetTimelineArguments _$GetTimelineArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    GetTimelineArguments(
-      repoName: json['repoName'] as String,
-      owner: json['owner'] as String,
-      number: json['number'] as int,
-      after: json['after'] as String?,
-      since: json['since'] == null
-          ? null
-          : DateTime.parse(json['since'] as String),
-    );
-
-Map<String, dynamic> _$GetTimelineArgumentsToJson(
-        GetTimelineArguments instance) =>
-    <String, dynamic>{
-      'repoName': instance.repoName,
-      'owner': instance.owner,
-      'number': instance.number,
-      'after': instance.after,
-      'since': instance.since?.toIso8601String(),
-    };
-
-IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    IssueTemplatesArguments(
-      name: json['name'] as String,
-      owner: json['owner'] as String,
-    );
-
-Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
-        IssueTemplatesArguments instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner,
-    };
-
-PinnedIssuesArguments _$PinnedIssuesArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    PinnedIssuesArguments(
-      name: json['name'] as String,
-      owner: json['owner'] as String,
-    );
-
-Map<String, dynamic> _$PinnedIssuesArgumentsToJson(
-        PinnedIssuesArguments instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'owner': instance.owner,
-    };
-
 GetRepoProjectsArguments _$GetRepoProjectsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetRepoProjectsArguments(
@@ -5702,6 +5521,34 @@ const _$ProjectCardArchivedStateEnumMap = {
   ProjectCardArchivedState.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
+IssueTemplatesArguments _$IssueTemplatesArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    IssueTemplatesArguments(
+      name: json['name'] as String,
+      owner: json['owner'] as String,
+    );
+
+Map<String, dynamic> _$IssueTemplatesArgumentsToJson(
+        IssueTemplatesArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+    };
+
+PinnedIssuesArguments _$PinnedIssuesArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    PinnedIssuesArguments(
+      name: json['name'] as String,
+      owner: json['owner'] as String,
+    );
+
+Map<String, dynamic> _$PinnedIssuesArgumentsToJson(
+        PinnedIssuesArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+    };
+
 HasStarredArguments _$HasStarredArgumentsFromJson(Map<String, dynamic> json) =>
     HasStarredArguments(
       name: json['name'] as String,
@@ -5726,6 +5573,171 @@ Map<String, dynamic> _$HasWatchedArgumentsToJson(
     <String, dynamic>{
       'name': instance.name,
       'owner': instance.owner,
+    };
+
+GetViewerOrgsArguments _$GetViewerOrgsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetViewerOrgsArguments(
+      cursor: json['cursor'] as String?,
+    );
+
+Map<String, dynamic> _$GetViewerOrgsArgumentsToJson(
+        GetViewerOrgsArguments instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+    };
+
+GetTimelineArguments _$GetTimelineArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetTimelineArguments(
+      repoName: json['repoName'] as String,
+      owner: json['owner'] as String,
+      number: json['number'] as int,
+      after: json['after'] as String?,
+      since: json['since'] == null
+          ? null
+          : DateTime.parse(json['since'] as String),
+    );
+
+Map<String, dynamic> _$GetTimelineArgumentsToJson(
+        GetTimelineArguments instance) =>
+    <String, dynamic>{
+      'repoName': instance.repoName,
+      'owner': instance.owner,
+      'number': instance.number,
+      'after': instance.after,
+      'since': instance.since?.toIso8601String(),
+    };
+
+GetPRReviewCommentsArguments _$GetPRReviewCommentsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetPRReviewCommentsArguments(
+      id: json['id'] as String,
+      cursor: json['cursor'] as String?,
+    );
+
+Map<String, dynamic> _$GetPRReviewCommentsArgumentsToJson(
+        GetPRReviewCommentsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'cursor': instance.cursor,
+    };
+
+ReviewThreadFirstCommentQueryArguments
+    _$ReviewThreadFirstCommentQueryArgumentsFromJson(
+            Map<String, dynamic> json) =>
+        ReviewThreadFirstCommentQueryArguments(
+          name: json['name'] as String,
+          owner: json['owner'] as String,
+          number: json['number'] as int,
+          cursor: json['cursor'] as String?,
+        );
+
+Map<String, dynamic> _$ReviewThreadFirstCommentQueryArgumentsToJson(
+        ReviewThreadFirstCommentQueryArguments instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'owner': instance.owner,
+      'number': instance.number,
+      'cursor': instance.cursor,
+    };
+
+ReviewThreadCommentsQueryArguments _$ReviewThreadCommentsQueryArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    ReviewThreadCommentsQueryArguments(
+      nodeID: json['nodeID'] as String,
+      cursor: json['cursor'] as String?,
+    );
+
+Map<String, dynamic> _$ReviewThreadCommentsQueryArgumentsToJson(
+        ReviewThreadCommentsQueryArguments instance) =>
+    <String, dynamic>{
+      'nodeID': instance.nodeID,
+      'cursor': instance.cursor,
+    };
+
+CheckPendingViewerReviewsArguments _$CheckPendingViewerReviewsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    CheckPendingViewerReviewsArguments(
+      pullNodeID: json['pullNodeID'] as String,
+      author: json['author'] as String,
+    );
+
+Map<String, dynamic> _$CheckPendingViewerReviewsArgumentsToJson(
+        CheckPendingViewerReviewsArguments instance) =>
+    <String, dynamic>{
+      'pullNodeID': instance.pullNodeID,
+      'author': instance.author,
+    };
+
+FetchReviewArguments _$FetchReviewArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    FetchReviewArguments(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$FetchReviewArgumentsToJson(
+        FetchReviewArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+IssuePullInfoArguments _$IssuePullInfoArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    IssuePullInfoArguments(
+      user: json['user'] as String,
+      repo: json['repo'] as String,
+      number: json['number'] as int,
+    );
+
+Map<String, dynamic> _$IssuePullInfoArgumentsToJson(
+        IssuePullInfoArguments instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+      'repo': instance.repo,
+      'number': instance.number,
+    };
+
+GetReactorsArguments _$GetReactorsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetReactorsArguments(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$GetReactorsArgumentsToJson(
+        GetReactorsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+AddReactionArguments _$AddReactionArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    AddReactionArguments(
+      id: json['id'] as String,
+      content: $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown),
+    );
+
+Map<String, dynamic> _$AddReactionArgumentsToJson(
+        AddReactionArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': _$ReactionContentEnumMap[instance.content],
+    };
+
+RemoveReactionArguments _$RemoveReactionArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    RemoveReactionArguments(
+      id: json['id'] as String,
+      content: $enumDecode(_$ReactionContentEnumMap, json['content'],
+          unknownValue: ReactionContent.artemisUnknown),
+    );
+
+Map<String, dynamic> _$RemoveReactionArgumentsToJson(
+        RemoveReactionArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': _$ReactionContentEnumMap[instance.content],
     };
 
 SearchMentionUsersArguments _$SearchMentionUsersArgumentsFromJson(
@@ -5787,16 +5799,4 @@ Map<String, dynamic> _$UnfollowUserArgumentsToJson(
         UnfollowUserArguments instance) =>
     <String, dynamic>{
       'user': instance.user,
-    };
-
-GetViewerOrgsArguments _$GetViewerOrgsArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    GetViewerOrgsArguments(
-      cursor: json['cursor'] as String?,
-    );
-
-Map<String, dynamic> _$GetViewerOrgsArgumentsToJson(
-        GetViewerOrgsArguments instance) =>
-    <String, dynamic>{
-      'cursor': instance.cursor,
     };
