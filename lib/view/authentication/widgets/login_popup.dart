@@ -7,9 +7,9 @@ import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:oauth2_client/github_oauth2_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:oauth2_client/github_oauth2_client.dart';
 import 'package:provider/provider.dart';
 
 class LoginPopup extends StatefulWidget {
@@ -57,7 +57,8 @@ class _LoginPopupState extends State<LoginPopup> {
                               BlocProvider.of<AuthenticationBloc>(context)
                                   .add(AuthSuccessful(value)));
                         } catch (e) {
-                          print(e);
+                          BlocProvider.of<AuthenticationBloc>(context)
+                              .add(AuthError(e.toString()));
                         } finally {
                           setState(() {
                             loading = false;
@@ -88,7 +89,10 @@ class _LoginPopupState extends State<LoginPopup> {
 }
 
 Future<AccessTokenModel> _browserAuth() async {
-  final appAuth = GitHubOAuth2Client(customUriScheme: 'auth.felix.diohub', redirectUri: 'auth.felix.diohub://login-callback', );
+  final appAuth = GitHubOAuth2Client(
+    customUriScheme: 'auth.felix.diohub',
+    redirectUri: 'auth.felix.diohub://login-callback',
+  );
   final result = await appAuth.getTokenWithAuthCodeFlow(
     clientId: PrivateKeys.clientID,
     clientSecret: PrivateKeys.clientSecret,

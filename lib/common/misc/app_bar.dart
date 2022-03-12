@@ -1,7 +1,7 @@
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DHAppBar(
@@ -33,7 +33,7 @@ class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
                   editingState.viewMode();
                 }
               },
-              icon: Icon(Icons.edit))
+              icon: const Icon(Icons.edit))
       ],
     );
   }

@@ -1,6 +1,4 @@
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';

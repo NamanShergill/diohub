@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen>
                   controller: _tabController,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Events(),
+                    const Events(),
                     IssuesTab(
                       deepLinkData:
                           widget.deepLinkData?.components.first == 'issues'
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen>
                         );
                       },
                     ),
-                    Events(
+                    const Events(
                       privateEvents: false,
                     ),
                   ],

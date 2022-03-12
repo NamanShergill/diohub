@@ -996,9 +996,10 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
 
   @override
   SpecialText? createSpecialText(String flag,
-      {TextStyle? textStyle,
-      void Function(dynamic)? onTap,
-      required int index}) {}
+          {TextStyle? textStyle,
+          void Function(dynamic)? onTap,
+          required int index}) =>
+      null;
 }
 
 class _ValidQuery extends SpecialText {
@@ -1177,6 +1178,7 @@ class SearchData {
     if (active.length == 1) {
       return active.first;
     }
+    return null;
   }
 
   /// If current query is valid.

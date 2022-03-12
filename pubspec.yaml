@@ -13,13 +13,13 @@ environment:
 dependencies:
   animations: ^2.0.2
   another_flushbar: ^1.10.28
-  auto_route: ^3.2.1
+  auto_route: ^3.2.4
   cached_network_image: ^3.2.0
   connectivity_plus: ^2.2.1
-  device_info_plus: ^3.2.1
+  device_info_plus: ^3.2.2
   dio: ^4.0.4
-  dio_cache_interceptor: ^3.2.2
-  dio_cache_interceptor_db_store: ^4.1.0
+  dio_cache_interceptor: ^3.2.6
+  dio_cache_interceptor_db_store: ^4.1.1
   equatable: ^2.0.3
   expand_widget: ^2.1.0
 
@@ -50,23 +50,24 @@ dependencies:
       ref: master
       path: flutter_highlight
 
-  flutter_html: 2.1.2
+  # 2.1.2
+  flutter_html: ^2.2.1
   flutter_inappwebview: ^5.3.2
-  flutter_keyboard_visibility: ^5.1.1
+  flutter_keyboard_visibility: ^5.2.0
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^2.0.0+1
   flutter_scroll_to_top: ^2.1.1
   flutter_secure_storage: ^5.0.2
   flutter_slidable: ^1.2.0
   flutter_speed_dial: ^5.0.0+1
-  flutter_svg: ^1.0.1
+  flutter_svg: ^1.0.3
   flutter_vector_icons: ^1.0.0
   google_nav_bar: ^5.0.5
   gql: ^0.13.0
   gql_dio_link: ^0.1.0
-  gql_exec: 0.3.0
+  gql_exec: ^0.3.0
   gql_link: ^0.4.0
-  image_stack: ^2.1.0
+  image_stack: ^2.1.1
   infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
   json_annotation: ^4.4.0
@@ -82,32 +83,32 @@ dependencies:
 
   mime: ^1.0.1
   oauth2_client: ^2.3.2
-  package_info_plus: ^1.3.0
-  path_provider: ^2.0.8
+  package_info_plus: ^1.4.0
+  path_provider: ^2.0.9
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^6.0.2
-  share_plus: ^3.0.4
-  shared_preferences: ^2.0.12
+  share_plus: ^3.1.0
+  shared_preferences: ^2.0.13
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
-  sqlite3_flutter_libs: ^0.5.3
+  sqlite3_flutter_libs: ^0.5.4
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
-  url_launcher: ^6.0.18
-  uuid: ^3.0.5
+  url_launcher: ^6.0.20
+  uuid: ^3.0.6
 
 dev_dependencies:
   artemis: '>=7.0.0 <8.0.0'
-  auto_route_generator: ^3.2.1
+  auto_route_generator: ^3.2.3
   build_runner: ^2.1.7
 #  change_app_package_name: ^1.0.0
   dependency_validator: ^3.1.2
   flutter_lints: ^1.0.4
-  flutter_native_splash: ^1.3.3
+  flutter_native_splash: ^2.1.0
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.1.4
+  json_serializable: ^6.1.5
 
 dependency_overrides:
   flutter_svg: ^1.0.1

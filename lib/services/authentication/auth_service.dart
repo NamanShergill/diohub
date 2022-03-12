@@ -34,10 +34,11 @@ class AuthService {
     try {
       final accessToken = await _storage.read(key: 'accessToken');
       return accessToken;
-    } on PlatformException catch (e) {
+    } on PlatformException {
       // Workaround for https://github.com/mogol/flutter_secure_storage/issues/43
       AuthService.logOut(sendToAuthScreen: false);
     }
+    return null;
   }
 
   static Future<Response> getDeviceToken() async {

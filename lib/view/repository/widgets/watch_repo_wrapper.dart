@@ -19,6 +19,7 @@ bool? isSubscribedToRepo(SubscriptionState? state) {
         return false;
     }
   }
+  return null;
 }
 
 typedef WatchRepoBuilder = Widget Function(BuildContext context,

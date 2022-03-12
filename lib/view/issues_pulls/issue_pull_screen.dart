@@ -388,7 +388,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                         e!.node!.avatarUrl.toString()))
                                     .toList(),
                               ),
-                              child: Container(
+                              child: const SizedBox(
                                 height: 60,
                                 width: 90,
                               ),

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';

@@ -143,7 +143,11 @@ Color? _getColor(Map<String, dynamic> json, String key) {
     final hex = 'ff${(json[key] as String).substring(2)}';
     if (int.tryParse('0x$hex') != null) {
       return Color(int.parse('0x$hex'));
+    } else {
+      return null;
     }
+  } else {
+    return null;
   }
 }
 

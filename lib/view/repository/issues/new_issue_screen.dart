@@ -184,6 +184,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
                             if (value!.isEmpty) {
                               return 'Title cannot be empty!';
                             }
+                            return null;
                           },
                           maxLines: 5,
                           minLines: 1,

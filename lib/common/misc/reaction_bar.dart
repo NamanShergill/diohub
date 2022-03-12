@@ -170,7 +170,6 @@ class _ReactionBarState extends State<ReactionBar> {
                               : (group) async {
                                   try {
                                     await updateReaction(group);
-                                    return true;
                                   } catch (e) {
                                     debugPrint(e.toString());
                                   }
@@ -191,7 +190,7 @@ class ReactionItem extends StatefulWidget {
   const ReactionItem(this.reactionGroup, {this.onTap, Key? key})
       : super(key: key);
   final ReactionGroupsMixin reactionGroup;
-  final Future<bool?> Function(ReactionGroupsMixin group)? onTap;
+  final Future<void> Function(ReactionGroupsMixin group)? onTap;
 
   @override
   _ReactionItemState createState() => _ReactionItemState();
@@ -274,8 +273,8 @@ class _ReactionItemState extends State<ReactionItem> {
                       ),
                     ),
                     actions: <Widget>[
-                      FlatButton(
-                        child: Text('buttonText'),
+                      TextButton(
+                        child: const Text('buttonText'),
                         onPressed: () {
                           Navigator.of(dialogContext)
                               .pop(); // Dismiss alert dialog

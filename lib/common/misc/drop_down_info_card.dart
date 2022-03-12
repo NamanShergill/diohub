@@ -86,9 +86,9 @@ class _DropDownInfoCardState extends State<DropDownInfoCard>
                     ),
                     RotationTransition(
                       turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: const Icon(Icons.arrow_drop_down_rounded),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.arrow_drop_down_rounded),
                       ),
                     ),
                   ],

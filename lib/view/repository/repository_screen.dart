@@ -216,15 +216,11 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         ),
                         DynamicTabView(
                           identifier: 'Issues',
-                          child: IssuesList(
-                              // nestedScrollViewController: scrollController,
-                              ),
+                          child: const IssuesList(),
                         ),
                         DynamicTabView(
                           identifier: 'Pull Requests',
-                          child: PullsList(
-                              // nestedScrollViewController: scrollController,
-                              ),
+                          child: const PullsList(),
                           // ProjectsList(
                           //   scrollController: scrollController,
                           // ),
