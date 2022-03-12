@@ -157,12 +157,11 @@ class RepositoryServices {
   static Future<bool> subscribeToRepo(String owner, String name,
       {required bool isSubscribing, bool ignored = false}) async {
     final res = isSubscribing
-        ? await request(debugLog: true).put('/repos/$owner/$name/subscription',
-            data: {
-                if (ignored) 'ignored': true,
-                if (!ignored) 'subscribed': true
-              })
-        : await request(debugLog: true).delete(
+        ? await request().put('/repos/$owner/$name/subscription', data: {
+            if (ignored) 'ignored': true,
+            if (!ignored) 'subscribed': true
+          })
+        : await request().delete(
             '/repos/$owner/$name/subscription',
           );
     if ((isSubscribing && res.statusCode == 200) ||

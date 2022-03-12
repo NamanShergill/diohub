@@ -127,6 +127,8 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -154,9 +156,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
           update: (_, branch, __) => codeProvider..updateProvider(branch),
         ),
       ],
-      child: Builder(builder: (context) {
-        final theme = Provider.of<PaletteSettings>(context).currentSetting;
-
+      builder: (context, _) {
         return SafeArea(
           child: Scaffold(
             backgroundColor:
@@ -411,7 +411,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
             ),
           ),
         );
-      }),
+      },
     );
   }
 }

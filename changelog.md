@@ -1,4 +1,8 @@
 ## [0.4.0] - In Development
+
+**iOS Build support added**
+- The project now builds for iOS, and will be available on the app store soon.
+
 **Project Boards | WIP** 
 
 **Dynamic Tabs**
@@ -20,6 +24,8 @@
 **Bug Fixes**
 - Fixed case where multiple API calls might happen on widget rebuilds.
 - Fixed an issue with graphQL requests not caching.
+- `.markdown` files now render in markdown mode in the file viewer.
+- 
 
 ---
 ## [0.3.2] - 07 August 2021

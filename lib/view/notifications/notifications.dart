@@ -205,9 +205,15 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   },
                   builder: (context, item, index, refresh) {
                     if (item.subject!.type == SubjectType.ISSUE) {
-                      return IssueNotificationCard(item);
+                      return IssueNotificationCard(
+                        item,
+                        refresh: refresh,
+                      );
                     } else if (item.subject!.type == SubjectType.PULL_REQUEST) {
-                      return PullRequestNotificationCard(item);
+                      return PullRequestNotificationCard(
+                        item,
+                        refresh: refresh,
+                      );
                     }
                     return Container();
                   },

@@ -9,11 +9,10 @@ import 'package:dio_hub/models/repositories/commit_list_model.dart';
 class PullsService {
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
   static Future<PullRequestModel> getPullInformation(
-      {required String fullUrl}) async {
-    final response = await
-        request(
+      {required String fullUrl, required bool refresh}) async {
+    final response = await request(
             applyBaseURL: false,
-            cacheOptions: CacheManager.defaultCache(),
+            cacheOptions: CacheManager.defaultCache(refresh: refresh),
             acceptHeader:
                 'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.v3+json')
         .get(fullUrl);
@@ -22,8 +21,8 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
   static Future<ReviewModel> getPullReviews({required String fullUrl}) async {
-    final response = await
-        request(applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+    final response = await request(
+            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$fullUrl/reviews');
     return ReviewModel.fromJson(response.data);
   }
@@ -35,8 +34,9 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    final response = await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('$repoURL/pulls', queryParameters: {
+    final response =
+        await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+            .get('$repoURL/pulls', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
       // 'sort': 'popularity',
@@ -56,9 +56,9 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    final response = await
-        request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get(
+    final response =
+        await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+            .get(
       '$pullURL/commits',
       queryParameters: {
         'per_page': perPage,
@@ -78,8 +78,9 @@ class PullsService {
     int? pageNumber,
     required bool refresh,
   }) async {
-    final response = await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('$pullURL/files', queryParameters: {
+    final response =
+        await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
+            .get('$pullURL/files', queryParameters: {
       'per_page': perPage,
       'page': pageNumber,
     });

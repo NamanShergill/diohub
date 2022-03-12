@@ -14,7 +14,6 @@ class PinnedIssuesProvider extends ProxyProvider<
                     variables: PinnedIssuesArguments(
                         name: parentProvider.data.name!,
                         owner: parentProvider.data.owner!.login!)),
-                debugLog: true,
                 cacheOptions: CacheManager.defaultGQLCache()))
             .data!)
         .repository!

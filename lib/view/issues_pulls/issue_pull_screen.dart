@@ -199,7 +199,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       tabViews: [
         DynamicTabView(
             identifier: 'About',
-            child: SingleChildScrollView(
+            child: NestedScrollableChild(
               // controller: scrollController2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),

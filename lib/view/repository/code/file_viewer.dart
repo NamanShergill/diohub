@@ -46,7 +46,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
   bool checkFileForWrap() {
     if (fileType != null && fileType!.startsWith('image')) {
       return false;
-    } else if (fileExtension == 'md') {
+    } else if (fileExtension == 'md' || fileType == 'markdown') {
       return false;
     }
     return true;
@@ -189,7 +189,7 @@ class _TextViewerState extends State<TextViewer> {
     return Visibility(
       // visible: !editing,
       child: Builder(builder: (context) {
-        if (fileType == 'md') {
+        if (fileType == 'md' || fileType == 'markdown') {
           return SingleChildScrollView(
             child: MarkdownRenderAPI(content.join('\n'),
                 repoName: widget.repoName),

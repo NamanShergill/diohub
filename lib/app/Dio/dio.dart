@@ -172,7 +172,7 @@ Future<GQLResponse> gqlRequest(
   bool cacheEnabled = true,
   bool applyBaseURL = true,
   bool loginRequired = true,
-  bool debugLog = kReleaseMode,
+  bool debugLog = false,
   bool buttonLock = true,
   bool showPopup = true,
   String? acceptHeader,

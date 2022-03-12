@@ -1,4 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';
@@ -16,13 +17,13 @@ class BasicNotificationCard extends StatefulWidget {
       this.loading = false,
       this.onTap,
       this.iconBuilder,
-      this.notification,
+      required this.notification,
       Key? key})
       : super(key: key);
   final WidgetBuilder? iconBuilder;
   final WidgetBuilder? footerBuilder;
   final bool loading;
-  final NotificationModel? notification;
+  final NotificationModel notification;
   final Function? onTap;
 
   @override
@@ -35,17 +36,17 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
   GlobalKey key = GlobalKey();
 
   void markAsRead() {
-    HapticFeedback.vibrate();
-    NotificationsService.markThreadAsRead(widget.notification!.id);
+    HapticFeedback.mediumImpact();
+    NotificationsService.markThreadAsRead(widget.notification.id);
     setState(() {
-      widget.notification!.unread = false;
+      widget.notification.unread = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      enabled: widget.notification!.unread!,
+      enabled: widget.notification.unread!,
       startActionPane: ActionPane(
         motion: const DrawerMotion(),
         extentRatio: 0.4,
@@ -81,12 +82,14 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
       key: UniqueKey(),
       child: Material(
         key: key,
-        color: widget.notification!.unread!
+        color: widget.notification.unread!
             ? Provider.of<PaletteSettings>(context).currentSetting.secondary
             : Colors.transparent,
         child: InkWell(
           onTap: () {
-            markAsRead();
+            if (widget.notification.unread == true) {
+              markAsRead();
+            }
             widget.onTap!();
           },
           child: Padding(
@@ -100,7 +103,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                       child: widget.iconBuilder!(context),
                     ),
                     Visibility(
-                        visible: widget.notification!.unread!,
+                        visible: widget.notification.unread!,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ClipOval(
@@ -131,7 +134,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
-                                widget.notification!.repository!.fullName!,
+                                widget.notification.repository!.fullName!,
                                 style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
@@ -140,7 +143,7 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                             ),
                           ),
                           Text(
-                            getDate(widget.notification!.updatedAt.toString()),
+                            getDate(widget.notification.updatedAt.toString()),
                             style: TextStyle(
                                 color: Provider.of<PaletteSettings>(context)
                                     .currentSetting
@@ -150,9 +153,9 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                       ),
                       Flexible(
                         child: Text(
-                          widget.notification!.subject!.title!,
+                          widget.notification.subject!.title!,
                           style: TextStyle(
-                              color: widget.notification!.unread!
+                              color: widget.notification.unread!
                                   ? Provider.of<PaletteSettings>(context)
                                       .currentSetting
                                       .baseElements
@@ -166,9 +169,10 @@ class _BasicNotificationCardState extends State<BasicNotificationCard> {
                       const SizedBox(
                         height: 16,
                       ),
-                      !widget.loading
-                          ? widget.footerBuilder!(context)
-                          : footerLoading(),
+                      FadeAnimationSection(
+                          expand: !widget.loading,
+                          child: widget.footerBuilder!(context)),
+                      if (widget.loading) footerLoading(),
                       const SizedBox(
                         height: 16,
                       ),

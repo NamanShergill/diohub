@@ -9,10 +9,11 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 
 class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
-  static Future<IssueModel> getIssueInfo({required String fullUrl}) async {
+  static Future<IssueModel> getIssueInfo(
+      {required String fullUrl, required bool refresh}) async {
     final response = await request(
             applyBaseURL: false,
-            cacheOptions: CacheManager.defaultCache(),
+            cacheOptions: CacheManager.defaultCache(refresh: refresh),
             acceptHeader: 'application/vnd.github.VERSION.full+json')
         .get(fullUrl);
     return IssueModel.fromJson(response.data);
@@ -70,9 +71,10 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
   static Future<IssueCommentsModel> getLatestComment(
-      {required String fullUrl}) async {
+      {required String fullUrl, required bool refresh}) async {
     final response = await request(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+            applyBaseURL: false,
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get(fullUrl);
     return IssueCommentsModel.fromJson(response.data);
   }
@@ -95,9 +97,10 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
   static Future<List<IssueEventModel>> getIssueEvents(
-      {required String fullUrl, String? since}) async {
+      {required String fullUrl, String? since, required bool refresh}) async {
     final response = await request(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
+            applyBaseURL: false,
+            cacheOptions: CacheManager.defaultCache(refresh: refresh))
         .get('$fullUrl/events', queryParameters: {'since': since});
     final List unParsedEvents = response.data;
     final parsedEvents = <IssueEventModel>[];
@@ -173,7 +176,6 @@ class IssuesService {
                 repoName: repo,
                 since: since)),
         cacheOptions: CacheManager.defaultGQLCache(refresh: refresh),
-        debugLog: true,
         acceptHeader: 'application/vnd.github.starfox-preview+json');
     return (GetTimeline$Query.fromJson(response.data!) as dynamic)
         .repository!

@@ -15,9 +15,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
-  const PullRequestNotificationCard(this.notification, {Key? key})
+  const PullRequestNotificationCard(this.notification,
+      {Key? key, required this.refresh})
       : super(key: key);
   final NotificationModel notification;
+  final bool refresh;
   @override
   _PullRequestNotificationCardState createState() =>
       _PullRequestNotificationCardState();
@@ -45,7 +47,7 @@ class _PullRequestNotificationCardState
     // Todo: Update pull notification cards when I figure out how Github does it.
     final futures = <Future>[
       PullsService.getPullInformation(
-          fullUrl: widget.notification.subject!.url!),
+          fullUrl: widget.notification.subject!.url!, refresh: widget.refresh),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
     final data = await Future.wait(futures);

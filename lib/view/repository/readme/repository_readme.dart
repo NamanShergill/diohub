@@ -1,5 +1,6 @@
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
+import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
@@ -23,33 +24,25 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
-            loadingBuilder: (context) {
-              return const Padding(
-                padding: EdgeInsets.only(top: 48.0),
-                child: LoadingIndicator(),
-              );
-            },
-            childBuilder: (context, value) {
-              return MarkdownRenderAPI(
-                value.data!.content!,
-                repoName:
-                    Provider.of<RepositoryProvider>(context).data.fullName,
-                branch: Provider.of<RepoBranchProvider>(context).currentSHA,
-              );
-            },
-          ),
+    return NestedScrollableChild(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
+          loadingBuilder: (context) {
+            return const Padding(
+              padding: EdgeInsets.only(top: 48.0),
+              child: LoadingIndicator(),
+            );
+          },
+          childBuilder: (context, value) {
+            return MarkdownRenderAPI(
+              value.data!.content!,
+              repoName: Provider.of<RepositoryProvider>(context).data.fullName,
+              branch: Provider.of<RepoBranchProvider>(context).currentSHA,
+            );
+          },
         ),
-        const SizedBox(
-          height: 16,
-        ),
-      ],
+      ),
     );
   }
 }

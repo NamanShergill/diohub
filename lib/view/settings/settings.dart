@@ -149,64 +149,68 @@ class _GeneralSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        const SizedBox(
-          height: 8,
-        ),
-        const FontSettingCard(),
-        const ColorSettingCard(),
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-          child: StringButton(
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
-            listenToLoadingController: false,
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text(
-                        'Log Out?',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Cancel'),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 8,
+          ),
+          const FontSettingCard(),
+          const ColorSettingCard(),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+            child: StringButton(
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .secondary,
+              listenToLoadingController: false,
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'Log Out?',
+                          style: Theme.of(context).textTheme.headline6,
                         ),
-                        MaterialButton(
-                          onPressed: () {
-                            BlocProvider.of<AuthenticationBloc>(context)
-                                .add(LogOut());
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Confirm',
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
                           ),
-                        ),
-                      ],
-                    );
-                  });
-            },
-            title: 'Log Out',
+                          MaterialButton(
+                            onPressed: () {
+                              BlocProvider.of<AuthenticationBloc>(context)
+                                  .add(LogOut());
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Confirm',
+                            ),
+                          ),
+                        ],
+                      );
+                    });
+              },
+              title: 'Log Out',
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: StringButton(
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
-            listenToLoadingController: false,
-            onTap: CacheManager.clearCache,
-            title: 'Clear Cache',
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: StringButton(
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .secondary,
+              listenToLoadingController: false,
+              onTap: CacheManager.clearCache,
+              title: 'Clear Cache',
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -216,89 +220,91 @@ class _About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        InfoCard(
-          'Repository',
-          child: RepoCardLoading(
-              toRepoAPIResource('https://github.com/NamanShergill/diohub'),
-              'diohub'),
-        ),
-        const InfoCard(
-          'Maintained By',
-          child: ProfileCardLoading(
-            'NamanShergill',
-            compact: true,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          InfoCard(
+            'Repository',
+            child: RepoCardLoading(
+                toRepoAPIResource('https://github.com/NamanShergill/diohub'),
+                'diohub'),
           ),
-        ),
-        InfoCard(
-          'Bugs or Suggestions?',
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Let me know at'),
-              ),
-              Material(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                color: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .primary,
-                elevation: 2,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    linkHandler(
-                      context,
-                      'https://github.com/NamanShergill/diohub/issues',
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Flexible(
-                          child: Text(
-                            'https://github.com/NamanShergill/diohub/issues',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline),
+          const InfoCard(
+            'Maintained By',
+            child: ProfileCardLoading(
+              'NamanShergill',
+              compact: true,
+            ),
+          ),
+          InfoCard(
+            'Bugs or Suggestions?',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Let me know at'),
+                ),
+                Material(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .primary,
+                  elevation: 2,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    onTap: () {
+                      linkHandler(
+                        context,
+                        'https://github.com/NamanShergill/diohub/issues',
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Flexible(
+                            child: Text(
+                              'https://github.com/NamanShergill/diohub/issues',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: StringButton(
-              listenToLoadingController: false,
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              onTap: () {
-                PackageInfo.fromPlatform().then((value) {
-                  showLicensePage(
-                      context: context,
-                      applicationIcon: const AppLogoWidget(
-                        size: 50,
-                      ),
-                      applicationName: 'DioHub',
-                      applicationVersion: value.version);
-                });
-                // AutoRouter.of(context).push(const DependenciesScreenRoute());
-              },
-              title: 'Licenses'),
-        )
-      ],
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StringButton(
+                listenToLoadingController: false,
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .secondary,
+                onTap: () {
+                  PackageInfo.fromPlatform().then((value) {
+                    showLicensePage(
+                        context: context,
+                        applicationIcon: const AppLogoWidget(
+                          size: 50,
+                        ),
+                        applicationName: 'DioHub',
+                        applicationVersion: value.version);
+                  });
+                  // AutoRouter.of(context).push(const DependenciesScreenRoute());
+                },
+                title: 'Licenses'),
+          )
+        ],
+      ),
     );
   }
 }

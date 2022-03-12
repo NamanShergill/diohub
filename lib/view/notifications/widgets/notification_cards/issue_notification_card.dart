@@ -13,9 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueNotificationCard extends StatefulWidget {
-  const IssueNotificationCard(this.notification, {Key? key}) : super(key: key);
+  const IssueNotificationCard(this.notification,
+      {Key? key, required this.refresh})
+      : super(key: key);
   final NotificationModel notification;
-
+  final bool refresh;
   @override
   _IssueNotificationCardState createState() => _IssueNotificationCardState();
 }
@@ -40,10 +42,15 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
   void getInfo() async {
     // Get more information on issue to display
     final futures = <Future>[
-      IssuesService.getIssueInfo(fullUrl: widget.notification.subject!.url!),
+      IssuesService.getIssueInfo(
+        fullUrl: widget.notification.subject!.url!,
+        refresh: widget.refresh,
+      ),
       IssuesService.getLatestComment(
-          fullUrl: widget.notification.subject!.latestCommentUrl!),
-      IssuesService.getIssueEvents(fullUrl: widget.notification.subject!.url!)
+          fullUrl: widget.notification.subject!.latestCommentUrl!,
+          refresh: widget.refresh),
+      IssuesService.getIssueEvents(
+          fullUrl: widget.notification.subject!.url!, refresh: widget.refresh)
     ];
     final results = await Future.wait(futures);
     issueInfo = results[0];

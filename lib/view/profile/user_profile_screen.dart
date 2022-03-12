@@ -112,7 +112,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
                       ),
                     ],
                   )
-                else
+                else if (data.type == Type.user)
                   UserFollow(
                     data.login!,
                     fadeIntoView: false,
@@ -129,20 +129,22 @@ class _UserProfileScreenState<T extends UserInfoModel>
                 const SizedBox(
                   width: 16,
                 ),
-                RichText(
-                  text: TextSpan(
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontSize: 15),
-                    children: [
-                      TextSpan(
-                          text: data.following.toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      const TextSpan(text: ' following'),
-                    ],
+                if (data.type == Type.user)
+                  RichText(
+                    text: TextSpan(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 15),
+                      children: [
+                        TextSpan(
+                            text: data.following.toString(),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                        const TextSpan(text: ' following'),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ],
