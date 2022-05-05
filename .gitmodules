@@ -1,0 +1,6 @@
+[submodule "dependencies/appauth/AppAuth-iOS"]
+	path = dependencies/appauth/AppAuth-iOS
+	url = https://github.com/openid/AppAuth-iOS.git
+[submodule "dependencies/appauth/flutter_appauth"]
+	path = dependencies/appauth/flutter_appauth
+	url = https://github.com/MaikuB/flutter_appauth.git
