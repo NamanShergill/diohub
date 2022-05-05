@@ -30,6 +30,8 @@ dependencies:
 
   flutter:
     sdk: flutter
+
+  flutter_appauth: ^2.4.1+1
   flutter_bloc: ^8.0.1
   flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
@@ -74,6 +76,7 @@ dependencies:
   line_icons: ^2.0.1
   logger: ^1.1.0
   markdown: ^4.0.1
+  oauth2: ^2.0.0
 
   # Modified for additional markdown options.
   markdown_editable_textinput:
