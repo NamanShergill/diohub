@@ -112,22 +112,21 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
-  late ScrollController scrollController;
 
   @override
   void initState() {
-    scrollController =
-        // widget.isNestedScrollViewChild
-        //     ? null :
-        widget.scrollController ?? ScrollController();
+    // scrollController =
+    //     // widget.isNestedScrollViewChild
+    //     //     ? null :
+    //     widget.scrollController ?? ScrollController();
     controller = widget.controller ?? InfiniteScrollWrapperController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget _scrollView(ScrollController scrollController) => CustomScrollView(
-          controller: scrollController,
+    Widget _scrollView() => CustomScrollView(
+          controller: widget.scrollController,
           physics: widget.disableScroll
               ? const NeverScrollableScrollPhysics()
               : const BouncingScrollPhysics(),
@@ -158,7 +157,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           ],
         );
 
-    Widget _refreshIndicator(ScrollController scrollController) {
+    Widget _refreshIndicator() {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -166,10 +165,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           onRefresh: () => Future.sync(() async {
             controller.refresh();
           }),
-          child: _scrollView(scrollController),
+          child: _scrollView(),
         );
       } else {
-        return _scrollView(scrollController);
+        return _scrollView();
       }
     }
 
@@ -177,13 +176,13 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
       if (widget.showScrollToTopButton) {
         return ScrollWrapper(
           // nestedScrollViewController: widget.nestedScrollViewController!,
-          scrollController: scrollController,
+          // scrollController: scrollController,
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
           promptTheme: PromptButtonTheme(
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
-          builder: (context, properties) => _refreshIndicator(scrollController),
+          builder: (context, properties) => _refreshIndicator(),
         );
 
         // if (widget.isNestedScrollViewChild) {
@@ -212,7 +211,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
         //   );
         // }
       } else {
-        return _refreshIndicator(scrollController);
+        return _refreshIndicator();
       }
     }
 

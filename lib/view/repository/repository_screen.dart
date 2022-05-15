@@ -69,7 +69,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
     if (_isDeepLinkCode(data)) {
       initBranch = data.component(3);
     } else if (data.componentIs(2, 'wiki')) {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         AutoRouter.of(context)
             .push(WikiViewerRoute(repoURL: widget.repositoryURL));
       });

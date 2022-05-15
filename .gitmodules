@@ -1,0 +1,3 @@
+[submodule "dependencies/flutter_scroll_to_top"]
+	path = dependencies/flutter_scroll_to_top
+	url = git@github.com:NamanShergill/flutter_scroll_to_top.git

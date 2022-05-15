@@ -199,207 +199,204 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       tabViews: [
         DynamicTabView(
             identifier: 'About',
-            child: NestedScrollableChild(
-              // controller: scrollController2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        Card(
-                          color: widget.state.color,
-                          margin: EdgeInsets.zero,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  widget.state.icon,
-                                  size: 16,
-                                  // color: state.color,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Text(widget.state.text),
-                              ],
-                            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Card(
+                        color: widget.state.color,
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                widget.state.icon,
+                                size: 16,
+                                // color: state.color,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(widget.state.text),
+                            ],
                           ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      if (widget.createdBy != null)
+                        ProfileTile(
+                          widget.createdBy!.avatarUrl.toString(),
+                          userLogin: widget.createdBy!.login,
+                          showName: true,
+                          size: 16,
+                        ),
+                      Text(
+                        '  ${getDate(widget.createdAt.toString(), shorten: false)}',
+                        style: TextStyle(color: faded3(context)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Card(
+                    shape:
+                        RoundedRectangleBorder(borderRadius: medBorderRadius),
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        ReactionBar(
+                          widget.reactionGroups,
+                          viewerCanReact: widget.viewerCanReact,
+                        ),
+                        EditWidget(
+                          editingController: descEditingController,
+                          builder: (context, newValue, tools, currentlyEditing,
+                              state) {
+                            return Row(
+                              children: [
+                                if (widget.bodyHTML.isNotEmpty)
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: widget.body.length > 400
+                                          ? ExpandChild(
+                                              collapsedHint: 'Description',
+                                              expandArrowStyle:
+                                                  ExpandArrowStyle.both,
+                                              icon:
+                                                  Icons.arrow_drop_down_rounded,
+                                              // hintTextStyle: TextStyle(
+                                              //     color: faded3(context)),
+                                              child:
+                                                  MarkdownBody(widget.bodyHTML),
+                                            )
+                                          : MarkdownBody(widget.bodyHTML),
+                                    ),
+                                  ),
+                                ScaleSwitch(
+                                  child: widget.bodyHTML.isEmpty &&
+                                          state == EditingState.editMode
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          child: Text(
+                                            'No Description',
+                                            style: TextStyle(
+                                                color: faded3(context),
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        )
+                                      : Container(),
+                                ),
+                                tools,
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(
-                          width: 8,
+                          height: 8,
                         ),
-                        if (widget.createdBy != null)
-                          ProfileTile(
-                            widget.createdBy!.avatarUrl.toString(),
-                            userLogin: widget.createdBy!.login,
-                            showName: true,
-                            size: 16,
-                          ),
-                        Text(
-                          '  ${getDate(widget.createdAt.toString(), shorten: false)}',
-                          style: TextStyle(color: faded3(context)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Card(
-                      shape:
-                          RoundedRectangleBorder(borderRadius: medBorderRadius),
-                      margin: EdgeInsets.zero,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          ReactionBar(
-                            widget.reactionGroups,
-                            viewerCanReact: widget.viewerCanReact,
-                          ),
-                          EditWidget(
-                            editingController: descEditingController,
-                            builder: (context, newValue, tools,
-                                currentlyEditing, state) {
-                              return Row(
-                                children: [
-                                  if (widget.bodyHTML.isNotEmpty)
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: widget.body.length > 400
-                                            ? ExpandChild(
-                                                collapsedHint: 'Description',
-                                                expandArrowStyle:
-                                                    ExpandArrowStyle.both,
-                                                icon: Icons
-                                                    .arrow_drop_down_rounded,
-                                                // hintTextStyle: TextStyle(
-                                                //     color: faded3(context)),
-                                                child: MarkdownBody(
-                                                    widget.bodyHTML),
-                                              )
-                                            : MarkdownBody(widget.bodyHTML),
-                                      ),
-                                    ),
-                                  ScaleSwitch(
-                                    child: widget.bodyHTML.isEmpty &&
-                                            state == EditingState.editMode
-                                        ? Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Text(
-                                              'No Description',
-                                              style: TextStyle(
-                                                  color: faded3(context),
-                                                  fontStyle: FontStyle.italic),
-                                            ),
-                                          )
-                                        : Container(),
-                                  ),
-                                  tools,
-                                ],
-                              );
+                        Material(
+                          color: accent(context),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: medBorderRadius.bottomLeft,
+                              bottomRight: medBorderRadius.bottomRight),
+                          child: InkWell(
+                            onTap: () {
+                              dynamicTabsController.openTab('Conversation');
                             },
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Material(
-                            color: accent(context),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: medBorderRadius.bottomLeft,
                                 bottomRight: medBorderRadius.bottomRight),
-                            child: InkWell(
-                              onTap: () {
-                                dynamicTabsController.openTab('Conversation');
-                              },
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: medBorderRadius.bottomLeft,
-                                  bottomRight: medBorderRadius.bottomRight),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: medBorderRadius.bottomLeft,
-                                      bottomRight: medBorderRadius.bottomRight),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Octicons.comment_discussion,
-                                              size: 15,
-                                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: medBorderRadius.bottomLeft,
+                                    bottomRight: medBorderRadius.bottomRight),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Octicons.comment_discussion,
+                                            size: 15,
                                           ),
-                                          Text(
-                                            '${widget.commentCount} replies',
-                                          ),
-                                        ],
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_right_rounded,
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                        Text(
+                                          '${widget.commentCount} replies',
+                                        ),
+                                      ],
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_right_rounded,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    EditWidget(
-                      editingController: assigneeEditingController,
-                      builder: (context, newValue, tools, currentlyEditing,
-                              currentState) =>
-                          Row(
-                        children: [
-                          Expanded(
-                            child: DropDownInfoCard(
-                              title: 'Assignees',
-                              trailing: ImageStack.widgets(
-                                totalCount: widget.assigneesInfo.totalCount,
-                                backgroundColor: secondary(context),
-                                widgetBorderColor: secondary(context),
-                                // extraCountBorderColor: faded2(context),
-                                widgetCount: 3,
-                                extraCountTextStyle: TextStyle(
-                                  color: faded3(context),
-                                ),
-                                children: widget.assigneesInfo.edges!
-                                    .map((e) => ProfileTile(
-                                        e!.node!.avatarUrl.toString()))
-                                    .toList(),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  EditWidget(
+                    editingController: assigneeEditingController,
+                    builder: (context, newValue, tools, currentlyEditing,
+                            currentState) =>
+                        Row(
+                      children: [
+                        Expanded(
+                          child: DropDownInfoCard(
+                            title: 'Assignees',
+                            trailing: ImageStack.widgets(
+                              totalCount: widget.assigneesInfo.totalCount,
+                              backgroundColor: secondary(context),
+                              widgetBorderColor: secondary(context),
+                              // extraCountBorderColor: faded2(context),
+                              widgetCount: 3,
+                              extraCountTextStyle: TextStyle(
+                                color: faded3(context),
                               ),
-                              child: const SizedBox(
-                                height: 60,
-                                width: 90,
-                              ),
+                              children: widget.assigneesInfo.edges!
+                                  .map((e) => ProfileTile(
+                                      e!.node!.avatarUrl.toString()))
+                                  .toList(),
+                            ),
+                            child: const SizedBox(
+                              height: 60,
+                              width: 90,
                             ),
                           ),
-                          tools,
-                        ],
-                      ),
+                        ),
+                        tools,
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )),
         DynamicTabView(

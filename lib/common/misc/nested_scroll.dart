@@ -23,14 +23,10 @@ class NestedScroll extends StatefulWidget {
 class _NestedScrollState extends State<NestedScroll> {
   final GlobalKey<NestedScrollViewState> nestedScrollViewKey =
       GlobalKey<NestedScrollViewState>();
-  late _ScrollAbsorber scrollAbsorber = _ScrollAbsorber(nestedScrollViewKey);
   @override
   Widget build(BuildContext context) {
-    final scrollController = PrimaryScrollController.of(context);
-
     return NestedScrollView(
       key: nestedScrollViewKey,
-      controller: scrollController,
       headerSliverBuilder: (context, value) {
         return [
           SliverOverlapAbsorber(
@@ -46,83 +42,9 @@ class _NestedScrollState extends State<NestedScroll> {
         builder: (context) {
           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
 
-          return NotificationListener<ScrollUpdateNotification>(
-              onNotification: (notification) {
-                scrollAbsorber.absorbScrollNotification(notification);
-                return true;
-              },
-              child: widget.body);
+          return widget.body;
         },
       ),
     );
-  }
-}
-
-// Replacement for ListView/SingleChildScrollView to be used under [NestedScroll]
-// for scrolling to function properly.
-class NestedScrollableChild extends StatelessWidget {
-  const NestedScrollableChild({Key? key, required this.child})
-      : super(key: key);
-  final Widget child;
-  @override
-  Widget build(BuildContext context) {
-    return NotificationListener<ScrollUpdateNotification>(
-        // Prevents scroll notifications from propogating up to parent [NestedScroll]
-        // to prevent scrolling from breaking.
-        onNotification: (notification) => true,
-        child: SingleChildScrollView(child: child));
-  }
-}
-
-// class CustomScroll extends StatelessWidget {
-//   const CustomScroll({Key? key, required this.child}) : super(key: key);
-//   final Widget child;
-//   @override
-//   Widget build(BuildContext context) {
-//     return CustomScrollView(
-//       slivers: [
-//         SliverToBoxAdapter(child: child),
-//       ],
-//     );
-//   }
-// }
-
-class _ScrollAbsorber {
-  _ScrollAbsorber(this.nestedScrollViewKey);
-  final GlobalKey<NestedScrollViewState> nestedScrollViewKey;
-
-  void absorbScrollNotification(ScrollUpdateNotification notification) {
-    final nestedScrollView =
-        nestedScrollViewKey.currentWidget as NestedScrollView;
-    var scrolled = 0.0;
-    // if (notification is OverscrollNotification) {
-    //   // print(notification.overscroll);
-    //   if (notification.metrics.axis == Axis.vertical) {
-    //     scrolled = notification.overscroll;
-    //   }
-    // }
-    // if (notification is ScrollUpdateNotification) {
-    //   if (notification.metrics.axis == Axis.vertical &&
-    //       (notification.scrollDelta ?? 0) > 0) {
-    //     scrolled = notification.scrollDelta ?? 0;
-    //   }
-    // }
-    // print(notification);
-    if (notification.metrics.axis == Axis.vertical) {
-      scrolled = notification.metrics.pixels;
-      // print(scrolled);
-      if (scrolled > -10 && scrolled < 20) {
-        return;
-      }
-      if (scrolled < 0) {
-        scrolled = scrolled / 5;
-      } else {
-        scrolled = scrolled / 10;
-      }
-    }
-    if (scrolled < -2 || scrolled > 2) {
-      final primaryScrollController = nestedScrollView.controller!;
-      primaryScrollController.jumpTo(primaryScrollController.offset + scrolled);
-    }
   }
 }
