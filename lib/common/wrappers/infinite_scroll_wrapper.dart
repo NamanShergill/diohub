@@ -4,6 +4,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
+import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -125,39 +126,52 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _scrollView() => CustomScrollView(
-          controller: widget.scrollController,
-          physics: widget.disableScroll
-              ? const NeverScrollableScrollPhysics()
-              : const BouncingScrollPhysics(),
-          shrinkWrap: widget.shrinkWrap,
-          slivers: [
-            MultiSliver(
-              children: [
-                if (widget.header != null)
-                  SliverToBoxAdapter(
-                    child: widget.header!(context),
-                  ),
-                _InfinitePagination<T>(
-                  future: widget.future,
-                  builder: widget.builder,
-                  controller: controller,
-                  key: widget.paginationKey,
-                  filterFn: widget.filterFn,
-                  firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
-                  bottomSpacing: widget.bottomSpacing,
-                  pageNumber: widget.pageNumber,
-                  separatorBuilder: widget.separatorBuilder,
-                  pageSize: widget.pageSize,
-                  topSpacing: widget.topSpacing,
-                  listEndIndicator: widget.listEndIndicator,
-                ),
-              ],
+    Widget _scrollView(ScrollViewProperties? properties) {
+      final physics = widget.disableScroll
+          ? const NeverScrollableScrollPhysics()
+          : const BouncingScrollPhysics();
+      final slivers = [
+        MultiSliver(
+          children: [
+            if (widget.header != null)
+              SliverToBoxAdapter(
+                child: widget.header!(context),
+              ),
+            _InfinitePagination<T>(
+              future: widget.future,
+              builder: widget.builder,
+              controller: controller,
+              key: widget.paginationKey,
+              filterFn: widget.filterFn,
+              firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
+              bottomSpacing: widget.bottomSpacing,
+              pageNumber: widget.pageNumber,
+              separatorBuilder: widget.separatorBuilder,
+              pageSize: widget.pageSize,
+              topSpacing: widget.topSpacing,
+              listEndIndicator: widget.listEndIndicator,
             ),
           ],
+        ),
+      ];
+      if (properties != null) {
+        return scrollview.CustomScrollView(
+          properties: properties,
+          physics: physics,
+          shrinkWrap: widget.shrinkWrap,
+          slivers: slivers,
         );
+      } else {
+        return CustomScrollView(
+          controller: widget.scrollController,
+          shrinkWrap: widget.shrinkWrap,
+          physics: physics,
+          slivers: slivers,
+        );
+      }
+    }
 
-    Widget _refreshIndicator() {
+    Widget _refreshIndicator({ScrollViewProperties? properties}) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -165,51 +179,25 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           onRefresh: () => Future.sync(() async {
             controller.refresh();
           }),
-          child: _scrollView(),
+          child: _scrollView(properties),
         );
       } else {
-        return _scrollView();
+        return _scrollView(properties);
       }
     }
 
     Widget _child() {
       if (widget.showScrollToTopButton) {
         return ScrollWrapper(
-          // nestedScrollViewController: widget.nestedScrollViewController!,
-          // scrollController: scrollController,
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
+          scrollController: widget.scrollController,
           promptTheme: PromptButtonTheme(
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
-          builder: (context, properties) => _refreshIndicator(),
+          builder: (context, properties) =>
+              _refreshIndicator(properties: properties),
         );
-
-        // if (widget.isNestedScrollViewChild) {
-        //   return ScrollWrapper(
-        //     // nestedScrollViewController: widget.nestedScrollViewController!,
-        //     scrollController: scrollController,
-        //     // alwaysVisibleAtOffset: widget.pinnedHeader != null,
-        //     promptTheme: PromptButtonTheme(
-        //         color: Provider.of<PaletteSettings>(context)
-        //             .currentSetting
-        //             .accent),
-        //     promptReplacementBuilder: widget.pinnedHeader,
-        //     child: _refreshIndicator(scrollController),
-        //   );
-        // } else {
-        //   return ScrollWrapper(
-        //     scrollController: scrollController,
-        //     alwaysVisibleAtOffset: widget.pinnedHeader != null,
-        //     promptTheme: PromptButtonTheme(
-        //         color: Provider.of<PaletteSettings>(context)
-        //             .currentSetting
-        //             .accent),
-        //     promptReplacementBuilder: widget.pinnedHeader,
-        //     builder: (context, properties) =>
-        //         _refreshIndicator(properties.scrollController),
-        //   );
-        // }
       } else {
         return _refreshIndicator();
       }
