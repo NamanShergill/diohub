@@ -30,6 +30,8 @@ dependencies:
 
   flutter:
     sdk: flutter
+
+  flutter_appauth: ^2.4.1+1
   flutter_bloc: ^8.0.1
   flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
@@ -56,17 +58,17 @@ dependencies:
   flutter_keyboard_visibility: ^5.2.0
   flutter_portal: ^0.4.0
   flutter_reaction_button: ^2.0.0+1
-  flutter_scroll_to_top: ^2.1.1
+  flutter_scroll_to_top: 2.2.2-beta
   flutter_secure_storage: ^5.0.2
   flutter_slidable: ^1.2.0
   flutter_speed_dial: ^5.0.0+1
   flutter_svg: ^1.0.3
   flutter_vector_icons: ^1.0.0
   google_nav_bar: ^5.0.5
-  gql: ^0.13.0
-  gql_dio_link: ^0.1.0
-  gql_exec: ^0.3.0
-  gql_link: ^0.4.0
+  gql: ^0.13.1
+  gql_dio_link: ^0.2.2
+  gql_exec: ^0.4.0
+  gql_link: ^0.4.2
   image_stack: ^2.1.1
   infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
@@ -74,6 +76,7 @@ dependencies:
   line_icons: ^2.0.1
   logger: ^1.1.0
   markdown: ^4.0.1
+  oauth2: ^2.0.0
 
   # Modified for additional markdown options.
   markdown_editable_textinput:
@@ -91,7 +94,7 @@ dependencies:
   shared_preferences: ^2.0.13
   shimmer: ^2.0.0
   sliver_tools: ^0.2.5
-  sqlite3_flutter_libs: ^0.5.4
+  sqlite3_flutter_libs: ^0.5.7
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
@@ -111,7 +114,7 @@ dev_dependencies:
   json_serializable: ^6.1.5
 
 dependency_overrides:
-  flutter_svg: ^1.0.1
+  flutter_svg: ^1.0.3
 
 flutter_native_splash:
   color: '#17181c'

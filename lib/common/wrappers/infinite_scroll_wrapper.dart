@@ -4,6 +4,7 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
+import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -112,6 +113,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
+  // final GlobalKey<CustomScrollView> scrollKey;
 
   @override
   void initState() {
@@ -125,8 +127,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _scrollView() => CustomScrollView(
-          controller: widget.scrollController,
+    Widget _scrollView(ScrollViewProperties? properties) {
+      if (properties != null) {
+        return scrollview.CustomScrollView(
+          properties: properties,
           physics: widget.disableScroll
               ? const NeverScrollableScrollPhysics()
               : const BouncingScrollPhysics(),
@@ -156,8 +160,12 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
             ),
           ],
         );
+      } else {
+        return CustomScrollView();
+      }
+    }
 
-    Widget _refreshIndicator() {
+    Widget _refreshIndicator(ScrollViewProperties? properties) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -165,10 +173,10 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           onRefresh: () => Future.sync(() async {
             controller.refresh();
           }),
-          child: _scrollView(),
+          child: _scrollView(properties),
         );
       } else {
-        return _scrollView();
+        return _scrollView(properties);
       }
     }
 
@@ -182,7 +190,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
-          builder: (context, properties) => _refreshIndicator(),
+          builder: (context, properties) => _refreshIndicator(properties),
         );
 
         // if (widget.isNestedScrollViewChild) {
@@ -211,7 +219,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
         //   );
         // }
       } else {
-        return _refreshIndicator();
+        return _refreshIndicator(null);
       }
     }
 

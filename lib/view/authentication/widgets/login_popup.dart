@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio_hub/app/keys.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:oauth2_client/github_oauth2_client.dart';
@@ -89,6 +92,16 @@ class _LoginPopupState extends State<LoginPopup> {
 }
 
 Future<AccessTokenModel> _browserAuth() async {
+  if (Platform.isIOS) {
+    return _iosAuth();
+  } else if (Platform.isAndroid) {
+    return _androidAuth();
+  } else {
+    throw Exception('Unsupported platform.');
+  }
+}
+
+Future<AccessTokenModel> _iosAuth() async {
   final appAuth = GitHubOAuth2Client(
     customUriScheme: 'auth.felix.diohub',
     redirectUri: 'auth.felix.diohub://login-callback',
@@ -101,3 +114,33 @@ Future<AccessTokenModel> _browserAuth() async {
   return AccessTokenModel(
       accessToken: result.accessToken, scope: AuthService.scopeString);
 }
+
+Future<AccessTokenModel> _androidAuth() async {
+  final appAuth = FlutterAppAuth();
+  final result = await appAuth.authorizeAndExchangeCode(
+    AuthorizationTokenRequest(
+      PrivateKeys.clientID,
+      'auth.felix.diohub://login-callback',
+      clientSecret: PrivateKeys.clientSecret,
+      serviceConfiguration: const AuthorizationServiceConfiguration(
+          tokenEndpoint: 'https://github.com/login/oauth/access_token',
+          authorizationEndpoint: 'https://github.com/login/oauth/authorize'),
+      scopes: AuthService.scopes,
+    ),
+  );
+  return AccessTokenModel(
+      accessToken: result!.accessToken, scope: AuthService.scopeString);
+}
+//
+// Future<AccessTokenModel> _browserAuth() async {
+//   final authEndpoint = Uri.parse('https://github.com/login/oauth/authorize');
+//   final tokenEndpoint =
+//       Uri.parse('https://github.com/login/oauth/access_token');
+//   final redirectUri = Uri.parse('auth.felix.diohub://login-callback');
+//   final grant = AuthorizationCodeGrant(
+//       PrivateKeys.clientID, authEndpoint, tokenEndpoint,
+//       secret: PrivateKeys.clientSecret);
+//   final authUrl = grant.getAuthorizationUrl(redirectUri);
+//   return AccessTokenModel(
+//       accessToken: result!.accessToken, scope: AuthService.scopeString);
+// }

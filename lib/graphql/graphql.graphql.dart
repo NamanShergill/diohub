@@ -6449,6 +6449,7 @@ enum ProjectState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum ProjectOrderField {
   @JsonValue('CREATED_AT')
   createdAt,
@@ -6459,6 +6460,7 @@ enum ProjectOrderField {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum OrderDirection {
   @JsonValue('ASC')
   asc,
@@ -6467,6 +6469,7 @@ enum OrderDirection {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum ProjectCardArchivedState {
   @JsonValue('ARCHIVED')
   archived,
@@ -6475,6 +6478,7 @@ enum ProjectCardArchivedState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum IssueState {
   @JsonValue('CLOSED')
   closed,
@@ -6483,6 +6487,7 @@ enum IssueState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum SubscriptionState {
   @JsonValue('IGNORED')
   ignored,
@@ -6493,6 +6498,7 @@ enum SubscriptionState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum PullRequestState {
   @JsonValue('CLOSED')
   closed,
@@ -6503,6 +6509,7 @@ enum PullRequestState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum CommentAuthorAssociation {
   @JsonValue('COLLABORATOR')
   collaborator,
@@ -6523,6 +6530,7 @@ enum CommentAuthorAssociation {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum CommentCannotUpdateReason {
   @JsonValue('ARCHIVED')
   archived,
@@ -6541,6 +6549,7 @@ enum CommentCannotUpdateReason {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum ReactionContent {
   @JsonValue('CONFUSED')
   confused,
@@ -6561,6 +6570,7 @@ enum ReactionContent {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum LockReason {
   @JsonValue('OFF_TOPIC')
   offTopic,
@@ -6573,6 +6583,7 @@ enum LockReason {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum PullRequestReviewState {
   @JsonValue('APPROVED')
   approved,
@@ -6587,6 +6598,7 @@ enum PullRequestReviewState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum PullRequestReviewCommentState {
   @JsonValue('PENDING')
   pending,
@@ -6595,6 +6607,7 @@ enum PullRequestReviewCommentState {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum PullRequestReviewDecision {
   @JsonValue('APPROVED')
   approved,
@@ -6645,6 +6658,7 @@ class GetRepoProjectsArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetRepoProjectsArgumentsToJson(this);
 }
 
+final GET_REPO_PROJECTS_QUERY_DOCUMENT_OPERATION_NAME = 'getRepoProjects';
 final GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -6852,7 +6866,7 @@ class GetRepoProjectsQuery
   final DocumentNode document = GET_REPO_PROJECTS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getRepoProjects';
+  final String operationName = GET_REPO_PROJECTS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetRepoProjectsArguments variables;
@@ -6880,6 +6894,7 @@ class GetProjectInfoArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetProjectInfoArgumentsToJson(this);
 }
 
+final GET_PROJECT_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'getProjectInfo';
 final GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -6999,7 +7014,7 @@ class GetProjectInfoQuery
   final DocumentNode document = GET_PROJECT_INFO_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getProjectInfo';
+  final String operationName = GET_PROJECT_INFO_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetProjectInfoArguments variables;
@@ -7029,6 +7044,7 @@ class GetProjectColumnsArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetProjectColumnsArgumentsToJson(this);
 }
 
+final GET_PROJECT_COLUMNS_QUERY_DOCUMENT_OPERATION_NAME = 'getProjectColumns';
 final GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7142,7 +7158,8 @@ class GetProjectColumnsQuery
   final DocumentNode document = GET_PROJECT_COLUMNS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getProjectColumns';
+  final String operationName =
+      GET_PROJECT_COLUMNS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetProjectColumnsArguments variables;
@@ -7177,6 +7194,8 @@ class GetProjectColumnCardsArguments extends JsonSerializable
   Map<String, dynamic> toJson() => _$GetProjectColumnCardsArgumentsToJson(this);
 }
 
+final GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT_OPERATION_NAME =
+    'getProjectColumnCards';
 final GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7340,7 +7359,8 @@ class GetProjectColumnCardsQuery extends GraphQLQuery<
   final DocumentNode document = GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getProjectColumnCards';
+  final String operationName =
+      GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetProjectColumnCardsArguments variables;
@@ -7370,6 +7390,7 @@ class IssueTemplatesArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$IssueTemplatesArgumentsToJson(this);
 }
 
+final ISSUE_TEMPLATES_QUERY_DOCUMENT_OPERATION_NAME = 'issueTemplates';
 final ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7446,7 +7467,7 @@ class IssueTemplatesQuery
   final DocumentNode document = ISSUE_TEMPLATES_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'issueTemplates';
+  final String operationName = ISSUE_TEMPLATES_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final IssueTemplatesArguments variables;
@@ -7476,6 +7497,7 @@ class PinnedIssuesArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$PinnedIssuesArgumentsToJson(this);
 }
 
+final PINNED_ISSUES_QUERY_DOCUMENT_OPERATION_NAME = 'pinnedIssues';
 final PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7605,7 +7627,7 @@ class PinnedIssuesQuery
   final DocumentNode document = PINNED_ISSUES_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'pinnedIssues';
+  final String operationName = PINNED_ISSUES_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final PinnedIssuesArguments variables;
@@ -7635,6 +7657,7 @@ class HasStarredArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$HasStarredArgumentsToJson(this);
 }
 
+final HAS_STARRED_QUERY_DOCUMENT_OPERATION_NAME = 'hasStarred';
 final HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7692,7 +7715,7 @@ class HasStarredQuery
   final DocumentNode document = HAS_STARRED_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'hasStarred';
+  final String operationName = HAS_STARRED_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final HasStarredArguments variables;
@@ -7722,6 +7745,7 @@ class HasWatchedArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$HasWatchedArgumentsToJson(this);
 }
 
+final HAS_WATCHED_QUERY_DOCUMENT_OPERATION_NAME = 'hasWatched';
 final HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7792,7 +7816,7 @@ class HasWatchedQuery
   final DocumentNode document = HAS_WATCHED_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'hasWatched';
+  final String operationName = HAS_WATCHED_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final HasWatchedArguments variables;
@@ -7820,6 +7844,7 @@ class GetViewerOrgsArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetViewerOrgsArgumentsToJson(this);
 }
 
+final GET_VIEWER_ORGS_QUERY_DOCUMENT_OPERATION_NAME = 'getViewerOrgs';
 final GET_VIEWER_ORGS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -7898,7 +7923,7 @@ class GetViewerOrgsQuery
   final DocumentNode document = GET_VIEWER_ORGS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getViewerOrgs';
+  final String operationName = GET_VIEWER_ORGS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetViewerOrgsArguments variables;
@@ -7939,6 +7964,7 @@ class GetTimelineArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetTimelineArgumentsToJson(this);
 }
 
+final GET_TIMELINE_QUERY_DOCUMENT_OPERATION_NAME = 'getTimeline';
 final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -11049,7 +11075,7 @@ class GetTimelineQuery
   final DocumentNode document = GET_TIMELINE_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getTimeline';
+  final String operationName = GET_TIMELINE_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetTimelineArguments variables;
@@ -11080,6 +11106,8 @@ class GetPRReviewCommentsArguments extends JsonSerializable
   Map<String, dynamic> toJson() => _$GetPRReviewCommentsArgumentsToJson(this);
 }
 
+final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT_OPERATION_NAME =
+    'getPRReviewComments';
 final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -11440,7 +11468,8 @@ class GetPRReviewCommentsQuery extends GraphQLQuery<GetPRReviewComments$Query,
   final DocumentNode document = GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getPRReviewComments';
+  final String operationName =
+      GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetPRReviewCommentsArguments variables;
@@ -11481,6 +11510,8 @@ class ReviewThreadFirstCommentQueryArguments extends JsonSerializable
       _$ReviewThreadFirstCommentQueryArgumentsToJson(this);
 }
 
+final REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT_OPERATION_NAME =
+    'reviewThreadFirstCommentQuery';
 final REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
     DocumentNode(definitions: [
   OperationDefinitionNode(
@@ -11671,7 +11702,8 @@ class ReviewThreadFirstCommentQueryQuery extends GraphQLQuery<
       REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'reviewThreadFirstCommentQuery';
+  final String operationName =
+      REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final ReviewThreadFirstCommentQueryArguments variables;
@@ -11704,6 +11736,8 @@ class ReviewThreadCommentsQueryArguments extends JsonSerializable
       _$ReviewThreadCommentsQueryArgumentsToJson(this);
 }
 
+final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT_OPERATION_NAME =
+    'reviewThreadCommentsQuery';
 final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -12050,7 +12084,8 @@ class ReviewThreadCommentsQueryQuery extends GraphQLQuery<
   final DocumentNode document = REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'reviewThreadCommentsQuery';
+  final String operationName =
+      REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final ReviewThreadCommentsQueryArguments variables;
@@ -12084,6 +12119,8 @@ class CheckPendingViewerReviewsArguments extends JsonSerializable
       _$CheckPendingViewerReviewsArgumentsToJson(this);
 }
 
+final CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT_OPERATION_NAME =
+    'checkPendingViewerReviews';
 final CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -12178,7 +12215,8 @@ class CheckPendingViewerReviewsQuery extends GraphQLQuery<
   final DocumentNode document = CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'checkPendingViewerReviews';
+  final String operationName =
+      CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final CheckPendingViewerReviewsArguments variables;
@@ -12206,6 +12244,7 @@ class FetchReviewArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$FetchReviewArgumentsToJson(this);
 }
 
+final FETCH_REVIEW_QUERY_DOCUMENT_OPERATION_NAME = 'fetchReview';
 final FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -12301,7 +12340,7 @@ class FetchReviewQuery
   final DocumentNode document = FETCH_REVIEW_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'fetchReview';
+  final String operationName = FETCH_REVIEW_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final FetchReviewArguments variables;
@@ -12334,6 +12373,7 @@ class IssuePullInfoArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$IssuePullInfoArgumentsToJson(this);
 }
 
+final ISSUE_PULL_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'issuePullInfo';
 final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -13080,7 +13120,7 @@ class IssuePullInfoQuery
   final DocumentNode document = ISSUE_PULL_INFO_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'issuePullInfo';
+  final String operationName = ISSUE_PULL_INFO_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final IssuePullInfoArguments variables;
@@ -13108,6 +13148,7 @@ class GetReactorsArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetReactorsArgumentsToJson(this);
 }
 
+final GET_REACTORS_QUERY_DOCUMENT_OPERATION_NAME = 'getReactors';
 final GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -13265,7 +13306,7 @@ class GetReactorsQuery
   final DocumentNode document = GET_REACTORS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getReactors';
+  final String operationName = GET_REACTORS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetReactorsArguments variables;
@@ -13296,6 +13337,7 @@ class AddReactionArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$AddReactionArgumentsToJson(this);
 }
 
+final ADD_REACTION_MUTATION_DOCUMENT_OPERATION_NAME = 'addReaction';
 final ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -13357,7 +13399,7 @@ class AddReactionMutation
   final DocumentNode document = ADD_REACTION_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'addReaction';
+  final String operationName = ADD_REACTION_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final AddReactionArguments variables;
@@ -13388,6 +13430,7 @@ class RemoveReactionArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$RemoveReactionArgumentsToJson(this);
 }
 
+final REMOVE_REACTION_MUTATION_DOCUMENT_OPERATION_NAME = 'removeReaction';
 final REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -13449,7 +13492,7 @@ class RemoveReactionMutation
   final DocumentNode document = REMOVE_REACTION_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'removeReaction';
+  final String operationName = REMOVE_REACTION_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final RemoveReactionArguments variables;
@@ -13479,6 +13522,7 @@ class SearchMentionUsersArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$SearchMentionUsersArgumentsToJson(this);
 }
 
+final SEARCH_MENTION_USERS_QUERY_DOCUMENT_OPERATION_NAME = 'searchMentionUsers';
 final SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -13596,7 +13640,8 @@ class SearchMentionUsersQuery extends GraphQLQuery<SearchMentionUsers$Query,
   final DocumentNode document = SEARCH_MENTION_USERS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'searchMentionUsers';
+  final String operationName =
+      SEARCH_MENTION_USERS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final SearchMentionUsersArguments variables;
@@ -13624,6 +13669,8 @@ class GetUserPinnedReposArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetUserPinnedReposArgumentsToJson(this);
 }
 
+final GET_USER_PINNED_REPOS_QUERY_DOCUMENT_OPERATION_NAME =
+    'getUserPinnedRepos';
 final GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -13805,7 +13852,8 @@ class GetUserPinnedReposQuery extends GraphQLQuery<GetUserPinnedRepos$Query,
   final DocumentNode document = GET_USER_PINNED_REPOS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getUserPinnedRepos';
+  final String operationName =
+      GET_USER_PINNED_REPOS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetUserPinnedReposArguments variables;
@@ -13833,6 +13881,7 @@ class FollowStatusInfoArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$FollowStatusInfoArgumentsToJson(this);
 }
 
+final FOLLOW_STATUS_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'followStatusInfo';
 final FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -13900,7 +13949,7 @@ class FollowStatusInfoQuery
   final DocumentNode document = FOLLOW_STATUS_INFO_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'followStatusInfo';
+  final String operationName = FOLLOW_STATUS_INFO_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final FollowStatusInfoArguments variables;
@@ -13928,6 +13977,7 @@ class FollowUserArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$FollowUserArgumentsToJson(this);
 }
 
+final FOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'followUser';
 final FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -13980,7 +14030,7 @@ class FollowUserMutation
   final DocumentNode document = FOLLOW_USER_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'followUser';
+  final String operationName = FOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final FollowUserArguments variables;
@@ -14008,6 +14058,7 @@ class UnfollowUserArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$UnfollowUserArgumentsToJson(this);
 }
 
+final UNFOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'unfollowUser';
 final UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -14060,7 +14111,7 @@ class UnfollowUserMutation
   final DocumentNode document = UNFOLLOW_USER_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'unfollowUser';
+  final String operationName = UNFOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final UnfollowUserArguments variables;
