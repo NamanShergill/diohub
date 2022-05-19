@@ -930,22 +930,22 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
             RegExp(
                 '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}'),
             onMatch: (m) {
-          var _textStyle = textStyle!;
+          var baseTextStyle = textStyle!;
           if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(
+            baseTextStyle = baseTextStyle.copyWith(
                 color: Provider.of<PaletteSettings>(context, listen: false)
                     .currentSetting
                     .red);
           } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(color: Colors.amber);
+            baseTextStyle = baseTextStyle.copyWith(color: Colors.amber);
           } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
-            _textStyle = _textStyle.copyWith(
+            baseTextStyle = baseTextStyle.copyWith(
                 color: Provider.of<PaletteSettings>(context, listen: false)
                     .currentSetting
                     .accent);
           }
-          inlineList.add(
-              getSpan(m[0]!, _textStyle.copyWith(fontWeight: FontWeight.bold)));
+          inlineList.add(getSpan(
+              m[0]!, baseTextStyle.copyWith(fontWeight: FontWeight.bold)));
           return '';
         }, onNonMatch: (string) {
           inlineList.add(getSpan(string, textStyle));
@@ -975,7 +975,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
         if (!matches.contains(m[0])) {
           matches.add(m[0]!);
         }
-        final RegExp? k = combinedMap.entries.firstWhere((element) {
+        final k = combinedMap.entries.firstWhere((element) {
           return element.key.allMatches(m[0]!).isNotEmpty;
         }).key;
         children.add(
@@ -1018,91 +1018,87 @@ class _ValidQuery extends SpecialText {
   @override
   InlineSpan finishText() {
     return ExtendedWidgetSpan(
-      alignment: PlaceholderAlignment.middle,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 4.0),
-        child: Material(
+      // alignment: PlaceholderAlignment.middle,
+      child: Material(
+          borderRadius: smallBorderRadius,
+          color: toString().startsWith('-')
+              ? Provider.of<PaletteSettings>(context, listen: false)
+                  .currentSetting
+                  .red
+              : Provider.of<PaletteSettings>(context, listen: false)
+                  .currentSetting
+                  .accent,
+          child: InkWell(
             borderRadius: smallBorderRadius,
-            color: toString().startsWith('-')
-                ? Provider.of<PaletteSettings>(context, listen: false)
-                    .currentSetting
-                    .red
-                : Provider.of<PaletteSettings>(context, listen: false)
-                    .currentSetting
-                    .accent,
-            child: InkWell(
-              borderRadius: smallBorderRadius,
-              onTap: () {
-                if (!toString().trim().startsWith('-')) {
-                  onChanged(controller.text.replaceFirst(
-                      RegExp('(?!-)(?:(${toString().trim()}))'), ''));
-                } else {
-                  onChanged(
-                      controller.text.replaceFirst(toString().trim(), ''));
-                }
+            onTap: () {
+              if (!toString().trim().startsWith('-')) {
+                onChanged(controller.text.replaceFirst(
+                    RegExp('(?!-)(?:(${toString().trim()}))'), ''));
+              } else {
+                onChanged(controller.text.replaceFirst(toString().trim(), ''));
+              }
 
-                controller.selection = TextSelection.fromPosition(
-                  TextPosition(offset: controller.text.length),
-                );
-                if (controller.text.trim().isEmpty) {
-                  onChanged(controller.text.trim());
-                }
-                HapticFeedback.vibrate();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 2.0, left: 6, right: 6, bottom: 4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                        child: RichText(
-                      text: TextSpan(
-                          style: textStyle?.copyWith(fontSize: 14),
-                          children: [
-                            TextSpan(
-                                text:
-                                    '${toString().trim().replaceAll('"', '').split(':').first} ',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                            TextSpan(
-                                text: toString()
-                                    .trim()
-                                    .replaceAll('"', '')
-                                    .split(':')
-                                    .last),
-                          ]),
-                    )),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    ClipOval(
-                      child: Container(
-                        color:
-                            Provider.of<PaletteSettings>(context, listen: false)
+              controller.selection = TextSelection.fromPosition(
+                TextPosition(offset: controller.text.length),
+              );
+              if (controller.text.trim().isEmpty) {
+                onChanged(controller.text.trim());
+              }
+              HapticFeedback.vibrate();
+            },
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 4.0, left: 6, right: 6, bottom: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                      child: RichText(
+                    text: TextSpan(
+                        style: textStyle?.copyWith(fontSize: 14),
+                        children: [
+                          TextSpan(
+                              text:
+                                  '${toString().trim().replaceAll('"', '').split(':').first} ',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(
+                              text: toString()
+                                  .trim()
+                                  .replaceAll('"', '')
+                                  .split(':')
+                                  .last),
+                        ]),
+                  )),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  ClipOval(
+                    child: Container(
+                      color:
+                          Provider.of<PaletteSettings>(context, listen: false)
+                              .currentSetting
+                              .elementsOnColors,
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: toString().startsWith('-')
+                            ? Provider.of<PaletteSettings>(context,
+                                    listen: false)
                                 .currentSetting
-                                .elementsOnColors,
-                        child: Icon(
-                          Icons.close_rounded,
-                          color: toString().startsWith('-')
-                              ? Provider.of<PaletteSettings>(context,
-                                      listen: false)
-                                  .currentSetting
-                                  .red
-                              : Provider.of<PaletteSettings>(context,
-                                      listen: false)
-                                  .currentSetting
-                                  .accent,
-                          size: 12,
-                        ),
+                                .red
+                            : Provider.of<PaletteSettings>(context,
+                                    listen: false)
+                                .currentSetting
+                                .accent,
+                        size: 12,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )),
-      ),
+            ),
+          )),
       actualText: toString(),
       deleteAll: false,
     );

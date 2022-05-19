@@ -4,10 +4,10 @@ class WatchingButton extends StatefulWidget {
   const WatchingButton({Key? key}) : super(key: key);
 
   @override
-  _WatchingButtonState createState() => _WatchingButtonState();
+  WatchingButtonState createState() => WatchingButtonState();
 }
 
-class _WatchingButtonState extends State<WatchingButton> {
+class WatchingButtonState extends State<WatchingButton> {
   @override
   Widget build(BuildContext context) {
     return Container();

@@ -43,9 +43,8 @@ class PullsService {
       // 'state': 'all',
       // 'direction': 'desc',
     });
-    final List unParsedData = response.data;
-    final parsedData =
-        unParsedData.map((e) => PullRequestModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    final parsedData = unParsedData.map(PullRequestModel.fromJson).toList();
     return parsedData;
   }
 
@@ -65,9 +64,8 @@ class PullsService {
         'page': pageNumber,
       },
     );
-    final List unParsedData = response.data;
-    final parsedData =
-        unParsedData.map((e) => CommitListModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    final parsedData = unParsedData.map(CommitListModel.fromJson).toList();
     return parsedData;
   }
 
@@ -84,9 +82,8 @@ class PullsService {
       'per_page': perPage,
       'page': pageNumber,
     });
-    final List unParsedData = response.data;
-    final parsedData =
-        unParsedData.map((e) => FileElement.fromJson(e)).toList();
+    final unParsedData = response.data;
+    final parsedData = unParsedData.map(FileElement.fromJson).toList();
     return parsedData;
   }
 

@@ -17,10 +17,10 @@ import 'package:provider/provider.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  SearchScreenState createState() => SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen>
+class SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -28,14 +28,14 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _search = Provider.of<SearchDataProvider>(context);
+    final search = Provider.of<SearchDataProvider>(context);
     return Container(
       color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: _search.searchData.searchFilters != null
+      child: search.searchData.searchFilters != null
           ? SearchScrollWrapper(
-              _search.searchData,
-              key: ValueKey(_search.searchData.toQuery),
-              onChanged: _search.updateSearchData,
+              search.searchData,
+              key: ValueKey(search.searchData.toQuery),
+              onChanged: search.updateSearchData,
               // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -61,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen>
                           .currentSetting
                           .primary,
                       heroTag: 'searchScreen',
-                      onSubmit: _search.updateSearchData,
+                      onSubmit: search.updateSearchData,
                     ),
                   ),
                   Expanded(

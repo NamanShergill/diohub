@@ -32,8 +32,8 @@ class UserInfoService {
       'type': 'owner',
       'page': pageNumber
     });
-    final List unParsedData = response.data;
-    return unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    return unParsedData.map(RepositoryModel.fromJson).toList();
   }
 
   static Future<List<RepositoryModel>> getUserRepos(
@@ -54,8 +54,8 @@ class UserInfoService {
         if (sort != null) 'sort': sort,
       },
     );
-    final List unParsedData = response.data;
-    final data = unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    final data = unParsedData.map(RepositoryModel.fromJson).toList();
     return data;
   }
 

@@ -26,8 +26,8 @@ class IssuesList extends StatelessWidget {
   const IssuesList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _repo = Provider.of<RepositoryProvider>(context);
-    final _user = Provider.of<CurrentUserProvider>(context).data;
+    final repo = Provider.of<RepositoryProvider>(context);
+    final user = Provider.of<CurrentUserProvider>(context).data;
     return Stack(
       children: [
         SearchScrollWrapper(
@@ -36,20 +36,19 @@ class IssuesList extends StatelessWidget {
                   blacklist: [SearchQueryStrings.type]),
               defaultHiddenFilters: [
                 SearchQueries().type.toQueryString('issue'),
-                SearchQueries().repo.toQueryString(_repo.data.fullName!),
+                SearchQueries().repo.toQueryString(repo.data.fullName!),
               ]),
           quickFilters: {
-            SearchQueries().assignee.toQueryString(_user.login!):
+            SearchQueries().assignee.toQueryString(user.login!):
                 'Assigned to you',
-            SearchQueries().author.toQueryString(_user.login!): 'Your issues',
-            SearchQueries().mentions.toQueryString(_user.login!):
-                'Mentions you',
+            SearchQueries().author.toQueryString(user.login!): 'Your issues',
+            SearchQueries().mentions.toQueryString(user.login!): 'Mentions you',
           },
           quickOptions: {
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
           showRepoNameOnIssues: false,
-          searchBarMessage: 'Search in ${_repo.data.name}\'s issues',
+          searchBarMessage: 'Search in ${repo.data.name}\'s issues',
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           filterFn: (data) {

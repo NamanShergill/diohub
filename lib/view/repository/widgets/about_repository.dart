@@ -17,10 +17,10 @@ class AboutRepository extends StatefulWidget {
   final ValueChanged<String> onTabOpened;
 
   @override
-  _AboutRepositoryState createState() => _AboutRepositoryState();
+  AboutRepositoryState createState() => AboutRepositoryState();
 }
 
-class _AboutRepositoryState extends State<AboutRepository> {
+class AboutRepositoryState extends State<AboutRepository> {
   late List<AboutScreenTile> tiles;
 
   @override

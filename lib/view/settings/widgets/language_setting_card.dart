@@ -10,10 +10,10 @@ class FontSettingCard extends StatefulWidget {
   const FontSettingCard({Key? key}) : super(key: key);
 
   @override
-  _FontSettingCardState createState() => _FontSettingCardState();
+  FontSettingCardState createState() => FontSettingCardState();
 }
 
-class _FontSettingCardState extends State<FontSettingCard> {
+class FontSettingCardState extends State<FontSettingCard> {
   final Map<String, String?> settings = {
     'System Default': null,
     'Montserrat': null,

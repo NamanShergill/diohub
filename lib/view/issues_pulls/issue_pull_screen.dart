@@ -32,7 +32,6 @@ import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';

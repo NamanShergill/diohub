@@ -10,8 +10,8 @@ class ReactionsService {
             acceptHeader: 'application/vnd.github.squirrel-girl-preview',
             cacheOptions: CacheManager.reactions())
         .get('$fullURL/reactions');
-    final List unParsedData = response.data;
-    return unParsedData.map((e) => ReactionsModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    return unParsedData.map(ReactionsModel.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/reactions#create-reaction-for-an-issue
@@ -20,8 +20,7 @@ class ReactionsService {
     final response = await request(
       applyBaseURL: false,
       acceptHeader: 'application/vnd.github.squirrel-girl-preview',
-    )
-        .post('$fullURL/reactions', data: {'content': reaction});
+    ).post('$fullURL/reactions', data: {'content': reaction});
     if (response.statusCode == 201) {
       return ReactionsModel.fromJson(response.data);
     }
@@ -30,8 +29,7 @@ class ReactionsService {
 
   // Ref: https://docs.github.com/en/rest/reference/reactions#delete-an-issue-comment-reaction
   static Future deleteReaction(String? fullURL, int? reactionID) async {
-    await
-        request(
+    await request(
             applyBaseURL: false,
             acceptHeader: 'application/vnd.github.squirrel-girl-preview')
         .delete('$fullURL/reactions/$reactionID');

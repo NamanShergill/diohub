@@ -14,7 +14,7 @@ class IssueInformation extends StatelessWidget {
   final APIWrapperController labelController = APIWrapperController();
   @override
   Widget build(BuildContext context) {
-    final _issue = Provider.of<IssueProvider>(context).data;
+    // final _issue = Provider.of<IssueProvider>(context).data;
     // final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
     return Container();
     // SingleChildScrollView(

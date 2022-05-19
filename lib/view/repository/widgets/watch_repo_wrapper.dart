@@ -34,16 +34,16 @@ class WatchRepoWrapper extends StatefulWidget {
   final WatchRepoBuilder builder;
 
   @override
-  _WatchRepoWrapperState createState() => _WatchRepoWrapperState();
+  WatchRepoWrapperState createState() => WatchRepoWrapperState();
 }
 
-class _WatchRepoWrapperState extends State<WatchRepoWrapper> {
+class WatchRepoWrapperState extends State<WatchRepoWrapper> {
   final APIWrapperController<HasWatched$Query$Repository> controller =
       APIWrapperController();
   bool changing = false;
   @override
   Widget build(BuildContext context) {
-    final _theme =
+    final theme =
         Provider.of<PaletteSettings>(context, listen: false).currentSetting;
     void updateWatchStatus(HasWatched$Query$Repository data,
         {required bool isSubscribing, bool ignoring = false}) async {
@@ -91,7 +91,7 @@ class _WatchRepoWrapperState extends State<WatchRepoWrapper> {
                           color: data.viewerSubscription !=
                                   SubscriptionState.unsubscribed
                               ? Colors.white
-                              : _theme.accent,
+                              : theme.accent,
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: const Text(
@@ -110,7 +110,7 @@ class _WatchRepoWrapperState extends State<WatchRepoWrapper> {
                           color: data.viewerSubscription !=
                                   SubscriptionState.subscribed
                               ? Colors.white
-                              : _theme.accent,
+                              : theme.accent,
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: const Text(
@@ -129,7 +129,7 @@ class _WatchRepoWrapperState extends State<WatchRepoWrapper> {
                           color: data.viewerSubscription !=
                                   SubscriptionState.ignored
                               ? Colors.white
-                              : _theme.accent,
+                              : theme.accent,
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: const Text('Never be notified.'),

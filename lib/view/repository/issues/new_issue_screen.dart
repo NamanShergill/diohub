@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -6,6 +5,7 @@ import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
+import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
@@ -24,10 +24,10 @@ class NewIssueScreen extends StatefulWidget {
   final String repo;
 
   @override
-  _NewIssueScreenState createState() => _NewIssueScreenState();
+  NewIssueScreenState createState() => NewIssueScreenState();
 }
 
-class _NewIssueScreenState extends State<NewIssueScreen> {
+class NewIssueScreenState extends State<NewIssueScreen> {
   bool expanded = false;
   bool markdownView = false;
   final _formKey = GlobalKey<FormState>();
@@ -46,6 +46,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
   }
 
   Future createIssue() async {
+    final router = autoRoute(context);
     try {
       setState(() {
         status = PageStatus.loading;
@@ -55,8 +56,7 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
           body: comment,
           owner: widget.owner,
           repo: widget.repo);
-      AutoRouter.of(context)
-          .replace(issuePullScreenRoute(PathData.fromURL(res.url!)));
+      router.replace(issuePullScreenRoute(PathData.fromURL(res.url!)));
       // setState(() {
       //   status = PageStatus.loaded;
       // });

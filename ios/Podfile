@@ -39,3 +39,6 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
+
+# Modifed AppAuth SDK with accept JSON header.
+pod 'AppAuth', :git => 'https://github.com/NamanShergill/AppAuth-iOS.git'

@@ -129,8 +129,8 @@ class IssuesService {
         if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       },
     );
-    final List unParsedData = response.data;
-    final parsedData = unParsedData.map((e) => IssueModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    final parsedData = unParsedData.map(IssueModel.fromJson).toList();
     return parsedData;
   }
 
@@ -154,8 +154,8 @@ class IssuesService {
         if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
       },
     );
-    final List unParsedData = response.data;
-    final parsedData = unParsedData.map((e) => IssueModel.fromJson(e)).toList();
+    final unParsedData = response.data;
+    final parsedData = unParsedData.map(IssueModel.fromJson).toList();
     return parsedData;
   }
 
@@ -211,8 +211,8 @@ class IssuesService {
       'per_page': perPage,
       'page': page,
     });
-    final List data = response.data;
-    return data.map((e) => UserInfoModel.fromJson(e)).toList();
+    final data = response.data;
+    return data.map(UserInfoModel.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
@@ -236,8 +236,8 @@ class IssuesService {
     final response = await request(
             applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
         .get('$issueURL/labels');
-    final List data = response.data;
-    return data.map((e) => Label.fromJson(e)).toList();
+    final data = response.data;
+    return data.map(Label.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
@@ -249,8 +249,8 @@ class IssuesService {
       'per_page': perPage,
       'page': page,
     });
-    final List data = response.data;
-    return data.map((e) => Label.fromJson(e)).toList();
+    final data = response.data;
+    return data.map(Label.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#set-labels-for-an-issue
@@ -258,8 +258,8 @@ class IssuesService {
       String? issueURL, List<String?>? labels) async {
     final response = await request(applyBaseURL: false)
         .put('$issueURL/labels', data: {'labels': labels});
-    final List data = response.data;
-    return data.map((e) => Label.fromJson(e)).toList();
+    final data = response.data;
+    return data.map(Label.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue

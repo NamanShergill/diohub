@@ -47,10 +47,10 @@ class RepositoryScreen extends DeepLinkWidget {
   final String? initSHA;
 
   @override
-  _RepositoryScreenState createState() => _RepositoryScreenState();
+  RepositoryScreenState createState() => RepositoryScreenState();
 }
 
-class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
+class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
     with TickerProviderStateMixin {
   bool loading = false;
   late RepoBranchProvider repoBranchProvider;
@@ -192,7 +192,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
               child: ScaffoldBody(
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
                   childBuilder: (context, value) {
-                    final _repo = value.data;
+                    final repo = value.data;
                     return DynamicTabsParent(
                       controller: tabController,
                       tabs: tabs,
@@ -200,12 +200,12 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         DynamicTabView(
                             identifier: 'About',
                             child: AboutRepository(
-                              _repo,
+                              repo,
                               onTabOpened: tabController.openTab,
                             )),
                         DynamicTabView(
                           identifier: 'Readme',
-                          child: RepositoryReadme(_repo.url),
+                          child: RepositoryReadme(repo.url),
                         ),
                         DynamicTabView(
                           identifier: 'Code',
@@ -260,12 +260,12 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                           expandedHeight: 340,
                           collapsedHeight: 150,
                           tabBar: tabs,
-                          url: _repo.htmlUrl,
+                          url: repo.htmlUrl,
                           appBarWidget: Row(
                             children: [
                               ProfileTile(
-                                _repo.owner!.avatarUrl,
-                                userLogin: _repo.owner!.login,
+                                repo.owner!.avatarUrl,
+                                userLogin: repo.owner!.login,
                               ),
                               const SizedBox(
                                 width: 8,
@@ -279,10 +279,9 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                           .headline5!
                                           .copyWith(fontSize: 18),
                                       children: [
+                                        TextSpan(text: '${repo.owner!.login}/'),
                                         TextSpan(
-                                            text: '${_repo.owner!.login}/'),
-                                        TextSpan(
-                                            text: _repo.name,
+                                            text: repo.name,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                       ]),
@@ -298,15 +297,15 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ProfileTile(
-                                    _repo.owner!.avatarUrl,
-                                    userLogin: _repo.owner!.login,
+                                    repo.owner!.avatarUrl,
+                                    userLogin: repo.owner!.login,
                                     showName: true,
                                   ),
                                   const SizedBox(
                                     height: 8,
                                   ),
                                   Text(
-                                    _repo.name!,
+                                    repo.name!,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
                                         .textTheme
@@ -322,8 +321,8 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   RepoStar(
-                                    _repo.owner!.login!,
-                                    _repo.name!,
+                                    repo.owner!.login!,
+                                    repo.name!,
                                     fadeIntoView: false,
                                     inkWellRadius: medBorderRadius,
                                     child: (context, data, onPress) {
@@ -340,8 +339,8 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                     width: 16,
                                   ),
                                   WatchRepoWrapper(
-                                    _repo.owner!.login!,
-                                    _repo.name!,
+                                    repo.owner!.login!,
+                                    repo.name!,
                                     builder: (context, watchData, onPress) =>
                                         ActionButton(
                                       count: watchData?.watchers.totalCount,
@@ -371,7 +370,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                           width: 8,
                                         ),
                                         Text(
-                                          _repo.forksCount.toString(),
+                                          repo.forksCount.toString(),
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: theme.faded3,
@@ -394,7 +393,7 @@ class _RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                           ),
                           bottomPadding: 60,
                           bottomHeader: BranchButton(
-                            repo: _repo,
+                            repo: repo,
                           ),
                         ),
                         loading: loading,
