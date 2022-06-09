@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
+class NestedScroll extends StatefulWidget {
   const NestedScroll({
     Key? key,
     required this.header,
