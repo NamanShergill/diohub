@@ -8,7 +8,7 @@ version: 0.4.0-internal.1+5
 # flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 environment:
-  sdk: '>=2.14.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   animations: ^2.0.2
@@ -111,6 +111,7 @@ dev_dependencies:
   flutter_native_splash: ^2.1.0
   flutter_test:
     sdk: flutter
+  mockito
   json_serializable: ^6.1.5
 
 dependency_overrides:

@@ -33,7 +33,7 @@ class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
   void initState() {
     if (widget.listener != null) {
       context.read<T>().statusStream.listen((event) {
-        widget.listener!(event);
+        widget.listener?.call(event);
       });
     }
     super.initState();
