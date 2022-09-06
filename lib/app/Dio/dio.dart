@@ -10,6 +10,7 @@ import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:gql_exec/gql_exec.dart' as gql_exec;
+import 'package:gql_link/gql_link.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 typedef GQLResponse = gql_exec.Response;
@@ -108,7 +109,6 @@ Dio request({
       onError: (error, handler) async {
         // Global.log.e(error.toString());
         // Makes the buttons listening to this stream get enabled again.
-
         if (buttonLock) {
           setButtonValue(value: false);
         }
@@ -199,5 +199,21 @@ Future<GQLResponse> gqlRequest(
           variables: query.variables!.toJson(),
         ),
       )
-      .first;
+      .first
+      .onError(
+    (error, stackTrace) {
+      if (error is DioLinkServerException && error.response.statusCode == 304) {
+        final gqlResponse =
+            const ResponseParser().parseResponse(error.response.data);
+        return GQLResponse(
+          data: gqlResponse.data,
+          errors: gqlResponse.errors,
+          response: gqlResponse.response,
+        );
+      } else {
+        throw error as DioLinkServerException;
+      }
+    },
+    test: (error) => error is DioLinkServerException,
+  );
 }
