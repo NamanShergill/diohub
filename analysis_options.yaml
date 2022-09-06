@@ -127,7 +127,6 @@ linter:
     - hash_and_equals
     - literal_only_boolean_expressions
     - join_return_with_assignment
-    - invariant_booleans
 #    - avoid_classes_with_only_static_members
     - avoid_equals_and_hash_code_on_mutable_classes
     - avoid_positional_boolean_parameters

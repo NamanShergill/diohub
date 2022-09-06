@@ -11,15 +11,15 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  animations: ^2.0.2
+  animations: ^2.0.4
   another_flushbar: ^1.10.29
-  auto_route: ^4.0.1
-  cached_network_image: ^3.2.1
-  connectivity_plus: ^2.3.0
+  auto_route: ^5.0.1
+  cached_network_image: ^3.2.2
+  connectivity_plus: ^2.3.6+1
   dio: ^4.0.6
-  dio_cache_interceptor: ^3.2.7
-  dio_cache_interceptor_db_store: ^4.1.1
-  equatable: ^2.0.3
+  dio_cache_interceptor: ^3.3.1
+  dio_cache_interceptor_db_store: ^5.0.0
+  equatable: ^2.0.5
   expand_widget: ^2.1.0
 
   # Modified to remove the current typing word indicator.
@@ -30,8 +30,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_appauth: ^4.0.0
-  flutter_bloc: ^8.0.1
+  flutter_appauth: ^4.2.0
+  flutter_bloc: ^8.1.1
   flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
@@ -52,27 +52,27 @@ dependencies:
       path: flutter_highlight
 
   # 2.1.2
-  flutter_html: ^2.2.1
+  flutter_html: ^2.1.2
   flutter_inappwebview: ^5.4.3+7
-  flutter_keyboard_visibility: ^5.2.0
-  flutter_portal: ^1.1.0
-  flutter_reaction_button: ^2.0.0+2
-  flutter_scroll_to_top: ^2.2.2-beta
-  flutter_secure_storage: ^5.0.2
-  flutter_slidable: ^1.2.1
-  flutter_svg: ^1.0.3
+  flutter_keyboard_visibility: ^5.3.0
+  flutter_portal: ^1.1.1
+  flutter_reaction_button: ^2.0.1+2
+  flutter_scroll_to_top: ^2.3.0-dev
+  flutter_secure_storage: ^6.0.0
+  flutter_slidable: ^2.0.0
+  flutter_svg: ^1.1.4
   flutter_vector_icons: ^1.0.0
   google_nav_bar: ^5.0.6
   gql: ^0.13.1
   gql_dio_link: ^0.2.2
   gql_exec: ^0.4.0
   image_stack: ^2.1.1
-  infinite_scroll_pagination: ^3.1.0
+  infinite_scroll_pagination: ^3.2.0
   intl: ^0.17.0
-  json_annotation: ^4.5.0
+  json_annotation: ^4.6.0
   line_icons: ^2.0.1
   logger: ^1.1.0
-  markdown: ^5.0.0
+  markdown: ^6.0.0
 
   # Modified for additional markdown options.
   markdown_editable_textinput:
@@ -81,35 +81,35 @@ dependencies:
       ref: master
 
   mime: ^1.0.2
-  package_info_plus: ^1.4.2
-  path_provider: ^2.0.10
+  package_info_plus: ^1.4.3+1
+  path_provider: ^2.0.11
   pretty_dio_logger: ^1.2.0-beta-1
-  provider: ^6.0.2
-  share_plus: ^4.0.4
+  provider: ^6.0.3
+  share_plus: ^4.1.0
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
-  sliver_tools: ^0.2.6
-  sqlite3_flutter_libs: ^0.5.7
+  sliver_tools: ^0.2.8
+  sqlite3_flutter_libs: ^0.5.9
   uni_links:
     git:
       url: https://github.com/objectivecosta/uni_links_simplified
-  url_launcher: ^6.1.2
+  url_launcher: ^6.1.5
   uuid: ^3.0.6
 
 dev_dependencies:
-  artemis: '>=7.0.0 <8.0.0'
-  auto_route_generator: ^4.0.0
-  build_runner: ^2.1.11
+  artemis: '>=7.9.0-beta <8.0.0'
+  auto_route_generator: ^5.0.2
+  build_runner: ^2.2.0
 #  change_app_package_name: ^1.0.0
-  dependency_validator: ^3.2.0
+  dependency_validator: ^3.2.2
   flutter_lints: ^2.0.1
-  flutter_native_splash: ^2.2.0+1
+  flutter_native_splash: ^2.2.8
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.2.0
+  json_serializable: ^6.3.1
 
 dependency_overrides:
-  flutter_svg: ^1.0.3
+  flutter_svg: ^1.1.4
 
 flutter_native_splash:
   color: '#17181c'

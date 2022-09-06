@@ -108,7 +108,7 @@ class _ReactionBarState extends State<ReactionBar> {
                             // splashColor: Colors.transparent,
                             boxPadding: const EdgeInsets.all(16),
                             shouldChangeReaction: false,
-                            boxPosition: Position.BOTTOM,
+                            boxPosition: VerticalPosition.BOTTOM,
                             boxColor: Provider.of<PaletteSettings>(context)
                                 .currentSetting
                                 .primary,

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
