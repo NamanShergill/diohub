@@ -22,31 +22,31 @@ class _PullsTabState extends State<PullsTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final _user = Provider.of<CurrentUserProvider>(context).data;
+    final user = Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
           searchFilters:
               SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
           defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user.login!),
+            SearchQueries().involves.toQueryString(user.login!),
             SearchQueries().type.toQueryString('pr'),
           ],
           filterStrings: [
             if (widget.deepLinkData?.component(1) == 'assigned')
-              SearchQueries().assignee.toQueryString(_user.login!),
+              SearchQueries().assignee.toQueryString(user.login!),
             if (widget.deepLinkData?.component(1) == 'mentioned')
-              SearchQueries().mentions.toQueryString(_user.login!),
+              SearchQueries().mentions.toQueryString(user.login!),
           ]),
       quickFilters: {
-        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned',
-        SearchQueries().author.toQueryString(_user.login!): 'Created',
-        SearchQueries().mentions.toQueryString(_user.login!): 'Mentioned',
+        SearchQueries().assignee.toQueryString(user.login!): 'Assigned',
+        SearchQueries().author.toQueryString(user.login!): 'Created',
+        SearchQueries().mentions.toQueryString(user.login!): 'Mentioned',
       },
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
       searchBarMessage: 'Search in your pull requests',
-      searchHeroTag: '${_user.login}issueSearch',
+      searchHeroTag: '${user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     );
   }

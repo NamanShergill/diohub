@@ -14,12 +14,12 @@ class RepoReadmeProvider
   Future<RepositoryReadmeModel?> setInitData(
       {bool isInitialisation = false}) async {
     final branch = parentProvider.currentSHA;
-    RepositoryReadmeModel? _readme;
+    RepositoryReadmeModel? readmeModel;
     final readme =
         await RepositoryServices.fetchReadme(repoURL, branch: branch);
     if (parentProvider.currentSHA == branch) {
-      _readme = readme;
+      readmeModel = readme;
     }
-    return _readme;
+    return readmeModel;
   }
 }

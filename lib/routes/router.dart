@@ -21,6 +21,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
+StackRouter autoRoute(BuildContext context) => AutoRouter.of(context);
+
 @AdaptiveAutoRouter(
   // durationInMilliseconds: 250,
   routes: <AutoRoute>[

@@ -113,7 +113,6 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
 
 class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
-  // final GlobalKey<CustomScrollView> scrollKey;
 
   @override
   void initState() {
@@ -128,44 +127,51 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   @override
   Widget build(BuildContext context) {
     Widget _scrollView(ScrollViewProperties? properties) {
+      final physics = widget.disableScroll
+          ? const NeverScrollableScrollPhysics()
+          : const BouncingScrollPhysics();
+      final slivers = [
+        MultiSliver(
+          children: [
+            if (widget.header != null)
+              SliverToBoxAdapter(
+                child: widget.header!(context),
+              ),
+            _InfinitePagination<T>(
+              future: widget.future,
+              builder: widget.builder,
+              controller: controller,
+              key: widget.paginationKey,
+              filterFn: widget.filterFn,
+              firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
+              bottomSpacing: widget.bottomSpacing,
+              pageNumber: widget.pageNumber,
+              separatorBuilder: widget.separatorBuilder,
+              pageSize: widget.pageSize,
+              topSpacing: widget.topSpacing,
+              listEndIndicator: widget.listEndIndicator,
+            ),
+          ],
+        ),
+      ];
       if (properties != null) {
         return scrollview.CustomScrollView(
           properties: properties,
-          physics: widget.disableScroll
-              ? const NeverScrollableScrollPhysics()
-              : const BouncingScrollPhysics(),
+          physics: physics,
           shrinkWrap: widget.shrinkWrap,
-          slivers: [
-            MultiSliver(
-              children: [
-                if (widget.header != null)
-                  SliverToBoxAdapter(
-                    child: widget.header!(context),
-                  ),
-                _InfinitePagination<T>(
-                  future: widget.future,
-                  builder: widget.builder,
-                  controller: controller,
-                  key: widget.paginationKey,
-                  filterFn: widget.filterFn,
-                  firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
-                  bottomSpacing: widget.bottomSpacing,
-                  pageNumber: widget.pageNumber,
-                  separatorBuilder: widget.separatorBuilder,
-                  pageSize: widget.pageSize,
-                  topSpacing: widget.topSpacing,
-                  listEndIndicator: widget.listEndIndicator,
-                ),
-              ],
-            ),
-          ],
+          slivers: slivers,
         );
       } else {
-        return CustomScrollView();
+        return CustomScrollView(
+          controller: widget.scrollController,
+          shrinkWrap: widget.shrinkWrap,
+          physics: physics,
+          slivers: slivers,
+        );
       }
     }
 
-    Widget _refreshIndicator(ScrollViewProperties? properties) {
+    Widget _refreshIndicator({ScrollViewProperties? properties}) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -183,43 +189,17 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
     Widget _child() {
       if (widget.showScrollToTopButton) {
         return ScrollWrapper(
-          // nestedScrollViewController: widget.nestedScrollViewController!,
-          // scrollController: scrollController,
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
+          scrollController: widget.scrollController,
           promptTheme: PromptButtonTheme(
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
-          builder: (context, properties) => _refreshIndicator(properties),
+          builder: (context, properties) =>
+              _refreshIndicator(properties: properties),
         );
-
-        // if (widget.isNestedScrollViewChild) {
-        //   return ScrollWrapper(
-        //     // nestedScrollViewController: widget.nestedScrollViewController!,
-        //     scrollController: scrollController,
-        //     // alwaysVisibleAtOffset: widget.pinnedHeader != null,
-        //     promptTheme: PromptButtonTheme(
-        //         color: Provider.of<PaletteSettings>(context)
-        //             .currentSetting
-        //             .accent),
-        //     promptReplacementBuilder: widget.pinnedHeader,
-        //     child: _refreshIndicator(scrollController),
-        //   );
-        // } else {
-        //   return ScrollWrapper(
-        //     scrollController: scrollController,
-        //     alwaysVisibleAtOffset: widget.pinnedHeader != null,
-        //     promptTheme: PromptButtonTheme(
-        //         color: Provider.of<PaletteSettings>(context)
-        //             .currentSetting
-        //             .accent),
-        //     promptReplacementBuilder: widget.pinnedHeader,
-        //     builder: (context, properties) =>
-        //         _refreshIndicator(properties.scrollController),
-        //   );
-        // }
       } else {
-        return _refreshIndicator(null);
+        return _refreshIndicator();
       }
     }
 

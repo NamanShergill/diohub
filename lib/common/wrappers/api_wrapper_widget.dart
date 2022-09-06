@@ -45,7 +45,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
     if (widget.initialData == null) {
       await fetchData(refresh: false);
     } else {
-      data = widget.initialData!;
+      data = widget.initialData as T;
       if (mounted) {
         setState(() {
           loading = false;

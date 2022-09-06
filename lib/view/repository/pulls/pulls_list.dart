@@ -10,8 +10,8 @@ class PullsList extends StatelessWidget {
   const PullsList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _repo = Provider.of<RepositoryProvider>(context);
-    final _user = Provider.of<CurrentUserProvider>(context).data;
+    final repo = Provider.of<RepositoryProvider>(context);
+    final user = Provider.of<CurrentUserProvider>(context).data;
 
     return SearchScrollWrapper(
       SearchData(
@@ -19,19 +19,18 @@ class PullsList extends StatelessWidget {
               SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
           defaultHiddenFilters: [
             SearchQueries().type.toQueryString('pr'),
-            SearchQueries().repo.toQueryString(_repo.data.fullName!),
+            SearchQueries().repo.toQueryString(repo.data.fullName!),
           ]),
       quickFilters: {
-        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned to you',
-        SearchQueries().author.toQueryString(_user.login!):
-            'Your pull requests',
-        SearchQueries().mentions.toQueryString(_user.login!): 'Mentions you',
+        SearchQueries().assignee.toQueryString(user.login!): 'Assigned to you',
+        SearchQueries().author.toQueryString(user.login!): 'Your pull requests',
+        SearchQueries().mentions.toQueryString(user.login!): 'Mentions you',
       },
       quickOptions: {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
       searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-      searchBarMessage: 'Search in ${_repo.data.name}\'s pull requests',
+      searchBarMessage: 'Search in ${repo.data.name}\'s pull requests',
       searchHeroTag: 'repoPRSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       // replacementBuilder: (SearchData data, header, child) {

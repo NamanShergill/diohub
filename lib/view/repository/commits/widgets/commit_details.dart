@@ -15,7 +15,7 @@ class CommitDetails extends StatelessWidget {
   const CommitDetails({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _commit = Provider.of<CommitProvider>(context);
+    final commit = Provider.of<CommitProvider>(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -30,7 +30,7 @@ class CommitDetails extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    _commit.data.commit!.message!,
+                    commit.data.commit!.message!,
                   ),
                 ),
               ],
@@ -42,9 +42,9 @@ class CommitDetails extends StatelessWidget {
               children: [
                 Flexible(
                   child: ProfileTile(
-                    _commit.data.author?.avatarUrl,
+                    commit.data.author?.avatarUrl,
                     padding: const EdgeInsets.all(8),
-                    userLogin: _commit.data.author?.login,
+                    userLogin: commit.data.author?.login,
                     showName: true,
                   ),
                 ),
@@ -55,14 +55,14 @@ class CommitDetails extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    getDate(_commit.data.commit!.committer!.date.toString(),
+                    getDate(commit.data.commit!.committer!.date.toString(),
                         shorten: false),
                   ),
                 ],
               )),
           InfoCard(
             'Parents',
-            child: _commit.data.parents!.isEmpty
+            child: commit.data.parents!.isEmpty
                 ? Row(
                     children: const [
                       Text('No parents.'),
@@ -71,15 +71,15 @@ class CommitDetails extends StatelessWidget {
                 : ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _commit.data.parents!.length,
+                    itemCount: commit.data.parents!.length,
                     separatorBuilder: (context, index) {
                       return const SizedBox(
                         height: 8,
                       );
                     },
                     itemBuilder: (context, index) {
-                      return CommitSHAButton(_commit.data.parents![index].sha,
-                          _commit.data.parents![index].url);
+                      return CommitSHAButton(commit.data.parents![index].sha,
+                          commit.data.parents![index].url);
                     },
                   ),
           ),
@@ -89,35 +89,35 @@ class CommitDetails extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Files Changed: ${_commit.data.files!.length}'),
+                      Text('Files Changed: ${commit.data.files!.length}'),
                       const SizedBox(
                         height: 8,
                       ),
-                      Text('Total Changes: ${_commit.data.stats!.total}'),
+                      Text('Total Changes: ${commit.data.stats!.total}'),
                       const SizedBox(
                         height: 8,
                       ),
-                      Text('Additions: ${_commit.data.stats!.additions}'),
+                      Text('Additions: ${commit.data.stats!.additions}'),
                       const SizedBox(
                         height: 8,
                       ),
-                      Text('Deletions: ${_commit.data.stats!.deletions}'),
+                      Text('Deletions: ${commit.data.stats!.deletions}'),
                     ],
                   ),
                 ],
               )),
           InfoCard(
             'Repo',
-            child: RepoCardLoading(_repoURLFromCommitURL(_commit.data.url!),
-                _repoNameFromCommitURL(_commit.data.url!)),
+            child: RepoCardLoading(_repoURLFromCommitURL(commit.data.url!),
+                _repoNameFromCommitURL(commit.data.url!)),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
             child: Button(
                 onTap: () {
                   AutoRouter.of(context).push(RepositoryScreenRoute(
-                      repositoryURL: _repoURLFromCommitURL(_commit.data.url!),
-                      initSHA: _commit.data.sha,
+                      repositoryURL: _repoURLFromCommitURL(commit.data.url!),
+                      initSHA: commit.data.sha,
                       index: 2));
                 },
                 listenToLoadingController: false,

@@ -9,6 +9,7 @@ import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
@@ -65,19 +66,19 @@ class AuthService {
   //     ' delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
 
   static String get scopeString => scopes.join(' ');
-  static const List<String> scopes = [
-    'repo',
-    'public_repo',
-    'repo:invite',
-    'write:org',
-    'gist',
-    'notifications',
-    'user',
-    'delete_repo',
-    'write:discussion',
-    'read:packages',
-    'delete:packages',
-  ];
+  static List<String> get scopes => const [
+        'repo',
+        'public_repo',
+        'repo:invite',
+        'write:org',
+        'gist',
+        'notifications',
+        'user',
+        'delete_repo',
+        'write:discussion',
+        'read:packages',
+        'delete:packages',
+      ];
 
   static Future<Response> getAccessToken({String? deviceCode}) async {
     final formData = FormData.fromMap({
@@ -107,7 +108,7 @@ class AuthService {
     }
   }
 
-  Future<DeviceCodeModel> getDeviceCode() async {
+  static Future<DeviceCodeModel> getDeviceCode() async {
     await AuthService.getDeviceToken().then((value) {
       if (value.data['device_code'] != null) {
         return DeviceCodeModel.fromJson(value.data);
@@ -123,5 +124,22 @@ class AuthService {
     if (sendToAuthScreen) {
       AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
     }
+  }
+
+  static Future<AccessTokenModel> oauth2() async {
+    const appAuth = FlutterAppAuth();
+    final result = await appAuth.authorizeAndExchangeCode(
+      AuthorizationTokenRequest(
+        PrivateKeys.clientID,
+        'auth.felix.diohub://login-callback',
+        clientSecret: PrivateKeys.clientSecret,
+        serviceConfiguration: const AuthorizationServiceConfiguration(
+            tokenEndpoint: 'https://github.com/login/oauth/access_token',
+            authorizationEndpoint: 'https://github.com/login/oauth/authorize'),
+        scopes: AuthService.scopes,
+      ),
+    );
+    return AccessTokenModel(
+        accessToken: result!.accessToken, scope: AuthService.scopeString);
   }
 }

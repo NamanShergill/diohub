@@ -23,10 +23,10 @@ class ActionButton extends StatefulWidget {
   final Color? doneColor;
 
   @override
-  _ActionButtonState createState() => _ActionButtonState();
+  ActionButtonState createState() => ActionButtonState();
 }
 
-class _ActionButtonState extends State<ActionButton> {
+class ActionButtonState extends State<ActionButton> {
   bool loading = false;
 
   @override

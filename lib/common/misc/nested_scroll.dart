@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-class NestedScroll extends StatefulWidget {
+class NestedScroll extends StatelessWidget {
   const NestedScroll({
     Key? key,
     required this.header,
@@ -12,11 +12,6 @@ class NestedScroll extends StatefulWidget {
   final Widget body;
 
   @override
-  State<NestedScroll> createState() => _NestedScrollState();
-}
-
-class _NestedScrollState extends State<NestedScroll> {
-  @override
   Widget build(BuildContext context) {
     return NestedScrollView(
       headerSliverBuilder: (context, value) {
@@ -25,7 +20,7 @@ class _NestedScrollState extends State<NestedScroll> {
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverSafeArea(
               bottom: false,
-              sliver: MultiSliver(children: widget.header(context, value)),
+              sliver: MultiSliver(children: header(context, value)),
             ),
           ),
         ];
@@ -34,7 +29,7 @@ class _NestedScrollState extends State<NestedScroll> {
         builder: (context) {
           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
 
-          return widget.body;
+          return body;
         },
       ),
     );

@@ -12,10 +12,10 @@ class ColorSettingCard extends StatefulWidget {
   const ColorSettingCard({Key? key}) : super(key: key);
 
   @override
-  _ColorSettingCardState createState() => _ColorSettingCardState();
+  ColorSettingCardState createState() => ColorSettingCardState();
 }
 
-class _ColorSettingCardState extends State<ColorSettingCard> {
+class ColorSettingCardState extends State<ColorSettingCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context);

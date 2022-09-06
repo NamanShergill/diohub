@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final _search = Provider.of<SearchDataProvider>(context);
+    final search = Provider.of<SearchDataProvider>(context);
 
     super.build(context);
     return NestedScroll(
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen>
                 child: SearchBar(
                   updateBarOnChange: false,
                   onSubmit: (data) {
-                    _search.updateSearchData(data);
+                    search.updateSearchData(data);
                     widget.parentTabController.animateTo(1);
                   },
                   heroTag: 'homeSearchBar',

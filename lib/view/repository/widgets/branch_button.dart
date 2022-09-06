@@ -48,7 +48,7 @@ class BranchButton extends StatelessWidget {
                 return FadeAnimationSection(
                   child: InkWell(
                     onTap: () {
-                      final String? currentBranch =
+                      final currentBranch =
                           context.read<RepoBranchProvider>().currentSHA;
                       void changeBranch(String branch) {
                         Provider.of<RepoBranchProvider>(context, listen: false)

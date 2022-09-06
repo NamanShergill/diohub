@@ -72,9 +72,9 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    return PortalEntry(
+    return PortalTarget(
       visible: visible,
-      portal: GestureDetector(
+      portalFollower: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
           setState(() {
@@ -82,8 +82,8 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
           });
         },
       ),
-      child: PortalEntry(
-        portal: SizeExpandedSection(
+      child: PortalTarget(
+        portalFollower: SizeExpandedSection(
             child: SizedBox(
           height: (_media.height - widget.offSet) * widget.heightMultiplier,
           child: Padding(
@@ -99,8 +99,9 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
           ),
         )),
         visible: visible,
-        portalAnchor: widget.portalAnchor,
-        childAnchor: widget.childAnchor,
+        anchor: Aligned(
+            follower: widget.portalAnchor ?? Alignment.topCenter,
+            target: widget.childAnchor ?? Alignment.bottomCenter),
         child: widget.child,
       ),
     );

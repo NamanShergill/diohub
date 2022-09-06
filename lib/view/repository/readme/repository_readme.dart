@@ -12,10 +12,10 @@ class RepositoryReadme extends StatefulWidget {
   final String? repoURL;
 
   @override
-  _RepositoryReadmeState createState() => _RepositoryReadmeState();
+  RepositoryReadmeState createState() => RepositoryReadmeState();
 }
 
-class _RepositoryReadmeState extends State<RepositoryReadme>
+class RepositoryReadmeState extends State<RepositoryReadme>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -33,10 +33,12 @@ class _RepositoryReadmeState extends State<RepositoryReadme>
           );
         },
         childBuilder: (context, value) {
-          return MarkdownRenderAPI(
-            value.data!.content!,
-            repoName: Provider.of<RepositoryProvider>(context).data.fullName,
-            branch: Provider.of<RepoBranchProvider>(context).currentSHA,
+          return SingleChildScrollView(
+            child: MarkdownRenderAPI(
+              value.data!.content!,
+              repoName: Provider.of<RepositoryProvider>(context).data.fullName,
+              branch: Provider.of<RepoBranchProvider>(context).currentSHA,
+            ),
           );
         },
       ),

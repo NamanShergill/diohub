@@ -10,10 +10,10 @@ class WikiViewer extends StatefulWidget {
   final String? repoURL;
 
   @override
-  _WikiViewerState createState() => _WikiViewerState();
+  WikiViewerState createState() => WikiViewerState();
 }
 
-class _WikiViewerState extends State<WikiViewer> {
+class WikiViewerState extends State<WikiViewer> {
   late WebViewController _webViewController;
   bool loading = true;
   String? wikiLink;
@@ -56,7 +56,7 @@ class _WikiViewerState extends State<WikiViewer> {
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon:  Icon(Icons.adaptive.arrow_back),
+              icon: Icon(Icons.adaptive.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
