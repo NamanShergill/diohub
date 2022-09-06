@@ -171,10 +171,9 @@ class _HomeScreenState extends State<HomeScreen>
                         return Row(
                           children: [
                             Expanded(
-                              child: ProfileTile(
-                                item!.node?.avatarUrl.toString(),
-                                userLogin: item.node?.login,
-                                showName: true,
+                              child: ProfileTile.login(
+                                avatarUrl: item?.node?.avatarUrl.toString(),
+                                userLogin: item?.node?.login,
                                 padding: const EdgeInsets.all(16),
                                 size: 30,
                               ),

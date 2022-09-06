@@ -92,7 +92,7 @@ class IssuesList extends StatelessWidget {
                                                     .nodes![index]!.issue.url
                                                     .toString()),
                                                 backgroundColor:
-                                                    secondary(context),
+                                                    context.palette.secondary,
                                               );
                                             },
                                             separatorBuilder:

@@ -95,9 +95,10 @@ class _BaseCommentState extends State<BaseComment> {
                           .faded3,
                     ),
                   ),
-                ProfileTile(
-                  widget.author?.avatarUrl.toString(),
+                ProfileTile.avatar(
+                  avatarUrl: widget.author?.avatarUrl.toString(),
                   userLogin: widget.author?.login,
+                  padding: EdgeInsets.zero,
                   size: 25,
                 ),
                 const SizedBox(

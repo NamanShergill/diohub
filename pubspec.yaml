@@ -35,6 +35,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
   flutter_datetime_picker: ^1.5.1
+  flutter_displaymode: ^0.4.0
 
   flutter_dynamic_tabs:
     path: dependencies/flutter_dynamic_tabs

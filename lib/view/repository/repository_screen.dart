@@ -263,9 +263,9 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                           url: repo.htmlUrl,
                           appBarWidget: Row(
                             children: [
-                              ProfileTile(
-                                repo.owner!.avatarUrl,
-                                userLogin: repo.owner!.login,
+                              ProfileTile.avatar(
+                                avatarUrl: repo.owner?.avatarUrl,
+                                userLogin: repo.owner?.login,
                               ),
                               const SizedBox(
                                 width: 8,
@@ -296,10 +296,10 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ProfileTile(
-                                    repo.owner!.avatarUrl,
+                                  ProfileTile.login(
+                                    avatarUrl: repo.owner!.avatarUrl,
                                     userLogin: repo.owner!.login,
-                                    showName: true,
+                                    padding: EdgeInsets.zero,
                                   ),
                                   const SizedBox(
                                     height: 8,

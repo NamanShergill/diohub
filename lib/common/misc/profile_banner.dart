@@ -9,27 +9,47 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProfileTile extends StatelessWidget {
-  const ProfileTile(
-    this.avatarUrl, {
+  const ProfileTile.avatar({
+    required this.avatarUrl,
     this.userLogin,
-    this.padding = EdgeInsets.zero,
+    this.padding,
     this.size = 25,
-    this.fullName,
-    this.disableTap = false,
-    this.showName = false,
-    this.textStyle,
-    this.showAvatar = true,
     Key? key,
-  }) : super(key: key);
+  })  : _type = _UserCardType.photo,
+        fullName = null,
+        disableTap = false,
+        textStyle = null,
+        super(key: key);
+  const ProfileTile.login({
+    required this.avatarUrl,
+    required this.userLogin,
+    this.padding,
+    this.size = 25,
+    this.disableTap = false,
+    this.textStyle,
+    Key? key,
+  })  : _type = _UserCardType.login,
+        fullName = null,
+        super(key: key);
+  const ProfileTile.extended({
+    required this.avatarUrl,
+    required this.userLogin,
+    required this.fullName,
+    this.padding,
+    this.size = 25,
+    this.disableTap = false,
+    this.textStyle,
+    Key? key,
+  })  : _type = _UserCardType.extended,
+        super(key: key);
   final String? avatarUrl;
   final double size;
   final String? userLogin;
-  final bool showName;
   final String? fullName;
   final TextStyle? textStyle;
-  final EdgeInsets padding;
-  final bool showAvatar;
+  final EdgeInsets? padding;
   final bool disableTap;
+  final _UserCardType _type;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -44,33 +64,32 @@ class ProfileTile extends StatelessWidget {
               }
             : null,
         child: Padding(
-          padding: padding,
+          padding: padding ?? const EdgeInsets.all(8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (showAvatar)
-                ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: avatarUrl ?? 'N/A',
-                    height: size,
-                    fit: BoxFit.fill,
-                    placeholder: (context, string) {
-                      return ShimmerWidget(
-                        child: Container(
-                          height: size,
-                          width: size,
-                          color: Colors.grey,
-                        ),
-                      );
-                    },
-                    errorWidget: (context, _, __) {
-                      return Icon(
-                        LineIcons.exclamationCircle,
-                        size: size,
-                      );
-                    },
-                  ),
+              ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: avatarUrl ?? 'N/A',
+                  height: size,
+                  fit: BoxFit.fill,
+                  placeholder: (context, string) {
+                    return ShimmerWidget(
+                      child: Container(
+                        height: size,
+                        width: size,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
+                  errorWidget: (context, _, __) {
+                    return Icon(
+                      LineIcons.exclamationCircle,
+                      size: size,
+                    );
+                  },
                 ),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -88,7 +107,7 @@ class ProfileTile extends StatelessWidget {
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
-                  if (showName)
+                  if (_type != _UserCardType.photo)
                     Padding(
                       padding: EdgeInsets.only(left: size / 3),
                       child: Text(
@@ -105,3 +124,5 @@ class ProfileTile extends StatelessWidget {
     );
   }
 }
+
+enum _UserCardType { photo, login, extended }

@@ -52,11 +52,10 @@ class ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IgnorePointer(
-                      child: ProfileTile(
-                        user.avatarUrl,
+                      child: ProfileTile.extended(
+                        avatarUrl: user.avatarUrl,
                         fullName: user.name,
                         size: 30,
-                        showName: true,
                         userLogin: user.login,
                       ),
                     ),

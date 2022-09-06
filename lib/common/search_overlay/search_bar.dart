@@ -650,10 +650,10 @@ class _ActiveSearch extends StatelessWidget {
                 icon: Icon(
                   Icons.close,
                   size: 15,
-                  color: accent(context),
+                  color: context.palette.accent,
                 ),
                 padding: const EdgeInsets.all(4),
-                color: elementsOnColors(context),
+                color: context.palette.elementsOnColors,
                 onPressed: () {
                   onSubmit(searchData.cleared);
                 })

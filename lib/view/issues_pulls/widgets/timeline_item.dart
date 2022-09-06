@@ -361,10 +361,12 @@ class GetTimelineItem extends StatelessWidget {
                   const Text('Requested a review from'),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ProfileTile(
-                      (item.requestedReviewer as dynamic)?.avatarUrl.toString(),
-                      showName: true,
+                    child: ProfileTile.login(
+                      avatarUrl: (item.requestedReviewer as dynamic)
+                          ?.avatarUrl
+                          .toString(),
                       size: 20,
+                      padding: EdgeInsets.zero,
                       textStyle: const TextStyle(fontSize: 12),
                       userLogin: (item.requestedReviewer as dynamic)?.login ??
                           (item.requestedReviewer as dynamic)?.nameKey,

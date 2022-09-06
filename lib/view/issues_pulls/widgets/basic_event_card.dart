@@ -47,9 +47,8 @@ class BasicEventCard extends StatelessWidget {
               const SizedBox(
                 width: 4,
               ),
-              ProfileTile(
-                user?.avatarUrl.toString(),
-                showName: true,
+              ProfileTile.login(
+                avatarUrl: user?.avatarUrl.toString(),
                 size: 20,
                 textStyle: TextStyle(
                     fontSize: 12,
@@ -167,9 +166,8 @@ class BasicEventAssignedCard extends StatelessWidget {
             width: 4,
           ),
           actor?.login != null && actor?.login != assignee?.login
-              ? ProfileTile(
-                  assignee?.avatarUrl.toString(),
-                  showName: true,
+              ? ProfileTile.login(
+                  avatarUrl: assignee?.avatarUrl.toString(),
                   textStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Provider.of<PaletteSettings>(context)

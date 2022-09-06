@@ -5,17 +5,19 @@ import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 
 class DropDownInfoCard extends StatefulWidget {
-  const DropDownInfoCard(
-      {Key? key,
-      this.expand = false,
-      required this.title,
-      required this.child,
-      this.trailing})
-      : super(key: key);
+  const DropDownInfoCard({
+    Key? key,
+    this.expand = false,
+    required this.title,
+    required this.child,
+    this.trailing,
+    this.enabled = true,
+  }) : super(key: key);
   final bool expand;
   final String title;
   final Widget? trailing;
   final Widget child;
+  final bool enabled;
 
   @override
   _DropDownInfoCardState createState() => _DropDownInfoCardState();
@@ -43,16 +45,18 @@ class _DropDownInfoCardState extends State<DropDownInfoCard>
         color: Colors.transparent,
         child: InkWell(
           borderRadius: medBorderRadius,
-          onTap: () {
-            if (!expand) {
-              _controller.forward();
-            } else {
-              _controller.reverse();
-            }
-            setState(() {
-              expand = !expand;
-            });
-          },
+          onTap: !widget.enabled
+              ? null
+              : () {
+                  if (!expand) {
+                    _controller.forward();
+                  } else {
+                    _controller.reverse();
+                  }
+                  setState(() {
+                    expand = !expand;
+                  });
+                },
           child: Container(
             decoration: BoxDecoration(
               // border: Border.all(color: faded2(context), width: 1),
@@ -84,7 +88,7 @@ class _DropDownInfoCardState extends State<DropDownInfoCard>
                           ),
                       ],
                     ),
-                    RotationTransition(
+                    if(widget.enabled)RotationTransition(
                       turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),

@@ -60,11 +60,9 @@ class UserSearchDropdown extends StatelessWidget {
                         },
                         child: Row(
                           children: [
-                            ProfileTile(
-                              data!.avatarUrl.toString(),
+                            ProfileTile.login(
+                              avatarUrl: data!.avatarUrl.toString(),
                               disableTap: true,
-                              padding: const EdgeInsets.all(8),
-                              showName: true,
                               userLogin: data.login,
                             ),
                           ],

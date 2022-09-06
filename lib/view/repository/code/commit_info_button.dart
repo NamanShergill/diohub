@@ -37,9 +37,11 @@ class CommitInfoButton extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      ProfileTile(
-                        value.tree.last.commit!.author?.avatarUrl ?? '',
+                      ProfileTile.avatar(
+                        avatarUrl:
+                            value.tree.last.commit!.author?.avatarUrl ?? '',
                         size: 13,
+                        padding: EdgeInsets.zero,
                       ),
                       const SizedBox(
                         width: 5,

@@ -256,11 +256,10 @@ class _ReactionItemState extends State<ReactionItem> {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: ProfileTile(
-                                          actor.avatarUrl.toString(),
+                                        child: ProfileTile.avatar(
+                                          avatarUrl: actor.avatarUrl.toString(),
                                           padding: const EdgeInsets.all(8),
                                           userLogin: actor.login,
-                                          showName: true,
                                         ),
                                       ),
                                     ],

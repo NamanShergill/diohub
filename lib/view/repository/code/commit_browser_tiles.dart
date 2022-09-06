@@ -108,9 +108,10 @@ class _CommitTilesState extends State<_CommitTiles> {
                                     ),
                                     Row(
                                       children: [
-                                        ProfileTile(
-                                          widget.authorAvatarUrl,
+                                        ProfileTile.avatar(
+                                          avatarUrl: widget.authorAvatarUrl,
                                           size: 13,
+                                          padding: EdgeInsets.zero,
                                         ),
                                         const SizedBox(
                                           width: 5,

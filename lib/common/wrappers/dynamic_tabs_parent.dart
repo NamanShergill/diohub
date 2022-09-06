@@ -46,7 +46,7 @@ class DynamicTabsParent extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: RoundButton(
-                        color: elementsOnColors(context),
+                        color: context.palette.elementsOnColors,
                         padding: const EdgeInsets.all(4),
                         onPressed: () {
                           controller.closeTab(tab.identifier, showDialog: true);
@@ -57,7 +57,7 @@ class DynamicTabsParent extends StatelessWidget {
                         icon: Icon(
                           Icons.close_rounded,
                           size: 12,
-                          color: accent(context),
+                          color: context.palette.accent,
                         ),
                       ),
                     )

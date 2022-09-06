@@ -43,9 +43,10 @@ class BaseEventCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ProfileTile(
-                    avatarUrl,
+                  ProfileTile.avatar(
+                    avatarUrl: avatarUrl,
                     userLogin: userLogin,
+                    padding: EdgeInsets.zero,
                   ),
                   const SizedBox(
                     width: 8,

@@ -8,7 +8,6 @@ import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 typedef FollowBuilder = Widget Function(BuildContext context,
     FollowStatusInfo$Query$User? followingData, VoidCallback? onPress);
@@ -38,7 +37,6 @@ class _UserFollowState extends State<UserFollow> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
     VoidCallback? onPress(FollowStatusInfo$Query$User? data) => data == null ||
             changing
         ? null
@@ -75,8 +73,8 @@ class _UserFollowState extends State<UserFollow> {
             Icons.add,
             size: 18,
             color: data != null && data.viewerIsFollowing
-                ? accent(context)
-                : theme.faded3,
+                ? context.palette.accent
+                : context.palette.faded3,
           ));
     }
 

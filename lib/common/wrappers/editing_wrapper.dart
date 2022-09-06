@@ -120,7 +120,7 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
     }
   }
 
-  Color get _buttonColor => widget.buttonColors ?? accent(context);
+  Color get _buttonColor => widget.buttonColors ?? context.palette.accent;
 
   @override
   Widget build(BuildContext context) {

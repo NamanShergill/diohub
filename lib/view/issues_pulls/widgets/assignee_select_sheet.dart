@@ -130,10 +130,10 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                     }
                   });
                 },
-                title: ProfileTile(
-                  item.avatarUrl,
+                title: ProfileTile.login(
+                  avatarUrl: item.avatarUrl,
                   userLogin: item.login,
-                  showName: true,
+                  padding: EdgeInsets.zero,
                 ),
               );
             },

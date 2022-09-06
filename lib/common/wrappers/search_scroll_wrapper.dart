@@ -90,7 +90,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    Widget header(context, function) {
+    Widget header(BuildContext context, function) {
       return Padding(
         padding: function != null ? EdgeInsets.zero : widget._searchBarPadding,
         child: SearchBar(
@@ -106,10 +106,10 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
                   icon: Icon(
                     Icons.keyboard_arrow_up_rounded,
                     // size: 15,
-                    color: accent(context),
+                    color: context.palette.accent,
                   ),
                   padding: const EdgeInsets.all(4),
-                  color: elementsOnColors(context),
+                  color: context.palette.elementsOnColors,
                   onPressed: function)
               : null,
           prompt: widget.searchBarMessage,

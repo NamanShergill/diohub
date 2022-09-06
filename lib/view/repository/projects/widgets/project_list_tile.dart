@@ -22,7 +22,7 @@ class ProjectListTile extends StatelessWidget {
         padding: padding,
         child: Material(
           elevation: 2,
-          color: primary(context),
+          color: context.palette.primary,
           borderRadius: medBorderRadius,
           child: InkWell(
               borderRadius: medBorderRadius,
@@ -40,8 +40,8 @@ class ProjectListTile extends StatelessWidget {
                             Icon(
                               Octicons.project,
                               color: project.closed
-                                  ? red(context)
-                                  : green(context),
+                                  ? context.palette.red
+                                  : context.palette.green,
                               size: 15,
                             ),
                             const SizedBox(
@@ -49,7 +49,7 @@ class ProjectListTile extends StatelessWidget {
                             ),
                             Text(
                               '#${project.number}',
-                              style: TextStyle(color: faded3(context)),
+                              style: TextStyle(color: context.palette.faded3),
                             ),
                           ],
                         ),
@@ -58,7 +58,7 @@ class ProjectListTile extends StatelessWidget {
                             Icon(
                               Icons.timelapse_outlined,
                               size: 11,
-                              color: faded3(context),
+                              color: context.palette.faded3,
                             ),
                             const SizedBox(
                               width: 4,
@@ -66,7 +66,7 @@ class ProjectListTile extends StatelessWidget {
                             Text(
                               getDate(project.updatedAt.toString()),
                               style: TextStyle(
-                                  color: faded3(context), fontSize: 12),
+                                  color: context.palette.faded3, fontSize: 12),
                             ),
                           ],
                         )
@@ -87,14 +87,14 @@ class ProjectListTile extends StatelessWidget {
                     ),
                     Text(
                       project.body ?? 'No description.',
-                      style: TextStyle(color: faded3(context)),
+                      style: TextStyle(color: context.palette.faded3),
                     ),
                     const Divider(
                       height: 16,
                     ),
                     Text(
                       'Progress: ${project.progress.donePercentage}%',
-                      style: TextStyle(color: faded3(context)),
+                      style: TextStyle(color: context.palette.faded3),
                     ),
                   ],
                 ),

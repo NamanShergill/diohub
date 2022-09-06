@@ -5,27 +5,6 @@ import 'package:dio_hub/utils/to_hex_string.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-Color accent(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.accent;
-Color primary(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.primary;
-Color secondary(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.secondary;
-Color baseElements(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.baseElements;
-Color elementsOnColors(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.elementsOnColors;
-Color green(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.green;
-Color red(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.red;
-Color faded1(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.faded1;
-Color faded2(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.faded2;
-Color faded3(BuildContext context) =>
-    Provider.of<PaletteSettings>(context).currentSetting.faded3;
-
 class PaletteSettings extends Settings<DioHubPalette> {
   PaletteSettings() : super('app_palette', defaultSetting: DioHubPalette());
 
@@ -163,3 +142,8 @@ final DioHubPalette _defaultPalette = DioHubPalette(
   faded2: const Color(0xff555555),
   faded3: const Color(0xff878787),
 );
+
+extension PaletteExtension on BuildContext {
+  DioHubPalette get palette =>
+      Provider.of<PaletteSettings>(this).currentSetting;
+}

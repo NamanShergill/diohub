@@ -133,7 +133,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.reactionGroups,
     required this.viewerCanReact,
     required this.assigneesInfo,
-    this.dynamicTabs,
+    this.dynamicTabs = const [],
   }) : super(key: key);
 
   final APIWrapperController apiWrapperController;
@@ -143,7 +143,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final int commentCount;
   final DateTime createdAt;
   final ActorMixin? createdBy;
-  final List<DynamicTab>? dynamicTabs;
+  final List<DynamicTab> dynamicTabs;
   final List<LabelMixin?> labels;
   final int number;
   final List<ReactionGroupsMixin> reactionGroups;
@@ -187,7 +187,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   Widget build(BuildContext context) {
     return DynamicTabsParent(
       controller: dynamicTabsController,
-      tabs: (widget.dynamicTabs ?? [])
+      tabs: List.from(widget.dynamicTabs)
         ..addAll([
           DynamicTab(
             identifier: 'About',
@@ -198,204 +198,222 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       tabViews: [
         DynamicTabView(
             identifier: 'About',
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    children: [
-                      Card(
-                        color: widget.state.color,
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                widget.state.icon,
-                                size: 16,
-                                // color: state.color,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(widget.state.text),
-                            ],
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Card(
+                          color: widget.state.color,
+                          margin: EdgeInsets.zero,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  widget.state.icon,
+                                  size: 16,
+                                  // color: state.color,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(widget.state.text),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      if (widget.createdBy != null)
-                        ProfileTile(
-                          widget.createdBy!.avatarUrl.toString(),
-                          userLogin: widget.createdBy!.login,
-                          showName: true,
-                          size: 16,
-                        ),
-                      Text(
-                        '  ${getDate(widget.createdAt.toString(), shorten: false)}',
-                        style: TextStyle(color: faded3(context)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Card(
-                    shape:
-                        RoundedRectangleBorder(borderRadius: medBorderRadius),
-                    margin: EdgeInsets.zero,
-                    child: Column(
-                      children: [
                         const SizedBox(
-                          height: 4,
+                          width: 4,
                         ),
-                        ReactionBar(
-                          widget.reactionGroups,
-                          viewerCanReact: widget.viewerCanReact,
+                        if (widget.createdBy != null)
+                          ProfileTile.login(
+                            avatarUrl: widget.createdBy!.avatarUrl.toString(),
+                            userLogin: widget.createdBy!.login,
+                            size: 16,
+                          ),
+                        Text(
+                          getDate(widget.createdAt.toString(), shorten: false),
+                          style: TextStyle(color: context.palette.faded3),
                         ),
-                        EditWidget(
-                          editingController: descEditingController,
-                          builder: (context, newValue, tools, currentlyEditing,
-                              state) {
-                            return Row(
-                              children: [
-                                if (widget.bodyHTML.isNotEmpty)
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: widget.body.length > 400
-                                          ? ExpandChild(
-                                              collapsedHint: 'Description',
-                                              expandArrowStyle:
-                                                  ExpandArrowStyle.both,
-                                              icon:
-                                                  Icons.arrow_drop_down_rounded,
-                                              // hintTextStyle: TextStyle(
-                                              //     color: faded3(context)),
-                                              child:
-                                                  MarkdownBody(widget.bodyHTML),
-                                            )
-                                          : MarkdownBody(widget.bodyHTML),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Card(
+                      shape:
+                          RoundedRectangleBorder(borderRadius: medBorderRadius),
+                      margin: EdgeInsets.zero,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          ReactionBar(
+                            widget.reactionGroups,
+                            viewerCanReact: widget.viewerCanReact,
+                          ),
+                          EditWidget(
+                            editingController: descEditingController,
+                            builder: (context, newValue, tools,
+                                currentlyEditing, state) {
+                              return Row(
+                                children: [
+                                  if (widget.bodyHTML.isNotEmpty)
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: widget.body.length > 400
+                                            ? ExpandChild(
+                                                collapsedHint: 'Description',
+                                                expandArrowStyle:
+                                                    ExpandArrowStyle.both,
+                                                icon: Icons
+                                                    .arrow_drop_down_rounded,
+                                                // hintTextStyle: TextStyle(
+                                                //     color: faded3(context)),
+                                                child: MarkdownBody(
+                                                    widget.bodyHTML),
+                                              )
+                                            : MarkdownBody(widget.bodyHTML),
+                                      ),
                                     ),
+                                  ScaleSwitch(
+                                    child: widget.bodyHTML.isEmpty &&
+                                            state == EditingState.editMode
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Text(
+                                              'No Description',
+                                              style: TextStyle(
+                                                  color: context.palette.faded3,
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                          )
+                                        : Container(),
                                   ),
-                                ScaleSwitch(
-                                  child: widget.bodyHTML.isEmpty &&
-                                          state == EditingState.editMode
-                                      ? Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          child: Text(
-                                            'No Description',
-                                            style: TextStyle(
-                                                color: faded3(context),
-                                                fontStyle: FontStyle.italic),
-                                          ),
-                                        )
-                                      : Container(),
-                                ),
-                                tools,
-                              ],
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Material(
-                          color: accent(context),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: medBorderRadius.bottomLeft,
-                              bottomRight: medBorderRadius.bottomRight),
-                          child: InkWell(
-                            onTap: () {
-                              dynamicTabsController.openTab('Conversation');
+                                  tools,
+                                ],
+                              );
                             },
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Material(
+                            color: context.palette.accent,
                             borderRadius: BorderRadius.only(
                                 bottomLeft: medBorderRadius.bottomLeft,
                                 bottomRight: medBorderRadius.bottomRight),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: medBorderRadius.bottomLeft,
-                                    bottomRight: medBorderRadius.bottomRight),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Octicons.comment_discussion,
-                                            size: 15,
+                            child: InkWell(
+                              onTap: () {
+                                dynamicTabsController.openTab('Conversation');
+                              },
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: medBorderRadius.bottomLeft,
+                                  bottomRight: medBorderRadius.bottomRight),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: medBorderRadius.bottomLeft,
+                                      bottomRight: medBorderRadius.bottomRight),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Octicons.comment_discussion,
+                                              size: 15,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          '${widget.commentCount} replies',
-                                        ),
-                                      ],
-                                    ),
-                                    const Icon(
-                                      Icons.arrow_right_rounded,
-                                    ),
-                                  ],
+                                          Text(
+                                            '${widget.commentCount} replies',
+                                          ),
+                                        ],
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_right_rounded,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  EditWidget(
-                    editingController: assigneeEditingController,
-                    builder: (context, newValue, tools, currentlyEditing,
-                            currentState) =>
-                        Row(
-                      children: [
-                        Expanded(
-                          child: DropDownInfoCard(
-                            title: 'Assignees',
-                            trailing: ImageStack.widgets(
-                              totalCount: widget.assigneesInfo.totalCount,
-                              backgroundColor: secondary(context),
-                              widgetBorderColor: secondary(context),
-                              // extraCountBorderColor: faded2(context),
-                              widgetCount: 3,
-                              extraCountTextStyle: TextStyle(
-                                color: faded3(context),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    EditWidget(
+                      editingController: assigneeEditingController,
+                      builder: (context, newValue, tools, currentlyEditing,
+                          currentState) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: Builder(
+                                builder: (context) {
+                                  final assignees =
+                                      widget.assigneesInfo.edges ?? [];
+                                  return DropDownInfoCard(
+                                    title:
+                                        '${assignees.isEmpty ? 'No ' : ''}Assignees',
+                                    enabled: assignees.isNotEmpty,
+                                    trailing: ImageStack.widgets(
+                                      totalCount:
+                                          widget.assigneesInfo.totalCount,
+                                      backgroundColor:
+                                          context.palette.secondary,
+                                      widgetBorderColor:
+                                          context.palette.secondary,
+                                      // extraCountBorderColor: faded2(context),
+                                      widgetCount: 3,
+                                      extraCountTextStyle: TextStyle(
+                                        color: context.palette.faded3,
+                                      ),
+                                      children: assignees
+                                          .map(
+                                            (e) => ProfileTile.avatar(
+                                              avatarUrl:
+                                                  e!.node!.avatarUrl.toString(),
+                                              padding: EdgeInsets.zero,
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                    child: const SizedBox(
+                                      height: 60,
+                                      width: 90,
+                                    ),
+                                  );
+                                },
                               ),
-                              children: widget.assigneesInfo.edges!
-                                  .map((e) => ProfileTile(
-                                      e!.node!.avatarUrl.toString()))
-                                  .toList(),
                             ),
-                            child: const SizedBox(
-                              height: 60,
-                              width: 90,
-                            ),
-                          ),
-                        ),
-                        tools,
-                      ],
+                            tools,
+                          ],
+                        );
+                      },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )),
         DynamicTabView(
@@ -457,7 +475,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                         text: widget.repoInfo.name,
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: faded3(context),
+                          color: context.palette.faded3,
                         ),
                       ),
                     ],
@@ -490,31 +508,36 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                   vertical: 4, horizontal: 0),
                               child: Row(
                                 children: [
-                                  ProfileTile(
-                                    widget.repoInfo.owner.avatarUrl.toString(),
-                                    disableTap: true,
+                                  ProfileTile.avatar(
+                                    avatarUrl: widget.repoInfo.owner.avatarUrl
+                                        .toString(),
                                     size: 16,
+                                    padding: EdgeInsets.zero,
                                   ),
-                                  richText([
-                                    TextSpan(
-                                        text:
-                                            '  ${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            AutoRouter.of(context).push(
-                                                RepositoryScreenRoute(
-                                                    repositoryURL:
-                                                        'repositoryURL'));
-                                          }),
-                                    TextSpan(
-                                      text: ' #${widget.number}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                  Flexible(
+                                    child: richText(
+                                      [
+                                        TextSpan(
+                                            text:
+                                                '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                AutoRouter.of(context).push(
+                                                    RepositoryScreenRoute(
+                                                        repositoryURL:
+                                                            'repositoryURL'));
+                                              }),
+                                        TextSpan(
+                                          text: ' #${widget.number}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                       defaultStyle: TextStyle(
-                                          color: faded3(context),
-                                          fontSize: 17)),
+                                          color: context.palette.faded3,
+                                          fontSize: 17),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -531,15 +554,10 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                     padding: EdgeInsets.zero,
                                     margin: EdgeInsets.zero,
                                     fontSize: FontSize(
-                                      theme(context)
-                                          .textTheme
-                                          .headline5
-                                          ?.fontSize,
+                                      context.textTheme.headline5?.fontSize,
                                     ),
-                                    fontWeight: theme(context)
-                                        .textTheme
-                                        .headline5
-                                        ?.fontWeight),
+                                    fontWeight: context
+                                        .textTheme.headline5?.fontWeight),
                               ),
                             ),
                             EditWidget(
@@ -580,7 +598,8 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                                                 child: Text(
                                                   'No labels',
                                                   style: TextStyle(
-                                                    color: faded3(context),
+                                                    color:
+                                                        context.palette.faded3,
                                                     fontStyle: FontStyle.italic,
                                                   ),
                                                 ),

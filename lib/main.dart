@@ -10,6 +10,7 @@ import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/device_display_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
@@ -23,10 +24,13 @@ void main() async {
   ResponseHandler.getSuccessStream();
   // Connectivity check stream initialised.
   InternetConnectivity.networkStatusService();
+
   await Future.wait([
     setupAppCache(),
     setUpSharedPrefs(),
+    setHighRefreshRate(),
   ]);
+
   final initLink = await initUniLink();
   uniLinkStream();
   final auth = await AuthService.isAuthenticated;
@@ -217,4 +221,8 @@ class _RootAppState extends State<RootApp> {
   }
 }
 
-ThemeData theme(BuildContext context) => Theme.of(context);
+extension ThemeExtension on BuildContext {
+  ThemeData get themeData => Theme.of(this);
+
+  TextTheme get textTheme => themeData.textTheme;
+}

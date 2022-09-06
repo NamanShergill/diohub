@@ -25,10 +25,11 @@ class RoundButton extends StatelessWidget {
         shape: MaterialStateProperty.all(const CircleBorder()),
         minimumSize: MaterialStateProperty.all(const Size(6, 6)),
         padding: MaterialStateProperty.all(padding ?? const EdgeInsets.all(10)),
-        backgroundColor: MaterialStateProperty.all(color ?? accent(context)),
+        backgroundColor:
+            MaterialStateProperty.all(color ?? context.palette.accent),
       ),
       child: IconTheme(
-        data: IconThemeData(size: 18, color: baseElements(context)),
+        data: IconThemeData(size: 18, color: context.palette.baseElements),
         child: icon,
       ),
     );

@@ -54,8 +54,8 @@ class _UserProfileScreenState<T extends UserInfoModel>
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ProfileTile(
-                  data.avatarUrl,
+                ProfileTile.avatar(
+                  avatarUrl: data.avatarUrl,
                   size: 50,
                 ),
                 const SizedBox(
@@ -122,7 +122,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
                       count: followingData?.followers.totalCount,
                       isDone: followingData?.viewerIsFollowing,
                       onTap: onPress,
-                      doneColor: accent(context),
+                      doneColor: context.palette.accent,
                       icon: Icons.add,
                     ),
                   ),
@@ -160,7 +160,10 @@ class _UserProfileScreenState<T extends UserInfoModel>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ProfileTile(data.avatarUrl),
+              ProfileTile.avatar(
+                avatarUrl: data.avatarUrl,
+                padding: EdgeInsets.zero,
+              ),
               const SizedBox(
                 width: 8,
               ),
