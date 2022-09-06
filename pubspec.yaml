@@ -24,8 +24,8 @@ dependencies:
 
   # Modified to remove the current typing word indicator.
   extended_text_field:
-    git:
-      url: https://github.com/NamanShergill/extended_text_field.git
+    path:
+      dependencies/extended_text_field
 
   flutter:
     sdk: flutter
@@ -37,8 +37,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
 
   flutter_dynamic_tabs:
-    git:
-      url: https://github.com/NamanShergill/flutter_dynamic_tabs
+    path: dependencies/flutter_dynamic_tabs
 
   # Null safe version until the package is updated.
   flutter_emoji:
@@ -76,9 +75,7 @@ dependencies:
 
   # Modified for additional markdown options.
   markdown_editable_textinput:
-    git:
-      url: https://github.com/NamanShergill/markdown-editable-textinput.git
-      ref: master
+    path: dependencies/markdown-editable-textinput
 
   mime: ^1.0.2
   package_info_plus: ^1.4.3+1

@@ -7,3 +7,9 @@
 [submodule "dependencies/appauth/flutter_appauth"]
 	path = dependencies/appauth/flutter_appauth
 	url = https://github.com/MaikuB/flutter_appauth.git
+[submodule "dependencies/extended_text_field"]
+	path = dependencies/extended_text_field
+	url = git@github.com:NamanShergill/extended_text_field.git
+[submodule "dependencies/flutter_dynamic_tabs"]
+	path = dependencies/flutter_dynamic_tabs
+	url = git@github.com:NamanShergill/flutter_dynamic_tabs.git

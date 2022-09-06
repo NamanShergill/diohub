@@ -1018,7 +1018,8 @@ class _ValidQuery extends SpecialText {
   @override
   InlineSpan finishText() {
     return ExtendedWidgetSpan(
-      // alignment: PlaceholderAlignment.middle,
+      alignment: PlaceholderAlignment.middle,
+      // baseline: TextBaseline.ideographic,
       child: Material(
           borderRadius: smallBorderRadius,
           color: toString().startsWith('-')

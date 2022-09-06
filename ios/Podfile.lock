@@ -1,16 +1,16 @@
 PODS:
-  - AppAuth (1.4.0):
-    - AppAuth/Core (= 1.4.0)
-    - AppAuth/ExternalUserAgent (= 1.4.0)
-  - AppAuth/Core (1.4.0)
-  - AppAuth/ExternalUserAgent (1.4.0):
+  - AppAuth (1.5.0):
+    - AppAuth/Core (= 1.5.0)
+    - AppAuth/ExternalUserAgent (= 1.5.0)
+  - AppAuth/Core (1.5.0)
+  - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
   - Flutter (1.0.0)
   - flutter_appauth (0.0.1):
-    - AppAuth (= 1.4.0)
+    - AppAuth (= 1.5.0)
     - Flutter
   - flutter_inappwebview (0.0.1):
     - Flutter
@@ -41,20 +41,20 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - sqlite3 (3.38.5):
-    - sqlite3/common (= 3.38.5)
-  - sqlite3/common (3.38.5)
-  - sqlite3/fts5 (3.38.5):
+  - sqlite3 (3.39.3):
+    - sqlite3/common (= 3.39.3)
+  - sqlite3/common (3.39.3)
+  - sqlite3/fts5 (3.39.3):
     - sqlite3/common
-  - sqlite3/json1 (3.38.5):
+  - sqlite3/json1 (3.39.3):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.38.5):
+  - sqlite3/perf-threadsafe (3.39.3):
     - sqlite3/common
-  - sqlite3/rtree (3.38.5):
+  - sqlite3/rtree (3.39.3):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
-    - sqlite3 (~> 3.38.5)
+    - sqlite3 (~> 3.39.2)
     - sqlite3/fts5
     - sqlite3/json1
     - sqlite3/perf-threadsafe
@@ -140,14 +140,14 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AppAuth:
-    :commit: d1281217bd5a3650cb23968099ae2515337f7206
+    :commit: c753f9507aa656ab1db96f67b7e4b77601d0858a
     :git: https://github.com/NamanShergill/AppAuth-iOS.git
 
 SPEC CHECKSUMS:
-  AppAuth: 8eebc27a3c22047aedca918f92e831075c71ad9b
+  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_appauth: 05c3778a1e4ae23364dd2ef37cbae14b244f646b
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_appauth: 2c4a407e6d649df3f2308375fb891822dcff291b
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
@@ -160,14 +160,14 @@ SPEC CHECKSUMS:
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  sqlite3: 93442daab2ab1825bc9c05faa85814a1996f5b65
-  sqlite3_flutter_libs: 92ed62fa0dcbfe2e37d5e2b60d00820672b71ffb
+  sqlite3: 50117e9e063a9ef2b865f7bdf2f2601e5d368e9a
+  sqlite3_flutter_libs: 1641350489d5c2bcb9d0773ade9693624111b24c
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
-  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+  wakelock: b0843b2479edbf6504d8d262c2959446f35373aa
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: c7fa850a2be88b73fee9a4884996e85aa8eb477c
+PODFILE CHECKSUM: c8b35abba12bdcc5d16d26b779870d149f301074
 
 COCOAPODS: 1.11.3

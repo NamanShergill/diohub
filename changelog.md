@@ -3,8 +3,6 @@
 **iOS Build support added**
 - The project now builds for iOS, and will be available on the app store soon.
 
-**Project Boards | WIP** 
-
 **Dynamic Tabs**
 - Browser like openable/closeable tabs to prevent clutter on Repo, Issue, Pull screens.
 
