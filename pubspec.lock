@@ -480,11 +480,9 @@ packages:
   flutter_highlight:
     dependency: "direct main"
     description:
-      path: flutter_highlight
-      ref: master
-      resolved-ref: "045cd3f3406604dfcb4ddea90241e721aed3691f"
-      url: "https://github.com/NamanShergill/highlight.dart.git"
-    source: git
+      path: "dependencies/highlight.dart/flutter_highlight"
+      relative: true
+    source: path
     version: "0.7.0"
   flutter_html:
     dependency: "direct main"
@@ -721,11 +719,11 @@ packages:
     source: hosted
     version: "2.1.0"
   highlight:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      name: highlight
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "dependencies/highlight.dart/highlight"
+      relative: true
+    source: path
     version: "0.7.0"
   html:
     dependency: transitive

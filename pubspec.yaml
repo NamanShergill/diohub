@@ -46,10 +46,11 @@ dependencies:
 
   # Modified to add background color option.
   flutter_highlight:
-    git:
-      url: https://github.com/NamanShergill/highlight.dart.git
-      ref: master
-      path: flutter_highlight
+    path:
+      dependencies/highlight.dart/flutter_highlight
+
+  highlight:
+    path: dependencies/highlight.dart/highlight
 
   # 2.1.2
   flutter_html: ^2.1.2

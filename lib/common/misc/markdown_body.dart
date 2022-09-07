@@ -5,12 +5,14 @@ import 'package:dio_hub/common/misc/image_loader.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
+import 'package:dio_hub/main.dart';
 import 'package:dio_hub/services/markdown/markdown_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:highlight/highlight.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:provider/provider.dart';
@@ -352,6 +354,17 @@ class __CodeViewState extends State<_CodeView> {
                     ),
                   ),
                 if (wrapText) child,
+                if (widget.language != null &&
+                    allLanguages.containsKey(widget.language))
+                  Positioned(
+                    left: 8,
+                    top: 8,
+                    child: Text(
+                      widget.language!,
+                      style: context.textTheme.labelSmall?.copyWith(
+                          color: context.palette.faded3, letterSpacing: 0),
+                    ),
+                  ),
                 Positioned(
                   top: 0,
                   right: 0,

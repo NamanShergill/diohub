@@ -13,3 +13,6 @@
 [submodule "dependencies/flutter_dynamic_tabs"]
 	path = dependencies/flutter_dynamic_tabs
 	url = git@github.com:NamanShergill/flutter_dynamic_tabs.git
+[submodule "dependencies/highlight.dart"]
+	path = dependencies/highlight.dart
+	url = git@github.com:NamanShergill/highlight.dart.git
