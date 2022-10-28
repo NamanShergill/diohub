@@ -1,6 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/shims/dart_ui.dart';
 
 class RoundButton extends StatelessWidget {
   const RoundButton(

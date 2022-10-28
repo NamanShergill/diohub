@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 class RepositoryProvider extends BaseDataProvider<RepositoryModel> {
   RepositoryProvider(this.url);
@@ -12,4 +14,9 @@ class RepositoryProvider extends BaseDataProvider<RepositoryModel> {
   Future<RepositoryModel> setInitData({bool isInitialisation = false}) {
     return RepositoryServices.fetchRepository(url);
   }
+}
+
+extension RepoProvider on BuildContext {
+  RepositoryProvider repoProvider({bool listen = true}) =>
+      Provider.of<RepositoryProvider>(this, listen: listen);
 }

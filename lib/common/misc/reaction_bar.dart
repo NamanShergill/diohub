@@ -1,5 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
@@ -229,57 +230,55 @@ class _ReactionItemState extends State<ReactionItem> {
           child: InkWell(
             onTap: widget.onTap != null ? changeReaction : null,
             onLongPress: () {
-              showDialog<void>(
-                context: context,
-                builder: (dialogContext) {
-                  return AlertDialog(
-                    scrollable: true,
-                    content:
-                        APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
-                      apiCall: (refresh) => IssuesService.getReactors(
-                        widget.reactionGroup.subject.id,
-                        widget.reactionGroup.content,
-                      ),
-                      responseBuilder: (context, data) => Column(
-                        mainAxisSize: MainAxisSize.min,
+              showScrollableBottomActionsMenu(
+                context,
+                titleText: getReaction(widget.reactionGroup.content),
+                builder: (context, scrollController, setState) {
+                  return APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
+                    apiCall: (refresh) => IssuesService.getReactors(
+                      widget.reactionGroup.subject.id,
+                      widget.reactionGroup.content,
+                    ),
+                    responseBuilder: (context, data) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 4),
+                      child: ListView(
+                        controller: scrollController,
                         children: [
                           ...List.generate(
                             data.length,
                             // shrinkWrap: true,
                             (index) {
                               final actor = data[index]!.node as ActorMixin;
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 4),
-                                child: Card(
-                                  margin: EdgeInsets.zero,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: ProfileTile.avatar(
-                                          avatarUrl: actor.avatarUrl.toString(),
-                                          padding: const EdgeInsets.all(8),
-                                          userLogin: actor.login,
-                                        ),
+                              return Card(
+                                margin: EdgeInsets.symmetric(vertical: 4),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ProfileTile.login(
+                                        avatarUrl: actor.avatarUrl.toString(),
+                                        padding: const EdgeInsets.all(16),
+                                        userLogin: actor.login,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },
                           ),
+                          if (widget.reactionGroup.reactors.totalCount -
+                                  data.length >
+                              0)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '+ ${widget.reactionGroup.reactors.totalCount - data.length} more',
+                                style: TextStyle(color: context.palette.faded3),
+                              ),
+                            ),
                         ],
                       ),
                     ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('buttonText'),
-                        onPressed: () {
-                          Navigator.of(dialogContext)
-                              .pop(); // Dismiss alert dialog
-                        },
-                      ),
-                    ],
                   );
                 },
               );

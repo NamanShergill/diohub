@@ -44,3 +44,27 @@ mutation removeReaction($id:ID!, $content:ReactionContent!){
         }
     }
 }
+
+query issuePullAssignees($user: String!, $repo: String!, $number: Int!, $after:String){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...assigneeUserList
+            }... on PullRequest{
+                ...assigneeUserList
+            }
+        }
+    }
+}
+
+fragment assigneeUserList on Assignable{
+    assignees(after: $after, first: 10){
+        edges {
+            cursor
+            node {
+                ...actor
+            }
+        }
+    }
+}

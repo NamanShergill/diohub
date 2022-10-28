@@ -18,6 +18,7 @@
 **Enhancements**
 - Anchor links now work in markdown.
 - Improved transition animations.
+- Added scroll to top prompt on readme tab of a repository.
 
 **Bug Fixes**
 - Fixed case where multiple API calls might happen on widget rebuilds.

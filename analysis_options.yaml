@@ -4,6 +4,7 @@ include:
 analyzer:
   exclude:
     - lib/models/**
+    - dependencies/**/example
   plugins:
     - dart_code_metrics
 

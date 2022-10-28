@@ -4,24 +4,28 @@ import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
+import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
-import 'package:dio_hub/common/misc/drop_down_info_card.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/reaction_bar.dart';
+import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/main.dart';
+import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/conditional_quanitity_value.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/markdown_to_html.dart';
 import 'package:dio_hub/utils/rich_text.dart';
@@ -36,6 +40,7 @@ import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:image_stack/image_stack.dart';
+import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 IssuePullScreenRoute issuePullScreenRoute(PathData path) {
@@ -102,9 +107,13 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
       ),
       responseBuilder: (context, data) {
         if (data is IssueInfoMixin) {
-          return IssueScreen(
-            data as IssueInfoMixin,
-            apiWrapperController: apiWrapperController,
+          return ChangeNotifierProvider(
+            create: (context) => IssueProvider(data as IssueInfoMixin),
+            lazy: false,
+            builder: (context, child) => IssueScreen(
+              data as IssueInfoMixin,
+              apiWrapperController: apiWrapperController,
+            ),
           );
         } else if (data is PullInfoMixin) {
           return PullScreen(data as PullInfoMixin);
@@ -188,264 +197,50 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
     return DynamicTabsParent(
       controller: dynamicTabsController,
       tabs: List.from(widget.dynamicTabs)
-        ..addAll([
-          DynamicTab(
-            identifier: 'About',
-            isDismissible: false,
-          ),
-          DynamicTab(identifier: 'Conversation')
-        ]),
-      tabViews: [
-        DynamicTabView(
-            identifier: 'About',
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        Card(
-                          color: widget.state.color,
-                          margin: EdgeInsets.zero,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  widget.state.icon,
-                                  size: 16,
-                                  // color: state.color,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Text(widget.state.text),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        if (widget.createdBy != null)
-                          ProfileTile.login(
-                            avatarUrl: widget.createdBy!.avatarUrl.toString(),
-                            userLogin: widget.createdBy!.login,
-                            size: 16,
-                          ),
-                        Text(
-                          getDate(widget.createdAt.toString(), shorten: false),
-                          style: TextStyle(color: context.palette.faded3),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Card(
-                      shape:
-                          RoundedRectangleBorder(borderRadius: medBorderRadius),
-                      margin: EdgeInsets.zero,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          ReactionBar(
-                            widget.reactionGroups,
-                            viewerCanReact: widget.viewerCanReact,
-                          ),
-                          EditWidget(
-                            editingController: descEditingController,
-                            builder: (context, newValue, tools,
-                                currentlyEditing, state) {
-                              return Row(
-                                children: [
-                                  if (widget.bodyHTML.isNotEmpty)
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: widget.body.length > 400
-                                            ? ExpandChild(
-                                                collapsedHint: 'Description',
-                                                expandArrowStyle:
-                                                    ExpandArrowStyle.both,
-                                                icon: Icons
-                                                    .arrow_drop_down_rounded,
-                                                // hintTextStyle: TextStyle(
-                                                //     color: faded3(context)),
-                                                child: MarkdownBody(
-                                                    widget.bodyHTML),
-                                              )
-                                            : MarkdownBody(widget.bodyHTML),
-                                      ),
-                                    ),
-                                  ScaleSwitch(
-                                    child: widget.bodyHTML.isEmpty &&
-                                            state == EditingState.editMode
-                                        ? Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Text(
-                                              'No Description',
-                                              style: TextStyle(
-                                                  color: context.palette.faded3,
-                                                  fontStyle: FontStyle.italic),
-                                            ),
-                                          )
-                                        : Container(),
-                                  ),
-                                  tools,
-                                ],
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Material(
-                            color: context.palette.accent,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: medBorderRadius.bottomLeft,
-                                bottomRight: medBorderRadius.bottomRight),
-                            child: InkWell(
-                              onTap: () {
-                                dynamicTabsController.openTab('Conversation');
-                              },
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: medBorderRadius.bottomLeft,
-                                  bottomRight: medBorderRadius.bottomRight),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: medBorderRadius.bottomLeft,
-                                      bottomRight: medBorderRadius.bottomRight),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Octicons.comment_discussion,
-                                              size: 15,
-                                            ),
-                                          ),
-                                          Text(
-                                            '${widget.commentCount} replies',
-                                          ),
-                                        ],
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_right_rounded,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    EditWidget(
-                      editingController: assigneeEditingController,
-                      builder: (context, newValue, tools, currentlyEditing,
-                          currentState) {
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: Builder(
-                                builder: (context) {
-                                  final assignees =
-                                      widget.assigneesInfo.edges ?? [];
-                                  return DropDownInfoCard(
-                                    title:
-                                        '${assignees.isEmpty ? 'No ' : ''}Assignees',
-                                    enabled: assignees.isNotEmpty,
-                                    trailing: ImageStack.widgets(
-                                      totalCount:
-                                          widget.assigneesInfo.totalCount,
-                                      backgroundColor:
-                                          context.palette.secondary,
-                                      widgetBorderColor:
-                                          context.palette.secondary,
-                                      // extraCountBorderColor: faded2(context),
-                                      widgetCount: 3,
-                                      extraCountTextStyle: TextStyle(
-                                        color: context.palette.faded3,
-                                      ),
-                                      children: assignees
-                                          .map(
-                                            (e) => ProfileTile.avatar(
-                                              avatarUrl:
-                                                  e!.node!.avatarUrl.toString(),
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                                    child: const SizedBox(
-                                      height: 60,
-                                      width: 90,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            tools,
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
+        ..addAll(
+          [
+            DynamicTab(
+              identifier: 'About',
+              isDismissible: false,
+              tabViewBuilder: (context) => _AboutTab(
+                widget: widget,
+                descEditingController: descEditingController,
+                assigneeEditingController: assigneeEditingController,
+                dynamicTabsController: dynamicTabsController,
               ),
-            )),
-        DynamicTabView(
-          identifier: 'Conversation',
-          child: Discussion(
-            number: widget.number,
-            isLocked: false,
-            createdAt: widget.createdAt,
-            owner: widget.repoInfo.owner.login,
-            repoName: widget.repoInfo.name,
-            initComment: BaseComment(
-                onQuote: () {},
-                isMinimized: false,
-                reactions: widget.reactionGroups,
-                viewerCanDelete: false,
-                viewerCanMinimize: false,
-                viewerCannotUpdateReasons: null,
-                viewerCanReact: widget.viewerCanReact,
-                viewerCanUpdate: false,
-                viewerDidAuthor: false,
+            ),
+            DynamicTab(
+              identifier: 'Conversation',
+              keepViewAlive: true,
+              tabViewBuilder: (context) => Discussion(
+                number: widget.number,
+                isLocked: false,
                 createdAt: widget.createdAt,
-                author: widget.createdBy,
-                body: widget.body,
-                lastEditedAt: null,
-                bodyHTML: widget.bodyHTML,
-                authorAssociation: CommentAuthorAssociation.none),
-            issueUrl: '',
-            isPull: false,
-            // nestedScrollViewController: scrollController,
-          ),
+                owner: widget.repoInfo.owner.login,
+                repoName: widget.repoInfo.name,
+                initComment: BaseComment(
+                    onQuote: () {},
+                    isMinimized: false,
+                    reactions: widget.reactionGroups,
+                    viewerCanDelete: false,
+                    viewerCanMinimize: false,
+                    viewerCannotUpdateReasons: null,
+                    viewerCanReact: widget.viewerCanReact,
+                    viewerCanUpdate: false,
+                    viewerDidAuthor: false,
+                    createdAt: widget.createdAt,
+                    author: widget.createdBy,
+                    body: widget.body,
+                    lastEditedAt: null,
+                    bodyHTML: widget.bodyHTML,
+                    authorAssociation: CommentAuthorAssociation.none),
+                issueUrl: '',
+                isPull: false,
+                // nestedScrollViewController: scrollController,
+              ),
+            )
+          ],
         ),
-      ],
       builder: (context, tabBar, tabView) => EditingWrapper(
         onSave: () {},
         editingControllers: [
@@ -455,35 +250,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
           assigneeEditingController,
         ],
         builder: (context) => Scaffold(
-          appBar: DHAppBar(
-            hasEditableChildren: true,
-            title: Row(
-              children: [
-                Icon(
-                  widget.state.icon,
-                  color: widget.state.color,
-                  size: 16,
-                ),
-                // const SizedBox(
-                //   width: 8,
-                // ),
-                Expanded(
-                  child: richText(
-                    [
-                      TextSpan(text: ' #${widget.number} '),
-                      TextSpan(
-                        text: widget.repoInfo.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: context.palette.faded3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          appBar: buildAppBar(context),
           body: RefreshIndicator(
             onRefresh: () => Future.sync(
               () => widget.apiWrapperController.refresh(),
@@ -492,158 +259,15 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
             child: NestedScroll(
               header: (context, value) => [
                 SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //
-                      // const Divider(
-                      //   height: 16,
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 0),
-                              child: Row(
-                                children: [
-                                  ProfileTile.avatar(
-                                    avatarUrl: widget.repoInfo.owner.avatarUrl
-                                        .toString(),
-                                    size: 16,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                  Flexible(
-                                    child: richText(
-                                      [
-                                        TextSpan(
-                                            text:
-                                                '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                AutoRouter.of(context).push(
-                                                    RepositoryScreenRoute(
-                                                        repositoryURL:
-                                                            'repositoryURL'));
-                                              }),
-                                        TextSpan(
-                                          text: ' #${widget.number}',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                      defaultStyle: TextStyle(
-                                          color: context.palette.faded3,
-                                          fontSize: 17),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            EditableTextItem(
-                              titleEditingController,
-                              builder: (context, newValue) => MarkdownBody(
-                                newValue != null
-                                    ? mdToHtml(newValue)
-                                    : widget.title,
-                                defaultBodyStyle: Style(
-                                    padding: EdgeInsets.zero,
-                                    margin: EdgeInsets.zero,
-                                    fontSize: FontSize(
-                                      context.textTheme.headline5?.fontSize,
-                                    ),
-                                    fontWeight: context
-                                        .textTheme.headline5?.fontWeight),
-                              ),
-                            ),
-                            EditWidget(
-                              editingController: labelsEditingController,
-                              builder: (context, newValue, tools,
-                                  currentlyEditing, state) {
-                                if (widget.labels.isNotEmpty == true) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 4),
-                                    child: Row(
-                                      children: [
-                                        Flexible(
-                                          child: Wrap(
-                                            children: widget.labels
-                                                .map(
-                                                  (e) => Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(4),
-                                                    child: IssueLabel.gql(e!),
-                                                  ),
-                                                )
-                                                .toList(),
-                                          ),
-                                        ),
-                                        tools,
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return Row(
-                                    children: [
-                                      ScaleSwitch(
-                                        child: state == EditingState.editMode
-                                            ? Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8),
-                                                child: Text(
-                                                  'No labels',
-                                                  style: TextStyle(
-                                                    color:
-                                                        context.palette.faded3,
-                                                    fontStyle: FontStyle.italic,
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
-                                      ),
-                                      tools,
-                                    ],
-                                  );
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            const Divider(
-                              height: 0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: _ScreenHeader(
+                      widget: widget,
+                      titleEditingController: titleEditingController,
+                      labelsEditingController: labelsEditingController),
                 ),
                 SliverPinnedHeader(
                   child: SizeExpandedSection(
                     expand: dynamicTabsController.activeLength > 1,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        tabBar,
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Divider(
-                            height: 0,
-                          ),
-                        ),
-                        // const SizedBox(
-                        //   height: 8,
-                        // ),
-                      ],
-                    ),
+                    child: buildTabsView(tabBar),
                   ),
                 )
               ],
@@ -652,6 +276,481 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
           ),
         ),
       ),
+    );
+  }
+
+  DHAppBar buildAppBar(BuildContext context) {
+    return DHAppBar(
+      hasEditableChildren: true,
+      title: Row(
+        children: [
+          Icon(
+            widget.state.icon,
+            color: widget.state.color,
+            size: 16,
+          ),
+          // const SizedBox(
+          //   width: 8,
+          // ),
+          Expanded(
+            child: richText(
+              [
+                TextSpan(text: ' #${widget.number} '),
+                TextSpan(
+                  text: widget.repoInfo.name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: context.palette.faded3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column buildTabsView(PreferredSizeWidget tabBar) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 8,
+        ),
+        tabBar,
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Divider(
+            height: 0,
+          ),
+        ),
+        // const SizedBox(
+        //   height: 8,
+        // ),
+      ],
+    );
+  }
+}
+
+class _AboutTab extends StatelessWidget {
+  const _AboutTab({
+    Key? key,
+    required this.widget,
+    required this.descEditingController,
+    required this.dynamicTabsController,
+    required this.assigneeEditingController,
+  }) : super(key: key);
+
+  final IssuePullInfoTemplate widget;
+  final EditingController<String> descEditingController;
+  final DynamicTabsController dynamicTabsController;
+  final EditingController assigneeEditingController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 12,
+          ),
+          Wrap(
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Card(
+                color: widget.state.color,
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        widget.state.icon,
+                        size: 16,
+                        // color: state.color,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(widget.state.text),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              if (widget.createdBy != null)
+                ProfileTile.login(
+                  avatarUrl: widget.createdBy!.avatarUrl.toString(),
+                  userLogin: widget.createdBy!.login,
+                  size: 16,
+                ),
+              Text(
+                getDate(widget.createdAt.toString(), shorten: false),
+                style: TextStyle(color: context.palette.faded3),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Card(
+            shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+            margin: EdgeInsets.zero,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 4,
+                ),
+                ReactionBar(
+                  widget.reactionGroups,
+                  viewerCanReact: widget.viewerCanReact,
+                ),
+                EditWidget<String>(
+                  editingController: descEditingController,
+                  builder: (context, newValue, tools, currentlyEditing, state) {
+                    return Row(
+                      children: [
+                        if (widget.bodyHTML.isNotEmpty)
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: widget.body.length > 400
+                                  ? ExpandChild(
+                                      indicatorCollapsedHint: 'Description',
+                                      expandIndicatorStyle:
+                                          ExpandIndicatorStyle.both,
+                                      indicatorIcon:
+                                          Icons.arrow_drop_down_rounded,
+                                      // hintTextStyle: TextStyle(
+                                      //     color: faded3(context)),
+                                      child: MarkdownBody(widget.bodyHTML),
+                                    )
+                                  : MarkdownBody(widget.bodyHTML),
+                            ),
+                          ),
+                        ScaleSwitch(
+                          child: widget.bodyHTML.isEmpty &&
+                                  state == EditingState.editMode
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    'No Description',
+                                    style: TextStyle(
+                                        color: context.palette.faded3,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                )
+                              : Container(),
+                        ),
+                        tools,
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Material(
+                  color: context.palette.accent,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: medBorderRadius.bottomLeft,
+                      bottomRight: medBorderRadius.bottomRight),
+                  child: InkWell(
+                    onTap: () {
+                      dynamicTabsController.openTab('Conversation');
+                    },
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: medBorderRadius.bottomLeft,
+                        bottomRight: medBorderRadius.bottomRight),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: medBorderRadius.bottomLeft,
+                            bottomRight: medBorderRadius.bottomRight),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Octicons.comment_discussion,
+                                    size: 15,
+                                  ),
+                                ),
+                                Text(
+                                  '${widget.commentCount} replies',
+                                ),
+                              ],
+                            ),
+                            const Icon(
+                              Icons.arrow_right_rounded,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          EditWidget(
+            editingController: assigneeEditingController,
+            builder:
+                (context, newValue, tools, currentlyEditing, currentState) {
+              final assignees = widget.assigneesInfo.edges ?? [];
+              return Row(
+                children: [
+                  Expanded(
+                    child: InkWellCard(
+                      enabled: assignees.isNotEmpty,
+                      onTap: assignees.valuesOnLengthBasic<VoidCallback?>(
+                        onNoItems: () => null,
+                        onOneItem: (item) => () {
+                          navigateToProfile(
+                            login: item!.node!.login,
+                            context: context,
+                          );
+                        },
+                        defaultValue: (items) => () {
+                          print(
+                              context.issueProvider(listen: false).data.number);
+                          getAssignees(String? cursor) => context
+                              .issueProvider(listen: false)
+                              .getAssignees(after: cursor);
+                          showScrollableBottomActionsMenu(
+                            context,
+                            titleText: 'Assignees',
+                            builder: (cntxt, scrollController, setState) {
+                              return InfiniteScrollWrapper<
+                                  AssigneeUserListMixin$Assignees$Edges?>(
+                                scrollController: scrollController,
+                                future:
+                                    (pageNumber, pageSize, refresh, lastItem) =>
+                                        getAssignees(lastItem?.cursor),
+                                builder: (context, item, index, refresh) {
+                                  final node = item!.node!;
+                                  return ProfileTile.login(
+                                    avatarUrl: node.avatarUrl.toString(),
+                                    userLogin: node.login,
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              assignees.valuesOnLengthBasic<String>(
+                                onNoItems: () => 'No Assignees',
+                                onOneItem: (item) => 'Assignee',
+                                defaultValue: (items) =>
+                                    '${items.length} Assignees',
+                              ),
+                              style: context.themeData.textTheme.bodyLarge,
+                            ),
+                          ),
+                          assignees.valuesOnLengthBasic<Widget>(
+                            onNoItems: Container.new,
+                            onOneItem: (item) => ProfileTile.login(
+                              avatarUrl: item!.node!.avatarUrl.toString(),
+                              userLogin: item.node!.login,
+                              disableTap: true,
+                            ),
+                            defaultValue: (items) => ImageStack.widgets(
+                              totalCount: items.length,
+                              backgroundColor: context.palette.secondary,
+                              widgetBorderColor: context.palette.secondary,
+                              // extraCountBorderColor: faded2(context),
+                              widgetCount: 3,
+                              extraCountTextStyle: TextStyle(
+                                color: context.palette.faded3,
+                              ),
+                              widgetBorderWidth: 2,
+                              widgetRadius: 29,
+                              children: items
+                                  .map(
+                                    (e) => ProfileTile.avatar(
+                                      avatarUrl: e!.node!.avatarUrl.toString(),
+                                      padding: EdgeInsets.zero,
+                                      size: 25,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  tools,
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScreenHeader extends StatelessWidget {
+  const _ScreenHeader({
+    Key? key,
+    required this.widget,
+    required this.titleEditingController,
+    required this.labelsEditingController,
+  }) : super(key: key);
+
+  final IssuePullInfoTemplate widget;
+
+  final EditingController<String> titleEditingController;
+  final EditingController<List<LabelMixin?>> labelsEditingController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        //
+        // const Divider(
+        //   height: 16,
+        // ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+                child: Row(
+                  children: [
+                    ProfileTile.avatar(
+                      avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
+                      size: 16,
+                      padding: const EdgeInsets.all(8),
+                    ),
+                    Flexible(
+                      child: richText(
+                        [
+                          TextSpan(
+                              text:
+                                  '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  AutoRouter.of(context).push(
+                                      RepositoryScreenRoute(
+                                          repositoryURL: 'repositoryURL'));
+                                }),
+                          TextSpan(
+                            text: ' #${widget.number}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                        defaultStyle: TextStyle(
+                            color: context.palette.faded3, fontSize: 17),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              EditableTextItem(
+                titleEditingController,
+                builder: (context, newValue) => MarkdownBody(
+                  newValue != null ? mdToHtml(newValue) : widget.title,
+                  defaultBodyStyle: Style(
+                      padding: EdgeInsets.zero,
+                      margin: EdgeInsets.zero,
+                      fontSize: FontSize(
+                        context.textTheme.headline5!.fontSize!,
+                      ),
+                      fontWeight: context.textTheme.headline5?.fontWeight),
+                ),
+              ),
+              buildLabelsWidget(),
+              const SizedBox(
+                height: 8,
+              ),
+              const Divider(
+                height: 0,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  EditWidget<Object> buildLabelsWidget() {
+    return EditWidget(
+      editingController: labelsEditingController,
+      builder: (context, newValue, tools, currentlyEditing, state) {
+        if (widget.labels.isNotEmpty == true) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Wrap(
+                    children: widget.labels
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: IssueLabel.gql(e!),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+                tools,
+              ],
+            ),
+          );
+        } else {
+          return Row(
+            children: [
+              ScaleSwitch(
+                child: state == EditingState.editMode
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'No labels',
+                          style: TextStyle(
+                            color: context.palette.faded3,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ),
+              tools,
+            ],
+          );
+        }
+      },
     );
   }
 }

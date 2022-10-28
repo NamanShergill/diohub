@@ -7,7 +7,6 @@ class DynamicTabsParent extends StatelessWidget {
   const DynamicTabsParent({
     required this.controller,
     required this.tabs,
-    required this.tabViews,
     required this.builder,
     this.onTabClose,
     this.tabBuilder,
@@ -17,13 +16,12 @@ class DynamicTabsParent extends StatelessWidget {
   final Future<bool> Function(String idenitifier, String? label)? onTabClose;
   final List<DynamicTab> tabs;
   final Widget Function(BuildContext context, DynamicTab tab)? tabBuilder;
-  final List<DynamicTabView> tabViews;
   final Widget Function(
       BuildContext context, PreferredSizeWidget tabBar, Widget tabView) builder;
 
   @override
   Widget build(BuildContext context) {
-    return DynamicTabsWrapper.segregated(
+    return DynamicTabsWrapper(
         controller: controller,
         tabs: tabs,
         tabBarSettings: DynamicTabSettings(
@@ -39,7 +37,7 @@ class DynamicTabsParent extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16)
                         .copyWith(right: tab.isDismissible ? 0 : 16),
                     child: Text(
-                      tab.label!,
+                      tab.identifier,
                     ),
                   ),
                   if (tab.isDismissible)
@@ -65,7 +63,6 @@ class DynamicTabsParent extends StatelessWidget {
               ),
             ),
         onTabClose: onTabClose,
-        tabViews: tabViews,
         builder: builder);
   }
 }

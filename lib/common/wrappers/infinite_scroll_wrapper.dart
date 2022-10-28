@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -301,6 +302,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   // Fetch the data to display.
   Future<void> _fetchPage(int pageKey) async {
     try {
+      log.log(Level.debug, 'Fetching page $pageNumber, key:$pageKey, $this');
       // Use the supplied APIs accordingly, based on the *refresh* value.
       final newItems = await widget.future(pageNumber, widget.pageSize, refresh,
           _pagingController.itemList?.last.item);

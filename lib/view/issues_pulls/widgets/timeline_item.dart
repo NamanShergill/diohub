@@ -78,14 +78,14 @@ class GetTimelineItem extends StatelessWidget {
               textContent:
                   'Changed base ref from ${item.previousRefName} to ${item.currentRefName}.',
               user: item.actor,
-              leading: Octicons.repo_force_push,
+              leading: Octicons.repo_push,
               date: item.createdAt,
             );
           } else if (item is BaseRefDeletedMixin) {
             return BasicEventTextCard(
               textContent: 'Deleted base ref ${item.baseRefName}.',
               user: item.actor,
-              leading: Octicons.repo_force_push,
+              leading: Octicons.repo_push,
               date: item.createdAt,
             );
           } else if (item is BaseRefForcePushedMixin) {
@@ -93,7 +93,7 @@ class GetTimelineItem extends StatelessWidget {
               textContent:
                   'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
               user: item.actor,
-              leading: Octicons.repo_force_push,
+              leading: Octicons.repo_push,
               date: item.createdAt,
             );
           } else if (item is ClosedMixin) {
@@ -164,7 +164,7 @@ class GetTimelineItem extends StatelessWidget {
               textContent:
                   'Force pushed to head ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
               user: item.actor,
-              leading: Octicons.repo_force_push,
+              leading: Octicons.repo_push,
               date: item.createdAt,
             );
           } else if (item is HeadRefRestoredMixin) {

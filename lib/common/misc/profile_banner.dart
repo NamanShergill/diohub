@@ -59,8 +59,7 @@ class ProfileTile extends StatelessWidget {
         borderRadius: smallBorderRadius,
         onTap: userLogin != null && !disableTap
             ? () {
-                AutoRouter.of(context)
-                    .push(OtherUserProfileScreenRoute(login: userLogin!));
+                navigateToProfile(login: userLogin!, context: context);
               }
             : null,
         child: Padding(
@@ -90,32 +89,40 @@ class ProfileTile extends StatelessWidget {
                   },
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (fullName != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        fullName!,
-                        style: (textStyle ??
-                                TextStyle(
-                                    color: Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .baseElements,
-                                    fontSize: 15))
-                            .copyWith(fontWeight: FontWeight.bold),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (fullName != null)
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            fullName!,
+                            style: (textStyle ??
+                                    TextStyle(
+                                        color: Provider.of<PaletteSettings>(
+                                                context)
+                                            .currentSetting
+                                            .baseElements,
+                                        fontSize: 15))
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
-                    ),
-                  if (_type != _UserCardType.photo)
-                    Padding(
-                      padding: EdgeInsets.only(left: size / 3),
-                      child: Text(
-                        userLogin ?? 'N/A',
-                        style: textStyle,
+                    if (_type != _UserCardType.photo)
+                      Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: size / 3),
+                          child: Text(
+                            userLogin ?? 'N/A',
+                            style: textStyle,
+                          ),
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -124,5 +131,11 @@ class ProfileTile extends StatelessWidget {
     );
   }
 }
+
+void navigateToProfile(
+        {required BuildContext context, required String login}) =>
+    context.router.push(
+      OtherUserProfileScreenRoute(login: login),
+    );
 
 enum _UserCardType { photo, login, extended }

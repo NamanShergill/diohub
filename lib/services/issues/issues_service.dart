@@ -6,8 +6,18 @@ import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 
 class IssuesService {
+  IssuesService({
+    required this.repo,
+    required this.user,
+    required this.number,
+  });
+  final String repo;
+  final String user;
+  final int number;
+
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo(
       {required String fullUrl, required bool refresh}) async {
@@ -34,6 +44,22 @@ class IssuesService {
     return IssuePullInfo$Query.fromJson(response.data!)
         .repository!
         .issueOrPullRequest!;
+  }
+
+  Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees(
+      {required String? after}) async {
+    final response = await gqlRequest(
+      IssuePullAssigneesQuery(
+        variables: IssuePullAssigneesArguments(
+            number: number, repo: repo, user: user, after: after),
+      ),
+    );
+    return typeCast<AssigneeUserListMixin>(
+            IssuePullAssignees$Query.fromJson(response.data!)
+                .repository!
+                .issueOrPullRequest)
+        .assignees
+        .edges!;
   }
 
   static Future<void> addReaction(ReactionContent content, String id) async {

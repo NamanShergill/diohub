@@ -46,11 +46,7 @@ class Discussion extends StatefulWidget {
   _DiscussionState createState() => _DiscussionState();
 }
 
-class _DiscussionState extends State<Discussion>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _DiscussionState extends State<Discussion> {
   DateTime? commentsSince;
 
   InfiniteScrollWrapperController commentsSinceController =
@@ -85,7 +81,6 @@ class _DiscussionState extends State<Discussion>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     // final theme = Provider.of<PaletteSettings>(context).currentSetting;
 
     final Widget header = commentsSince != null

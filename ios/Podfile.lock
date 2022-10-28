@@ -1,16 +1,16 @@
 PODS:
-  - AppAuth (1.5.0):
-    - AppAuth/Core (= 1.5.0)
-    - AppAuth/ExternalUserAgent (= 1.5.0)
-  - AppAuth/Core (1.5.0)
-  - AppAuth/ExternalUserAgent (1.5.0):
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
   - Flutter (1.0.0)
   - flutter_appauth (0.0.1):
-    - AppAuth (= 1.5.0)
+    - AppAuth (= 1.6.0)
     - Flutter
   - flutter_inappwebview (0.0.1):
     - Flutter
@@ -46,17 +46,14 @@ PODS:
   - sqlite3/common (3.39.3)
   - sqlite3/fts5 (3.39.3):
     - sqlite3/common
-  - sqlite3/json1 (3.39.3):
-    - sqlite3/common
   - sqlite3/perf-threadsafe (3.39.3):
     - sqlite3/common
   - sqlite3/rtree (3.39.3):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
-    - sqlite3 (~> 3.39.2)
+    - sqlite3 (~> 3.39.3)
     - sqlite3/fts5
-    - sqlite3/json1
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
   - uni_links (0.0.1):
@@ -71,7 +68,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - AppAuth (from `https://github.com/NamanShergill/AppAuth-iOS.git`)
+  - AppAuth (from `https://github.com/NamanShergill/AppAuth-iOS.git`, tag `1.6.0`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
   - flutter_appauth (from `.symlinks/plugins/flutter_appauth/ios`)
@@ -101,6 +98,7 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   AppAuth:
     :git: https://github.com/NamanShergill/AppAuth-iOS.git
+    :tag: 1.6.0
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   Flutter:
@@ -140,14 +138,14 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AppAuth:
-    :commit: c753f9507aa656ab1db96f67b7e4b77601d0858a
     :git: https://github.com/NamanShergill/AppAuth-iOS.git
+    :tag: 1.6.0
 
 SPEC CHECKSUMS:
-  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_appauth: 2c4a407e6d649df3f2308375fb891822dcff291b
+  flutter_appauth: 525652bda90e43ca5eb7ed748ecc106b79d1f5a1
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
@@ -161,13 +159,13 @@ SPEC CHECKSUMS:
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   sqlite3: 50117e9e063a9ef2b865f7bdf2f2601e5d368e9a
-  sqlite3_flutter_libs: 1641350489d5c2bcb9d0773ade9693624111b24c
+  sqlite3_flutter_libs: c6ab7f23670a98fef45a137159452004bc552168
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
-  wakelock: b0843b2479edbf6504d8d262c2959446f35373aa
+  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: c8b35abba12bdcc5d16d26b779870d149f301074
+PODFILE CHECKSUM: eb5ed35601f24c35b06e6bb049f9b895300ff430
 
 COCOAPODS: 1.11.3

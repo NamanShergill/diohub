@@ -9,7 +9,6 @@ import 'package:dio_hub/view/authentication/widgets/error_popup.dart';
 import 'package:dio_hub/view/authentication/widgets/login_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/shims/dart_ui.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key, this.onAuthenticated}) : super(key: key);

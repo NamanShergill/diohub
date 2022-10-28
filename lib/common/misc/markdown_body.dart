@@ -103,7 +103,10 @@ class _MarkdownBodyState extends State<MarkdownBody> {
       //     Map<String, String> attributes, data) {
       //   return linkHandler(context, url);
       // },
-      tagsList: Html.tags..add('g-emoji'),
+      tagsList: Html.tags
+        ..addAll(
+          ['g-emoji'],
+        ),
       style: {
         'a': Style(textDecoration: TextDecoration.none),
         'blockquote': Style(
@@ -398,3 +401,32 @@ class __CodeViewState extends State<_CodeView> {
     );
   }
 }
+
+// CustomRenderMatcher _tagMatcher(String tag) =>
+//     (context) => context.tree.element?.localName == tag;
+
+// CustomRender _widgetRender(
+//         Widget Function(RenderContext, Widget child) builder) =>
+//     CustomRender.widget(
+//       widget: (p0, p1) {
+//         TextSpan child;
+//         if (p1.call().isNotEmpty) {
+//           child = TextSpan(
+//             style: p0.style.generateTextStyle(),
+//             children: p1.call(),
+//           );
+//         } else {
+//           // print(p0.tree.element?.parent?.);
+//           child = TextSpan(
+//             // style: p0..style.generateTextStyle().merge(other),
+//             text: p0.tree.element?.text ?? '',
+//           );
+//         }
+//         return builder.call(
+//           p0,
+//           Text.rich(
+//             child,
+//           ),
+//         );
+//       },
+//     );

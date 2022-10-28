@@ -1,6 +1,8 @@
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/common/wrappers/scroll_to_top_wrapper.dart';
+import 'package:dio_hub/main.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
@@ -33,11 +35,15 @@ class RepositoryReadmeState extends State<RepositoryReadme>
           );
         },
         childBuilder: (context, value) {
-          return SingleChildScrollView(
-            child: MarkdownRenderAPI(
-              value.data!.content!,
-              repoName: Provider.of<RepositoryProvider>(context).data.fullName,
-              branch: Provider.of<RepoBranchProvider>(context).currentSHA,
+          print(context.themeData.colorScheme.secondary);
+          return ScrollToTopWrapper(
+            builder: (context, properties) => SingleChildScrollView(
+              child: MarkdownRenderAPI(
+                value.data!.content!,
+                repoName:
+                    Provider.of<RepositoryProvider>(context).data.fullName,
+                branch: Provider.of<RepoBranchProvider>(context).currentSHA,
+              ),
             ),
           );
         },

@@ -9,6 +9,15 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+class BottomActionsMenu extends StatelessWidget {
+  const BottomActionsMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 void showBottomActionMenu(BuildContext context,
     {String? headerText,
     StatefulWidgetBuilder? header,

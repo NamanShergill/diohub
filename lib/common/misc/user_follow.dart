@@ -6,7 +6,6 @@ import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/shims/dart_ui.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 typedef FollowBuilder = Widget Function(BuildContext context,

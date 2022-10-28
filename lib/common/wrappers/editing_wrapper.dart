@@ -2,7 +2,6 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/round_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/shims/dart_ui.dart';
 import 'package:provider/provider.dart';
 
 class EditingWrapper extends StatelessWidget {

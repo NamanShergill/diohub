@@ -127,6 +127,7 @@ fragment repoInfo on Repository{
 fragment assigneeInfo on UserConnection{
     totalCount
     edges{
+        cursor
         node{
           ...actor
         }

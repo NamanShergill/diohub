@@ -1,20 +1,16 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:provider/provider.dart';
 
 class AppTabBar extends StatelessWidget {
-  AppTabBar({TabController? controller, required List<String> tabs, Key? key})
+  AppTabBar({TabController? controller, required this.tabs, Key? key})
       : _tabController = controller,
-        tabs = tabs
-            .map((e) => DynamicTab(identifier: e, isDismissible: false))
-            .toList(),
         super(key: key);
 
   final TabController? _tabController;
 
-  final List<DynamicTab> tabs;
+  final List<String> tabs;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +45,7 @@ class AppTabBar extends StatelessWidget {
                 .map((e) => Tab(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(e.label!),
+                        child: Text(e),
                       ),
                     ))
                 .toList(),

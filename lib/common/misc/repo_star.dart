@@ -6,7 +6,6 @@ import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/shims/dart_ui.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -51,9 +50,11 @@ class _RepoStarState extends State<RepoStar> {
                       : data.stargazerCount = data.stargazerCount + 1;
                 });
                 if (!data.viewerHasStarred) {
-                  ResponseHandler.setSuccessMessage(AppPopupData(
-                      title: 'Starred ${widget.repoName}',
-                      icon: Octicons.star));
+                  ResponseHandler.setSuccessMessage(
+                    AppPopupData(
+                        title: 'Starred ${widget.repoName}',
+                        icon: Octicons.star_fill),
+                  );
                 }
                 if (widget.onStarsChange != null) {
                   widget.onStarsChange!(data.stargazerCount);
@@ -78,7 +79,7 @@ class _RepoStarState extends State<RepoStar> {
           constraints: const BoxConstraints(),
           onPressed: onPress(data),
           icon: Icon(
-            Octicons.star,
+            Octicons.star_fill,
             size: 18,
             color: data != null && data.viewerHasStarred
                 ? Colors.amber

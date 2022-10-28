@@ -108,18 +108,63 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
 
   void _setupTabs() {
     tabs = [
-      DynamicTab(identifier: 'About', isDismissible: false),
-      DynamicTab(identifier: 'Readme', isDismissible: false),
+      DynamicTab(
+        identifier: 'About',
+        isDismissible: false,
+        tabViewBuilder: (context) => AboutRepository(
+          context.repoProvider().data,
+          onTabOpened: tabController.openTab,
+        ),
+      ),
+      DynamicTab(
+        identifier: 'Readme',
+        isDismissible: false,
+        tabViewBuilder: (context) =>
+            RepositoryReadme(context.repoProvider(listen: false).url),
+      ),
       DynamicTab(
         identifier: 'Code',
         isFocusedOnInit: _isDeepLinkCode(widget.pathData),
+        tabViewBuilder: (context) => CodeBrowser(
+          showCommitHistory: widget.pathData?.component(2) == 'commits',
+        ),
       ),
       DynamicTab(
-          identifier: 'Issues', isFocusedOnInit: _isDeepLinkComp('issues')),
+        identifier: 'Issues',
+        isFocusedOnInit: _isDeepLinkComp('issues'),
+        keepViewAlive: true,
+        tabViewBuilder: (context) => const IssuesList(),
+      ),
       DynamicTab(
-          identifier: 'Pull Requests',
-          isFocusedOnInit: _isDeepLinkComp('pulls')),
-      DynamicTab(identifier: 'More')
+        identifier: 'Pull Requests',
+        isFocusedOnInit: _isDeepLinkComp('pulls'),
+        keepViewAlive: true,
+        tabViewBuilder: (context) => const PullsList(),
+      ),
+      DynamicTab(
+        identifier: 'More',
+        tabViewBuilder: (context) => Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Button(
+                onTap: () {
+                  if (Provider.of<RepositoryProvider>(context, listen: false)
+                      .data
+                      .hasWiki!) {
+                    AutoRouter.of(context)
+                        .push(WikiViewerRoute(repoURL: widget.repositoryURL));
+                  } else {
+                    ResponseHandler.setErrorMessage(
+                        AppPopupData(title: 'Repository has no wiki.'));
+                  }
+                },
+                child: const Text('Open Wiki'),
+              ),
+            ),
+          ],
+        ),
+      )
     ];
   }
 
@@ -196,64 +241,6 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                     return DynamicTabsParent(
                       controller: tabController,
                       tabs: tabs,
-                      tabViews: [
-                        DynamicTabView(
-                            identifier: 'About',
-                            child: AboutRepository(
-                              repo,
-                              onTabOpened: tabController.openTab,
-                            )),
-                        DynamicTabView(
-                          identifier: 'Readme',
-                          child: RepositoryReadme(repo.url),
-                        ),
-                        DynamicTabView(
-                          identifier: 'Code',
-                          child: CodeBrowser(
-                            showCommitHistory:
-                                widget.pathData?.component(2) == 'commits',
-                          ),
-                        ),
-                        DynamicTabView(
-                          identifier: 'Issues',
-                          child: const IssuesList(),
-                        ),
-                        DynamicTabView(
-                          identifier: 'Pull Requests',
-                          child: const PullsList(),
-                          // ProjectsList(
-                          //   scrollController: scrollController,
-                          // ),
-                        ),
-                        DynamicTabView(
-                          identifier: 'More',
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Button(
-                                  onTap: () {
-                                    if (Provider.of<RepositoryProvider>(context,
-                                            listen: false)
-                                        .data
-                                        .hasWiki!) {
-                                      AutoRouter.of(context).push(
-                                          WikiViewerRoute(
-                                              repoURL: widget.repositoryURL));
-                                    } else {
-                                      ResponseHandler.setErrorMessage(
-                                          AppPopupData(
-                                              title:
-                                                  'Repository has no wiki.'));
-                                    }
-                                  },
-                                  child: const Text('Open Wiki'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                       builder: (context, tabs, tabView) => AppScrollView(
                         // nestedScrollViewController: scrollController,
                         scrollViewAppBar: ScrollViewAppBar(
@@ -328,7 +315,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                     child: (context, data, onPress) {
                                       return ActionButton(
                                         count: data?.stargazerCount,
-                                        icon: Octicons.star,
+                                        icon: Octicons.star_fill,
                                         onTap: onPress,
                                         doneColor: Colors.amber,
                                         isDone: data?.viewerHasStarred,

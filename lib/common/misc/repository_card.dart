@@ -161,7 +161,7 @@ class _RepositoryCardState extends State<RepositoryCard> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
-                              Octicons.star,
+                              Octicons.star_fill,
                               size: 12,
                               color: Provider.of<PaletteSettings>(context)
                                   .currentSetting
