@@ -71,16 +71,18 @@ String githubURLtoPath(String link) {
     str = str.substring(0, str.length - 1);
   }
   return str.toLowerCase().replaceFirst(
-      RegExp('((http(s)?)(:(//)))?${regexORCases([
-            'www.',
-            'api.'
-          ])}?(github.com)(/)?'),
+      RegExp('((http(s)?)(:(//)))?${regexORCases(
+        [
+          'www.',
+          'api.',
+        ],
+      )}?(github.com)(/)?'),
       '');
 }
 
-bool isDeepLink(String link) {
-  return link.startsWith(_deepLinkPattern);
-}
+bool isDeepLink(String link) =>
+    link.startsWith(_deepLinkPattern) &&
+    !githubURLtoPath(link).startsWith(_exceptionURLPatterns);
 
 bool isAPILink(String link) {
   return link.startsWith(_apiLinkPattern);
@@ -116,7 +118,9 @@ List<PageRouteInfo>? _getRoutes(String link) {
         repositoryURL: _urlWithPrefix(
             'repos/${relPath.toPathData.components.sublist(0, 2).join('/')}'),
         deepLinkData: relPath.toPathData));
-  } else if (relPath.regexCompleteMatch(_chars)) {
+  } else if (relPath.regexCompleteMatch(
+    RegExp(_chars),
+  )) {
     temp.add(OtherUserProfileScreenRoute(
       login: relPath.string,
     ));
@@ -128,86 +132,129 @@ List<PageRouteInfo>? _getRoutes(String link) {
 
 String _urlWithPrefix(String url) => 'https://api.github.com/$url';
 
-String get _exceptionURLPatterns => regexORCases([
-      'login/device',
-      regexPattern(['settings/', _any]),
-    ]);
-
-String get _landingPageURLPattern => regexORCases(
-      [
-        'search',
-        'notifications',
-        regexPattern(
-          [
-            regexORCases(['issues', 'pulls']),
-            optionalRegex(regexPattern([
-              _slash,
-              regexORCases(['assigned', 'mentioned'])
-            ]))
-          ],
-        ),
-      ],
+RegExp get _exceptionURLPatterns => RegExp(
+      regexORCases(
+        [
+          'login/device',
+          regexPattern(
+            [
+              'settings/',
+              _any,
+            ],
+          ),
+        ],
+      ),
     );
 
-String get _issuePageURLPattern => regexPattern([
-      _chars,
-      _slash,
-      _chars,
-      _slash,
-      'issues',
-      _slash,
-      _digit,
-    ]);
-
-String get _pullPageURLPattern => regexPattern([
-      _chars,
-      _slash,
-      _chars,
-      _slash,
-      'pull',
-      _slash,
-      _digit,
-    ]);
-
-String get _commitPageURLPattern => regexPattern([
-      _chars,
-      _slash,
-      _chars,
-      '/commit/',
-      _chars,
-    ]);
-
-String get _repoPageURLPattern => regexPattern([
-      _chars,
-      _slash,
-      _chars,
-      optionalRegex(
-        regexORCases([
+RegExp get _landingPageURLPattern => RegExp(
+      regexORCases(
+        [
+          'search',
+          'notifications',
           regexPattern(
             [
-              '/commits',
-              optionalRegex(regexPattern([_slash, _chars])),
+              regexORCases(
+                [
+                  'issues',
+                  'pulls',
+                ],
+              ),
+              optionalRegex(
+                regexPattern(
+                  [
+                    _slash,
+                    regexORCases(
+                      [
+                        'assigned',
+                        'mentioned',
+                      ],
+                    )
+                  ],
+                ),
+              )
             ],
           ),
-          regexPattern(
-            [
-              _slash,
-              regexORCases(['tree', 'blob']),
-              _slash,
-              _chars,
-              // optionalRegex(
-              //   regexPattern(
-              //     [_slash, _any],
-              //   ),
-              // ),
-            ],
-          ),
-          '/issues',
-          '/pulls',
-          '/wiki',
-        ]),
+        ],
       ),
-    ]);
+    );
+
+RegExp get _issuePageURLPattern => RegExp(
+      regexPattern(
+        [
+          _chars,
+          _slash,
+          _chars,
+          _slash,
+          'issues',
+          _slash,
+          _digit,
+        ],
+      ),
+    );
+
+RegExp get _pullPageURLPattern => RegExp(
+      regexPattern(
+        [
+          _chars,
+          _slash,
+          _chars,
+          _slash,
+          'pull',
+          _slash,
+          _digit,
+        ],
+      ),
+    );
+
+RegExp get _commitPageURLPattern => RegExp(
+      regexPattern(
+        [
+          _chars,
+          _slash,
+          _chars,
+          '/commit/',
+          _chars,
+        ],
+      ),
+    );
+
+RegExp get _repoPageURLPattern => RegExp(
+      regexPattern(
+        [
+          _chars,
+          _slash,
+          _chars,
+          optionalRegex(
+            regexORCases(
+              [
+                regexPattern(
+                  [
+                    '/commits',
+                    optionalRegex(regexPattern([_slash, _chars])),
+                  ],
+                ),
+                regexPattern(
+                  [
+                    _slash,
+                    regexORCases(['tree', 'blob']),
+                    _slash,
+                    _chars,
+                    // optionalRegex(
+                    //   regexPattern(
+                    //     [_slash, _any],
+                    //   ),
+                    // ),
+                  ],
+                ),
+                '/issues',
+                '/pulls',
+                '/wiki',
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
 
 class PathData {
   PathData(this.path, {this.isAPIPath = false});

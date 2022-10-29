@@ -42,7 +42,7 @@ class DynamicTabsParent extends StatelessWidget {
                   ),
                   if (tab.isDismissible)
                     Padding(
-                      padding: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.only(right: 4),
                       child: RoundButton(
                         color: context.palette.elementsOnColors,
                         padding: const EdgeInsets.all(4),

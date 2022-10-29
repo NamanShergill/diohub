@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/slide_expanded_widget.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
@@ -79,28 +79,32 @@ class IssuesList extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: FloatingActionButton.extended(
                               onPressed: () {
-                                showScrollableBottomActionsMenu(context,
-                                    builder: (buildContext, scrollController,
-                                            setState) =>
-                                        ListView.separated(
-                                            controller: scrollController,
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8),
-                                            itemBuilder: (context, index) {
-                                              return IssueLoadingCard(
-                                                toRepoAPIResource(value.data
-                                                    .nodes![index]!.issue.url
-                                                    .toString()),
-                                                backgroundColor:
-                                                    context.palette.secondary,
-                                              );
-                                            },
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const Divider(),
-                                            itemCount:
-                                                value.data.nodes!.length),
-                                    titleText: 'Pinned Issues');
+                                showScrollableBottomSheet(
+                                  context,
+                                  headerBuilder: (context, setState) =>
+                                      const BottomSheetHeaderText(
+                                    headerText: 'Pinned Issues',
+                                  ),
+                                  scrollableBodyBuilder:
+                                      (context, setState, scrollController) =>
+                                          ListView.separated(
+                                    controller: scrollController,
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    itemBuilder: (context, index) {
+                                      return IssueLoadingCard(
+                                        toRepoAPIResource(
+                                          value.data.nodes![index]!.issue.url
+                                              .toString(),
+                                        ),
+                                        backgroundColor:
+                                            context.palette.secondary,
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        const Divider(),
+                                    itemCount: value.data.nodes!.length,
+                                  ),
+                                );
                               },
                               label: Text('${value.data.totalCount} Pinned'),
                               icon: const Icon(LineIcons.thumbtack),
@@ -123,29 +127,32 @@ class IssuesList extends StatelessWidget {
                   childBuilder: (context, value) => FloatingActionButton(
                     onPressed: () {
                       if (value.data.isNotEmpty) {
-                        showScrollableBottomActionsMenu(context,
-                            builder: (buildContext, scrollController,
-                                    setState) =>
-                                ListenableProvider.value(
-                                  value: Provider.of<RepositoryProvider>(
-                                      context,
-                                      listen: false),
-                                  child: ListView.separated(
-                                      controller: scrollController,
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      itemBuilder: (context, index) {
-                                        if (value.data.length == index) {
-                                          return const BlankIssueTemplate();
-                                        } else {
-                                          return IssueTemplateCard(
-                                              value.data[index]);
-                                        }
-                                      },
-                                      separatorBuilder: (context, index) =>
-                                          const Divider(),
-                                      itemCount: value.data.length + 1),
-                                ),
-                            titleText: 'New Issue');
+                        showScrollableBottomSheet(
+                          context,
+                          headerBuilder: (context, setState) =>
+                              const BottomSheetHeaderText(
+                            headerText: 'New Issue',
+                          ),
+                          scrollableBodyBuilder:
+                              (context, setState, scrollController) =>
+                                  ListenableProvider.value(
+                            value: Provider.of<RepositoryProvider>(context,
+                                listen: false),
+                            child: ListView.separated(
+                                controller: scrollController,
+                                padding: const EdgeInsets.only(bottom: 8),
+                                itemBuilder: (context, index) {
+                                  if (value.data.length == index) {
+                                    return const BlankIssueTemplate();
+                                  } else {
+                                    return IssueTemplateCard(value.data[index]);
+                                  }
+                                },
+                                separatorBuilder: (context, index) =>
+                                    const Divider(),
+                                itemCount: value.data.length + 1),
+                          ),
+                        );
                       } else {
                         final repo = context.read<RepositoryProvider>().data;
                         AutoRouter.of(context).push(NewIssueScreenRoute(

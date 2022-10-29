@@ -86,12 +86,14 @@ class _MarkdownBodyState extends State<MarkdownBody> {
 
   void performModifications(List<dom.Element> elements) {
     for (final node in elements) {
-      node.attributes.addAll({
-        'id': node.text
-            .toLowerCase()
-            .replaceAll(' ', '-')
-            .replaceAll(RegExp(r'[^0-9a-zA-Z-]+'), '')
-      });
+      node.attributes.addAll(
+        {
+          'id': node.text
+              .toLowerCase()
+              .replaceAll(' ', '-')
+              .replaceAll(RegExp(r'[^0-9a-zA-Z-]+'), '')
+        },
+      );
     }
   }
 

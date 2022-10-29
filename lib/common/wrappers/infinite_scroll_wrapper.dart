@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/wrappers/scroll_to_top_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
@@ -127,7 +128,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _scrollView(ScrollViewProperties? properties) {
+    Widget scrollView(ScrollViewProperties? properties) {
       final physics = widget.disableScroll
           ? const NeverScrollableScrollPhysics()
           : const BouncingScrollPhysics();
@@ -172,7 +173,7 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
       }
     }
 
-    Widget _refreshIndicator({ScrollViewProperties? properties}) {
+    Widget refreshIndicator({ScrollViewProperties? properties}) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -180,16 +181,16 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           onRefresh: () => Future.sync(() async {
             controller.refresh();
           }),
-          child: _scrollView(properties),
+          child: scrollView(properties),
         );
       } else {
-        return _scrollView(properties);
+        return scrollView(properties);
       }
     }
 
-    Widget _child() {
+    Widget child() {
       if (widget.showScrollToTopButton) {
-        return ScrollWrapper(
+        return ScrollToTopWrapper(
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
           scrollController: widget.scrollController,
           promptTheme: PromptButtonTheme(
@@ -197,14 +198,14 @@ class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
                   Provider.of<PaletteSettings>(context).currentSetting.accent),
           promptReplacementBuilder: widget.pinnedHeader,
           builder: (context, properties) =>
-              _refreshIndicator(properties: properties),
+              refreshIndicator(properties: properties),
         );
       } else {
-        return _refreshIndicator();
+        return refreshIndicator();
       }
     }
 
-    return _child();
+    return child();
   }
 }
 

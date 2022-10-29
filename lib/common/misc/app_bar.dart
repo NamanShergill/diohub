@@ -46,10 +46,18 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        iconSize: 20,
-        onPressed: () {
-          linkHandler(context, url, showSheetOnDeepLink: true);
-        },
-        icon: const Icon(Icons.share));
+      iconSize: 20,
+      onPressed: () {
+        linkHandler(
+          context,
+          url,
+          showSheetOnDeepLink: true,
+          showOpenActions: false,
+        );
+      },
+      icon: Icon(
+        Icons.adaptive.share,
+      ),
+    );
   }
 }

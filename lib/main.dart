@@ -11,6 +11,7 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/device_display_mode.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
@@ -110,115 +111,131 @@ class _RootAppState extends State<RootApp> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = Provider.of<PaletteSettings>(context).currentSetting;
     return MaterialApp.router(
-      theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        unselectedWidgetColor: palette.faded1,
-        cardColor: palette.primary,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(palette.secondary),
-          ),
-        ),
-        pageTransitionsTheme: const PageTransitionsTheme(
-          builders: {
-            // TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          },
-        ),
-        appBarTheme: AppBarTheme(color: palette.primary, elevation: 5),
-        tabBarTheme: TabBarTheme(
-          indicator: BoxDecoration(
-              borderRadius: bigBorderRadius,
-              color:
-                  Provider.of<PaletteSettings>(context).currentSetting.accent),
-          unselectedLabelColor:
-              Provider.of<PaletteSettings>(context).currentSetting.faded3,
-          // unselectedLabelStyle: Theme.of(context)
-          //     .textTheme
-          //     .headline6!
-          //     .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
-          // labelStyle: Theme.of(context)
-          //     .textTheme
-          //     .headline6!
-          //     .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
-          labelPadding:
-              const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
-        ),
-        iconTheme: IconThemeData(color: palette.baseElements),
-        textTheme: const TextTheme(
-          bodyText1: TextStyle(),
-          bodyText2: TextStyle(),
-          headline1: TextStyle(fontWeight: FontWeight.bold),
-          headline2: TextStyle(fontWeight: FontWeight.bold),
-          headline3: TextStyle(fontWeight: FontWeight.bold),
-          headline4: TextStyle(fontWeight: FontWeight.bold),
-          headline5: TextStyle(fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontWeight: FontWeight.bold),
-          subtitle1: TextStyle(),
-          subtitle2: TextStyle(),
-          caption: TextStyle(),
-          button: TextStyle(),
-          overline: TextStyle(),
-        ).apply(
-          displayColor: palette.baseElements,
-          bodyColor: palette.baseElements,
-        ),
-        primaryColor: palette.accent,
-        scrollbarTheme: ScrollbarThemeData(
-            thumbColor: MaterialStateProperty.all<Color>(Colors.grey)),
-        dialogTheme: DialogTheme(
-          backgroundColor: palette.primary,
-          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
-          titleTextStyle: TextStyle(color: palette.baseElements),
-          contentTextStyle: TextStyle(color: palette.baseElements),
-        ),
-        scaffoldBackgroundColor: palette.primary,
-        primaryIconTheme: IconThemeData(color: palette.baseElements),
-        dividerColor: Colors.grey.withOpacity(0.7),
-        // brightness: Brightness.dark,
-        backgroundColor: palette.primary,
-        buttonTheme: ButtonThemeData(
-          textTheme: ButtonTextTheme.primary,
-          padding: EdgeInsets.zero,
-          colorScheme: const ColorScheme.dark(),
-          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
-        ),
-        dividerTheme:
-            DividerThemeData(color: palette.baseElements, thickness: 0.04),
-        fontFamily: Provider.of<FontSettings>(context).currentSetting,
-        colorScheme:
-            ColorScheme.fromSwatch().copyWith(secondary: palette.accent),
-        cardTheme: CardTheme(
-          color: palette.secondary,
-          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          contentPadding: const EdgeInsets.all(16),
-          fillColor: palette.secondary,
-          hintStyle:
-              TextStyle(color: palette.faded3.withOpacity(0.7), fontSize: 12),
-          filled: true,
-          enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.transparent),
-              borderRadius: medBorderRadius),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: palette.faded3),
-              borderRadius: medBorderRadius),
-          labelStyle: TextStyle(color: palette.faded3),
-          border: OutlineInputBorder(
-            borderRadius: medBorderRadius,
-          ),
-        ),
-      ),
+      theme: _getTheme(context, brightness: Brightness.light),
+      darkTheme: _getTheme(context, brightness: Brightness.dark),
       routerDelegate: customRouter.delegate(initialRoutes: [
         LandingLoadingScreenRoute(initLink: widget.initDeepLink)
       ]),
       routeInformationParser: customRouter.defaultRouteParser(),
     );
   }
+}
+
+ThemeData _getTheme(
+  BuildContext context, {
+  required Brightness brightness,
+}) {
+  final palette = Provider.of<PaletteSettings>(context).currentSetting;
+
+  return ThemeData(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    unselectedWidgetColor: palette.faded1,
+    cardColor: palette.primary,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(palette.secondary),
+      ),
+    ),
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        // TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
+    appBarTheme: AppBarTheme(color: palette.primary, elevation: 5),
+    tabBarTheme: TabBarTheme(
+      indicator: BoxDecoration(
+          borderRadius: bigBorderRadius,
+          color: Provider.of<PaletteSettings>(context).currentSetting.accent),
+      unselectedLabelColor:
+          Provider.of<PaletteSettings>(context).currentSetting.faded3,
+      // unselectedLabelStyle: Theme.of(context)
+      //     .textTheme
+      //     .headline6!
+      //     .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+      // labelStyle: Theme.of(context)
+      //     .textTheme
+      //     .headline6!
+      //     .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
+      labelPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
+        ),
+      ),
+      backgroundColor: palette.primary,
+    ),
+    iconTheme: IconThemeData(color: palette.baseElements),
+    textTheme: const TextTheme(
+      bodyText1: TextStyle(),
+      bodyText2: TextStyle(),
+      headline1: TextStyle(fontWeight: FontWeight.bold),
+      headline2: TextStyle(fontWeight: FontWeight.bold),
+      headline3: TextStyle(fontWeight: FontWeight.bold),
+      headline4: TextStyle(fontWeight: FontWeight.bold),
+      headline5: TextStyle(fontWeight: FontWeight.bold),
+      headline6: TextStyle(fontWeight: FontWeight.bold),
+      subtitle1: TextStyle(),
+      subtitle2: TextStyle(),
+      caption: TextStyle(),
+      button: TextStyle(),
+      overline: TextStyle(),
+    ).apply(
+      displayColor: palette.baseElements,
+      bodyColor: palette.baseElements,
+    ),
+    primaryColor: palette.accent,
+    scrollbarTheme: ScrollbarThemeData(
+        thumbColor: MaterialStateProperty.all<Color>(Colors.grey)),
+    dialogTheme: DialogTheme(
+      backgroundColor: palette.primary,
+      shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+      titleTextStyle: TextStyle(color: palette.baseElements),
+      contentTextStyle: TextStyle(color: palette.baseElements),
+    ),
+    listTileTheme: ListTileThemeData(iconColor: context.palette.baseElements),
+    scaffoldBackgroundColor: palette.primary,
+    primaryIconTheme: IconThemeData(color: palette.baseElements),
+    dividerColor: Colors.grey.withOpacity(0.7),
+    // brightness: Brightness.dark,
+    backgroundColor: palette.primary,
+    buttonTheme: ButtonThemeData(
+      textTheme: ButtonTextTheme.primary,
+      padding: EdgeInsets.zero,
+      colorScheme: const ColorScheme.dark(),
+      shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+    ),
+    dividerTheme:
+        DividerThemeData(color: palette.baseElements, thickness: 0.04),
+    fontFamily: Provider.of<FontSettings>(context).currentSetting,
+    colorScheme: ColorScheme.fromSwatch(brightness: brightness)
+        .copyWith(secondary: palette.accent),
+    cardTheme: CardTheme(
+      color: palette.secondary,
+      shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: const EdgeInsets.all(16),
+      fillColor: palette.secondary,
+      hintStyle:
+          TextStyle(color: palette.faded3.withOpacity(0.7), fontSize: 12),
+      filled: true,
+      enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
+          borderRadius: medBorderRadius),
+      focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: palette.faded3),
+          borderRadius: medBorderRadius),
+      labelStyle: TextStyle(color: palette.faded3),
+      border: OutlineInputBorder(
+        borderRadius: medBorderRadius,
+      ),
+    ),
+  );
 }
 
 extension ThemeExtension on BuildContext {

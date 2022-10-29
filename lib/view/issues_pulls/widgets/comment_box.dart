@@ -1,5 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -18,81 +18,88 @@ void showCommentSheet(BuildContext context,
     required String repoName}) {
   var markdownView = false;
   var loading = false;
-  showBottomActionMenu(context, fullScreen: true, header: (context, setState) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              markdownView = !markdownView;
-            });
-          },
-          icon: const Icon(Icons.remove_red_eye_rounded),
-          color: markdownView
-              ? Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .baseElements
-              : Provider.of<PaletteSettings>(context).currentSetting.faded3,
-        ),
-        Expanded(
-          child: InkWell(
-            borderRadius: medBorderRadius,
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      type,
-                      style: Theme.of(context).textTheme.headline6,
+  showDHBottomSheet(
+    context,
+    isScrollControlled: true,
+    builder: (context) => DHBottomSheet(
+      headerBuilder: (context, setState) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState.call(
+                  () {
+                    markdownView = !markdownView;
+                  },
+                );
+              },
+              icon: const Icon(Icons.remove_red_eye_rounded),
+              color: markdownView
+                  ? context.palette.baseElements
+                  : context.palette.faded3,
+            ),
+            Expanded(
+              child: InkWell(
+                borderRadius: medBorderRadius,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          type,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
                     ),
-                    const Icon(Icons.arrow_drop_down),
-                  ],
+                  ),
                 ),
               ),
             ),
+            IconButton(
+              onPressed: loading
+                  ? null
+                  : () async {
+                      setState(() {
+                        loading = true;
+                      });
+                      await onSubmit().then((_) {
+                        setState.call(
+                          () {
+                            loading = false;
+                          },
+                        );
+                        Navigator.pop(context);
+                      });
+                    },
+              disabledColor: context.palette.faded3.withOpacity(0.5),
+              icon: loading
+                  ? const LoadingIndicator()
+                  : const Icon(
+                      Icons.reply,
+                    ),
+            )
+          ],
+        );
+      },
+      builder: (context, setState) {
+        return Expanded(
+          child: CommentBox(
+            repoName: '$owner/$repoName',
+            markdownView: markdownView,
+            initialData: initialData,
+            onChanged: loading ? null : onChanged,
           ),
-        ),
-        IconButton(
-          onPressed: loading
-              ? null
-              : () async {
-                  setState(() {
-                    loading = true;
-                  });
-                  await onSubmit().then((_) {
-                    setState(() {
-                      loading = false;
-                    });
-                    Navigator.pop(context);
-                  });
-                },
-          disabledColor: Provider.of<PaletteSettings>(context)
-              .currentSetting
-              .faded3
-              .withOpacity(0.5),
-          icon: loading
-              ? const LoadingIndicator()
-              : const Icon(
-                  Icons.reply,
-                ),
-        )
-      ],
-    );
-  }, childWidget: (buildContext, setState) {
-    return Expanded(
-        child: CommentBox(
-      repoName: '$owner/$repoName',
-      markdownView: markdownView,
-      initialData: initialData,
-      onChanged: loading ? null : onChanged,
-    ));
-  });
+        );
+      },
+    ),
+  );
 }
 
 class CommentBox extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
@@ -230,10 +230,12 @@ class _ReactionItemState extends State<ReactionItem> {
           child: InkWell(
             onTap: widget.onTap != null ? changeReaction : null,
             onLongPress: () {
-              showScrollableBottomActionsMenu(
+              showScrollableBottomSheet(
                 context,
-                titleText: getReaction(widget.reactionGroup.content),
-                builder: (context, scrollController, setState) {
+                headerBuilder: (context, setState) => BottomSheetHeaderText(
+                  headerText: getReaction(widget.reactionGroup.content),
+                ),
+                scrollableBodyBuilder: (context, setState, scrollController) {
                   return APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
                     apiCall: (refresh) => IssuesService.getReactors(
                       widget.reactionGroup.subject.id,

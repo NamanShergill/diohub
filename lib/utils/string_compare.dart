@@ -9,9 +9,8 @@ class StringFunctions {
     return string.toLowerCase() == string2?.toLowerCase();
   }
 
-  bool regexCompleteMatch(String pattern) {
-    final regexp = RegExp(pattern);
-    final match = regexp.firstMatch(string)?.group(0);
+  bool regexCompleteMatch(RegExp pattern) {
+    final match = pattern.firstMatch(string)?.group(0);
     return match != null && match == string;
   }
 

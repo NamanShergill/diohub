@@ -85,7 +85,7 @@ dependencies:
   path_provider: ^2.0.11
   pretty_dio_logger: ^1.2.0-beta-1
   provider: ^6.0.4
-  share_plus: ^6.0.1
+  share_plus: ^6.1.0
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
   sliver_tools: ^0.2.8

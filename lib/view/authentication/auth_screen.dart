@@ -73,7 +73,9 @@ class AuthScreen extends StatelessWidget {
               ],
             ),
             const Align(
-                alignment: Alignment.bottomCenter, child: VersionInfoWidget()),
+              alignment: Alignment.bottomCenter,
+              child: VersionInfoWidget(),
+            ),
           ],
         ),
       ),

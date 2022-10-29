@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
 import 'package:dio_hub/common/misc/nested_scroll.dart';
@@ -49,9 +49,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   /// Show bottom sheet to apply filters.
   void showFilterSheet() {
-    showScrollableBottomActionsMenu(context, titleText: 'Filter Notifications',
-        builder: (context, scrollController, setState) {
-      return FilterSheet(
+    showScrollableBottomSheet(
+      context,
+      scrollableBodyBuilder: (context, setState, scrollController) =>
+          FilterSheet(
         apiFilters: apiFilters,
         controller: scrollController,
         clientFilters: clientFilters,
@@ -60,8 +61,11 @@ class _NotificationsScreenState extends State<NotificationsScreen>
           clientFilters = updatedClientFilters as Map<String, dynamic>;
           _controller.refresh();
         },
-      );
-    });
+      ),
+      headerBuilder: (context, setState) => const BottomSheetHeaderText(
+        headerText: 'Filter Notifications',
+      ),
+    );
   }
 
   @override

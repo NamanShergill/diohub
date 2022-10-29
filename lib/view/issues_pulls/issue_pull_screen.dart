@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -535,25 +535,28 @@ class _AboutTab extends StatelessWidget {
                           getAssignees(String? cursor) => context
                               .issueProvider(listen: false)
                               .getAssignees(after: cursor);
-                          showScrollableBottomActionsMenu(
+                          showScrollableBottomSheet(
                             context,
-                            titleText: 'Assignees',
-                            builder: (cntxt, scrollController, setState) {
-                              return InfiniteScrollWrapper<
-                                  AssigneeUserListMixin$Assignees$Edges?>(
-                                scrollController: scrollController,
-                                future:
-                                    (pageNumber, pageSize, refresh, lastItem) =>
-                                        getAssignees(lastItem?.cursor),
-                                builder: (context, item, index, refresh) {
-                                  final node = item!.node!;
-                                  return ProfileTile.login(
-                                    avatarUrl: node.avatarUrl.toString(),
-                                    userLogin: node.login,
-                                  );
-                                },
-                              );
-                            },
+                            headerBuilder: (context, setState) =>
+                                const BottomSheetHeaderText(
+                              headerText: 'Assignees',
+                            ),
+                            scrollableBodyBuilder:
+                                (context, setState, scrollController) =>
+                                    InfiniteScrollWrapper<
+                                        AssigneeUserListMixin$Assignees$Edges?>(
+                              future:
+                                  (pageNumber, pageSize, refresh, lastItem) =>
+                                      getAssignees(lastItem?.cursor),
+                              scrollController: scrollController,
+                              builder: (context, item, index, refresh) {
+                                final node = item!.node!;
+                                return ProfileTile.login(
+                                  avatarUrl: node.avatarUrl.toString(),
+                                  userLogin: node.login,
+                                );
+                              },
+                            ),
                           );
                         },
                       ),

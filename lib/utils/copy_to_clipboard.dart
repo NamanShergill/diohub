@@ -3,7 +3,10 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:flutter/services.dart';
 
 void copyToClipboard(String text) async {
-  Clipboard.setData(ClipboardData(text: text));
+  Clipboard.setData(
+    ClipboardData(text: text),
+  );
   ResponseHandler.setSuccessMessage(
-      AppPopupData(title: 'Copied to clipboard.'));
+    AppPopupData(title: 'Copied to clipboard.'),
+  );
 }

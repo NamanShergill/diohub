@@ -1,5 +1,5 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/link_text.dart';
 import 'package:dio_hub/common/misc/patch_viewer.dart';
@@ -224,110 +224,8 @@ class PRReviewScreen extends StatelessWidget {
                                 return Row(
                                   children: [
                                     replyButton(repliesEnabled),
-                                    Expanded(
-                                      child: StringButton(
-                                        key: const ValueKey('loaded'),
-                                        onTap: () {
-                                          showScrollableBottomActionsMenu(
-                                            context,
-                                            titleText: 'Replies',
-                                            builder: (sheetContext,
-                                                scrollController, setState) {
-                                              return ListenableProvider.value(
-                                                value: Provider.of<
-                                                    CommentProvider>(context),
-                                                builder: (context, child) {
-                                                  return InfiniteScrollWrapper<
-                                                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
-                                                    scrollController:
-                                                        scrollController,
-                                                    separatorBuilder:
-                                                        (context, index) =>
-                                                            const SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    future: (pageNumber,
-                                                        pageSize,
-                                                        refresh,
-                                                        lastItem) {
-                                                      return PullsService
-                                                          .getReviewThreadReplies(
-                                                              data.node!.id,
-                                                              lastItem?.cursor,
-                                                              refresh: refresh);
-                                                    },
-                                                    filterFn: (items) {
-                                                      final temp = <
-                                                          ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
-                                                      for (final item
-                                                          in items) {
-                                                        if (item!.node!.id !=
-                                                            comment.id) {
-                                                          temp.add(item);
-                                                        }
-                                                      }
-                                                      return temp;
-                                                    },
-                                                    builder: (cxt, item, index,
-                                                        refresh) {
-                                                      final reply = item!.node!;
-                                                      return PaddingWrap(
-                                                        child: BaseComment(
-                                                            isMinimized: reply
-                                                                .isMinimized,
-                                                            onQuote: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                              openCommentSheet();
-                                                            },
-                                                            reactions: reply
-                                                                .reactionGroups,
-                                                            viewerCanDelete: reply
-                                                                .viewerCanDelete,
-                                                            viewerCanMinimize: reply
-                                                                .viewerCanMinimize,
-                                                            viewerCannotUpdateReasons:
-                                                                reply
-                                                                    .viewerCannotUpdateReasons,
-                                                            viewerCanReact: reply
-                                                                .viewerCanReact,
-                                                            viewerCanUpdate: reply
-                                                                .viewerCanUpdate,
-                                                            viewerDidAuthor: reply
-                                                                .viewerDidAuthor,
-                                                            createdAt:
-                                                                reply.createdAt,
-                                                            author:
-                                                                reply.author,
-                                                            body: reply.body,
-                                                            lastEditedAt: reply
-                                                                .lastEditedAt,
-                                                            bodyHTML:
-                                                                reply.bodyHTML,
-                                                            authorAssociation: reply
-                                                                .authorAssociation),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          );
-                                        },
-                                        listenToLoadingController: false,
-                                        color: Provider.of<PaletteSettings>(
-                                                context)
-                                            .currentSetting
-                                            .primary,
-                                        title:
-                                            '${data.node!.comments.totalCount > 1 ? (data.node!.comments.totalCount - 1).toString() : 'No'} Replies',
-                                        trailingIcon:
-                                            data.node!.comments.totalCount > 1
-                                                ? const Icon(
-                                                    Icons.arrow_right_rounded)
-                                                : null,
-                                      ),
-                                    ),
+                                    _buildRepliesButton(context, data, comment,
+                                        openCommentSheet),
                                   ],
                                 );
                               } else {
@@ -346,5 +244,87 @@ class PRReviewScreen extends StatelessWidget {
         },
       ),
     ));
+  }
+
+  Expanded _buildRepliesButton(
+    BuildContext context,
+    ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
+        data,
+    PRReviewCommentsMixin$Comments$Edges$Node comment,
+    void Function() openCommentSheet,
+  ) {
+    return Expanded(
+      child: StringButton(
+        key: const ValueKey('loaded'),
+        onTap: () {
+          showScrollableBottomSheet(
+            context,
+            headerBuilder: (context, setState) => const BottomSheetHeaderText(
+              headerText: 'Replies',
+            ),
+            scrollableBodyBuilder: (context, setState, scrollController) =>
+                ListenableProvider.value(
+              value: Provider.of<CommentProvider>(context),
+              builder: (context, child) {
+                return InfiniteScrollWrapper<
+                    ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
+                  scrollController: scrollController,
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 8,
+                  ),
+                  future: (pageNumber, pageSize, refresh, lastItem) {
+                    return PullsService.getReviewThreadReplies(
+                        data.node!.id, lastItem?.cursor,
+                        refresh: refresh);
+                  },
+                  filterFn: (items) {
+                    final temp = <
+                        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
+                    for (final item in items) {
+                      if (item!.node!.id != comment.id) {
+                        temp.add(item);
+                      }
+                    }
+                    return temp;
+                  },
+                  builder: (cxt, item, index, refresh) {
+                    final reply = item!.node!;
+                    return PaddingWrap(
+                      child: BaseComment(
+                          isMinimized: reply.isMinimized,
+                          onQuote: () {
+                            Navigator.pop(context);
+                            openCommentSheet();
+                          },
+                          reactions: reply.reactionGroups,
+                          viewerCanDelete: reply.viewerCanDelete,
+                          viewerCanMinimize: reply.viewerCanMinimize,
+                          viewerCannotUpdateReasons:
+                              reply.viewerCannotUpdateReasons,
+                          viewerCanReact: reply.viewerCanReact,
+                          viewerCanUpdate: reply.viewerCanUpdate,
+                          viewerDidAuthor: reply.viewerDidAuthor,
+                          createdAt: reply.createdAt,
+                          author: reply.author,
+                          body: reply.body,
+                          lastEditedAt: reply.lastEditedAt,
+                          bodyHTML: reply.bodyHTML,
+                          authorAssociation: reply.authorAssociation),
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        },
+        listenToLoadingController: false,
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+        title:
+            '${data.node!.comments.totalCount > 1 ? (data.node!.comments.totalCount - 1).toString() : 'No'} Replies',
+        trailingIcon: data.node!.comments.totalCount > 1
+            ? const Icon(Icons.arrow_right_rounded)
+            : null,
+      ),
+    );
   }
 }

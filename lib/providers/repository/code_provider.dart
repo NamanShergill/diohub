@@ -62,7 +62,7 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
     // Add data to tree if the selected branch has not been changed.
     if (parentProvider.currentSHA == currentRootSHA) {
       // Get _codeTree data from the completed futures.
-      final codeTree = data[0];
+      final CodeTreeModel codeTree = data[0];
       // Get _commit data from the completed future.
       final CommitListModel? commit = data[1].first;
       // Add data to tree.

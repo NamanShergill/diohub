@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
@@ -77,71 +77,81 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
       });
     }
 
-    VoidCallback? onPress(HasWatched$Query$Repository? data) => data == null ||
-            changing
-        ? null
-        : () async {
-            showBottomActionsList(context,
-                headerText: 'Watch Repository',
-                children: [
-                  ListTile(
-                    title: Text(
-                      'Participating and @mentions',
-                      style: TextStyle(
-                          color: data.viewerSubscription !=
+    VoidCallback? onPress(HasWatched$Query$Repository? data) =>
+        data == null || changing
+            ? null
+            : () async {
+                showDHBottomSheet(
+                  context,
+                  builder: (context) => DHBottomSheet(
+                    headerBuilder: (context, setState) =>
+                        const BottomSheetHeaderText(
+                      headerText: 'Watch Repository',
+                    ),
+                    builder: (context, setState) => BottomSheetBodyList(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            'Participating and @mentions',
+                            style: TextStyle(
+                                color: data.viewerSubscription !=
+                                        SubscriptionState.unsubscribed
+                                    ? Colors.white
+                                    : theme.accent,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text(
+                              'Only receive notifications from this repository when participating or @mentioned.'),
+                          onTap: data.viewerSubscription ==
                                   SubscriptionState.unsubscribed
-                              ? Colors.white
-                              : theme.accent,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: const Text(
-                        'Only receive notifications from this repository when participating or @mentioned.'),
-                    onTap: data.viewerSubscription ==
-                            SubscriptionState.unsubscribed
-                        ? null
-                        : () {
-                            updateWatchStatus(data, isSubscribing: false);
-                          },
-                  ),
-                  ListTile(
-                    title: Text(
-                      'All Activity',
-                      style: TextStyle(
-                          color: data.viewerSubscription !=
+                              ? null
+                              : () {
+                                  updateWatchStatus(data, isSubscribing: false);
+                                },
+                        ),
+                        ListTile(
+                          title: Text(
+                            'All Activity',
+                            style: TextStyle(
+                                color: data.viewerSubscription !=
+                                        SubscriptionState.subscribed
+                                    ? Colors.white
+                                    : theme.accent,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text(
+                              'Notified of all notifications on this repository.'),
+                          onTap: data.viewerSubscription ==
                                   SubscriptionState.subscribed
-                              ? Colors.white
-                              : theme.accent,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: const Text(
-                        'Notified of all notifications on this repository.'),
-                    onTap:
-                        data.viewerSubscription == SubscriptionState.subscribed
-                            ? null
-                            : () {
-                                updateWatchStatus(data, isSubscribing: true);
-                              },
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Ignore',
-                      style: TextStyle(
-                          color: data.viewerSubscription !=
+                              ? null
+                              : () {
+                                  updateWatchStatus(data, isSubscribing: true);
+                                },
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Ignore',
+                            style: TextStyle(
+                                color: data.viewerSubscription !=
+                                        SubscriptionState.ignored
+                                    ? Colors.white
+                                    : theme.accent,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text('Never be notified.'),
+                          onTap: data.viewerSubscription ==
                                   SubscriptionState.ignored
-                              ? Colors.white
-                              : theme.accent,
-                          fontWeight: FontWeight.bold),
+                              ? null
+                              : () {
+                                  updateWatchStatus(data,
+                                      isSubscribing: true, ignoring: true);
+                                },
+                        ),
+                      ],
                     ),
-                    subtitle: const Text('Never be notified.'),
-                    onTap: data.viewerSubscription == SubscriptionState.ignored
-                        ? null
-                        : () {
-                            updateWatchStatus(data,
-                                isSubscribing: true, ignoring: true);
-                          },
                   ),
-                ]);
-          };
+                );
+              };
     return APIWrapper<HasWatched$Query$Repository>(
       apiCall: (refresh) =>
           RepositoryServices.isSubscribed(widget.owner, widget.name),

@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
@@ -55,17 +55,22 @@ class BranchButton extends StatelessWidget {
                             .setBranch(branch);
                       }
 
-                      showScrollableBottomActionsMenu(context,
-                          titleText: 'Select Branch',
-                          builder: (context, scrollController, setState) {
-                        return BranchSelectSheet(
+                      showScrollableBottomSheet(
+                        context,
+                        headerBuilder: (context, setState) =>
+                            const BottomSheetHeaderText(
+                          headerText: 'Select Branch',
+                        ),
+                        scrollableBodyBuilder:
+                            (context, setState, scrollController) =>
+                                BranchSelectSheet(
                           _repo!.url!,
                           controller: scrollController,
                           currentBranch: currentBranch,
                           defaultBranch: _repo!.defaultBranch,
                           onSelected: changeBranch,
-                        );
-                      });
+                        ),
+                      );
                     },
                     borderRadius: medBorderRadius,
                     child: Container(

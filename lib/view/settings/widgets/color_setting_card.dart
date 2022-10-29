@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
@@ -26,70 +26,73 @@ class ColorSettingCardState extends State<ColorSettingCard> {
         color: theme.currentSetting.faded3,
       ),
       onTap: () {
-        showBottomActionsList(
+        showDHBottomSheet(
           context,
-          headerText: 'App Color Palette',
-          children: [
-            ListTile(
-              title: Text(
-                'Share theme',
-                style: TextStyle(
-                    color: theme.currentSetting.toJson().toString() ==
-                            theme.defaultSetting.toJson().toString()
-                        ? theme.currentSetting.faded3
-                        : theme.currentSetting.baseElements),
-              ),
-              onTap: theme.currentSetting.toJson().toString() ==
-                      theme.defaultSetting.toJson().toString()
-                  ? null
-                  : () {
-                      Navigator.pop(context);
-
-                      showURLBottomActionsMenu(
-                          context,
-                          Uri(
-                                  host: 'theme.felix.diohub',
-                                  scheme: 'https',
-                                  queryParameters: theme.currentSetting.toJson()
-                                    ..addAll({
-                                      'format_ver': theme.formatVer.toString()
-                                    }))
-                              .toString(),
-                          showOpenTile: false);
-                    },
+          builder: (context) => DHBottomSheet(
+            headerBuilder: (context, setState) => const BottomSheetHeaderText(
+              headerText: 'App Color Palette',
             ),
-            // ListTile(
-            //   title: Text('Load theme'),
-            // ),
-            ListTile(
-              title: const Text('Reset to default'),
-              onTap: () {
-                Navigator.pop(context);
-
-                showDialog(
-                  context: context,
-                  builder: (context) => AppDialog(
-                    title: 'Reset to default?',
-                    actions: [
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          theme.resetToDefault();
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Reset'),
-                      )
-                    ],
+            builder: (context, setState) => BottomSheetBodyList(
+              children: [
+                ListTile(
+                  title: Text(
+                    'Share theme',
+                    style: TextStyle(
+                        color: theme.currentSetting.toJson().toString() ==
+                                theme.defaultSetting.toJson().toString()
+                            ? theme.currentSetting.faded3
+                            : theme.currentSetting.baseElements),
                   ),
-                );
-              },
+                  onTap: theme.currentSetting.toJson().toString() ==
+                          theme.defaultSetting.toJson().toString()
+                      ? null
+                      : () {
+                          Navigator.pop(context);
+
+                          showURLActions(
+                            context,
+                            uri: Uri(
+                              host: 'theme.felix.diohub',
+                              scheme: 'https',
+                              queryParameters: theme.currentSetting.toJson()
+                                ..addAll(
+                                  {'format_ver': theme.formatVer.toString()},
+                                ),
+                            ),
+                            showOpenAction: false,
+                          );
+                        },
+                ),
+                ListTile(
+                  title: const Text('Reset to default'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AppDialog(
+                        title: 'Reset to default?',
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          MaterialButton(
+                            onPressed: () {
+                              theme.resetToDefault();
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Reset'),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
       child: Column(

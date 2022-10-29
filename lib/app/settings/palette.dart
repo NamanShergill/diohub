@@ -146,4 +146,7 @@ final DioHubPalette _defaultPalette = DioHubPalette(
 extension PaletteExtension on BuildContext {
   DioHubPalette get palette =>
       Provider.of<PaletteSettings>(this).currentSetting;
+
+  DioHubPalette get paletteStatic =>
+      Provider.of<PaletteSettings>(this, listen: false).currentSetting;
 }

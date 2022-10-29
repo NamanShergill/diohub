@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
@@ -263,51 +263,46 @@ class _PatchViewerState extends State<PatchViewer> {
                               displayCode.length - 1 > widget.limitLines!
                           ? () {
                               var wrap = false;
-                              showScrollableBottomActionsMenu(
+                              showScrollableBottomSheet(
                                 context,
-                                titleWidget: (context, setState) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const IconButton(
-                                            onPressed: null,
-                                            icon: Icon(
-                                              Icons.copy,
-                                              color: Colors.transparent,
-                                            )),
-                                        const Text(
-                                          'Patch Diff',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        WrapIconButton(
-                                          wrap: wrap,
-                                          onWrap: (value) {
-                                            setState(() {
-                                              wrap = !wrap;
-                                            });
-                                          },
-                                        ),
-                                      ],
+                                headerBuilder: (context, setState) => Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const IconButton(
+                                        onPressed: null,
+                                        icon: Icon(
+                                          Icons.copy,
+                                          color: Colors.transparent,
+                                        )),
+                                    const Text(
+                                      'Patch Diff',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  );
-                                },
-                                builder: (context, scrollController, setState) {
-                                  return SingleChildScrollView(
-                                    controller: scrollController,
-                                    child: PatchViewer(
-                                      isWidget: true,
-                                      patch: widget.patch,
-                                      fileType: widget.fileType,
-                                      waitBeforeLoad: false,
+                                    WrapIconButton(
                                       wrap: wrap,
+                                      onWrap: (value) {
+                                        setState(() {
+                                          wrap = !wrap;
+                                        });
+                                      },
                                     ),
-                                  );
-                                },
+                                  ],
+                                ),
+                                scrollableBodyBuilder:
+                                    (context, setState, scrollController) =>
+                                        SingleChildScrollView(
+                                  controller: scrollController,
+                                  child: PatchViewer(
+                                    isWidget: true,
+                                    patch: widget.patch,
+                                    fileType: widget.fileType,
+                                    waitBeforeLoad: false,
+                                    wrap: wrap,
+                                  ),
+                                ),
                               );
                             }
                           : null,
