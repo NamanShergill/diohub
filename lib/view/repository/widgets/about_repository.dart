@@ -89,7 +89,7 @@ class AboutRepositoryState extends State<AboutRepository> {
               child: Column(
                 children: [
                   InfoCard(
-                    'Name',
+                    title: 'Name',
                     child: Row(
                       children: [
                         Flexible(child: Text(widget.repo.name!)),
@@ -98,7 +98,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                   ),
                   if (widget.repo.description != null)
                     InfoCard(
-                      'About',
+                      title: 'About',
                       child: Row(
                         children: [
                           Flexible(
@@ -108,7 +108,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                     ),
                   if (widget.repo.language != null)
                     InfoCard(
-                      'Language',
+                      title: 'Language',
                       child: Row(
                         children: [
                           Flexible(
@@ -121,13 +121,13 @@ class AboutRepositoryState extends State<AboutRepository> {
                     ),
                   if (widget.repo.fork!)
                     InfoCard(
-                      'Forked from',
+                      title: 'Forked from',
                       child: RepositoryCard(widget.repo.source),
                     ),
                   if (widget.repo.homepage != null &&
                       widget.repo.homepage!.isNotEmpty)
                     InfoCard(
-                      'Homepage',
+                      title: 'Homepage',
                       onTap: () {
                         linkHandler(context, widget.repo.homepage);
                       },
@@ -139,7 +139,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                     ),
                   if (widget.repo.license != null)
                     InfoCard(
-                      'License',
+                      title: 'License',
                       child: Row(
                         children: [
                           Flexible(child: Text(widget.repo.license!.name!)),
@@ -147,7 +147,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                       ),
                     ),
                   InfoCard(
-                    'Stats',
+                    title: 'Stats',
                     child: Row(
                       children: [
                         Column(

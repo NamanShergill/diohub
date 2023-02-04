@@ -9,7 +9,7 @@ class AppNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text.rich(TextSpan(
-        style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: size),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: size),
         children: const [
           TextSpan(text: 'DIO'),
           TextSpan(text: 'HUB', style: TextStyle(fontWeight: FontWeight.bold)),

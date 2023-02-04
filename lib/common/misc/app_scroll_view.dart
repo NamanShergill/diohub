@@ -190,7 +190,7 @@ class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
   }
 
   void _addListener() {
-    _position = Scrollable.of(context)?.position;
+    _position = Scrollable.of(context).position;
     _position?.addListener(_positionListener);
     _positionListener();
   }

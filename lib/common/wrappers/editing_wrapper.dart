@@ -87,13 +87,13 @@ class EditingHandler<T> extends ChangeNotifier {
 }
 
 class EditWidget<T> extends StatefulWidget {
-  const EditWidget(
-      {Key? key,
-      required this.editingController,
-      this.toolsAxis = Axis.horizontal,
-      required this.builder,
-      this.buttonColors})
-      : super(key: key);
+  const EditWidget({
+    Key? key,
+    required this.editingController,
+    this.toolsAxis = Axis.horizontal,
+    required this.builder,
+    this.buttonColors,
+  }) : super(key: key);
   final EditingController editingController;
   final Widget Function(BuildContext context, T? newValue, Widget tools,
       bool currentlyEditing, EditingState currentState) builder;
@@ -203,6 +203,26 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
             widget.editingController.currentlyEditing,
             editing);
       },
+    );
+  }
+}
+
+class MinRowEditWidget extends StatelessWidget {
+  const MinRowEditWidget({
+    Key? key,
+    required this.tools,
+    required this.child,
+  }) : super(key: key);
+  final Widget tools;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        child,
+        tools,
+      ],
     );
   }
 }

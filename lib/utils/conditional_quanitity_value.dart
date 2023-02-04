@@ -4,8 +4,13 @@ extension ConditionalQuantityValues<T> on List<T> {
   V valuesOnLength<V>({
     required Map<int, V Function()> values,
     required ConditionalValue<V, T> defaultValue,
-  }) =>
-      values[length]?.call() ?? defaultValue.call(this);
+  }) {
+    if (values[length] != null) {
+      return values[length]!.call();
+    } else {
+      return defaultValue.call(this);
+    }
+  }
 
   V valuesOnLengthBasic<V>({
     required V Function() onNoItems,

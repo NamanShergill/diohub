@@ -10,145 +10,119 @@ import 'package:provider/provider.dart';
 class AboutUser extends StatelessWidget {
   const AboutUser(this.userInfoModel, {Key? key}) : super(key: key);
   final UserInfoModel? userInfoModel;
+
+  List<InfoCard> items(BuildContext context) => [
+        if (userInfoModel!.bio != null)
+          InfoCard(
+            title: 'Bio',
+            child: Flexible(child: Text(userInfoModel!.bio!)),
+          ),
+        if (userInfoModel!.twitterUsername != null)
+          InfoCard(
+            // title: 'Twitter',
+            icon: const Icon(
+              LineIcons.twitter,
+            ),
+            onTap: () {
+              linkHandler(context,
+                  'https://twitter.com/${userInfoModel!.twitterUsername}');
+            },
+            child: Text('@${userInfoModel!.twitterUsername}'),
+          ),
+        if (userInfoModel!.email != null)
+          InfoCard(
+            title: 'Email',
+            onTap: () {
+              linkHandler(context, 'mailto:${userInfoModel!.email}');
+            },
+            child: Row(
+              children: [
+                Icon(
+                  LineIcons.at,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(userInfoModel!.email!),
+              ],
+            ),
+          ),
+        if (userInfoModel!.blog != null && userInfoModel!.blog!.isNotEmpty)
+          InfoCard(
+            title: 'Blog',
+            onTap: () {
+              linkHandler(context, userInfoModel!.blog);
+            },
+            child: Flexible(
+              child: Text(userInfoModel!.blog!),
+            ),
+          ),
+        if (userInfoModel!.company != null)
+          InfoCard(
+            title: 'Company',
+            child: Row(
+              children: [
+                Icon(
+                  LineIcons.building,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(userInfoModel!.company!),
+              ],
+            ),
+          ),
+        if (userInfoModel!.location != null)
+          InfoCard(
+            title: 'Location',
+            child: Row(
+              children: [
+                Icon(
+                  LineIcons.locationArrow,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(userInfoModel!.location!),
+              ],
+            ),
+          ),
+        if (userInfoModel!.createdAt != null)
+          InfoCard(
+            title: 'Joined',
+            child: Text(
+              getDate(
+                userInfoModel!.createdAt.toString(),
+                shorten: false,
+              ),
+            ),
+          ),
+      ];
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 16,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 16,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: WrappedCollection(
+            children: items(context),
           ),
-          if (userInfoModel!.bio != null)
-            InfoCard(
-              'Bio',
-              child: Row(
-                children: [
-                  Flexible(child: Text(userInfoModel!.bio!)),
-                ],
-              ),
-            ),
-          if (userInfoModel!.twitterUsername != null)
-            InfoCard(
-              'Twitter',
-              onTap: () {
-                linkHandler(context,
-                    'https://twitter.com/${userInfoModel!.twitterUsername}');
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.twitter,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text('@${userInfoModel!.twitterUsername}'),
-                ],
-              ),
-            ),
-          if (userInfoModel!.email != null)
-            InfoCard(
-              'Email',
-              onTap: () {
-                linkHandler(context, 'mailto:${userInfoModel!.email}');
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.at,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(userInfoModel!.email!),
-                ],
-              ),
-            ),
-          if (userInfoModel!.blog != null && userInfoModel!.blog!.isNotEmpty)
-            InfoCard(
-              'Blog',
-              onTap: () {
-                linkHandler(context, userInfoModel!.blog);
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.blog,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Flexible(child: Text(userInfoModel!.blog!)),
-                ],
-              ),
-            ),
-          if (userInfoModel!.company != null)
-            InfoCard(
-              'Company',
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.building,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(userInfoModel!.company!),
-                ],
-              ),
-            ),
-          if (userInfoModel!.location != null)
-            InfoCard(
-              'Location',
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.locationArrow,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(userInfoModel!.location!),
-                ],
-              ),
-            ),
-          if (userInfoModel!.createdAt != null)
-            InfoCard(
-              'Joined',
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.calendar,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(getDate(userInfoModel!.createdAt.toString(),
-                      shorten: false)),
-                ],
-              ),
-            ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

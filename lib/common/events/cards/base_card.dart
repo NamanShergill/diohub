@@ -56,7 +56,7 @@ class BaseEventCard extends StatelessWidget {
                       text: TextSpan(
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2!
+                              .bodyMedium!
                               .copyWith(fontSize: 15, letterSpacing: 0),
                           children: [
                                 TextSpan(

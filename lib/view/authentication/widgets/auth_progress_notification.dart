@@ -65,7 +65,7 @@ class AuthProgressNotification extends StatelessWidget {
                                       'Authentication in Progress. (${time!.min ?? '00'}:${time.sec! < 10 ? '0' : ''}${time.sec})',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText1!
+                                          .bodyLarge!
                                           .copyWith(
                                               fontWeight: FontWeight.bold),
                                     ),

@@ -7,12 +7,12 @@ import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/reaction_bar.dart';
-import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
@@ -34,7 +34,6 @@ import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:expand_widget/expand_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -284,11 +283,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       hasEditableChildren: true,
       title: Row(
         children: [
-          Icon(
-            widget.state.icon,
-            color: widget.state.color,
-            size: 16,
-          ),
+          widget.state.icon(),
           // const SizedBox(
           //   width: 8,
           // ),
@@ -369,10 +364,8 @@ class _AboutTab extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        widget.state.icon,
-                        size: 16,
-                        // color: state.color,
+                      widget.state.icon(
+                        color: context.palette.elementsOnColors,
                       ),
                       const SizedBox(
                         width: 4,
@@ -398,7 +391,7 @@ class _AboutTab extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 12,
+            height: 16,
           ),
           Card(
             shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
@@ -509,19 +502,61 @@ class _AboutTab extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 16,
+            height: 8,
           ),
-          EditWidget(
-            editingController: assigneeEditingController,
-            builder:
-                (context, newValue, tools, currentlyEditing, currentState) {
-              final assignees = widget.assigneesInfo.edges ?? [];
-              return Row(
-                children: [
-                  Expanded(
-                    child: InkWellCard(
-                      enabled: assignees.isNotEmpty,
-                      onTap: assignees.valuesOnLengthBasic<VoidCallback?>(
+          WrappedCollection(
+            children: [
+              InfoCard(
+                // icon: widget.state.icon(color: context.palette.faded3),
+                onTap: () {
+                  context.router.push(
+                      RepositoryScreenRoute(repositoryURL: 'repositoryURL'));
+                },
+                title: '#${widget.number}',
+                titleTextStyle: TextStyle(
+                  color: context.palette.faded3,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ProfileTile.avatar(
+                      avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
+                      size: 16,
+                      padding: const EdgeInsets.all(8),
+                    ),
+                    Flexible(
+                      child: Text(
+                          '${widget.repoInfo.owner.login}/${widget.repoInfo.name}'),
+                    ),
+                  ],
+                ),
+              ),
+              // Container(
+              //   width: 100,
+              //   height: 30,
+              //   color: Colors.red,
+              // ),
+              EditWidget(
+                editingController: assigneeEditingController,
+                builder:
+                    (context, newValue, tools, currentlyEditing, currentState) {
+                  final assignees = widget.assigneesInfo.edges ?? [];
+                  return MinRowEditWidget(
+                    tools: tools,
+                    child: InfoCard(
+                      title: assignees.valuesOnLengthBasic(
+                        onNoItems: () => 'Assignees',
+                        onOneItem: (item) => 'Assignee',
+                        defaultValue: (items) => '${items.length} Assignees',
+                      ),
+                      trailingIcon: assignees.valuesOnLengthBasic(
+                        onNoItems: () => null,
+                        onOneItem: (item) => null,
+                        defaultValue: (items) => const Icon(
+                          Icons.arrow_drop_down_rounded,
+                        ),
+                      ),
+                      onTap: assignees.valuesOnLengthBasic(
                         onNoItems: () => null,
                         onOneItem: (item) => () {
                           navigateToProfile(
@@ -560,57 +595,40 @@ class _AboutTab extends StatelessWidget {
                           );
                         },
                       ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              assignees.valuesOnLengthBasic<String>(
-                                onNoItems: () => 'No Assignees',
-                                onOneItem: (item) => 'Assignee',
-                                defaultValue: (items) =>
-                                    '${items.length} Assignees',
-                              ),
-                              style: context.themeData.textTheme.bodyLarge,
-                            ),
+                      child: assignees.valuesOnLengthBasic<Widget>(
+                        onNoItems: () => const Text('None'),
+                        onOneItem: (item) => ProfileTile.login(
+                          avatarUrl: item!.node!.avatarUrl.toString(),
+                          userLogin: item.node!.login,
+                          disableTap: true,
+                        ),
+                        defaultValue: (items) => ImageStack.widgets(
+                          totalCount: items.length,
+                          backgroundColor: context.palette.secondary,
+                          widgetBorderColor: context.palette.secondary,
+                          // extraCountBorderColor: faded2(context),
+                          widgetCount: 3,
+                          extraCountTextStyle: TextStyle(
+                            color: context.palette.faded3,
                           ),
-                          assignees.valuesOnLengthBasic<Widget>(
-                            onNoItems: Container.new,
-                            onOneItem: (item) => ProfileTile.login(
-                              avatarUrl: item!.node!.avatarUrl.toString(),
-                              userLogin: item.node!.login,
-                              disableTap: true,
-                            ),
-                            defaultValue: (items) => ImageStack.widgets(
-                              totalCount: items.length,
-                              backgroundColor: context.palette.secondary,
-                              widgetBorderColor: context.palette.secondary,
-                              // extraCountBorderColor: faded2(context),
-                              widgetCount: 3,
-                              extraCountTextStyle: TextStyle(
-                                color: context.palette.faded3,
-                              ),
-                              widgetBorderWidth: 2,
-                              widgetRadius: 29,
-                              children: items
-                                  .map(
-                                    (e) => ProfileTile.avatar(
-                                      avatarUrl: e!.node!.avatarUrl.toString(),
-                                      padding: EdgeInsets.zero,
-                                      size: 25,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        ],
+                          widgetBorderWidth: 2,
+                          widgetRadius: 29,
+                          children: items
+                              .map(
+                                (e) => ProfileTile.avatar(
+                                  avatarUrl: e!.node!.avatarUrl.toString(),
+                                  padding: EdgeInsets.zero,
+                                  size: 25,
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
-                  ),
-                  tools,
-                ],
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -636,50 +654,13 @@ class _ScreenHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //
-        // const Divider(
-        //   height: 16,
-        // ),
+        const SizedBox(
+          height: 8,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-                child: Row(
-                  children: [
-                    ProfileTile.avatar(
-                      avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
-                      size: 16,
-                      padding: const EdgeInsets.all(8),
-                    ),
-                    Flexible(
-                      child: richText(
-                        [
-                          TextSpan(
-                              text:
-                                  '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  AutoRouter.of(context).push(
-                                      RepositoryScreenRoute(
-                                          repositoryURL: 'repositoryURL'));
-                                }),
-                          TextSpan(
-                            text: ' #${widget.number}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                        defaultStyle: TextStyle(
-                            color: context.palette.faded3, fontSize: 17),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
               EditableTextItem(
                 titleEditingController,
                 builder: (context, newValue) => MarkdownBody(
@@ -766,7 +747,17 @@ class IssuePullState {
   final bool isDraft;
   final dynamic state;
 
-  IconData get icon {
+  Icon icon({
+    double size = 16,
+    Color? color,
+  }) =>
+      Icon(
+        iconData,
+        size: size,
+        color: color ?? this.color,
+      );
+
+  IconData get iconData {
     if (state == IssueState.open) {
       return Octicons.issue_opened;
     } else if (state == IssueState.closed) {

@@ -25,7 +25,7 @@ class CommitDetails extends StatelessWidget {
             height: 24,
           ),
           InfoCard(
-            'Message',
+            title: 'Message',
             child: Row(
               children: [
                 Flexible(
@@ -37,7 +37,7 @@ class CommitDetails extends StatelessWidget {
             ),
           ),
           InfoCard(
-            'Made by',
+            title: 'Made by',
             child: Row(
               children: [
                 Flexible(
@@ -50,7 +50,8 @@ class CommitDetails extends StatelessWidget {
               ],
             ),
           ),
-          InfoCard('Committed',
+          InfoCard(
+              title: 'Committed',
               child: Row(
                 children: [
                   Text(
@@ -60,7 +61,7 @@ class CommitDetails extends StatelessWidget {
                 ],
               )),
           InfoCard(
-            'Parents',
+            title: 'Parents',
             child: commit.data.parents!.isEmpty
                 ? Row(
                     children: const [
@@ -82,7 +83,8 @@ class CommitDetails extends StatelessWidget {
                     },
                   ),
           ),
-          InfoCard('Stats',
+          InfoCard(
+              title: 'Stats',
               child: Row(
                 children: [
                   Column(
@@ -106,7 +108,7 @@ class CommitDetails extends StatelessWidget {
                 ],
               )),
           InfoCard(
-            'Repo',
+            title: 'Repo',
             child: RepoCardLoading(_repoURLFromCommitURL(commit.data.url!),
                 _repoNameFromCommitURL(commit.data.url!)),
           ),

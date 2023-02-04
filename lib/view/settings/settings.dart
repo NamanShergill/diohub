@@ -224,20 +224,23 @@ class _About extends StatelessWidget {
       child: Column(
         children: [
           InfoCard(
-            'Repository',
+            mode: InfoCardMode.expanded,
+            title: 'Repository',
             child: RepoCardLoading(
                 toRepoAPIResource('https://github.com/NamanShergill/diohub'),
                 'diohub'),
           ),
           const InfoCard(
-            'Maintained By',
+            title: 'Maintained By',
+            mode: InfoCardMode.expanded,
             child: ProfileCardLoading(
               'NamanShergill',
               compact: true,
             ),
           ),
           InfoCard(
-            'Bugs or Suggestions?',
+            title: 'Bugs or Suggestions?',
+            mode: InfoCardMode.expanded,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

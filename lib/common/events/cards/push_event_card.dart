@@ -84,7 +84,7 @@ class PushEventCard extends StatelessWidget {
                           horizontal: 4.0, vertical: 8),
                       child: RichText(
                           text: TextSpan(
-                              style: Theme.of(context).textTheme.bodyText2,
+                              style: Theme.of(context).textTheme.bodyMedium,
                               children: [
                             TextSpan(
                                 text:

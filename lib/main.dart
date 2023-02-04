@@ -11,7 +11,6 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/device_display_mode.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
@@ -171,19 +170,19 @@ ThemeData _getTheme(
     ),
     iconTheme: IconThemeData(color: palette.baseElements),
     textTheme: const TextTheme(
-      bodyText1: TextStyle(),
-      bodyText2: TextStyle(),
-      headline1: TextStyle(fontWeight: FontWeight.bold),
-      headline2: TextStyle(fontWeight: FontWeight.bold),
-      headline3: TextStyle(fontWeight: FontWeight.bold),
-      headline4: TextStyle(fontWeight: FontWeight.bold),
-      headline5: TextStyle(fontWeight: FontWeight.bold),
-      headline6: TextStyle(fontWeight: FontWeight.bold),
-      subtitle1: TextStyle(),
-      subtitle2: TextStyle(),
-      caption: TextStyle(),
-      button: TextStyle(),
-      overline: TextStyle(),
+      bodyLarge: TextStyle(),
+      bodyMedium: TextStyle(),
+      displayLarge: TextStyle(fontWeight: FontWeight.bold),
+      displayMedium: TextStyle(fontWeight: FontWeight.bold),
+      displaySmall: TextStyle(fontWeight: FontWeight.bold),
+      headlineMedium: TextStyle(fontWeight: FontWeight.bold),
+      headlineSmall: TextStyle(fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(),
+      titleSmall: TextStyle(),
+      bodySmall: TextStyle(),
+      labelLarge: TextStyle(),
+      labelSmall: TextStyle(),
     ).apply(
       displayColor: palette.baseElements,
       bodyColor: palette.baseElements,

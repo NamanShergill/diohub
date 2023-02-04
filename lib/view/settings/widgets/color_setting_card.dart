@@ -20,11 +20,9 @@ class ColorSettingCardState extends State<ColorSettingCard> {
   Widget build(BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context);
     return InfoCard(
-      'App Theme',
-      headerTrailing: Icon(
-        Icons.more_vert_rounded,
-        color: theme.currentSetting.faded3,
-      ),
+      title: 'App Theme',
+      mode: InfoCardMode.expanded,
+      trailingIcon: const Icon(Icons.more_vert_rounded),
       onTap: () {
         showDHBottomSheet(
           context,
@@ -97,7 +95,6 @@ class ColorSettingCardState extends State<ColorSettingCard> {
       },
       child: Column(
         children: [
-          const Divider(),
           _ColorTab(
             type: 'Accent',
             color: Provider.of<PaletteSettings>(context).currentSetting.accent,

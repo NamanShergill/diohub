@@ -25,11 +25,9 @@ class FontSettingCardState extends State<FontSettingCard> {
   @override
   Widget build(BuildContext context) {
     return InfoCard(
-      'App Font',
-      headerTrailing: Icon(
-        LineIcons.edit,
-        color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
-      ),
+      title: 'App Font',
+      mode: InfoCardMode.expanded,
+      trailingIcon: const Icon(LineIcons.edit),
       onTap: () {
         showDialog(
           context: context,
@@ -82,7 +80,6 @@ class FontSettingCardState extends State<FontSettingCard> {
       },
       child: Column(
         children: [
-          const Divider(),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(

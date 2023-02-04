@@ -18,7 +18,7 @@ class Events extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _user = Provider.of<CurrentUserProvider>(context);
+    final user = Provider.of<CurrentUserProvider>(context);
     return InfiniteScrollWrapper<EventsModel>(
       topSpacing: 24,
       separatorBuilder: (context, index) => const Divider(
@@ -55,7 +55,7 @@ class Events extends StatelessWidget {
           return EventsService.getUserEvents(specificUser,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         } else if (privateEvents) {
-          return EventsService.getReceivedEvents(_user.data.login,
+          return EventsService.getReceivedEvents(user.data.login,
               page: pageNumber, perPage: pageSize, refresh: refresh);
         } else {
           return EventsService.getPublicEvents(
