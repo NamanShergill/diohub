@@ -51,6 +51,14 @@ class _IssueScreenState extends State<IssueScreen>
       createdAt: data.createdAt,
       createdBy: data.author,
       apiWrapperController: widget.apiWrapperController,
+      participantsInfo: ParticipantsInfo(
+        count: data.participants.totalCount,
+        avatarURLs: data.participants.nodes!
+            .map(
+              (e) => e!.avatarUrl.toString(),
+            )
+            .toList(),
+      ),
     );
   }
 

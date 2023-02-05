@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/settings/font.dart';
@@ -26,14 +27,14 @@ void main() async {
   InternetConnectivity.networkStatusService();
 
   await Future.wait([
-    setupAppCache(),
+    BaseAPIHandler.setupDioAPICache(),
     setUpSharedPrefs(),
     setHighRefreshRate(),
   ]);
 
   final initLink = await initUniLink();
   uniLinkStream();
-  final auth = await AuthService.isAuthenticated;
+  final auth = await AuthRepository().isAuthenticated;
   runApp(
     MyApp(
       initLink,

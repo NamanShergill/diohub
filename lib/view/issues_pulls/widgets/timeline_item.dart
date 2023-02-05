@@ -305,7 +305,6 @@ class GetTimelineItem extends StatelessWidget {
                       color: Provider.of<PaletteSettings>(context)
                           .currentSetting
                           .primary,
-                      listenToLoadingController: false,
                       trailingIcon: const Icon(Icons.arrow_right_rounded),
                     )
                   : null,

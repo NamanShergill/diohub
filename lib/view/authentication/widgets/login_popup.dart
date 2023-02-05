@@ -25,7 +25,6 @@ class _LoginPopupState extends State<LoginPopup> {
     return ScaleExpandedSection(
       child: StringButton(
         title: 'Login with GitHub',
-        listenToLoadingController: true,
         loading: loading,
         leadingIcon: Icon(
           Octicons.mark_github,
@@ -43,16 +42,19 @@ class _LoginPopupState extends State<LoginPopup> {
                 children: [
                   StringButton(
                       color: theme.secondary,
-                      listenToLoadingController: false,
                       onTap: () async {
                         Navigator.pop(context);
                         try {
                           setState(() {
                             loading = true;
                           });
-                          await AuthService.oauth2().then((value) =>
-                              BlocProvider.of<AuthenticationBloc>(context)
-                                  .add(AuthSuccessful(value)));
+                          await AuthRepository().oauth2().then(
+                                (value) =>
+                                    BlocProvider.of<AuthenticationBloc>(context)
+                                        .add(
+                                  AuthSuccessful(value),
+                                ),
+                              );
                         } catch (e) {
                           BlocProvider.of<AuthenticationBloc>(context)
                               .add(AuthError(e.toString()));
@@ -68,7 +70,6 @@ class _LoginPopupState extends State<LoginPopup> {
                   ),
                   StringButton(
                       color: theme.secondary,
-                      listenToLoadingController: false,
                       onTap: () {
                         Navigator.pop(context);
                         BlocProvider.of<AuthenticationBloc>(context)

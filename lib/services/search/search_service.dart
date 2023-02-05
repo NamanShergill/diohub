@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
@@ -9,14 +8,16 @@ import 'package:dio_hub/models/search/search_users_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 
 class SearchService {
+  static final RESTHandler _restHandler = RESTHandler();
+  static final GraphqlHandler _gqlHandler = GraphqlHandler();
+
   static Future<List<UserInfoModel>> searchUsers(String query,
       {String? sort,
       bool? ascending = false,
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response = await request(cacheOptions: CacheManager.search(refresh: refresh))
-        .get(
+    final response = await _restHandler.get(
       '/search/users',
       queryParameters: {
         'q': query,
@@ -25,6 +26,7 @@ class SearchService {
         'per_page': perPage,
         'page': page,
       },
+      refreshCache: refresh,
     );
     return SearchUsersModel.fromJson(response.data).items!;
   }
@@ -35,9 +37,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response = await
-        request(cacheOptions: CacheManager.search(refresh: refresh))
-        .get(
+    final response = await _restHandler.get(
       '/search/repositories',
       queryParameters: {
         'q': query,
@@ -46,6 +46,7 @@ class SearchService {
         'per_page': perPage,
         'page': page,
       },
+      refreshCache: refresh,
     );
     return SearchReposModel.fromJson(response.data).items!;
   }
@@ -56,9 +57,7 @@ class SearchService {
       int? perPage,
       int? page,
       bool refresh = false}) async {
-    final response = await
-        request(cacheOptions: CacheManager.search(refresh: refresh))
-        .get(
+    final response = await _restHandler.get(
       '/search/issues',
       queryParameters: {
         'q': query,
@@ -67,6 +66,7 @@ class SearchService {
         'per_page': perPage,
         'page': page,
       },
+      refreshCache: refresh,
     );
     return SearchIssuesModel.fromJson(response.data).items!;
   }
@@ -83,10 +83,10 @@ class SearchService {
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
       searchMentionUsers(String query, String type, {String? cursor}) async {
     final q = '$query${' type:$type'}';
-    final res = await gqlRequest(
-        SearchMentionUsersQuery(
-            variables: SearchMentionUsersArguments(query: q, after: cursor)),
-        cacheOptions: CacheManager.defaultGQLCache());
+    final res = await _gqlHandler.query(
+      SearchMentionUsersQuery(
+          variables: SearchMentionUsersArguments(query: q, after: cursor)),
+    );
     final userEdges =
         SearchMentionUsers$Query.fromJson(res.data!).search.edges!;
     return userEdges;

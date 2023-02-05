@@ -235,7 +235,6 @@ class __IssueButtonState extends State<_IssueButton> {
   @override
   Widget build(BuildContext context) {
     return Button(
-      listenToLoadingController: false,
       loading: loading,
       onTap: () async {
         showDialog(

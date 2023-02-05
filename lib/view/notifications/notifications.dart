@@ -135,7 +135,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                           _controller.refresh();
                         },
                         enabled: !loadingButton,
-                        listenToLoadingController: false,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .secondary,
@@ -161,7 +160,6 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 24),
                         onTap: showFilterSheet,
-                        listenToLoadingController: false,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .secondary,
@@ -193,10 +191,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                   topSpacing: 16,
                   future: (pageNumber, pageSize, refresh, _) {
                     return NotificationsService.getNotifications(
-                        page: pageNumber,
-                        perPage: pageSize,
-                        refresh: refresh,
-                        filters: apiFilters);
+                      page: pageNumber,
+                      perPage: pageSize,
+                      filters: apiFilters,
+                    );
                   },
                   filterFn: (list) {
                     final filtered = <NotificationModel>[];

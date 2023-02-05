@@ -119,7 +119,6 @@ class PRReviewScreen extends StatelessWidget {
                             color: Provider.of<PaletteSettings>(context)
                                 .currentSetting
                                 .primary,
-                            listenToLoadingController: false,
                             stretch: false,
                             child: const Icon(Icons.reply),
                           ),
@@ -206,7 +205,6 @@ class PRReviewScreen extends StatelessWidget {
                                     child: StringButton(
                                       onTap: null,
                                       loading: true,
-                                      listenToLoadingController: false,
                                       color:
                                           Provider.of<PaletteSettings>(context)
                                               .currentSetting
@@ -317,7 +315,6 @@ class PRReviewScreen extends StatelessWidget {
             ),
           );
         },
-        listenToLoadingController: false,
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         title:
             '${data.node!.comments.totalCount > 1 ? (data.node!.comments.totalCount - 1).toString() : 'No'} Replies',

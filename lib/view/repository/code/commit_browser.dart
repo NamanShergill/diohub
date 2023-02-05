@@ -56,7 +56,6 @@ class _CommitBrowserState extends State<CommitBrowser> {
           Visibility(
               visible: isLocked!,
               child: Button(
-                listenToLoadingController: false,
                 onTap: () {
                   setState(() {
                     isLocked = false;

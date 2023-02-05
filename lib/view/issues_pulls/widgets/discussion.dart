@@ -89,7 +89,6 @@ class _DiscussionState extends State<Discussion> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
-                  listenToLoadingController: false,
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
                       .secondary,
@@ -132,7 +131,6 @@ class _DiscussionState extends State<Discussion> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Button(
-                  listenToLoadingController: false,
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
                       .secondary,

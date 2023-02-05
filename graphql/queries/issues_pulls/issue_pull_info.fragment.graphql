@@ -1,10 +1,17 @@
 fragment issueInfo on Issue{
+    id
     activeLockReason
     assignees(first: 5){
         ...assigneeInfo
     }
     author{
         ...actor
+    }
+    participants(first: 5){
+        totalCount
+        nodes {
+            avatarUrl
+        }
     }
     authorAssociation
     bodyHTML
@@ -23,7 +30,6 @@ fragment issueInfo on Issue{
     labels(first: 100){
         nodes{
             ...label
-
         }
     }
     locked
@@ -45,7 +51,7 @@ fragment issueInfo on Issue{
     viewerCanUpdate
 }
 
-fragment  pullInfo on PullRequest{
+fragment pullInfo on PullRequest{
     activeLockReason
     assignees(first: 5){
         ...assigneeInfo

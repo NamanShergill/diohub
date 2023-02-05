@@ -289,7 +289,7 @@ class AppRouter extends _i15.RootStackRouter {
 class AuthScreenRoute extends _i15.PageRouteInfo<AuthScreenRouteArgs> {
   AuthScreenRoute({
     _i16.Key? key,
-    void Function()? onAuthenticated,
+    dynamic onAuthenticated,
   }) : super(
           AuthScreenRoute.name,
           path: '/auth-screen',
@@ -310,7 +310,7 @@ class AuthScreenRouteArgs {
 
   final _i16.Key? key;
 
-  final void Function()? onAuthenticated;
+  final dynamic onAuthenticated;
 
   @override
   String toString() {

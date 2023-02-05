@@ -23,11 +23,13 @@ class AuthenticationBloc
     on<LogOut>(_logOut);
   }
 
+  final AuthRepository authRepository = AuthRepository();
+
   void _requestDeviceCode(
       RequestDeviceCode event, Emitter<AuthenticationState> emit) async {
     // Get device code to initiate authentication.
     try {
-      final response = await AuthService.getDeviceToken();
+      final response = await authRepository.getDeviceToken();
       // ['device_code'] should not be null.
       if (response.data['device_code'] != null) {
         final data = DeviceCodeModel.fromJson(response.data);
@@ -59,7 +61,7 @@ class AuthenticationBloc
           currentState.deviceCodeModel.deviceCode == deviceCode) {
         try {
           final response =
-              await AuthService.getAccessToken(deviceCode: deviceCode);
+              await authRepository.getAccessToken(deviceCode: deviceCode);
           if (response.data['access_token'] != null) {
             // Access token received. State is set to authenticated. Function
             // can stop executing now.
@@ -85,7 +87,7 @@ class AuthenticationBloc
 
   void _authSuccessful(
       AuthSuccessful event, Emitter<AuthenticationState> emit) {
-    AuthService.storeAccessToken(event.accessToken);
+    authRepository.storeAccessToken(event.accessToken);
     emit(AuthenticationSuccessful());
   }
 
@@ -94,7 +96,7 @@ class AuthenticationBloc
   }
 
   void _logOut(LogOut event, Emitter<AuthenticationState> emit) {
-    AuthService.logOut();
+    authRepository.logOut();
     emit(AuthenticationUnauthenticated());
   }
 
