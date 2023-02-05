@@ -66,7 +66,6 @@ class _CodeBrowserState extends State<CodeBrowser>
                       color: Provider.of<PaletteSettings>(context)
                           .currentSetting
                           .primary,
-                      listenToLoadingController: false,
                       onTap: value.status == Status.loaded
                           ? () {
                               showCommitHistory(
@@ -207,7 +206,6 @@ class _CodeBrowserState extends State<CodeBrowser>
         child: Column(
           children: [
             Button(
-              listenToLoadingController: false,
               padding: const EdgeInsets.all(8),
               onTap: value.status == Status.loaded
                   ? () {

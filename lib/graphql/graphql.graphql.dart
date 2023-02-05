@@ -323,10 +323,12 @@ mixin PullRequestReviewCommentMixin {
   late PullRequestReviewCommentMixin$Repository repository;
 }
 mixin IssueInfoMixin {
+  late String id;
   @JsonKey(unknownEnumValue: LockReason.artemisUnknown)
   LockReason? activeLockReason;
   late IssueInfoMixin$Assignees assignees;
   IssueInfoMixin$Author? author;
+  late IssueInfoMixin$Participants participants;
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
   late CommentAuthorAssociation authorAssociation;
   late String bodyHTML;
@@ -4977,6 +4979,122 @@ class CheckPendingViewerReviews$Query extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetParticipants$Query$Node$Issue$Participants$Edges$Node
+    extends JsonSerializable with EquatableMixin, ActorMixin {
+  GetParticipants$Query$Node$Issue$Participants$Edges$Node();
+
+  factory GetParticipants$Query$Node$Issue$Participants$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetParticipants$Query$Node$Issue$Participants$Edges
+    extends JsonSerializable with EquatableMixin {
+  GetParticipants$Query$Node$Issue$Participants$Edges();
+
+  factory GetParticipants$Query$Node$Issue$Participants$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetParticipants$Query$Node$Issue$Participants$EdgesFromJson(json);
+
+  late String cursor;
+
+  GetParticipants$Query$Node$Issue$Participants$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetParticipants$Query$Node$Issue$Participants$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetParticipants$Query$Node$Issue$Participants extends JsonSerializable
+    with EquatableMixin {
+  GetParticipants$Query$Node$Issue$Participants();
+
+  factory GetParticipants$Query$Node$Issue$Participants.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetParticipants$Query$Node$Issue$ParticipantsFromJson(json);
+
+  List<GetParticipants$Query$Node$Issue$Participants$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetParticipants$Query$Node$Issue$ParticipantsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetParticipants$Query$Node$Issue extends GetParticipants$Query$Node
+    with EquatableMixin {
+  GetParticipants$Query$Node$Issue();
+
+  factory GetParticipants$Query$Node$Issue.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetParticipants$Query$Node$IssueFromJson(json);
+
+  late GetParticipants$Query$Node$Issue$Participants participants;
+
+  @override
+  List<Object?> get props => [participants];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetParticipants$Query$Node$IssueToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetParticipants$Query$Node extends JsonSerializable with EquatableMixin {
+  GetParticipants$Query$Node();
+
+  factory GetParticipants$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Issue':
+        return GetParticipants$Query$Node$Issue.fromJson(json);
+      default:
+    }
+    return _$GetParticipants$Query$NodeFromJson(json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Issue':
+        return (this as GetParticipants$Query$Node$Issue).toJson();
+      default:
+    }
+    return _$GetParticipants$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetParticipants$Query extends JsonSerializable with EquatableMixin {
+  GetParticipants$Query();
+
+  factory GetParticipants$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetParticipants$QueryFromJson(json);
+
+  GetParticipants$Query$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() => _$GetParticipants$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class FetchReview$Query$Node$PullRequestReviewComment$Author
     extends JsonSerializable with EquatableMixin, ActorMixin {
   FetchReview$Query$Node$PullRequestReviewComment$Author();
@@ -5073,9 +5191,11 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
 
   @override
   List<Object?> get props => [
+        id,
         activeLockReason,
         assignees,
         author,
+        participants,
         authorAssociation,
         bodyHTML,
         body,
@@ -5253,6 +5373,41 @@ class IssueInfoMixin$Author extends JsonSerializable
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$AuthorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Participants$Nodes extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$Participants$Nodes();
+
+  factory IssueInfoMixin$Participants$Nodes.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$Participants$NodesFromJson(json);
+
+  late Uri avatarUrl;
+
+  @override
+  List<Object?> get props => [avatarUrl];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$Participants$NodesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Participants extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$Participants();
+
+  factory IssueInfoMixin$Participants.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$ParticipantsFromJson(json);
+
+  late int totalCount;
+
+  List<IssueInfoMixin$Participants$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [totalCount, nodes];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$ParticipantsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -13219,6 +13374,173 @@ class CheckPendingViewerReviewsQuery extends GraphQLQuery<
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetParticipantsArguments extends JsonSerializable with EquatableMixin {
+  GetParticipantsArguments({
+    required this.id,
+    this.after,
+  });
+
+  @override
+  factory GetParticipantsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetParticipantsArgumentsFromJson(json);
+
+  late String id;
+
+  final String? after;
+
+  @override
+  List<Object?> get props => [id, after];
+  @override
+  Map<String, dynamic> toJson() => _$GetParticipantsArgumentsToJson(this);
+}
+
+final GET_PARTICIPANTS_QUERY_DOCUMENT_OPERATION_NAME = 'getParticipants';
+final GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getParticipants'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'after')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'node'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'id'),
+            value: VariableNode(name: NameNode(value: 'id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          InlineFragmentNode(
+            typeCondition: TypeConditionNode(
+                on: NamedTypeNode(
+              name: NameNode(value: 'Issue'),
+              isNonNull: false,
+            )),
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'participants'),
+                alias: null,
+                arguments: [
+                  ArgumentNode(
+                    name: NameNode(value: 'after'),
+                    value: VariableNode(name: NameNode(value: 'after')),
+                  )
+                ],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'edges'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
+                      FieldNode(
+                        name: NameNode(value: 'cursor'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'node'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FragmentSpreadNode(
+                            name: NameNode(value: 'actor'),
+                            directives: [],
+                          )
+                        ]),
+                      ),
+                    ]),
+                  )
+                ]),
+              )
+            ]),
+          ),
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'actor'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Actor'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'avatarUrl'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'login'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetParticipantsQuery
+    extends GraphQLQuery<GetParticipants$Query, GetParticipantsArguments> {
+  GetParticipantsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_PARTICIPANTS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_PARTICIPANTS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetParticipantsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetParticipants$Query parse(Map<String, dynamic> json) =>
+      GetParticipants$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
 class FetchReviewArguments extends JsonSerializable with EquatableMixin {
   FetchReviewArguments({required this.id});
 
@@ -13501,6 +13823,13 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
     directives: [],
     selectionSet: SelectionSetNode(selections: [
       FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
         name: NameNode(value: 'activeLockReason'),
         alias: null,
         arguments: [],
@@ -13534,6 +13863,41 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
             name: NameNode(value: 'actor'),
             directives: [],
           )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'participants'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '5'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'nodes'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'avatarUrl'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          ),
         ]),
       ),
       FieldNode(

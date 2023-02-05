@@ -1,13 +1,11 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/controller/button/button_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
   const Button(
-      {this.listenToLoadingController = false,
-      required this.onTap,
+      {required this.onTap,
       required this.child,
       this.enabled = true,
       this.trailingIcon,
@@ -21,7 +19,6 @@ class Button extends StatefulWidget {
       this.loadingWidget,
       Key? key})
       : super(key: key);
-  final bool listenToLoadingController;
   final VoidCallback? onTap;
   final Color? color;
   final bool enabled;
@@ -40,40 +37,6 @@ class Button extends StatefulWidget {
 }
 
 class _ButtonState extends State<Button> {
-  bool loading = false;
-  @override
-  void initState() {
-    if (widget.listenToLoadingController) {
-      buttonStream.listen((onData) {
-        if (mounted) {
-          setState(() {
-            if (onData != null) {
-              loading = onData;
-            } else {
-              loading = false;
-            }
-          });
-        }
-      });
-    } else {
-      loading = widget.loading;
-    }
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant Button oldWidget) {
-    setState(() {
-      loading = widget.loading;
-    });
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
@@ -86,13 +49,13 @@ class _ButtonState extends State<Button> {
           Provider.of<PaletteSettings>(context).currentSetting.baseElements,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius)),
-      onPressed: widget.enabled && !loading ? widget.onTap : null,
+      onPressed: widget.enabled && !widget.loading ? widget.onTap : null,
       color: widget.color ??
           Provider.of<PaletteSettings>(context).currentSetting.accent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          !loading
+          !widget.loading
               ? Row(
                   mainAxisSize:
                       widget.stretch ? MainAxisSize.max : MainAxisSize.min,
@@ -133,25 +96,23 @@ class _ButtonState extends State<Button> {
 }
 
 class StringButton extends StatelessWidget {
-  const StringButton(
-      {this.listenToLoadingController = false,
-      required this.onTap,
-      required this.title,
-      this.loading = false,
-      this.enabled = true,
-      this.stretch = true,
-      this.trailingIcon,
-      this.color,
-      this.subtitle,
-      this.elevation = 2,
-      this.borderRadius = 10,
-      this.textSize,
-      this.leadingIcon,
-      this.padding = const EdgeInsets.all(16),
-      this.loadingText,
-      Key? key})
-      : super(key: key);
-  final bool listenToLoadingController;
+  const StringButton({
+    required this.onTap,
+    required this.title,
+    this.loading = false,
+    this.enabled = true,
+    this.stretch = true,
+    this.trailingIcon,
+    this.color,
+    this.subtitle,
+    this.elevation = 2,
+    this.borderRadius = 10,
+    this.textSize,
+    this.leadingIcon,
+    this.padding = const EdgeInsets.all(16),
+    this.loadingText,
+    Key? key,
+  }) : super(key: key);
   final VoidCallback? onTap;
   final Color? color;
   final bool enabled;
@@ -182,14 +143,13 @@ class StringButton extends StatelessWidget {
       elevation: elevation,
       loading: loading,
       stretch: stretch,
-      listenToLoadingController: listenToLoadingController,
       child: Column(
         children: [
           Text(
             title!,
             style: Theme.of(context)
                 .textTheme
-                .button!
+                .labelLarge!
                 .copyWith(fontSize: textSize),
           ),
           Visibility(

@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/Dio/cache.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
@@ -9,30 +8,55 @@ import 'package:dio_hub/models/repositories/readme_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 
 class RepositoryServices {
+  RepositoryServices({
+    required this.name,
+    required this.owner,
+  });
+  final String owner;
+  final String name;
+
+  static final GraphqlHandler _gqlHandler =
+      GraphqlHandler(apiLogSettings: APILoggingSettings.comprehensive());
+  static final RESTHandler _restHandler = RESTHandler();
+
+  Future<PinnedIssues$Query$Repository$PinnedIssues> getPinnedIssues() async {
+    final response = await _gqlHandler.query(
+      PinnedIssuesQuery(
+        variables: PinnedIssuesArguments(
+          name: name,
+          owner: owner,
+        ),
+      ),
+    );
+
+    return PinnedIssues$Query.fromJson(response.data!)
+        .repository!
+        .pinnedIssues!;
+  }
+
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository
   static Future<RepositoryModel> fetchRepository(String url,
       {bool refresh = false}) async {
-    final response = await request(
-            applyBaseURL: false,
-            cacheOptions: CacheManager.repositories(refresh: refresh))
-        .get(url);
+    final response = await _restHandler.get(
+      url,
+      refreshCache: refresh,
+    );
     return RepositoryModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
   static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
       {String? branch}) async {
-    final response = await request(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
-        .get('$repoUrl/readme', queryParameters: {'ref': branch});
+    final response =
+        await _restHandler.get('$repoUrl/readme', queryParameters: {
+      'ref': branch,
+    });
     return RepositoryReadmeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
   static Future<BranchModel> fetchBranch(String branchUrl) async {
-    final response = await request(
-            applyBaseURL: false, cacheOptions: CacheManager.defaultCache())
-        .get(branchUrl);
+    final response = await _restHandler.get(branchUrl);
     return BranchModel.fromJson(response.data);
   }
 
@@ -40,17 +64,14 @@ class RepositoryServices {
   static Future<List<RepoBranchListItemModel>> fetchBranchList(
       String repoURL, int pageNumber, int perPage,
       {bool refresh = false}) async {
-    final response = await request(
-            applyBaseURL: false,
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('$repoURL/branches',
-            queryParameters: {'per_page': perPage, 'page': pageNumber});
-    final List unParseData = response.data;
-    final parsedData = <RepoBranchListItemModel>[];
-    for (final item in unParseData) {
-      parsedData.add(RepoBranchListItemModel.fromJson(item));
-    }
-    return parsedData;
+    final response = await _restHandler.get(
+      '$repoURL/branches',
+      queryParameters: {'per_page': perPage, 'page': pageNumber},
+      refreshCache: refresh,
+    );
+    return (response.data as List)
+        .map((e) => RepoBranchListItemModel.fromJson(e))
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-commits
@@ -71,25 +92,23 @@ class RepositoryServices {
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await request(
-            applyBaseURL: false,
-            cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('$repoURL/commits', queryParameters: queryParams);
-    final List unParsedItems = response.data;
-    final parsedItems = <CommitListModel>[];
-    for (final element in unParsedItems) {
-      parsedItems.add(CommitListModel.fromJson(element));
-    }
-    return parsedItems;
+    final response = await _restHandler.get(
+      '$repoURL/commits',
+      queryParameters: queryParams,
+      refreshCache: refresh,
+    );
+    return (response.data as List)
+        .map((e) => CommitListModel.fromJson(e))
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit
   static Future<CommitModel> getCommit(String commitURL,
       {bool refresh = false}) async {
-    final response = await request(
-      applyBaseURL: false,
-      cacheOptions: CacheManager.defaultCache(refresh: refresh),
-    ).get(commitURL);
+    final response = await _restHandler.get(
+      commitURL,
+      refreshCache: refresh,
+    );
     return CommitModel.fromJson(response.data);
   }
 
@@ -117,7 +136,7 @@ class RepositoryServices {
 
   static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
       getIssueTemplates(String name, String owner) async {
-    final res = await gqlRequest(IssueTemplatesQuery(
+    final res = await _gqlHandler.query(IssueTemplatesQuery(
         variables: IssueTemplatesArguments(name: name, owner: owner)));
     return IssueTemplates$Query.fromJson(res.data!).repository!.issueTemplates!;
   }
@@ -125,9 +144,9 @@ class RepositoryServices {
   // Ref: https://docs.github.com/en/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user
   static Future<HasStarred$Query$Repository> isStarred(
       String owner, String name) async {
-    final res = await gqlRequest(
+    final res = await _gqlHandler.query(
       HasStarredQuery(variables: HasStarredArguments(name: name, owner: owner)),
-      cacheOptions: CacheManager.defaultGQLCache(maxAge: Duration.zero),
+      refreshCache: true,
     );
     return HasStarred$Query.fromJson(res.data!).repository!;
   }
@@ -137,8 +156,8 @@ class RepositoryServices {
       {required bool isStarred}) async {
     final endpoint = '/user/starred/$owner/$name';
     final res = isStarred
-        ? await request().delete(endpoint)
-        : await request().put(endpoint);
+        ? await _restHandler.delete(endpoint)
+        : await _restHandler.put(endpoint);
     if (res.statusCode == 204) {
       return !isStarred;
     } else {
@@ -148,20 +167,24 @@ class RepositoryServices {
 
   static Future<HasWatched$Query$Repository> isSubscribed(
       String owner, String name) async {
-    return HasWatched$Query.fromJson((await gqlRequest(HasWatchedQuery(
-                variables: HasWatchedArguments(owner: owner, name: name))))
-            .data!)
-        .repository!;
+    return HasWatched$Query.fromJson(
+      (await _gqlHandler.query(
+        HasWatchedQuery(
+          variables: HasWatchedArguments(owner: owner, name: name),
+        ),
+      ))
+          .data!,
+    ).repository!;
   }
 
   static Future<bool> subscribeToRepo(String owner, String name,
       {required bool isSubscribing, bool ignored = false}) async {
     final res = isSubscribing
-        ? await request().put('/repos/$owner/$name/subscription', data: {
+        ? await _restHandler.put('/repos/$owner/$name/subscription', data: {
             if (ignored) 'ignored': true,
             if (!ignored) 'subscribed': true
           })
-        : await request().delete(
+        : await _restHandler.delete(
             '/repos/$owner/$name/subscription',
           );
     if ((isSubscribing && res.statusCode == 200) ||

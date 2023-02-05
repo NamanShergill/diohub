@@ -15,7 +15,7 @@ class IssueProvider extends BaseDataProvider<IssueInfoMixin> {
   IssueProvider(this.issueInfo);
   final IssueInfoMixin issueInfo;
 
-  late final IssuesService issueRepo = IssuesService(
+  late final IssuesService _issueRepo = IssuesService(
     repo: issueInfo.repository.name,
     user: issueInfo.repository.owner.login,
     number: issueInfo.number,
@@ -38,7 +38,7 @@ class IssueProvider extends BaseDataProvider<IssueInfoMixin> {
 
   Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees(
           {String? after}) =>
-      issueRepo.getAssignees(after: after);
+      _issueRepo.getAssignees(after: after);
 
   @override
   Future<IssueInfoMixin> setInitData({bool isInitialisation = false}) async =>

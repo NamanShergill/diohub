@@ -32,7 +32,6 @@ class ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
     return Button(
-      listenToLoadingController: false,
       stretch: false,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       color: Provider.of<PaletteSettings>(context).currentSetting.secondary,

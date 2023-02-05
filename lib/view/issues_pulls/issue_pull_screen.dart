@@ -142,6 +142,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.viewerCanReact,
     required this.assigneesInfo,
     this.dynamicTabs = const [],
+    required this.participantsInfo,
   }) : super(key: key);
 
   final APIWrapperController apiWrapperController;
@@ -159,6 +160,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final IssuePullState state;
   final String title;
   final bool viewerCanReact;
+  final ParticipantsInfo participantsInfo;
 
   @override
   State<IssuePullInfoTemplate> createState() => _IssuePullInfoTemplateState();
@@ -565,11 +567,10 @@ class _AboutTab extends StatelessWidget {
                           );
                         },
                         defaultValue: (items) => () {
-                          print(
-                              context.issueProvider(listen: false).data.number);
-                          getAssignees(String? cursor) => context
-                              .issueProvider(listen: false)
-                              .getAssignees(after: cursor);
+                          Future<List<AssigneeUserListMixin$Assignees$Edges?>>
+                              getAssignees(String? cursor) => context
+                                  .issueProvider(listen: false)
+                                  .getAssignees(after: cursor);
                           showScrollableBottomSheet(
                             context,
                             headerBuilder: (context, setState) =>
@@ -626,6 +627,58 @@ class _AboutTab extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+              ),
+              InfoCard(
+                title: 'Participants',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ImageStack.widgets(
+                      totalCount: widget.participantsInfo.count,
+                      backgroundColor: context.palette.secondary,
+                      widgetBorderColor: context.palette.secondary,
+                      widgetCount: 3,
+                      extraCountTextStyle: TextStyle(
+                        color: context.palette.faded3,
+                      ),
+                      widgetBorderWidth: 2,
+                      widgetRadius: 29,
+                      children: widget.participantsInfo.avatarURLs
+                          .map(
+                            (e) => ProfileTile.avatar(
+                              avatarUrl: e,
+                              padding: EdgeInsets.zero,
+                              size: 25,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  // showScrollableBottomSheet(
+                  //   context,
+                  //   headerBuilder: (context, setState) =>
+                  //       const BottomSheetHeaderText(
+                  //     headerText: 'Assignees',
+                  //   ),
+                  //   scrollableBodyBuilder:
+                  //       (context, setState, scrollController) =>
+                  //           InfiniteScrollWrapper<
+                  //               AssigneeUserListMixin$Assignees$Edges?>(
+                  //     future: (pageNumber, pageSize, refresh, lastItem) =>
+                  //         getAssignees(lastItem?.cursor),
+                  //     scrollController: scrollController,
+                  //     builder: (context, item, index, refresh) {
+                  //       final node = item!.node!;
+                  //       return ProfileTile.login(
+                  //         avatarUrl: node.avatarUrl.toString(),
+                  //         userLogin: node.login,
+                  //       );
+                  //     },
+                  //   ),
+                  // );
                 },
               ),
             ],
@@ -799,4 +852,13 @@ class IssuePullState {
       throw UnimplementedError();
     }
   }
+}
+
+class ParticipantsInfo {
+  ParticipantsInfo({
+    required this.count,
+    required this.avatarURLs,
+  });
+  final int count;
+  final List<String> avatarURLs;
 }

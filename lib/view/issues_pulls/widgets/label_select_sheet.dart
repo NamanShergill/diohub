@@ -42,7 +42,6 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Button(
-            listenToLoadingController: true,
             color:
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
             onTap: () async {

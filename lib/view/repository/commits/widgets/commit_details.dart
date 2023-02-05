@@ -121,7 +121,6 @@ class CommitDetails extends StatelessWidget {
                       initSHA: commit.data.sha,
                       index: 2));
                 },
-                listenToLoadingController: false,
                 child: const Text('Browse Files')),
           ),
         ],

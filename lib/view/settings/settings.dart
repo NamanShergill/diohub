@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/cache.dart';
+import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/const/app_info.dart';
@@ -164,7 +164,6 @@ class _GeneralSettings extends StatelessWidget {
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
                   .secondary,
-              listenToLoadingController: false,
               onTap: () {
                 showDialog(
                     context: context,
@@ -204,8 +203,7 @@ class _GeneralSettings extends StatelessWidget {
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
                   .secondary,
-              listenToLoadingController: false,
-              onTap: CacheManager.clearCache,
+              onTap: BaseAPIHandler.clearCache,
               title: 'Clear Cache',
             ),
           ),
@@ -288,7 +286,6 @@ class _About extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: StringButton(
-                listenToLoadingController: false,
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .secondary,

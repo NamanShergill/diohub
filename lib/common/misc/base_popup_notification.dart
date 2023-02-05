@@ -40,7 +40,6 @@ class BasePopupNotification extends StatelessWidget {
                 }
               : null,
           title: title,
-          listenToLoadingController: listenToLoadingController,
         ),
         // child: Material(
         //   borderRadius: AppThemeBorderRadius.medBorderRadius,
