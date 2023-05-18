@@ -277,7 +277,7 @@ class SearchFilters {
       data = data.substring(1);
     }
     for (final element in _basicQueries + _sensitiveQueries + _blackList) {
-      if (element.query == query) {
+      if (element.query == data) {
         value = element;
       }
     }
