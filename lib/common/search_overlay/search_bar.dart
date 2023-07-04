@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar(
+class AppSearchBar extends StatefulWidget {
+  const AppSearchBar(
       {this.message,
       String? prompt,
       this.quickOptions,
@@ -43,10 +43,10 @@ class SearchBar extends StatefulWidget {
   final Widget? trailing;
 
   @override
-  _SearchBarState createState() => _SearchBarState();
+  _AppSearchBarState createState() => _AppSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _AppSearchBarState extends State<AppSearchBar> {
   SearchData? searchData;
 
   @override
@@ -110,7 +110,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
-  void didUpdateWidget(SearchBar oldWidget) {
+  void didUpdateWidget(AppSearchBar oldWidget) {
     searchData = widget.searchData;
     super.didUpdateWidget(oldWidget);
   }

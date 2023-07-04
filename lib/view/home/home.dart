@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                 ),
-                child: SearchBar(
+                child: AppSearchBar(
                   updateBarOnChange: false,
                   onSubmit: (data) {
                     search.updateSearchData(data);

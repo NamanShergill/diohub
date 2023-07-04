@@ -2,17 +2,20 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-InputDecoration inputDecoration(
-        {String? labelText,
-        String? hintText,
-        FocusNode? focusNode,
-        IconData? icon,
-        Color? enabledBorderColor,
-        Widget? suffixIcon,
-        required BuildContext context}) =>
+InputDecoration inputDecoration({
+  String? labelText,
+  String? hintText,
+  FocusNode? focusNode,
+  IconData? icon,
+  EdgeInsetsGeometry? contentPadding,
+  Color? enabledBorderColor,
+  Widget? suffixIcon,
+  required BuildContext context,
+}) =>
     InputDecoration(
       labelText: labelText,
       hintText: hintText?.replaceRange(0, 0, ' '),
+      contentPadding: contentPadding,
       suffixIcon: Padding(
         padding: const EdgeInsets.all(16.0),
         child: suffixIcon ??
