@@ -93,7 +93,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     Widget header(BuildContext context, function) {
       return Padding(
         padding: function != null ? EdgeInsets.zero : widget._searchBarPadding,
-        child: SearchBar(
+        child: AppSearchBar(
           heroTag: widget.searchHeroTag != null
               ? widget.searchHeroTag! + (function != null).toString()
               : null,

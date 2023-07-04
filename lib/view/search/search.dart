@@ -56,7 +56,7 @@ class SearchScreenState extends State<SearchScreen>
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SearchBar(
+                    child: AppSearchBar(
                       backgroundColor: Provider.of<PaletteSettings>(context)
                           .currentSetting
                           .primary,

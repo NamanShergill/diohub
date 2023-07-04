@@ -44,7 +44,9 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
   }
 
   void copyCode({bool pop = false}) async {
-    Clipboard.setData(ClipboardData(text: widget.deviceCodeModel.userCode));
+    Clipboard.setData(
+      ClipboardData(text: widget.deviceCodeModel.userCode!),
+    );
     if (pop) {
       Navigator.pop(context);
     } else {

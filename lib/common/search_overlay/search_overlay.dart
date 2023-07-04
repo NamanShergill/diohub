@@ -513,10 +513,11 @@ class _SearchBarState extends State<_SearchBar> {
                     _parseQuery(string);
                   }),
                   decoration: inputDecoration(
-                      hintText: widget.message,
-                      context: context,
-                      labelText: 'Searching For',
-                      focusNode: searchNode),
+                    hintText: widget.message,
+                    context: context,
+                    labelText: 'Searching For',
+                    focusNode: searchNode,
+                  ),
                 ),
               ),
             ),
@@ -910,15 +911,20 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   @override
-  TextSpan build(String data,
-      {TextStyle? textStyle, void Function(dynamic)? onTap}) {
+  TextSpan build(
+    String data, {
+    TextStyle? textStyle,
+    void Function(dynamic)? onTap,
+  }) {
     if (data == '') {
       return const TextSpan(text: '');
     }
     final inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
-      data.splitMapJoin(RegExp(searchFilters.allValidQueriesRegexp.pattern),
-          onMatch: (m) {
+      data.splitMapJoin(
+          RegExp(
+            searchFilters.allValidQueriesRegexp.pattern,
+          ), onMatch: (m) {
         inlineList.add(
           _ValidQuery(m[0]!, controller, textStyle,
                   context: context, onChanged: onChanged)
@@ -1003,9 +1009,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
 }
 
 class _ValidQuery extends SpecialText {
-  _ValidQuery(String startFlag, this.controller, TextStyle? textStyle,
-      {required this.onChanged, required this.context})
-      : super(
+  _ValidQuery(
+    String startFlag,
+    this.controller,
+    TextStyle? textStyle, {
+    required this.onChanged,
+    required this.context,
+  }) : super(
           startFlag,
           '',
           textStyle ?? const TextStyle(),
@@ -1019,7 +1029,6 @@ class _ValidQuery extends SpecialText {
   InlineSpan finishText() {
     return ExtendedWidgetSpan(
       alignment: PlaceholderAlignment.middle,
-      // baseline: TextBaseline.ideographic,
       child: Material(
           borderRadius: smallBorderRadius,
           color: toString().startsWith('-')
