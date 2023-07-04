@@ -38,6 +38,7 @@ class _IssueScreenState extends State<IssueScreen>
     final data = widget.issueInfo;
     return IssuePullInfoTemplate(
       number: data.number,
+      isPinned: data.isPinned ?? false,
       title: data.titleHTML,
       reactionGroups: data.reactionGroups!,
       viewerCanReact: data.viewerCanReact,

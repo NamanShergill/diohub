@@ -1,11 +1,9 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
 
 class AboutUser extends StatelessWidget {
   const AboutUser(this.userInfoModel, {Key? key}) : super(key: key);
@@ -15,14 +13,12 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.bio != null)
           InfoCard(
             title: 'Bio',
-            child: Flexible(child: Text(userInfoModel!.bio!)),
+            child: Text(userInfoModel!.bio!),
           ),
         if (userInfoModel!.twitterUsername != null)
           InfoCard(
             // title: 'Twitter',
-            icon: const Icon(
-              LineIcons.twitter,
-            ),
+            icon: LineIcons.twitter,
             onTap: () {
               linkHandler(context,
                   'https://twitter.com/${userInfoModel!.twitterUsername}');
@@ -35,20 +31,8 @@ class AboutUser extends StatelessWidget {
             onTap: () {
               linkHandler(context, 'mailto:${userInfoModel!.email}');
             },
-            child: Row(
-              children: [
-                Icon(
-                  LineIcons.at,
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .faded3,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(userInfoModel!.email!),
-              ],
-            ),
+            icon: LineIcons.at,
+            child: Text(userInfoModel!.email!),
           ),
         if (userInfoModel!.blog != null && userInfoModel!.blog!.isNotEmpty)
           InfoCard(
@@ -56,45 +40,19 @@ class AboutUser extends StatelessWidget {
             onTap: () {
               linkHandler(context, userInfoModel!.blog);
             },
-            child: Flexible(
-              child: Text(userInfoModel!.blog!),
-            ),
+            child: Text(userInfoModel!.blog!),
           ),
         if (userInfoModel!.company != null)
           InfoCard(
             title: 'Company',
-            child: Row(
-              children: [
-                Icon(
-                  LineIcons.building,
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .faded3,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(userInfoModel!.company!),
-              ],
-            ),
+            icon: LineIcons.building,
+            child: Text(userInfoModel!.company!),
           ),
         if (userInfoModel!.location != null)
           InfoCard(
             title: 'Location',
-            child: Row(
-              children: [
-                Icon(
-                  LineIcons.locationArrow,
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .faded3,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(userInfoModel!.location!),
-              ],
-            ),
+            icon: LineIcons.locationArrow,
+            child: Text(userInfoModel!.location!),
           ),
         if (userInfoModel!.createdAt != null)
           InfoCard(

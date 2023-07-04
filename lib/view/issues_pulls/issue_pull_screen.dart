@@ -143,6 +143,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.assigneesInfo,
     this.dynamicTabs = const [],
     required this.participantsInfo,
+    required this.isPinned,
   }) : super(key: key);
 
   final APIWrapperController apiWrapperController;
@@ -161,6 +162,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final String title;
   final bool viewerCanReact;
   final ParticipantsInfo participantsInfo;
+  final bool isPinned;
 
   @override
   State<IssuePullInfoTemplate> createState() => _IssuePullInfoTemplateState();
@@ -714,6 +716,30 @@ class _ScreenHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
+              if (widget.isPinned)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Octicons.pin,
+                        size: 15,
+                        color: context.palette.faded3,
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'Pinned',
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.palette.faded3,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               EditableTextItem(
                 titleEditingController,
                 builder: (context, newValue) => MarkdownBody(

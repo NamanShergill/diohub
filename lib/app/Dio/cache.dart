@@ -11,7 +11,7 @@ class CacheManager {
       );
 }
 
-const Duration _maxAge = Duration(minutes: 3);
+const Duration _maxAge = Duration(minutes: 2);
 
 class APICache {
   APICache({

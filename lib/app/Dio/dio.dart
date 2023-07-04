@@ -345,8 +345,9 @@ abstract class BaseAPIHandler {
               cache.cacheOptions.policy != CachePolicy.refresh &&
               cache.maxAge != null;
           if (checkCache) {
-            final key = CacheOptions.defaultCacheKeyBuilder(options);
+            final key = cache.cacheOptions.keyBuilder(options);
             final cacheData = await _cacheStore.get(key);
+            print(cacheData);
             if (cacheData != null &&
                 DateTime.now()
                     .isBefore(cacheData.responseDate.add(cache.maxAge!))) {
