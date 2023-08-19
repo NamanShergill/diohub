@@ -155,7 +155,7 @@ class IssuesList extends StatelessWidget {
                         );
                       } else {
                         final repo = context.read<RepositoryProvider>().data;
-                        AutoRouter.of(context).push(NewIssueScreenRoute(
+                        AutoRouter.of(context).push(NewIssueRoute(
                             owner: repo.owner!.login!, repo: repo.name!));
                       }
                     },
@@ -187,7 +187,7 @@ class IssueTemplateCard extends StatelessWidget {
         child: InkWell(
           onTap: () {
             final repo = context.read<RepositoryProvider>().data;
-            AutoRouter.of(context).push(NewIssueScreenRoute(
+            AutoRouter.of(context).push(NewIssueRoute(
                 owner: repo.owner!.login!,
                 repo: repo.name!,
                 template: isBlank ? null : template));

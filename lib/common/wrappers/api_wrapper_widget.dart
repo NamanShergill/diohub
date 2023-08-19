@@ -11,7 +11,7 @@ class APIWrapperController<T> {
 
 typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
-typedef APICall<T> = Future<T> Function(bool refresh);
+typedef APICall<T> = Future<T> Function({required bool refresh});
 
 class APIWrapper<T> extends StatefulWidget {
   const APIWrapper({
@@ -33,10 +33,10 @@ class APIWrapper<T> extends StatefulWidget {
   final bool fadeIntoView;
 
   @override
-  _APIWrapperState<T> createState() => _APIWrapperState();
+  APIWrapperState<T> createState() => APIWrapperState();
 }
 
-class _APIWrapperState<T> extends State<APIWrapper<T>> {
+class APIWrapperState<T> extends State<APIWrapper<T>> {
   late T data;
   bool loading = true;
   Object? error;
@@ -62,7 +62,7 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
     }
     try {
       error = null;
-      data = await widget.apiCall(refresh);
+      data = await widget.apiCall(refresh: refresh);
       if (mounted) {
         setState(() {});
       }
@@ -102,9 +102,9 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
           ? widget.errorBuilder!(context, error)
           // : Text(error!);
           : Builder(builder: (context) {
-              if (error is DioError) {
-                final err = error as DioError;
-                if (err.type == DioErrorType.response) {
+              if (error is DioException) {
+                final err = error as DioException;
+                if (err.type == DioExceptionType.badResponse) {
                   return Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Text(
@@ -112,11 +112,11 @@ class _APIWrapperState<T> extends State<APIWrapper<T>> {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   );
-                } else if (err.type == DioErrorType.other) {
+                } else if (err.type == DioExceptionType.unknown) {
                   return Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Text(
-                      err.message,
+                      err.message ?? 'Something went wrong.',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   );

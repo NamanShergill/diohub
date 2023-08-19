@@ -28,17 +28,18 @@ class BranchSelectSheet extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(
         height: 16,
       ),
-      future: (pageNumber, perPage, refresh, _) {
-        return RepositoryServices.fetchBranchList(repoURL, pageNumber, perPage,
-            refresh: refresh);
+      future: (data) {
+        return RepositoryServices.fetchBranchList(
+            repoURL, data.pageNumber, data.pageSize,
+            refresh: data.refresh);
       },
       scrollController: controller,
-      builder: (context, item, index, refresh) {
+      builder: (data) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Material(
             borderRadius: medBorderRadius,
-            color: item.name == currentBranch
+            color: data.item.name == currentBranch
                 ? Provider.of<PaletteSettings>(context).currentSetting.accent
                 : Provider.of<PaletteSettings>(context)
                     .currentSetting
@@ -46,7 +47,7 @@ class BranchSelectSheet extends StatelessWidget {
             child: InkWell(
               borderRadius: medBorderRadius,
               onTap: () {
-                onSelected!(item.name!);
+                onSelected!(data.item.name!);
                 Navigator.pop(context);
               },
               child: Padding(
@@ -64,9 +65,9 @@ class BranchSelectSheet extends StatelessWidget {
                           ),
                           Flexible(
                             child: Text(
-                              item.name!,
+                              data.item.name!,
                               style: TextStyle(
-                                  fontWeight: item.name == currentBranch
+                                  fontWeight: data.item.name == currentBranch
                                       ? FontWeight.bold
                                       : FontWeight.normal),
                             ),
@@ -75,7 +76,7 @@ class BranchSelectSheet extends StatelessWidget {
                       ),
                     ),
                     Visibility(
-                      visible: defaultBranch == item.name,
+                      visible: defaultBranch == data.item.name,
                       replacement: Container(),
                       child: const Text(
                         'Default',

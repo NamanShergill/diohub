@@ -27,10 +27,10 @@ class RepositoryCard extends StatefulWidget {
   final EdgeInsets padding;
 
   @override
-  _RepositoryCardState createState() => _RepositoryCardState();
+  RepositoryCardState createState() => RepositoryCardState();
 }
 
-class _RepositoryCardState extends State<RepositoryCard> {
+class RepositoryCardState extends State<RepositoryCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,7 +44,7 @@ class _RepositoryCardState extends State<RepositoryCard> {
         child: InkWell(
           borderRadius: medBorderRadius,
           onTap: () {
-            AutoRouter.of(context).push(RepositoryScreenRoute(
+            AutoRouter.of(context).push(RepositoryRoute(
               repositoryURL: widget.repo!.url!,
               branch: widget.branch,
             ));
@@ -237,7 +237,7 @@ class RepoCardLoading extends StatelessWidget {
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<RepositoryModel>(
-          apiCall: (refresh) =>
+          apiCall: ({required refresh}) =>
               RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
           loadingBuilder: (context) {
             return Padding(

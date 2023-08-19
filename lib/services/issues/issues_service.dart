@@ -137,8 +137,8 @@ class IssuesService {
       refreshCache: refresh,
     );
 
-    return (response.data as List)
-        .map((e) => IssueEventModel.fromJson(e))
+    return (response.data as List<Map<String, dynamic>>)
+        .map(IssueEventModel.fromJson)
         .toList();
   }
 

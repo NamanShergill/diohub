@@ -95,8 +95,12 @@ class EditWidget<T> extends StatefulWidget {
     this.buttonColors,
   }) : super(key: key);
   final EditingController editingController;
-  final Widget Function(BuildContext context, T? newValue, Widget tools,
-      bool currentlyEditing, EditingState currentState) builder;
+  final Widget Function(
+      {required BuildContext context,
+      required T? newValue,
+      required Widget tools,
+      required bool currentlyEditing,
+      required EditingState currentState}) builder;
   final Axis toolsAxis;
   final Color? buttonColors;
   @override
@@ -188,20 +192,21 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
           ),
         ];
         return widget.builder(
-            context,
-            widget.editingController.newValue,
-            ScaleSwitch(
-              visible: editing == EditingState.editMode,
-              child: widget.toolsAxis == Axis.horizontal
-                  ? Row(
-                      children: items,
-                    )
-                  : Column(
-                      children: items,
-                    ),
-            ),
-            widget.editingController.currentlyEditing,
-            editing);
+          context: context,
+          newValue: widget.editingController.newValue,
+          tools: ScaleSwitch(
+            visible: editing == EditingState.editMode,
+            child: widget.toolsAxis == Axis.horizontal
+                ? Row(
+                    children: items,
+                  )
+                : Column(
+                    children: items,
+                  ),
+          ),
+          currentlyEditing: widget.editingController.currentlyEditing,
+          currentState: editing,
+        );
       },
     );
   }
@@ -250,6 +255,7 @@ class EditingProvider extends ChangeNotifier {
     try {
       await onEdit();
     } catch (e) {
+      rethrow;
     } finally {
       viewMode();
     }

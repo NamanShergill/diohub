@@ -14,11 +14,11 @@ class APIError extends StatelessWidget {
         children: [
           Text(
             statusCode.toString(),
-            style: Theme.of(context).textTheme.headline2,
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           Text(
             '$message.',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.2,

@@ -37,8 +37,8 @@ class EventsService {
       queryParameters: parameters,
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e)=>EventsModel.fromJson(e))
+    return (response.data as List<Map<String, dynamic>>)
+        .map(EventsModel.fromJson)
         .toList();
   }
 
@@ -54,8 +54,8 @@ class EventsService {
       queryParameters: parameters,
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e)=>EventsModel.fromJson(e))
+    return (response.data as List<Map<String, dynamic>>)
+        .map(EventsModel.fromJson)
         .toList();
   }
 }

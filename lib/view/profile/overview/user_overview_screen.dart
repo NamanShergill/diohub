@@ -32,8 +32,9 @@ class UserOverviewScreen extends StatelessWidget {
                   mode: InfoCardMode.expanded,
                   child: APIWrapper<
                       List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
-                    apiCall: (refresh) => UserInfoService.getUserPinnedRepos(
-                        userInfoModel!.login!),
+                    apiCall: ({required refresh}) =>
+                        UserInfoService.getUserPinnedRepos(
+                            userInfoModel!.login!),
                     responseBuilder: (context, data) {
                       return data.isEmpty
                           ? const Text('No Pinned items.')

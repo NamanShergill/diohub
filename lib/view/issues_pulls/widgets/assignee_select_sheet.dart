@@ -23,10 +23,10 @@ class AssigneeSelectSheet extends StatefulWidget {
   final ValueChanged<List<UserInfoModel>?>? newAssignees;
 
   @override
-  _AssigneeSelectSheetState createState() => _AssigneeSelectSheetState();
+  AssigneeSelectSheetState createState() => AssigneeSelectSheetState();
 }
 
-class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
+class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
   late List<String?> assignees;
 
   @override
@@ -72,9 +72,13 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
             onTap: () async {
               try {
                 final newAssignees = await updateAssignees();
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
                 widget.newAssignees!(newAssignees);
-              } catch (e) {}
+              } catch (e) {
+                rethrow;
+              }
             },
             child: const Text('Apply'),
           ),
@@ -106,32 +110,35 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
         const Divider(),
         Expanded(
           child: InfiniteScrollWrapper<UserInfoModel>(
-            future: (pageNumber, pageSize, refresh, _) {
+            future: (data) {
               return IssuesService.listAssignees(
-                  widget.repoURL, pageNumber, pageSize);
+                widget.repoURL,
+                data.pageNumber,
+                data.pageSize,
+              );
             },
             separatorBuilder: (context, index) => const Divider(
               height: 8,
             ),
             scrollController: widget.controller,
             listEndIndicator: false,
-            builder: (context, item, index, refresh) {
+            builder: (data) {
               return CheckboxListTile(
                 activeColor:
                     Provider.of<PaletteSettings>(context).currentSetting.accent,
-                value: assignees.contains(item.login),
+                value: assignees.contains(data.item.login),
                 onChanged: (value) {
                   setState(() {
-                    if (assignees.contains(item.login)) {
-                      assignees.remove(item.login);
+                    if (assignees.contains(data.item.login)) {
+                      assignees.remove(data.item.login);
                     } else {
-                      assignees.add(item.login);
+                      assignees.add(data.item.login);
                     }
                   });
                 },
                 title: ProfileTile.login(
-                  avatarUrl: item.avatarUrl,
-                  userLogin: item.login,
+                  avatarUrl: data.item.avatarUrl,
+                  userLogin: data.item.login,
                   padding: EdgeInsets.zero,
                 ),
               );

@@ -125,7 +125,7 @@ class IssueListCard extends StatelessWidget {
                   item.title!,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6!
+                      .titleLarge!
                       .copyWith(fontSize: 14),
                 ),
                 if (!compact)
@@ -208,7 +208,7 @@ class IssueLoadingCard extends StatelessWidget {
             Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<IssueModel>(
-          apiCall: (refresh) =>
+          apiCall: ({required refresh}) =>
               IssuesService.getIssueInfo(fullUrl: url, refresh: refresh),
           loadingBuilder: (context) {
             return const SizedBox(

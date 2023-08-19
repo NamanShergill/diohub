@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/Dio/dio.dart';
 import 'package:dio_hub/app/Dio/response_handler.dart';
 import 'package:dio_hub/app/global.dart';
@@ -32,21 +33,19 @@ void main() async {
     setHighRefreshRate(),
   ]);
 
-  final initLink = await initUniLink();
+  // final initLink = await initUniLink();
   uniLinkStream();
   final auth = await AuthRepository().isAuthenticated;
   runApp(
     MyApp(
-      initLink,
       authenticated: auth,
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp(this.initDeepLink, {Key? key, required this.authenticated})
-      : super(key: key);
-  final String? initDeepLink;
+  const MyApp({Key? key, required this.authenticated}) : super(key: key);
+  // final String? initDeepLink;
   final bool authenticated;
 
   @override
@@ -81,10 +80,8 @@ class MyApp extends StatelessWidget {
               ),
             ],
             builder: (context, child) {
-              return Portal(
-                child: RootApp(
-                  initDeepLink: initDeepLink,
-                ),
+              return const Portal(
+                child: RootApp(),
               );
             },
           );
@@ -95,8 +92,8 @@ class MyApp extends StatelessWidget {
 }
 
 class RootApp extends StatefulWidget {
-  const RootApp({Key? key, this.initDeepLink}) : super(key: key);
-  final String? initDeepLink;
+  const RootApp({Key? key}) : super(key: key);
+  // final String? initDeepLink;
 
   @override
   State<RootApp> createState() => _RootAppState();
@@ -114,9 +111,13 @@ class _RootAppState extends State<RootApp> {
     return MaterialApp.router(
       theme: _getTheme(context, brightness: Brightness.light),
       darkTheme: _getTheme(context, brightness: Brightness.dark),
-      routerDelegate: customRouter.delegate(initialRoutes: [
-        LandingLoadingScreenRoute(initLink: widget.initDeepLink)
-      ]),
+      routerDelegate: customRouter.delegate(
+        deepLinkBuilder: (deepLink) => DeepLink([
+          LandingLoadingRoute(
+            initLink: deepLink.uri,
+          )
+        ]),
+      ),
       routeInformationParser: customRouter.defaultRouteParser(),
     );
   }
@@ -152,11 +153,11 @@ ThemeData _getTheme(
           Provider.of<PaletteSettings>(context).currentSetting.faded3,
       // unselectedLabelStyle: Theme.of(context)
       //     .textTheme
-      //     .headline6!
+      //     .titleLarge!
       //     .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
       // labelStyle: Theme.of(context)
       //     .textTheme
-      //     .headline6!
+      //     .titleLarge!
       //     .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
       labelPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
     ),
@@ -201,8 +202,6 @@ ThemeData _getTheme(
     scaffoldBackgroundColor: palette.primary,
     primaryIconTheme: IconThemeData(color: palette.baseElements),
     dividerColor: Colors.grey.withOpacity(0.7),
-    // brightness: Brightness.dark,
-    backgroundColor: palette.primary,
     buttonTheme: ButtonThemeData(
       textTheme: ButtonTextTheme.primary,
       padding: EdgeInsets.zero,
@@ -212,8 +211,6 @@ ThemeData _getTheme(
     dividerTheme:
         DividerThemeData(color: palette.baseElements, thickness: 0.04),
     fontFamily: Provider.of<FontSettings>(context).currentSetting,
-    colorScheme: ColorScheme.fromSwatch(brightness: brightness)
-        .copyWith(secondary: palette.accent),
     cardTheme: CardTheme(
       color: palette.secondary,
       shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
@@ -235,6 +232,9 @@ ThemeData _getTheme(
         borderRadius: medBorderRadius,
       ),
     ),
+    colorScheme: ColorScheme.fromSwatch(brightness: brightness)
+        .copyWith(secondary: palette.accent)
+        .copyWith(background: palette.primary),
   );
 }
 

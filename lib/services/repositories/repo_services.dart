@@ -6,6 +6,7 @@ import 'package:dio_hub/models/repositories/branch_model.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/models/repositories/readme_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 
 class RepositoryServices {
   RepositoryServices({
@@ -69,8 +70,8 @@ class RepositoryServices {
       queryParameters: {'per_page': perPage, 'page': pageNumber},
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e) => RepoBranchListItemModel.fromJson(e))
+    return listTypeCast<JsonMap>(response.data)
+        .map(RepoBranchListItemModel.fromJson)
         .toList();
   }
 
@@ -97,8 +98,8 @@ class RepositoryServices {
       queryParameters: queryParams,
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e) => CommitListModel.fromJson(e))
+    return (response.data as List<Map<String, dynamic>>)
+        .map(CommitListModel.fromJson)
         .toList();
   }
 

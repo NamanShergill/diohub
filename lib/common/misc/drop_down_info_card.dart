@@ -20,10 +20,10 @@ class DropDownInfoCard extends StatefulWidget {
   final bool enabled;
 
   @override
-  _DropDownInfoCardState createState() => _DropDownInfoCardState();
+  DropDownInfoCardState createState() => DropDownInfoCardState();
 }
 
-class _DropDownInfoCardState extends State<DropDownInfoCard>
+class DropDownInfoCardState extends State<DropDownInfoCard>
     with SingleTickerProviderStateMixin {
   late bool expand;
   late AnimationController _controller;
@@ -88,13 +88,14 @@ class _DropDownInfoCardState extends State<DropDownInfoCard>
                           ),
                       ],
                     ),
-                    if(widget.enabled)RotationTransition(
-                      turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.arrow_drop_down_rounded),
+                    if (widget.enabled)
+                      RotationTransition(
+                        turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(Icons.arrow_drop_down_rounded),
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 SizeExpandedSection(expand: expand, child: widget.child),

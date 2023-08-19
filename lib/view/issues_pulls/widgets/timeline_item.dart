@@ -274,7 +274,7 @@ class GetTimelineItem extends StatelessWidget {
               textContent: 'Made a commit.',
             );
           }
-          // Todo: Missing PULL_REQUEST_COMMIT_COMMENT_THREAD case!
+          // TODO(namanshergill): Missing PULL_REQUEST_COMMIT_COMMENT_THREAD case!
           else if (item is PullRequestReviewMixin) {
             return BaseComment(
               description: getReviewState(item.state),
@@ -298,7 +298,7 @@ class GetTimelineItem extends StatelessWidget {
               footer: item.comments.totalCount > 0
                   ? StringButton(
                       onTap: () {
-                        AutoRouter.of(context).push(PRReviewScreenRoute(
+                        AutoRouter.of(context).push(PRReviewRoute(
                             nodeID: item.id, pullNodeID: pullNodeID!));
                       },
                       title: '${item.comments.totalCount} Comments',
@@ -335,7 +335,7 @@ class GetTimelineItem extends StatelessWidget {
                 ),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1!
+                    .titleMedium!
                     .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
               ),
             );
@@ -375,7 +375,7 @@ class GetTimelineItem extends StatelessWidget {
               ),
             );
           }
-          // Todo: Missing REVIEW_REQUEST_REMOVED_EVENT case!
+          // TODO(namanshergill): Missing REVIEW_REQUEST_REMOVED_EVENT case!
           else if (item is UnassignedMixin) {
             return BasicEventAssignedCard(
               actor: item.actor,

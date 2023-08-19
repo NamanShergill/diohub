@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppTabBar extends StatelessWidget {
-  AppTabBar({TabController? controller, required this.tabs, Key? key})
+  const AppTabBar({TabController? controller, required this.tabs, Key? key})
       : _tabController = controller,
         super(key: key);
 
@@ -35,7 +35,7 @@ class AppTabBar extends StatelessWidget {
                 Provider.of<PaletteSettings>(context).currentSetting.faded3,
             labelStyle: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
             indicatorPadding:
                 const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),

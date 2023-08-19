@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class NewIssueScreen extends StatefulWidget {
   const NewIssueScreen(
       {Key? key, this.template, required this.repo, required this.owner})
@@ -125,9 +127,9 @@ class NewIssueScreenState extends State<NewIssueScreen> {
         key: _formKey,
         child: LoadingWrapper(
           status: status,
-          loadingBuilder: (context) => Column(
+          loadingBuilder: (context) => const Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               LoadingIndicator(),
               Padding(
                 padding: EdgeInsets.all(8.0),

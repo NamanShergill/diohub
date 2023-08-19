@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
@@ -10,15 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class CommitInfoScreen extends StatefulWidget {
   const CommitInfoScreen({Key? key, required this.commitURL}) : super(key: key);
   final String commitURL;
 
   @override
-  _CommitInfoScreenState createState() => _CommitInfoScreenState();
+  CommitInfoScreenState createState() => CommitInfoScreenState();
 }
 
-class _CommitInfoScreenState extends State<CommitInfoScreen> {
+class CommitInfoScreenState extends State<CommitInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -57,13 +59,13 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                 builder: (context) {
                   return ProviderLoadingProgressWrapper<CommitProvider>(
                     childBuilder: (context, value) {
-                      return ScaffoldBody(
+                      return const ScaffoldBody(
                         child: DefaultTabController(
                           length: 2,
                           initialIndex: 0,
                           child: Column(
                             children: [
-                              AppTabBar(tabs: const [
+                              AppTabBar(tabs: [
                                 'Commit Information',
 
                                 'Changed Files',
@@ -72,7 +74,7 @@ class _CommitInfoScreenState extends State<CommitInfoScreen> {
                                 //   title: 'Comments',
                                 // ),
                               ]),
-                              const Expanded(
+                              Expanded(
                                 child: TabBarView(children: [
                                   CommitDetails(),
                                   ChangedFiles(),

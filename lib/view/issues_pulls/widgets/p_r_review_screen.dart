@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
@@ -15,6 +16,7 @@ import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class PRReviewScreen extends StatelessWidget {
   const PRReviewScreen(this.nodeID, {Key? key, required this.pullNodeID})
       : super(key: key);
@@ -30,19 +32,22 @@ class PRReviewScreen extends StatelessWidget {
       // Check if user has pending reviews to disable reply button accordingly.
       // See https://github.com/NamanShergill/diohub/issues/18 for info.
       body: APIWrapper<bool>(
-        apiCall: (refresh) => PullsService.hasPendingReviews(
+        apiCall: ({required refresh}) => PullsService.hasPendingReviews(
             pullNodeID, context.read<CurrentUserProvider>().data.login!),
         responseBuilder: (context, repliesEnabled) {
           return InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
-            future: (pageNumber, pageSize, refresh, lastItem) {
-              return PullsService.getPRReview(nodeID,
-                  refresh: refresh, cursor: lastItem?.cursor);
+            future: (data) {
+              return PullsService.getPRReview(
+                nodeID,
+                refresh: data.refresh,
+                cursor: data.lastItem?.cursor,
+              );
             },
             separatorBuilder: (context, index) => const Divider(
               height: 32,
             ),
-            builder: (context, item, index, refresh) {
-              final comment = item!.node!;
+            builder: (data) {
+              final comment = data.item!.node!;
               return ChangeNotifierProvider(
                 create: (_) => CommentProvider(),
                 builder: (context, child) {
@@ -55,7 +60,9 @@ class PRReviewScreen extends StatelessWidget {
                               owner: comment.repository.owner.login,
                               repo: comment.repository.name,
                               pullNumber: comment.pullRequest.number);
-                          context.read<CommentProvider>().clearData();
+                          if (context.mounted) {
+                            context.read<CommentProvider>().clearData();
+                          }
                           return;
                         },
                         type: 'Reply',
@@ -81,17 +88,17 @@ class PRReviewScreen extends StatelessWidget {
                                         'Cannot reply.',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6,
+                                            .titleLarge,
                                       ),
                                       content: DefaultTextStyle(
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText2!,
-                                        child: Column(
+                                            .bodyMedium!,
+                                        child: const Column(
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children: const [
+                                          children: [
                                             Text(
                                                 'Cannot add a reply to other review comments when you have a pending review on the PR.'),
                                             LinkText(
@@ -189,7 +196,7 @@ class PRReviewScreen extends StatelessWidget {
                               const EdgeInsets.only(left: 8, right: 8),
                           footer: APIWrapper<
                               ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>(
-                            apiCall: (refresh) =>
+                            apiCall: ({required refresh}) =>
                                 PullsService.getPRReviewThreadID(comment.id,
                                     name: comment.repository.name,
                                     owner: comment.repository.owner.login,
@@ -247,7 +254,7 @@ class PRReviewScreen extends StatelessWidget {
   Expanded _buildRepliesButton(
     BuildContext context,
     ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
-        data,
+        edgeData,
     PRReviewCommentsMixin$Comments$Edges$Node comment,
     void Function() openCommentSheet,
   ) {
@@ -270,14 +277,16 @@ class PRReviewScreen extends StatelessWidget {
                   separatorBuilder: (context, index) => const SizedBox(
                     height: 8,
                   ),
-                  future: (pageNumber, pageSize, refresh, lastItem) {
+                  future: (data) {
                     return PullsService.getReviewThreadReplies(
-                        data.node!.id, lastItem?.cursor,
-                        refresh: refresh);
+                      edgeData.node!.id,
+                      data.lastItem?.cursor,
+                      refresh: data.refresh,
+                    );
                   },
                   filterFn: (items) {
-                    final temp = <
-                        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
+                    final temp =
+                        <ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
                     for (final item in items) {
                       if (item!.node!.id != comment.id) {
                         temp.add(item);
@@ -285,8 +294,8 @@ class PRReviewScreen extends StatelessWidget {
                     }
                     return temp;
                   },
-                  builder: (cxt, item, index, refresh) {
-                    final reply = item!.node!;
+                  builder: (data) {
+                    final reply = data.item!.node!;
                     return PaddingWrap(
                       child: BaseComment(
                           isMinimized: reply.isMinimized,
@@ -317,8 +326,8 @@ class PRReviewScreen extends StatelessWidget {
         },
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         title:
-            '${data.node!.comments.totalCount > 1 ? (data.node!.comments.totalCount - 1).toString() : 'No'} Replies',
-        trailingIcon: data.node!.comments.totalCount > 1
+            '${edgeData.node!.comments.totalCount > 1 ? (edgeData.node!.comments.totalCount - 1).toString() : 'No'} Replies',
+        trailingIcon: edgeData.node!.comments.totalCount > 1
             ? const Icon(Icons.arrow_right_rounded)
             : null,
       ),

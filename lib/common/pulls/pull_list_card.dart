@@ -86,7 +86,7 @@ class PullListCard extends StatelessWidget {
                   item.title!,
                   style: Theme.of(context)
                       .textTheme
-                      .headline6!
+                      .titleLarge!
                       .copyWith(fontSize: 14),
                 ),
                 if (!compact)

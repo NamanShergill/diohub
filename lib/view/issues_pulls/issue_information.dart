@@ -264,8 +264,7 @@ class __IssueButtonState extends State<_IssueButton> {
                     }
                     final issue = await IssuesService.updateIssue(
                         widget.issue.url!, data);
-                    Provider.of<IssueProvider>(context, listen: false)
-                        .updateIssue(issue);
+                    context.issueProvider(listen: false).updateIssue(issue);
                     setState(() {
                       loading = false;
                     });
@@ -279,9 +278,9 @@ class __IssueButtonState extends State<_IssueButton> {
           ? Provider.of<PaletteSettings>(context).currentSetting.red
           : Provider.of<PaletteSettings>(context).currentSetting.green,
       child: widget.issue.state != IssueState.CLOSED
-          ? Row(
+          ? const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text('Close issue'),
                 SizedBox(
                   width: 8,
@@ -289,9 +288,9 @@ class __IssueButtonState extends State<_IssueButton> {
                 Icon(Octicons.issue_closed),
               ],
             )
-          : Row(
+          : const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text('Reopen issue'),
                 SizedBox(
                   width: 8,

@@ -16,7 +16,7 @@ class ChangedFilesListCard extends StatelessWidget {
         return RichText(
           text: TextSpan(
             text: 'File added: +${file.additions}',
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontSize: 12,
                 color:
                     Provider.of<PaletteSettings>(context).currentSetting.green,
@@ -27,7 +27,7 @@ class ChangedFilesListCard extends StatelessWidget {
         return RichText(
           text: TextSpan(
             text: 'File removed: -${file.deletions}',
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontSize: 12,
                 color: Provider.of<PaletteSettings>(context).currentSetting.red,
                 fontWeight: FontWeight.w500),
@@ -39,7 +39,7 @@ class ChangedFilesListCard extends StatelessWidget {
         text: TextSpan(
             style: Theme.of(context)
                 .textTheme
-                .subtitle1!
+                .titleMedium!
                 .copyWith(fontSize: 12, fontWeight: FontWeight.w500),
             children: [
               TextSpan(
@@ -78,7 +78,7 @@ class ChangedFilesListCard extends StatelessWidget {
             file.filename!,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           subtitle: Padding(
@@ -95,7 +95,7 @@ class ChangedFilesListCard extends StatelessWidget {
             InkWell(
               onTap: file.patch != null
                   ? () {
-                      AutoRouter.of(context).push(ChangesViewerRoute(
+                      AutoRouter.of(context).push(ChangesViewer(
                           patch: file.patch,
                           contentURL: file.contentsUrl,
                           fileType: file.filename!.split('.').last));

@@ -12,7 +12,7 @@ class AppDialog extends StatelessWidget {
       title: title != null
           ? Text(
               title!,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             )
           : null,
       content: content,

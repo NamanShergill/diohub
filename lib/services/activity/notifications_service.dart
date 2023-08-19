@@ -27,8 +27,8 @@ class NotificationsService {
       // This has to be true otherwise we will always receive 304 on this endpoint.
       refreshCache: true,
     );
-    return (notifications.data as List)
-        .map((e) => NotificationModel.fromJson(e))
+    return (notifications.data as List<Map<String, dynamic>>)
+        .map(NotificationModel.fromJson)
         .toList();
   }
 

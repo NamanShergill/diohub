@@ -15,10 +15,10 @@ class FadeAnimationSection extends StatefulWidget {
   final Duration? duration;
 
   @override
-  _FadeAnimationSectionState createState() => _FadeAnimationSectionState();
+  FadeAnimationSectionState createState() => FadeAnimationSectionState();
 }
 
-class _FadeAnimationSectionState extends State<FadeAnimationSection>
+class FadeAnimationSectionState extends State<FadeAnimationSection>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;

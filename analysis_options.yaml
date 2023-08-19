@@ -3,8 +3,7 @@ include:
 
 analyzer:
   exclude:
-    - lib/models/**
-    - dependencies/**/example
+    [lib/models/**,'dependencies/**/example/**',]
   plugins:
     - dart_code_metrics
 
@@ -34,7 +33,6 @@ linter:
     - prefer_collection_literals
     - prefer_conditional_assignment
     - prefer_contains
-    - prefer_equal_for_default_values
     - prefer_final_fields
     - prefer_for_elements_to_map_fromIterable
     - prefer_function_declarations_over_variables
@@ -79,7 +77,7 @@ linter:
     - directives_ordering
     - file_names
     - flutter_style_todos
-    - list_remove_unrelated_type
+    - collection_methods_unrelated_type
     - no_duplicate_case_values
     - non_constant_identifier_names
     - no_adjacent_strings_in_list
@@ -141,7 +139,6 @@ linter:
     - prefer_iterable_whereType
     - prefer_mixin
     - prefer_single_quotes
-    - iterable_contains_unrelated_type
     - empty_catches
 #    - public_member_api_docs
 #    - avoid_catches_without_on_clauses

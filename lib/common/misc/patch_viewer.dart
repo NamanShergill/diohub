@@ -39,7 +39,7 @@ class WrapIconButton extends StatelessWidget {
   }
 }
 
-// Todo: I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
+// TODO(namanshergill): I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
 class PatchViewer extends StatefulWidget {
   const PatchViewer(
       {Key? key,
@@ -61,14 +61,14 @@ class PatchViewer extends StatefulWidget {
   final int? limitLines;
 
   /// Pass this as true before starting parsing to prevent lag.
-  /// Todo: Remove?
+  // TODO(namanshergill): Remove?
   final bool waitBeforeLoad;
 
   @override
-  _PatchViewerState createState() => _PatchViewerState();
+  PatchViewerState createState() => PatchViewerState();
 }
 
-class _PatchViewerState extends State<PatchViewer> {
+class PatchViewerState extends State<PatchViewer> {
   String? patch;
   int maxChars = 0;
   List<String>? rawData;
@@ -129,21 +129,21 @@ class _PatchViewerState extends State<PatchViewer> {
   void makeCodeChunks(RegExpMatch element) {
     final info = CodeChunk();
     displayHeader.add('@@ ${element.group(1)} @@');
-    final _splitHeader = element.group(1)!.split(' ');
-    for (final element in _splitHeader) {
-      final _headerValuesString = <String>[];
-      final _headerValues = <int>[];
-      _headerValuesString.addAll(element.split(','));
-      _headerValues.add(int.parse(_headerValuesString[0]));
-      _headerValues.add(int.parse(_headerValuesString[1]));
+    final splitHeader = element.group(1)!.split(' ');
+    for (final element in splitHeader) {
+      final headerValuesString = <String>[];
+      final headerValues = <int>[];
+      headerValuesString.addAll(element.split(','));
+      headerValues.add(int.parse(headerValuesString[0]));
+      headerValues.add(int.parse(headerValuesString[1]));
 
-      if (_headerValues[0] < 0) {
-        info.removeStartLine = _headerValues[0].abs();
-        info.removeStartingLength = _headerValues[1];
+      if (headerValues[0] < 0) {
+        info.removeStartLine = headerValues[0].abs();
+        info.removeStartingLength = headerValues[1];
       }
-      if (_headerValues[0] > 0) {
-        info.addStartLine = _headerValues[0];
-        info.addStartingLength = _headerValues[1];
+      if (headerValues[0] > 0) {
+        info.addStartLine = headerValues[0];
+        info.addStartingLength = headerValues[1];
       }
     }
     codeChunks.add(info.getMap());
@@ -433,10 +433,10 @@ class ChunkHeader extends StatefulWidget {
   final List<String>? displayHeader;
 
   @override
-  _ChunkHeaderState createState() => _ChunkHeaderState();
+  ChunkHeaderState createState() => ChunkHeaderState();
 }
 
-class _ChunkHeaderState extends State<ChunkHeader> {
+class ChunkHeaderState extends State<ChunkHeader> {
   bool expanded = false;
   late List<String> data;
 

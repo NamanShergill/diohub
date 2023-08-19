@@ -21,10 +21,10 @@ class CodeBrowser extends StatefulWidget {
       : super(key: key);
   final bool showCommitHistory;
   @override
-  _CodeBrowserState createState() => _CodeBrowserState();
+  CodeBrowserState createState() => CodeBrowserState();
 }
 
-class _CodeBrowserState extends State<CodeBrowser>
+class CodeBrowserState extends State<CodeBrowser>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;

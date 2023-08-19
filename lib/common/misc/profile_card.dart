@@ -40,7 +40,7 @@ class ProfileCard extends StatelessWidget {
           borderRadius: medBorderRadius,
           onTap: () {
             AutoRouter.of(context)
-                .push(OtherUserProfileScreenRoute(login: user.login!));
+                .push(OtherUserProfileRoute(login: user.login!));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -140,7 +140,7 @@ class ProfileCardLoading extends StatelessWidget {
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<UserInfoModel>(
-          apiCall: (refresh) => UserInfoService.getUserInfo(login),
+          apiCall: ({required refresh}) => UserInfoService.getUserInfo(login),
           responseBuilder: (context, data) {
             return SizeExpandedSection(
                 child: Row(

@@ -27,7 +27,7 @@ class MarkdownRenderAPI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return APIWrapper<String>(
-      apiCall: (refresh) =>
+      apiCall: ({required refresh}) =>
           MarkdownService.renderMarkdown(data, context: repoName),
       loadingBuilder: (context) {
         return const Padding(
@@ -55,10 +55,10 @@ class MarkdownBody extends StatefulWidget {
   final String? branch;
   final Style? defaultBodyStyle;
   @override
-  _MarkdownBodyState createState() => _MarkdownBodyState();
+  MarkdownBodyState createState() => MarkdownBodyState();
 }
 
-class _MarkdownBodyState extends State<MarkdownBody> {
+class MarkdownBodyState extends State<MarkdownBody> {
   late String content;
   late dom.Document doc;
   @override
@@ -200,7 +200,7 @@ class _MarkdownBodyState extends State<MarkdownBody> {
               ),
             );
           } else if (divClass == 'blob-wrapper blob-wrapper-embedded data') {
-            // Todo: Format embedded code.
+            // TODO(namanshergill): Format embedded code.
             // return Html(data: context.tree.element!.outerHtml);
           } else if (rdr.tree.children.isNotEmpty) {
             if (rdr.tree.children.first.name == 'pre') {

@@ -28,10 +28,10 @@ class RepoStar extends StatefulWidget {
   final ValueChanged<int>? onStarsChange;
 
   @override
-  _RepoStarState createState() => _RepoStarState();
+  RepoStarState createState() => RepoStarState();
 }
 
-class _RepoStarState extends State<RepoStar> {
+class RepoStarState extends State<RepoStar> {
   final APIWrapperController<HasStarred$Query$Repository> controller =
       APIWrapperController();
   bool changing = false;
@@ -88,7 +88,7 @@ class _RepoStarState extends State<RepoStar> {
     }
 
     return APIWrapper<HasStarred$Query$Repository>(
-      apiCall: (refresh) =>
+      apiCall: ({required refresh}) =>
           RepositoryServices.isStarred(widget.owner, widget.repoName),
       apiWrapperController: controller,
       loadingBuilder: (context) => widget.child != null

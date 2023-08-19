@@ -85,7 +85,7 @@ class FontSettingCardState extends State<FontSettingCard> {
             child: Text(
               Provider.of<FontSettings>(context).currentSetting,
               style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 17),
             ),
           ),
         ],

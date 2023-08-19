@@ -18,10 +18,10 @@ class IssueScreen extends StatefulWidget {
   final APIWrapperController apiWrapperController;
 
   @override
-  _IssueScreenState createState() => _IssueScreenState();
+  IssueScreenState createState() => IssueScreenState();
 }
 
-class _IssueScreenState extends State<IssueScreen>
+class IssueScreenState extends State<IssueScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();

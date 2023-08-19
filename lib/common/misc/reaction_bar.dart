@@ -194,10 +194,10 @@ class ReactionItem extends StatefulWidget {
   final Future<void> Function(ReactionGroupsMixin group)? onTap;
 
   @override
-  _ReactionItemState createState() => _ReactionItemState();
+  ReactionItemState createState() => ReactionItemState();
 }
 
-class _ReactionItemState extends State<ReactionItem> {
+class ReactionItemState extends State<ReactionItem> {
   bool loading = false;
 
   void changeReaction() async {
@@ -237,7 +237,7 @@ class _ReactionItemState extends State<ReactionItem> {
                 ),
                 scrollableBodyBuilder: (context, setState, scrollController) {
                   return APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
-                    apiCall: (refresh) => IssuesService.getReactors(
+                    apiCall: ({required refresh}) => IssuesService.getReactors(
                       widget.reactionGroup.subject.id,
                       widget.reactionGroup.content,
                     ),
@@ -253,7 +253,7 @@ class _ReactionItemState extends State<ReactionItem> {
                             (index) {
                               final actor = data[index]!.node as ActorMixin;
                               return Card(
-                                margin: EdgeInsets.symmetric(vertical: 4),
+                                margin: const EdgeInsets.symmetric(vertical: 4),
                                 child: Row(
                                   children: [
                                     Expanded(

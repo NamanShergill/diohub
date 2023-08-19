@@ -153,7 +153,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                 );
               };
     return APIWrapper<HasWatched$Query$Repository>(
-      apiCall: (refresh) =>
+      apiCall: ({required refresh}) =>
           RepositoryServices.isSubscribed(widget.owner, widget.name),
       apiWrapperController: controller,
       responseBuilder: (context, data) =>

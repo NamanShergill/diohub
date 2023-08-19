@@ -163,7 +163,7 @@ Future showURLActions<T>(
             Navigator.pop(context);
 
             deepLinkNavigate(
-              uri.toString(),
+              uri,
             );
           },
         ),

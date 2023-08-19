@@ -36,7 +36,13 @@ class _EditableTextItemState extends State<EditableTextItem> {
     return EditWidget(
       editingController: widget.editingController,
       toolsAxis: Axis.vertical,
-      builder: (context, newValue, tools, currentlyEditing, state) {
+      builder: ({
+        required context,
+        required currentState,
+        required currentlyEditing,
+        required newValue,
+        required tools,
+      }) {
         return Row(
           children: [
             Expanded(

@@ -63,8 +63,8 @@ class CommitDetails extends StatelessWidget {
           InfoCard(
             title: 'Parents',
             child: commit.data.parents!.isEmpty
-                ? Row(
-                    children: const [
+                ? const Row(
+                    children: [
                       Text('No parents.'),
                     ],
                   )
@@ -116,7 +116,7 @@ class CommitDetails extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
             child: Button(
                 onTap: () {
-                  AutoRouter.of(context).push(RepositoryScreenRoute(
+                  AutoRouter.of(context).push(RepositoryRoute(
                       repositoryURL: _repoURLFromCommitURL(commit.data.url!),
                       initSHA: commit.data.sha,
                       index: 2));

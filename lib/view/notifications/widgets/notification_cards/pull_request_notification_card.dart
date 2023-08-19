@@ -21,11 +21,11 @@ class PullRequestNotificationCard extends StatefulWidget {
   final NotificationModel notification;
   final bool refresh;
   @override
-  _PullRequestNotificationCardState createState() =>
-      _PullRequestNotificationCardState();
+  PullRequestNotificationCardState createState() =>
+      PullRequestNotificationCardState();
 }
 
-class _PullRequestNotificationCardState
+class PullRequestNotificationCardState
     extends State<PullRequestNotificationCard>
     with AutomaticKeepAliveClientMixin {
   late PullRequestModel pullRequest;
@@ -44,7 +44,7 @@ class _PullRequestNotificationCardState
 
   void getInfo() async {
     // Get more information on the pull request to display
-    // Todo: Update pull notification cards when I figure out how Github does it.
+    // TODO(namanshergill): Update pull notification cards when I figure out how Github does it.
     final futures = <Future>[
       PullsService.getPullInformation(
           fullUrl: widget.notification.subject!.url!, refresh: widget.refresh),

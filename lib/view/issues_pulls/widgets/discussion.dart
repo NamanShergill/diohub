@@ -43,10 +43,10 @@ class Discussion extends StatefulWidget {
   final DateTime? createdAt;
 
   @override
-  _DiscussionState createState() => _DiscussionState();
+  DiscussionState createState() => DiscussionState();
 }
 
-class _DiscussionState extends State<Discussion> {
+class DiscussionState extends State<Discussion> {
   DateTime? commentsSince;
 
   InfiniteScrollWrapperController commentsSinceController =
@@ -201,13 +201,13 @@ class _DiscussionState extends State<Discussion> {
           children: [
             Expanded(
               child: InfiniteScrollWrapper<dynamic>(
-                future: (pageNumber, pageSize, refresh, _) {
+                future: (data) {
                   return IssuesService.getTimeline(
                       repo: widget.repoName,
-                      after: _?.cursor,
+                      after: data.lastItem?.cursor,
                       number: widget.number,
                       owner: widget.owner,
-                      refresh: refresh,
+                      refresh: data.refresh,
                       since: commentsSince
                           ?.toUtc()
                           .subtract(const Duration(seconds: 30)));
@@ -230,9 +230,9 @@ class _DiscussionState extends State<Discussion> {
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 8,
                 ),
-                builder: (context, edge, index, refresh) {
+                builder: (data) {
                   return GetTimelineItem(
-                    edge.node,
+                    data.item.edge.node,
                     pullNodeID: widget.pullNodeID,
                     onQuote: openCommentSheet,
                   );
@@ -260,7 +260,7 @@ class _DiscussionState extends State<Discussion> {
                   //           text: TextSpan(
                   //               style: Theme.of(context)
                   //                   .textTheme
-                  //                   .subtitle1!
+                  //                   .titleMedium!
                   //                   .merge(AppThemeTextStyles
                   //                       .basicIssueEventCardText),
                   //               children: [

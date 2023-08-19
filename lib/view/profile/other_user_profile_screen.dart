@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/base_provider.dart';
@@ -8,6 +9,7 @@ import 'package:dio_hub/view/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class OtherUserProfileScreen extends StatelessWidget {
   const OtherUserProfileScreen(this.login, {Key? key}) : super(key: key);
   final String login;

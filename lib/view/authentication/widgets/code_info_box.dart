@@ -19,10 +19,10 @@ class CodeInfoBox extends StatefulWidget {
   const CodeInfoBox(this.deviceCodeModel, {Key? key}) : super(key: key);
   final DeviceCodeModel deviceCodeModel;
   @override
-  _CodeInfoBoxState createState() => _CodeInfoBoxState();
+  CodeInfoBoxState createState() => CodeInfoBoxState();
 }
 
-class _CodeInfoBoxState extends State<CodeInfoBox> {
+class CodeInfoBoxState extends State<CodeInfoBox> {
   CountdownTimerController? timerController;
   bool copied = false;
 
@@ -78,7 +78,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                       'Verification'.toUpperCase(),
                       style: Theme.of(context)
                           .textTheme
-                          .headline5!
+                          .headlineSmall!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
                     const Divider(
@@ -135,7 +135,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
                     widget.deviceCodeModel.userCode!,
                     style: Theme.of(context)
                         .textTheme
-                        .headline5!
+                        .headlineSmall!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
@@ -189,7 +189,7 @@ class _CodeInfoBoxState extends State<CodeInfoBox> {
           Center(
             child: Text(
               'Input the code on the following link.',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
           ),

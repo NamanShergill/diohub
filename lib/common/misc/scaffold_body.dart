@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ScaffoldBody extends StatefulWidget {
-  const   ScaffoldBody(
+  const ScaffoldBody(
       {Key? key,
       this.child,
       this.header,
@@ -20,10 +20,10 @@ class ScaffoldBody extends StatefulWidget {
   final bool showFooter;
 
   @override
-  _ScaffoldBodyState createState() => _ScaffoldBodyState();
+  ScaffoldBodyState createState() => ScaffoldBodyState();
 }
 
-class _ScaffoldBodyState extends State<ScaffoldBody> {
+class ScaffoldBodyState extends State<ScaffoldBody> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -50,7 +50,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                                       child: Text(
                                     'Network Lost. Showing cached data.',
                                     style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyLarge,
                                   )),
                                 ),
                               ),
@@ -68,7 +68,7 @@ class _ScaffoldBodyState extends State<ScaffoldBody> {
                                       child: Text(
                                     'Online',
                                     style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyLarge,
                                   )),
                                 ),
                               ),

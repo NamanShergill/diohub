@@ -1,18 +1,12 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {
   const PullInformation({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _pull = Provider.of<PullProvider>(context).data;
+    final pull = Provider.of<PullProvider>(context).data;
     // final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return Container();
     // SingleChildScrollView(
@@ -270,45 +264,45 @@ class PullInformation extends StatelessWidget {
   }
 }
 
-class _BranchButton extends StatelessWidget {
-  const _BranchButton(this.base);
-  final Base base;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Material(
-        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        elevation: 2,
-        borderRadius: medBorderRadius,
-        child: Container(
-          decoration: BoxDecoration(borderRadius: medBorderRadius),
-          child: InkWell(
-            onTap: () {
-              AutoRouter.of(context).push(RepositoryScreenRoute(
-                  branch: base.label!.split(':').last,
-                  repositoryURL: base.repo!.url!));
-            },
-            borderRadius: medBorderRadius,
-            child: Container(
-              height: 55,
-              decoration: BoxDecoration(borderRadius: medBorderRadius),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    const Icon(Octicons.git_branch),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Flexible(child: Text(base.label!)),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class _BranchButton extends StatelessWidget {
+//   const _BranchButton(this.base);
+//   final Base base;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 8),
+//       child: Material(
+//         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+//         elevation: 2,
+//         borderRadius: medBorderRadius,
+//         child: Container(
+//           decoration: BoxDecoration(borderRadius: medBorderRadius),
+//           child: InkWell(
+//             onTap: () {
+//               AutoRouter.of(context).push(RepositoryRoute(
+//                   branch: base.label!.split(':').last,
+//                   repositoryURL: base.repo!.url!));
+//             },
+//             borderRadius: medBorderRadius,
+//             child: Container(
+//               height: 55,
+//               decoration: BoxDecoration(borderRadius: medBorderRadius),
+//               child: Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//                 child: Row(
+//                   children: [
+//                     const Icon(Octicons.git_branch),
+//                     const SizedBox(
+//                       width: 8,
+//                     ),
+//                     Flexible(child: Text(base.label!)),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

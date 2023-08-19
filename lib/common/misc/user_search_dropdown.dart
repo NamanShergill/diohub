@@ -20,10 +20,10 @@ class UserSearchDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
+    final media = MediaQuery.of(context).size;
     return Container(
       constraints: BoxConstraints(
-        maxHeight: _media.height * 0.4,
+        maxHeight: media.height * 0.4,
       ),
       child: Material(
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
@@ -45,25 +45,28 @@ class UserSearchDropdown extends StatelessWidget {
                     topSpacing: 8,
                     bottomSpacing: 8,
                     listEndIndicator: false,
-                    future: (pageNumber, pageSize, refresh, _) {
-                      return SearchService.searchMentionUsers(query, _type,
-                          cursor: _?.cursor);
+                    future: (data) {
+                      return SearchService.searchMentionUsers(
+                        query,
+                        _type,
+                        cursor: data.lastItem?.cursor,
+                      );
                     },
-                    builder: (context, item, index, refresh) {
-                      final dynamic data = item!.node;
+                    builder: (data) {
+                      final dynamic item = data.item!.node;
                       return InkWell(
                         borderRadius: medBorderRadius,
                         onTap: () {
                           if (onSelected != null) {
-                            onSelected!(data.login);
+                            onSelected!(item.login);
                           }
                         },
                         child: Row(
                           children: [
                             ProfileTile.login(
-                              avatarUrl: data!.avatarUrl.toString(),
+                              avatarUrl: item!.avatarUrl.toString(),
                               disableTap: true,
-                              userLogin: data.login,
+                              userLogin: item.login,
                             ),
                           ],
                         ),

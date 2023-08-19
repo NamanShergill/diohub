@@ -57,4 +57,4 @@ post_install do |installer|
 end
 
 # Modifed AppAuth SDK with accept JSON header.
-pod 'AppAuth', :git => 'https://github.com/NamanShergill/AppAuth-iOS.git', :tag => '1.6.0'
+pod 'AppAuth', :git => 'https://github.com/NamanShergill/AppAuth-iOS.git', :tag => '1.6.2'

@@ -20,10 +20,10 @@ class UserProfileScreen<T extends UserInfoModel> extends StatefulWidget {
   final bool? isCurrentUser;
   final T userData;
   @override
-  _UserProfileScreenState<T> createState() => _UserProfileScreenState<T>();
+  UserProfileScreenState<T> createState() => UserProfileScreenState<T>();
 }
 
-class _UserProfileScreenState<T extends UserInfoModel>
+class UserProfileScreenState<T extends UserInfoModel>
     extends State<UserProfileScreen<T>> with SingleTickerProviderStateMixin {
   late TabController tabController;
   late UserInfoModel data;
@@ -68,14 +68,17 @@ class _UserProfileScreenState<T extends UserInfoModel>
                       data.name ?? data.login!,
                       style: Theme.of(context)
                           .textTheme
-                          .headline5!
+                          .headlineSmall!
                           .copyWith(fontSize: 18),
                     ),
                     if (data.name != null)
                       Text(
                         data.login!,
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontSize: 15, fontWeight: FontWeight.normal),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontSize: 15, fontWeight: FontWeight.normal),
                       ),
                   ],
                 )
@@ -99,7 +102,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
                         text: TextSpan(
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .copyWith(fontSize: 15),
                           children: [
                             TextSpan(
@@ -134,7 +137,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
                     text: TextSpan(
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontSize: 15),
                       children: [
                         TextSpan(
@@ -172,7 +175,7 @@ class _UserProfileScreenState<T extends UserInfoModel>
                 data.login!,
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(fontSize: 18),
               )),
             ],

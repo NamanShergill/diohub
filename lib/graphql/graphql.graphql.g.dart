@@ -4149,6 +4149,94 @@ Map<String, dynamic> _$CheckPendingViewerReviews$QueryToJson(
       'node': instance.node?.toJson(),
     };
 
+GetParticipants$Query$Node$Issue$Participants$Edges$Node
+    _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        GetParticipants$Query$Node$Issue$Participants$Edges$Node()
+          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
+          ..login = json['login'] as String;
+
+Map<String,
+    dynamic> _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeToJson(
+        GetParticipants$Query$Node$Issue$Participants$Edges$Node instance) =>
+    <String, dynamic>{
+      'avatarUrl': instance.avatarUrl.toString(),
+      'login': instance.login,
+    };
+
+GetParticipants$Query$Node$Issue$Participants$Edges
+    _$GetParticipants$Query$Node$Issue$Participants$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        GetParticipants$Query$Node$Issue$Participants$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : GetParticipants$Query$Node$Issue$Participants$Edges$Node
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$GetParticipants$Query$Node$Issue$Participants$EdgesToJson(
+            GetParticipants$Query$Node$Issue$Participants$Edges instance) =>
+        <String, dynamic>{
+          'cursor': instance.cursor,
+          'node': instance.node?.toJson(),
+        };
+
+GetParticipants$Query$Node$Issue$Participants
+    _$GetParticipants$Query$Node$Issue$ParticipantsFromJson(
+            Map<String, dynamic> json) =>
+        GetParticipants$Query$Node$Issue$Participants()
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : GetParticipants$Query$Node$Issue$Participants$Edges
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetParticipants$Query$Node$Issue$ParticipantsToJson(
+        GetParticipants$Query$Node$Issue$Participants instance) =>
+    <String, dynamic>{
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+GetParticipants$Query$Node$Issue _$GetParticipants$Query$Node$IssueFromJson(
+        Map<String, dynamic> json) =>
+    GetParticipants$Query$Node$Issue()
+      ..$$typename = json['__typename'] as String?
+      ..participants = GetParticipants$Query$Node$Issue$Participants.fromJson(
+          json['participants'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetParticipants$Query$Node$IssueToJson(
+        GetParticipants$Query$Node$Issue instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+      'participants': instance.participants.toJson(),
+    };
+
+GetParticipants$Query$Node _$GetParticipants$Query$NodeFromJson(
+        Map<String, dynamic> json) =>
+    GetParticipants$Query$Node()..$$typename = json['__typename'] as String?;
+
+Map<String, dynamic> _$GetParticipants$Query$NodeToJson(
+        GetParticipants$Query$Node instance) =>
+    <String, dynamic>{
+      '__typename': instance.$$typename,
+    };
+
+GetParticipants$Query _$GetParticipants$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetParticipants$Query()
+      ..node = json['node'] == null
+          ? null
+          : GetParticipants$Query$Node.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetParticipants$QueryToJson(
+        GetParticipants$Query instance) =>
+    <String, dynamic>{
+      'node': instance.node?.toJson(),
+    };
+
 FetchReview$Query$Node$PullRequestReviewComment$Author
     _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(
             Map<String, dynamic> json) =>
@@ -5576,94 +5664,6 @@ Map<String, dynamic> _$UnfollowUser$MutationToJson(
       'unfollowUser': instance.unfollowUser?.toJson(),
     };
 
-GetParticipants$Query$Node$Issue$Participants$Edges$Node
-    _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeFromJson(
-            Map<String, dynamic> json) =>
-        GetParticipants$Query$Node$Issue$Participants$Edges$Node()
-          ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
-          ..login = json['login'] as String;
-
-Map<String,
-    dynamic> _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeToJson(
-        GetParticipants$Query$Node$Issue$Participants$Edges$Node instance) =>
-    <String, dynamic>{
-      'avatarUrl': instance.avatarUrl.toString(),
-      'login': instance.login,
-    };
-
-GetParticipants$Query$Node$Issue$Participants$Edges
-    _$GetParticipants$Query$Node$Issue$Participants$EdgesFromJson(
-            Map<String, dynamic> json) =>
-        GetParticipants$Query$Node$Issue$Participants$Edges()
-          ..cursor = json['cursor'] as String
-          ..node = json['node'] == null
-              ? null
-              : GetParticipants$Query$Node$Issue$Participants$Edges$Node
-                  .fromJson(json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$GetParticipants$Query$Node$Issue$Participants$EdgesToJson(
-            GetParticipants$Query$Node$Issue$Participants$Edges instance) =>
-        <String, dynamic>{
-          'cursor': instance.cursor,
-          'node': instance.node?.toJson(),
-        };
-
-GetParticipants$Query$Node$Issue$Participants
-    _$GetParticipants$Query$Node$Issue$ParticipantsFromJson(
-            Map<String, dynamic> json) =>
-        GetParticipants$Query$Node$Issue$Participants()
-          ..edges = (json['edges'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : GetParticipants$Query$Node$Issue$Participants$Edges
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic> _$GetParticipants$Query$Node$Issue$ParticipantsToJson(
-        GetParticipants$Query$Node$Issue$Participants instance) =>
-    <String, dynamic>{
-      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
-    };
-
-GetParticipants$Query$Node$Issue _$GetParticipants$Query$Node$IssueFromJson(
-        Map<String, dynamic> json) =>
-    GetParticipants$Query$Node$Issue()
-      ..$$typename = json['__typename'] as String?
-      ..participants = GetParticipants$Query$Node$Issue$Participants.fromJson(
-          json['participants'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetParticipants$Query$Node$IssueToJson(
-        GetParticipants$Query$Node$Issue instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-      'participants': instance.participants.toJson(),
-    };
-
-GetParticipants$Query$Node _$GetParticipants$Query$NodeFromJson(
-        Map<String, dynamic> json) =>
-    GetParticipants$Query$Node()..$$typename = json['__typename'] as String?;
-
-Map<String, dynamic> _$GetParticipants$Query$NodeToJson(
-        GetParticipants$Query$Node instance) =>
-    <String, dynamic>{
-      '__typename': instance.$$typename,
-    };
-
-GetParticipants$Query _$GetParticipants$QueryFromJson(
-        Map<String, dynamic> json) =>
-    GetParticipants$Query()
-      ..node = json['node'] == null
-          ? null
-          : GetParticipants$Query$Node.fromJson(
-              json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetParticipants$QueryToJson(
-        GetParticipants$Query instance) =>
-    <String, dynamic>{
-      'node': instance.node?.toJson(),
-    };
-
 GetRepoProjectsArguments _$GetRepoProjectsArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetRepoProjectsArguments(
@@ -5915,6 +5915,20 @@ Map<String, dynamic> _$CheckPendingViewerReviewsArgumentsToJson(
       'author': instance.author,
     };
 
+GetParticipantsArguments _$GetParticipantsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetParticipantsArguments(
+      id: json['id'] as String,
+      after: json['after'] as String?,
+    );
+
+Map<String, dynamic> _$GetParticipantsArgumentsToJson(
+        GetParticipantsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'after': instance.after,
+    };
+
 FetchReviewArguments _$FetchReviewArgumentsFromJson(
         Map<String, dynamic> json) =>
     FetchReviewArguments(
@@ -6062,18 +6076,4 @@ Map<String, dynamic> _$UnfollowUserArgumentsToJson(
         UnfollowUserArguments instance) =>
     <String, dynamic>{
       'user': instance.user,
-    };
-
-GetParticipantsArguments _$GetParticipantsArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    GetParticipantsArguments(
-      id: json['id'] as String,
-      after: json['after'] as String?,
-    );
-
-Map<String, dynamic> _$GetParticipantsArgumentsToJson(
-        GetParticipantsArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'after': instance.after,
     };

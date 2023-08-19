@@ -50,19 +50,26 @@ class Events extends StatelessWidget {
 
         return temp;
       },
-      future: (pageNumber, pageSize, refresh, _) {
+      future: (data) {
         if (specificUser != null) {
           return EventsService.getUserEvents(specificUser,
-              page: pageNumber, perPage: pageSize, refresh: refresh);
+              page: data.pageNumber,
+              perPage: data.pageSize,
+              refresh: data.refresh);
         } else if (privateEvents) {
           return EventsService.getReceivedEvents(user.data.login,
-              page: pageNumber, perPage: pageSize, refresh: refresh);
+              page: data.pageNumber,
+              perPage: data.pageSize,
+              refresh: data.refresh);
         } else {
           return EventsService.getPublicEvents(
-              page: pageNumber, perPage: pageSize, refresh: refresh);
+              page: data.pageNumber,
+              perPage: data.pageSize,
+              refresh: data.refresh);
         }
       },
-      builder: (context, item, index, refresh) {
+      builder: (data) {
+        final item = data.item;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(builder: (context) {
@@ -72,21 +79,21 @@ class Events extends StatelessWidget {
               return RepoEventCard(
                 item,
                 'starred',
-                refresh: refresh,
+                refresh: data.refresh,
               );
             } else if (item.type == EventsType.CreateEvent) {
               if (item.payload!.refType == RefType.REPOSITORY) {
                 return RepoEventCard(
                   item,
                   'created',
-                  refresh: refresh,
+                  refresh: data.refresh,
                 );
               } else if (item.payload!.refType == RefType.BRANCH) {
                 return RepoEventCard(
                   item,
                   'created a new branch \'${item.payload!.ref}\' in',
                   branch: item.payload!.ref,
-                  refresh: refresh,
+                  refresh: data.refresh,
                 );
               }
             } else if (item.type == EventsType.PublicEvent) {
@@ -94,7 +101,7 @@ class Events extends StatelessWidget {
                 item,
                 'made',
                 eventTextEnd: 'public',
-                refresh: refresh,
+                refresh: data.refresh,
               );
             } else if (item.type == EventsType.MemberEvent) {
               return AddedEventCard(item,
@@ -103,7 +110,7 @@ class Events extends StatelessWidget {
               return RepoEventCard(
                 item,
                 'deleted a ${refTypeValues.reverse![item.payload!.refType]} \'${item.payload!.ref}\' in',
-                refresh: refresh,
+                refresh: data.refresh,
               );
             } else if (item.type == EventsType.PullRequestEvent) {
               return PullEventCard(
@@ -114,7 +121,7 @@ class Events extends StatelessWidget {
                 item,
                 'forked',
                 repo: item.payload!.forkee,
-                refresh: refresh,
+                refresh: data.refresh,
               );
             } else if (item.type == EventsType.IssuesEvent) {
               return IssuesEventCard(item, 'an issue in');

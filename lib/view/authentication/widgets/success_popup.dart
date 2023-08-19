@@ -18,7 +18,7 @@ class SuccessPopup extends StatelessWidget {
               'Successful.',
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
+                  .headlineSmall!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             const Divider(
@@ -26,7 +26,7 @@ class SuccessPopup extends StatelessWidget {
             ),
             Text(
               'Authentication completed successfully.',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const Divider(
               height: 32,

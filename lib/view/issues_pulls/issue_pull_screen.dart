@@ -42,18 +42,18 @@ import 'package:image_stack/image_stack.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-IssuePullScreenRoute issuePullScreenRoute(PathData path) {
-  return getRoute<IssuePullScreenRoute>(
+IssuePullRoute issuePullScreenRoute(PathData path) {
+  return getRoute<IssuePullRoute>(
     path,
     onDeepLink: (path) {
-      return IssuePullScreenRoute(
+      return IssuePullRoute(
         ownerName: path.component(0)!,
         repoName: path.component(1)!,
         number: int.parse(path.component(3)!),
       );
     },
     onAPILink: (path) {
-      return IssuePullScreenRoute(
+      return IssuePullRoute(
         ownerName: path.component(1)!,
         repoName: path.component(2)!,
         number: int.parse(path.component(4)!),
@@ -62,6 +62,7 @@ IssuePullScreenRoute issuePullScreenRoute(PathData path) {
   );
 }
 
+@RoutePage()
 class IssuePullScreen extends DeepLinkWidget {
   const IssuePullScreen(
       {required this.number,
@@ -89,14 +90,17 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
 
   @override
   void handleDeepLink(PathData deepLinkData) {
-    // TODO: implement handleDeepLink
+    // TODO(namanshergill): implement handleDeepLink
   }
 
   @override
   Widget build(BuildContext context) {
     return APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>(
-      apiCall: (refresh) => IssuesService.getIssuePullInfo(widget.number,
-          repo: widget.repoName, user: widget.ownerName, refresh: refresh),
+      apiCall: ({required refresh}) => IssuesService.getIssuePullInfo(
+          widget.number,
+          repo: widget.repoName,
+          user: widget.ownerName,
+          refresh: refresh),
       apiWrapperController: apiWrapperController,
       loadingBuilder: (context) => Scaffold(
         appBar: AppBar(
@@ -190,7 +194,9 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
     );
     assigneeEditingController = EditingController(
       widget.body,
-      onEditTap: () {},
+      onEditTap: () {
+        return null;
+      },
     );
     super.initState();
   }
@@ -260,7 +266,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
             ),
             triggerMode: RefreshIndicatorTriggerMode.anywhere,
             child: NestedScroll(
-              header: (context, value) => [
+              header: (context, {required isInnerBoxScrolled}) => [
                 SliverToBoxAdapter(
                   child: _ScreenHeader(
                       widget: widget,
@@ -411,7 +417,13 @@ class _AboutTab extends StatelessWidget {
                 ),
                 EditWidget<String>(
                   editingController: descEditingController,
-                  builder: (context, newValue, tools, currentlyEditing, state) {
+                  builder: ({
+                    required context,
+                    required currentState,
+                    required currentlyEditing,
+                    required newValue,
+                    required tools,
+                  }) {
                     return Row(
                       children: [
                         if (widget.bodyHTML.isNotEmpty)
@@ -435,7 +447,7 @@ class _AboutTab extends StatelessWidget {
                           ),
                         ScaleSwitch(
                           child: widget.bodyHTML.isEmpty &&
-                                  state == EditingState.editMode
+                                  currentState == EditingState.editMode
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
@@ -513,8 +525,8 @@ class _AboutTab extends StatelessWidget {
               InfoCard(
                 // icon: widget.state.icon(color: context.palette.faded3),
                 onTap: () {
-                  context.router.push(
-                      RepositoryScreenRoute(repositoryURL: 'repositoryURL'));
+                  context.router
+                      .push(RepositoryRoute(repositoryURL: 'repositoryURL'));
                 },
                 title: '#${widget.number}',
                 titleTextStyle: TextStyle(
@@ -542,8 +554,13 @@ class _AboutTab extends StatelessWidget {
               // ),
               EditWidget(
                 editingController: assigneeEditingController,
-                builder:
-                    (context, newValue, tools, currentlyEditing, currentState) {
+                builder: ({
+                  required context,
+                  required currentState,
+                  required currentlyEditing,
+                  required newValue,
+                  required tools,
+                }) {
                   final assignees = widget.assigneesInfo.edges ?? [];
                   return MinRowEditWidget(
                     tools: tools,
@@ -583,12 +600,11 @@ class _AboutTab extends StatelessWidget {
                                 (context, setState, scrollController) =>
                                     InfiniteScrollWrapper<
                                         AssigneeUserListMixin$Assignees$Edges?>(
-                              future:
-                                  (pageNumber, pageSize, refresh, lastItem) =>
-                                      getAssignees(lastItem?.cursor),
+                              future: (data) =>
+                                  getAssignees(data.lastItem?.cursor),
                               scrollController: scrollController,
-                              builder: (context, item, index, refresh) {
-                                final node = item!.node!;
+                              builder: (data) {
+                                final node = data.item!.node!;
                                 return ProfileTile.login(
                                   avatarUrl: node.avatarUrl.toString(),
                                   userLogin: node.login,
@@ -727,7 +743,7 @@ class _ScreenHeader extends StatelessWidget {
                         size: 15,
                         color: context.palette.faded3,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       Text(
@@ -748,9 +764,9 @@ class _ScreenHeader extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       margin: EdgeInsets.zero,
                       fontSize: FontSize(
-                        context.textTheme.headline5!.fontSize!,
+                        context.textTheme.headlineSmall!.fontSize!,
                       ),
-                      fontWeight: context.textTheme.headline5?.fontWeight),
+                      fontWeight: context.textTheme.headlineSmall?.fontWeight),
                 ),
               ),
               buildLabelsWidget(),
@@ -770,7 +786,13 @@ class _ScreenHeader extends StatelessWidget {
   EditWidget<Object> buildLabelsWidget() {
     return EditWidget(
       editingController: labelsEditingController,
-      builder: (context, newValue, tools, currentlyEditing, state) {
+      builder: ({
+        required context,
+        required currentState,
+        required currentlyEditing,
+        required newValue,
+        required tools,
+      }) {
         if (widget.labels.isNotEmpty == true) {
           return Padding(
             padding: const EdgeInsets.only(top: 4),
@@ -796,7 +818,7 @@ class _ScreenHeader extends StatelessWidget {
           return Row(
             children: [
               ScaleSwitch(
-                child: state == EditingState.editMode
+                child: currentState == EditingState.editMode
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text(

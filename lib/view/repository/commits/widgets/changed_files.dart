@@ -8,10 +8,10 @@ class ChangedFiles extends StatefulWidget {
   const ChangedFiles({Key? key}) : super(key: key);
 
   @override
-  _ChangedFilesState createState() => _ChangedFilesState();
+  ChangedFilesState createState() => ChangedFilesState();
 }
 
-class _ChangedFilesState extends State<ChangedFiles> {
+class ChangedFilesState extends State<ChangedFiles> {
   @override
   Widget build(BuildContext context) {
     final commit = Provider.of<CommitProvider>(context).data;

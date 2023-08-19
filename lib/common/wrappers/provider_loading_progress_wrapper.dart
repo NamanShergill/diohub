@@ -23,11 +23,11 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
   final ErrorBuilder? errorBuilder;
 
   @override
-  _ProviderLoadingProgressWrapperState<T> createState() =>
-      _ProviderLoadingProgressWrapperState<T>();
+  ProviderLoadingProgressWrapperState<T> createState() =>
+      ProviderLoadingProgressWrapperState<T>();
 }
 
-class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
+class ProviderLoadingProgressWrapperState<T extends BaseProvider>
     extends State<ProviderLoadingProgressWrapper<T>> {
   @override
   void initState() {
@@ -60,8 +60,8 @@ class _ProviderLoadingProgressWrapperState<T extends BaseProvider>
                     context, value.errorInfo ?? 'Something went wrong.')
                 : Builder(
                     builder: (context) {
-                      if (value.errorInfo is DioError) {
-                        final err = value.errorInfo as DioError;
+                      if (value.errorInfo is DioException) {
+                        final err = value.errorInfo as DioException;
                         if (err.response != null) {
                           return Center(
                               child: APIError(err.response!.statusCode!,

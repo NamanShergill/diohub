@@ -42,7 +42,7 @@ class BaseComment extends StatefulWidget {
   final String body;
   final IconData? leading;
   final String? bodyHTML;
-  // Todo: Temp nullable
+  // TODO(namanshergill): Temp nullable
   final List<ReactionGroupsMixin>? reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
@@ -52,7 +52,7 @@ class BaseComment extends StatefulWidget {
   final bool viewerCanDelete;
   final bool viewerCanUpdate;
   final bool viewerDidAuthor;
-  // Todo: Temp nullable
+  // TODO(namanshergill): Temp nullable
   final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
   final bool viewerCanReact;
   final Widget? footer;
@@ -63,10 +63,10 @@ class BaseComment extends StatefulWidget {
   final EdgeInsets footerPadding;
 
   @override
-  _BaseCommentState createState() => _BaseCommentState();
+  BaseCommentState createState() => BaseCommentState();
 }
 
-class _BaseCommentState extends State<BaseComment> {
+class BaseCommentState extends State<BaseComment> {
   bool optionsExpanded = false;
 
   void addQuote(String data) {
@@ -297,12 +297,12 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
     return AlertDialog(
       title: Text(
         'Select and copy',
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       content: SingleChildScrollView(
         child: SelectableText(
           widget.data,
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
           onSelectionChanged: (selection, cause) {
             setState(() {
               selectedText = selection.textInside(widget.data);

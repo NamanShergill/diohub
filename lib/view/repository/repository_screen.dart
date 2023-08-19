@@ -33,6 +33,7 @@ import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class RepositoryScreen extends DeepLinkWidget {
   const RepositoryScreen(this.repositoryURL,
       {this.branch,
@@ -70,8 +71,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
       initBranch = data.component(3);
     } else if (data.componentIs(2, 'wiki')) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        AutoRouter.of(context)
-            .push(WikiViewerRoute(repoURL: widget.repositoryURL));
+        AutoRouter.of(context).push(WikiViewer(repoURL: widget.repositoryURL));
       });
     }
   }
@@ -152,11 +152,17 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                   if (Provider.of<RepositoryProvider>(context, listen: false)
                       .data
                       .hasWiki!) {
-                    AutoRouter.of(context)
-                        .push(WikiViewerRoute(repoURL: widget.repositoryURL));
+                    AutoRouter.of(context).push(
+                      WikiViewer(
+                        repoURL: widget.repositoryURL,
+                      ),
+                    );
                   } else {
                     ResponseHandler.setErrorMessage(
-                        AppPopupData(title: 'Repository has no wiki.'));
+                      AppPopupData(
+                        title: 'Repository has no wiki.',
+                      ),
+                    );
                   }
                 },
                 child: const Text('Open Wiki'),
@@ -263,7 +269,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                   text: TextSpan(
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline5!
+                                          .headlineSmall!
                                           .copyWith(fontSize: 18),
                                       children: [
                                         TextSpan(text: '${repo.owner!.login}/'),
@@ -296,7 +302,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .headlineSmall!
                                         .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ],

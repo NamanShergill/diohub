@@ -1,4 +1,5 @@
-import 'package:artemis/artemis.dart';
+// import 'package:artemis/artemis.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
@@ -287,7 +288,10 @@ abstract class BaseAPIHandler {
             } catch (e) {
               log.e('Could not fetch auth token from device.', e);
               handler.reject(
-                DioError(requestOptions: options, error: e),
+                DioException(
+                  requestOptions: options,
+                  error: e,
+                ),
               );
             }
           },
@@ -319,7 +323,7 @@ abstract class BaseAPIHandler {
           handler.next(response);
         },
         onError: (error, handler) async {
-          // Todo: Add better exception handling based on response codes.
+          // TODO(namanshergill): Add better exception handling based on response codes.
           if (error.response == null) {
             handler.next(error);
           } else if (error.response?.data.runtimeType is Map &&
@@ -347,7 +351,6 @@ abstract class BaseAPIHandler {
           if (checkCache) {
             final key = cache.cacheOptions.keyBuilder(options);
             final cacheData = await _cacheStore.get(key);
-            print(cacheData);
             if (cacheData != null &&
                 DateTime.now()
                     .isBefore(cacheData.responseDate.add(cache.maxAge!))) {
