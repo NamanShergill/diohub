@@ -93,14 +93,12 @@ class RepositoryServices {
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await _restHandler.get(
+    final response = await _restHandler.get<List>(
       '$repoURL/commits',
       queryParameters: queryParams,
       refreshCache: refresh,
     );
-    return (response.data as List<Map<String, dynamic>>)
-        .map(CommitListModel.fromJson)
-        .toList();
+    return response.data!.map((e) => CommitListModel.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit

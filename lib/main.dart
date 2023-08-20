@@ -39,6 +39,7 @@ void main() async {
   runApp(
     MyApp(
       authenticated: auth,
+      // initDeepLink: initLink,
     ),
   );
 }
@@ -112,11 +113,19 @@ class _RootAppState extends State<RootApp> {
       theme: _getTheme(context, brightness: Brightness.light),
       darkTheme: _getTheme(context, brightness: Brightness.dark),
       routerDelegate: customRouter.delegate(
-        deepLinkBuilder: (deepLink) => DeepLink([
-          LandingLoadingRoute(
-            initLink: deepLink.uri,
-          )
-        ]),
+        deepLinkBuilder: (deepLink) {
+          print(deepLink.uri);
+          print(deepLink.path);
+          print(deepLink.configuration.url);
+          print(deepLink.initial);
+          print('jasubdyjuasbdf');
+          return DeepLink([
+            LandingLoadingRoute(
+              initLink: deepLink.configuration.uri,
+            )
+          ]);
+        },
+        rebuildStackOnDeepLink: true,
       ),
       routeInformationParser: customRouter.defaultRouteParser(),
     );

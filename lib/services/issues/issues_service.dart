@@ -131,15 +131,13 @@ class IssuesService {
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
   static Future<List<IssueEventModel>> getIssueEvents(
       {required String fullUrl, String? since, required bool refresh}) async {
-    final response = await _restHandler.get(
+    final response = await _restHandler.get<List>(
       '$fullUrl/events',
       queryParameters: {'since': since},
       refreshCache: refresh,
     );
 
-    return (response.data as List<Map<String, dynamic>>)
-        .map(IssueEventModel.fromJson)
-        .toList();
+    return response.data!.map((e) => IssueEventModel.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issues-assigned-to-the-authenticated-user

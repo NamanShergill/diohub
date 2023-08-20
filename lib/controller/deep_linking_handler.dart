@@ -23,6 +23,7 @@ Future<String?> initUniLink() async {
 void uniLinkStream() {
   linkStream.listen(
     (link) {
+      print(link);
       if (link != null) {
         deepLinkNavigate(
           Uri.parse(link),
@@ -33,6 +34,8 @@ void uniLinkStream() {
 }
 
 void deepLinkNavigate(Uri link) {
+  print(link.hasAbsolutePath);
+  print('sdjyugbfusdryb');
   if (link.toString().startsWith(_themeLinkPattern)) {
     // AutoRouter.of(Global.currentContext).replaceAll([LandingScreenRoute()]);
     showDialog(
@@ -100,12 +103,20 @@ RegExp get _deepLinkPattern =>
 RegExp get _themeLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
-List<PageRouteInfo>? _getRoutes(Uri link) {
-  final relPath = StringFunctions(link.path);
-  if (relPath.string.isEmpty) {
+List<PageRouteInfo>? _getRoutes(Uri uri) {
+  final link = uri;
+
+  if (link.pathSegments.isEmpty) {
     return null;
   }
 
+  late final path;
+  if (link.path.startsWith('/')) {
+    path = link.path.substring(1);
+  } else {
+    path = link.path;
+  }
+  final relPath = StringFunctions(path);
   final temp = <PageRouteInfo>[];
   if (relPath.regexCompleteMatch(_exceptionURLPatterns)) {
     openInAppBrowser(link);

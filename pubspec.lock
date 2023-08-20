@@ -237,10 +237,10 @@ packages:
     dependency: "direct main"
     description:
       name: collection
-      sha256: cfc915e6923fe5ce6e153b0723c753045de46de1b4d63771530504004a45fae0
+      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.0"
+    version: "1.18.0"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -535,10 +535,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_inappwebview
-      sha256: "6d6c741ddba1dba5229d63ba75767064791a7ce845196b45e31105e93d67c949"
+      sha256: fad1f2740ff4b5b7da378a639f54beeb9d787b6339c89a9de00494d92372c0bb
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0-beta.22"
+    version: "6.0.0-beta.24+1"
   flutter_inappwebview_internal_annotations:
     dependency: transitive
     description:
@@ -596,13 +596,13 @@ packages:
     source: hosted
     version: "1.0.0"
   flutter_layout_grid:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: flutter_layout_grid
-      sha256: "86c1b21520612edfbb93f189b3ec05058470570f3a5c08ce10c92cc76a6e814e"
+      sha256: "3c03d28f884d816d6f483bdd64dd79663abfb00eea7cb27ffe98380e8357af95"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "2.0.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -703,10 +703,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_slidable
-      sha256: "6c68e1fad129b4b807b2218ef4cf7f7f6f61c5ec8861c990dc2278d9d03cb09f"
+      sha256: cc4231579e3eae41ae166660df717f4bad1359c87f4a4322ad8ba1befeb3d2be
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.0.0"
   flutter_staggered_grid_view:
     dependency: transitive
     description:
@@ -952,10 +952,10 @@ packages:
     dependency: "direct main"
     description:
       name: logger
-      sha256: "7ad7215c15420a102ec687bb320a7312afd449bac63bfb1c60d9787c27b9767f"
+      sha256: "66cb048220ca51cf9011da69fa581e4ee2bed4be6e82870d9e9baae75739da49"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:
@@ -968,10 +968,10 @@ packages:
     dependency: "direct main"
     description:
       name: markdown
-      sha256: c2b81e184067b41d0264d514f7cdaa2c02d38511e39d6521a1ccc238f6d7b3f2
+      sha256: acf35edccc0463a9d7384e437c015a3535772e09714cf60e07eeef3a15870dcd
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.1"
+    version: "7.1.1"
   markdown_editable_textinput:
     dependency: "direct main"
     description:
@@ -1327,10 +1327,10 @@ packages:
     dependency: "direct main"
     description:
       name: shimmer
-      sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
+      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

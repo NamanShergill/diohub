@@ -375,13 +375,14 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         itemBuilder: (context, item, index) => Column(children: [
           if (index == 0)
             SizedBox(
-                height: widget.topSpacing,
-                child: widget.builder((
-                  context: context,
-                  item: item.item,
-                  index: index,
-                  refresh: item.refreshChildren,
-                ))),
+              height: widget.topSpacing,
+            ),
+          widget.builder((
+            context: context,
+            item: item.item,
+            index: index,
+            refresh: item.refreshChildren,
+          ))
         ]),
         firstPageProgressIndicatorBuilder: (context) =>
             widget.firstPageLoadingBuilder?.call(context) ??

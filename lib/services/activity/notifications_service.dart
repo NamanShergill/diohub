@@ -21,14 +21,16 @@ class NotificationsService {
       queryParameters.addAll(filters);
     }
     // Make API request to get a list of notifications;
-    final notifications = await _restHandler.get(
+    final notifications = await _restHandler.get<List>(
       _url,
       queryParameters: queryParameters,
       // This has to be true otherwise we will always receive 304 on this endpoint.
       refreshCache: true,
     );
-    return (notifications.data as List<Map<String, dynamic>>)
-        .map(NotificationModel.fromJson)
+    return notifications.data!
+        .map(
+          (e) => NotificationModel.fromJson(e),
+        )
         .toList();
   }
 
