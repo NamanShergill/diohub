@@ -12,10 +12,10 @@ class IssuesTab extends StatefulWidget {
   final PathData? deepLinkData;
 
   @override
-  _IssuesTabState createState() => _IssuesTabState();
+  IssuesTabState createState() => IssuesTabState();
 }
 
-class _IssuesTabState extends State<IssuesTab>
+class IssuesTabState extends State<IssuesTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;

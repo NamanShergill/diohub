@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -11,14 +12,15 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class LandingScreen extends StatefulWidget {
   const LandingScreen({this.deepLinkData, Key? key}) : super(key: key);
   final PathData? deepLinkData;
   @override
-  _LandingScreenState createState() => _LandingScreenState();
+  LandingScreenState createState() => LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen>
+class LandingScreenState extends State<LandingScreen>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   @override

@@ -45,7 +45,7 @@ class IssueProvider extends BaseDataProvider<IssueInfoMixin> {
       issueInfo;
 }
 
-String _repoURLFromIssueURL(String link) {
-  final url = link.split('/');
-  return url.sublist(0, url.length - 2).join('/');
-}
+// String _repoURLFromIssueURL(String link) {
+//   final url = link.split('/');
+//   return url.sublist(0, url.length - 2).join('/');
+// }

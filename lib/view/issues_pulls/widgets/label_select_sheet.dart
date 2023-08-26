@@ -23,10 +23,10 @@ class LabelSelectSheet extends StatefulWidget {
   final ValueChanged<List<Label>>? newLabels;
 
   @override
-  _LabelSelectSheetState createState() => _LabelSelectSheetState();
+  LabelSelectSheetState createState() => LabelSelectSheetState();
 }
 
-class _LabelSelectSheetState extends State<LabelSelectSheet> {
+class LabelSelectSheetState extends State<LabelSelectSheet> {
   List<String?>? labels;
 
   @override
@@ -50,7 +50,9 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
                     await IssuesService.setLabels(widget.issueUrl, labels);
                 Navigator.pop(context);
                 widget.newLabels!(newLabels);
-              } catch (e) {}
+              } catch (e) {
+                rethrow;
+              }
             },
             child: const Text('Apply'),
           ),
@@ -60,30 +62,33 @@ class _LabelSelectSheetState extends State<LabelSelectSheet> {
         ),
         Expanded(
           child: InfiniteScrollWrapper<Label>(
-            future: (pageNumber, pageSize, refresh, _) {
+            future: (data) {
               return IssuesService.listAvailableLabels(
-                  widget.repoURL, pageNumber, pageSize);
+                widget.repoURL,
+                data.pageNumber,
+                data.pageSize,
+              );
             },
             separatorBuilder: (context, index) => const Divider(
               height: 8,
             ),
             scrollController: widget.controller,
             listEndIndicator: false,
-            builder: (context, item, index, refresh) {
+            builder: (data) {
               return CheckboxListTile(
                 activeColor:
                     Provider.of<PaletteSettings>(context).currentSetting.accent,
-                value: labels!.contains(item.name),
+                value: labels!.contains(data.item.name),
                 onChanged: (value) {
                   setState(() {
-                    if (labels!.contains(item.name)) {
-                      labels!.remove(item.name);
+                    if (labels!.contains(data.item.name)) {
+                      labels!.remove(data.item.name);
                     } else {
-                      labels!.add(item.name);
+                      labels!.add(data.item.name);
                     }
                   });
                 },
-                title: IssueLabel(item),
+                title: IssueLabel(data.item),
               );
             },
           ),

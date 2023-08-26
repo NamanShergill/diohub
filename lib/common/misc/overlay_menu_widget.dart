@@ -33,10 +33,10 @@ class OverlayMenuWidget extends StatefulWidget {
   final double offSet;
 
   @override
-  _OverlayMenuWidgetState createState() => _OverlayMenuWidgetState();
+  OverlayMenuWidgetState createState() => OverlayMenuWidgetState();
 }
 
-class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
+class OverlayMenuWidgetState extends State<OverlayMenuWidget> {
   late bool visible;
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
+    final media = MediaQuery.of(context).size;
     return PortalTarget(
       visible: visible,
       portalFollower: GestureDetector(
@@ -85,7 +85,7 @@ class _OverlayMenuWidgetState extends State<OverlayMenuWidget> {
       child: PortalTarget(
         portalFollower: SizeExpandedSection(
             child: SizedBox(
-          height: (_media.height - widget.offSet) * widget.heightMultiplier,
+          height: (media.height - widget.offSet) * widget.heightMultiplier,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

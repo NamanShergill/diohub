@@ -16,10 +16,10 @@ class PullScreen extends StatefulWidget {
   final DateTime? commentsSince;
   final int initialIndex;
   @override
-  _PullScreenState createState() => _PullScreenState();
+  PullScreenState createState() => PullScreenState();
 }
 
-class _PullScreenState extends State<PullScreen>
+class PullScreenState extends State<PullScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();

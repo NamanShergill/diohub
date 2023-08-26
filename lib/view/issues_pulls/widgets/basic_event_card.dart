@@ -90,7 +90,7 @@ class BasicEventCard extends StatelessWidget {
             child: DefaultTextStyle(
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .bodyMedium!
                     .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
                 child: content),
           ),

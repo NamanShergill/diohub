@@ -3,10 +3,9 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'nested_scroll.dart';
 
 class AppScrollView extends StatefulWidget {
   const AppScrollView(
@@ -28,15 +27,18 @@ class AppScrollView extends StatefulWidget {
   // final ScrollController nestedScrollViewController;
 
   @override
-  _AppScrollViewState createState() => _AppScrollViewState();
+  AppScrollViewState createState() => AppScrollViewState();
 }
 
-class _AppScrollViewState extends State<AppScrollView> {
+class AppScrollViewState extends State<AppScrollView> {
   @override
   Widget build(BuildContext context) {
     return NestedScroll(
         // controller: widget.nestedScrollViewController,
-        header: (context, value) {
+        header: (
+          context, {
+          required isInnerBoxScrolled,
+        }) {
           return [
             widget.scrollViewAppBar,
           ];
@@ -49,8 +51,8 @@ class _AppScrollViewState extends State<AppScrollView> {
                       Provider.of<PaletteSettings>(context)
                           .currentSetting
                           .secondary,
-                  child: Column(
-                    children: const [
+                  child: const Column(
+                    children: [
                       Padding(
                         padding: EdgeInsets.only(top: 48.0),
                         child: LoadingIndicator(),
@@ -168,12 +170,12 @@ class SliverAppBarTitle extends StatefulWidget {
   }) : super(key: key);
   final Widget child;
   @override
-  _SliverAppBarTitleState createState() {
-    return _SliverAppBarTitleState();
+  SliverAppBarTitleState createState() {
+    return SliverAppBarTitleState();
   }
 }
 
-class _SliverAppBarTitleState extends State<SliverAppBarTitle> {
+class SliverAppBarTitleState extends State<SliverAppBarTitle> {
   ScrollPosition? _position;
   bool? _visible;
   @override

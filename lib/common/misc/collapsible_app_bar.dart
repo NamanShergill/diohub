@@ -75,10 +75,13 @@ class CollapsibleAppBar extends StatelessWidget {
                     children: [
                       Text(
                         title!,
-                        style: Theme.of(context).textTheme.headline4!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Tween<double>(begin: 26, end: 36)
-                                .evaluate(animation)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Tween<double>(begin: 26, end: 36)
+                                    .evaluate(animation)),
                       ),
                       SizedBox(
                         height: Tween<double>(begin: 50, end: 60)

@@ -6,6 +6,7 @@ import 'package:dio_hub/models/repositories/branch_model.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/models/repositories/readme_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 
 class RepositoryServices {
   RepositoryServices({
@@ -69,8 +70,8 @@ class RepositoryServices {
       queryParameters: {'per_page': perPage, 'page': pageNumber},
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e) => RepoBranchListItemModel.fromJson(e))
+    return listTypeCast<JsonMap>(response.data)
+        .map(RepoBranchListItemModel.fromJson)
         .toList();
   }
 
@@ -92,14 +93,12 @@ class RepositoryServices {
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await _restHandler.get(
+    final response = await _restHandler.get<List>(
       '$repoURL/commits',
       queryParameters: queryParams,
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e) => CommitListModel.fromJson(e))
-        .toList();
+    return response.data!.map((e) => CommitListModel.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit

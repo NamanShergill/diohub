@@ -14,9 +14,15 @@ import 'package:dio_hub/services/search/search_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:provider/provider.dart';
-
-typedef SearchScrollWrapperFuture<T> = Future Function(int pageNumber,
-    int pageSize, bool refresh, T? lastItem, String? sort, bool? isAscending);
+//
+// typedef SearchScrollWrapperFuture<T> = Future Function(({
+//       int pageNumber,
+//       int pageSize,
+//       bool refresh,
+//       T? lastItem,
+//       String? sort,
+//       bool? isAscending
+//     }) data);
 
 typedef WrapperReplacementBuilder = Widget Function(SearchData searchData,
     Widget Function(BuildContext, Function) header, Widget child);
@@ -71,10 +77,10 @@ class SearchScrollWrapper extends StatefulWidget {
 
   final bool showRepoNameOnIssues;
   @override
-  _SearchScrollWrapperState createState() => _SearchScrollWrapperState();
+  SearchScrollWrapperState createState() => SearchScrollWrapperState();
 }
 
-class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
+class SearchScrollWrapperState extends State<SearchScrollWrapper> {
   late SearchData searchData;
 
   @override
@@ -93,7 +99,7 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
     Widget header(BuildContext context, function) {
       return Padding(
         padding: function != null ? EdgeInsets.zero : widget._searchBarPadding,
-        child: SearchBar(
+        child: AppSearchBar(
           heroTag: widget.searchHeroTag != null
               ? widget.searchHeroTag! + (function != null).toString()
               : null,
@@ -137,21 +143,23 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               controller: controller,
               searchData: searchData,
               filterFn: widget.filterFn,
-              searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchRepos(searchData.toQuery,
-                    perPage: pageSize,
-                    page: pageNumber,
-                    sort: searchData.getSort,
-                    ascending: searchData.isSortAsc,
-                    refresh: refresh);
+              searchFuture: (data) {
+                return SearchService.searchRepos(
+                  searchData.toQuery,
+                  perPage: data.pageSize,
+                  page: data.pageNumber,
+                  sort: searchData.getSort,
+                  ascending: searchData.isSortAsc,
+                  refresh: data.refresh,
+                );
               },
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
-              builder: (context, item, index, refresh) {
+              builder: (data) {
                 return Padding(
                   padding: widget.padding,
                   child: RepositoryCard(
-                    item,
+                    data.item,
                     padding: EdgeInsets.zero,
                   ),
                 );
@@ -163,21 +171,23 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               filterFn: widget.filterFn,
               controller: controller,
               searchData: searchData,
-              searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchIssues(searchData.toQuery,
-                    perPage: pageSize,
-                    page: pageNumber,
-                    sort: searchData.getSort,
-                    ascending: searchData.isSortAsc,
-                    refresh: refresh);
+              searchFuture: (data) {
+                return SearchService.searchIssues(
+                  searchData.toQuery,
+                  perPage: data.pageSize,
+                  page: data.pageNumber,
+                  sort: searchData.getSort,
+                  ascending: searchData.isSortAsc,
+                  refresh: data.refresh,
+                );
               },
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
-              builder: (context, item, index, refresh) {
+              builder: (data) {
                 return Padding(
                   padding: widget.padding,
                   child: IssueListCard(
-                    item,
+                    data.item,
                     padding: EdgeInsets.zero,
                     showRepoName: widget.showRepoNameOnIssues,
                   ),
@@ -191,22 +201,24 @@ class _SearchScrollWrapperState extends State<SearchScrollWrapper> {
               searchData: searchData,
               header: (context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
-              searchFuture: (pageNumber, pageSize, refresh, _) {
-                return SearchService.searchUsers(searchData.toQuery,
-                    perPage: pageSize,
-                    page: pageNumber,
-                    sort: searchData.getSort,
-                    ascending: searchData.isSortAsc,
-                    refresh: refresh);
+              searchFuture: (data) {
+                return SearchService.searchUsers(
+                  searchData.toQuery,
+                  perPage: data.pageSize,
+                  page: data.pageNumber,
+                  sort: searchData.getSort,
+                  ascending: searchData.isSortAsc,
+                  refresh: data.refresh,
+                );
               },
-              builder: (context, item, index, refresh) {
+              builder: (data) {
                 return Row(
                   children: [
                     Expanded(
                       child: Padding(
                         padding: widget.padding,
                         child: ProfileCard(
-                          item,
+                          data.item,
                         ),
                       ),
                     ),

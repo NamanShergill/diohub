@@ -144,7 +144,7 @@
 //                   child: Text(description!,
 //                       style: Theme.of(context)
 //                           .textTheme
-//                           .bodyText2!
+//                           .bodyMedium!
 //                           .copyWith(fontWeight: FontWeight.bold))),
 //             if (homepage != null)
 //               Row(
@@ -162,7 +162,7 @@
 //               padding:
 //                   const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
 //               child: Text(_bodyText()!,
-//                   style: Theme.of(context).textTheme.bodyText2),
+//                   style: Theme.of(context).textTheme.bodyMedium),
 //             ),
 //           ])),
 //     );

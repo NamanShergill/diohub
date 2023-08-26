@@ -65,7 +65,7 @@ class BasePopupNotification extends StatelessWidget {
         //                   title,
         //                   style: Theme.of(context)
         //                       .textTheme
-        //                       .bodyText1
+        //                       .bodyLarge
         //                       .copyWith(fontWeight: FontWeight.bold),
         //                 ),
         //               ),

@@ -17,10 +17,10 @@ class RangePicker extends StatefulWidget {
   final QueryType queryType;
 
   @override
-  _RangePickerState createState() => _RangePickerState();
+  RangePickerState createState() => RangePickerState();
 }
 
-class _RangePickerState extends State<RangePicker> {
+class RangePickerState extends State<RangePicker> {
   late String currentType;
   final List<String> types = ['Greater than', 'Less than', 'Range', 'Only'];
 
@@ -287,9 +287,9 @@ class _RangePickerState extends State<RangePicker> {
             ),
             MaterialButton(
               onPressed: checkValid ? submit : null,
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text('Add'),

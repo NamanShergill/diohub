@@ -11,23 +11,22 @@ class PullChangedFilesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InfiniteScrollWrapper<FileElement>(
-      future: (pageNumber, perPage, refresh, _) {
+      future: (data) {
         return PullsService.getPullFiles(
-            Provider.of<PullProvider>(context, listen: false)
-                .data
-                .url
-                .toString(),
-            perPage: perPage,
-            refresh: refresh,
-            pageNumber: pageNumber);
+          Provider.of<PullProvider>(context, listen: false).data.url.toString(),
+          perPage: data.pageSize,
+          refresh: data.refresh,
+          pageNumber: data.pageNumber,
+        );
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 16,
       ),
-      builder: (context, item, index, refresh) {
+      builder: (data) {
         return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 2),
-            child: ChangedFilesListCard(item));
+          padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 2),
+          child: ChangedFilesListCard(data.item),
+        );
       },
     );
   }

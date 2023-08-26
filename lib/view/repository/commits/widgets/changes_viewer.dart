@@ -1,6 +1,8 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class ChangesViewer extends StatefulWidget {
   const ChangesViewer(this.patch, this.contentURL, this.fileType, {Key? key})
       : super(key: key);
@@ -9,10 +11,10 @@ class ChangesViewer extends StatefulWidget {
   final String? fileType;
 
   @override
-  _ChangesViewerState createState() => _ChangesViewerState();
+  ChangesViewerState createState() => ChangesViewerState();
 }
 
-class _ChangesViewerState extends State<ChangesViewer> {
+class ChangesViewerState extends State<ChangesViewer> {
   bool wrap = false;
   @override
   Widget build(BuildContext context) {

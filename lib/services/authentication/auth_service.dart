@@ -104,7 +104,13 @@ class AuthRepository {
     BaseAPIHandler.clearCache();
     await _storage.deleteAll();
     if (sendToAuthScreen) {
-      AutoRouter.of(currentContext).replaceAll([AuthScreenRoute()]);
+      if (currentContext.mounted) {
+        AutoRouter.of(currentContext).replaceAll(
+          [
+            AuthRoute(),
+          ],
+        );
+      }
     }
   }
 

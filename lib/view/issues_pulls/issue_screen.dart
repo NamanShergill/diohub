@@ -18,10 +18,10 @@ class IssueScreen extends StatefulWidget {
   final APIWrapperController apiWrapperController;
 
   @override
-  _IssueScreenState createState() => _IssueScreenState();
+  IssueScreenState createState() => IssueScreenState();
 }
 
-class _IssueScreenState extends State<IssueScreen>
+class IssueScreenState extends State<IssueScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
@@ -38,6 +38,7 @@ class _IssueScreenState extends State<IssueScreen>
     final data = widget.issueInfo;
     return IssuePullInfoTemplate(
       number: data.number,
+      isPinned: data.isPinned ?? false,
       title: data.titleHTML,
       reactionGroups: data.reactionGroups!,
       viewerCanReact: data.viewerCanReact,

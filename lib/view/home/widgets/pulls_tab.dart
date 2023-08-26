@@ -11,11 +11,10 @@ class PullsTab extends StatefulWidget {
   final PathData? deepLinkData;
 
   @override
-  _PullsTabState createState() => _PullsTabState();
+  PullsTabState createState() => PullsTabState();
 }
 
-class _PullsTabState extends State<PullsTab>
-    with AutomaticKeepAliveClientMixin {
+class PullsTabState extends State<PullsTab> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 

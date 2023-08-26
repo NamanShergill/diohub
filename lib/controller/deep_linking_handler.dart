@@ -23,15 +23,20 @@ Future<String?> initUniLink() async {
 void uniLinkStream() {
   linkStream.listen(
     (link) {
+      print(link);
       if (link != null) {
-        deepLinkNavigate(link);
+        deepLinkNavigate(
+          Uri.parse(link),
+        );
       }
     },
   );
 }
 
-void deepLinkNavigate(String link) {
-  if (link.startsWith(_themeLinkPattern)) {
+void deepLinkNavigate(Uri link) {
+  print(link.hasAbsolutePath);
+  print('sdjyugbfusdryb');
+  if (link.toString().startsWith(_themeLinkPattern)) {
     // AutoRouter.of(Global.currentContext).replaceAll([LandingScreenRoute()]);
     showDialog(
       context: currentContext,
@@ -46,7 +51,10 @@ void deepLinkNavigate(String link) {
           ),
           MaterialButton(
             onPressed: () {
-              loadTheme(context, Uri.parse(link).queryParameters);
+              loadTheme(
+                context,
+                link.queryParameters,
+              );
               Navigator.pop(context);
             },
             child: const Text('Confirm'),
@@ -55,7 +63,7 @@ void deepLinkNavigate(String link) {
       ),
     );
   } else if (_getRoutes(link)?.isNotEmpty == true) {
-    if (_getRoutes(link)?.first is LandingScreenRoute) {
+    if (_getRoutes(link)?.first is LandingRoute) {
       AutoRouter.of(currentContext).popUntil((route) {
         return false;
       });
@@ -95,33 +103,41 @@ RegExp get _deepLinkPattern =>
 RegExp get _themeLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
-List<PageRouteInfo>? _getRoutes(String link) {
-  final relPath = StringFunctions(githubURLtoPath(link));
-  if (relPath.string.isEmpty) {
+List<PageRouteInfo>? _getRoutes(Uri uri) {
+  final link = uri;
+
+  if (link.pathSegments.isEmpty) {
     return null;
   }
 
+  late final path;
+  if (link.path.startsWith('/')) {
+    path = link.path.substring(1);
+  } else {
+    path = link.path;
+  }
+  final relPath = StringFunctions(path);
   final temp = <PageRouteInfo>[];
   if (relPath.regexCompleteMatch(_exceptionURLPatterns)) {
     openInAppBrowser(link);
   } else if (relPath.regexCompleteMatch(_landingPageURLPattern)) {
-    temp.add(LandingScreenRoute(deepLinkData: relPath.toPathData));
+    temp.add(LandingRoute(deepLinkData: relPath.toPathData));
   } else if (relPath.regexCompleteMatch(_issuePageURLPattern) ||
       relPath.regexCompleteMatch(_pullPageURLPattern)) {
     temp.add(issuePullScreenRoute(relPath.toPathData));
   } else if (relPath.regexCompleteMatch(_commitPageURLPattern)) {
-    temp.add(CommitInfoScreenRoute(
+    temp.add(CommitInfoRoute(
         commitURL:
             '${_urlWithPrefix('repos/${relPath.toPathData.components.sublist(0, 2).join('/')}')}/commits/${PathData(relPath.string).component(3)!}'));
   } else if (relPath.regexCompleteMatch(_repoPageURLPattern)) {
-    temp.add(RepositoryScreenRoute(
+    temp.add(RepositoryRoute(
         repositoryURL: _urlWithPrefix(
             'repos/${relPath.toPathData.components.sublist(0, 2).join('/')}'),
         deepLinkData: relPath.toPathData));
   } else if (relPath.regexCompleteMatch(
     RegExp(_chars),
   )) {
-    temp.add(OtherUserProfileScreenRoute(
+    temp.add(OtherUserProfileRoute(
       login: relPath.string,
     ));
   } else {

@@ -5,7 +5,10 @@
     "endpoints": {
       "Default GraphQL Endpoint": {
         "url": "https://api.github.com/graphql",
-        "introspect": false
+        "introspect": false,
+        "headers": {
+          "Authorization": "token ${env:auth_token}"
+        }
       }
     }
   }

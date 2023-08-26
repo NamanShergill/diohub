@@ -11,7 +11,7 @@ class CacheManager {
       );
 }
 
-const Duration _maxAge = Duration(minutes: 3);
+const Duration _maxAge = Duration(minutes: 2);
 
 class APICache {
   APICache({
@@ -31,6 +31,11 @@ class APICache {
             allowPostMethod: allowPostMethod,
             priority: priority);
 
+  APICache._copyWith({
+    this.maxAge,
+    required this.cacheOptions,
+  });
+
   APICache.noCache()
       : maxAge = null,
         cacheOptions = CacheOptions(
@@ -44,11 +49,6 @@ class APICache {
         );
   final Duration? maxAge;
   final CacheOptions cacheOptions;
-
-  APICache._copyWith({
-    this.maxAge,
-    required this.cacheOptions,
-  });
 
   APICache copyWith({
     Duration? maxAge,

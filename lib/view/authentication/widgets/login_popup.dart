@@ -13,10 +13,10 @@ class LoginPopup extends StatefulWidget {
   const LoginPopup({Key? key}) : super(key: key);
 
   @override
-  _LoginPopupState createState() => _LoginPopupState();
+  LoginPopupState createState() => LoginPopupState();
 }
 
-class _LoginPopupState extends State<LoginPopup> {
+class LoginPopupState extends State<LoginPopup> {
   bool loading = false;
   @override
   Widget build(BuildContext context) {

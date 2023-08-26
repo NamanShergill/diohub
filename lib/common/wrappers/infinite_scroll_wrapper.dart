@@ -17,9 +17,21 @@ class InfiniteScrollWrapperController {
 }
 
 typedef ScrollWrapperFuture<T> = Future Function(
-    int pageNumber, int pageSize, bool refresh, T? lastItem);
+  ({
+    int pageNumber,
+    int pageSize,
+    bool refresh,
+    T? lastItem,
+  }) data,
+);
 typedef ScrollWrapperBuilder<T> = Widget Function(
-    BuildContext context, T item, int index, bool refresh);
+  ({
+    BuildContext context,
+    T item,
+    int index,
+    bool refresh,
+  }) data,
+);
 typedef FilterFn<T> = Function(List<T> items);
 
 /// A wrapper designed to show infinite pagination.
@@ -110,10 +122,10 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   final Key? paginationKey;
 
   @override
-  _InfiniteScrollWrapperState<T> createState() => _InfiniteScrollWrapperState();
+  InfiniteScrollWrapperState<T> createState() => InfiniteScrollWrapperState();
 }
 
-class _InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
+class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   late InfiniteScrollWrapperController controller;
 
   @override
@@ -305,8 +317,12 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
     try {
       log.log(Level.debug, 'Fetching page $pageNumber, key:$pageKey, $this');
       // Use the supplied APIs accordingly, based on the *refresh* value.
-      final newItems = await widget.future(pageNumber, widget.pageSize, refresh,
-          _pagingController.itemList?.last.item);
+      final newItems = await widget.future((
+        pageNumber: pageNumber,
+        pageSize: widget.pageSize,
+        refresh: refresh,
+        lastItem: _pagingController.itemList?.last.item,
+      ));
       // Check if it is the last page of results.
       final isLastPage = newItems.length < widget.pageSize;
       List<T> filteredItems;
@@ -335,7 +351,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         }
       }
     } catch (error) {
-      if (error is DioError) {
+      if (error is DioException) {
         log.e(error.response?.data);
         if (mounted) {
           _pagingController.error = error.response?.data;
@@ -361,7 +377,12 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             SizedBox(
               height: widget.topSpacing,
             ),
-          widget.builder(context, item.item, index, item.refreshChildren),
+          widget.builder((
+            context: context,
+            item: item.item,
+            index: index,
+            refresh: item.refreshChildren,
+          ))
         ]),
         firstPageProgressIndicatorBuilder: (context) =>
             widget.firstPageLoadingBuilder?.call(context) ??

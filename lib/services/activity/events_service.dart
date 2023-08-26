@@ -32,13 +32,15 @@ class EventsService {
     int? page,
   }) async {
     final parameters = <String, dynamic>{'per_page': perPage, 'page': page};
-    final response = await _restHandler.get(
+    final response = await _restHandler.get<List>(
       '/users/$user/received_events',
       queryParameters: parameters,
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e)=>EventsModel.fromJson(e))
+    return response.data!
+        .map(
+          (e) => EventsModel.fromJson(e),
+        )
         .toList();
   }
 
@@ -49,13 +51,15 @@ class EventsService {
     int? page,
   }) async {
     final parameters = <String, dynamic>{'per_page': perPage, 'page': page};
-    final response = await _restHandler.get(
+    final response = await _restHandler.get<List>(
       '/events',
       queryParameters: parameters,
       refreshCache: refresh,
     );
-    return (response.data as List)
-        .map((e)=>EventsModel.fromJson(e))
+    return response.data!
+        .map(
+          (e) => EventsModel.fromJson(e),
+        )
         .toList();
   }
 }

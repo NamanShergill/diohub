@@ -18,10 +18,12 @@ class PushEventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseEventCard(
       onTap: () {
-        AutoRouter.of(context).push(RepositoryScreenRoute(
-            repositoryURL: event.repo!.url!,
-            branch: data.ref!.split('/').last,
-            index: 2));
+        AutoRouter.of(context).push(
+          RepositoryRoute(
+              repositoryURL: event.repo!.url!,
+              branch: data.ref!.split('/').last,
+              index: 2),
+        );
       },
       userLogin: event.actor!.login,
       date: event.createdAt,
@@ -69,11 +71,11 @@ class PushEventCard extends StatelessWidget {
                   return InkWell(
                     borderRadius: smallBorderRadius,
                     onTap: () {
-                      AutoRouter.of(context).push(CommitInfoScreenRoute(
+                      AutoRouter.of(context).push(CommitInfoRoute(
                           commitURL: data.commits![index].url!));
                     },
                     onLongPress: () {
-                      AutoRouter.of(context).push(RepositoryScreenRoute(
+                      AutoRouter.of(context).push(RepositoryRoute(
                           index: 2,
                           branch: data.ref!.split('/').last,
                           repositoryURL: event.repo!.url!,

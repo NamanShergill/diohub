@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
@@ -17,6 +18,7 @@ import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class SearchOverlayScreen extends StatefulWidget {
   const SearchOverlayScreen(this.searchData,
       {this.message,
@@ -31,10 +33,10 @@ class SearchOverlayScreen extends StatefulWidget {
   final SearchData searchData;
   final bool multiHero;
   @override
-  _SearchOverlayScreenState createState() => _SearchOverlayScreenState();
+  SearchOverlayScreenState createState() => SearchOverlayScreenState();
 }
 
-class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
+class SearchOverlayScreenState extends State<SearchOverlayScreen> {
   late SearchData searchData;
   final OverlayController infoOverlay = OverlayController();
 
@@ -213,8 +215,8 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                           child: ListView(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
-                            children: [
-                              const Center(
+                            children: const [
+                              Center(
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 8.0),
                                   child: Padding(
@@ -228,14 +230,14 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                   ),
                                 ),
                               ),
-                              const Divider(),
+                              Divider(),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
-                                  children: const [
+                                  children: [
                                     Text.rich(
                                       TextSpan(children: [
                                         TextSpan(
@@ -362,11 +364,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       listen: false)
                                   .currentSetting
                                   .secondary,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
+                              child: const Padding(
+                                padding: EdgeInsets.all(16.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Text('Back'),
                                   ],
                                 ),
@@ -391,11 +393,11 @@ class _SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       listen: false)
                                   .currentSetting
                                   .secondary,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
+                              child: const Padding(
+                                padding: EdgeInsets.all(16.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Text('Search'),
                                   ],
                                 ),
@@ -513,10 +515,11 @@ class _SearchBarState extends State<_SearchBar> {
                     _parseQuery(string);
                   }),
                   decoration: inputDecoration(
-                      hintText: widget.message,
-                      context: context,
-                      labelText: 'Searching For',
-                      focusNode: searchNode),
+                    hintText: widget.message,
+                    context: context,
+                    labelText: 'Searching For',
+                    focusNode: searchNode,
+                  ),
                 ),
               ),
             ),
@@ -601,7 +604,7 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void getFocus() async {
-    // Todo: Try new speed here.
+    // TODO(namanshergill): Try new speed here.
     await Future.delayed(const Duration(milliseconds: 500));
     if (mounted) {
       setState(() {
@@ -910,15 +913,20 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   @override
-  TextSpan build(String data,
-      {TextStyle? textStyle, void Function(dynamic)? onTap}) {
+  TextSpan build(
+    String data, {
+    TextStyle? textStyle,
+    void Function(dynamic)? onTap,
+  }) {
     if (data == '') {
       return const TextSpan(text: '');
     }
     final inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
-      data.splitMapJoin(RegExp(searchFilters.allValidQueriesRegexp.pattern),
-          onMatch: (m) {
+      data.splitMapJoin(
+          RegExp(
+            searchFilters.allValidQueriesRegexp.pattern,
+          ), onMatch: (m) {
         inlineList.add(
           _ValidQuery(m[0]!, controller, textStyle,
                   context: context, onChanged: onChanged)
@@ -1003,9 +1011,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
 }
 
 class _ValidQuery extends SpecialText {
-  _ValidQuery(String startFlag, this.controller, TextStyle? textStyle,
-      {required this.onChanged, required this.context})
-      : super(
+  _ValidQuery(
+    String startFlag,
+    this.controller,
+    TextStyle? textStyle, {
+    required this.onChanged,
+    required this.context,
+  }) : super(
           startFlag,
           '',
           textStyle ?? const TextStyle(),
@@ -1019,7 +1031,6 @@ class _ValidQuery extends SpecialText {
   InlineSpan finishText() {
     return ExtendedWidgetSpan(
       alignment: PlaceholderAlignment.middle,
-      // baseline: TextBaseline.ideographic,
       child: Material(
           borderRadius: smallBorderRadius,
           color: toString().startsWith('-')

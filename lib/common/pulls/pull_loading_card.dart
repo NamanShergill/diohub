@@ -36,7 +36,7 @@ class PullLoadingCard extends StatelessWidget {
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         borderRadius: medBorderRadius,
         child: APIWrapper<PullRequestModel>(
-          apiCall: (refresh) =>
+          apiCall: ({required refresh}) =>
               PullsService.getPullInformation(fullUrl: url, refresh: refresh),
           loadingBuilder: (context) {
             if (issueModel != null) {
@@ -91,7 +91,7 @@ class PullLoadingCard extends StatelessWidget {
                         issueModel!.title!,
                         style: Theme.of(context)
                             .textTheme
-                            .headline6!
+                            .titleLarge!
                             .copyWith(fontSize: 14),
                       ),
                       if (!compact)

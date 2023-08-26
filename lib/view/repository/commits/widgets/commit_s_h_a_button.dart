@@ -19,8 +19,7 @@ class CommitSHAButton extends StatelessWidget {
       child: InkWell(
         borderRadius: medBorderRadius,
         onTap: () {
-          AutoRouter.of(context)
-              .push(CommitInfoScreenRoute(commitURL: commitURL!));
+          AutoRouter.of(context).push(CommitInfoRoute(commitURL: commitURL!));
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),

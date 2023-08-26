@@ -19,10 +19,10 @@ class IssueNotificationCard extends StatefulWidget {
   final NotificationModel notification;
   final bool refresh;
   @override
-  _IssueNotificationCardState createState() => _IssueNotificationCardState();
+  IssueNotificationCardState createState() => IssueNotificationCardState();
 }
 
-class _IssueNotificationCardState extends State<IssueNotificationCard>
+class IssueNotificationCardState extends State<IssueNotificationCard>
     with AutomaticKeepAliveClientMixin {
   late IssueModel issueInfo;
   late IssueCommentsModel latestComment;
@@ -93,7 +93,7 @@ class _IssueNotificationCardState extends State<IssueNotificationCard>
     // If latest event is after latest comment, show in preview.
     if (latestIssueEvent != null &&
         latestIssueEvent!.createdAt!.isAfter(latestComment.createdAt!)) {
-      // Todo: Update issue event model and add more cases.
+      // TODO(namanshergill): Update issue event model and add more cases.
       if (latestIssueEvent!.event == 'assigned') {
         return CardFooter(latestIssueEvent!.actor!.avatarUrl,
             'Assigned #${issueInfo.number} to ${latestIssueEvent!.assignee!.login}',

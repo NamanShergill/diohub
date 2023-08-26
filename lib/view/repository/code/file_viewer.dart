@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/markdown_body.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class FileViewerAPI extends StatefulWidget {
   const FileViewerAPI(this.sha,
       {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
@@ -23,10 +25,10 @@ class FileViewerAPI extends StatefulWidget {
   final String? sha;
 
   @override
-  _FileViewerAPIState createState() => _FileViewerAPIState();
+  FileViewerAPIState createState() => FileViewerAPIState();
 }
 
-class _FileViewerAPIState extends State<FileViewerAPI> {
+class FileViewerAPIState extends State<FileViewerAPI> {
   final ContentViewController contentViewController = ContentViewController();
 
   String? fileExtension;
@@ -97,7 +99,7 @@ class _FileViewerAPIState extends State<FileViewerAPI> {
         ],
       ),
       body: APIWrapper<BlobModel>(
-        apiCall: (refresh) => GitDatabaseService.getBlob(
+        apiCall: ({required refresh}) => GitDatabaseService.getBlob(
             sha: widget.sha, repoURL: widget.repoURL),
         responseBuilder: (context, blob) {
           if (fileType != null && fileType!.startsWith('image')) {
@@ -142,10 +144,10 @@ class TextViewer extends StatefulWidget {
   final String? branch;
   final String? repoName;
   @override
-  _TextViewerState createState() => _TextViewerState();
+  TextViewerState createState() => TextViewerState();
 }
 
-class _TextViewerState extends State<TextViewer> {
+class TextViewerState extends State<TextViewer> {
   bool loading = true;
   late List<String> content;
   bool wrapText = false;

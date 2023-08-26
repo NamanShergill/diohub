@@ -26,10 +26,10 @@ class UserFollow extends StatefulWidget {
   final ValueChanged<int>? onFollowersChange;
 
   @override
-  _UserFollowState createState() => _UserFollowState();
+  UserFollowState createState() => UserFollowState();
 }
 
-class _UserFollowState extends State<UserFollow> {
+class UserFollowState extends State<UserFollow> {
   final APIWrapperController<FollowStatusInfo$Query$User> controller =
       APIWrapperController();
   bool changing = false;
@@ -78,7 +78,8 @@ class _UserFollowState extends State<UserFollow> {
     }
 
     return APIWrapper<FollowStatusInfo$Query$User>(
-      apiCall: (refresh) => UserInfoService.getFollowInfo(widget.login),
+      apiCall: ({required refresh}) =>
+          UserInfoService.getFollowInfo(widget.login),
       apiWrapperController: controller,
       loadingBuilder: (context) => widget.child != null
           ? widget.child!(context, null, null)

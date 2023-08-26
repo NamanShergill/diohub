@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
-extension ScreenSize on BuildContext {
+extension BuildContextExtensions on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
+
+  BuildContext? get mountedContext {
+    if (mounted) {
+      return this;
+    }
+    return null;
+  }
 }
 
 extension IsNotNull on Object {

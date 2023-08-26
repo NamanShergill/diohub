@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar(
+class AppSearchBar extends StatefulWidget {
+  const AppSearchBar(
       {this.message,
       String? prompt,
       this.quickOptions,
@@ -43,10 +43,10 @@ class SearchBar extends StatefulWidget {
   final Widget? trailing;
 
   @override
-  _SearchBarState createState() => _SearchBarState();
+  AppSearchBarState createState() => AppSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class AppSearchBarState extends State<AppSearchBar> {
   SearchData? searchData;
 
   @override
@@ -110,7 +110,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
-  void didUpdateWidget(SearchBar oldWidget) {
+  void didUpdateWidget(AppSearchBar oldWidget) {
     searchData = widget.searchData;
     super.didUpdateWidget(oldWidget);
   }
@@ -143,7 +143,7 @@ class _SearchBarState extends State<SearchBar> {
                 replacement: ListTile(
                   title: Text(
                     'Sort & Quick Filters',
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         color: sortExpanded
                             ? Provider.of<PaletteSettings>(context)
                                 .currentSetting
@@ -189,7 +189,7 @@ class _SearchBarState extends State<SearchBar> {
                                           'Best Match',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2!
+                                          .titleSmall!
                                           .copyWith(
                                               color: sortExpanded
                                                   ? Provider.of<
@@ -244,7 +244,7 @@ class _SearchBarState extends State<SearchBar> {
                                                       .toList()[index],
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2,
+                                                      .titleSmall,
                                                 ),
                                                 onTap: () {
                                                   changeSortExpanded(
@@ -288,7 +288,7 @@ class _SearchBarState extends State<SearchBar> {
                                             searchData!.activeQuickFilter),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .subtitle2!
+                                            .titleSmall!
                                             .copyWith(
                                                 color: quickFiltersExpanded
                                                     ? Provider.of<
@@ -342,7 +342,7 @@ class _SearchBarState extends State<SearchBar> {
                                                         .toList()[index],
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .subtitle2,
+                                                        .titleSmall,
                                                   ),
                                                   onTap: () {
                                                     changeQuickFiltersExpanded(
@@ -393,7 +393,7 @@ class _SearchBarState extends State<SearchBar> {
                                                 .toList()[index],
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .subtitle2,
+                                                .titleSmall,
                                           ),
                                           activeColor:
                                               Provider.of<PaletteSettings>(
@@ -455,7 +455,7 @@ class _SearchBarState extends State<SearchBar> {
             child: InkWell(
               borderRadius: medBorderRadius,
               onTap: () {
-                AutoRouter.of(context).push(SearchOverlayScreenRoute(
+                AutoRouter.of(context).push(SearchOverlayRoute(
                     message: widget.message,
                     multiHero: widget.updateBarOnChange,
                     searchData: searchData != null ? searchData! : SearchData(),
@@ -539,7 +539,7 @@ class _SearchBarState extends State<SearchBar> {
                                     widget._prompt,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
                                             color: Provider.of<PaletteSettings>(
                                                     context)
@@ -626,7 +626,7 @@ class _ActiveSearch extends StatelessWidget {
                               RichText(
                                 text: TextSpan(
                                     style:
-                                        Theme.of(context).textTheme.subtitle2,
+                                        Theme.of(context).textTheme.titleSmall,
                                     children: [
                                       TextSpan(
                                           text:

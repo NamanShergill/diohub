@@ -50,13 +50,13 @@ class SearchScreenState extends State<SearchScreen>
                       'Search GitHub',
                       style: Theme.of(context)
                           .textTheme
-                          .headline4!
+                          .headlineMedium!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SearchBar(
+                    child: AppSearchBar(
                       backgroundColor: Provider.of<PaletteSettings>(context)
                           .currentSetting
                           .primary,
@@ -74,11 +74,12 @@ class SearchScreenState extends State<SearchScreen>
                             .currentSetting
                             .primary,
                         child: APIWrapper<List<RepositoryModel>>(
-                          apiCall: (refresh) => SearchService.searchRepos(
-                              SearchQueries().pushed.toQueryString(
-                                  '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}'),
-                              page: 1,
-                              perPage: 25),
+                          apiCall: ({required refresh}) =>
+                              SearchService.searchRepos(
+                                  SearchQueries().pushed.toQueryString(
+                                      '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}'),
+                                  page: 1,
+                                  perPage: 25),
                           loadingBuilder: (context) {
                             return const Padding(
                               padding: EdgeInsets.all(48.0),
@@ -112,7 +113,7 @@ class SearchScreenState extends State<SearchScreen>
                                                       'Trending Repositories',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .headline6!),
+                                                          .titleLarge!),
                                                 ),
                                                 // Divider(
                                                 //   height: 0,

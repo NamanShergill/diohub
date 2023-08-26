@@ -27,10 +27,10 @@ class HomeScreen extends StatefulWidget {
   final PathData? deepLinkData;
   final TabController parentTabController;
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
@@ -53,44 +53,29 @@ class _HomeScreenState extends State<HomeScreen>
 
     super.build(context);
     return NestedScroll(
-      header: (context, _) {
-        return [
-          SliverAppBar(
-            expandedHeight: 300,
-            collapsedHeight: 155,
-            pinned: true,
-            elevation: 2,
-            backgroundColor:
-                Provider.of<PaletteSettings>(context).currentSetting.primary,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.only(bottom: 30.0),
-              child: CollapsibleAppBar(
-                minHeight: 155,
-                maxHeight: 300,
-                title: 'Home',
-                trailing: ClipOval(
-                  child: InkWell(
-                    onTap: () {
-                      widget.parentTabController.animateTo(3);
-                    },
-                    child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                      childBuilder: (context, value) => CachedNetworkImage(
-                        imageUrl: value.data.avatarUrl!,
-                        placeholder: (context, _) {
-                          return ShimmerWidget(
-                            child: Container(
-                              color: Colors.grey,
-                            ),
-                          );
-                        },
-                      ),
-                      errorBuilder: (context, error) {
-                        return const Icon(
-                          LineIcons.exclamationCircle,
-                          size: 40,
-                        );
-                      },
-                      loadingBuilder: (context) {
+      header: (context, {required isInnerBoxScrolled}) => [
+        SliverAppBar(
+          expandedHeight: 300,
+          collapsedHeight: 155,
+          pinned: true,
+          elevation: 2,
+          backgroundColor:
+              Provider.of<PaletteSettings>(context).currentSetting.primary,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(bottom: 30.0),
+            child: CollapsibleAppBar(
+              minHeight: 155,
+              maxHeight: 300,
+              title: 'Home',
+              trailing: ClipOval(
+                child: InkWell(
+                  onTap: () {
+                    widget.parentTabController.animateTo(3);
+                  },
+                  child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                    childBuilder: (context, value) => CachedNetworkImage(
+                      imageUrl: value.data.avatarUrl!,
+                      placeholder: (context, _) {
                         return ShimmerWidget(
                           child: Container(
                             color: Colors.grey,
@@ -98,39 +83,51 @@ class _HomeScreenState extends State<HomeScreen>
                         );
                       },
                     ),
+                    errorBuilder: (context, error) {
+                      return const Icon(
+                        LineIcons.exclamationCircle,
+                        size: 40,
+                      );
+                    },
+                    loadingBuilder: (context) {
+                      return ShimmerWidget(
+                        child: Container(
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
                   ),
                 ),
-                child: SearchBar(
-                  updateBarOnChange: false,
-                  onSubmit: (data) {
-                    search.updateSearchData(data);
-                    widget.parentTabController.animateTo(1);
-                  },
-                  heroTag: 'homeSearchBar',
-                ),
               ),
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                color: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .primary,
-                child: AppTabBar(
-                  controller: _tabController,
-                  tabs: const [
-                    'Activity',
-                    'Issues',
-                    'Pull Requests',
-                    'Organizations',
-                    'Public Activity',
-                  ],
-                ),
+              child: AppSearchBar(
+                updateBarOnChange: false,
+                onSubmit: (data) {
+                  search.updateSearchData(data);
+                  widget.parentTabController.animateTo(1);
+                },
+                heroTag: 'homeSearchBar',
               ),
             ),
           ),
-        ];
-      },
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(0),
+            child: Container(
+              color:
+                  Provider.of<PaletteSettings>(context).currentSetting.primary,
+              child: AppTabBar(
+                controller: _tabController,
+                tabs: const [
+                  'Activity',
+                  'Issues',
+                  'Pull Requests',
+                  'Organizations',
+                  'Public Activity',
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
       body: Container(
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
@@ -157,9 +154,10 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     InfiniteScrollWrapper<
                         GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
-                      future: (pageNumber, pageSize, refresh, lastItem) {
+                      future: (data) {
                         return UserInfoService.getViewerOrgs(
-                            refresh: refresh, after: lastItem?.cursor);
+                            refresh: data.refresh,
+                            after: data.lastItem?.cursor);
                       },
                       separatorBuilder: (context, index) => const Divider(
                         height: 8,
@@ -167,13 +165,14 @@ class _HomeScreenState extends State<HomeScreen>
                       topSpacing: 8,
                       listEndIndicator: false,
                       // divider: false,
-                      builder: (context, item, index, refresh) {
+                      builder: (data) {
                         return Row(
                           children: [
                             Expanded(
                               child: ProfileTile.login(
-                                avatarUrl: item?.node?.avatarUrl.toString(),
-                                userLogin: item?.node?.login,
+                                avatarUrl:
+                                    data.item?.node?.avatarUrl.toString(),
+                                userLogin: data.item?.node?.login,
                                 padding: const EdgeInsets.all(16),
                                 size: 30,
                               ),
@@ -218,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen>
 //                   children: [
 //                     Text(
 //                       'Home',
-//                       style: Theme.of(context).textTheme.headline4!.copyWith(
+//                       style: Theme.of(context).textTheme.headlineMedium!.copyWith(
 //                           color: Colors.white, fontWeight: FontWeight.bold),
 //                     ),
 //                     const SizedBox(

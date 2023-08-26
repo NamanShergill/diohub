@@ -42,11 +42,11 @@ class SettingsScreenState extends State<SettingsScreen>
         appBarWidget: AppInfoWidget(
             axis: Axis.horizontal,
             logoSize: 30,
-            nameSize: Theme.of(context).textTheme.headline6!.fontSize!),
-        flexibleBackgroundWidget: Column(
+            nameSize: Theme.of(context).textTheme.titleLarge!.fontSize!),
+        flexibleBackgroundWidget: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             AppInfoWidget(
               axis: Axis.horizontal,
               logoSize: 45,
@@ -57,7 +57,7 @@ class SettingsScreenState extends State<SettingsScreen>
             //   padding: const EdgeInsets.symmetric(horizontal: 8),
             //   child: Text(
             //     'App Settings',
-            //     style: Theme.of(context).textTheme.headline5,
+            //     style: Theme.of(context).textTheme.headlineSmall,
             //   ),
             // ),
             // Row(
@@ -171,7 +171,7 @@ class _GeneralSettings extends StatelessWidget {
                       return AlertDialog(
                         title: Text(
                           'Log Out?',
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         actions: [
                           MaterialButton(
@@ -261,11 +261,11 @@ class _About extends StatelessWidget {
                         'https://github.com/NamanShergill/diohub/issues',
                       );
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Flexible(
                             child: Text(
                               'https://github.com/NamanShergill/diohub/issues',

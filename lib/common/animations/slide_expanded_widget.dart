@@ -15,10 +15,10 @@ class SlideExpandedSection extends StatefulWidget {
   final Duration? duration;
 
   @override
-  _SlideExpandedSectionState createState() => _SlideExpandedSectionState();
+  SlideExpandedSectionState createState() => SlideExpandedSectionState();
 }
 
-class _SlideExpandedSectionState extends State<SlideExpandedSection>
+class SlideExpandedSectionState extends State<SlideExpandedSection>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<Offset> animation;

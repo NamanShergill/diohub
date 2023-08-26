@@ -15,10 +15,10 @@ class ScaleExpandedSection extends StatefulWidget {
   final Duration? duration;
 
   @override
-  _ScaleExpandedSectionState createState() => _ScaleExpandedSectionState();
+  ScaleExpandedSectionState createState() => ScaleExpandedSectionState();
 }
 
-class _ScaleExpandedSectionState extends State<ScaleExpandedSection>
+class ScaleExpandedSectionState extends State<ScaleExpandedSection>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;

@@ -17,10 +17,10 @@ import 'package:provider/provider.dart';
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
   @override
-  _NotificationsScreenState createState() => _NotificationsScreenState();
+  NotificationsScreenState createState() => NotificationsScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen>
+class NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
   /// Filters to be supplied to the API.
   Map<String, dynamic> apiFilters = {'all': true};
@@ -75,39 +75,37 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return NestedScroll(
-      header: (context, _) {
-        return [
-          SliverAppBar(
-            expandedHeight: 150,
-            collapsedHeight: 100,
-            pinned: true,
-            elevation: 2,
-            backgroundColor:
-                Provider.of<PaletteSettings>(context).currentSetting.primary,
-            flexibleSpace: GestureDetector(
-              onTap: () {
-                setState(() {
-                  expanded = !expanded;
-                });
-              },
-              child: CollapsibleAppBar(
-                minHeight: 100,
-                maxHeight: 150,
-                expandedParentPadding: 0,
-                title: 'Inbox',
-                trailing: IconButton(
-                  icon: const Icon(Icons.sort),
-                  onPressed: () {
-                    setState(() {
-                      expanded = !expanded;
-                    });
-                  },
-                ),
+      header: (context, {required isInnerBoxScrolled}) => [
+        SliverAppBar(
+          expandedHeight: 150,
+          collapsedHeight: 100,
+          pinned: true,
+          elevation: 2,
+          backgroundColor:
+              Provider.of<PaletteSettings>(context).currentSetting.primary,
+          flexibleSpace: GestureDetector(
+            onTap: () {
+              setState(() {
+                expanded = !expanded;
+              });
+            },
+            child: CollapsibleAppBar(
+              minHeight: 100,
+              maxHeight: 150,
+              expandedParentPadding: 0,
+              title: 'Inbox',
+              trailing: IconButton(
+                icon: const Icon(Icons.sort),
+                onPressed: () {
+                  setState(() {
+                    expanded = !expanded;
+                  });
+                },
               ),
             ),
           ),
-        ];
-      },
+        ),
+      ],
       body: Builder(
         builder: (context) {
           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
@@ -144,7 +142,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                           children: [
                             Text(
                               'Mark all as read',
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             const Icon(
                               LineIcons.checkCircle,
@@ -169,7 +167,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                           children: [
                             Text(
                               'Filter Inbox',
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             const Icon(
                               LineIcons.filter,
@@ -189,10 +187,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                     height: 0,
                   ),
                   topSpacing: 16,
-                  future: (pageNumber, pageSize, refresh, _) {
+                  future: (data) {
                     return NotificationsService.getNotifications(
-                      page: pageNumber,
-                      perPage: pageSize,
+                      page: data.pageNumber,
+                      perPage: data.pageSize,
                       filters: apiFilters,
                     );
                   },
@@ -205,16 +203,17 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                     }
                     return filtered;
                   },
-                  builder: (context, item, index, refresh) {
-                    if (item.subject!.type == SubjectType.ISSUE) {
+                  builder: (data) {
+                    if (data.item.subject!.type == SubjectType.ISSUE) {
                       return IssueNotificationCard(
-                        item,
-                        refresh: refresh,
+                        data.item,
+                        refresh: data.refresh,
                       );
-                    } else if (item.subject!.type == SubjectType.PULL_REQUEST) {
+                    } else if (data.item.subject!.type ==
+                        SubjectType.PULL_REQUEST) {
                       return PullRequestNotificationCard(
-                        item,
-                        refresh: refresh,
+                        data.item,
+                        refresh: data.refresh,
                       );
                     }
                     return Container();

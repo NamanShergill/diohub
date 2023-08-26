@@ -53,7 +53,7 @@ void showCommentSheet(BuildContext context,
                       children: [
                         Text(
                           type,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const Icon(Icons.arrow_drop_down),
                       ],
@@ -118,10 +118,10 @@ class CommentBox extends StatefulWidget {
   final ScrollController? scrollController;
 
   @override
-  _CommentBoxState createState() => _CommentBoxState();
+  CommentBoxState createState() => CommentBoxState();
 }
 
-class _CommentBoxState extends State<CommentBox> {
+class CommentBoxState extends State<CommentBox> {
   bool loading = false;
   late String data;
 

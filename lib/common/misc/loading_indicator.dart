@@ -15,10 +15,10 @@ class LoadingIndicator extends StatefulWidget {
   final double size;
 
   @override
-  _LoadingIndicatorState createState() => _LoadingIndicatorState();
+  LoadingIndicatorState createState() => LoadingIndicatorState();
 }
 
-class _LoadingIndicatorState extends State<LoadingIndicator>
+class LoadingIndicatorState extends State<LoadingIndicator>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;

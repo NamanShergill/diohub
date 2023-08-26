@@ -33,10 +33,10 @@ class Button extends StatefulWidget {
   final EdgeInsets padding;
 
   @override
-  _ButtonState createState() => _ButtonState();
+  ButtonState createState() => ButtonState();
 }
 
-class _ButtonState extends State<Button> {
+class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
@@ -134,8 +134,10 @@ class StringButton extends StatelessWidget {
       onTap: onTap,
       trailingIcon: trailingIcon,
       loadingWidget: Text(loadingText ?? '',
-          style:
-              Theme.of(context).textTheme.button!.copyWith(fontSize: textSize)),
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge!
+              .copyWith(fontSize: textSize)),
       color: color,
       borderRadius: borderRadius,
       leadingIcon: leadingIcon,

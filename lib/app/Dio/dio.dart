@@ -1,4 +1,5 @@
-import 'package:artemis/artemis.dart';
+// import 'package:artemis/artemis.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
@@ -34,7 +35,7 @@ class RESTHandler extends BaseAPIHandler {
           addAuthHeader: false,
         );
 
-  Future<Response> get(
+  Future<Response<T>> get<T>(
     String url, {
     bool refreshCache = false,
     Map<String, dynamic>? queryParameters,
@@ -49,7 +50,7 @@ class RESTHandler extends BaseAPIHandler {
         overrideAPICache: activeCacheOptions.copyWith(
           cachePolicy: refreshCache ? CachePolicy.refresh : null,
         ),
-      ).get(
+      ).get<T>(
         url,
         queryParameters: queryParameters,
         options: options,
@@ -62,7 +63,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> post(
+  Future<Response> post<T>(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -75,7 +76,7 @@ class RESTHandler extends BaseAPIHandler {
     try {
       final response = await _request(
         requestHeaders: requestHeaders,
-      ).post(
+      ).post<T>(
         url,
         data: data,
         queryParameters: queryParameters,
@@ -90,7 +91,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> put(
+  Future<Response> put<T>(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -103,7 +104,7 @@ class RESTHandler extends BaseAPIHandler {
     try {
       final response = await _request(
         requestHeaders: requestHeaders,
-      ).put(
+      ).put<T>(
         url,
         data: data,
         queryParameters: queryParameters,
@@ -118,7 +119,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> delete(
+  Future<Response> delete<T>(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -129,7 +130,7 @@ class RESTHandler extends BaseAPIHandler {
     try {
       final response = await _request(
         requestHeaders: requestHeaders,
-      ).delete(
+      ).delete<T>(
         url,
         data: data,
         queryParameters: queryParameters,
@@ -142,7 +143,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> patch(
+  Future<Response> patch<T>(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -155,7 +156,7 @@ class RESTHandler extends BaseAPIHandler {
     try {
       final response = await _request(
         requestHeaders: requestHeaders,
-      ).patch(
+      ).patch<T>(
         url,
         data: data,
         queryParameters: queryParameters,
@@ -265,7 +266,8 @@ abstract class BaseAPIHandler {
 
   final APILoggingSettings? apiLogSettings;
 
-  APILoggingSettings? get defaultAPILogSettings => null;
+  APILoggingSettings? get defaultAPILogSettings =>
+      APILoggingSettings.comprehensive();
 
   Dio _request({
     Map<String, dynamic>? requestHeaders,
@@ -285,9 +287,12 @@ abstract class BaseAPIHandler {
               options.headers['Authorization'] = 'token $token';
               handler.next(options);
             } catch (e) {
-              log.e('Could not fetch auth token from device.', e);
+              log.e('Could not fetch auth token from device.', error: e);
               handler.reject(
-                DioError(requestOptions: options, error: e),
+                DioException(
+                  requestOptions: options,
+                  error: e,
+                ),
               );
             }
           },
@@ -319,7 +324,7 @@ abstract class BaseAPIHandler {
           handler.next(response);
         },
         onError: (error, handler) async {
-          // Todo: Add better exception handling based on response codes.
+          // TODO(namanshergill): Add better exception handling based on response codes.
           if (error.response == null) {
             handler.next(error);
           } else if (error.response?.data.runtimeType is Map &&
@@ -345,7 +350,7 @@ abstract class BaseAPIHandler {
               cache.cacheOptions.policy != CachePolicy.refresh &&
               cache.maxAge != null;
           if (checkCache) {
-            final key = CacheOptions.defaultCacheKeyBuilder(options);
+            final key = cache.cacheOptions.keyBuilder(options);
             final cacheData = await _cacheStore.get(key);
             if (cacheData != null &&
                 DateTime.now()

@@ -46,7 +46,7 @@ class BrowserListTile extends StatelessWidget {
             Provider.of<CodeProvider>(context, listen: false)
                 .pushTree(tree.sha!, index);
           } else if (tree.type == Type.BLOB) {
-            AutoRouter.of(context).push(FileViewerAPIRoute(
+            AutoRouter.of(context).push(FileViewerAPI(
                 repoURL: repoURL,
                 sha: tree.sha,
                 fileName: tree.path,

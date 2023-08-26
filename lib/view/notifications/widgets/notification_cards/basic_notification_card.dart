@@ -27,10 +27,10 @@ class BasicNotificationCard extends StatefulWidget {
   final Function? onTap;
 
   @override
-  _BasicNotificationCardState createState() => _BasicNotificationCardState();
+  BasicNotificationCardState createState() => BasicNotificationCardState();
 }
 
-class _BasicNotificationCardState extends State<BasicNotificationCard> {
+class BasicNotificationCardState extends State<BasicNotificationCard> {
   // Need to add a key to [Slidable] child widget
   // to prevent unnecessary rebuilds.
   GlobalKey key = GlobalKey();

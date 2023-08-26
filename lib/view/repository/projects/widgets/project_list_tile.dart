@@ -79,7 +79,7 @@ class ProjectListTile extends StatelessWidget {
                       project.name,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(fontSize: 16),
                     ),
                     const SizedBox(

@@ -26,7 +26,7 @@ class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
 
   @override
   void onError(Object error) {
-    if (error is DioError) {
+    if (error is DioException) {
       if (error.response != null &&
           error.response!.statusCode == 401 &&
           authenticationBloc.state.authenticated) {

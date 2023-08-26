@@ -11,7 +11,9 @@ void linkHandler(
 }) async {
   // print(isDeepLink(url!));
   if (isDeepLink(url!) && !showSheetOnDeepLink) {
-    deepLinkNavigate(url);
+    deepLinkNavigate(
+      Uri.parse(url),
+    );
   } else {
     showURLActions(
       context,

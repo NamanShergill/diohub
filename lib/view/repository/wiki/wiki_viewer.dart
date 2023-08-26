@@ -1,5 +1,7 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class WikiViewer extends StatefulWidget {
   const WikiViewer({Key? key, this.repoURL}) : super(key: key);
   final String? repoURL;
@@ -168,7 +170,7 @@ class WikiViewerState extends State<WikiViewer> {
     //                     'Uh oh.',
     //                     style: Theme.of(context)
     //                         .textTheme
-    //                         .headline4!
+    //                         .headlineMedium!
     //                         .copyWith(fontWeight: FontWeight.bold),
     //                   ),
     //                   Text(

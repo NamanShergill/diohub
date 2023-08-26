@@ -135,7 +135,7 @@ class ProfileTile extends StatelessWidget {
 void navigateToProfile(
         {required BuildContext context, required String login}) =>
     context.router.push(
-      OtherUserProfileScreenRoute(login: login),
+      OtherUserProfileRoute(login: login),
     );
 
 enum _UserCardType { photo, login, extended }

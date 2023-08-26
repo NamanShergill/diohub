@@ -1,3 +1,4 @@
+import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/main.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class InfoCard extends StatelessWidget {
   final InfoCardMode mode;
   final EdgeInsets? childPadding;
   final String? title;
-  final Icon? icon;
+  final IconData? icon;
   final TextStyle? titleTextStyle;
 
   Widget _buildUI(BuildContext context) {
@@ -108,7 +109,12 @@ class InfoCard extends StatelessWidget {
   Row _buildDescriptors(BuildContext context) {
     return Row(
       children: [
-        if (icon != null) icon!,
+        if (icon != null)
+          Icon(
+            icon,
+            size: 20,
+            color: context.palette.faded3,
+          ),
         if (title != null && icon != null)
           const SizedBox(
             width: 8,
@@ -116,7 +122,9 @@ class InfoCard extends StatelessWidget {
         if (title != null)
           Text(
             title!,
-            style: context.textTheme.bodyLarge?.merge(titleTextStyle),
+            style: context.textTheme.bodyLarge
+                ?.merge(titleTextStyle)
+                .copyWith(color: context.palette.faded3),
           ),
       ],
     );

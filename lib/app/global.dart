@@ -1,5 +1,4 @@
 import 'package:dio_hub/routes/router.dart';
-import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,7 +7,7 @@ late AppRouter _customRouter;
 AppRouter get customRouter => _customRouter;
 
 void setUpRouter(BuildContext context) {
-  _customRouter = AppRouter(authGuard: AuthGuard(context));
+  _customRouter = AppRouter(context);
 }
 
 BuildContext get currentContext => customRouter.navigatorKey.currentContext!;

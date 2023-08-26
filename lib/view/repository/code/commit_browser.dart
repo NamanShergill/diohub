@@ -28,10 +28,10 @@ class CommitBrowser extends StatefulWidget {
   final String? branchName;
 
   @override
-  _CommitBrowserState createState() => _CommitBrowserState();
+  CommitBrowserState createState() => CommitBrowserState();
 }
 
-class _CommitBrowserState extends State<CommitBrowser> {
+class CommitBrowserState extends State<CommitBrowser> {
   bool? isLocked;
   late List<String> path;
   InfiniteScrollWrapperController controller =
@@ -129,23 +129,24 @@ class _CommitBrowserState extends State<CommitBrowser> {
               controller: controller,
               shrinkWrap: true,
               scrollController: widget.controller,
-              future: (pageNumber, pageSize, refresh, _) {
+              future: (data) {
                 return RepositoryServices.getCommitsList(
-                    repoURL: widget.repoURL!,
-                    pageNumber: pageNumber,
-                    pageSize: pageSize,
-                    path: path.join('/'),
-                    sha: isLocked! ? widget.currentSHA : widget.branchName,
-                    refresh: refresh);
+                  repoURL: widget.repoURL!,
+                  pageNumber: data.pageNumber,
+                  pageSize: data.pageSize,
+                  path: path.join('/'),
+                  sha: isLocked! ? widget.currentSHA : widget.branchName,
+                  refresh: data.refresh,
+                );
               },
               topSpacing: 16,
               separatorBuilder: (context, index) => const SizedBox(
                 height: 16,
               ),
-              builder: (context, item, index, refresh) {
+              builder: (data) {
                 return CommitTilesREST(
-                  highlighted: isLocked! && widget.currentSHA == item.sha,
-                  item: item,
+                  highlighted: isLocked! && widget.currentSHA == data.item.sha,
+                  item: data.item,
                   onSelected: (value) {
                     widget.onSelected!(value);
                     Navigator.pop(context);

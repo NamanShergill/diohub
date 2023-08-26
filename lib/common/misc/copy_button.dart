@@ -10,10 +10,10 @@ class CopyButton extends StatefulWidget {
   final double size;
 
   @override
-  _CopyButtonState createState() => _CopyButtonState();
+  CopyButtonState createState() => CopyButtonState();
 }
 
-class _CopyButtonState extends State<CopyButton> {
+class CopyButtonState extends State<CopyButton> {
   bool copied = false;
 
   void copy() async {

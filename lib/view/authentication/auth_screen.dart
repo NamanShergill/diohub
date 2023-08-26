@@ -10,6 +10,7 @@ import 'package:dio_hub/view/authentication/widgets/login_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+@RoutePage()
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key, this.onAuthenticated}) : super(key: key);
   final VoidCallback? onAuthenticated;
@@ -51,7 +52,7 @@ class AuthScreen extends StatelessWidget {
                         if (onAuthenticated != null) {
                           onAuthenticated!();
                         } else {
-                          AutoRouter.of(context).replace(LandingScreenRoute());
+                          AutoRouter.of(context).replace(LandingRoute());
                         }
                       }
                     },

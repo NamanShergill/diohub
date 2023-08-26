@@ -244,7 +244,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                         if (widget.onSelected != null) {
                           widget.onSelected!(widget.sha);
                         } else {
-                          AutoRouter.of(context).push(RepositoryScreenRoute(
+                          AutoRouter.of(context).push(RepositoryRoute(
                             repositoryURL:
                                 toRepoAPIResource(widget.url, endIndex: 2),
                             index: 2,
@@ -252,11 +252,11 @@ class _CommitTilesState extends State<_CommitTiles> {
                           ));
                         }
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               'View Code',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -275,13 +275,13 @@ class _CommitTilesState extends State<_CommitTiles> {
                     InkWell(
                       onTap: () {
                         AutoRouter.of(context)
-                            .push(CommitInfoScreenRoute(commitURL: widget.url));
+                            .push(CommitInfoRoute(commitURL: widget.url));
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               'Commit Details',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -299,11 +299,11 @@ class _CommitTilesState extends State<_CommitTiles> {
                     ),
                     InkWell(
                       onTap: copySha,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               'Copy SHA',
                               style: TextStyle(fontWeight: FontWeight.bold),

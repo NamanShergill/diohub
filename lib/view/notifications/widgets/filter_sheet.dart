@@ -32,10 +32,10 @@ class FilterSheet extends StatefulWidget {
   final ScrollController? controller;
 
   @override
-  _FilterSheetState createState() => _FilterSheetState();
+  FilterSheetState createState() => FilterSheetState();
 }
 
-class _FilterSheetState extends State<FilterSheet> {
+class FilterSheetState extends State<FilterSheet> {
   Map<String, dynamic> apiFilters = {};
   Map<String, dynamic> clientFilters = {};
 
@@ -55,7 +55,7 @@ class _FilterSheetState extends State<FilterSheet> {
         widget.clientFilters!['show_only'].map((e) => e).toList();
   }
 
-  // Todo: Add remove filters button.
+  // TODO(namanshergill): Add remove filters button.
   void removeFilters(String key) {
     apiFilters.remove(key);
     sendFilters();
@@ -93,7 +93,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Only unread notifications',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -117,7 +117,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Assigned',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -139,7 +139,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Author',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -161,7 +161,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Comment',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -183,7 +183,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Invitation',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -205,7 +205,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Following',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -227,7 +227,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Mentioned',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -250,7 +250,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Review Requested',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -273,7 +273,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Security Alert',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -295,7 +295,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Actions',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -317,7 +317,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Subscribed',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -339,7 +339,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         .accent,
                     title: Text(
                       'Team Mention',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     onChanged: (value) {}),
               ),
@@ -375,7 +375,7 @@ class _FilterSheetState extends State<FilterSheet> {
                               .secondary,
                           child: Text(
                             'Apply Filters',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
                       ),
@@ -404,7 +404,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 title ?? '',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleLarge!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
