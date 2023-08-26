@@ -34,8 +34,6 @@ void uniLinkStream() {
 }
 
 void deepLinkNavigate(Uri link) {
-  print(link.hasAbsolutePath);
-  print('sdjyugbfusdryb');
   if (link.toString().startsWith(_themeLinkPattern)) {
     // AutoRouter.of(Global.currentContext).replaceAll([LandingScreenRoute()]);
     showDialog(
