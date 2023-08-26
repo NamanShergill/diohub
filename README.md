@@ -65,6 +65,7 @@ It is under active development and aims to implement all the available features 
 - [Install Flutter on your system.](https://flutter.dev/docs/get-started/install)
 - [Create a GitHub OAuth application.](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
   - Set the `Authorization callback URL` to `auth.felix.diohub://login-callback`.
+- Run `git submodule update --init` in the project directory. 
 - Create a file under `lib\app` named `keys.dart` with the following content:
     ```dart
   class PrivateKeys {
@@ -72,6 +73,6 @@ It is under active development and aims to implement all the available features 
   static const clientSecret = '<ClientSecret of the app from the previous step>';
   }
   ```
-- Run `flutter pub get` and build the project.
+- Run `flutter pub get` and [build](https://docs.flutter.dev/get-started/test-drive) the project.
 
 This readme is just an initial draft so apologies for it not being as comprehensive.
