@@ -1,7 +1,6 @@
 # DioHub for Github
 
-#### Note: This branch DOES NOT compile! Please switch to either of the following branches currently if you wish to compile the project:
-- [development](https://github.com/namanshergill/diohub/tree/development)
+#### Note: This branch DOES NOT compile! Please switch to the following branch currently if you wish to compile the project:
 - [v0.4](https://github.com/namanshergill/diohub/tree/v0.4)
 
 -----
