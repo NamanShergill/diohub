@@ -9,7 +9,6 @@ void linkHandler(
   bool showSheetOnDeepLink = false,
   bool showOpenActions = true,
 }) async {
-  // print(isDeepLink(url!));
   if (isDeepLink(url!) && !showSheetOnDeepLink) {
     deepLinkNavigate(
       Uri.parse(url),

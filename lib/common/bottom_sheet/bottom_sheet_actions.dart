@@ -63,16 +63,17 @@ Future<T?> showActionsSheet<T>(
             (context, setState) => message,
           ),
       builder: (context, setState) => BottomSheetBodyList(
-          children: actions
-              .map(
-                (e) => ListTile(
-                  title: e.title,
-                  leading: e.leading,
-                  trailing: e.trailing,
-                  onTap: () => e.onPressed,
-                ),
-              )
-              .toList()),
+        children: actions
+            .map(
+              (e) => ListTile(
+                title: e.title,
+                leading: e.leading,
+                trailing: e.trailing,
+                onTap: e.onPressed,
+              ),
+            )
+            .toList(),
+      ),
     ),
   );
 }
@@ -137,6 +138,8 @@ Future showURLActions<T>(
           ),
           isDefaultAction: true,
           onPressed: () {
+            print('askjfbjks');
+            print(canLaunchUrl(uri));
             canLaunchUrl(uri).then(
               (value) {
                 Navigator.pop(context);
@@ -194,6 +197,7 @@ Future showURLActions<T>(
           Icons.copy,
         ),
         onPressed: () {
+          print('dsknfkjdsf');
           Navigator.pop(context);
           copyToClipboard(
             uri.toString(),
