@@ -11,12 +11,11 @@ class RepositoryProvider extends BaseDataProvider<RepositoryModel> {
   String url;
 
   @override
-  Future<RepositoryModel> setInitData({bool isInitialisation = false}) {
-    return RepositoryServices.fetchRepository(url);
-  }
+  Future<RepositoryModel> setInitData({final bool isInitialisation = false}) =>
+      RepositoryServices.fetchRepository(url);
 }
 
 extension RepoProvider on BuildContext {
-  RepositoryProvider repoProvider({bool listen = true}) =>
+  RepositoryProvider repoProvider({final bool listen = true}) =>
       Provider.of<RepositoryProvider>(this, listen: listen);
 }

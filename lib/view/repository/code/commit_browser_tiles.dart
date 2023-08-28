@@ -17,19 +17,18 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class _CommitTiles extends StatefulWidget {
-  const _CommitTiles(
-      {Key? key,
-      this.compact = false,
-      this.highlighted = false,
-      this.onSelected,
-      this.backgroundColor,
-      required this.message,
-      required this.url,
-      required this.date,
-      required this.authorAvatarUrl,
-      required this.authorLogin,
-      required this.sha})
-      : super(key: key);
+  const _CommitTiles({
+    required this.message,
+    required this.url,
+    required this.date,
+    required this.authorAvatarUrl,
+    required this.authorLogin,
+    required this.sha,
+    this.compact = false,
+    this.highlighted = false,
+    this.onSelected,
+    this.backgroundColor,
+  });
   final bool highlighted;
   final ValueChanged<String>? onSelected;
   final String sha;
@@ -48,111 +47,99 @@ class _CommitTiles extends StatefulWidget {
 class _CommitTilesState extends State<_CommitTiles> {
   bool expanded = false;
 
-  void copySha() async {
-    Clipboard.setData(ClipboardData(text: widget.sha));
+  Future<void> copySha() async {
+    await Clipboard.setData(ClipboardData(text: widget.sha));
     ResponseHandler.setSuccessMessage(
-        AppPopupData(title: 'Copied SHA to clipboard.'));
+      AppPopupData(title: 'Copied SHA to clipboard.'),
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      borderRadius: medBorderRadius,
-      color: widget.highlighted
-          ? Provider.of<PaletteSettings>(context).currentSetting.accent
-          : widget.backgroundColor ??
-              Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: InkWell(
+  Widget build(final BuildContext context) => Material(
+        elevation: 2,
         borderRadius: medBorderRadius,
-        onTap: () {
-          setState(() {
-            expanded = !expanded;
-          });
-        },
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Flexible(
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  widget.message,
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              if (!widget.compact)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        ProfileTile.avatar(
-                                          avatarUrl: widget.authorAvatarUrl,
-                                          size: 13,
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          widget.authorLogin ?? 'N/A',
-                                          style: const TextStyle(fontSize: 11),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
+        color: widget.highlighted
+            ? Provider.of<PaletteSettings>(context).currentSetting.accent
+            : widget.backgroundColor ??
+                Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        child: InkWell(
+          borderRadius: medBorderRadius,
+          onTap: () {
+            setState(() {
+              expanded = !expanded;
+            });
+          },
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 16,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(
+                      width: 16,
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
+                    Flexible(
+                      child: Row(
                         children: [
-                          Icon(
-                            Octicons.git_commit,
-                            size: 11,
-                            color: widget.highlighted
-                                ? Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .elementsOnColors
-                                : Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
+                          Flexible(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    widget.message,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                if (!widget.compact)
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Row(
+                                        children: [
+                                          ProfileTile.avatar(
+                                            avatarUrl: widget.authorAvatarUrl,
+                                            size: 13,
+                                            padding: EdgeInsets.zero,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            widget.authorLogin ?? 'N/A',
+                                            style:
+                                                const TextStyle(fontSize: 11),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            widget.sha.substring(0, 6),
-                            style: TextStyle(
-                              fontSize: 11,
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Octicons.git_commit,
+                              size: 11,
                               color: widget.highlighted
                                   ? Provider.of<PaletteSettings>(context)
                                       .currentSetting
@@ -161,50 +148,49 @@ class _CommitTilesState extends State<_CommitTiles> {
                                       .currentSetting
                                       .faded3,
                             ),
-                          ),
-                          Icon(
-                            expanded
-                                ? Icons.arrow_drop_up
-                                : Icons.arrow_drop_down,
-                            size: 13,
-                            color: widget.highlighted
-                                ? Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .elementsOnColors
-                                : Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
-                          ),
-                        ],
-                      ),
-                      if (!widget.compact)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
                             const SizedBox(
-                              height: 8,
+                              width: 5,
                             ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.timelapse_outlined,
-                                  size: 11,
-                                  color: widget.highlighted
-                                      ? Provider.of<PaletteSettings>(context)
-                                          .currentSetting
-                                          .elementsOnColors
-                                      : Provider.of<PaletteSettings>(context)
-                                          .currentSetting
-                                          .faded3,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  getDate(widget.date.toString(),
-                                      shorten: false),
-                                  style: TextStyle(
-                                    fontSize: 11,
+                            Text(
+                              widget.sha.substring(0, 6),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: widget.highlighted
+                                    ? Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .elementsOnColors
+                                    : Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded3,
+                              ),
+                            ),
+                            Icon(
+                              expanded
+                                  ? Icons.arrow_drop_up
+                                  : Icons.arrow_drop_down,
+                              size: 13,
+                              color: widget.highlighted
+                                  ? Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .elementsOnColors
+                                  : Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3,
+                            ),
+                          ],
+                        ),
+                        if (!widget.compact)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.timelapse_outlined,
+                                    size: 11,
                                     color: widget.highlighted
                                         ? Provider.of<PaletteSettings>(context)
                                             .currentSetting
@@ -213,23 +199,43 @@ class _CommitTilesState extends State<_CommitTiles> {
                                             .currentSetting
                                             .faded3,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                ],
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    getDate(
+                                      widget.date.toString(),
+                                      shorten: false,
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: widget.highlighted
+                                          ? Provider.of<PaletteSettings>(
+                                                  context,)
+                                              .currentSetting
+                                              .elementsOnColors
+                                          : Provider.of<PaletteSettings>(
+                                                  context,)
+                                              .currentSetting
+                                              .faded3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: expanded ? 8 : 16,
-            ),
-            SizeExpandedSection(
+              SizedBox(
+                height: expanded ? 8 : 16,
+              ),
+              SizeExpandedSection(
                 expand: expanded,
                 child: Column(
                   children: [
@@ -244,16 +250,18 @@ class _CommitTilesState extends State<_CommitTiles> {
                         if (widget.onSelected != null) {
                           widget.onSelected!(widget.sha);
                         } else {
-                          AutoRouter.of(context).push(RepositoryRoute(
-                            repositoryURL:
-                                toRepoAPIResource(widget.url, endIndex: 2),
-                            index: 2,
-                            initSHA: widget.sha,
-                          ));
+                          AutoRouter.of(context).push(
+                            RepositoryRoute(
+                              repositoryURL:
+                                  toRepoAPIResource(widget.url, endIndex: 2),
+                              index: 2,
+                              initSHA: widget.sha,
+                            ),
+                          );
                         }
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -278,7 +286,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                             .push(CommitInfoRoute(commitURL: widget.url));
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -300,7 +308,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                     InkWell(
                       onTap: copySha,
                       child: const Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -317,45 +325,47 @@ class _CommitTilesState extends State<_CommitTiles> {
                       ),
                     ),
                   ],
-                )),
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class CommitTilesREST extends StatelessWidget {
-  const CommitTilesREST(
-      {Key? key, required this.item, this.highlighted = false, this.onSelected})
-      : super(key: key);
+  const CommitTilesREST({
+    required this.item,
+    super.key,
+    this.highlighted = false,
+    this.onSelected,
+  });
   final CommitListModel item;
   final bool highlighted;
   final ValueChanged<String>? onSelected;
 
   @override
-  Widget build(BuildContext context) {
-    return _CommitTiles(
+  Widget build(final BuildContext context) => _CommitTiles(
         highlighted: highlighted,
         onSelected: onSelected,
         message: item.commit!.message!,
         url: item.url!,
         date: item.commit!.committer!.date!,
         authorAvatarUrl: item.author!.avatarUrl,
-        authorLogin: item.author!.login!,
-        sha: item.sha!);
-  }
+        authorLogin: item.author!.login,
+        sha: item.sha!,
+      );
 }
 
 class CommitTilesGQL extends StatelessWidget {
-  const CommitTilesGQL(
-      {Key? key,
-      required this.item,
-      this.highlighted = false,
-      this.onSelected,
-      this.compact = true,
-      this.backgroundColor})
-      : super(key: key);
+  const CommitTilesGQL({
+    required this.item,
+    super.key,
+    this.highlighted = false,
+    this.onSelected,
+    this.compact = true,
+    this.backgroundColor,
+  });
   final CommitMixin item;
   final bool highlighted;
   final bool compact;
@@ -363,8 +373,7 @@ class CommitTilesGQL extends StatelessWidget {
   final ValueChanged<String>? onSelected;
 
   @override
-  Widget build(BuildContext context) {
-    return _CommitTiles(
+  Widget build(final BuildContext context) => _CommitTiles(
         highlighted: highlighted,
         onSelected: onSelected,
         backgroundColor: backgroundColor ??
@@ -375,8 +384,8 @@ class CommitTilesGQL extends StatelessWidget {
         date: item.authoredDate,
         authorAvatarUrl: item.author?.user?.avatarUrl.toString(),
         authorLogin: item.author?.user?.login,
-        sha: item.oid);
-  }
+        sha: item.oid,
+      );
 
   String get toApiURL {
     final temp = item.commitUrl

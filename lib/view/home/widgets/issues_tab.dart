@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatefulWidget {
-  const IssuesTab({this.deepLinkData, Key? key}) : super(key: key);
+  const IssuesTab({this.deepLinkData, super.key});
   final PathData? deepLinkData;
 
   @override
@@ -21,23 +21,24 @@ class IssuesTabState extends State<IssuesTab>
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     final user = Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(user.login!),
-            SearchQueries().type.toQueryString('issue'),
-          ],
-          filterStrings: [
-            if (widget.deepLinkData?.component(1) == 'assigned')
-              SearchQueries().assignee.toQueryString(user.login!),
-            if (widget.deepLinkData?.component(1) == 'mentioned')
-              SearchQueries().mentions.toQueryString(user.login!),
-          ]),
+        searchFilters:
+            SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
+        defaultHiddenFilters: [
+          SearchQueries().involves.toQueryString(user.login!),
+          SearchQueries().type.toQueryString('issue'),
+        ],
+        filterStrings: [
+          if (widget.deepLinkData?.component(1) == 'assigned')
+            SearchQueries().assignee.toQueryString(user.login!),
+          if (widget.deepLinkData?.component(1) == 'mentioned')
+            SearchQueries().mentions.toQueryString(user.login!),
+        ],
+      ),
       quickFilters: {
         SearchQueries().assignee.toQueryString(user.login!): 'Assigned',
         SearchQueries().author.toQueryString(user.login!): 'Created',
@@ -49,7 +50,7 @@ class IssuesTabState extends State<IssuesTab>
       searchBarMessage: 'Search in your issues',
       searchHeroTag: '${user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      filterFn: (data) {
+      filterFn: (final data) {
         final filteredData = <IssueModel>[];
         for (final item in data) {
           if (item.pullRequest == null) {

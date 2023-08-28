@@ -25,7 +25,7 @@ void main() async {
   // Success popup stream initialised.
   ResponseHandler.getSuccessStream();
   // Connectivity check stream initialised.
-  InternetConnectivity.networkStatusService();
+  await InternetConnectivity.networkStatusService();
 
   await Future.wait([
     BaseAPIHandler.setupDioAPICache(),
@@ -45,55 +45,50 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.authenticated}) : super(key: key);
+  const MyApp({required this.authenticated, super.key});
   // final String? initDeepLink;
   final bool authenticated;
 
   @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        // Initialise Authentication Bloc and add event to check auth state.
-        BlocProvider(
-          create: (_) => AuthenticationBloc(authenticated: authenticated),
-          lazy: false,
-        ),
-      ],
-      child: Builder(
-        builder: (context) {
-          return MultiProvider(
+  Widget build(final BuildContext context) => MultiBlocProvider(
+        providers: [
+          // Initialise Authentication Bloc and add event to check auth state.
+          BlocProvider(
+            create: (final _) =>
+                AuthenticationBloc(authenticated: authenticated),
+            lazy: false,
+          ),
+        ],
+        child: Builder(
+          builder: (final context) => MultiProvider(
             providers: [
               ChangeNotifierProvider(
                 lazy: false,
-                create: (_) => CurrentUserProvider(
+                create: (final _) => CurrentUserProvider(
                   authenticationBloc:
                       BlocProvider.of<AuthenticationBloc>(context),
                 ),
               ),
               ChangeNotifierProvider(
-                create: (_) => SearchDataProvider(),
+                create: (final _) => SearchDataProvider(),
               ),
               ChangeNotifierProvider(
-                create: (_) => FontSettings(),
+                create: (final _) => FontSettings(),
               ),
               ChangeNotifierProvider(
-                create: (_) => PaletteSettings(),
+                create: (final _) => PaletteSettings(),
               ),
             ],
-            builder: (context, child) {
-              return const Portal(
-                child: RootApp(),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
+            builder: (final context, final child) => const Portal(
+              child: RootApp(),
+            ),
+          ),
+        ),
+      );
 }
 
 class RootApp extends StatefulWidget {
-  const RootApp({Key? key}) : super(key: key);
+  const RootApp({super.key});
   // final String? initDeepLink;
 
   @override
@@ -108,33 +103,24 @@ class _RootAppState extends State<RootApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: _getTheme(context, brightness: Brightness.light),
-      darkTheme: _getTheme(context, brightness: Brightness.dark),
-      routerDelegate: customRouter.delegate(
-        deepLinkBuilder: (deepLink) {
-          print(deepLink.uri);
-          print(deepLink.path);
-          print(deepLink.configuration.url);
-          print(deepLink.initial);
-          print('jasubdyjuasbdf');
-          return DeepLink([
+  Widget build(final BuildContext context) => MaterialApp.router(
+        theme: _getTheme(context, brightness: Brightness.light),
+        darkTheme: _getTheme(context, brightness: Brightness.dark),
+        routerDelegate: customRouter.delegate(
+          deepLinkBuilder: (final deepLink) => DeepLink([
             LandingLoadingRoute(
               initLink: deepLink.configuration.uri,
-            )
-          ]);
-        },
-        rebuildStackOnDeepLink: true,
-      ),
-      routeInformationParser: customRouter.defaultRouteParser(),
-    );
-  }
+            ),
+          ]),
+          rebuildStackOnDeepLink: true,
+        ),
+        routeInformationParser: customRouter.defaultRouteParser(),
+      );
 }
 
 ThemeData _getTheme(
-  BuildContext context, {
-  required Brightness brightness,
+  final BuildContext context, {
+  required final Brightness brightness,
 }) {
   final palette = Provider.of<PaletteSettings>(context).currentSetting;
 
@@ -156,8 +142,9 @@ ThemeData _getTheme(
     appBarTheme: AppBarTheme(color: palette.primary, elevation: 5),
     tabBarTheme: TabBarTheme(
       indicator: BoxDecoration(
-          borderRadius: bigBorderRadius,
-          color: Provider.of<PaletteSettings>(context).currentSetting.accent),
+        borderRadius: bigBorderRadius,
+        color: Provider.of<PaletteSettings>(context).currentSetting.accent,
+      ),
       unselectedLabelColor:
           Provider.of<PaletteSettings>(context).currentSetting.faded3,
       // unselectedLabelStyle: Theme.of(context)
@@ -168,7 +155,7 @@ ThemeData _getTheme(
       //     .textTheme
       //     .titleLarge!
       //     .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
-      labelPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+      labelPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
     ),
     bottomSheetTheme: BottomSheetThemeData(
       shape: const RoundedRectangleBorder(
@@ -200,7 +187,8 @@ ThemeData _getTheme(
     ),
     primaryColor: palette.accent,
     scrollbarTheme: ScrollbarThemeData(
-        thumbColor: MaterialStateProperty.all<Color>(Colors.grey)),
+      thumbColor: MaterialStateProperty.all<Color>(Colors.grey),
+    ),
     dialogTheme: DialogTheme(
       backgroundColor: palette.primary,
       shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
@@ -231,11 +219,13 @@ ThemeData _getTheme(
           TextStyle(color: palette.faded3.withOpacity(0.7), fontSize: 12),
       filled: true,
       enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.transparent),
-          borderRadius: medBorderRadius),
+        borderSide: const BorderSide(color: Colors.transparent),
+        borderRadius: medBorderRadius,
+      ),
       focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: palette.faded3),
-          borderRadius: medBorderRadius),
+        borderSide: BorderSide(color: palette.faded3),
+        borderRadius: medBorderRadius,
+      ),
       labelStyle: TextStyle(color: palette.faded3),
       border: OutlineInputBorder(
         borderRadius: medBorderRadius,

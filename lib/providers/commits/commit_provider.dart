@@ -7,7 +7,6 @@ class CommitProvider extends BaseDataProvider<CommitModel> {
   final String commitURL;
 
   @override
-  Future<CommitModel> setInitData({bool isInitialisation = false}) {
-    return RepositoryServices.getCommit(commitURL);
-  }
+  Future<CommitModel> setInitData({final bool isInitialisation = false}) =>
+      RepositoryServices.getCommit(commitURL);
 }

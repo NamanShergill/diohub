@@ -4,8 +4,7 @@ import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class EditableTextItem extends StatefulWidget {
-  const EditableTextItem(this.editingController, {this.builder, Key? key})
-      : super(key: key);
+  const EditableTextItem(this.editingController, {this.builder, super.key});
   final Widget Function(BuildContext context, String? newValue)? builder;
   final EditingController<String> editingController;
 
@@ -32,18 +31,17 @@ class _EditableTextItemState extends State<EditableTextItem> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return EditWidget(
-      editingController: widget.editingController,
-      toolsAxis: Axis.vertical,
-      builder: ({
-        required context,
-        required currentState,
-        required currentlyEditing,
-        required newValue,
-        required tools,
-      }) {
-        return Row(
+  Widget build(final BuildContext context) => EditWidget(
+        editingController: widget.editingController,
+        toolsAxis: Axis.vertical,
+        builder: ({
+          required final context,
+          required final currentState,
+          required final currentlyEditing,
+          required final newValue,
+          required final tools,
+        }) =>
+            Row(
           children: [
             Expanded(
               child: FadeSwitch(
@@ -54,7 +52,9 @@ class _EditableTextItemState extends State<EditableTextItem> {
                         maxLines: null,
                       )
                     : widget.builder?.call(
-                            context, widget.editingController.newValue) ??
+                          context,
+                          widget.editingController.newValue,
+                        ) ??
                         Text(
                           widget.editingController.newValue ??
                               widget.editingController.value,
@@ -63,8 +63,6 @@ class _EditableTextItemState extends State<EditableTextItem> {
             ),
             tools,
           ],
-        );
-      },
-    );
-  }
+        ),
+      );
 }

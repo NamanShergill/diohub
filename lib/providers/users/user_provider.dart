@@ -9,7 +9,6 @@ class UserProvider extends BaseDataProvider<UserInfoModel> {
   final String _userName;
 
   @override
-  Future<UserInfoModel> setInitData({bool isInitialisation = false}) {
-    return UserInfoService.getUserInfo(_userName);
-  }
+  Future<UserInfoModel> setInitData({final bool isInitialisation = false}) =>
+      UserInfoService.getUserInfo(_userName);
 }

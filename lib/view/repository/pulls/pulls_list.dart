@@ -7,20 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsList extends StatelessWidget {
-  const PullsList({Key? key}) : super(key: key);
+  const PullsList({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final repo = Provider.of<RepositoryProvider>(context);
     final user = Provider.of<CurrentUserProvider>(context).data;
 
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().type.toQueryString('pr'),
-            SearchQueries().repo.toQueryString(repo.data.fullName!),
-          ]),
+        searchFilters:
+            SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
+        defaultHiddenFilters: [
+          SearchQueries().type.toQueryString('pr'),
+          SearchQueries().repo.toQueryString(repo.data.fullName!),
+        ],
+      ),
       quickFilters: {
         SearchQueries().assignee.toQueryString(user.login!): 'Assigned to you',
         SearchQueries().author.toQueryString(user.login!): 'Your pull requests',
@@ -30,7 +31,7 @@ class PullsList extends StatelessWidget {
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
       searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-      searchBarMessage: 'Search in ${repo.data.name}\'s pull requests',
+      searchBarMessage: "Search in ${repo.data.name}'s pull requests",
       searchHeroTag: 'repoPRSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       // replacementBuilder: (SearchData data, header, child) {

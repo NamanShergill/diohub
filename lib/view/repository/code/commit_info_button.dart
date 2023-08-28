@@ -7,12 +7,10 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitInfoButton extends StatelessWidget {
-  const CommitInfoButton({Key? key}) : super(key: key);
+  const CommitInfoButton({super.key});
   @override
-  Widget build(BuildContext context) {
-    return Consumer<CodeProvider>(
-      builder: (context, value, _) {
-        return Row(
+  Widget build(final BuildContext context) => Consumer<CodeProvider>(
+        builder: (final context, final value, final _) => Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const SizedBox(
@@ -29,7 +27,9 @@ class CommitInfoButton extends StatelessWidget {
                           ? '${value.tree.last.commit!.commit!.message!.substring(0, 25)}...'
                           : value.tree.last.commit!.commit!.message!,
                       style: const TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.bold),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -73,10 +73,11 @@ class CommitInfoButton extends StatelessWidget {
                     Text(
                       value.tree.last.commit!.sha!.substring(0, 6),
                       style: TextStyle(
-                          fontSize: 11,
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3),
+                        fontSize: 11,
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                      ),
                     ),
                     Icon(
                       Icons.arrow_drop_down,
@@ -104,9 +105,10 @@ class CommitInfoButton extends StatelessWidget {
                     ),
                     Text(
                       getDate(
-                          value.tree.last.commit!.commit!.committer!.date
-                              .toString(),
-                          shorten: false),
+                        value.tree.last.commit!.commit!.committer!.date
+                            .toString(),
+                        shorten: false,
+                      ),
                       style: TextStyle(
                         fontSize: 11,
                         color: Provider.of<PaletteSettings>(context)
@@ -122,8 +124,6 @@ class CommitInfoButton extends StatelessWidget {
               width: 8,
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+      );
 }

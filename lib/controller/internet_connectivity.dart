@@ -14,8 +14,8 @@ class InternetConnectivity {
   static NetworkStatus _status = NetworkStatus.online;
   static NetworkStatus get status => _status;
 
-  static void networkStatusService() async {
-    Connectivity().onConnectivityChanged.listen((status) async {
+  static Future<void> networkStatusService() async {
+    Connectivity().onConnectivityChanged.listen((final status) async {
       if (status != ConnectivityResult.none) {
         _networkController.add(NetworkStatus.restored);
         await Future.delayed(const Duration(seconds: 5));
@@ -26,7 +26,7 @@ class InternetConnectivity {
         _networkController.add(NetworkStatus.offline);
       }
     });
-    _networkController.stream.listen((event) {
+    _networkController.stream.listen((final event) {
       _status = event;
     });
     if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {

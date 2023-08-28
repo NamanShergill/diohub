@@ -4,7 +4,7 @@ class CommentProvider extends ChangeNotifier {
   String _data = '';
   String get data => _data;
 
-  void updateData(String data) {
+  void updateData(final String data) {
     _data = data;
     notifyListeners();
   }
@@ -14,7 +14,7 @@ class CommentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addQuote(String data) {
+  void addQuote(final String data) {
     var str = data;
     str = '\n> ${str.replaceAll(RegExp('\n'), '\n> ')}';
     _data = '$_data$str\n\n';

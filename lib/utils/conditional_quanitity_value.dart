@@ -3,8 +3,8 @@ typedef ConditionalEmptyValue<V> = V Function();
 
 extension ConditionalQuantityValues<T> on List<T> {
   V valuesOnLength<V>({
-    required Map<int, V Function()> values,
-    required ConditionalValue<V, T> defaultValue,
+    required final Map<int, V Function()> values,
+    required final ConditionalValue<V, T> defaultValue,
   }) {
     if (values[length] != null) {
       return values[length]!.call();
@@ -14,13 +14,13 @@ extension ConditionalQuantityValues<T> on List<T> {
   }
 
   V valuesOnLengthBasic<V>({
-    required V Function() onNoItems,
-    required V Function(T item) onOneItem,
-    required ConditionalValue<V, T> defaultValue,
+    required final V Function() onNoItems,
+    required final V Function(T item) onOneItem,
+    required final ConditionalValue<V, T> defaultValue,
   }) =>
       valuesOnLength<V>(
         values: {
-          0: () => onNoItems.call(),
+          0: onNoItems.call,
           1: () => onOneItem.call(first),
         },
         defaultValue: defaultValue,
@@ -29,8 +29,8 @@ extension ConditionalQuantityValues<T> on List<T> {
 
 extension ConditionalIntValues on int {
   V valuesOnLength<V>({
-    required Map<int, V Function()> values,
-    required ConditionalEmptyValue<V> defaultValue,
+    required final Map<int, V Function()> values,
+    required final ConditionalEmptyValue<V> defaultValue,
   }) {
     if (values[this] != null) {
       return values[this]!.call();
@@ -40,14 +40,14 @@ extension ConditionalIntValues on int {
   }
 
   V valuesOnLengthBasic<V>({
-    required V Function() onZero,
-    required V Function() onOne,
-    required ConditionalEmptyValue<V> defaultValue,
+    required final V Function() onZero,
+    required final V Function() onOne,
+    required final ConditionalEmptyValue<V> defaultValue,
   }) =>
       valuesOnLength<V>(
         values: {
-          0: () => onZero.call(),
-          1: () => onOne.call(),
+          0: onZero.call,
+          1: onOne.call,
         },
         defaultValue: defaultValue,
       );

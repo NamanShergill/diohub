@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {
-  const PullInformation({Key? key}) : super(key: key);
+  const PullInformation({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final pull = Provider.of<PullProvider>(context).data;
     // final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return Container();

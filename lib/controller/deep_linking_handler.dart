@@ -22,8 +22,7 @@ Future<String?> initUniLink() async {
 
 void uniLinkStream() {
   linkStream.listen(
-    (link) {
-      print(link);
+    (final link) {
       if (link != null) {
         deepLinkNavigate(
           Uri.parse(link),
@@ -33,12 +32,12 @@ void uniLinkStream() {
   );
 }
 
-void deepLinkNavigate(Uri link) {
+void deepLinkNavigate(final Uri link) {
   if (link.toString().startsWith(_themeLinkPattern)) {
     // AutoRouter.of(Global.currentContext).replaceAll([LandingScreenRoute()]);
     showDialog(
       context: currentContext,
-      builder: (context) => AppDialog(
+      builder: (final context) => AppDialog(
         title: 'Load theme?',
         actions: [
           MaterialButton(
@@ -56,43 +55,40 @@ void deepLinkNavigate(Uri link) {
               Navigator.pop(context);
             },
             child: const Text('Confirm'),
-          )
+          ),
         ],
       ),
     );
-  } else if (_getRoutes(link)?.isNotEmpty == true) {
+  } else if (_getRoutes(link)?.isNotEmpty ?? false) {
     if (_getRoutes(link)?.first is LandingRoute) {
-      AutoRouter.of(currentContext).popUntil((route) {
-        return false;
-      });
+      AutoRouter.of(currentContext).popUntil((final route) => false);
     }
     // AutoRouter.of(Global.currentContext).replaceAll(getRoutes(link)!);
     AutoRouter.of(currentContext).pushAll(_getRoutes(link)!);
   }
 }
 
-String githubURLtoPath(String link) {
+String githubURLtoPath(final String link) {
   var str = link;
   if (str.endsWith('/')) {
     str = str.substring(0, str.length - 1);
   }
   return str.toLowerCase().replaceFirst(
-      RegExp('((http(s)?)(:(//)))?${regexORCases(
-        [
-          'www.',
-          'api.',
-        ],
-      )}?(github.com)(/)?'),
-      '');
+        RegExp('((http(s)?)(:(//)))?${regexORCases(
+          [
+            'www.',
+            'api.',
+          ],
+        )}?(github.com)(/)?'),
+        '',
+      );
 }
 
-bool isDeepLink(String link) =>
+bool isDeepLink(final String link) =>
     link.startsWith(_deepLinkPattern) &&
     !githubURLtoPath(link).startsWith(_exceptionURLPatterns);
 
-bool isAPILink(String link) {
-  return link.startsWith(_apiLinkPattern);
-}
+bool isAPILink(final String link) => link.startsWith(_apiLinkPattern);
 
 RegExp get _apiLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(api.)(github.com)(/)?');
@@ -101,14 +97,14 @@ RegExp get _deepLinkPattern =>
 RegExp get _themeLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
-List<PageRouteInfo>? _getRoutes(Uri uri) {
+List<PageRouteInfo>? _getRoutes(final Uri uri) {
   final link = uri;
 
   if (link.pathSegments.isEmpty) {
     return null;
   }
 
-  late final path;
+  late final String path;
   if (link.path.startsWith('/')) {
     path = link.path.substring(1);
   } else {
@@ -124,27 +120,36 @@ List<PageRouteInfo>? _getRoutes(Uri uri) {
       relPath.regexCompleteMatch(_pullPageURLPattern)) {
     temp.add(issuePullScreenRoute(relPath.toPathData));
   } else if (relPath.regexCompleteMatch(_commitPageURLPattern)) {
-    temp.add(CommitInfoRoute(
+    temp.add(
+      CommitInfoRoute(
         commitURL:
-            '${_urlWithPrefix('repos/${relPath.toPathData.components.sublist(0, 2).join('/')}')}/commits/${PathData(relPath.string).component(3)!}'));
+            '${_urlWithPrefix('repos/${relPath.toPathData.components.sublist(0, 2).join('/')}')}/commits/${PathData(relPath.string).component(3)!}',
+      ),
+    );
   } else if (relPath.regexCompleteMatch(_repoPageURLPattern)) {
-    temp.add(RepositoryRoute(
+    temp.add(
+      RepositoryRoute(
         repositoryURL: _urlWithPrefix(
-            'repos/${relPath.toPathData.components.sublist(0, 2).join('/')}'),
-        deepLinkData: relPath.toPathData));
+          'repos/${relPath.toPathData.components.sublist(0, 2).join('/')}',
+        ),
+        deepLinkData: relPath.toPathData,
+      ),
+    );
   } else if (relPath.regexCompleteMatch(
     RegExp(_chars),
   )) {
-    temp.add(OtherUserProfileRoute(
-      login: relPath.string,
-    ));
+    temp.add(
+      OtherUserProfileRoute(
+        login: relPath.string,
+      ),
+    );
   } else {
     openInAppBrowser(link);
   }
   return temp;
 }
 
-String _urlWithPrefix(String url) => 'https://api.github.com/$url';
+String _urlWithPrefix(final String url) => 'https://api.github.com/$url';
 
 RegExp get _exceptionURLPatterns => RegExp(
       regexORCases(
@@ -182,10 +187,10 @@ RegExp get _landingPageURLPattern => RegExp(
                         'assigned',
                         'mentioned',
                       ],
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -273,7 +278,7 @@ RegExp get _repoPageURLPattern => RegExp(
 class PathData {
   PathData(this.path, {this.isAPIPath = false});
 
-  PathData.fromURL(String url)
+  PathData.fromURL(final String url)
       : path = githubURLtoPath(url),
         isAPIPath = isAPILink(url);
   final String path;
@@ -282,16 +287,15 @@ class PathData {
   // final Map? extData;
 
   List<String> get components => path.split('/');
-  String? component(int index) {
+  String? component(final int index) {
     if (components.length > index) {
       return components[index];
     }
     return null;
   }
 
-  bool componentIs(int index, String data) {
-    return component(index) == data;
-  }
+  bool componentIs(final int index, final String data) =>
+      component(index) == data;
 
   @override
   String toString() => path;

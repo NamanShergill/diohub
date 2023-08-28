@@ -12,74 +12,73 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class AuthScreen extends StatelessWidget {
-  const AuthScreen({Key? key, this.onAuthenticated}) : super(key: key);
+  const AuthScreen({super.key, this.onAuthenticated});
   final VoidCallback? onAuthenticated;
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizeExpandedSection(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          AppLogoWidget(
-                              size: MediaQuery.of(context).size.width * 0.3),
-                          const AppNameWidget(
-                            size: 24,
-                          ),
-                        ],
-                      ),
-                    ],
+  Widget build(final BuildContext context) => SafeArea(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizeExpandedSection(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AppLogoWidget(
+                              size: MediaQuery.of(context).size.width * 0.3,
+                            ),
+                            const AppNameWidget(
+                              size: 24,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-                  child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                    listener: (context, state) async {
-                      if (state is AuthenticationSuccessful) {
-                        if (onAuthenticated != null) {
-                          onAuthenticated!();
-                        } else {
-                          AutoRouter.of(context).replace(LandingRoute());
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                    child:
+                        BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                      listener: (final context, final state) async {
+                        if (state is AuthenticationSuccessful) {
+                          if (onAuthenticated != null) {
+                            onAuthenticated!();
+                          } else {
+                            await AutoRouter.of(context)
+                                .replace(LandingRoute());
+                          }
                         }
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is AuthenticationUnauthenticated) {
-                        return const LoginPopup();
-                      } else if (state is AuthenticationInitialized) {
-                        return CodeInfoBox(state.deviceCodeModel);
-                      } else if (state is AuthenticationError) {
-                        return ErrorPopup(state.error);
-                      }
-                      return Container();
-                    },
+                      },
+                      builder: (final context, final state) {
+                        if (state is AuthenticationUnauthenticated) {
+                          return const LoginPopup();
+                        } else if (state is AuthenticationInitialized) {
+                          return CodeInfoBox(state.deviceCodeModel);
+                        } else if (state is AuthenticationError) {
+                          return ErrorPopup(state.error);
+                        }
+                        return Container();
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-              ],
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: VersionInfoWidget(),
-            ),
-          ],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                ],
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: VersionInfoWidget(),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -10,14 +10,13 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
-  const BrowserListTile(this.tree, this.repoURL, this.index, {Key? key})
-      : super(key: key);
+  const BrowserListTile(this.tree, this.repoURL, this.index, {super.key});
   final Tree tree;
   final String? repoURL;
   final int index;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     Icon? getIcon() {
       switch (tree.type) {
         case Type.TREE:
@@ -46,7 +45,8 @@ class BrowserListTile extends StatelessWidget {
             Provider.of<CodeProvider>(context, listen: false)
                 .pushTree(tree.sha!, index);
           } else if (tree.type == Type.BLOB) {
-            AutoRouter.of(context).push(FileViewerAPI(
+            AutoRouter.of(context).push(
+              FileViewerAPI(
                 repoURL: repoURL,
                 sha: tree.sha,
                 fileName: tree.path,
@@ -55,11 +55,13 @@ class BrowserListTile extends StatelessWidget {
                 repoName:
                     Provider.of<RepositoryProvider>(context, listen: false)
                         .data
-                        .fullName));
+                        .fullName,
+              ),
+            );
           }
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Row(
             children: [
               getIcon()!,

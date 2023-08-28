@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class LandingScreen extends StatefulWidget {
-  const LandingScreen({this.deepLinkData, Key? key}) : super(key: key);
+  const LandingScreen({this.deepLinkData, super.key});
   final PathData? deepLinkData;
   @override
   LandingScreenState createState() => LandingScreenState();
@@ -26,13 +26,14 @@ class LandingScreenState extends State<LandingScreen>
   @override
   void initState() {
     _controller = TabController(
-        length: 5,
-        vsync: this,
-        initialIndex: getPath(widget.deepLinkData?.path));
+      length: 5,
+      vsync: this,
+      initialIndex: getPath(widget.deepLinkData?.path),
+    );
     super.initState();
   }
 
-  int getPath(String? path) {
+  int getPath(final String? path) {
     if (path == 'search') {
       return 1;
     } else if (path == 'notifications') {
@@ -43,97 +44,97 @@ class LandingScreenState extends State<LandingScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor:
-            Provider.of<PaletteSettings>(context).currentSetting.primary,
-        body: ScaffoldBody(
-          child: TabBarView(
-            controller: _controller,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              HomeScreen(
-                deepLinkData: widget.deepLinkData,
-                parentTabController: _controller,
-              ),
-              const SearchScreen(),
-              const NotificationsScreen(),
-              const CurrentUserProfileScreen(),
-              const SettingsScreen(),
-            ],
+  Widget build(final BuildContext context) => SafeArea(
+        child: Scaffold(
+          backgroundColor:
+              Provider.of<PaletteSettings>(context).currentSetting.primary,
+          body: ScaffoldBody(
+            child: TabBarView(
+              controller: _controller,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                HomeScreen(
+                  deepLinkData: widget.deepLinkData,
+                  parentTabController: _controller,
+                ),
+                const SearchScreen(),
+                const NotificationsScreen(),
+                const CurrentUserProfileScreen(),
+                const SettingsScreen(),
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: GNav(
-                backgroundColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .primary,
-                selectedIndex: _controller.index,
-                onTabChange: _controller.animateTo,
-                gap: 10,
-                color:
-                    Provider.of<PaletteSettings>(context).currentSetting.faded1,
-                activeColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .baseElements,
-                rippleColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .faded3
-                    .withOpacity(0.4),
-                hoverColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .faded3
-                    .withOpacity(0.3),
-                iconSize: 20,
-                textStyle: TextStyle(
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: GNav(
+                  backgroundColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .primary,
+                  selectedIndex: _controller.index,
+                  onTabChange: _controller.animateTo,
+                  gap: 10,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded1,
+                  activeColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements,
+                  rippleColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3
+                      .withOpacity(0.4),
+                  hoverColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3
+                      .withOpacity(0.3),
+                  iconSize: 20,
+                  textStyle: TextStyle(
                     fontSize: 14,
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
-                        .baseElements),
-                tabBackgroundColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .faded3
-                    .withOpacity(0.3),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16.5),
-                duration: const Duration(milliseconds: 250),
-                tabs: const [
-                  GButton(
-                    icon: LineIcons.home,
-                    text: 'Home',
-                    // heroTag: 'homeNavButton',
+                        .baseElements,
                   ),
-                  GButton(
-                    icon: LineIcons.search,
-                    text: 'Search',
-                    // heroTag: 'searchNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.bell,
-                    text: 'Inbox',
-                    // heroTag: 'notificationsNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.user,
-                    text: 'Profile',
-                    // heroTag: 'settingsNavButton',
-                  ),
-                  GButton(
-                    icon: LineIcons.cog,
-                    text: 'Settings',
-                    // heroTag: 'aboutNavButton',
-                  ),
-                ],
+                  tabBackgroundColor: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded3
+                      .withOpacity(0.3),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 16.5,),
+                  duration: const Duration(milliseconds: 250),
+                  tabs: const [
+                    GButton(
+                      icon: LineIcons.home,
+                      text: 'Home',
+                      // heroTag: 'homeNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.search,
+                      text: 'Search',
+                      // heroTag: 'searchNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.bell,
+                      text: 'Inbox',
+                      // heroTag: 'notificationsNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.user,
+                      text: 'Profile',
+                      // heroTag: 'settingsNavButton',
+                    ),
+                    GButton(
+                      icon: LineIcons.cog,
+                      text: 'Settings',
+                      // heroTag: 'aboutNavButton',
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -10,16 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WrapIconButton extends StatelessWidget {
-  const WrapIconButton(
-      {Key? key, required this.wrap, this.size = 24, required this.onWrap})
-      : super(key: key);
+  const WrapIconButton({
+    required this.wrap,
+    required this.onWrap,
+    super.key,
+    this.size = 24,
+  });
   final bool wrap;
   final ValueChanged<bool> onWrap;
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    return InkWell(
+  Widget build(final BuildContext context) => InkWell(
         borderRadius: smallBorderRadius,
         onTap: () {
           onWrap(!wrap);
@@ -35,23 +37,23 @@ class WrapIconButton extends StatelessWidget {
                     .baseElements
                 : Provider.of<PaletteSettings>(context).currentSetting.faded3,
           ),
-        ));
-  }
+        ),
+      );
 }
 
 // TODO(namanshergill): I know this code is very messy. I wrote it 6 months ago and did not document it so I will figure this out and rewrite it later.
 class PatchViewer extends StatefulWidget {
-  const PatchViewer(
-      {Key? key,
-      this.patch,
-      this.isWidget = false,
-      this.wrap = false,
-      this.initLoading = true,
-      this.contentURL,
-      this.limitLines,
-      this.fileType,
-      this.waitBeforeLoad = true})
-      : super(key: key);
+  const PatchViewer({
+    super.key,
+    this.patch,
+    this.isWidget = false,
+    this.wrap = false,
+    this.initLoading = true,
+    this.contentURL,
+    this.limitLines,
+    this.fileType,
+    this.waitBeforeLoad = true,
+  });
   final String? patch;
   final String? contentURL;
   final String? fileType;
@@ -82,13 +84,13 @@ class PatchViewerState extends State<PatchViewer> {
     super.initState();
   }
 
-  void startUp() async {
+  Future<void> startUp() async {
     final futures = <Future>[];
     if (widget.contentURL != null) {
       futures.add(fetchBlobFile());
     }
     await Future.wait(futures);
-    regex();
+    await regex();
     if (mounted) {
       setState(() {
         loading = false;
@@ -107,10 +109,10 @@ class PatchViewerState extends State<PatchViewer> {
     }
   }
 
-  void regex() async {
+  Future<void> regex() async {
     final firstHeader = RegExp(r'(?:@@ )(.*)(?: @@)').firstMatch(patch!)!;
     makeCodeChunks(firstHeader);
-    patch = patch!.replaceFirst(RegExp(r'(?=@@)(.*)(?<=@@)'), '', 0);
+    patch = patch!.replaceFirst(RegExp(r'(?=@@)(.*)(?<=@@)'), '');
     RegExp(r'(?:\n)(?:@@ )(.*)(?: @@)')
         .allMatches(patch!)
         .forEach(makeCodeChunks);
@@ -126,7 +128,7 @@ class PatchViewerState extends State<PatchViewer> {
     }
   }
 
-  void makeCodeChunks(RegExpMatch element) {
+  void makeCodeChunks(final RegExpMatch element) {
     final info = CodeChunk();
     displayHeader.add('@@ ${element.group(1)} @@');
     final splitHeader = element.group(1)!.split(' ');
@@ -153,7 +155,8 @@ class PatchViewerState extends State<PatchViewer> {
   List<String> codeSplit = [];
   List<String> displayHeader = [];
 
-  Widget showCodeChunk(List displayCode, int chunkIndex, {int? onlyLast}) {
+  Widget showCodeChunk(final List displayCode, final int chunkIndex,
+      {final int? onlyLast,}) {
     int getSublist() {
       if (onlyLast != null && displayCode.length > onlyLast) {
         return displayCode.length - onlyLast;
@@ -170,79 +173,80 @@ class PatchViewerState extends State<PatchViewer> {
         displayCode.sublist(getSublist()) as List<String>;
 
     return ListView.builder(
-        shrinkWrap: true,
-        itemCount: displayCodeWithoutFirstLine.length,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, lineIndex) {
-          return Container(
-            color: getColor(displayCodeWithoutFirstLine[lineIndex], lineIndex),
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                SizedBox(
-                    width: 35,
-                    child: Text.rich(
-                      TextSpan(
-                        text: displayCodeWithoutFirstLine[lineIndex][0] == '+'
-                            ? ''
-                            : '${getRemoveIndex++}',
-                      ),
-                      style: const TextStyle(fontFamily: 'monospace'),
-                    )),
-                const SizedBox(
-                  width: 10,
-                ),
-                SizedBox(
-                  width: 35,
-                  child: Text.rich(
-                    TextSpan(
-                      text: displayCodeWithoutFirstLine[lineIndex][0] == '-'
-                          ? ''
-                          : '${getAddIndex++}',
-                    ),
-                    style: const TextStyle(fontFamily: 'monospace'),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                  child: Text(
-                    displayCodeWithoutFirstLine[lineIndex].isNotEmpty
-                        ? displayCodeWithoutFirstLine[lineIndex][0]
-                        : ' ',
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Flexible(
-                  child: CodeBlockView(
-                    displayCodeWithoutFirstLine[lineIndex].isNotEmpty
-                        ? displayCodeWithoutFirstLine[lineIndex].substring(1)
-                        : ' ',
-                    language: widget.fileType,
-                  ),
-                ),
-              ],
+      shrinkWrap: true,
+      itemCount: displayCodeWithoutFirstLine.length,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (final context, final lineIndex) => Container(
+        color: getColor(displayCodeWithoutFirstLine[lineIndex], lineIndex),
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 10,
             ),
-          );
-        });
+            SizedBox(
+              width: 35,
+              child: Text.rich(
+                TextSpan(
+                  text: displayCodeWithoutFirstLine[lineIndex][0] == '+'
+                      ? ''
+                      : '${getRemoveIndex++}',
+                ),
+                style: const TextStyle(fontFamily: 'monospace'),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            SizedBox(
+              width: 35,
+              child: Text.rich(
+                TextSpan(
+                  text: displayCodeWithoutFirstLine[lineIndex][0] == '-'
+                      ? ''
+                      : '${getAddIndex++}',
+                ),
+                style: const TextStyle(fontFamily: 'monospace'),
+              ),
+            ),
+            SizedBox(
+              width: 5,
+              child: Text(
+                displayCodeWithoutFirstLine[lineIndex].isNotEmpty
+                    ? displayCodeWithoutFirstLine[lineIndex][0]
+                    : ' ',
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Flexible(
+              child: CodeBlockView(
+                displayCodeWithoutFirstLine[lineIndex].isNotEmpty
+                    ? displayCodeWithoutFirstLine[lineIndex].substring(1)
+                    : ' ',
+                language: widget.fileType,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     // return Container();
     return loading
         ? Center(
             child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-              ),
-              const LoadingIndicator(),
-            ],
-          ))
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                ),
+                const LoadingIndicator(),
+              ],
+            ),
+          )
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
@@ -252,114 +256,121 @@ class PatchViewerState extends State<PatchViewer> {
                   ? MediaQuery.of(context).size.width
                   : maxChars.toDouble() * 10,
               child: ListView.builder(
-                  itemCount: codeChunks.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final List<String> displayCode = codeChunks[index]['code'];
+                itemCount: codeChunks.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (final context, final index) {
+                  final List<String> displayCode = codeChunks[index]['code'];
 
-                    return InkWell(
-                      onTap: widget.limitLines != null &&
-                              displayCode.length - 1 > widget.limitLines!
-                          ? () {
-                              var wrap = false;
-                              showScrollableBottomSheet(
-                                context,
-                                headerBuilder: (context, setState) => Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const IconButton(
-                                        onPressed: null,
-                                        icon: Icon(
-                                          Icons.copy,
-                                          color: Colors.transparent,
-                                        )),
-                                    const Text(
-                                      'Patch Diff',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                  return InkWell(
+                    onTap: widget.limitLines != null &&
+                            displayCode.length - 1 > widget.limitLines!
+                        ? () {
+                            var wrap = false;
+                            showScrollableBottomSheet(
+                              context,
+                              headerBuilder: (final context, final setState) =>
+                                  Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.copy,
+                                      color: Colors.transparent,
                                     ),
-                                    WrapIconButton(
-                                      wrap: wrap,
-                                      onWrap: (value) {
-                                        setState(() {
-                                          wrap = !wrap;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                scrollableBodyBuilder:
-                                    (context, setState, scrollController) =>
-                                        SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: PatchViewer(
-                                    isWidget: true,
-                                    patch: widget.patch,
-                                    fileType: widget.fileType,
-                                    waitBeforeLoad: false,
-                                    wrap: wrap,
                                   ),
+                                  const Text(
+                                    'Patch Diff',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  WrapIconButton(
+                                    wrap: wrap,
+                                    onWrap: (final value) {
+                                      setState(() {
+                                        wrap = !wrap;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              scrollableBodyBuilder: (final context,
+                                      final setState, final scrollController,) =>
+                                  SingleChildScrollView(
+                                controller: scrollController,
+                                child: PatchViewer(
+                                  isWidget: true,
+                                  patch: widget.patch,
+                                  fileType: widget.fileType,
+                                  waitBeforeLoad: false,
+                                  wrap: wrap,
                                 ),
-                              );
-                            }
-                          : null,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          if (codeChunks[index]['startAdd'] != null &&
-                              !widget.isWidget)
-                            ChunkHeader(
-                              codeChunks: codeChunks,
-                              displayCode: displayCode,
-                              displayHeader: displayHeader,
-                              index: index,
-                              startRemove: codeChunks[index]['startRemove'],
-                              maxChars: maxChars,
-                              fileType: widget.fileType,
-                              rawData: rawData,
-                              wrap: widget.wrap,
-                              startAdd: codeChunks[index]['startAdd'],
-                            ),
-                          if (widget.isWidget)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text.rich(
-                                TextSpan(
-                                    text:
-                                        displayHeader[index] + displayCode[0]),
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontFamily: 'monospace',
-                                    fontSize: 12,
-                                    color: Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .faded3),
+                              ),
+                            );
+                          }
+                        : null,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (codeChunks[index]['startAdd'] != null &&
+                            !widget.isWidget)
+                          ChunkHeader(
+                            codeChunks: codeChunks,
+                            displayCode: displayCode,
+                            displayHeader: displayHeader,
+                            index: index,
+                            startRemove: codeChunks[index]['startRemove'],
+                            maxChars: maxChars,
+                            fileType: widget.fileType,
+                            rawData: rawData,
+                            wrap: widget.wrap,
+                            startAdd: codeChunks[index]['startAdd'],
+                          ),
+                        if (widget.isWidget)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text.rich(
+                              TextSpan(
+                                text: displayHeader[index] + displayCode[0],
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: 'monospace',
+                                fontSize: 12,
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3,
                               ),
                             ),
-                          if (widget.limitLines != null &&
-                              displayCode.length - 1 > widget.limitLines!)
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                '...Tap to view whole diff.',
-                                style: TextStyle(fontFamily: 'monospace'),
-                              ),
+                          ),
+                        if (widget.limitLines != null &&
+                            displayCode.length - 1 > widget.limitLines!)
+                          const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              '...Tap to view whole diff.',
+                              style: TextStyle(fontFamily: 'monospace'),
                             ),
-                          showCodeChunk(displayCode, index,
-                              onlyLast: widget.limitLines),
-                        ],
-                      ),
-                    );
-                  }),
+                          ),
+                        showCodeChunk(
+                          displayCode,
+                          index,
+                          onlyLast: widget.limitLines,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           );
   }
 
-  Color getColor(String char, int index) {
+  Color getColor(final String char, final int index) {
     var str = char;
     str.isNotEmpty ? str = str[0] : str = '';
     switch (str) {
@@ -384,43 +395,42 @@ class PatchViewerState extends State<PatchViewer> {
 }
 
 class CodeChunk {
-  CodeChunk(
-      {this.code,
-      this.addStartingLength,
-      this.addStartLine,
-      this.removeStartingLength,
-      this.removeStartLine});
+  CodeChunk({
+    this.code,
+    this.addStartingLength,
+    this.addStartLine,
+    this.removeStartingLength,
+    this.removeStartLine,
+  });
   int? addStartLine;
   int? addStartingLength;
   int? removeStartLine;
   int? removeStartingLength;
   List<String>? code;
 
-  Map getMap() {
-    return {
-      'startAdd': addStartLine,
-      'lengthAdd': addStartingLength,
-      'startRemove': removeStartLine,
-      'lengthRemove': removeStartingLength,
-      'code': code,
-    };
-  }
+  Map getMap() => {
+        'startAdd': addStartLine,
+        'lengthAdd': addStartingLength,
+        'startRemove': removeStartLine,
+        'lengthRemove': removeStartingLength,
+        'code': code,
+      };
 }
 
 class ChunkHeader extends StatefulWidget {
-  const ChunkHeader(
-      {this.codeChunks,
-      this.startAdd,
-      this.startRemove,
-      this.displayHeader,
-      this.index,
-      this.fileType,
-      required this.wrap,
-      this.rawData,
-      this.maxChars,
-      this.displayCode,
-      Key? key})
-      : super(key: key);
+  const ChunkHeader({
+    required this.wrap,
+    this.codeChunks,
+    this.startAdd,
+    this.startRemove,
+    this.displayHeader,
+    this.index,
+    this.fileType,
+    this.rawData,
+    this.maxChars,
+    this.displayCode,
+    super.key,
+  });
   final List<String>? rawData;
   final int? index;
   final List<String>? displayCode;
@@ -455,15 +465,16 @@ class ChunkHeaderState extends State<ChunkHeader> {
       data = widget.rawData!.sublist(0, widget.startAdd! - 1);
     } else {
       data = widget.rawData!.sublist(
-          (widget.codeChunks![widget.index! - 1]['startAdd'] +
-                  widget.codeChunks![widget.index! - 1]['lengthAdd']) ??
-              1 - 1,
-          widget.startAdd! - 1);
+        (widget.codeChunks![widget.index! - 1]['startAdd'] +
+                widget.codeChunks![widget.index! - 1]['lengthAdd']) ??
+            1 - 1,
+        widget.startAdd! - 1,
+      );
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     if (expanded) {
       return SizeExpandedSection(
         child: SizedBox(
@@ -471,50 +482,52 @@ class ChunkHeaderState extends State<ChunkHeader> {
               ? MediaQuery.of(context).size.width
               : widget.maxChars!.toDouble() * 10,
           child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return Container(
-                    color: index % 2 == 0
-                        ? Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .primary
-                        : Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: 35,
-                          child: Text(widget.index == 0
-                              ? '${index + 1}'
-                              : '${widget.codeChunks![widget.index! - 1]['startRemove'] + widget.codeChunks![widget.index! - 1]['lengthRemove'] + index}'),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: 35,
-                          child: Text(widget.index == 0
-                              ? '${index + 1}'
-                              : '${widget.codeChunks![widget.index! - 1]['startAdd'] + widget.codeChunks![widget.index! - 1]['lengthAdd'] + index}'),
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        Flexible(
-                          child: CodeBlockView(
-                            data[index],
-                            language: widget.fileType,
-                          ),
-                        ),
-                      ],
-                    ));
-              }),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: data.length,
+            itemBuilder: (final context, final index) => Container(
+              color: index % 2 == 0
+                  ? Provider.of<PaletteSettings>(context).currentSetting.primary
+                  : Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .secondary,
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 35,
+                    child: Text(
+                      widget.index == 0
+                          ? '${index + 1}'
+                          : '${widget.codeChunks![widget.index! - 1]['startRemove'] + widget.codeChunks![widget.index! - 1]['lengthRemove'] + index}',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 35,
+                    child: Text(
+                      widget.index == 0
+                          ? '${index + 1}'
+                          : '${widget.codeChunks![widget.index! - 1]['startAdd'] + widget.codeChunks![widget.index! - 1]['lengthAdd'] + index}',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  Flexible(
+                    child: CodeBlockView(
+                      data[index],
+                      language: widget.fileType,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       );
     }
@@ -532,7 +545,7 @@ class ChunkHeaderState extends State<ChunkHeader> {
           });
         },
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               const Icon(

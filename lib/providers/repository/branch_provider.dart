@@ -5,7 +5,7 @@ import 'package:dio_hub/providers/proxy_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 
 class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
-  RepoBranchProvider({String? initialBranch, String? initCommitSHA})
+  RepoBranchProvider({final String? initialBranch, final String? initCommitSHA})
       : _initialBranch = initialBranch,
         _initCommitSHA = initCommitSHA,
         super(Status.loaded);
@@ -29,9 +29,9 @@ class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   }
 
   @override
-  void updateProvider(RepositoryProvider parentProvider) {
+  Future<void> updateProvider(final RepositoryProvider parentProvider) async {
     _currentBranch = _initialBranch;
-    super.updateProvider(parentProvider);
+    await super.updateProvider(parentProvider);
   }
 
   @override
@@ -41,15 +41,18 @@ class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   }
 
   @override
-  Future<String> setInitData({bool isInitialisation = false}) {
-    return setBranch(
+  Future<String> setInitData({final bool isInitialisation = false}) =>
+      setBranch(
         _initCommitSHA ?? _currentBranch ?? parentProvider.data.defaultBranch!,
         isCommitSha: _initCommitSHA != null,
-        setState: !isInitialisation);
-  }
+        setState: !isInitialisation,
+      );
 
-  Future<String> setBranch(String branchName,
-      {bool isCommitSha = false, bool setState = true}) async {
+  Future<String> setBranch(
+    final String branchName, {
+    final bool isCommitSha = false,
+    final bool setState = true,
+  }) async {
     _currentSHA = branchName;
     isCommit = isCommitSha;
     if (!isCommitSha) {

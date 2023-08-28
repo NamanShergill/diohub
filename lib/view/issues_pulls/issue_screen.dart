@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueScreen extends StatefulWidget {
-  const IssueScreen(this.issueInfo,
-      {this.initialIndex = 0,
-      this.commentsSince,
-      Key? key,
-      required this.apiWrapperController})
-      : super(key: key);
+  const IssueScreen(
+    this.issueInfo, {
+    required this.apiWrapperController,
+    this.initialIndex = 0,
+    this.commentsSince,
+    super.key,
+  });
   final IssueInfoMixin issueInfo;
   final DateTime? commentsSince;
   final int initialIndex;
@@ -29,12 +30,15 @@ class IssueScreenState extends State<IssueScreen>
   @override
   void initState() {
     tabController = TabController(
-        length: 2, initialIndex: widget.initialIndex, vsync: this);
+      length: 2,
+      initialIndex: widget.initialIndex,
+      vsync: this,
+    );
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final data = widget.issueInfo;
     return IssuePullInfoTemplate(
       number: data.number,
@@ -56,14 +60,14 @@ class IssueScreenState extends State<IssueScreen>
         count: data.participants.totalCount,
         avatarURLs: data.participants.nodes!
             .map(
-              (e) => e!.avatarUrl.toString(),
+              (final e) => e!.avatarUrl.toString(),
             )
             .toList(),
       ),
     );
   }
 
-  Widget? getIcon(IssueState? state, double size) {
+  Widget? getIcon(final IssueState? state, final double size) {
     switch (state) {
       case IssueState.CLOSED:
         return Icon(
@@ -77,8 +81,6 @@ class IssueScreenState extends State<IssueScreen>
           color: Colors.green,
           size: size,
         );
-      default:
-        return null;
     }
   }
 }

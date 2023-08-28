@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class KeepAliveWrapper extends StatefulWidget {
-  const KeepAliveWrapper({Key? key, required this.child, this.keepAlive})
-      : super(key: key);
+  const KeepAliveWrapper({required this.child, super.key, this.keepAlive});
   final Widget child;
   final bool Function()? keepAlive;
 
@@ -13,7 +12,7 @@ class KeepAliveWrapper extends StatefulWidget {
 class _KeepAliveWrapperState extends State<KeepAliveWrapper>
     with AutomaticKeepAliveClientMixin {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     return widget.child;
   }
@@ -22,4 +21,4 @@ class _KeepAliveWrapperState extends State<KeepAliveWrapper>
   bool get wantKeepAlive => widget.keepAlive?.call() ?? true;
 }
 
-Widget keepAlive(Widget child) => KeepAliveWrapper(child: child);
+Widget keepAlive(final Widget child) => KeepAliveWrapper(child: child);

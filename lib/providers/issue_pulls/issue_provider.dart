@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 extension IssueProviderExtension on BuildContext {
-  IssueProvider issueProvider({bool listen = true}) =>
+  IssueProvider issueProvider({final bool listen = true}) =>
       Provider.of<IssueProvider>(this, listen: listen);
 }
 
@@ -21,27 +21,29 @@ class IssueProvider extends BaseDataProvider<IssueInfoMixin> {
     number: issueInfo.number,
   );
 
-  void updateLabels(List<Label> labels) {
+  void updateLabels(final List<Label> labels) {
     // data.labels = labels;
     notifyListeners();
   }
 
-  void updateAssignees(List<UserInfoModel>? users) {
+  void updateAssignees(final List<UserInfoModel>? users) {
     // data.assignees = users;
     notifyListeners();
   }
 
-  void updateIssue(IssueModel issue) {
+  void updateIssue(final IssueModel issue) {
     // data = issue;
     notifyListeners();
   }
 
-  Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees(
-          {String? after}) =>
+  Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees({
+    final String? after,
+  }) =>
       _issueRepo.getAssignees(after: after);
 
   @override
-  Future<IssueInfoMixin> setInitData({bool isInitialisation = false}) async =>
+  Future<IssueInfoMixin> setInitData(
+          {final bool isInitialisation = false,}) async =>
       issueInfo;
 }
 

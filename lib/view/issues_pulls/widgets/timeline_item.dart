@@ -18,31 +18,32 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class PaddingWrap extends StatelessWidget {
-  const PaddingWrap({Key? key, required this.child}) : super(key: key);
+  const PaddingWrap({required this.child, super.key});
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-        child: child,
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => Material(
+        elevation: 2,
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: child,
+        ),
+      );
 }
 
 class GetTimelineItem extends StatelessWidget {
-  const GetTimelineItem(this.timelineItem,
-      {Key? key, this.pullNodeID, required this.onQuote})
-      : super(key: key);
+  const GetTimelineItem(
+    this.timelineItem, {
+    required this.onQuote,
+    super.key,
+    this.pullNodeID,
+  });
   final dynamic timelineItem;
   final String? pullNodeID;
   final VoidCallback onQuote;
 
-  String getReviewState(PullRequestReviewState state) {
+  String getReviewState(final PullRequestReviewState state) {
     switch (state) {
       case PullRequestReviewState.approved:
         return 'Approved this.';
@@ -54,22 +55,20 @@ class GetTimelineItem extends StatelessWidget {
         return 'Dismissed this.';
       case PullRequestReviewState.pending:
         return 'Review Pending.';
-      default:
-        return '';
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final item = timelineItem;
     return PaddingWrap(
       child: Builder(
-        builder: (context) {
+        builder: (final context) {
           if (item is AddedToProjectMixin) {
           } else if (item is AssignedMixin) {
             return BasicEventAssignedCard(
               actor: item.actor,
-              assignee: item.assignee as ActorMixin,
+              assignee: item.assignee! as ActorMixin,
               createdAt: item.createdAt,
               isAssigned: true,
             );
@@ -121,7 +120,7 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventTextCard(
               textContent: str,
               footer: Builder(
-                builder: (context) {
+                builder: (final context) {
                   final source = item.source;
                   if (source is IssueMixin) {
                     return IssueLoadingCard(
@@ -132,8 +131,9 @@ class GetTimelineItem extends StatelessWidget {
                   } else {
                     return PullLoadingCard(
                       toRepoAPIResource(
-                          (source as PullRequestMixin).url.toString(),
-                          isPull: true),
+                        (source as PullRequestMixin).url.toString(),
+                        isPull: true,
+                      ),
                       padding: EdgeInsets.zero,
                       compact: true,
                     );
@@ -178,7 +178,7 @@ class GetTimelineItem extends StatelessWidget {
             return BaseComment(
               isMinimized: item.isMinimized,
               onQuote: onQuote,
-              reactions: item.reactionGroups as List<ReactionGroupsMixin>,
+              reactions: item.reactionGroups,
               minimizedReason: item.minimizedReason,
               viewerCanDelete: item.viewerCanDelete,
               viewerCanMinimize: item.viewerCanMinimize,
@@ -195,7 +195,7 @@ class GetTimelineItem extends StatelessWidget {
             );
           } else if (item is LabeledMixin) {
             return BasicEventLabeledCard(
-              actor: item.actor!,
+              actor: item.actor,
               content: item.label,
               added: true,
               date: item.createdAt,
@@ -212,20 +212,22 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventTextCard(
               textContent: 'Marked this as a duplicate of',
               footer: Builder(
-                builder: (context) {
+                builder: (final context) {
                   final canonical = item.canonical;
                   if (canonical is IssueMixin) {
                     return IssueLoadingCard(
                       toRepoAPIResource(
-                          (canonical as IssueMixin).url.toString()),
+                        (canonical! as IssueMixin).url.toString(),
+                      ),
                       padding: EdgeInsets.zero,
                       compact: true,
                     );
                   } else {
                     return PullLoadingCard(
                       toRepoAPIResource(
-                          (canonical as PullRequestMixin).url.toString(),
-                          isPull: true),
+                        (canonical! as PullRequestMixin).url.toString(),
+                        isPull: true,
+                      ),
                       padding: EdgeInsets.zero,
                       compact: true,
                     );
@@ -269,7 +271,6 @@ class GetTimelineItem extends StatelessWidget {
                 backgroundColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .primary,
-                compact: true,
               ),
               textContent: 'Made a commit.',
             );
@@ -281,8 +282,7 @@ class GetTimelineItem extends StatelessWidget {
               onQuote: onQuote,
               leading: Icons.remove_red_eye_rounded,
               isMinimized: false,
-              reactions: item.reactionGroups as List<ReactionGroupsMixin>,
-              minimizedReason: null,
+              reactions: item.reactionGroups,
               viewerCanDelete: item.viewerCanDelete,
               viewerCanMinimize: false,
               viewerCannotUpdateReasons: item.viewerCannotUpdateReasons,
@@ -298,8 +298,12 @@ class GetTimelineItem extends StatelessWidget {
               footer: item.comments.totalCount > 0
                   ? StringButton(
                       onTap: () {
-                        AutoRouter.of(context).push(PRReviewRoute(
-                            nodeID: item.id, pullNodeID: pullNodeID!));
+                        AutoRouter.of(context).push(
+                          PRReviewRoute(
+                            nodeID: item.id,
+                            pullNodeID: pullNodeID!,
+                          ),
+                        );
                       },
                       title: '${item.comments.totalCount} Comments',
                       color: Provider.of<PaletteSettings>(context)
@@ -327,9 +331,11 @@ class GetTimelineItem extends StatelessWidget {
                   children: [
                     const TextSpan(text: 'Renamed this.\n'),
                     TextSpan(
-                        text: '${item.previousTitle}\n',
-                        style: const TextStyle(
-                            decoration: TextDecoration.lineThrough)),
+                      text: '${item.previousTitle}\n',
+                      style: const TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
                     TextSpan(text: item.currentTitle),
                   ],
                 ),
@@ -359,7 +365,7 @@ class GetTimelineItem extends StatelessWidget {
                 children: [
                   const Text('Requested a review from'),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     child: ProfileTile.login(
                       avatarUrl: (item.requestedReviewer as dynamic)
                           ?.avatarUrl
@@ -370,7 +376,7 @@ class GetTimelineItem extends StatelessWidget {
                       userLogin: (item.requestedReviewer as dynamic)?.login ??
                           (item.requestedReviewer as dynamic)?.nameKey,
                     ),
-                  )
+                  ),
                 ],
               ),
             );
@@ -379,13 +385,13 @@ class GetTimelineItem extends StatelessWidget {
           else if (item is UnassignedMixin) {
             return BasicEventAssignedCard(
               actor: item.actor,
-              assignee: item.assignee as ActorMixin,
+              assignee: item.assignee! as ActorMixin,
               createdAt: item.createdAt,
               isAssigned: false,
             );
           } else if (item is UnlabeledMixin) {
             return BasicEventLabeledCard(
-              actor: item.actor!,
+              actor: item.actor,
               content: item.label,
               added: false,
               date: item.createdAt,
@@ -401,20 +407,22 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventTextCard(
               textContent: 'Marked this as not a duplicate of',
               footer: Builder(
-                builder: (context) {
+                builder: (final context) {
                   final canonical = item.canonical;
                   if (canonical is IssueMixin) {
                     return IssueLoadingCard(
                       toRepoAPIResource(
-                          (canonical as IssueMixin).url.toString()),
+                        (canonical! as IssueMixin).url.toString(),
+                      ),
                       padding: EdgeInsets.zero,
                       compact: true,
                     );
                   } else {
                     return PullLoadingCard(
                       toRepoAPIResource(
-                          (canonical as PullRequestMixin).url.toString(),
-                          isPull: true),
+                        (canonical! as PullRequestMixin).url.toString(),
+                        isPull: true,
+                      ),
                       padding: EdgeInsets.zero,
                       compact: true,
                     );

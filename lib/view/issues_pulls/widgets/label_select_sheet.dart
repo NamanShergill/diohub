@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LabelSelectSheet extends StatefulWidget {
-  const LabelSelectSheet(
-      {Key? key,
-      this.labels,
-      this.issueUrl,
-      this.repoURL,
-      this.controller,
-      this.newLabels})
-      : super(key: key);
+  const LabelSelectSheet({
+    super.key,
+    this.labels,
+    this.issueUrl,
+    this.repoURL,
+    this.controller,
+    this.newLabels,
+  });
   final String? repoURL;
   final String? issueUrl;
   final List<Label>? labels;
@@ -31,55 +31,52 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
 
   @override
   void initState() {
-    labels = widget.labels!.map((e) => e.name).toList();
+    labels = widget.labels!.map((final e) => e.name).toList();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Button(
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
-            onTap: () async {
-              try {
-                final newLabels =
-                    await IssuesService.setLabels(widget.issueUrl, labels);
-                Navigator.pop(context);
-                widget.newLabels!(newLabels);
-              } catch (e) {
-                rethrow;
-              }
-            },
-            child: const Text('Apply'),
+  Widget build(final BuildContext context) => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Button(
+              color: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .secondary,
+              onTap: () async {
+                try {
+                  final newLabels =
+                      await IssuesService.setLabels(widget.issueUrl, labels);
+                  Navigator.pop(context);
+                  widget.newLabels!(newLabels);
+                } catch (e) {
+                  rethrow;
+                }
+              },
+              child: const Text('Apply'),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Expanded(
-          child: InfiniteScrollWrapper<Label>(
-            future: (data) {
-              return IssuesService.listAvailableLabels(
+          const SizedBox(
+            height: 8,
+          ),
+          Expanded(
+            child: InfiniteScrollWrapper<Label>(
+              future: (final data) => IssuesService.listAvailableLabels(
                 widget.repoURL,
                 data.pageNumber,
                 data.pageSize,
-              );
-            },
-            separatorBuilder: (context, index) => const Divider(
-              height: 8,
-            ),
-            scrollController: widget.controller,
-            listEndIndicator: false,
-            builder: (data) {
-              return CheckboxListTile(
+              ),
+              separatorBuilder: (final context, final index) => const Divider(
+                height: 8,
+              ),
+              scrollController: widget.controller,
+              listEndIndicator: false,
+              builder: (final data) => CheckboxListTile(
                 activeColor:
                     Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: labels!.contains(data.item.name),
-                onChanged: (value) {
+                onChanged: (final value) {
                   setState(() {
                     if (labels!.contains(data.item.name)) {
                       labels!.remove(data.item.name);
@@ -89,11 +86,9 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
                   });
                 },
                 title: IssueLabel(data.item),
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

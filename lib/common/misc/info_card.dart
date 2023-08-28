@@ -5,23 +5,20 @@ import 'package:flutter/material.dart';
 
 class WrappedCollection extends StatelessWidget {
   const WrappedCollection({
-    Key? key,
     required this.children,
+    super.key,
     this.spacing = 8,
-  }) : super(key: key);
+  });
   final List<Widget> children;
   final double spacing;
   @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: spacing,
-      runSpacing: spacing,
-      // runAlignment: WrapAlignment.center,
-      children: children,
-    );
-  }
+  Widget build(final BuildContext context) => Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: spacing,
+        runSpacing: spacing,
+        // runAlignment: WrapAlignment.center,
+        children: children,
+      );
 }
 
 class InfoCard extends StatelessWidget {
@@ -29,17 +26,16 @@ class InfoCard extends StatelessWidget {
     required this.child,
     this.onTap,
     this.trailingIcon,
-    Key? key,
+    super.key,
     this.mode = InfoCardMode.basic,
     this.title,
     this.icon,
     this.childPadding,
     this.titleTextStyle,
-  })  : assert(
+  }) : assert(
           title != null || icon != null,
           'Provide at least one descriptor.',
-        ),
-        super(key: key);
+        );
   final Widget child;
   final GestureTapCallback? onTap;
   final Icon? trailingIcon;
@@ -49,7 +45,7 @@ class InfoCard extends StatelessWidget {
   final IconData? icon;
   final TextStyle? titleTextStyle;
 
-  Widget _buildUI(BuildContext context) {
+  Widget _buildUI(final BuildContext context) {
     switch (mode) {
       case InfoCardMode.basic:
         return Row(
@@ -106,29 +102,27 @@ class InfoCard extends StatelessWidget {
     }
   }
 
-  Row _buildDescriptors(BuildContext context) {
-    return Row(
-      children: [
-        if (icon != null)
-          Icon(
-            icon,
-            size: 20,
-            color: context.palette.faded3,
-          ),
-        if (title != null && icon != null)
-          const SizedBox(
-            width: 8,
-          ),
-        if (title != null)
-          Text(
-            title!,
-            style: context.textTheme.bodyLarge
-                ?.merge(titleTextStyle)
-                .copyWith(color: context.palette.faded3),
-          ),
-      ],
-    );
-  }
+  Row _buildDescriptors(final BuildContext context) => Row(
+        children: [
+          if (icon != null)
+            Icon(
+              icon,
+              size: 20,
+              color: context.palette.faded3,
+            ),
+          if (title != null && icon != null)
+            const SizedBox(
+              width: 8,
+            ),
+          if (title != null)
+            Text(
+              title!,
+              style: context.textTheme.bodyLarge
+                  ?.merge(titleTextStyle)
+                  .copyWith(color: context.palette.faded3),
+            ),
+        ],
+      );
 
   Widget _buildTrailingWidget() => onTap != null
       ? Padding(
@@ -142,12 +136,10 @@ class InfoCard extends StatelessWidget {
       : Container();
 
   @override
-  Widget build(BuildContext context) {
-    return InkWellCard(
-      onTap: onTap,
-      child: _buildUI(context),
-    );
-  }
+  Widget build(final BuildContext context) => InkWellCard(
+        onTap: onTap,
+        child: _buildUI(context),
+      );
 }
 
 enum InfoCardMode { basic, expanded }

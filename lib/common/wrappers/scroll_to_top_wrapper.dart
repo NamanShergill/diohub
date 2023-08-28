@@ -4,8 +4,8 @@ import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 
 class ScrollToTopWrapper extends StatelessWidget {
   const ScrollToTopWrapper({
-    Key? key,
     required this.builder,
+    super.key,
     this.scrollController,
     this.scrollDirection = Axis.vertical,
     this.primary,
@@ -23,7 +23,7 @@ class ScrollToTopWrapper extends StatelessWidget {
     this.promptTheme,
     this.promptAnimationType = PromptAnimation.size,
     this.promptReplacementBuilder,
-  }) : super(key: key);
+  });
 
   /// [ScrollController] of the scrollable widget to scroll to the top of when
   /// the prompt is pressed.
@@ -115,29 +115,27 @@ class ScrollToTopWrapper extends StatelessWidget {
   /// Default is [PromptAnimation.size].
   final PromptAnimation promptAnimationType;
   @override
-  Widget build(BuildContext context) {
-    return ScrollWrapper(
-      builder: builder,
-      alwaysVisibleAtOffset: alwaysVisibleAtOffset,
-      scrollController: scrollController,
-      enabledAtOffset: enabledAtOffset,
-      onPromptTap: onPromptTap,
-      primary: primary,
-      promptAlignment: promptAlignment,
-      promptAnimationCurve: promptAnimationCurve,
-      promptAnimationType: promptAnimationType,
-      promptDuration: promptDuration,
-      promptReplacementBuilder: promptReplacementBuilder,
-      reverse: reverse,
-      scrollDirection: scrollDirection,
-      scrollOffsetUntilHide: scrollOffsetUntilHide,
-      scrollOffsetUntilVisible: scrollOffsetUntilVisible,
-      scrollToTopCurve: scrollToTopCurve,
-      scrollToTopDuration: scrollToTopDuration,
-      promptTheme: promptTheme ??
-          PromptButtonTheme(
-            color: context.themeData.colorScheme.secondary,
-          ),
-    );
-  }
+  Widget build(final BuildContext context) => ScrollWrapper(
+        builder: builder,
+        alwaysVisibleAtOffset: alwaysVisibleAtOffset,
+        scrollController: scrollController,
+        enabledAtOffset: enabledAtOffset,
+        onPromptTap: onPromptTap,
+        primary: primary,
+        promptAlignment: promptAlignment,
+        promptAnimationCurve: promptAnimationCurve,
+        promptAnimationType: promptAnimationType,
+        promptDuration: promptDuration,
+        promptReplacementBuilder: promptReplacementBuilder,
+        reverse: reverse,
+        scrollDirection: scrollDirection,
+        scrollOffsetUntilHide: scrollOffsetUntilHide,
+        scrollOffsetUntilVisible: scrollOffsetUntilVisible,
+        scrollToTopCurve: scrollToTopCurve,
+        scrollToTopDuration: scrollToTopDuration,
+        promptTheme: promptTheme ??
+            PromptButtonTheme(
+              color: context.themeData.colorScheme.secondary,
+            ),
+      );
 }

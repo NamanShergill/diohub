@@ -2,13 +2,13 @@ import 'package:dio_hub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class ScaleExpandedSection extends StatefulWidget {
-  const ScaleExpandedSection(
-      {this.expand = true,
-      this.child,
-      this.animationCurve,
-      this.duration,
-      Key? key})
-      : super(key: key);
+  const ScaleExpandedSection({
+    this.expand = true,
+    this.child,
+    this.animationCurve,
+    this.duration,
+    super.key,
+  });
   final Widget? child;
   final bool expand;
   final Curve? animationCurve;
@@ -32,7 +32,9 @@ class ScaleExpandedSectionState extends State<ScaleExpandedSection>
   //Setting up the animation
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this, duration: widget.duration ?? transitionAnimDuration);
+      vsync: this,
+      duration: widget.duration ?? transitionAnimDuration,
+    );
     animation = CurvedAnimation(
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
@@ -51,7 +53,7 @@ class ScaleExpandedSectionState extends State<ScaleExpandedSection>
   }
 
   @override
-  void didUpdateWidget(ScaleExpandedSection oldWidget) {
+  void didUpdateWidget(final ScaleExpandedSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
   }
@@ -63,35 +65,31 @@ class ScaleExpandedSectionState extends State<ScaleExpandedSection>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: animation,
-      child: widget.expand ? widget.child : null,
-    );
-  }
+  Widget build(final BuildContext context) => ScaleTransition(
+        scale: animation,
+        child: widget.expand ? widget.child : null,
+      );
 }
 
 class ScaleSwitch extends StatelessWidget {
-  const ScaleSwitch(
-      {Key? key,
-      this.child,
-      this.duration,
-      this.visible = true,
-      this.replacement})
-      : super(key: key);
+  const ScaleSwitch({
+    super.key,
+    this.child,
+    this.duration,
+    this.visible = true,
+    this.replacement,
+  });
   final Widget? child;
   final Widget? replacement;
   final bool visible;
   final Duration? duration;
   @override
-  Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: duration ?? defaultAnimDuration,
-      child: visible ? child : replacement ?? Container(),
-      transitionBuilder: (child, animation) => ScaleTransition(
-        scale: animation,
-        child: child,
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => AnimatedSwitcher(
+        duration: duration ?? defaultAnimDuration,
+        child: visible ? child : replacement ?? Container(),
+        transitionBuilder: (final child, final animation) => ScaleTransition(
+          scale: animation,
+          child: child,
+        ),
+      );
 }

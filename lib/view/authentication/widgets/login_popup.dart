@@ -10,7 +10,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class LoginPopup extends StatefulWidget {
-  const LoginPopup({Key? key}) : super(key: key);
+  const LoginPopup({super.key});
 
   @override
   LoginPopupState createState() => LoginPopupState();
@@ -19,7 +19,7 @@ class LoginPopup extends StatefulWidget {
 class LoginPopupState extends State<LoginPopup> {
   bool loading = false;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context).currentSetting;
 
     return ScaleExpandedSection(
@@ -33,49 +33,51 @@ class LoginPopupState extends State<LoginPopup> {
         ),
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         onTap: () async {
-          showDialog(
+          await showDialog(
             context: context,
-            builder: (_) => AppDialog(
+            builder: (final _) => AppDialog(
               title: 'Choose Login Method',
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   StringButton(
-                      color: theme.secondary,
-                      onTap: () async {
-                        Navigator.pop(context);
-                        try {
-                          setState(() {
-                            loading = true;
-                          });
-                          await AuthRepository().oauth2().then(
-                                (value) =>
-                                    BlocProvider.of<AuthenticationBloc>(context)
-                                        .add(
-                                  AuthSuccessful(value),
-                                ),
-                              );
-                        } catch (e) {
-                          BlocProvider.of<AuthenticationBloc>(context)
-                              .add(AuthError(e.toString()));
-                        } finally {
-                          setState(() {
-                            loading = false;
-                          });
-                        }
-                      },
-                      title: 'Browser'),
+                    color: theme.secondary,
+                    onTap: () async {
+                      Navigator.pop(context);
+                      try {
+                        setState(() {
+                          loading = true;
+                        });
+                        await AuthRepository().oauth2().then(
+                              (final value) =>
+                                  BlocProvider.of<AuthenticationBloc>(context)
+                                      .add(
+                                AuthSuccessful(value),
+                              ),
+                            );
+                      } catch (e) {
+                        BlocProvider.of<AuthenticationBloc>(context)
+                            .add(AuthError(e.toString()));
+                      } finally {
+                        setState(() {
+                          loading = false;
+                        });
+                      }
+                    },
+                    title: 'Browser',
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
                   StringButton(
-                      color: theme.secondary,
-                      onTap: () {
-                        Navigator.pop(context);
-                        BlocProvider.of<AuthenticationBloc>(context)
-                            .add(RequestDeviceCode());
-                      },
-                      title: 'One-Time Code')
+                    color: theme.secondary,
+                    onTap: () {
+                      Navigator.pop(context);
+                      BlocProvider.of<AuthenticationBloc>(context)
+                          .add(RequestDeviceCode());
+                    },
+                    title: 'One-Time Code',
+                  ),
                 ],
               ),
             ),

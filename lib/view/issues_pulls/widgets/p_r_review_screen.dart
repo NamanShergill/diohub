@@ -18,48 +18,49 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class PRReviewScreen extends StatelessWidget {
-  const PRReviewScreen(this.nodeID, {Key? key, required this.pullNodeID})
-      : super(key: key);
+  const PRReviewScreen(this.nodeID, {required this.pullNodeID, super.key});
   final String nodeID;
   final String pullNodeID;
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
+  Widget build(final BuildContext context) => SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        title: const Text('Review'),
-      ),
-      // Check if user has pending reviews to disable reply button accordingly.
-      // See https://github.com/NamanShergill/diohub/issues/18 for info.
-      body: APIWrapper<bool>(
-        apiCall: ({required refresh}) => PullsService.hasPendingReviews(
-            pullNodeID, context.read<CurrentUserProvider>().data.login!),
-        responseBuilder: (context, repliesEnabled) {
-          return InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
-            future: (data) {
-              return PullsService.getPRReview(
+          appBar: AppBar(
+            title: const Text('Review'),
+          ),
+          // Check if user has pending reviews to disable reply button accordingly.
+          // See https://github.com/NamanShergill/diohub/issues/18 for info.
+          body: APIWrapper<bool>(
+            apiCall: ({required final refresh}) =>
+                PullsService.hasPendingReviews(
+              pullNodeID,
+              context.read<CurrentUserProvider>().data.login!,
+            ),
+            responseBuilder: (final context, final repliesEnabled) =>
+                InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
+              future: (final data) => PullsService.getPRReview(
                 nodeID,
                 refresh: data.refresh,
                 cursor: data.lastItem?.cursor,
-              );
-            },
-            separatorBuilder: (context, index) => const Divider(
-              height: 32,
-            ),
-            builder: (data) {
-              final comment = data.item!.node!;
-              return ChangeNotifierProvider(
-                create: (_) => CommentProvider(),
-                builder: (context, child) {
-                  void openCommentSheet() {
-                    showCommentSheet(context,
+              ),
+              separatorBuilder: (final context, final index) => const Divider(
+                height: 32,
+              ),
+              builder: (final data) {
+                final comment = data.item!.node!;
+                return ChangeNotifierProvider(
+                  create: (final _) => CommentProvider(),
+                  builder: (final context, final child) {
+                    void openCommentSheet() {
+                      showCommentSheet(
+                        context,
                         onSubmit: () async {
                           await PullsService.replyToReviewComment(
-                              context.read<CommentProvider>().data,
-                              id: comment.databaseId!,
-                              owner: comment.repository.owner.login,
-                              repo: comment.repository.name,
-                              pullNumber: comment.pullRequest.number);
+                            context.read<CommentProvider>().data,
+                            id: comment.databaseId!,
+                            owner: comment.repository.owner.login,
+                            repo: comment.repository.name,
+                            pullNumber: comment.pullRequest.number,
+                          );
                           if (context.mounted) {
                             context.read<CommentProvider>().clearData();
                           }
@@ -67,23 +68,23 @@ class PRReviewScreen extends StatelessWidget {
                         },
                         type: 'Reply',
                         initialData: context.read<CommentProvider>().data,
-                        onChanged: (value) {
+                        onChanged: (final value) {
                           Provider.of<CommentProvider>(context, listen: false)
                               .updateData(value);
                         },
                         owner: comment.repository.owner.login,
-                        repoName: comment.repository.name);
-                  }
+                        repoName: comment.repository.name,
+                      );
+                    }
 
-                  Widget replyButton(data) => Row(
-                        children: [
-                          Button(
-                            onTap: () {
-                              if (data) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
+                    Widget replyButton(final data) => Row(
+                          children: [
+                            Button(
+                              onTap: () {
+                                if (data) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (final context) => AlertDialog(
                                       title: Text(
                                         'Cannot reply.',
                                         style: Theme.of(context)
@@ -100,7 +101,8 @@ class PRReviewScreen extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                                'Cannot add a reply to other review comments when you have a pending review on the PR.'),
+                                              'Cannot add a reply to other review comments when you have a pending review on the PR.',
+                                            ),
                                             LinkText(
                                               'https://github.com/NamanShergill/diohub/issues/18',
                                               text:
@@ -116,96 +118,98 @@ class PRReviewScreen extends StatelessWidget {
                                           child: const Text('Okay'),
                                         ),
                                       ],
-                                    );
-                                  },
-                                );
-                              } else {
-                                openCommentSheet();
-                              }
-                            },
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .primary,
-                            stretch: false,
-                            child: const Icon(Icons.reply),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                        ],
-                      );
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Material(
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .accent,
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.vertical(
-                        //         top: AppThemeBorderRadius.medBorderRadius.topLeft)),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  comment.path,
-                                  style: const TextStyle(
-                                      fontFamily: 'monospace', fontSize: 12),
-                                ),
-                              ),
+                                    ),
+                                  );
+                                } else {
+                                  openCommentSheet();
+                                }
+                              },
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .primary,
+                              stretch: false,
+                              child: const Icon(Icons.reply),
+                            ),
+                            const SizedBox(
+                              width: 8,
                             ),
                           ],
+                        );
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Material(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .accent,
+                          // shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.vertical(
+                          //         top: AppThemeBorderRadius.medBorderRadius.topLeft)),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    comment.path,
+                                    style: const TextStyle(
+                                      fontFamily: 'monospace',
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const Divider(
-                        height: 0,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      PatchViewer(
-                        patch: comment.diffHunk,
-                        isWidget: true,
-                        limitLines: 4,
-                        initLoading: false,
-                        fileType: comment.path.split('.').last,
-                        waitBeforeLoad: false,
-                      ),
-                      PaddingWrap(
-                        child: BaseComment(
-                          isMinimized: comment.isMinimized,
-                          reactions: comment.reactionGroups,
-                          viewerCanDelete: comment.viewerCanDelete,
-                          viewerCanMinimize: comment.viewerCanMinimize,
-                          onQuote: openCommentSheet,
-                          viewerCannotUpdateReasons:
-                              comment.viewerCannotUpdateReasons,
-                          viewerCanReact: comment.viewerCanReact,
-                          viewerCanUpdate: comment.viewerCanUpdate,
-                          viewerDidAuthor: comment.viewerDidAuthor,
-                          createdAt: comment.createdAt,
-                          author: comment.author,
-                          body: comment.body,
-                          lastEditedAt: comment.lastEditedAt,
-                          bodyHTML: comment.bodyHTML,
-                          authorAssociation: comment.authorAssociation,
-                          footerPadding:
-                              const EdgeInsets.only(left: 8, right: 8),
-                          footer: APIWrapper<
-                              ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>(
-                            apiCall: ({required refresh}) =>
-                                PullsService.getPRReviewThreadID(comment.id,
-                                    name: comment.repository.name,
-                                    owner: comment.repository.owner.login,
-                                    number: comment.pullRequest.number,
-                                    refresh: refresh,
-                                    cursor: null),
-                            fadeIntoView: false,
-                            loadingBuilder: (context) {
-                              return Row(
+                        const Divider(
+                          height: 0,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        PatchViewer(
+                          patch: comment.diffHunk,
+                          isWidget: true,
+                          limitLines: 4,
+                          initLoading: false,
+                          fileType: comment.path.split('.').last,
+                          waitBeforeLoad: false,
+                        ),
+                        PaddingWrap(
+                          child: BaseComment(
+                            isMinimized: comment.isMinimized,
+                            reactions: comment.reactionGroups,
+                            viewerCanDelete: comment.viewerCanDelete,
+                            viewerCanMinimize: comment.viewerCanMinimize,
+                            onQuote: openCommentSheet,
+                            viewerCannotUpdateReasons:
+                                comment.viewerCannotUpdateReasons,
+                            viewerCanReact: comment.viewerCanReact,
+                            viewerCanUpdate: comment.viewerCanUpdate,
+                            viewerDidAuthor: comment.viewerDidAuthor,
+                            createdAt: comment.createdAt,
+                            author: comment.author,
+                            body: comment.body,
+                            lastEditedAt: comment.lastEditedAt,
+                            bodyHTML: comment.bodyHTML,
+                            authorAssociation: comment.authorAssociation,
+                            footerPadding:
+                                const EdgeInsets.only(left: 8, right: 8),
+                            footer: APIWrapper<
+                                ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>(
+                              apiCall: ({required final refresh}) =>
+                                  PullsService.getPRReviewThreadID(
+                                comment.id,
+                                name: comment.repository.name,
+                                owner: comment.repository.owner.login,
+                                number: comment.pullRequest.number,
+                                refresh: refresh,
+                                cursor: null,
+                              ),
+                              fadeIntoView: false,
+                              loadingBuilder: (final context) => Row(
                                 children: [
                                   replyButton(repliesEnabled),
                                   Expanded(
@@ -222,69 +226,71 @@ class PRReviewScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                              );
-                            },
-                            responseBuilder: (context, data) {
-                              if (data != null) {
-                                return Row(
-                                  children: [
-                                    replyButton(repliesEnabled),
-                                    _buildRepliesButton(context, data, comment,
-                                        openCommentSheet),
-                                  ],
-                                );
-                              } else {
-                                return Container();
-                              }
-                            },
+                              ),
+                              responseBuilder: (final context, final data) {
+                                if (data != null) {
+                                  return Row(
+                                    children: [
+                                      replyButton(repliesEnabled),
+                                      _buildRepliesButton(
+                                        context,
+                                        data,
+                                        comment,
+                                        openCommentSheet,
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          );
-        },
-      ),
-    ));
-  }
-
-  Expanded _buildRepliesButton(
-    BuildContext context,
-    ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
-        edgeData,
-    PRReviewCommentsMixin$Comments$Edges$Node comment,
-    void Function() openCommentSheet,
-  ) {
-    return Expanded(
-      child: StringButton(
-        key: const ValueKey('loaded'),
-        onTap: () {
-          showScrollableBottomSheet(
-            context,
-            headerBuilder: (context, setState) => const BottomSheetHeaderText(
-              headerText: 'Replies',
-            ),
-            scrollableBodyBuilder: (context, setState, scrollController) =>
-                ListenableProvider.value(
-              value: Provider.of<CommentProvider>(context),
-              builder: (context, child) {
-                return InfiniteScrollWrapper<
-                    ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
-                  scrollController: scrollController,
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 8,
-                  ),
-                  future: (data) {
-                    return PullsService.getReviewThreadReplies(
-                      edgeData.node!.id,
-                      data.lastItem?.cursor,
-                      refresh: data.refresh,
+                      ],
                     );
                   },
-                  filterFn: (items) {
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+  Expanded _buildRepliesButton(
+    final BuildContext context,
+    final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
+        edgeData,
+    final PRReviewCommentsMixin$Comments$Edges$Node comment,
+    final void Function() openCommentSheet,
+  ) =>
+      Expanded(
+        child: StringButton(
+          key: const ValueKey('loaded'),
+          onTap: () {
+            showScrollableBottomSheet(
+              context,
+              headerBuilder: (final context, final setState) =>
+                  const BottomSheetHeaderText(
+                headerText: 'Replies',
+              ),
+              scrollableBodyBuilder:
+                  (final context, final setState, final scrollController) =>
+                      ListenableProvider.value(
+                value: Provider.of<CommentProvider>(context),
+                builder: (final context, final child) => InfiniteScrollWrapper<
+                    ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
+                  scrollController: scrollController,
+                  separatorBuilder: (final context, final index) =>
+                      const SizedBox(
+                    height: 8,
+                  ),
+                  future: (final data) => PullsService.getReviewThreadReplies(
+                    edgeData.node!.id,
+                    data.lastItem?.cursor,
+                    refresh: data.refresh,
+                  ),
+                  filterFn: (final items) {
                     final temp =
                         <ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
                     for (final item in items) {
@@ -294,43 +300,42 @@ class PRReviewScreen extends StatelessWidget {
                     }
                     return temp;
                   },
-                  builder: (data) {
+                  builder: (final data) {
                     final reply = data.item!.node!;
                     return PaddingWrap(
                       child: BaseComment(
-                          isMinimized: reply.isMinimized,
-                          onQuote: () {
-                            Navigator.pop(context);
-                            openCommentSheet();
-                          },
-                          reactions: reply.reactionGroups,
-                          viewerCanDelete: reply.viewerCanDelete,
-                          viewerCanMinimize: reply.viewerCanMinimize,
-                          viewerCannotUpdateReasons:
-                              reply.viewerCannotUpdateReasons,
-                          viewerCanReact: reply.viewerCanReact,
-                          viewerCanUpdate: reply.viewerCanUpdate,
-                          viewerDidAuthor: reply.viewerDidAuthor,
-                          createdAt: reply.createdAt,
-                          author: reply.author,
-                          body: reply.body,
-                          lastEditedAt: reply.lastEditedAt,
-                          bodyHTML: reply.bodyHTML,
-                          authorAssociation: reply.authorAssociation),
+                        isMinimized: reply.isMinimized,
+                        onQuote: () {
+                          Navigator.pop(context);
+                          openCommentSheet();
+                        },
+                        reactions: reply.reactionGroups,
+                        viewerCanDelete: reply.viewerCanDelete,
+                        viewerCanMinimize: reply.viewerCanMinimize,
+                        viewerCannotUpdateReasons:
+                            reply.viewerCannotUpdateReasons,
+                        viewerCanReact: reply.viewerCanReact,
+                        viewerCanUpdate: reply.viewerCanUpdate,
+                        viewerDidAuthor: reply.viewerDidAuthor,
+                        createdAt: reply.createdAt,
+                        author: reply.author,
+                        body: reply.body,
+                        lastEditedAt: reply.lastEditedAt,
+                        bodyHTML: reply.bodyHTML,
+                        authorAssociation: reply.authorAssociation,
+                      ),
                     );
                   },
-                );
-              },
-            ),
-          );
-        },
-        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        title:
-            '${edgeData.node!.comments.totalCount > 1 ? (edgeData.node!.comments.totalCount - 1).toString() : 'No'} Replies',
-        trailingIcon: edgeData.node!.comments.totalCount > 1
-            ? const Icon(Icons.arrow_right_rounded)
-            : null,
-      ),
-    );
-  }
+                ),
+              ),
+            );
+          },
+          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+          title:
+              '${edgeData.node!.comments.totalCount > 1 ? (edgeData.node!.comments.totalCount - 1).toString() : 'No'} Replies',
+          trailingIcon: edgeData.node!.comments.totalCount > 1
+              ? const Icon(Icons.arrow_right_rounded)
+              : null,
+        ),
+      );
 }

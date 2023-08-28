@@ -9,28 +9,25 @@ class PaletteSettings extends Settings<DioHubPalette> {
   PaletteSettings() : super('app_palette', defaultSetting: DioHubPalette());
 
   @override
-  String toPrefData() {
-    return jsonEncode(currentSetting.toJson());
-  }
+  String toPrefData() => jsonEncode(currentSetting.toJson());
 
   @override
-  DioHubPalette toType(String data) {
-    return DioHubPalette.fromJson(jsonDecode(data));
-  }
+  DioHubPalette toType(final String data) =>
+      DioHubPalette.fromJson(jsonDecode(data));
 }
 
 class DioHubPalette {
   DioHubPalette({
-    Color? accent,
-    Color? primary,
-    Color? secondary,
-    Color? baseElements,
-    Color? elementsOnColors,
-    Color? green,
-    Color? red,
-    Color? faded1,
-    Color? faded2,
-    Color? faded3,
+    final Color? accent,
+    final Color? primary,
+    final Color? secondary,
+    final Color? baseElements,
+    final Color? elementsOnColors,
+    final Color? green,
+    final Color? red,
+    final Color? faded1,
+    final Color? faded2,
+    final Color? faded3,
   })  : _accent = accent,
         _primary = primary,
         _secondary = secondary,
@@ -42,7 +39,8 @@ class DioHubPalette {
         _faded2 = faded2,
         _faded3 = faded3;
 
-  factory DioHubPalette.fromJson(Map<String, dynamic> json) => DioHubPalette(
+  factory DioHubPalette.fromJson(final Map<String, dynamic> json) =>
+      DioHubPalette(
         accent: _getColor(json, 'accent'),
         primary: _getColor(json, 'primary'),
         secondary: _getColor(json, 'secondary'),
@@ -79,28 +77,29 @@ class DioHubPalette {
   Color get faded3 => _faded3 ?? _defaultPalette.faded3;
 
   DioHubPalette copyWith({
-    Color? accent,
-    Color? primary,
-    Color? secondary,
-    Color? baseElements,
-    Color? elementsOnColors,
-    Color? green,
-    Color? red,
-    Color? faded1,
-    Color? faded2,
-    Color? faded3,
+    final Color? accent,
+    final Color? primary,
+    final Color? secondary,
+    final Color? baseElements,
+    final Color? elementsOnColors,
+    final Color? green,
+    final Color? red,
+    final Color? faded1,
+    final Color? faded2,
+    final Color? faded3,
   }) =>
       DioHubPalette(
-          accent: accent ?? _accent,
-          primary: primary ?? _primary,
-          secondary: secondary ?? _secondary,
-          baseElements: baseElements ?? _baseElements,
-          elementsOnColors: elementsOnColors ?? _elementsOnColors,
-          green: green ?? _green,
-          red: red ?? _red,
-          faded1: faded1 ?? _faded1,
-          faded2: faded2 ?? _faded2,
-          faded3: faded3 ?? _faded3);
+        accent: accent ?? _accent,
+        primary: primary ?? _primary,
+        secondary: secondary ?? _secondary,
+        baseElements: baseElements ?? _baseElements,
+        elementsOnColors: elementsOnColors ?? _elementsOnColors,
+        green: green ?? _green,
+        red: red ?? _red,
+        faded1: faded1 ?? _faded1,
+        faded2: faded2 ?? _faded2,
+        faded3: faded3 ?? _faded3,
+      );
 
   Map<String, String> toJson() => {
         if (_accent != null) 'accent': toHexString(_accent!),
@@ -117,7 +116,7 @@ class DioHubPalette {
       };
 }
 
-Color? _getColor(Map<String, dynamic> json, String key) {
+Color? _getColor(final Map<String, dynamic> json, final String key) {
   if (json[key] != null) {
     final hex = 'ff${(json[key] as String).substring(2)}';
     if (int.tryParse('0x$hex') != null) {

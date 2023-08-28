@@ -7,5 +7,6 @@ Future<void> setHighRefreshRate() async {
     await FlutterDisplayMode.setHighRefreshRate();
   } catch (e) {
     log('Error setting display mode', error: e);
+    // rethrow;
   }
 }

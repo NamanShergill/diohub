@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 
 class DropDownInfoCard extends StatefulWidget {
   const DropDownInfoCard({
-    Key? key,
-    this.expand = false,
     required this.title,
     required this.child,
+    super.key,
+    this.expand = false,
     this.trailing,
     this.enabled = true,
-  }) : super(key: key);
+  });
   final bool expand;
   final String title;
   final Widget? trailing;
@@ -38,72 +38,75 @@ class DropDownInfoCardState extends State<DropDownInfoCard>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: medBorderRadius,
-          onTap: !widget.enabled
-              ? null
-              : () {
-                  if (!expand) {
-                    _controller.forward();
-                  } else {
-                    _controller.reverse();
-                  }
-                  setState(() {
-                    expand = !expand;
-                  });
-                },
-          child: Container(
-            decoration: BoxDecoration(
-              // border: Border.all(color: faded2(context), width: 1),
-              borderRadius: medBorderRadius,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 16, bottom: 16, left: 16, right: 4),
-                          child: Text(
-                            widget.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+  Widget build(final BuildContext context) => Card(
+        margin: EdgeInsets.zero,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: medBorderRadius,
+            onTap: !widget.enabled
+                ? null
+                : () {
+                    if (!expand) {
+                      _controller.forward();
+                    } else {
+                      _controller.reverse();
+                    }
+                    setState(() {
+                      expand = !expand;
+                    });
+                  },
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                // border: Border.all(color: faded2(context), width: 1),
+                borderRadius: medBorderRadius,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom: 16,
+                              left: 16,
+                              right: 4,
+                            ),
+                            child: Text(
+                              widget.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        if (widget.trailing != null)
-                          FadeAnimationSection(
-                            expand: !expand,
-                            duration: defaultAnimDuration,
-                            child: widget.trailing,
-                          ),
-                      ],
-                    ),
-                    if (widget.enabled)
-                      RotationTransition(
-                        turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.arrow_drop_down_rounded),
-                        ),
+                          if (widget.trailing != null)
+                            FadeAnimationSection(
+                              expand: !expand,
+                              duration: defaultAnimDuration,
+                              child: widget.trailing,
+                            ),
+                        ],
                       ),
-                  ],
-                ),
-                SizeExpandedSection(expand: expand, child: widget.child),
-              ],
+                      if (widget.enabled)
+                        RotationTransition(
+                          turns: Tween<double>(begin: 0, end: 0.5)
+                              .animate(_controller),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Icon(Icons.arrow_drop_down_rounded),
+                          ),
+                        ),
+                    ],
+                  ),
+                  SizeExpandedSection(expand: expand, child: widget.child),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

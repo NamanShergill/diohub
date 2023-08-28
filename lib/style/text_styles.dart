@@ -3,21 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppThemeTextStyles {
-  static TextStyle appBarTitle(BuildContext context) =>
+  static TextStyle appBarTitle(final BuildContext context) =>
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-  static TextStyle eventCardHeaderBold(BuildContext context) =>
+  static TextStyle eventCardHeaderBold(final BuildContext context) =>
       const TextStyle(fontWeight: FontWeight.bold);
-  static TextStyle eventCardHeaderMed(BuildContext context) =>
+  static TextStyle eventCardHeaderMed(final BuildContext context) =>
       const TextStyle();
-  static TextStyle eventCardChildTitle(BuildContext context) =>
+  static TextStyle eventCardChildTitle(final BuildContext context) =>
       const TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
-  static TextStyle eventCardChildTitleSmall(BuildContext context) =>
+  static TextStyle eventCardChildTitleSmall(final BuildContext context) =>
       const TextStyle(fontSize: 12);
-  static TextStyle eventCardChildSubtitle(BuildContext context) =>
+  static TextStyle eventCardChildSubtitle(final BuildContext context) =>
       const TextStyle(fontSize: 13);
-  static TextStyle eventCardChildFooter(BuildContext context) => TextStyle(
-      fontSize: 11,
-      color: Provider.of<PaletteSettings>(context).currentSetting.faded3);
-  static TextStyle basicIssueEventCardText(BuildContext context) => TextStyle(
-      color: Provider.of<PaletteSettings>(context).currentSetting.faded3);
+  static TextStyle eventCardChildFooter(final BuildContext context) =>
+      TextStyle(
+        fontSize: 11,
+        color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
+      );
+  static TextStyle basicIssueEventCardText(final BuildContext context) =>
+      TextStyle(
+        color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
+      );
 }

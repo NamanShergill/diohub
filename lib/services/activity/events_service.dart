@@ -6,10 +6,10 @@ class EventsService {
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-for-the-authenticated-user
   static Future<List<EventsModel>> getUserEvents(
-    String? user, {
-    int? page,
-    int? perPage,
-    required bool refresh,
+    final String? user, {
+    required final bool refresh,
+    final int? page,
+    final int? perPage,
   }) async {
     final response = await _restHandler.get(
       '/users/$user/events',
@@ -26,10 +26,10 @@ class EventsService {
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-received-by-the-authenticated-user
   static Future<List<EventsModel>> getReceivedEvents(
-    String? user, {
-    bool refresh = false,
-    int? perPage,
-    int? page,
+    final String? user, {
+    final bool refresh = false,
+    final int? perPage,
+    final int? page,
   }) async {
     final parameters = <String, dynamic>{'per_page': perPage, 'page': page};
     final response = await _restHandler.get<List>(
@@ -39,16 +39,17 @@ class EventsService {
     );
     return response.data!
         .map(
-          (e) => EventsModel.fromJson(e),
+          // ignore: unnecessary_lambdas
+          (final e) => EventsModel.fromJson(e),
         )
         .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-public-events
   static Future<List<EventsModel>> getPublicEvents({
-    bool refresh = false,
-    int? perPage,
-    int? page,
+    final bool refresh = false,
+    final int? perPage,
+    final int? page,
   }) async {
     final parameters = <String, dynamic>{'per_page': perPage, 'page': page};
     final response = await _restHandler.get<List>(
@@ -58,7 +59,8 @@ class EventsService {
     );
     return response.data!
         .map(
-          (e) => EventsModel.fromJson(e),
+          // ignore: unnecessary_lambdas
+          (final e) => EventsModel.fromJson(e),
         )
         .toList();
   }

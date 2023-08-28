@@ -15,9 +15,14 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class FileViewerAPI extends StatefulWidget {
-  const FileViewerAPI(this.sha,
-      {this.repoURL, this.fileName, this.branch, this.repoName, Key? key})
-      : super(key: key);
+  const FileViewerAPI(
+    this.sha, {
+    this.repoURL,
+    this.fileName,
+    this.branch,
+    this.repoName,
+    super.key,
+  });
   final String? repoURL;
   final String? branch;
   final String? repoName;
@@ -55,78 +60,82 @@ class FileViewerAPIState extends State<FileViewerAPI> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:
-          Provider.of<PaletteSettings>(context).currentSetting.primary,
-      appBar: AppBar(
-        title: Text(
-          widget.fileName!,
-          style: const TextStyle(fontSize: 14),
-        ),
-        actions: [
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.edit,
-          //     color: editing ? Provider.of<PaletteSettings>(context).currentSetting.accent : Colors.white,
-          //   ),
-          //   onPressed: () {
-          //     setState(() {
-          //       editing = contentViewController.edit();
-          //     });
-          //   },
-          // ),
-          Visibility(
-            visible: enableWrap,
-            child: IconButton(
-              icon: Icon(
-                Icons.wrap_text,
-                color: wrapText
-                    ? Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .baseElements
-                    : Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-              ),
-              onPressed: () {
-                setState(() {
-                  wrapText = contentViewController.wrap();
-                });
-              },
-            ),
+  Widget build(final BuildContext context) => Scaffold(
+        backgroundColor:
+            Provider.of<PaletteSettings>(context).currentSetting.primary,
+        appBar: AppBar(
+          title: Text(
+            widget.fileName!,
+            style: const TextStyle(fontSize: 14),
           ),
-        ],
-      ),
-      body: APIWrapper<BlobModel>(
-        apiCall: ({required refresh}) => GitDatabaseService.getBlob(
-            sha: widget.sha, repoURL: widget.repoURL),
-        responseBuilder: (context, blob) {
-          if (fileType != null && fileType!.startsWith('image')) {
-            return Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: InteractiveViewer(
-                        child: Image.memory(Uint8List.fromList(
-                            base64Decode(blob.content!.split('\n').join())))),
-                  ),
+          actions: [
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.edit,
+            //     color: editing ? Provider.of<PaletteSettings>(context).currentSetting.accent : Colors.white,
+            //   ),
+            //   onPressed: () {
+            //     setState(() {
+            //       editing = contentViewController.edit();
+            //     });
+            //   },
+            // ),
+            Visibility(
+              visible: enableWrap,
+              child: IconButton(
+                icon: Icon(
+                  Icons.wrap_text,
+                  color: wrapText
+                      ? Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .baseElements
+                      : Provider.of<PaletteSettings>(context)
+                          .currentSetting
+                          .faded3,
                 ),
-              ],
+                onPressed: () {
+                  setState(() {
+                    wrapText = contentViewController.wrap();
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        body: APIWrapper<BlobModel>(
+          apiCall: ({required final refresh}) => GitDatabaseService.getBlob(
+            sha: widget.sha,
+            repoURL: widget.repoURL,
+          ),
+          responseBuilder: (final context, final blob) {
+            if (fileType != null && fileType!.startsWith('image')) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: InteractiveViewer(
+                        child: Image.memory(
+                          Uint8List.fromList(
+                            base64Decode(blob.content!.split('\n').join()),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return TextViewer(
+              blob,
+              widget.fileName,
+              contentViewController: contentViewController,
+              repoName: widget.repoName,
+              branch: widget.branch,
             );
-          }
-          return TextViewer(
-            blob,
-            widget.fileName,
-            contentViewController: contentViewController,
-            repoName: widget.repoName,
-            branch: widget.branch,
-          );
-        },
-      ),
-    );
-  }
+          },
+        ),
+      );
 }
 
 class ContentViewController {
@@ -135,9 +144,14 @@ class ContentViewController {
 }
 
 class TextViewer extends StatefulWidget {
-  const TextViewer(this.blob, this.fileName,
-      {this.contentViewController, this.branch, this.repoName, Key? key})
-      : super(key: key);
+  const TextViewer(
+    this.blob,
+    this.fileName, {
+    this.contentViewController,
+    this.branch,
+    this.repoName,
+    super.key,
+  });
   final BlobModel blob;
   final String? fileName;
   final ContentViewController? contentViewController;
@@ -187,29 +201,30 @@ class TextViewerState extends State<TextViewer> {
   // }
 
   @override
-  Widget build(BuildContext context) {
-    return Visibility(
-      // visible: !editing,
-      child: Builder(builder: (context) {
-        if (fileType == 'md' || fileType == 'markdown') {
-          return SingleChildScrollView(
-            child: MarkdownRenderAPI(content.join('\n'),
-                repoName: widget.repoName),
-          );
-        }
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SizedBox(
-            width: wrapText
-                ? MediaQuery.of(context).size.width
-                : numberOfMaxChars.toDouble() * 10 >
-                        MediaQuery.of(context).size.width
-                    ? numberOfMaxChars.toDouble() * 10
-                    : MediaQuery.of(context).size.width,
-            child: ListView.builder(
-                itemCount: content.length,
-                itemBuilder: (context, index) {
-                  return Container(
+  Widget build(final BuildContext context) => Visibility(
+        // visible: !editing,
+        child: Builder(
+          builder: (final context) {
+            if (fileType == 'md' || fileType == 'markdown') {
+              return SingleChildScrollView(
+                child: MarkdownRenderAPI(
+                  content.join('\n'),
+                  repoName: widget.repoName,
+                ),
+              );
+            }
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                width: wrapText
+                    ? MediaQuery.of(context).size.width
+                    : numberOfMaxChars.toDouble() * 10 >
+                            MediaQuery.of(context).size.width
+                        ? numberOfMaxChars.toDouble() * 10
+                        : MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                  itemCount: content.length,
+                  itemBuilder: (final context, final index) => Container(
                     color: index % 2 == 0
                         ? Provider.of<PaletteSettings>(context)
                             .currentSetting
@@ -239,11 +254,11 @@ class TextViewerState extends State<TextViewer> {
                         ],
                       ),
                     ),
-                  );
-                }),
-          ),
-        );
-      }),
-    );
-  }
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
 }

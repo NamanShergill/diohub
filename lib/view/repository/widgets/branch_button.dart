@@ -12,103 +12,98 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class BranchButton extends StatelessWidget {
-  const BranchButton({RepositoryModel? repo, Key? key})
-      : _repo = repo,
-        super(key: key);
+  const BranchButton({final RepositoryModel? repo, super.key}) : _repo = repo;
   final RepositoryModel? _repo;
   double get height => 55;
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Material(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        elevation: 2,
-        borderRadius: medBorderRadius,
-        child: Container(
+  Widget build(final BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Material(
+          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+          elevation: 2,
+          borderRadius: medBorderRadius,
+          child: DecoratedBox(
             decoration: BoxDecoration(borderRadius: medBorderRadius),
             child: ProviderLoadingProgressWrapper<RepoBranchProvider>(
-              loadingBuilder: (context) {
-                return ShimmerWidget(
-                  borderRadius: medBorderRadius,
-                  baseColor: Provider.of<PaletteSettings>(context)
+              loadingBuilder: (final context) => ShimmerWidget(
+                borderRadius: medBorderRadius,
+                baseColor: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .secondary,
+                highlightColor: Colors.grey.shade800,
+                child: Container(
+                  color: Provider.of<PaletteSettings>(context)
                       .currentSetting
                       .secondary,
-                  highlightColor: Colors.grey.shade800,
-                  child: Container(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .secondary,
-                    width: double.infinity,
-                    height: height,
-                  ),
-                );
-              },
-              childBuilder: (context, value) {
-                return FadeAnimationSection(
-                  child: InkWell(
-                    onTap: () {
-                      final currentBranch =
-                          context.read<RepoBranchProvider>().currentSHA;
-                      void changeBranch(String branch) {
-                        Provider.of<RepoBranchProvider>(context, listen: false)
-                            .setBranch(branch);
-                      }
+                  width: double.infinity,
+                  height: height,
+                ),
+              ),
+              childBuilder: (final context, final value) =>
+                  FadeAnimationSection(
+                child: InkWell(
+                  onTap: () {
+                    final currentBranch =
+                        context.read<RepoBranchProvider>().currentSHA;
+                    void changeBranch(final String branch) {
+                      Provider.of<RepoBranchProvider>(context, listen: false)
+                          .setBranch(branch);
+                    }
 
-                      showScrollableBottomSheet(
-                        context,
-                        headerBuilder: (context, setState) =>
-                            const BottomSheetHeaderText(
-                          headerText: 'Select Branch',
-                        ),
-                        scrollableBodyBuilder:
-                            (context, setState, scrollController) =>
-                                BranchSelectSheet(
-                          _repo!.url!,
-                          controller: scrollController,
-                          currentBranch: currentBranch,
-                          defaultBranch: _repo!.defaultBranch,
-                          onSelected: changeBranch,
-                        ),
-                      );
-                    },
-                    borderRadius: medBorderRadius,
-                    child: Container(
-                      height: height,
-                      decoration: BoxDecoration(borderRadius: medBorderRadius),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Row(
-                                children: [
-                                  const Icon(Octicons.git_branch),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Flexible(
-                                      child: Text(
+                    showScrollableBottomSheet(
+                      context,
+                      headerBuilder: (final context, final setState) =>
+                          const BottomSheetHeaderText(
+                        headerText: 'Select Branch',
+                      ),
+                      scrollableBodyBuilder: (final context, final setState,
+                              final scrollController,) =>
+                          BranchSelectSheet(
+                        _repo!.url!,
+                        controller: scrollController,
+                        currentBranch: currentBranch,
+                        defaultBranch: _repo!.defaultBranch,
+                        onSelected: changeBranch,
+                      ),
+                    );
+                  },
+                  borderRadius: medBorderRadius,
+                  child: Container(
+                    height: height,
+                    decoration: BoxDecoration(borderRadius: medBorderRadius),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Row(
+                              children: [
+                                const Icon(Octicons.git_branch),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Flexible(
+                                  child: Text(
                                     value.currentSHA,
                                     overflow: TextOverflow.ellipsis,
-                                  )),
-                                ],
-                              ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            const Icon(Icons.arrow_drop_down),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          const Icon(Icons.arrow_drop_down),
+                        ],
                       ),
                     ),
                   ),
-                );
-              },
-            )),
-      ),
-    );
-  }
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
 }

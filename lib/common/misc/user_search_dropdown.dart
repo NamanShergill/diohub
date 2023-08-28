@@ -10,16 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserSearchDropdown extends StatelessWidget {
-  const UserSearchDropdown(this.query,
-      {Key? key, this.onSelected, QueryType type = QueryType.user})
-      : _type = type != QueryType.org ? 'user' : 'org',
-        super(key: key);
+  const UserSearchDropdown(
+    this.query, {
+    super.key,
+    this.onSelected,
+    final QueryType type = QueryType.user,
+  }) : _type = type != QueryType.org ? 'user' : 'org';
   final String query;
   final ValueChanged<String>? onSelected;
   final String _type;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final media = MediaQuery.of(context).size;
     return Container(
       constraints: BoxConstraints(
@@ -32,27 +34,26 @@ class UserSearchDropdown extends StatelessWidget {
         child: query.isNotEmpty
             ? SizeExpandedSection(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: InfiniteScrollWrapper<
                       SearchMentionUsers$Query$Search$Edges?>(
                     shrinkWrap: true,
                     showScrollToTopButton: false,
                     paginationKey: ValueKey(query),
-                    separatorBuilder: (context, index) => const Divider(
+                    separatorBuilder: (final context, final index) =>
+                        const Divider(
                       height: 8,
                     ),
                     disableRefresh: true,
                     topSpacing: 8,
                     bottomSpacing: 8,
                     listEndIndicator: false,
-                    future: (data) {
-                      return SearchService.searchMentionUsers(
-                        query,
-                        _type,
-                        cursor: data.lastItem?.cursor,
-                      );
-                    },
-                    builder: (data) {
+                    future: (final data) => SearchService.searchMentionUsers(
+                      query,
+                      _type,
+                      cursor: data.lastItem?.cursor,
+                    ),
+                    builder: (final data) {
                       final dynamic item = data.item!.node;
                       return InkWell(
                         borderRadius: medBorderRadius,
@@ -76,9 +77,10 @@ class UserSearchDropdown extends StatelessWidget {
                 ),
               )
             : Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.all(24),
                 child: Text(
-                    'Start typing to search ${_type == 'org' ? 'organizations' : 'users'}.'),
+                  'Start typing to search ${_type == 'org' ? 'organizations' : 'users'}.',
+                ),
               ),
       ),
     );

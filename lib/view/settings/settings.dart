@@ -18,7 +18,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
   @override
   SettingsScreenState createState() => SettingsScreenState();
 }
@@ -34,15 +34,16 @@ class SettingsScreenState extends State<SettingsScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return AppScrollView(
       scrollViewAppBar: ScrollViewAppBar(
         expandedHeight: 180,
         collapsedHeight: 60,
         appBarWidget: AppInfoWidget(
-            axis: Axis.horizontal,
-            logoSize: 30,
-            nameSize: Theme.of(context).textTheme.titleLarge!.fontSize!),
+          axis: Axis.horizontal,
+          logoSize: 30,
+          nameSize: Theme.of(context).textTheme.titleLarge!.fontSize!,
+        ),
         flexibleBackgroundWidget: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +76,6 @@ class SettingsScreenState extends State<SettingsScreen>
         ],
       ),
       tabController: controller,
-      loading: false,
       childrenColor:
           Provider.of<PaletteSettings>(context).currentSetting.primary,
       tabViews: const [
@@ -145,166 +145,166 @@ class SettingsScreenState extends State<SettingsScreen>
 }
 
 class _GeneralSettings extends StatelessWidget {
-  const _GeneralSettings({Key? key}) : super(key: key);
+  const _GeneralSettings();
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 8,
-          ),
-          const FontSettingCard(),
-          const ColorSettingCard(),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-            child: StringButton(
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text(
-                          'Log Out?',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        actions: [
-                          MaterialButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Cancel'),
-                          ),
-                          MaterialButton(
-                            onPressed: () {
-                              BlocProvider.of<AuthenticationBloc>(context)
-                                  .add(LogOut());
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Confirm',
-                            ),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              title: 'Log Out',
+  Widget build(final BuildContext context) => SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 8,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: StringButton(
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              onTap: BaseAPIHandler.clearCache,
-              title: 'Clear Cache',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _About extends StatelessWidget {
-  const _About({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          InfoCard(
-            mode: InfoCardMode.expanded,
-            title: 'Repository',
-            child: RepoCardLoading(
-                toRepoAPIResource('https://github.com/NamanShergill/diohub'),
-                'diohub'),
-          ),
-          const InfoCard(
-            title: 'Maintained By',
-            mode: InfoCardMode.expanded,
-            child: ProfileCardLoading(
-              'NamanShergill',
-              compact: true,
-            ),
-          ),
-          InfoCard(
-            title: 'Bugs or Suggestions?',
-            mode: InfoCardMode.expanded,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Let me know at'),
-                ),
-                Material(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .primary,
-                  elevation: 2,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () {
-                      linkHandler(
-                        context,
-                        'https://github.com/NamanShergill/diohub/issues',
-                      );
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              'https://github.com/NamanShergill/diohub/issues',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: StringButton(
+            const FontSettingCard(),
+            const ColorSettingCard(),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: StringButton(
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .secondary,
                 onTap: () {
-                  PackageInfo.fromPlatform().then((value) {
-                    showLicensePage(
-                        context: context,
-                        applicationIcon: const AppLogoWidget(
-                          size: 50,
+                  showDialog(
+                    context: context,
+                    builder: (final context) => AlertDialog(
+                      title: Text(
+                        'Log Out?',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      actions: [
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel'),
                         ),
-                        applicationName: 'DioHub',
-                        applicationVersion: value.version);
+                        MaterialButton(
+                          onPressed: () {
+                            BlocProvider.of<AuthenticationBloc>(context)
+                                .add(LogOut());
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Confirm',
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                title: 'Log Out',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: StringButton(
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .secondary,
+                onTap: BaseAPIHandler.clearCache,
+                title: 'Clear Cache',
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+class _About extends StatelessWidget {
+  const _About();
+
+  @override
+  Widget build(final BuildContext context) => SingleChildScrollView(
+        child: Column(
+          children: [
+            InfoCard(
+              mode: InfoCardMode.expanded,
+              title: 'Repository',
+              child: RepoCardLoading(
+                toRepoAPIResource('https://github.com/NamanShergill/diohub'),
+                'diohub',
+              ),
+            ),
+            const InfoCard(
+              title: 'Maintained By',
+              mode: InfoCardMode.expanded,
+              child: ProfileCardLoading(
+                'NamanShergill',
+                compact: true,
+              ),
+            ),
+            InfoCard(
+              title: 'Bugs or Suggestions?',
+              mode: InfoCardMode.expanded,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text('Let me know at'),
+                  ),
+                  Material(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .primary,
+                    elevation: 2,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        linkHandler(
+                          context,
+                          'https://github.com/NamanShergill/diohub/issues',
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'https://github.com/NamanShergill/diohub/issues',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: StringButton(
+                color: Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .secondary,
+                onTap: () {
+                  PackageInfo.fromPlatform().then((final value) {
+                    showLicensePage(
+                      context: context,
+                      applicationIcon: const AppLogoWidget(
+                        size: 50,
+                      ),
+                      applicationName: 'DioHub',
+                      applicationVersion: value.version,
+                    );
                   });
                   // AutoRouter.of(context).push(const DependenciesScreenRoute());
                 },
-                title: 'Licenses'),
-          )
-        ],
-      ),
-    );
-  }
+                title: 'Licenses',
+              ),
+            ),
+          ],
+        ),
+      );
 }

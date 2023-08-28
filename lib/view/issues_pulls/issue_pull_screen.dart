@@ -42,36 +42,31 @@ import 'package:image_stack/image_stack.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-IssuePullRoute issuePullScreenRoute(PathData path) {
-  return getRoute<IssuePullRoute>(
-    path,
-    onDeepLink: (path) {
-      return IssuePullRoute(
+IssuePullRoute issuePullScreenRoute(final PathData path) =>
+    getRoute<IssuePullRoute>(
+      path,
+      onDeepLink: (final path) => IssuePullRoute(
         ownerName: path.component(0)!,
         repoName: path.component(1)!,
         number: int.parse(path.component(3)!),
-      );
-    },
-    onAPILink: (path) {
-      return IssuePullRoute(
+      ),
+      onAPILink: (final path) => IssuePullRoute(
         ownerName: path.component(1)!,
         repoName: path.component(2)!,
         number: int.parse(path.component(4)!),
-      );
-    },
-  );
-}
+      ),
+    );
 
 @RoutePage()
 class IssuePullScreen extends DeepLinkWidget {
-  const IssuePullScreen(
-      {required this.number,
-      required this.repoName,
-      required this.ownerName,
-      Key? key,
-      this.commentsSince,
-      this.initialIndex = 0})
-      : super(key: key);
+  const IssuePullScreen({
+    required this.number,
+    required this.repoName,
+    required this.ownerName,
+    super.key,
+    this.commentsSince,
+    this.initialIndex = 0,
+  });
 
   final DateTime? commentsSince;
   final int initialIndex;
@@ -89,48 +84,47 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
       APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>();
 
   @override
-  void handleDeepLink(PathData deepLinkData) {
+  void handleDeepLink(final PathData deepLinkData) {
     // TODO(namanshergill): implement handleDeepLink
   }
 
   @override
-  Widget build(BuildContext context) {
-    return APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>(
-      apiCall: ({required refresh}) => IssuesService.getIssuePullInfo(
+  Widget build(final BuildContext context) =>
+      APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>(
+        apiCall: ({required final refresh}) => IssuesService.getIssuePullInfo(
           widget.number,
           repo: widget.repoName,
           user: widget.ownerName,
-          refresh: refresh),
-      apiWrapperController: apiWrapperController,
-      loadingBuilder: (context) => Scaffold(
-        appBar: AppBar(
-          elevation: 0,
+          refresh: refresh,
         ),
-        body: const LoadingIndicator(),
-      ),
-      responseBuilder: (context, data) {
-        if (data is IssueInfoMixin) {
-          return ChangeNotifierProvider(
-            create: (context) => IssueProvider(data as IssueInfoMixin),
-            lazy: false,
-            builder: (context, child) => IssueScreen(
-              data as IssueInfoMixin,
-              apiWrapperController: apiWrapperController,
-            ),
-          );
-        } else if (data is PullInfoMixin) {
-          return PullScreen(data as PullInfoMixin);
-        } else {
-          return Container();
-        }
-      },
-    );
-  }
+        apiWrapperController: apiWrapperController,
+        loadingBuilder: (final context) => Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+          ),
+          body: const LoadingIndicator(),
+        ),
+        responseBuilder: (final context, final data) {
+          if (data is IssueInfoMixin) {
+            return ChangeNotifierProvider(
+              create: (final context) => IssueProvider(data as IssueInfoMixin),
+              lazy: false,
+              builder: (final context, final child) => IssueScreen(
+                data as IssueInfoMixin,
+                apiWrapperController: apiWrapperController,
+              ),
+            );
+          } else if (data is PullInfoMixin) {
+            return PullScreen(data as PullInfoMixin);
+          } else {
+            return Container();
+          }
+        },
+      );
 }
 
 class IssuePullInfoTemplate extends StatefulWidget {
   const IssuePullInfoTemplate({
-    Key? key,
     required this.number,
     required this.title,
     required this.repoInfo,
@@ -145,10 +139,11 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.reactionGroups,
     required this.viewerCanReact,
     required this.assigneesInfo,
-    this.dynamicTabs = const [],
     required this.participantsInfo,
     required this.isPinned,
-  }) : super(key: key);
+    super.key,
+    this.dynamicTabs = const [],
+  });
 
   final APIWrapperController apiWrapperController;
   final AssigneeInfoMixin assigneesInfo;
@@ -186,48 +181,45 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
     titleEditingController = EditingController<String>(widget.title);
     labelsEditingController = EditingController<List<LabelMixin?>>(
       widget.labels,
-      onEditTap: () {},
+      onEditTap: () => null,
     );
     descEditingController = EditingController<String>(
       widget.body,
-      onEditTap: () {},
+      onEditTap: () => null,
     );
     assigneeEditingController = EditingController(
       widget.body,
-      onEditTap: () {
-        return null;
-      },
+      onEditTap: () => null,
     );
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return DynamicTabsParent(
-      controller: dynamicTabsController,
-      tabs: List.from(widget.dynamicTabs)
-        ..addAll(
-          [
-            DynamicTab(
-              identifier: 'About',
-              isDismissible: false,
-              tabViewBuilder: (context) => _AboutTab(
-                widget: widget,
-                descEditingController: descEditingController,
-                assigneeEditingController: assigneeEditingController,
-                dynamicTabsController: dynamicTabsController,
+  Widget build(final BuildContext context) => DynamicTabsParent(
+        controller: dynamicTabsController,
+        tabs: List.from(widget.dynamicTabs)
+          ..addAll(
+            [
+              DynamicTab(
+                identifier: 'About',
+                isDismissible: false,
+                tabViewBuilder: (final context) => _AboutTab(
+                  widget: widget,
+                  descEditingController: descEditingController,
+                  assigneeEditingController: assigneeEditingController,
+                  dynamicTabsController: dynamicTabsController,
+                ),
               ),
-            ),
-            DynamicTab(
-              identifier: 'Conversation',
-              keepViewAlive: true,
-              tabViewBuilder: (context) => Discussion(
-                number: widget.number,
-                isLocked: false,
-                createdAt: widget.createdAt,
-                owner: widget.repoInfo.owner.login,
-                repoName: widget.repoInfo.name,
-                initComment: BaseComment(
+              DynamicTab(
+                identifier: 'Conversation',
+                keepViewAlive: true,
+                tabViewBuilder: (final context) => Discussion(
+                  number: widget.number,
+                  isLocked: false,
+                  createdAt: widget.createdAt,
+                  owner: widget.repoInfo.owner.login,
+                  repoName: widget.repoInfo.name,
+                  initComment: BaseComment(
                     onQuote: () {},
                     isMinimized: false,
                     reactions: widget.reactionGroups,
@@ -242,109 +234,106 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                     body: widget.body,
                     lastEditedAt: null,
                     bodyHTML: widget.bodyHTML,
-                    authorAssociation: CommentAuthorAssociation.none),
-                issueUrl: '',
-                isPull: false,
-                // nestedScrollViewController: scrollController,
+                    authorAssociation: CommentAuthorAssociation.none,
+                  ),
+                  issueUrl: '',
+                  isPull: false,
+                  // nestedScrollViewController: scrollController,
+                ),
               ),
-            )
+            ],
+          ),
+        builder: (final context, final tabBar, final tabView) => EditingWrapper(
+          onSave: () {},
+          editingControllers: [
+            titleEditingController,
+            labelsEditingController,
+            descEditingController,
+            assigneeEditingController,
           ],
-        ),
-      builder: (context, tabBar, tabView) => EditingWrapper(
-        onSave: () {},
-        editingControllers: [
-          titleEditingController,
-          labelsEditingController,
-          descEditingController,
-          assigneeEditingController,
-        ],
-        builder: (context) => Scaffold(
-          appBar: buildAppBar(context),
-          body: RefreshIndicator(
-            onRefresh: () => Future.sync(
-              () => widget.apiWrapperController.refresh(),
-            ),
-            triggerMode: RefreshIndicatorTriggerMode.anywhere,
-            child: NestedScroll(
-              header: (context, {required isInnerBoxScrolled}) => [
-                SliverToBoxAdapter(
-                  child: _ScreenHeader(
+          builder: (final context) => Scaffold(
+            appBar: buildAppBar(context),
+            body: RefreshIndicator(
+              onRefresh: () => Future.sync(
+                () => widget.apiWrapperController.refresh(),
+              ),
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              child: NestedScroll(
+                header: (final context, {required final isInnerBoxScrolled}) =>
+                    [
+                  SliverToBoxAdapter(
+                    child: _ScreenHeader(
                       widget: widget,
                       titleEditingController: titleEditingController,
-                      labelsEditingController: labelsEditingController),
-                ),
-                SliverPinnedHeader(
-                  child: SizeExpandedSection(
-                    expand: dynamicTabsController.activeLength > 1,
-                    child: buildTabsView(tabBar),
+                      labelsEditingController: labelsEditingController,
+                    ),
                   ),
-                )
-              ],
-              body: tabView,
+                  SliverPinnedHeader(
+                    child: SizeExpandedSection(
+                      expand: dynamicTabsController.activeLength > 1,
+                      child: buildTabsView(tabBar),
+                    ),
+                  ),
+                ],
+                body: tabView,
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
-  DHAppBar buildAppBar(BuildContext context) {
-    return DHAppBar(
-      hasEditableChildren: true,
-      title: Row(
+  DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
+        hasEditableChildren: true,
+        title: Row(
+          children: [
+            widget.state.icon(),
+            // const SizedBox(
+            //   width: 8,
+            // ),
+            Expanded(
+              child: richText(
+                [
+                  TextSpan(text: ' #${widget.number} '),
+                  TextSpan(
+                    text: widget.repoInfo.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: context.palette.faded3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Column buildTabsView(final PreferredSizeWidget tabBar) => Column(
         children: [
-          widget.state.icon(),
-          // const SizedBox(
-          //   width: 8,
-          // ),
-          Expanded(
-            child: richText(
-              [
-                TextSpan(text: ' #${widget.number} '),
-                TextSpan(
-                  text: widget.repoInfo.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: context.palette.faded3,
-                  ),
-                ),
-              ],
+          const SizedBox(
+            height: 8,
+          ),
+          tabBar,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(
+              height: 0,
             ),
           ),
+          // const SizedBox(
+          //   height: 8,
+          // ),
         ],
-      ),
-    );
-  }
-
-  Column buildTabsView(PreferredSizeWidget tabBar) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 8,
-        ),
-        tabBar,
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Divider(
-            height: 0,
-          ),
-        ),
-        // const SizedBox(
-        //   height: 8,
-        // ),
-      ],
-    );
-  }
+      );
 }
 
 class _AboutTab extends StatelessWidget {
   const _AboutTab({
-    Key? key,
     required this.widget,
     required this.descEditingController,
     required this.dynamicTabsController,
     required this.assigneeEditingController,
-  }) : super(key: key);
+  });
 
   final IssuePullInfoTemplate widget;
   final EditingController<String> descEditingController;
@@ -352,79 +341,76 @@ class _AboutTab extends StatelessWidget {
   final EditingController assigneeEditingController;
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 12,
-          ),
-          Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Card(
-                color: widget.state.color,
-                margin: EdgeInsets.zero,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      widget.state.icon(
-                        color: context.palette.elementsOnColors,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(widget.state.text),
-                    ],
+  Widget build(final BuildContext context) => SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 12,
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Card(
+                  color: widget.state.color,
+                  margin: EdgeInsets.zero,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        widget.state.icon(
+                          color: context.palette.elementsOnColors,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(widget.state.text),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              if (widget.createdBy != null)
-                ProfileTile.login(
-                  avatarUrl: widget.createdBy!.avatarUrl.toString(),
-                  userLogin: widget.createdBy!.login,
-                  size: 16,
-                ),
-              Text(
-                getDate(widget.createdAt.toString(), shorten: false),
-                style: TextStyle(color: context.palette.faded3),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Card(
-            shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
-            margin: EdgeInsets.zero,
-            child: Column(
-              children: [
                 const SizedBox(
-                  height: 4,
+                  width: 4,
                 ),
-                ReactionBar(
-                  widget.reactionGroups,
-                  viewerCanReact: widget.viewerCanReact,
+                if (widget.createdBy != null)
+                  ProfileTile.login(
+                    avatarUrl: widget.createdBy!.avatarUrl.toString(),
+                    userLogin: widget.createdBy!.login,
+                    size: 16,
+                  ),
+                Text(
+                  getDate(widget.createdAt.toString(), shorten: false),
+                  style: TextStyle(color: context.palette.faded3),
                 ),
-                EditWidget<String>(
-                  editingController: descEditingController,
-                  builder: ({
-                    required context,
-                    required currentState,
-                    required currentlyEditing,
-                    required newValue,
-                    required tools,
-                  }) {
-                    return Row(
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Card(
+              shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+              margin: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  ReactionBar(
+                    widget.reactionGroups,
+                    viewerCanReact: widget.viewerCanReact,
+                  ),
+                  EditWidget<String>(
+                    editingController: descEditingController,
+                    builder: ({
+                      required final context,
+                      required final currentState,
+                      required final currentlyEditing,
+                      required final newValue,
+                      required final tools,
+                    }) =>
+                        Row(
                       children: [
                         if (widget.bodyHTML.isNotEmpty)
                           Expanded(
@@ -450,270 +436,267 @@ class _AboutTab extends StatelessWidget {
                                   currentState == EditingState.editMode
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
+                                    horizontal: 16,
+                                  ),
                                   child: Text(
                                     'No Description',
                                     style: TextStyle(
-                                        color: context.palette.faded3,
-                                        fontStyle: FontStyle.italic),
+                                      color: context.palette.faded3,
+                                      fontStyle: FontStyle.italic,
+                                    ),
                                   ),
                                 )
                               : Container(),
                         ),
                         tools,
                       ],
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Material(
-                  color: context.palette.accent,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: medBorderRadius.bottomLeft,
-                      bottomRight: medBorderRadius.bottomRight),
-                  child: InkWell(
-                    onTap: () {
-                      dynamicTabsController.openTab('Conversation');
-                    },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Material(
+                    color: context.palette.accent,
                     borderRadius: BorderRadius.only(
+                      bottomLeft: medBorderRadius.bottomLeft,
+                      bottomRight: medBorderRadius.bottomRight,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        dynamicTabsController.openTab('Conversation');
+                      },
+                      borderRadius: BorderRadius.only(
                         bottomLeft: medBorderRadius.bottomLeft,
-                        bottomRight: medBorderRadius.bottomRight),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: medBorderRadius.bottomLeft,
-                            bottomRight: medBorderRadius.bottomRight),
+                        bottomRight: medBorderRadius.bottomRight,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Octicons.comment_discussion,
-                                    size: 15,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: medBorderRadius.bottomLeft,
+                            bottomRight: medBorderRadius.bottomRight,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Octicons.comment_discussion,
+                                      size: 15,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${widget.commentCount} replies',
-                                ),
-                              ],
-                            ),
-                            const Icon(
-                              Icons.arrow_right_rounded,
-                            ),
-                          ],
+                                  Text(
+                                    '${widget.commentCount} replies',
+                                  ),
+                                ],
+                              ),
+                              const Icon(
+                                Icons.arrow_right_rounded,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            WrappedCollection(
+              children: [
+                InfoCard(
+                  // icon: widget.state.icon(color: context.palette.faded3),
+                  onTap: () {
+                    context.router
+                        .push(RepositoryRoute(repositoryURL: 'repositoryURL'));
+                  },
+                  title: '#${widget.number}',
+                  titleTextStyle: TextStyle(
+                    color: context.palette.faded3,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ProfileTile.avatar(
+                        avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
+                        size: 16,
+                        padding: const EdgeInsets.all(8),
+                      ),
+                      Flexible(
+                        child: Text(
+                          '${widget.repoInfo.owner.login}/${widget.repoInfo.name}',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Container(
+                //   width: 100,
+                //   height: 30,
+                //   color: Colors.red,
+                // ),
+                EditWidget(
+                  editingController: assigneeEditingController,
+                  builder: ({
+                    required final context,
+                    required final currentState,
+                    required final currentlyEditing,
+                    required final newValue,
+                    required final tools,
+                  }) {
+                    final assignees = widget.assigneesInfo.edges ?? [];
+                    return MinRowEditWidget(
+                      tools: tools,
+                      child: InfoCard(
+                        title: assignees.valuesOnLengthBasic(
+                          onNoItems: () => 'Assignees',
+                          onOneItem: (final item) => 'Assignee',
+                          defaultValue: (final items) =>
+                              '${items.length} Assignees',
+                        ),
+                        trailingIcon: assignees.valuesOnLengthBasic(
+                          onNoItems: () => null,
+                          onOneItem: (final item) => null,
+                          defaultValue: (final items) => const Icon(
+                            Icons.arrow_drop_down_rounded,
+                          ),
+                        ),
+                        onTap: assignees.valuesOnLengthBasic(
+                          onNoItems: () => null,
+                          onOneItem: (final item) => () {
+                            navigateToProfile(
+                              login: item!.node!.login,
+                              context: context,
+                            );
+                          },
+                          defaultValue: (final items) => () {
+                            Future<List<AssigneeUserListMixin$Assignees$Edges?>>
+                                getAssignees(final String? cursor) => context
+                                    .issueProvider(listen: false)
+                                    .getAssignees(after: cursor);
+                            showScrollableBottomSheet(
+                              context,
+                              headerBuilder: (final context, final setState) =>
+                                  const BottomSheetHeaderText(
+                                headerText: 'Assignees',
+                              ),
+                              scrollableBodyBuilder: (final context,
+                                      final setState, final scrollController,) =>
+                                  InfiniteScrollWrapper<
+                                      AssigneeUserListMixin$Assignees$Edges?>(
+                                future: (final data) =>
+                                    getAssignees(data.lastItem?.cursor),
+                                scrollController: scrollController,
+                                builder: (final data) {
+                                  final node = data.item!.node!;
+                                  return ProfileTile.login(
+                                    avatarUrl: node.avatarUrl.toString(),
+                                    userLogin: node.login,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        child: assignees.valuesOnLengthBasic<Widget>(
+                          onNoItems: () => const Text('None'),
+                          onOneItem: (final item) => ProfileTile.login(
+                            avatarUrl: item!.node!.avatarUrl.toString(),
+                            userLogin: item.node!.login,
+                            disableTap: true,
+                          ),
+                          defaultValue: (final items) => ImageStack.widgets(
+                            totalCount: items.length,
+                            backgroundColor: context.palette.secondary,
+                            widgetBorderColor: context.palette.secondary,
+                            extraCountTextStyle: TextStyle(
+                              color: context.palette.faded3,
+                            ),
+                            widgetRadius: 29,
+                            children: items
+                                .map(
+                                  (final e) => ProfileTile.avatar(
+                                    avatarUrl: e!.node!.avatarUrl.toString(),
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                InfoCard(
+                  title: 'Participants',
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ImageStack.widgets(
+                        totalCount: widget.participantsInfo.count,
+                        backgroundColor: context.palette.secondary,
+                        widgetBorderColor: context.palette.secondary,
+                        extraCountTextStyle: TextStyle(
+                          color: context.palette.faded3,
+                        ),
+                        widgetRadius: 29,
+                        children: widget.participantsInfo.avatarURLs
+                            .map(
+                              (final e) => ProfileTile.avatar(
+                                avatarUrl: e,
+                                padding: EdgeInsets.zero,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    // showScrollableBottomSheet(
+                    //   context,
+                    //   headerBuilder: (context, setState) =>
+                    //       const BottomSheetHeaderText(
+                    //     headerText: 'Assignees',
+                    //   ),
+                    //   scrollableBodyBuilder:
+                    //       (context, setState, scrollController) =>
+                    //           InfiniteScrollWrapper<
+                    //               AssigneeUserListMixin$Assignees$Edges?>(
+                    //     future: (pageNumber, pageSize, refresh, lastItem) =>
+                    //         getAssignees(lastItem?.cursor),
+                    //     scrollController: scrollController,
+                    //     builder: (context, item, index, refresh) {
+                    //       final node = item!.node!;
+                    //       return ProfileTile.login(
+                    //         avatarUrl: node.avatarUrl.toString(),
+                    //         userLogin: node.login,
+                    //       );
+                    //     },
+                    //   ),
+                    // );
+                  },
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          WrappedCollection(
-            children: [
-              InfoCard(
-                // icon: widget.state.icon(color: context.palette.faded3),
-                onTap: () {
-                  context.router
-                      .push(RepositoryRoute(repositoryURL: 'repositoryURL'));
-                },
-                title: '#${widget.number}',
-                titleTextStyle: TextStyle(
-                  color: context.palette.faded3,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ProfileTile.avatar(
-                      avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
-                      size: 16,
-                      padding: const EdgeInsets.all(8),
-                    ),
-                    Flexible(
-                      child: Text(
-                          '${widget.repoInfo.owner.login}/${widget.repoInfo.name}'),
-                    ),
-                  ],
-                ),
-              ),
-              // Container(
-              //   width: 100,
-              //   height: 30,
-              //   color: Colors.red,
-              // ),
-              EditWidget(
-                editingController: assigneeEditingController,
-                builder: ({
-                  required context,
-                  required currentState,
-                  required currentlyEditing,
-                  required newValue,
-                  required tools,
-                }) {
-                  final assignees = widget.assigneesInfo.edges ?? [];
-                  return MinRowEditWidget(
-                    tools: tools,
-                    child: InfoCard(
-                      title: assignees.valuesOnLengthBasic(
-                        onNoItems: () => 'Assignees',
-                        onOneItem: (item) => 'Assignee',
-                        defaultValue: (items) => '${items.length} Assignees',
-                      ),
-                      trailingIcon: assignees.valuesOnLengthBasic(
-                        onNoItems: () => null,
-                        onOneItem: (item) => null,
-                        defaultValue: (items) => const Icon(
-                          Icons.arrow_drop_down_rounded,
-                        ),
-                      ),
-                      onTap: assignees.valuesOnLengthBasic(
-                        onNoItems: () => null,
-                        onOneItem: (item) => () {
-                          navigateToProfile(
-                            login: item!.node!.login,
-                            context: context,
-                          );
-                        },
-                        defaultValue: (items) => () {
-                          Future<List<AssigneeUserListMixin$Assignees$Edges?>>
-                              getAssignees(String? cursor) => context
-                                  .issueProvider(listen: false)
-                                  .getAssignees(after: cursor);
-                          showScrollableBottomSheet(
-                            context,
-                            headerBuilder: (context, setState) =>
-                                const BottomSheetHeaderText(
-                              headerText: 'Assignees',
-                            ),
-                            scrollableBodyBuilder:
-                                (context, setState, scrollController) =>
-                                    InfiniteScrollWrapper<
-                                        AssigneeUserListMixin$Assignees$Edges?>(
-                              future: (data) =>
-                                  getAssignees(data.lastItem?.cursor),
-                              scrollController: scrollController,
-                              builder: (data) {
-                                final node = data.item!.node!;
-                                return ProfileTile.login(
-                                  avatarUrl: node.avatarUrl.toString(),
-                                  userLogin: node.login,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      child: assignees.valuesOnLengthBasic<Widget>(
-                        onNoItems: () => const Text('None'),
-                        onOneItem: (item) => ProfileTile.login(
-                          avatarUrl: item!.node!.avatarUrl.toString(),
-                          userLogin: item.node!.login,
-                          disableTap: true,
-                        ),
-                        defaultValue: (items) => ImageStack.widgets(
-                          totalCount: items.length,
-                          backgroundColor: context.palette.secondary,
-                          widgetBorderColor: context.palette.secondary,
-                          // extraCountBorderColor: faded2(context),
-                          widgetCount: 3,
-                          extraCountTextStyle: TextStyle(
-                            color: context.palette.faded3,
-                          ),
-                          widgetBorderWidth: 2,
-                          widgetRadius: 29,
-                          children: items
-                              .map(
-                                (e) => ProfileTile.avatar(
-                                  avatarUrl: e!.node!.avatarUrl.toString(),
-                                  padding: EdgeInsets.zero,
-                                  size: 25,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              InfoCard(
-                title: 'Participants',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ImageStack.widgets(
-                      totalCount: widget.participantsInfo.count,
-                      backgroundColor: context.palette.secondary,
-                      widgetBorderColor: context.palette.secondary,
-                      widgetCount: 3,
-                      extraCountTextStyle: TextStyle(
-                        color: context.palette.faded3,
-                      ),
-                      widgetBorderWidth: 2,
-                      widgetRadius: 29,
-                      children: widget.participantsInfo.avatarURLs
-                          .map(
-                            (e) => ProfileTile.avatar(
-                              avatarUrl: e,
-                              padding: EdgeInsets.zero,
-                              size: 25,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ],
-                ),
-                onTap: () {
-                  // showScrollableBottomSheet(
-                  //   context,
-                  //   headerBuilder: (context, setState) =>
-                  //       const BottomSheetHeaderText(
-                  //     headerText: 'Assignees',
-                  //   ),
-                  //   scrollableBodyBuilder:
-                  //       (context, setState, scrollController) =>
-                  //           InfiniteScrollWrapper<
-                  //               AssigneeUserListMixin$Assignees$Edges?>(
-                  //     future: (pageNumber, pageSize, refresh, lastItem) =>
-                  //         getAssignees(lastItem?.cursor),
-                  //     scrollController: scrollController,
-                  //     builder: (context, item, index, refresh) {
-                  //       final node = item!.node!;
-                  //       return ProfileTile.login(
-                  //         avatarUrl: node.avatarUrl.toString(),
-                  //         userLogin: node.login,
-                  //       );
-                  //     },
-                  //   ),
-                  // );
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }
 
 class _ScreenHeader extends StatelessWidget {
   const _ScreenHeader({
-    Key? key,
     required this.widget,
     required this.titleEditingController,
     required this.labelsEditingController,
-  }) : super(key: key);
+  });
 
   final IssuePullInfoTemplate widget;
 
@@ -721,79 +704,75 @@ class _ScreenHeader extends StatelessWidget {
   final EditingController<List<LabelMixin?>> labelsEditingController;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 8,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              if (widget.isPinned)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Octicons.pin,
-                        size: 15,
-                        color: context.palette.faded3,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        'Pinned',
-                        style: context.textTheme.bodyMedium?.copyWith(
+  Widget build(final BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 8,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                if (widget.isPinned)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Octicons.pin,
+                          size: 15,
                           color: context.palette.faded3,
-                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          'Pinned',
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.palette.faded3,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              EditableTextItem(
-                titleEditingController,
-                builder: (context, newValue) => MarkdownBody(
-                  newValue != null ? mdToHtml(newValue) : widget.title,
-                  defaultBodyStyle: Style(
+                EditableTextItem(
+                  titleEditingController,
+                  builder: (final context, final newValue) => MarkdownBody(
+                    newValue != null ? mdToHtml(newValue) : widget.title,
+                    defaultBodyStyle: Style(
                       padding: EdgeInsets.zero,
                       margin: EdgeInsets.zero,
                       fontSize: FontSize(
                         context.textTheme.headlineSmall!.fontSize!,
                       ),
-                      fontWeight: context.textTheme.headlineSmall?.fontWeight),
+                      fontWeight: context.textTheme.headlineSmall?.fontWeight,
+                    ),
+                  ),
                 ),
-              ),
-              buildLabelsWidget(),
-              const SizedBox(
-                height: 8,
-              ),
-              const Divider(
-                height: 0,
-              ),
-            ],
+                buildLabelsWidget(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const Divider(
+                  height: 0,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 
-  EditWidget<Object> buildLabelsWidget() {
-    return EditWidget(
-      editingController: labelsEditingController,
-      builder: ({
-        required context,
-        required currentState,
-        required currentlyEditing,
-        required newValue,
-        required tools,
-      }) {
-        if (widget.labels.isNotEmpty == true) {
+  EditWidget<Object> buildLabelsWidget() => EditWidget(
+        editingController: labelsEditingController,
+        builder: ({
+          required final context,
+          required final currentState,
+          required final currentlyEditing,
+          required final newValue,
+          required final tools,
+        }) {
           return Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Row(
@@ -802,7 +781,7 @@ class _ScreenHeader extends StatelessWidget {
                   child: Wrap(
                     children: widget.labels
                         .map(
-                          (e) => Padding(
+                          (final e) => Padding(
                             padding: const EdgeInsets.all(4),
                             child: IssueLabel.gql(e!),
                           ),
@@ -814,43 +793,45 @@ class _ScreenHeader extends StatelessWidget {
               ],
             ),
           );
-        } else {
-          return Row(
-            children: [
-              ScaleSwitch(
-                child: currentState == EditingState.editMode
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          'No labels',
-                          style: TextStyle(
-                            color: context.palette.faded3,
-                            fontStyle: FontStyle.italic,
+          if (widget.labels.isNotEmpty) {
+          } else {
+            return Row(
+              children: [
+                ScaleSwitch(
+                  child: currentState == EditingState.editMode
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'No labels',
+                            style: TextStyle(
+                              color: context.palette.faded3,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
-                        ),
-                      )
-                    : Container(),
-              ),
-              tools,
-            ],
-          );
-        }
-      },
-    );
-  }
+                        )
+                      : Container(),
+                ),
+                tools,
+              ],
+            );
+          }
+        },
+      );
 }
 
 class IssuePullState {
   IssuePullState(this.state, {this.isDraft = false})
-      : assert(state is PullRequestState || state is IssueState,
-            'Not a valid state!');
+      : assert(
+          state is PullRequestState || state is IssueState,
+          'Not a valid state!',
+        );
 
   final bool isDraft;
   final dynamic state;
 
   Icon icon({
-    double size = 16,
-    Color? color,
+    final double size = 16,
+    final Color? color,
   }) =>
       Icon(
         iconData,

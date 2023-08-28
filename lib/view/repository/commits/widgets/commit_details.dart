@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommitDetails extends StatelessWidget {
-  const CommitDetails({Key? key}) : super(key: key);
+  const CommitDetails({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final commit = Provider.of<CommitProvider>(context);
 
     return SingleChildScrollView(
@@ -51,15 +51,18 @@ class CommitDetails extends StatelessWidget {
             ),
           ),
           InfoCard(
-              title: 'Committed',
-              child: Row(
-                children: [
-                  Text(
-                    getDate(commit.data.commit!.committer!.date.toString(),
-                        shorten: false),
+            title: 'Committed',
+            child: Row(
+              children: [
+                Text(
+                  getDate(
+                    commit.data.commit!.committer!.date.toString(),
+                    shorten: false,
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
           InfoCard(
             title: 'Parents',
             child: commit.data.parents!.isEmpty
@@ -72,56 +75,63 @@ class CommitDetails extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: commit.data.parents!.length,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 8,
-                      );
-                    },
-                    itemBuilder: (context, index) {
-                      return CommitSHAButton(commit.data.parents![index].sha,
-                          commit.data.parents![index].url);
-                    },
+                    separatorBuilder: (final context, final index) =>
+                        const SizedBox(
+                      height: 8,
+                    ),
+                    itemBuilder: (final context, final index) =>
+                        CommitSHAButton(
+                      commit.data.parents![index].sha,
+                      commit.data.parents![index].url,
+                    ),
                   ),
           ),
           InfoCard(
-              title: 'Stats',
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Files Changed: ${commit.data.files!.length}'),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text('Total Changes: ${commit.data.stats!.total}'),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text('Additions: ${commit.data.stats!.additions}'),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text('Deletions: ${commit.data.stats!.deletions}'),
-                    ],
-                  ),
-                ],
-              )),
+            title: 'Stats',
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Files Changed: ${commit.data.files!.length}'),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text('Total Changes: ${commit.data.stats!.total}'),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text('Additions: ${commit.data.stats!.additions}'),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text('Deletions: ${commit.data.stats!.deletions}'),
+                  ],
+                ),
+              ],
+            ),
+          ),
           InfoCard(
             title: 'Repo',
-            child: RepoCardLoading(_repoURLFromCommitURL(commit.data.url!),
-                _repoNameFromCommitURL(commit.data.url!)),
+            child: RepoCardLoading(
+              _repoURLFromCommitURL(commit.data.url!),
+              _repoNameFromCommitURL(commit.data.url!),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: Button(
-                onTap: () {
-                  AutoRouter.of(context).push(RepositoryRoute(
-                      repositoryURL: _repoURLFromCommitURL(commit.data.url!),
-                      initSHA: commit.data.sha,
-                      index: 2));
-                },
-                child: const Text('Browse Files')),
+              onTap: () async {
+                await AutoRouter.of(context).push(
+                  RepositoryRoute(
+                    repositoryURL: _repoURLFromCommitURL(commit.data.url!),
+                    initSHA: commit.data.sha,
+                    index: 2,
+                  ),
+                );
+              },
+              child: const Text('Browse Files'),
+            ),
           ),
         ],
       ),
@@ -129,12 +139,12 @@ class CommitDetails extends StatelessWidget {
   }
 }
 
-String _repoURLFromCommitURL(String commitURL) {
+String _repoURLFromCommitURL(final String commitURL) {
   final url = commitURL.split('/');
   return url.sublist(0, url.length - 2).join('/');
 }
 
-String _repoNameFromCommitURL(String commitURL) {
+String _repoNameFromCommitURL(final String commitURL) {
   final url = commitURL.split('/');
   return url.sublist(url.length - 3, url.length - 2).join('/');
 }

@@ -3,7 +3,7 @@ import 'dart:convert';
 class Utils {
   Utils._();
 
-  static Map<String, dynamic>? parseJwt(String token) {
+  static Map<String, dynamic>? parseJwt(final String token) {
     final parts = token.split('&');
     if (parts.length != 2) {
       return null;
@@ -19,7 +19,7 @@ class Utils {
     return payloadMap;
   }
 
-  static String hexToInt(String fullString) {
+  static String hexToInt(final String fullString) {
     final string = fullString.replaceAll('-', '');
     final buffer = StringBuffer();
     for (var i = 0; i <= string.length - 8; i += 8) {

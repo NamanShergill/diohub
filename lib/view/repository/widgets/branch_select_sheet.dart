@@ -8,35 +8,36 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class BranchSelectSheet extends StatelessWidget {
-  const BranchSelectSheet(this.repoURL,
-      {this.defaultBranch,
-      this.currentBranch,
-      this.onSelected,
-      this.controller,
-      Key? key})
-      : super(key: key);
+  const BranchSelectSheet(
+    this.repoURL, {
+    this.defaultBranch,
+    this.currentBranch,
+    this.onSelected,
+    this.controller,
+    super.key,
+  });
   final String repoURL;
   final String? defaultBranch;
   final String? currentBranch;
   final ValueChanged<String>? onSelected;
   final ScrollController? controller;
   @override
-  Widget build(BuildContext context) {
-    return InfiniteScrollWrapper<RepoBranchListItemModel>(
-      listEndIndicator: false,
-      topSpacing: 8,
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 16,
-      ),
-      future: (data) {
-        return RepositoryServices.fetchBranchList(
-            repoURL, data.pageNumber, data.pageSize,
-            refresh: data.refresh);
-      },
-      scrollController: controller,
-      builder: (data) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+  Widget build(final BuildContext context) =>
+      InfiniteScrollWrapper<RepoBranchListItemModel>(
+        listEndIndicator: false,
+        topSpacing: 8,
+        separatorBuilder: (final context, final index) => const SizedBox(
+          height: 16,
+        ),
+        future: (final data) => RepositoryServices.fetchBranchList(
+          repoURL,
+          data.pageNumber,
+          data.pageSize,
+          refresh: data.refresh,
+        ),
+        scrollController: controller,
+        builder: (final data) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Material(
             borderRadius: medBorderRadius,
             color: data.item.name == currentBranch
@@ -52,7 +53,7 @@ class BranchSelectSheet extends StatelessWidget {
               },
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -67,9 +68,10 @@ class BranchSelectSheet extends StatelessWidget {
                             child: Text(
                               data.item.name!,
                               style: TextStyle(
-                                  fontWeight: data.item.name == currentBranch
-                                      ? FontWeight.bold
-                                      : FontWeight.normal),
+                                fontWeight: data.item.name == currentBranch
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
                             ),
                           ),
                         ],
@@ -85,14 +87,12 @@ class BranchSelectSheet extends StatelessWidget {
                           fontSize: 12,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }

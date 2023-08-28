@@ -4,7 +4,8 @@ import 'package:dio_hub/app/global.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class Settings<T> extends ChangeNotifier {
-  Settings(String path, {required this.defaultSetting, this.formatVer = 0})
+  Settings(final String path,
+      {required this.defaultSetting, this.formatVer = 0,})
       : _path = path {
     // Global.sharedPrefs.remove(_path);
     try {
@@ -34,13 +35,13 @@ abstract class Settings<T> extends ChangeNotifier {
     sharedPrefs.setString(_path, _toStr());
   }
 
-  void updateData(T data) {
+  void updateData(final T data) {
     currentSetting = data;
     _saveSettings();
     notifyListeners();
   }
 
-  T toType(String data);
+  T toType(final String data);
 
   String toPrefData();
 
@@ -50,10 +51,8 @@ abstract class Settings<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _toStr() {
-    return jsonEncode({
-      'format_version': formatVer,
-      'data': toPrefData(),
-    });
-  }
+  String _toStr() => jsonEncode({
+        'format_version': formatVer,
+        'data': toPrefData(),
+      });
 }

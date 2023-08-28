@@ -21,8 +21,10 @@ class IssuesService {
   static final RESTHandler _restHandler = RESTHandler();
 
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
-  static Future<IssueModel> getIssueInfo(
-      {required String fullUrl, required bool refresh}) async {
+  static Future<IssueModel> getIssueInfo({
+    required final String fullUrl,
+    required final bool refresh,
+  }) async {
     final response = await _restHandler.get(
       fullUrl,
       requestHeaders: _restHandler.acceptHeader(
@@ -34,14 +36,17 @@ class IssuesService {
   }
 
   static Future<IssuePullInfo$Query$Repository$IssueOrPullRequest>
-      getIssuePullInfo(int number,
-          {required String user,
-          required String repo,
-          bool refresh = false}) async {
+      getIssuePullInfo(
+    final int number, {
+    required final String user,
+    required final String repo,
+    final bool refresh = false,
+  }) async {
     final response = await _gqlHandler.query(
       IssuePullInfoQuery(
-          variables:
-              IssuePullInfoArguments(user: user, repo: repo, number: number)),
+        variables:
+            IssuePullInfoArguments(user: user, repo: repo, number: number),
+      ),
       refreshCache: refresh,
     );
     return IssuePullInfo$Query.fromJson(response.data!)
@@ -49,8 +54,9 @@ class IssuesService {
         .issueOrPullRequest!;
   }
 
-  Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees(
-      {required String? after}) async {
+  Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees({
+    required final String? after,
+  }) async {
     final response = await _gqlHandler.query(
       IssuePullAssigneesQuery(
         variables: IssuePullAssigneesArguments(
@@ -62,14 +68,14 @@ class IssuesService {
       ),
     );
     return typeCast<AssigneeUserListMixin>(
-            IssuePullAssignees$Query.fromJson(response.data!)
-                .repository!
-                .issueOrPullRequest)
-        .assignees
-        .edges!;
+      IssuePullAssignees$Query.fromJson(response.data!)
+          .repository!
+          .issueOrPullRequest,
+    ).assignees.edges!;
   }
 
-  static Future<void> addReaction(ReactionContent content, String id) async {
+  static Future<void> addReaction(
+      final ReactionContent content, final String id,) async {
     await _gqlHandler.mutation(
       AddReactionMutation(
         variables: AddReactionArguments(content: content, id: id),
@@ -77,7 +83,8 @@ class IssuesService {
     );
   }
 
-  static Future<void> removeReaction(ReactionContent content, String id) async {
+  static Future<void> removeReaction(
+      final ReactionContent content, final String id,) async {
     await _gqlHandler.mutation(
       RemoveReactionMutation(
         variables: RemoveReactionArguments(content: content, id: id),
@@ -86,7 +93,9 @@ class IssuesService {
   }
 
   static Future<List<ReactorsGroupMixin$Reactors$Edges?>> getReactors(
-      String reactableID, ReactionContent content) async {
+    final String reactableID,
+    final ReactionContent content,
+  ) async {
     final res = await _gqlHandler.query(
       GetReactorsQuery(
         variables: GetReactorsArguments(
@@ -94,17 +103,19 @@ class IssuesService {
         ),
       ),
     );
-    return (GetReactors$Query.fromJson(res.data!).node
+    return (GetReactors$Query.fromJson(res.data!).node!
             as GetReactors$Query$Node$Issue)
         .reactionGroups!
-        .firstWhere((element) => element.content == content)
+        .firstWhere((final element) => element.content == content)
         .reactors
         .edges!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
-  static Future<IssueCommentsModel> getLatestComment(
-      {required String fullUrl, required bool refresh}) async {
+  static Future<IssueCommentsModel> getLatestComment({
+    required final String fullUrl,
+    required final bool refresh,
+  }) async {
     final response = await _restHandler.get(
       fullUrl,
       refreshCache: refresh,
@@ -129,24 +140,28 @@ class IssuesService {
   // }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-events
-  static Future<List<IssueEventModel>> getIssueEvents(
-      {required String fullUrl, String? since, required bool refresh}) async {
+  static Future<List<IssueEventModel>> getIssueEvents({
+    required final String fullUrl,
+    required final bool refresh,
+    final String? since,
+  }) async {
     final response = await _restHandler.get<List>(
       '$fullUrl/events',
       queryParameters: {'since': since},
       refreshCache: refresh,
     );
 
-    return response.data!.map((e) => IssueEventModel.fromJson(e)).toList();
+    // ignore: unnecessary_lambdas
+    return response.data!.map((final e) => IssueEventModel.fromJson(e)).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issues-assigned-to-the-authenticated-user
   static Future<List<IssueModel>> getUserIssues({
-    int? perPage,
-    int? pageNumber,
-    required bool refresh,
-    bool? ascending = false,
-    String? sort,
+    required final bool refresh,
+    final int? perPage,
+    final int? pageNumber,
+    final bool? ascending = false,
+    final String? sort,
   }) async {
     final response = await _restHandler.get(
       '/issues',
@@ -165,12 +180,12 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-repository-issues
   static Future<List<IssueModel>> getRepoIssues(
-    String? repoURL, {
-    int? perPage,
-    int? pageNumber,
-    String? sort,
-    bool? ascending = false,
-    required bool refresh,
+    final String? repoURL, {
+    required final bool refresh,
+    final int? perPage,
+    final int? pageNumber,
+    final String? sort,
+    final bool? ascending = false,
   }) async {
     final response = await _restHandler.get(
       '$repoURL/issues',
@@ -188,13 +203,14 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<List<dynamic>> getTimeline(
-      {required String repo,
-      required String owner,
-      required int number,
-      required bool refresh,
-      String? after,
-      DateTime? since}) async {
+  static Future<List<dynamic>> getTimeline({
+    required final String repo,
+    required final String owner,
+    required final int number,
+    required final bool refresh,
+    final String? after,
+    final DateTime? since,
+  }) async {
     final response = await _gqlHandler.query(
       GetTimelineQuery(
         variables: GetTimelineArguments(
@@ -218,11 +234,15 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned
   static Future<bool> checkIfUserCanBeAssigned(
-      String login, String repoURL) async {
-    final response = await _restHandler.get('$repoURL/assignees/$login',
-        options: Options(validateStatus: (status) {
-      return status! < 500;
-    }));
+    final String login,
+    final String repoURL,
+  ) async {
+    final response = await _restHandler.get(
+      '$repoURL/assignees/$login',
+      options: Options(
+        validateStatus: (final status) => status! < 500,
+      ),
+    );
     if (response.statusCode == 204) {
       return true;
     } else {
@@ -232,19 +252,26 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-assignees
   static Future<List<UserInfoModel>> listAssignees(
-      String? repoURL, int page, int perPage) async {
-    final response =
-        await _restHandler.get('$repoURL/assignees', queryParameters: {
-      'per_page': perPage,
-      'page': page,
-    });
+    final String? repoURL,
+    final int page,
+    final int perPage,
+  ) async {
+    final response = await _restHandler.get(
+      '$repoURL/assignees',
+      queryParameters: {
+        'per_page': perPage,
+        'page': page,
+      },
+    );
     final data = response.data;
     return data.map(UserInfoModel.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
   static Future<IssueModel> addAssignees(
-      String? issueURL, List<String?> users) async {
+    final String? issueURL,
+    final List<String?> users,
+  ) async {
     final response = await _restHandler
         .post('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
@@ -252,14 +279,16 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#remove-assignees-from-an-issue
   static Future<IssueModel> removeAssignees(
-      String? issueURL, List<String?> users) async {
+    final String? issueURL,
+    final List<String?> users,
+  ) async {
     final response = await _restHandler
         .delete('$issueURL/assignees', data: {'assignees': users});
     return IssueModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-an-issue
-  static Future<List<Label>> listLabels(String issueURL) async {
+  static Future<List<Label>> listLabels(final String issueURL) async {
     final response = await _restHandler.get('$issueURL/labels');
     final data = response.data;
     return data.map(Label.fromJson).toList();
@@ -267,19 +296,26 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
   static Future<List<Label>> listAvailableLabels(
-      String? repoURL, int page, int perPage) async {
-    final response =
-        await _restHandler.get('$repoURL/labels', queryParameters: {
-      'per_page': perPage,
-      'page': page,
-    });
+    final String? repoURL,
+    final int page,
+    final int perPage,
+  ) async {
+    final response = await _restHandler.get(
+      '$repoURL/labels',
+      queryParameters: {
+        'per_page': perPage,
+        'page': page,
+      },
+    );
     final data = response.data;
     return data.map(Label.fromJson).toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#set-labels-for-an-issue
   static Future<List<Label>> setLabels(
-      String? issueURL, List<String?>? labels) async {
+    final String? issueURL,
+    final List<String?>? labels,
+  ) async {
     final response =
         await _restHandler.put('$issueURL/labels', data: {'labels': labels});
     final data = response.data;
@@ -287,7 +323,8 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
-  static Future<IssueModel> updateIssue(String issueURL, Map data) async {
+  static Future<IssueModel> updateIssue(
+      final String issueURL, final Map data,) async {
     final response = await _restHandler.patch(
       issueURL,
       data: data,
@@ -298,7 +335,8 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue-comment
-  static Future<bool> addComment(String issueURL, String body) async {
+  static Future<bool> addComment(
+      final String issueURL, final String body,) async {
     final response =
         await _restHandler.post('$issueURL/comments', data: {'body': body});
     if (response.statusCode == 201) {
@@ -311,13 +349,16 @@ class IssuesService {
   // static Future<bool> lockIssue(String issueURL,)
 
   // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue
-  static Future<IssueModel> createIssue(
-      {required String title,
-      required String body,
-      required String owner,
-      required String repo}) async {
-    final res = await _restHandler.post('/repos/$owner/$repo/issues',
-        data: {'title': title, if (body.isNotEmpty) 'body': body});
+  static Future<IssueModel> createIssue({
+    required final String title,
+    required final String body,
+    required final String owner,
+    required final String repo,
+  }) async {
+    final res = await _restHandler.post(
+      '/repos/$owner/$repo/issues',
+      data: {'title': title, if (body.isNotEmpty) 'body': body},
+    );
     return IssueModel.fromJson(res.data);
   }
 }

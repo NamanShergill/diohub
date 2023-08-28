@@ -11,12 +11,14 @@ class SearchService {
   static final RESTHandler _restHandler = RESTHandler();
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
 
-  static Future<List<UserInfoModel>> searchUsers(String query,
-      {String? sort,
-      bool? ascending = false,
-      int? perPage,
-      int? page,
-      bool refresh = false}) async {
+  static Future<List<UserInfoModel>> searchUsers(
+    final String query, {
+    final String? sort,
+    final bool? ascending = false,
+    final int? perPage,
+    final int? page,
+    final bool refresh = false,
+  }) async {
     final response = await _restHandler.get(
       '/search/users',
       queryParameters: {
@@ -31,12 +33,14 @@ class SearchService {
     return SearchUsersModel.fromJson(response.data).items!;
   }
 
-  static Future<List<RepositoryModel>> searchRepos(String query,
-      {String? sort,
-      bool? ascending,
-      int? perPage,
-      int? page,
-      bool refresh = false}) async {
+  static Future<List<RepositoryModel>> searchRepos(
+    final String query, {
+    final String? sort,
+    final bool? ascending,
+    final int? perPage,
+    final int? page,
+    final bool refresh = false,
+  }) async {
     final response = await _restHandler.get(
       '/search/repositories',
       queryParameters: {
@@ -51,12 +55,14 @@ class SearchService {
     return SearchReposModel.fromJson(response.data).items!;
   }
 
-  static Future<List<IssueModel>> searchIssues(String query,
-      {String? sort,
-      bool? ascending = false,
-      int? perPage,
-      int? page,
-      bool refresh = false}) async {
+  static Future<List<IssueModel>> searchIssues(
+    final String query, {
+    final String? sort,
+    final bool? ascending = false,
+    final int? perPage,
+    final int? page,
+    final bool refresh = false,
+  }) async {
     final response = await _restHandler.get(
       '/search/issues',
       queryParameters: {
@@ -81,11 +87,13 @@ class SearchService {
   // }
 
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
-      searchMentionUsers(String query, String type, {String? cursor}) async {
+      searchMentionUsers(final String query, final String type,
+          {final String? cursor,}) async {
     final q = '$query${' type:$type'}';
     final res = await _gqlHandler.query(
       SearchMentionUsersQuery(
-          variables: SearchMentionUsersArguments(query: q, after: cursor)),
+        variables: SearchMentionUsersArguments(query: q, after: cursor),
+      ),
     );
     final userEdges =
         SearchMentionUsers$Query.fromJson(res.data!).search.edges!;

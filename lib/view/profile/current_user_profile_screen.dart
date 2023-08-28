@@ -5,16 +5,14 @@ import 'package:dio_hub/view/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class CurrentUserProfileScreen extends StatelessWidget {
-  const CurrentUserProfileScreen({Key? key}) : super(key: key);
+  const CurrentUserProfileScreen({super.key});
   @override
-  Widget build(BuildContext context) {
-    return ProviderLoadingProgressWrapper<CurrentUserProvider>(
-      childBuilder: (context, value) {
-        return UserProfileScreen<CurrentUserInfoModel>(
+  Widget build(final BuildContext context) =>
+      ProviderLoadingProgressWrapper<CurrentUserProvider>(
+        childBuilder: (final context, final value) =>
+            UserProfileScreen<CurrentUserInfoModel>(
           value.data,
           isCurrentUser: true,
-        );
-      },
-    );
-  }
+        ),
+      );
 }

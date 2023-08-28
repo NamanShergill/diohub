@@ -9,26 +9,27 @@ class DialogHelper {
   // static exit(context) => showDialog(
   //     context: context, builder: (context) => const ExitConfirmationDialog());
 
-  static void appPopup(BuildContext context, AppPopupData appPopup) => Flushbar(
+  static void appPopup(
+          final BuildContext context, final AppPopupData appPopup,) =>
+      Flushbar(
         margin: const EdgeInsets.all(8),
         borderRadius: BorderRadius.circular(8),
         shouldIconPulse: false,
         animationDuration: const Duration(milliseconds: 750),
-        flushbarPosition: FlushbarPosition.BOTTOM,
-        flushbarStyle: FlushbarStyle.FLOATING,
         reverseAnimationCurve: Curves.decelerate,
         forwardAnimationCurve: Curves.decelerate,
         boxShadows: [
           BoxShadow(
-              color: appPopup.popupType == PopupType.failed
-                  ? Provider.of<PaletteSettings>(context, listen: false)
-                      .currentSetting
-                      .red
-                  : Provider.of<PaletteSettings>(context, listen: false)
-                      .currentSetting
-                      .green,
-              offset: const Offset(0.0, 1.0),
-              blurRadius: 1.0)
+            color: appPopup.popupType == PopupType.failed
+                ? Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .red
+                : Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .green,
+            offset: const Offset(0, 1),
+            blurRadius: 1,
+          ),
         ],
         backgroundGradient: LinearGradient(
           colors: appPopup.popupType == PopupType.failed
@@ -43,7 +44,6 @@ class DialogHelper {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        isDismissible: true,
         duration: const Duration(seconds: 3),
         icon: Icon(
           appPopup.icon ??
@@ -55,7 +55,7 @@ class DialogHelper {
         messageText: Text(
           appPopup.title!,
           style: const TextStyle(
-            fontSize: 18.0,
+            fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),

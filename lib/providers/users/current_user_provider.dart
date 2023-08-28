@@ -9,7 +9,7 @@ import 'package:dio_hub/services/users/user_info_service.dart';
 class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   CurrentUserProvider({required this.authenticationBloc})
       : super(loadDataOnInit: authenticationBloc.state.authenticated) {
-    authenticationBloc.stream.listen((authState) {
+    authenticationBloc.stream.listen((final authState) {
       // Fetch user details if authentication is successful.
       if (authState is AuthenticationSuccessful) {
         // Start the recursive function.
@@ -25,7 +25,7 @@ class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   final AuthenticationBloc authenticationBloc;
 
   @override
-  void onError(Object error) {
+  void onError(final Object error) {
     if (error is DioException) {
       if (error.response != null &&
           error.response!.statusCode == 401 &&
@@ -36,7 +36,7 @@ class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   }
 
   @override
-  Future<CurrentUserInfoModel> setInitData({bool isInitialisation = false}) {
-    return UserInfoService.getCurrentUserInfo();
-  }
+  Future<CurrentUserInfoModel> setInitData(
+          {final bool isInitialisation = false,}) =>
+      UserInfoService.getCurrentUserInfo();
 }

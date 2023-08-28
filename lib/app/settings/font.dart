@@ -5,12 +5,8 @@ class FontSettings extends Settings<String> {
       : super('app_font', defaultSetting: 'Montserrat', formatVer: 0);
 
   @override
-  String toType(String data) {
-    return data;
-  }
+  String toType(final String data) => data;
 
   @override
-  String toPrefData() {
-    return currentSetting;
-  }
+  String toPrefData() => currentSetting;
 }

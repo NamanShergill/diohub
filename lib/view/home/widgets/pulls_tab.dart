@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsTab extends StatefulWidget {
-  const PullsTab({this.deepLinkData, Key? key}) : super(key: key);
+  const PullsTab({this.deepLinkData, super.key});
   final PathData? deepLinkData;
 
   @override
@@ -19,23 +19,24 @@ class PullsTabState extends State<PullsTab> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     final user = Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(user.login!),
-            SearchQueries().type.toQueryString('pr'),
-          ],
-          filterStrings: [
-            if (widget.deepLinkData?.component(1) == 'assigned')
-              SearchQueries().assignee.toQueryString(user.login!),
-            if (widget.deepLinkData?.component(1) == 'mentioned')
-              SearchQueries().mentions.toQueryString(user.login!),
-          ]),
+        searchFilters:
+            SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
+        defaultHiddenFilters: [
+          SearchQueries().involves.toQueryString(user.login!),
+          SearchQueries().type.toQueryString('pr'),
+        ],
+        filterStrings: [
+          if (widget.deepLinkData?.component(1) == 'assigned')
+            SearchQueries().assignee.toQueryString(user.login!),
+          if (widget.deepLinkData?.component(1) == 'mentioned')
+            SearchQueries().mentions.toQueryString(user.login!),
+        ],
+      ),
       quickFilters: {
         SearchQueries().assignee.toQueryString(user.login!): 'Assigned',
         SearchQueries().author.toQueryString(user.login!): 'Created',

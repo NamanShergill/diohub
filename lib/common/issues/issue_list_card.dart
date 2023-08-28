@@ -15,14 +15,15 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueListCard extends StatelessWidget {
-  const IssueListCard(this.item,
-      {this.compact = false,
-      this.showRepoName = true,
-      this.disableMaterial = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
-      this.commentsSince,
-      Key? key})
-      : super(key: key);
+  const IssueListCard(
+    this.item, {
+    this.compact = false,
+    this.showRepoName = true,
+    this.disableMaterial = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    this.commentsSince,
+    super.key,
+  });
   final IssueModel item;
   final bool compact;
   final EdgeInsets padding;
@@ -30,7 +31,7 @@ class IssueListCard extends StatelessWidget {
   final DateTime? commentsSince;
   final bool showRepoName;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     if (item.pullRequest != null) {
       return PullLoadingCard(
         item.pullRequest!.url!,
@@ -55,7 +56,7 @@ class IssueListCard extends StatelessWidget {
                 .push(issuePullScreenRoute(PathData.fromURL(item.url!)));
           },
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,7 +69,7 @@ class IssueListCard extends StatelessWidget {
                     if (showRepoName)
                       Flexible(
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 4.0),
+                          padding: const EdgeInsets.only(right: 4),
                           child: Text(
                             item.url!
                                 .replaceAll('https://api.github.com/repos/', '')
@@ -77,18 +78,20 @@ class IssueListCard extends StatelessWidget {
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3),
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .faded3,
+                            ),
                           ),
                         ),
                       ),
                     Text(
                       '#${item.number}',
                       style: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3),
+                        color: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .faded3,
+                      ),
                     ),
                     if (item.comments != 0)
                       Row(
@@ -109,10 +112,11 @@ class IssueListCard extends StatelessWidget {
                           Text(
                             '${item.comments} comments',
                             style: TextStyle(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
-                                fontSize: 12),
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .faded3,
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
@@ -140,22 +144,26 @@ class IssueListCard extends StatelessWidget {
                             ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
                         style: TextStyle(
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .faded3,
-                            fontSize: 12),
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .faded3,
+                          fontSize: 12,
+                        ),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       Wrap(
                         children: List.generate(
-                            item.labels!.length,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 8.0, bottom: 8),
-                                  child: IssueLabel(item.labels![index]),
-                                )),
+                          item.labels!.length,
+                          (final index) => Padding(
+                            padding: const EdgeInsets.only(
+                              right: 8,
+                              bottom: 8,
+                            ),
+                            child: IssueLabel(item.labels![index]),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -168,7 +176,7 @@ class IssueListCard extends StatelessWidget {
   }
 }
 
-Widget? getIcon(IssueState? state) {
+Widget? getIcon(final IssueState? state) {
   switch (state) {
     case IssueState.CLOSED:
       return const Icon(
@@ -182,48 +190,43 @@ Widget? getIcon(IssueState? state) {
         color: Colors.green,
         size: 15,
       );
-    default:
-      return null;
   }
 }
 
 class IssueLoadingCard extends StatelessWidget {
-  const IssueLoadingCard(this.url,
-      {this.compact = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
-      this.backgroundColor,
-      Key? key})
-      : super(key: key);
+  const IssueLoadingCard(
+    this.url, {
+    this.compact = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    this.backgroundColor,
+    super.key,
+  });
   final String url;
   final Color? backgroundColor;
   final bool compact;
   final EdgeInsets padding;
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Material(
-        elevation: 2,
-        color: backgroundColor ??
-            Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: medBorderRadius,
-        child: APIWrapper<IssueModel>(
-          apiCall: ({required refresh}) =>
-              IssuesService.getIssueInfo(fullUrl: url, refresh: refresh),
-          loadingBuilder: (context) {
-            return const SizedBox(
-                height: 80, child: Center(child: LoadingIndicator()));
-          },
-          responseBuilder: (context, data) {
-            return IssueListCard(
+  Widget build(final BuildContext context) => Padding(
+        padding: padding,
+        child: Material(
+          elevation: 2,
+          color: backgroundColor ??
+              Provider.of<PaletteSettings>(context).currentSetting.primary,
+          borderRadius: medBorderRadius,
+          child: APIWrapper<IssueModel>(
+            apiCall: ({required final refresh}) =>
+                IssuesService.getIssueInfo(fullUrl: url, refresh: refresh),
+            loadingBuilder: (final context) => const SizedBox(
+              height: 80,
+              child: Center(child: LoadingIndicator()),
+            ),
+            responseBuilder: (final context, final data) => IssueListCard(
               data,
               compact: compact,
               disableMaterial: true,
               padding: EdgeInsets.zero,
-            );
-          },
+            ),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

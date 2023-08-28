@@ -7,44 +7,46 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserRepositories extends StatelessWidget {
-  const UserRepositories(this.userInfoModel,
-      {this.currentUser = false, Key? key})
-      : super(key: key);
+  const UserRepositories(
+    this.userInfoModel, {
+    this.currentUser = false,
+    super.key,
+  });
   final UserInfoModel userInfoModel;
   final bool? currentUser;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: SearchScrollWrapper(
-        SearchData(
+  Widget build(final BuildContext context) => Container(
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        child: SearchScrollWrapper(
+          SearchData(
             searchFilters: SearchFilters.repositories(
-                blacklist: [SearchQueryStrings.user, SearchQueryStrings.org]),
+              blacklist: [SearchQueryStrings.user, SearchQueryStrings.org],
+            ),
             defaultHiddenFilters: [
-              SearchQueries().user.toQueryString(userInfoModel.login!)
-            ]),
-        quickFilters: {
-          SearchQueries().iS.toQueryString('public'): 'Public',
-          SearchQueries().iS.toQueryString('private'): 'Private',
-          SearchQueries().archived.toQueryString('true'): 'Archived',
-          SearchQueries().mirror.toQueryString('true'): 'Mirrors',
-        },
-        quickOptions: {
-          SearchQueries().fork.toQueryString('true'): 'Include forks',
-        },
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
-        searchHeroTag: '${userInfoModel.login}Search',
-        // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, order) {
-        //   if (currentUser!)
-        //     return UserInfoService.getCurrentUserRepos(
-        //         pageSize, pageNumber, refresh,
-        //         sort: sort, ascending: order);
-        //   return UserInfoService.getUserRepos(
-        //       userInfoModel.login, pageSize, pageNumber, refresh, sort);
-        // },
-      ),
-    );
-  }
+              SearchQueries().user.toQueryString(userInfoModel.login!),
+            ],
+          ),
+          quickFilters: {
+            SearchQueries().iS.toQueryString('public'): 'Public',
+            SearchQueries().iS.toQueryString('private'): 'Private',
+            SearchQueries().archived.toQueryString('true'): 'Archived',
+            SearchQueries().mirror.toQueryString('true'): 'Mirrors',
+          },
+          quickOptions: {
+            SearchQueries().fork.toQueryString('true'): 'Include forks',
+          },
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          searchBarMessage: "Search in ${userInfoModel.login}'s repositories",
+          searchHeroTag: '${userInfoModel.login}Search',
+          // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, order) {
+          //   if (currentUser!)
+          //     return UserInfoService.getCurrentUserRepos(
+          //         pageSize, pageNumber, refresh,
+          //         sort: sort, ascending: order);
+          //   return UserInfoService.getUserRepos(
+          //       userInfoModel.login, pageSize, pageNumber, refresh, sort);
+          // },
+        ),
+      );
 }

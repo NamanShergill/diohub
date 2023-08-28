@@ -15,12 +15,13 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryCard extends StatefulWidget {
-  const RepositoryCard(this.repo,
-      {this.isThemed = true,
-      this.branch,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
-      Key? key})
-      : super(key: key);
+  const RepositoryCard(
+    this.repo, {
+    this.isThemed = true,
+    this.branch,
+    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    super.key,
+  });
   final RepositoryModel? repo;
   final bool isThemed;
   final String? branch;
@@ -32,44 +33,45 @@ class RepositoryCard extends StatefulWidget {
 
 class RepositoryCardState extends State<RepositoryCard> {
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: widget.isThemed ? widget.padding : EdgeInsets.zero,
-      child: Material(
-        elevation: widget.isThemed ? 2 : 0,
-        color: widget.isThemed
-            ? Provider.of<PaletteSettings>(context).currentSetting.primary
-            : Colors.transparent,
-        borderRadius: medBorderRadius,
-        child: InkWell(
+  Widget build(final BuildContext context) => Padding(
+        padding: widget.isThemed ? widget.padding : EdgeInsets.zero,
+        child: Material(
+          elevation: widget.isThemed ? 2 : 0,
+          color: widget.isThemed
+              ? Provider.of<PaletteSettings>(context).currentSetting.primary
+              : Colors.transparent,
           borderRadius: medBorderRadius,
-          onTap: () {
-            AutoRouter.of(context).push(RepositoryRoute(
-              repositoryURL: widget.repo!.url!,
-              branch: widget.branch,
-            ));
-          },
-          child: Stack(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Visibility(
+          child: InkWell(
+            borderRadius: medBorderRadius,
+            onTap: () {
+              AutoRouter.of(context).push(
+                RepositoryRoute(
+                  repositoryURL: widget.repo!.url!,
+                  branch: widget.branch,
+                ),
+              );
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                Visibility(
                                   visible: widget.repo!.private!,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
+                                    padding: const EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Octicons.lock,
                                       color:
@@ -78,16 +80,18 @@ class RepositoryCardState extends State<RepositoryCard> {
                                               .faded3,
                                       size: 12,
                                     ),
-                                  )),
-                              Text(
-                                widget.repo!.name!,
-                                style: AppThemeTextStyles.eventCardChildTitle(
-                                    context),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Visibility(
+                                  ),
+                                ),
+                                Text(
+                                  widget.repo!.name!,
+                                  style: AppThemeTextStyles.eventCardChildTitle(
+                                    context,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Visibility(
                                   visible: widget.repo!.fork ?? false,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -96,9 +100,8 @@ class RepositoryCardState extends State<RepositoryCard> {
                                         Octicons.repo_forked,
                                         size: 12,
                                         color: Provider.of<PaletteSettings>(
-                                                context)
-                                            .currentSetting
-                                            .faded3,
+                                          context,
+                                        ).currentSetting.faded3,
                                       ),
                                       const SizedBox(
                                         width: 4,
@@ -106,122 +109,125 @@ class RepositoryCardState extends State<RepositoryCard> {
                                       Text(
                                         'Forked',
                                         style: TextStyle(
-                                            fontSize: 12,
-                                            color: Provider.of<PaletteSettings>(
-                                                    context)
-                                                .currentSetting
-                                                .faded3),
+                                          fontSize: 12,
+                                          color: Provider.of<PaletteSettings>(
+                                            context,
+                                          ).currentSetting.faded3,
+                                        ),
                                       ),
                                     ],
-                                  )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              widget.repo!.description != null
+                                  ? widget.repo!.description!.length > 100
+                                      ? '${widget.repo!.description!.substring(0, 100)}...'
+                                      : widget.repo!.description ??
+                                          'No description.'
+                                  : 'No description.',
+                              style: AppThemeTextStyles.eventCardChildSubtitle(
+                                context,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 24,
+                      ),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          LanguageIndicator(
+                            widget.repo!.language,
+                            size: 11,
+                            textStyle: AppThemeTextStyles.eventCardChildFooter(
+                                context,),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Octicons.star_fill,
+                                size: 12,
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                widget.repo!.stargazersCount.toString(),
+                                style: AppThemeTextStyles.eventCardChildFooter(
+                                  context,
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            widget.repo!.description != null
-                                ? widget.repo!.description!.length > 100
-                                    ? '${widget.repo!.description!.substring(0, 100)}...'
-                                    : widget.repo!.description ??
-                                        'No description.'
-                                : 'No description.',
-                            style: AppThemeTextStyles.eventCardChildSubtitle(
-                                context),
+                          const SizedBox(
+                            width: 16,
                           ),
-                        ),
-                      ],
-                    ),
-                    const Divider(
-                      height: 24,
-                    ),
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        LanguageIndicator(
-                          widget.repo!.language,
-                          size: 11,
-                          textStyle:
-                              AppThemeTextStyles.eventCardChildFooter(context),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Octicons.star_fill,
-                              size: 12,
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .faded3,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              widget.repo!.stargazersCount.toString(),
-                              style: AppThemeTextStyles.eventCardChildFooter(
-                                  context),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Text(
-                          'Updated ${getDate(widget.repo!.updatedAt.toString(), shorten: false)}',
-                          style:
-                              AppThemeTextStyles.eventCardChildFooter(context),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  child: RepoStar(
-                    widget.repo!.owner!.login!,
-                    widget.repo!.name!,
-                    onStarsChange: (value) {
-                      setState(() {
-                        widget.repo!.stargazersCount = value;
-                      });
-                    },
+                          Text(
+                            'Updated ${getDate(widget.repo!.updatedAt.toString(), shorten: false)}',
+                            style: AppThemeTextStyles.eventCardChildFooter(
+                                context,),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    child: RepoStar(
+                      widget.repo!.owner!.login!,
+                      widget.repo!.name!,
+                      onStarsChange: (final value) {
+                        setState(() {
+                          widget.repo!.stargazersCount = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class RepoCardLoading extends StatelessWidget {
-  const RepoCardLoading(this.repoURL, this.repoName,
-      {this.elevation = 2,
-      this.branch,
-      this.refresh = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
-      Key? key})
-      : super(key: key);
+  const RepoCardLoading(
+    this.repoURL,
+    this.repoName, {
+    this.elevation = 2,
+    this.branch,
+    this.refresh = false,
+    this.padding = EdgeInsets.zero,
+    super.key,
+  });
   final String? repoURL;
   final String? repoName;
   final EdgeInsets padding;
@@ -229,19 +235,17 @@ class RepoCardLoading extends StatelessWidget {
   final bool refresh;
   final String? branch;
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Material(
-        elevation: elevation,
-        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: medBorderRadius,
-        child: APIWrapper<RepositoryModel>(
-          apiCall: ({required refresh}) =>
-              RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
-          loadingBuilder: (context) {
-            return Padding(
-              padding: const EdgeInsets.all(24.0),
+  Widget build(final BuildContext context) => Padding(
+        padding: padding,
+        child: Material(
+          elevation: elevation,
+          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+          borderRadius: medBorderRadius,
+          child: APIWrapper<RepositoryModel>(
+            apiCall: ({required final refresh}) =>
+                RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
+            loadingBuilder: (final context) => Padding(
+              padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -273,17 +277,13 @@ class RepoCardLoading extends StatelessWidget {
                   ),
                 ],
               ),
-            );
-          },
-          responseBuilder: (context, repo) {
-            return RepositoryCard(
+            ),
+            responseBuilder: (final context, final repo) => RepositoryCard(
               repo,
               branch: branch,
               isThemed: false,
-            );
-          },
+            ),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -11,10 +11,12 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc({required bool authenticated})
-      : super(authenticated
-            ? AuthenticationSuccessful()
-            : AuthenticationUnauthenticated()) {
+  AuthenticationBloc({required final bool authenticated})
+      : super(
+          authenticated
+              ? AuthenticationSuccessful()
+              : AuthenticationUnauthenticated(),
+        ) {
     on<RequestDeviceCode>(_requestDeviceCode);
     on<RequestAccessToken>(_requestAccessToken);
     on<AuthError>(_authError);
@@ -25,8 +27,10 @@ class AuthenticationBloc
 
   final AuthRepository authRepository = AuthRepository();
 
-  void _requestDeviceCode(
-      RequestDeviceCode event, Emitter<AuthenticationState> emit) async {
+  Future<void> _requestDeviceCode(
+    final RequestDeviceCode event,
+    final Emitter<AuthenticationState> emit,
+  ) async {
     // Get device code to initiate authentication.
     try {
       final response = await authRepository.getDeviceToken();
@@ -44,10 +48,13 @@ class AuthenticationBloc
   }
 
   void _requestAccessToken(
-      RequestAccessToken event, Emitter<AuthenticationState> emit) {
+    final RequestAccessToken event,
+    final Emitter<AuthenticationState> emit,
+  ) {
     // Recurring function to request access token from Github on the supplied
     // interval.
-    void requestAccessToken(String? deviceCode, int interval) async {
+    Future<void> requestAccessToken(
+        final String? deviceCode, final int interval,) async {
       // Wait the interval provided by Github before hitting the API to check
       // the status of Authentication.
       await Future.delayed(Duration(seconds: interval));
@@ -69,10 +76,10 @@ class AuthenticationBloc
           } else if (response.data['interval'] != null) {
             // Execute the function again with the new interval given by
             // GitHub.
-            requestAccessToken(deviceCode, response.data['interval']);
+            await requestAccessToken(deviceCode, response.data['interval']);
           } else {
             // Execute the function again.
-            requestAccessToken(deviceCode, interval);
+            await requestAccessToken(deviceCode, interval);
           }
         } catch (error) {
           add(AuthError(error.toString()));
@@ -86,21 +93,25 @@ class AuthenticationBloc
   }
 
   void _authSuccessful(
-      AuthSuccessful event, Emitter<AuthenticationState> emit) {
+    final AuthSuccessful event,
+    final Emitter<AuthenticationState> emit,
+  ) {
     authRepository.storeAccessToken(event.accessToken);
     emit(AuthenticationSuccessful());
   }
 
-  void _resetStates(ResetStates event, Emitter<AuthenticationState> emit) {
+  void _resetStates(
+      final ResetStates event, final Emitter<AuthenticationState> emit,) {
     emit(AuthenticationUnauthenticated());
   }
 
-  void _logOut(LogOut event, Emitter<AuthenticationState> emit) {
+  void _logOut(final LogOut event, final Emitter<AuthenticationState> emit) {
     authRepository.logOut();
     emit(AuthenticationUnauthenticated());
   }
 
-  void _authError(AuthError event, Emitter<AuthenticationState> emit) {
+  void _authError(
+      final AuthError event, final Emitter<AuthenticationState> emit,) {
     emit(AuthenticationError(event.error));
   }
 }

@@ -10,8 +10,10 @@ class PullsService {
   static final RESTHandler _restHandler = RESTHandler();
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
-  static Future<PullRequestModel> getPullInformation(
-      {required String fullUrl, required bool refresh}) async {
+  static Future<PullRequestModel> getPullInformation({
+    required final String fullUrl,
+    required final bool refresh,
+  }) async {
     final response = await _restHandler.get(
       fullUrl,
       requestHeaders: _restHandler.acceptHeader(
@@ -23,17 +25,18 @@ class PullsService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
-  static Future<ReviewModel> getPullReviews({required String fullUrl}) async {
+  static Future<ReviewModel> getPullReviews(
+      {required final String fullUrl,}) async {
     final response = await _restHandler.get('$fullUrl/reviews');
     return ReviewModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-pull-requests
   static Future<List<PullRequestModel>> getRepoPulls(
-    String? repoURL, {
-    int? perPage,
-    int? pageNumber,
-    required bool refresh,
+    final String? repoURL, {
+    required final bool refresh,
+    final int? perPage,
+    final int? pageNumber,
   }) async {
     final response = await _restHandler.get(
       '$repoURL/pulls',
@@ -53,10 +56,10 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-commits-on-a-pull-request
   static Future<List<CommitListModel>> getPullCommits(
-    String? pullURL, {
-    int? perPage,
-    int? pageNumber,
-    required bool refresh,
+    final String? pullURL, {
+    required final bool refresh,
+    final int? perPage,
+    final int? pageNumber,
   }) async {
     final response = await _restHandler.get(
       '$pullURL/commits',
@@ -73,10 +76,10 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-pull-requests-files
   static Future<List<FileElement>> getPullFiles(
-    String? pullURL, {
-    int? perPage,
-    int? pageNumber,
-    required bool refresh,
+    final String? pullURL, {
+    required final bool refresh,
+    final int? perPage,
+    final int? pageNumber,
   }) async {
     final response = await _restHandler.get(
       '$pullURL/files',
@@ -92,16 +95,17 @@ class PullsService {
   }
 
   static Future<List<PRReviewCommentsMixin$Comments$Edges?>> getPRReview(
-    String id, {
-    String? cursor,
-    required bool refresh,
+    final String id, {
+    required final bool refresh,
+    final String? cursor,
   }) async {
     final res = await _gqlHandler.query(
       GetPRReviewCommentsQuery(
-          variables: GetPRReviewCommentsArguments(cursor: cursor, id: id)),
+        variables: GetPRReviewCommentsArguments(cursor: cursor, id: id),
+      ),
       refreshCache: refresh,
     );
-    return (GetPRReviewComments$Query.fromJson(res.data!).node
+    return (GetPRReviewComments$Query.fromJson(res.data!).node!
             as GetPRReviewComments$Query$Node$PullRequestReview)
         .comments
         .edges!;
@@ -111,17 +115,20 @@ class PullsService {
           List<
               ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>>
       getReviewThreadReplies(
-    String nodeID,
-    String? cursor, {
-    required bool refresh,
+    final String nodeID,
+    final String? cursor, {
+    required final bool refresh,
   }) async {
     final res = await _gqlHandler.query(
       ReviewThreadCommentsQueryQuery(
-          variables: ReviewThreadCommentsQueryArguments(
-              nodeID: nodeID, cursor: cursor)),
+        variables: ReviewThreadCommentsQueryArguments(
+          nodeID: nodeID,
+          cursor: cursor,
+        ),
+      ),
       refreshCache: refresh,
     );
-    return (ReviewThreadCommentsQuery$Query.fromJson(res.data!).node
+    return (ReviewThreadCommentsQuery$Query.fromJson(res.data!).node!
             as ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread)
         .comments
         .edges!;
@@ -129,12 +136,14 @@ class PullsService {
 
   static Future<
           ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>
-      getPRReviewThreadID(String commentID,
-          {required String name,
-          required String owner,
-          required int number,
-          required String? cursor,
-          required bool refresh}) async {
+      getPRReviewThreadID(
+    final String commentID, {
+    required final String name,
+    required final String owner,
+    required final int number,
+    required final String? cursor,
+    required final bool refresh,
+  }) async {
     final res = await _gqlHandler.query(
       ReviewThreadFirstCommentQueryQuery(
         variables: ReviewThreadFirstCommentQueryArguments(
@@ -155,25 +164,30 @@ class PullsService {
           return thread!;
         }
       }
-      return getPRReviewThreadID(commentID,
-          name: name,
-          owner: owner,
-          number: number,
-          cursor:
-              parsed.repository!.pullRequest!.reviewThreads.edges!.last!.cursor,
-          refresh: refresh);
+      return getPRReviewThreadID(
+        commentID,
+        name: name,
+        owner: owner,
+        number: number,
+        cursor:
+            parsed.repository!.pullRequest!.reviewThreads.edges!.last!.cursor,
+        refresh: refresh,
+      );
     }
     return null;
   }
 
-  static Future<bool> hasPendingReviews(String pullNode, String user) async {
+  static Future<bool> hasPendingReviews(
+      final String pullNode, final String user,) async {
     final res = await _gqlHandler.query(
       CheckPendingViewerReviewsQuery(
         variables: CheckPendingViewerReviewsArguments(
-            author: user, pullNodeID: pullNode),
+          author: user,
+          pullNodeID: pullNode,
+        ),
       ),
     );
-    final item = CheckPendingViewerReviews$Query.fromJson(res.data!).node
+    final item = CheckPendingViewerReviews$Query.fromJson(res.data!).node!
         as CheckPendingViewerReviews$Query$Node$PullRequest;
     if ((item.reviews?.totalCount ?? 0) > 0) {
       return true;
@@ -184,15 +198,16 @@ class PullsService {
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#create-a-reply-for-a-review-comment
   static Future<bool> replyToReviewComment(
-    String body, {
-    required int id,
-    required String owner,
-    required String repo,
-    required int pullNumber,
+    final String body, {
+    required final int id,
+    required final String owner,
+    required final String repo,
+    required final int pullNumber,
   }) async {
     final res = await _restHandler.post(
-        '/repos/$owner/$repo/pulls/$pullNumber/comments/$id/replies',
-        data: {'body': body});
+      '/repos/$owner/$repo/pulls/$pullNumber/comments/$id/replies',
+      data: {'body': body},
+    );
     if (res.statusCode == 201) {
       return true;
     } else {

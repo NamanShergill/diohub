@@ -6,18 +6,20 @@ class GitDatabaseService {
   static final RESTHandler _restHandler = RESTHandler();
 
   // Ref: https://docs.github.com/en/rest/reference/git#get-a-tree
-  static Future<CodeTreeModel> getTree({String? repoURL, String? sha}) async {
+  static Future<CodeTreeModel> getTree(
+      {final String? repoURL, final String? sha,}) async {
     final response = await _restHandler.get('$repoURL/git/trees/$sha');
     return CodeTreeModel.fromJson(response.data);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/git#get-a-blob
-  static Future<BlobModel> getBlob({String? repoURL, String? sha}) async {
+  static Future<BlobModel> getBlob(
+      {final String? repoURL, final String? sha,}) async {
     final response = await _restHandler.get('$repoURL/git/blobs/$sha');
     return BlobModel.fromJson(response.data);
   }
 
-  static Future<BlobModel> getFileContents(String url) async {
+  static Future<BlobModel> getFileContents(final String url) async {
     final response = await _restHandler.get(url);
     return BlobModel.fromJson(response.data);
   }

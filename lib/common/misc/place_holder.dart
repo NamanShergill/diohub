@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TextPlaceHolder extends StatelessWidget {
-  const TextPlaceHolder(this.text, {Key? key}) : super(key: key);
+  const TextPlaceHolder(this.text, {super.key});
   final String text;
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        text,
-        style: TextStyle(
-            color: Provider.of<PaletteSettings>(context).currentSetting.faded3),
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
+          ),
+        ),
+      );
 }

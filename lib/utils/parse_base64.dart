@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-String parseBase64(String temp) {
+String parseBase64(final String temp) {
   final listTemp = temp.split('\n');
 
   final data = utf8.decode(base64.decode(listTemp.join()));

@@ -21,9 +21,11 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen(
-      {Key? key, this.deepLinkData, required this.parentTabController})
-      : super(key: key);
+  const HomeScreen({
+    required this.parentTabController,
+    super.key,
+    this.deepLinkData,
+  });
   final PathData? deepLinkData;
   final TabController parentTabController;
   @override
@@ -38,7 +40,7 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, initialIndex: 0, length: 5);
+    _tabController = TabController(vsync: this, length: 5);
     if (widget.deepLinkData?.components.first == 'issues') {
       _tabController.index = 1;
     } else if (widget.deepLinkData?.components.first == 'pulls') {
@@ -48,12 +50,12 @@ class HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final search = Provider.of<SearchDataProvider>(context);
 
     super.build(context);
     return NestedScroll(
-      header: (context, {required isInnerBoxScrolled}) => [
+      header: (final context, {required final isInnerBoxScrolled}) => [
         SliverAppBar(
           expandedHeight: 300,
           collapsedHeight: 155,
@@ -62,7 +64,7 @@ class HomeScreenState extends State<HomeScreen>
           backgroundColor:
               Provider.of<PaletteSettings>(context).currentSetting.primary,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(bottom: 30.0),
+            padding: const EdgeInsets.only(bottom: 30),
             child: CollapsibleAppBar(
               minHeight: 155,
               maxHeight: 300,
@@ -73,35 +75,30 @@ class HomeScreenState extends State<HomeScreen>
                     widget.parentTabController.animateTo(3);
                   },
                   child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                    childBuilder: (context, value) => CachedNetworkImage(
+                    childBuilder: (final context, final value) =>
+                        CachedNetworkImage(
                       imageUrl: value.data.avatarUrl!,
-                      placeholder: (context, _) {
-                        return ShimmerWidget(
-                          child: Container(
-                            color: Colors.grey,
-                          ),
-                        );
-                      },
-                    ),
-                    errorBuilder: (context, error) {
-                      return const Icon(
-                        LineIcons.exclamationCircle,
-                        size: 40,
-                      );
-                    },
-                    loadingBuilder: (context) {
-                      return ShimmerWidget(
+                      placeholder: (final context, final _) => ShimmerWidget(
                         child: Container(
                           color: Colors.grey,
                         ),
-                      );
-                    },
+                      ),
+                    ),
+                    errorBuilder: (final context, final error) => const Icon(
+                      LineIcons.exclamationCircle,
+                      size: 40,
+                    ),
+                    loadingBuilder: (final context) => ShimmerWidget(
+                      child: Container(
+                        color: Colors.grey,
+                      ),
+                    ),
                   ),
                 ),
               ),
               child: AppSearchBar(
                 updateBarOnChange: false,
-                onSubmit: (data) {
+                onSubmit: (final data) {
                   search.updateSearchData(data);
                   widget.parentTabController.animateTo(1);
                 },
@@ -131,64 +128,59 @@ class HomeScreenState extends State<HomeScreen>
       body: Container(
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-          childBuilder: (context, value) {
-            return Builder(
-              builder: (context) {
-                NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                return TabBarView(
-                  controller: _tabController,
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    const Events(),
-                    IssuesTab(
-                      deepLinkData:
-                          widget.deepLinkData?.components.first == 'issues'
-                              ? widget.deepLinkData
-                              : null,
+          childBuilder: (final context, final value) => Builder(
+            builder: (final context) {
+              NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+              return TabBarView(
+                controller: _tabController,
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  const Events(),
+                  IssuesTab(
+                    deepLinkData:
+                        widget.deepLinkData?.components.first == 'issues'
+                            ? widget.deepLinkData
+                            : null,
+                  ),
+                  PullsTab(
+                    deepLinkData:
+                        widget.deepLinkData?.components.first == 'pulls'
+                            ? widget.deepLinkData
+                            : null,
+                  ),
+                  InfiniteScrollWrapper<
+                      GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
+                    future: (final data) => UserInfoService.getViewerOrgs(
+                      refresh: data.refresh,
+                      after: data.lastItem?.cursor,
                     ),
-                    PullsTab(
-                      deepLinkData:
-                          widget.deepLinkData?.components.first == 'pulls'
-                              ? widget.deepLinkData
-                              : null,
+                    separatorBuilder: (final context, final index) =>
+                        const Divider(
+                      height: 8,
                     ),
-                    InfiniteScrollWrapper<
-                        GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
-                      future: (data) {
-                        return UserInfoService.getViewerOrgs(
-                            refresh: data.refresh,
-                            after: data.lastItem?.cursor);
-                      },
-                      separatorBuilder: (context, index) => const Divider(
-                        height: 8,
-                      ),
-                      topSpacing: 8,
-                      listEndIndicator: false,
-                      // divider: false,
-                      builder: (data) {
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: ProfileTile.login(
-                                avatarUrl:
-                                    data.item?.node?.avatarUrl.toString(),
-                                userLogin: data.item?.node?.login,
-                                padding: const EdgeInsets.all(16),
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                    topSpacing: 8,
+                    listEndIndicator: false,
+                    // divider: false,
+                    builder: (final data) => Row(
+                      children: [
+                        Expanded(
+                          child: ProfileTile.login(
+                            avatarUrl: data.item?.node?.avatarUrl.toString(),
+                            userLogin: data.item?.node?.login,
+                            padding: const EdgeInsets.all(16),
+                            size: 30,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Events(
-                      privateEvents: false,
-                    ),
-                  ],
-                );
-              },
-            );
-          },
+                  ),
+                  const Events(
+                    privateEvents: false,
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

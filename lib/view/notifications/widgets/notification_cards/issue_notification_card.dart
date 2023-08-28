@@ -13,9 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueNotificationCard extends StatefulWidget {
-  const IssueNotificationCard(this.notification,
-      {Key? key, required this.refresh})
-      : super(key: key);
+  const IssueNotificationCard(
+    this.notification, {
+    required this.refresh,
+    super.key,
+  });
   final NotificationModel notification;
   final bool refresh;
   @override
@@ -39,7 +41,7 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
     super.initState();
   }
 
-  void getInfo() async {
+  Future<void> getInfo() async {
     // Get more information on issue to display
     final futures = <Future>[
       IssuesService.getIssueInfo(
@@ -47,10 +49,13 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
         refresh: widget.refresh,
       ),
       IssuesService.getLatestComment(
-          fullUrl: widget.notification.subject!.latestCommentUrl!,
-          refresh: widget.refresh),
+        fullUrl: widget.notification.subject!.latestCommentUrl!,
+        refresh: widget.refresh,
+      ),
       IssuesService.getIssueEvents(
-          fullUrl: widget.notification.subject!.url!, refresh: widget.refresh)
+        fullUrl: widget.notification.subject!.url!,
+        refresh: widget.refresh,
+      ),
     ];
     final results = await Future.wait(futures);
     issueInfo = results[0];
@@ -68,18 +73,19 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     return BasicNotificationCard(
-      iconBuilder: (context) {
-        return getIcon();
-      },
+      iconBuilder: (final context) => getIcon(),
       onTap: () {
-        AutoRouter.of(context).push(issuePullScreenRoute(
-            PathData.fromURL(widget.notification.subject!.url!)));
+        AutoRouter.of(context).push(
+          issuePullScreenRoute(
+            PathData.fromURL(widget.notification.subject!.url!),
+          ),
+        );
       },
       loading: loading,
-      footerBuilder: (context) {
+      footerBuilder: (final context) {
         if (!loading) {
           return getIssueFooter();
         }
@@ -95,22 +101,31 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
         latestIssueEvent!.createdAt!.isAfter(latestComment.createdAt!)) {
       // TODO(namanshergill): Update issue event model and add more cases.
       if (latestIssueEvent!.event == 'assigned') {
-        return CardFooter(latestIssueEvent!.actor!.avatarUrl,
-            'Assigned #${issueInfo.number} to ${latestIssueEvent!.assignee!.login}',
-            unread: widget.notification.unread);
+        return CardFooter(
+          latestIssueEvent!.actor!.avatarUrl,
+          'Assigned #${issueInfo.number} to ${latestIssueEvent!.assignee!.login}',
+          unread: widget.notification.unread,
+        );
       } else if (latestIssueEvent!.event == 'reopened') {
         return CardFooter(
-            latestIssueEvent!.actor!.avatarUrl, 'Reopened #${issueInfo.number}',
-            unread: widget.notification.unread);
+          latestIssueEvent!.actor!.avatarUrl,
+          'Reopened #${issueInfo.number}',
+          unread: widget.notification.unread,
+        );
       } else if (latestIssueEvent!.event == 'closed') {
         return CardFooter(
-            latestIssueEvent!.actor!.avatarUrl, 'Closed #${issueInfo.number}',
-            unread: widget.notification.unread);
+          latestIssueEvent!.actor!.avatarUrl,
+          'Closed #${issueInfo.number}',
+          unread: widget.notification.unread,
+        );
       }
     }
     // Return latest comment.
-    return CardFooter(latestComment.user!.avatarUrl, latestComment.body,
-        unread: widget.notification.unread);
+    return CardFooter(
+      latestComment.user!.avatarUrl,
+      latestComment.body,
+      unread: widget.notification.unread,
+    );
   }
 
   Widget getIcon() {

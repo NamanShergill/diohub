@@ -14,20 +14,20 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Discussion extends StatefulWidget {
-  const Discussion(
-      {this.commentsSince,
-      required this.number,
-      required this.owner,
-      this.pullNodeID,
-      required this.repoName,
-      required this.initComment,
-      required this.issueUrl,
-      this.isLocked,
-      required this.isPull,
-      // required this.nestedScrollViewController,
-      this.createdAt,
-      Key? key})
-      : super(key: key);
+  const Discussion({
+    required this.number,
+    required this.owner,
+    required this.repoName,
+    required this.initComment,
+    required this.issueUrl,
+    required this.isPull,
+    this.commentsSince,
+    this.pullNodeID,
+    this.isLocked,
+    // required this.nestedScrollViewController,
+    this.createdAt,
+    super.key,
+  });
   // final ScrollController nestedScrollViewController;
 
   /// Show  comments since.
@@ -59,35 +59,38 @@ class DiscussionState extends State<Discussion> {
   }
 
   void openCommentSheet() {
-    showCommentSheet(context,
-        onSubmit: () async {
-          await IssuesService.addComment(
-              widget.issueUrl, context.read<CommentProvider>().data);
-          context.read<CommentProvider>().clearData();
-          setState(() {
-            commentsSince = DateTime.now();
-            commentsSinceController.refresh();
-          });
-          return;
-        },
-        initialData: context.read<CommentProvider>().data,
-        onChanged: (value) {
-          Provider.of<CommentProvider>(context, listen: false)
-              .updateData(value);
-        },
-        owner: widget.owner,
-        repoName: widget.repoName);
+    showCommentSheet(
+      context,
+      onSubmit: () async {
+        await IssuesService.addComment(
+          widget.issueUrl,
+          context.read<CommentProvider>().data,
+        );
+        context.read<CommentProvider>().clearData();
+        setState(() {
+          commentsSince = DateTime.now();
+          commentsSinceController.refresh();
+        });
+        return;
+      },
+      initialData: context.read<CommentProvider>().data,
+      onChanged: (final value) {
+        Provider.of<CommentProvider>(context, listen: false).updateData(value);
+      },
+      owner: widget.owner,
+      repoName: widget.repoName,
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     // final theme = Provider.of<PaletteSettings>(context).currentSetting;
 
     final Widget header = commentsSince != null
         ? Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Button(
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
@@ -105,7 +108,9 @@ class DiscussionState extends State<Discussion> {
                         'Showing timeline since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(
                         height: 4,
@@ -120,7 +125,8 @@ class DiscussionState extends State<Discussion> {
                 ),
               ),
               if (widget.initComment.createdAt.isAfter(
-                  commentsSince!.subtract(const Duration(seconds: 30))))
+                commentsSince!.subtract(const Duration(seconds: 30)),
+              ))
                 PaddingWrap(
                   child: widget.initComment,
                 ),
@@ -129,39 +135,43 @@ class DiscussionState extends State<Discussion> {
         : Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Button(
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
                       .secondary,
-                  padding: const EdgeInsets.all(16),
                   onTap: () async {
-                    DatePicker.showDateTimePicker(context,
-                        showTitleActions: true,
-                        theme: DatePickerTheme(
-                            cancelStyle: TextStyle(
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .baseElements,
-                            ),
-                            doneStyle: TextStyle(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .accent),
-                            itemStyle: TextStyle(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .baseElements),
-                            backgroundColor:
-                                Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .primary),
-                        maxTime: DateTime.now(), onConfirm: (date) {
-                      setState(() {
-                        commentsSince = date;
-                      });
-                      commentsSinceController.refresh();
-                    }, currentTime: widget.createdAt!);
+                    await DatePicker.showDateTimePicker(
+                      context,
+                      theme: DatePickerTheme(
+                        cancelStyle: TextStyle(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .baseElements,
+                        ),
+                        doneStyle: TextStyle(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .accent,
+                        ),
+                        itemStyle: TextStyle(
+                          color: Provider.of<PaletteSettings>(context)
+                              .currentSetting
+                              .baseElements,
+                        ),
+                        backgroundColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .primary,
+                      ),
+                      maxTime: DateTime.now(),
+                      onConfirm: (final date) {
+                        setState(() {
+                          commentsSince = date;
+                        });
+                        commentsSinceController.refresh();
+                      },
+                      currentTime: widget.createdAt,
+                    );
                   },
                   child: const Text(
                     'Show timeline from a specific time?',
@@ -188,11 +198,13 @@ class DiscussionState extends State<Discussion> {
             Container(
               decoration: BoxDecoration(
                 border: Border(
-                    left: BorderSide(
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .faded3,
-                        width: 0.2)),
+                  left: BorderSide(
+                    color: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .faded3,
+                    width: 0.2,
+                  ),
+                ),
               ),
             ),
           ],
@@ -201,36 +213,32 @@ class DiscussionState extends State<Discussion> {
           children: [
             Expanded(
               child: InfiniteScrollWrapper<dynamic>(
-                future: (data) {
-                  return IssuesService.getTimeline(
-                      repo: widget.repoName,
-                      after: data.lastItem?.cursor,
-                      number: widget.number,
-                      owner: widget.owner,
-                      refresh: data.refresh,
-                      since: commentsSince
-                          ?.toUtc()
-                          .subtract(const Duration(seconds: 30)));
-                },
+                future: (final data) => IssuesService.getTimeline(
+                  repo: widget.repoName,
+                  after: data.lastItem?.cursor,
+                  number: widget.number,
+                  owner: widget.owner,
+                  refresh: data.refresh,
+                  since: commentsSince
+                      ?.toUtc()
+                      .subtract(const Duration(seconds: 30)),
+                ),
                 // scrollController: widget.nestedScrollViewController,
                 controller: commentsSinceController,
-                firstPageLoadingBuilder: (context) {
-                  return Container(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
-                    child: const LoadingIndicator(),
-                  );
-                },
+                firstPageLoadingBuilder: (final context) => Container(
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .primary,
+                  child: const LoadingIndicator(),
+                ),
                 // scrollController: widget.nestedScrollViewController,
-                header: (context) {
-                  return header;
-                },
+                header: (final context) => header,
                 topSpacing: 8,
-                separatorBuilder: (context, index) => const SizedBox(
+                separatorBuilder: (final context, final index) =>
+                    const SizedBox(
                   height: 8,
                 ),
-                builder: (data) {
+                builder: (final data) {
                   return GetTimelineItem(
                     data.item.edge.node,
                     pullNodeID: widget.pullNodeID,
@@ -340,7 +348,7 @@ class DiscussionState extends State<Discussion> {
             _CommentButton(
               onTap: openCommentSheet,
               isLocked: widget.isLocked!,
-            )
+            ),
           ],
         ),
       ],
@@ -350,15 +358,14 @@ class DiscussionState extends State<Discussion> {
 
 class _CommentButton extends StatelessWidget {
   const _CommentButton({
-    Key? key,
-    this.isLocked = false,
     required this.onTap,
-  }) : super(key: key);
+    this.isLocked = false,
+  });
   final bool isLocked;
   final GestureTapCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context).currentSetting;
 
     return Material(
@@ -369,15 +376,16 @@ class _CommentButton extends StatelessWidget {
       child: InkWell(
         onTap: isLocked ? null : onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'Add a comment',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: theme.elementsOnColors),
+                  fontWeight: FontWeight.bold,
+                  color: theme.elementsOnColors,
+                ),
               ),
               const SizedBox(
                 width: 8,
@@ -389,7 +397,7 @@ class _CommentButton extends StatelessWidget {
                   color: theme.elementsOnColors,
                   size: 16,
                 ),
-              )
+              ),
             ],
           ),
         ),

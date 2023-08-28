@@ -10,13 +10,13 @@ typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
 class ProviderLoadingProgressWrapper<T extends BaseProvider>
     extends StatefulWidget {
-  const ProviderLoadingProgressWrapper(
-      {required this.childBuilder,
-      this.errorBuilder,
-      this.loadingBuilder,
-      Key? key,
-      this.listener})
-      : super(key: key);
+  const ProviderLoadingProgressWrapper({
+    required this.childBuilder,
+    this.errorBuilder,
+    this.loadingBuilder,
+    super.key,
+    this.listener,
+  });
   final ChildBuilder<T> childBuilder;
   final ValueChanged<Status>? listener;
   final WidgetBuilder? loadingBuilder;
@@ -32,7 +32,7 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
   @override
   void initState() {
     if (widget.listener != null) {
-      context.read<T>().statusStream.listen((event) {
+      context.read<T>().statusStream.listen((final event) {
         widget.listener?.call(event);
       });
     }
@@ -40,45 +40,52 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
     return StreamBuilder(
-        stream: value.statusStream,
-        initialData: value.status,
-        builder: (context, snapshot) {
-          if (snapshot.data == Status.loaded) {
-            return widget.childBuilder(context, value as T);
-          }
-          if (snapshot.data == Status.loading) {
-            return widget.loadingBuilder != null
-                ? widget.loadingBuilder!(context)
-                : const LoadingIndicator();
-          }
-          if (snapshot.data == Status.error) {
-            return widget.errorBuilder != null
-                ? widget.errorBuilder!(
-                    context, value.errorInfo ?? 'Something went wrong.')
-                : Builder(
-                    builder: (context) {
-                      if (value.errorInfo is DioException) {
-                        final err = value.errorInfo as DioException;
-                        if (err.response != null) {
-                          return Center(
-                              child: APIError(err.response!.statusCode!,
-                                  err.response!.statusMessage!));
-                        }
-                      }
-                      return Center(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(value.errorInfo.toString()),
-                      ));
-                    },
-                  );
-          }
+      stream: value.statusStream,
+      initialData: value.status,
+      builder: (final context, final snapshot) {
+        if (snapshot.data == Status.loaded) {
+          return widget.childBuilder(context, value as T);
+        }
+        if (snapshot.data == Status.loading) {
           return widget.loadingBuilder != null
               ? widget.loadingBuilder!(context)
               : const LoadingIndicator();
-        });
+        }
+        if (snapshot.data == Status.error) {
+          return widget.errorBuilder != null
+              ? widget.errorBuilder!(
+                  context,
+                  value.errorInfo ?? 'Something went wrong.',
+                )
+              : Builder(
+                  builder: (final context) {
+                    if (value.errorInfo is DioException) {
+                      final err = value.errorInfo! as DioException;
+                      if (err.response != null) {
+                        return Center(
+                          child: APIError(
+                            err.response!.statusCode!,
+                            err.response!.statusMessage!,
+                          ),
+                        );
+                      }
+                    }
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(value.errorInfo.toString()),
+                      ),
+                    );
+                  },
+                );
+        }
+        return widget.loadingBuilder != null
+            ? widget.loadingBuilder!(context)
+            : const LoadingIndicator();
+      },
+    );
   }
 }

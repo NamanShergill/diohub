@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const DHAppBar(
-      {Key? key,
-      this.url,
-      required this.title,
-      this.hasEditableChildren = false})
-      : super(key: key);
+  const DHAppBar({
+    required this.title,
+    super.key,
+    this.url,
+    this.hasEditableChildren = false,
+  });
   final String? url;
   final Widget title;
   final bool hasEditableChildren;
@@ -17,14 +17,13 @@ class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: title,
-      elevation: 0,
-      actions: [
-        if (url != null) ShareButton(url!),
-        if (hasEditableChildren)
-          IconButton(
+  Widget build(final BuildContext context) => AppBar(
+        title: title,
+        elevation: 0,
+        actions: [
+          if (url != null) ShareButton(url!),
+          if (hasEditableChildren)
+            IconButton(
               onPressed: () {
                 final editingState = context.read<EditingProvider>();
                 if (editingState.editingState != EditingState.editMode) {
@@ -33,31 +32,29 @@ class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
                   editingState.viewMode();
                 }
               },
-              icon: const Icon(Icons.edit))
-      ],
-    );
-  }
+              icon: const Icon(Icons.edit),
+            ),
+        ],
+      );
 }
 
 class ShareButton extends StatelessWidget {
-  const ShareButton(this.url, {Key? key}) : super(key: key);
+  const ShareButton(this.url, {super.key});
   final String url;
 
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      iconSize: 20,
-      onPressed: () {
-        linkHandler(
-          context,
-          url,
-          showSheetOnDeepLink: true,
-          showOpenActions: false,
-        );
-      },
-      icon: Icon(
-        Icons.adaptive.share,
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => IconButton(
+        iconSize: 20,
+        onPressed: () {
+          linkHandler(
+            context,
+            url,
+            showSheetOnDeepLink: true,
+            showOpenActions: false,
+          );
+        },
+        icon: Icon(
+          Icons.adaptive.share,
+        ),
+      );
 }

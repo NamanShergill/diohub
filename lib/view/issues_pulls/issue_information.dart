@@ -10,10 +10,10 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
-  IssueInformation({Key? key}) : super(key: key);
+  IssueInformation({super.key});
   final APIWrapperController labelController = APIWrapperController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     // final _issue = Provider.of<IssueProvider>(context).data;
     // final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
     return Container();
@@ -223,7 +223,7 @@ class IssueInformation extends StatelessWidget {
 }
 
 class _IssueButton extends StatefulWidget {
-  const _IssueButton(this.issue, {Key? key}) : super(key: key);
+  const _IssueButton(this.issue);
   final IssueModel issue;
 
   @override
@@ -233,13 +233,12 @@ class _IssueButton extends StatefulWidget {
 class __IssueButtonState extends State<_IssueButton> {
   bool loading = false;
   @override
-  Widget build(BuildContext context) {
-    return Button(
-      loading: loading,
-      onTap: () async {
-        showDialog(
-          context: context,
-          builder: (_) => AppDialog(
+  Widget build(final BuildContext context) => Button(
+        loading: loading,
+        onTap: () async {
+          await showDialog(
+            context: context,
+            builder: (final _) => AppDialog(
               title: widget.issue.state != IssueState.CLOSED
                   ? 'Close Issue?'
                   : 'Reopen Issue?',
@@ -263,41 +262,43 @@ class __IssueButtonState extends State<_IssueButton> {
                       data['state'] = 'open';
                     }
                     final issue = await IssuesService.updateIssue(
-                        widget.issue.url!, data);
+                      widget.issue.url!,
+                      data,
+                    );
                     context.issueProvider(listen: false).updateIssue(issue);
                     setState(() {
                       loading = false;
                     });
                   },
                   child: const Text('Confirm'),
-                )
-              ]),
-        );
-      },
-      color: widget.issue.state != IssueState.CLOSED
-          ? Provider.of<PaletteSettings>(context).currentSetting.red
-          : Provider.of<PaletteSettings>(context).currentSetting.green,
-      child: widget.issue.state != IssueState.CLOSED
-          ? const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Close issue'),
-                SizedBox(
-                  width: 8,
                 ),
-                Icon(Octicons.issue_closed),
-              ],
-            )
-          : const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Reopen issue'),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(Octicons.issue_reopened),
               ],
             ),
-    );
-  }
+          );
+        },
+        color: widget.issue.state != IssueState.CLOSED
+            ? Provider.of<PaletteSettings>(context).currentSetting.red
+            : Provider.of<PaletteSettings>(context).currentSetting.green,
+        child: widget.issue.state != IssueState.CLOSED
+            ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Close issue'),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Icon(Octicons.issue_closed),
+                ],
+              )
+            : const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Reopen issue'),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Icon(Octicons.issue_reopened),
+                ],
+              ),
+      );
 }

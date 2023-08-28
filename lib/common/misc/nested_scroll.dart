@@ -3,19 +3,19 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 class NestedScroll extends StatelessWidget {
   const NestedScroll({
-    Key? key,
     required this.header,
     required this.body,
-  }) : super(key: key);
-  final List<Widget> Function(BuildContext context,
-      {required bool isInnerBoxScrolled}) header;
+    super.key,
+  });
+  final List<Widget> Function(
+    BuildContext context, {
+    required bool isInnerBoxScrolled,
+  }) header;
   final Widget body;
 
   @override
-  Widget build(BuildContext context) {
-    return NestedScrollView(
-      headerSliverBuilder: (context, value) {
-        return [
+  Widget build(final BuildContext context) => NestedScrollView(
+        headerSliverBuilder: (final context, final value) => [
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverSafeArea(
@@ -28,15 +28,13 @@ class NestedScroll extends StatelessWidget {
               ),
             ),
           ),
-        ];
-      },
-      body: Builder(
-        builder: (context) {
-          NestedScrollView.sliverOverlapAbsorberHandleFor(context);
+        ],
+        body: Builder(
+          builder: (final context) {
+            NestedScrollView.sliverOverlapAbsorberHandleFor(context);
 
-          return body;
-        },
-      ),
-    );
-  }
+            return body;
+          },
+        ),
+      );
 }

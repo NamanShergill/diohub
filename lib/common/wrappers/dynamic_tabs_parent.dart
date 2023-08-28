@@ -10,59 +10,60 @@ class DynamicTabsParent extends StatelessWidget {
     required this.builder,
     this.onTabClose,
     this.tabBuilder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final DynamicTabsController controller;
   final Future<bool> Function(String idenitifier, String? label)? onTabClose;
   final List<DynamicTab> tabs;
   final Widget Function(BuildContext context, DynamicTab tab)? tabBuilder;
   final Widget Function(
-      BuildContext context, PreferredSizeWidget tabBar, Widget tabView) builder;
+    BuildContext context,
+    PreferredSizeWidget tabBar,
+    Widget tabView,
+  ) builder;
 
   @override
-  Widget build(BuildContext context) {
-    return DynamicTabsWrapper(
+  Widget build(final BuildContext context) => DynamicTabsWrapper(
         controller: controller,
         tabs: tabs,
         tabBarSettings: DynamicTabSettings(
-          indicatorPadding:
-              const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+          indicatorPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         ),
-        tabBuilder: (context, tab) => Tab(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16)
-                        .copyWith(right: tab.isDismissible ? 0 : 16),
-                    child: Text(
-                      tab.identifier,
+        tabBuilder: (final context, final tab) => Tab(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16)
+                    .copyWith(right: tab.isDismissible ? 0 : 16),
+                child: Text(
+                  tab.identifier,
+                ),
+              ),
+              if (tab.isDismissible)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: RoundButton(
+                    color: context.palette.elementsOnColors,
+                    padding: const EdgeInsets.all(4),
+                    onPressed: () {
+                      controller.closeTab(tab.identifier, showDialog: true);
+                    },
+                    onLongPress: () {
+                      controller.closeTab(tab.identifier);
+                    },
+                    icon: Icon(
+                      Icons.close_rounded,
+                      size: 12,
+                      color: context.palette.accent,
                     ),
                   ),
-                  if (tab.isDismissible)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: RoundButton(
-                        color: context.palette.elementsOnColors,
-                        padding: const EdgeInsets.all(4),
-                        onPressed: () {
-                          controller.closeTab(tab.identifier, showDialog: true);
-                        },
-                        onLongPress: () {
-                          controller.closeTab(tab.identifier);
-                        },
-                        icon: Icon(
-                          Icons.close_rounded,
-                          size: 12,
-                          color: context.palette.accent,
-                        ),
-                      ),
-                    )
-                ],
-              ),
-            ),
+                ),
+            ],
+          ),
+        ),
         onTabClose: onTabClose,
-        builder: builder);
-  }
+        builder: builder,
+      );
 }

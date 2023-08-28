@@ -1,8 +1,10 @@
 part of 'dio.dart';
 
 class CacheManager {
-  static APICache defaultGQLCache(
-          {bool refresh = false, Duration maxAge = _maxAge}) =>
+  static APICache defaultGQLCache({
+    final bool refresh = false,
+    final Duration maxAge = _maxAge,
+  }) =>
       APICache(
         allowPostMethod: true,
         maxAge: maxAge,
@@ -16,24 +18,25 @@ const Duration _maxAge = Duration(minutes: 2);
 class APICache {
   APICache({
     this.maxAge = _maxAge,
-    List<int>? hitCacheOnErrorExcept = const [401, 403],
-    CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
-    Duration maxStale = const Duration(days: 7),
-    CachePriority priority = CachePriority.normal,
-    bool allowPostMethod = false,
-    CachePolicy cachePolicy = CachePolicy.request,
+    final List<int>? hitCacheOnErrorExcept = const [401, 403],
+    final CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
+    final Duration maxStale = const Duration(days: 7),
+    final CachePriority priority = CachePriority.normal,
+    final bool allowPostMethod = false,
+    final CachePolicy cachePolicy = CachePolicy.request,
   }) : cacheOptions = CacheOptions(
-            store: BaseAPIHandler._cacheStore,
-            policy: cachePolicy,
-            hitCacheOnErrorExcept: hitCacheOnErrorExcept,
-            keyBuilder: keyBuilder,
-            maxStale: maxStale,
-            allowPostMethod: allowPostMethod,
-            priority: priority);
+          store: BaseAPIHandler._cacheStore,
+          policy: cachePolicy,
+          hitCacheOnErrorExcept: hitCacheOnErrorExcept,
+          keyBuilder: keyBuilder,
+          maxStale: maxStale,
+          allowPostMethod: allowPostMethod,
+          priority: priority,
+        );
 
   APICache._copyWith({
-    this.maxAge,
     required this.cacheOptions,
+    this.maxAge,
   });
 
   APICache.noCache()
@@ -51,13 +54,13 @@ class APICache {
   final CacheOptions cacheOptions;
 
   APICache copyWith({
-    Duration? maxAge,
-    Nullable<List<int>>? hitCacheOnErrorExcept,
-    CacheKeyBuilder? keyBuilder,
-    Nullable<Duration>? maxStale,
-    CachePriority? priority,
-    bool? allowPostMethod,
-    CachePolicy? cachePolicy = CachePolicy.request,
+    final Duration? maxAge,
+    final Nullable<List<int>>? hitCacheOnErrorExcept,
+    final CacheKeyBuilder? keyBuilder,
+    final Nullable<Duration>? maxStale,
+    final CachePriority? priority,
+    final bool? allowPostMethod,
+    final CachePolicy? cachePolicy = CachePolicy.request,
   }) =>
       APICache._copyWith(
         cacheOptions: cacheOptions.copyWith(
@@ -72,7 +75,7 @@ class APICache {
       );
 }
 
-String generateUUIDFromRequest(RequestOptions options) => const Uuid().v5(
+String generateUUIDFromRequest(final RequestOptions options) => const Uuid().v5(
       Uuid.NAMESPACE_URL,
       options.data.toString(),
     );

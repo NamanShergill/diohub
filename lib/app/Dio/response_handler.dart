@@ -22,16 +22,16 @@ class ResponseHandler {
     _successController.close();
   }
 
-  static void setErrorMessage(AppPopupData popupData) {
+  static void setErrorMessage(final AppPopupData popupData) {
     _errorController.add(popupData);
   }
 
-  static void setSuccessMessage(AppPopupData popupData) {
+  static void setSuccessMessage(final AppPopupData popupData) {
     _successController.add(popupData);
   }
 
   static void getErrorStream() {
-    _errorStream.listen((error) {
+    _errorStream.listen((final error) {
       error.popupType = PopupType.failed;
       DialogHelper.appPopup(
         currentContext,
@@ -41,7 +41,7 @@ class ResponseHandler {
   }
 
   static void getSuccessStream() {
-    _successStream.listen((success) {
+    _successStream.listen((final success) {
       success.popupType = PopupType.success;
       DialogHelper.appPopup(
         currentContext,

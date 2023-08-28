@@ -6,13 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RepoEventCard extends StatelessWidget {
-  const RepoEventCard(this.event, this.eventTextMiddle,
-      {this.eventTextEnd,
-      this.branch,
-      this.repo,
-      this.refresh = false,
-      Key? key})
-      : super(key: key);
+  const RepoEventCard(
+    this.event,
+    this.eventTextMiddle, {
+    this.eventTextEnd,
+    this.branch,
+    this.repo,
+    this.refresh = false,
+    super.key,
+  });
   final EventsModel event;
   final String eventTextMiddle;
   final RepositoryModel? repo;
@@ -20,7 +22,7 @@ class RepoEventCard extends StatelessWidget {
   final String? branch;
   final bool refresh;
   @override
-  Widget build(BuildContext context) => BaseEventCard(
+  Widget build(final BuildContext context) => BaseEventCard(
         actor: event.actor!.login,
         headerText: [
           TextSpan(text: ' $eventTextMiddle '),
@@ -40,7 +42,6 @@ class RepoEventCard extends StatelessWidget {
           elevation: 0,
           branch: branch,
           refresh: refresh,
-          padding: EdgeInsets.zero,
         ),
       );
 }

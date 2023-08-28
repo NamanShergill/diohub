@@ -16,35 +16,35 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class UserOverviewScreen extends StatelessWidget {
-  const UserOverviewScreen(this.userInfoModel, {Key? key}) : super(key: key);
+  const UserOverviewScreen(this.userInfoModel, {super.key});
   final UserInfoModel? userInfoModel;
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-      child: Column(
-        children: [
-          Flexible(
-            child: WrappedCollection(
-              children: [
-                InfoCard(
-                  title: 'Pinned Repos',
-                  mode: InfoCardMode.expanded,
-                  child: APIWrapper<
-                      List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
-                    apiCall: ({required refresh}) =>
-                        UserInfoService.getUserPinnedRepos(
-                            userInfoModel!.login!),
-                    responseBuilder: (context, data) {
-                      return data.isEmpty
+  Widget build(final BuildContext context) => Container(
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+        child: Column(
+          children: [
+            Flexible(
+              child: WrappedCollection(
+                children: [
+                  InfoCard(
+                    title: 'Pinned Repos',
+                    mode: InfoCardMode.expanded,
+                    child: APIWrapper<
+                        List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
+                      apiCall: ({required final refresh}) =>
+                          UserInfoService.getUserPinnedRepos(
+                        userInfoModel!.login!,
+                      ),
+                      responseBuilder: (final context, final data) => data
+                              .isEmpty
                           ? const Text('No Pinned items.')
                           : SizeExpandedSection(
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  final node = data[index]!.node
+                                itemBuilder: (final context, final index) {
+                                  final node = data[index]!.node!
                                       as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
                                   return RepositoryCard(
                                     RepositoryModel(
@@ -60,34 +60,32 @@ class UserOverviewScreen extends StatelessWidget {
                                       name: node.name,
                                       private: false,
                                       url: node.url.toString().replaceFirst(
-                                          'https://github.com',
-                                          'https://api.github.com/repos'),
+                                            'https://github.com',
+                                            'https://api.github.com/repos',
+                                          ),
                                       updatedAt: node.updatedAt,
                                     ),
                                   );
                                 },
                               ),
-                            );
-                    },
-                    loadingBuilder: (context) {
-                      return const Padding(
+                            ),
+                      loadingBuilder: (final context) => const Padding(
                         padding: EdgeInsets.symmetric(vertical: 24),
                         child: LoadingIndicator(),
-                      );
-                    },
+                      ),
+                    ),
                   ),
-                ),
-                InfoCard(
-                  title: 'Contribution Graph',
-                  mode: InfoCardMode.expanded,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Column(
-                      children: [
-                        SvgPicture.network(
-                          'http://ghchart.rshah.org/${toHexString(Provider.of<PaletteSettings>(context).currentSetting.accent).substring(2)}/${userInfoModel!.login}',
-                          placeholderBuilder: (context) {
-                            return ShimmerWidget(
+                  InfoCard(
+                    title: 'Contribution Graph',
+                    mode: InfoCardMode.expanded,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Column(
+                        children: [
+                          SvgPicture.network(
+                            'http://ghchart.rshah.org/${toHexString(Provider.of<PaletteSettings>(context).currentSetting.accent).substring(2)}/${userInfoModel!.login}',
+                            placeholderBuilder: (final context) =>
+                                ShimmerWidget(
                               baseColor: Provider.of<PaletteSettings>(context)
                                   .currentSetting
                                   .secondary,
@@ -97,26 +95,24 @@ class UserOverviewScreen extends StatelessWidget {
                                 height: 70,
                                 color: Colors.grey,
                               ),
-                            );
-                          },
-                        ),
-                        // Row(
-                        //   children: [
-                        //     LinkText(
-                        //       'https://ghchart.rshah.org/',
-                        //       style: TextStyle(color: faded3(context)),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
+                            ),
+                          ),
+                          // Row(
+                          //   children: [
+                          //     LinkText(
+                          //       'https://ghchart.rshah.org/',
+                          //       style: TextStyle(color: faded3(context)),
+                          //     ),
+                          //   ],
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

@@ -15,9 +15,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
-  const PullRequestNotificationCard(this.notification,
-      {Key? key, required this.refresh})
-      : super(key: key);
+  const PullRequestNotificationCard(
+    this.notification, {
+    required this.refresh,
+    super.key,
+  });
   final NotificationModel notification;
   final bool refresh;
   @override
@@ -42,12 +44,14 @@ class PullRequestNotificationCardState
     super.initState();
   }
 
-  void getInfo() async {
+  Future<void> getInfo() async {
     // Get more information on the pull request to display
     // TODO(namanshergill): Update pull notification cards when I figure out how Github does it.
     final futures = <Future>[
       PullsService.getPullInformation(
-          fullUrl: widget.notification.subject!.url!, refresh: widget.refresh),
+        fullUrl: widget.notification.subject!.url!,
+        refresh: widget.refresh,
+      ),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
     final data = await Future.wait(futures);
@@ -61,19 +65,18 @@ class PullRequestNotificationCardState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     return BasicNotificationCard(
       notification: widget.notification,
-      iconBuilder: (context) {
-        return getIcon();
-      },
-      onTap: () {
-        return AutoRouter.of(context).push(issuePullScreenRoute(
-            PathData.fromURL(widget.notification.subject!.url!)));
-      },
+      iconBuilder: (final context) => getIcon(),
+      onTap: () => AutoRouter.of(context).push(
+        issuePullScreenRoute(
+          PathData.fromURL(widget.notification.subject!.url!),
+        ),
+      ),
       loading: loading,
-      footerBuilder: (context) {
+      footerBuilder: (final context) {
         if (!loading) {
           return getPullFooter();
         }
@@ -82,11 +85,11 @@ class PullRequestNotificationCardState
     );
   }
 
-  Widget getPullFooter() {
-    return CardFooter(pullRequest.user!.avatarUrl,
+  Widget getPullFooter() => CardFooter(
+        pullRequest.user!.avatarUrl,
         'Status: ${pullRequest.merged! ? 'Merged' : stateValues.reverse![pullRequest.state!]!.substring(0, 1).toUpperCase() + stateValues.reverse![pullRequest.state!]!.substring(1)}',
-        unread: widget.notification.unread);
-  }
+        unread: widget.notification.unread,
+      );
 
   Widget getIcon() {
     if (!loading) {

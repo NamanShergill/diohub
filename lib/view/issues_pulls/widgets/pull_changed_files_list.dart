@@ -7,27 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullChangedFilesList extends StatelessWidget {
-  const PullChangedFilesList({Key? key}) : super(key: key);
+  const PullChangedFilesList({super.key});
   @override
-  Widget build(BuildContext context) {
-    return InfiniteScrollWrapper<FileElement>(
-      future: (data) {
-        return PullsService.getPullFiles(
+  Widget build(final BuildContext context) =>
+      InfiniteScrollWrapper<FileElement>(
+        future: (final data) => PullsService.getPullFiles(
           Provider.of<PullProvider>(context, listen: false).data.url.toString(),
           perPage: data.pageSize,
           refresh: data.refresh,
           pageNumber: data.pageNumber,
-        );
-      },
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 16,
-      ),
-      builder: (data) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 2),
+        ),
+        separatorBuilder: (final context, final index) => const SizedBox(
+          height: 16,
+        ),
+        builder: (final data) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
           child: ChangedFilesListCard(data.item),
-        );
-      },
-    );
-  }
+        ),
+      );
 }

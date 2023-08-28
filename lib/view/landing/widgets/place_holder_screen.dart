@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class PlaceHolderScreen extends StatelessWidget {
-  const PlaceHolderScreen({Key? key}) : super(key: key);
+  const PlaceHolderScreen({super.key});
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: LoadingIndicator(),
-    );
-  }
+  Widget build(final BuildContext context) => const Scaffold(
+        body: LoadingIndicator(),
+      );
 }

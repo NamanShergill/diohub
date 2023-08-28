@@ -19,60 +19,59 @@ part 'bottom_sheet_bodies.dart';
 part 'bottom_sheet_headers.dart';
 
 Future<T?> showDHBottomSheet<T>(
-  BuildContext context, {
-  bool enableDrag = false,
-  bool isScrollControlled = false,
-  required WidgetBuilder builder,
-}) {
-  return showModalBottomSheet<T>(
-    enableDrag: enableDrag,
-    // Notch obstructs sheet, https://github.com/flutter/flutter/issues/39205
-    isScrollControlled: isScrollControlled,
-    context: context,
-    builder: builder,
-  );
-}
+  final BuildContext context, {
+  required final WidgetBuilder builder,
+  final bool enableDrag = false,
+  final bool isScrollControlled = false,
+}) =>
+    showModalBottomSheet<T>(
+      enableDrag: enableDrag,
+      // Notch obstructs sheet, https://github.com/flutter/flutter/issues/39205
+      isScrollControlled: isScrollControlled,
+      context: context,
+      builder: builder,
+    );
 
-Future<T?> showScrollableBottomSheet<T>(BuildContext context,
-    {bool enableDrag = false,
-    required StatefulWidgetBuilder headerBuilder,
-    required ScrollBuilder scrollableBodyBuilder}) {
-  return showDHBottomSheet<T>(
-    context,
-    isScrollControlled: true,
-    builder: (context) => DHBottomSheet(
-      headerBuilder: headerBuilder,
-      builder: (context, setState) => BottomSheetBodyScrollable(
-        scrollBuilder: (context, scrollController) =>
-            scrollableBodyBuilder.call(context, setState, scrollController),
+Future<T?> showScrollableBottomSheet<T>(
+  final BuildContext context, {
+  required final StatefulWidgetBuilder headerBuilder,
+  required final ScrollBuilder scrollableBodyBuilder,
+  final bool enableDrag = false,
+}) =>
+    showDHBottomSheet<T>(
+      context,
+      isScrollControlled: true,
+      builder: (final context) => DHBottomSheet(
+        headerBuilder: headerBuilder,
+        builder: (final context, final setState) => BottomSheetBodyScrollable(
+          scrollBuilder: (final context, final scrollController) =>
+              scrollableBodyBuilder.call(context, setState, scrollController),
+        ),
       ),
-    ),
-  );
-}
+    );
 
 class DHBottomSheet extends StatelessWidget {
   const DHBottomSheet({
-    Key? key,
+    required this.builder,
+    super.key,
     this.headerBuilder,
     this.titlePadding = const EdgeInsets.all(16),
-    required this.builder,
-  }) : super(key: key);
+  });
   final StatefulWidgetBuilder? headerBuilder;
   final StatefulWidgetBuilder builder;
   final EdgeInsets titlePadding;
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: StatefulBuilder(
-        builder: (context, setState) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 4,
-            ),
-            Padding(
-                padding: const EdgeInsets.all(8.0),
+  Widget build(final BuildContext context) => SafeArea(
+        child: StatefulBuilder(
+          builder: (final context, final setState) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 4,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
                 child: Container(
                   decoration: BoxDecoration(
                     color: context.palette.faded1,
@@ -80,30 +79,30 @@ class DHBottomSheet extends StatelessWidget {
                   ),
                   height: 4,
                   width: context.mediaQuery.size.width * 0.1,
-                )),
-            if (headerBuilder != null) ...[
-              Padding(
-                padding: titlePadding,
-                child: Center(
-                  child: headerBuilder!.call(context, setState),
                 ),
               ),
+              if (headerBuilder != null) ...[
+                Padding(
+                  padding: titlePadding,
+                  child: Center(
+                    child: headerBuilder!.call(context, setState),
+                  ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+              ],
+              const Divider(
+                height: 0,
+              ),
+              Flexible(
+                child: builder.call(context, setState),
+              ),
               const SizedBox(
-                height: 4,
+                height: 8,
               ),
             ],
-            const Divider(
-              height: 0,
-            ),
-            Flexible(
-              child: builder.call(context, setState),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-          ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -37,29 +37,29 @@ typedef FilterFn<T> = Function(List<T> items);
 /// A wrapper designed to show infinite pagination.
 /// [T] type is defined for the kind of elements to be displayed.
 class InfiniteScrollWrapper<T> extends StatefulWidget {
-  const InfiniteScrollWrapper(
-      {Key? key,
-      required this.future,
-      required this.builder,
-      this.controller,
-      // this.nestedScrollViewController,
-      this.filterFn,
-      this.paginationKey,
-      this.bottomSpacing = 0,
-      this.separatorBuilder,
-      this.header,
-      this.pinnedHeader,
-      this.showScrollToTopButton = true,
-      this.pageNumber = 1,
-      this.pageSize = 10,
-      this.topSpacing = 0,
-      this.disableScroll = false,
-      this.disableRefresh = false,
-      this.firstPageLoadingBuilder,
-      this.scrollController,
-      this.shrinkWrap = false,
-      this.listEndIndicator = true})
-      : super(key: key);
+  const InfiniteScrollWrapper({
+    required this.future,
+    required this.builder,
+    super.key,
+    this.controller,
+    // this.nestedScrollViewController,
+    this.filterFn,
+    this.paginationKey,
+    this.bottomSpacing = 0,
+    this.separatorBuilder,
+    this.header,
+    this.pinnedHeader,
+    this.showScrollToTopButton = true,
+    this.pageNumber = 1,
+    this.pageSize = 10,
+    this.topSpacing = 0,
+    this.disableScroll = false,
+    this.disableRefresh = false,
+    this.firstPageLoadingBuilder,
+    this.scrollController,
+    this.shrinkWrap = false,
+    this.listEndIndicator = true,
+  });
 
   /// How to display the data. Give
   final ScrollWrapperBuilder<T> builder;
@@ -139,8 +139,8 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget scrollView(ScrollViewProperties? properties) {
+  Widget build(final BuildContext context) {
+    Widget scrollView(final ScrollViewProperties? properties) {
       final physics = widget.disableScroll
           ? const NeverScrollableScrollPhysics()
           : const BouncingScrollPhysics();
@@ -185,7 +185,7 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
       }
     }
 
-    Widget refreshIndicator({ScrollViewProperties? properties}) {
+    Widget refreshIndicator({final ScrollViewProperties? properties}) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
           color:
@@ -206,10 +206,10 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
           scrollController: widget.scrollController,
           promptTheme: PromptButtonTheme(
-              color:
-                  Provider.of<PaletteSettings>(context).currentSetting.accent),
+            color: Provider.of<PaletteSettings>(context).currentSetting.accent,
+          ),
           promptReplacementBuilder: widget.pinnedHeader,
-          builder: (context, properties) =>
+          builder: (final context, final properties) =>
               refreshIndicator(properties: properties),
         );
       } else {
@@ -223,7 +223,6 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
 
 class _InfinitePagination<T> extends StatefulWidget {
   const _InfinitePagination({
-    Key? key,
     required this.future,
     required this.builder,
     required this.filterFn,
@@ -235,7 +234,8 @@ class _InfinitePagination<T> extends StatefulWidget {
     required this.topSpacing,
     required this.separatorBuilder,
     required this.listEndIndicator,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// How to display the data. Give
   final ScrollWrapperBuilder<T> builder;
@@ -313,16 +313,18 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   }
 
   // Fetch the data to display.
-  Future<void> _fetchPage(int pageKey) async {
+  Future<void> _fetchPage(final int pageKey) async {
     try {
       log.log(Level.debug, 'Fetching page $pageNumber, key:$pageKey, $this');
       // Use the supplied APIs accordingly, based on the *refresh* value.
-      final newItems = await widget.future((
-        pageNumber: pageNumber,
-        pageSize: widget.pageSize,
-        refresh: refresh,
-        lastItem: _pagingController.itemList?.last.item,
-      ));
+      final newItems = await widget.future(
+        (
+          pageNumber: pageNumber,
+          pageSize: widget.pageSize,
+          refresh: refresh,
+          lastItem: _pagingController.itemList?.last.item,
+        ),
+      );
       // Check if it is the last page of results.
       final isLastPage = newItems.length < widget.pageSize;
       List<T> filteredItems;
@@ -336,9 +338,11 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       // as all pages have been refreshed.
       if (isLastPage) {
         if (mounted) {
-          _pagingController.appendLastPage(filteredItems
-              .map((e) => _ListItem(e, refresh: refresh))
-              .toList());
+          _pagingController.appendLastPage(
+            filteredItems
+                .map((final e) => _ListItem(e, refresh: refresh))
+                .toList(),
+          );
         }
         refresh = false;
       } else {
@@ -346,8 +350,11 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         final nextPageKey = pageKey + newItems.length;
         if (mounted) {
           _pagingController.appendPage(
-              filteredItems.map((e) => _ListItem(e, refresh: refresh)).toList(),
-              nextPageKey as int?);
+            filteredItems
+                .map((final e) => _ListItem(e, refresh: refresh))
+                .toList(),
+            nextPageKey as int?,
+          );
         }
       }
     } catch (error) {
@@ -367,81 +374,90 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return PagedSliverList<int, _ListItem<T>>.separated(
-      pagingController: _pagingController,
-      separatorBuilder: widget.separatorBuilder ?? (_, __) => Container(),
-      builderDelegate: PagedChildBuilderDelegate<_ListItem<T>>(
-        itemBuilder: (context, item, index) => Column(children: [
-          if (index == 0)
-            SizedBox(
-              height: widget.topSpacing,
-            ),
-          widget.builder((
-            context: context,
-            item: item.item,
-            index: index,
-            refresh: item.refreshChildren,
-          ))
-        ]),
-        firstPageProgressIndicatorBuilder: (context) =>
-            widget.firstPageLoadingBuilder?.call(context) ??
-            const Padding(
-              padding: EdgeInsets.all(32.0),
-              child: LoadingIndicator(),
-            ),
-        newPageProgressIndicatorBuilder: (context) => const Padding(
-          padding: EdgeInsets.all(32.0),
-          child: LoadingIndicator(),
-        ),
-        noItemsFoundIndicatorBuilder: (context) => Center(
-            child: Column(
-          children: [
-            SizedBox(
-              height: widget.topSpacing,
-            ),
-            Expanded(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Nothing to see here.',
-                    style: TextStyle(
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .faded3),
-                  ),
+  Widget build(final BuildContext context) =>
+      PagedSliverList<int, _ListItem<T>>.separated(
+        pagingController: _pagingController,
+        separatorBuilder:
+            widget.separatorBuilder ?? (final _, final __) => Container(),
+        builderDelegate: PagedChildBuilderDelegate<_ListItem<T>>(
+          itemBuilder: (final context, final item, final index) => Column(
+            children: [
+              if (index == 0)
+                SizedBox(
+                  height: widget.topSpacing,
+                ),
+              widget.builder(
+                (
+                  context: context,
+                  item: item.item,
+                  index: index,
+                  refresh: item.refreshChildren,
                 ),
               ),
-            ),
-          ],
-        )),
-        noMoreItemsIndicatorBuilder: (context) => widget.listEndIndicator
-            ? Center(
-                child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Nothing more.',
-                      style: TextStyle(
+            ],
+          ),
+          firstPageProgressIndicatorBuilder: (final context) =>
+              widget.firstPageLoadingBuilder?.call(context) ??
+              const Padding(
+                padding: EdgeInsets.all(32),
+                child: LoadingIndicator(),
+              ),
+          newPageProgressIndicatorBuilder: (final context) => const Padding(
+            padding: EdgeInsets.all(32),
+            child: LoadingIndicator(),
+          ),
+          noItemsFoundIndicatorBuilder: (final context) => Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: widget.topSpacing,
+                ),
+                Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        'Nothing to see here.',
+                        style: TextStyle(
                           color: Provider.of<PaletteSettings>(context)
                               .currentSetting
-                              .faded3),
+                              .faded3,
+                        ),
+                      ),
                     ),
-                    SizedBox(
-                      height: widget.bottomSpacing,
-                    ),
-                  ],
+                  ),
                 ),
-              ))
-            : Padding(
-                padding: EdgeInsets.only(bottom: widget.bottomSpacing),
-                child: Container(),
-              ),
-      ),
-    );
-  }
+              ],
+            ),
+          ),
+          noMoreItemsIndicatorBuilder: (final context) =>
+              widget.listEndIndicator
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Nothing more.',
+                              style: TextStyle(
+                                color: Provider.of<PaletteSettings>(context)
+                                    .currentSetting
+                                    .faded3,
+                              ),
+                            ),
+                            SizedBox(
+                              height: widget.bottomSpacing,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                      child: Container(),
+                    ),
+        ),
+      );
 }
 
 class _ListItem<T> {

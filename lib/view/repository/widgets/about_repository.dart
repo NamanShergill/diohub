@@ -10,8 +10,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class AboutRepository extends StatefulWidget {
-  const AboutRepository(this.repo, {Key? key, required this.onTabOpened})
-      : super(key: key);
+  const AboutRepository(this.repo, {required this.onTabOpened, super.key});
   final RepositoryModel repo;
   final ValueChanged<String> onTabOpened;
 
@@ -60,123 +59,128 @@ class AboutRepositoryState extends State<AboutRepository> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: true
-          ? ListView.separated(
-              separatorBuilder: (context, index) => const Divider(
-                height: 0,
-              ),
-              itemCount: tiles.length,
-              itemBuilder: (context, index) {
-                final item = tiles[index];
-                return ListTile(
-                  leading: Icon(item.icon),
-                  title: Text(item.label),
-                  onTap: item.onTap,
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (item.trailing != null) Text(item.trailing!),
-                      const Icon(Icons.arrow_right_rounded),
-                    ],
-                  ),
-                );
-              },
-            )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  InfoCard(
-                    title: 'Name',
-                    child: Row(
+  Widget build(final BuildContext context) => ColoredBox(
+        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        child: true
+            ? ListView.separated(
+                separatorBuilder: (final context, final index) => const Divider(
+                  height: 0,
+                ),
+                itemCount: tiles.length,
+                itemBuilder: (final context, final index) {
+                  final item = tiles[index];
+                  return ListTile(
+                    leading: Icon(item.icon),
+                    title: Text(item.label),
+                    onTap: item.onTap,
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Flexible(child: Text(widget.repo.name!)),
+                        if (item.trailing != null) Text(item.trailing!),
+                        const Icon(Icons.arrow_right_rounded),
                       ],
                     ),
-                  ),
-                  if (widget.repo.description != null)
+                  );
+                },
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
                     InfoCard(
-                      title: 'About',
+                      title: 'Name',
                       child: Row(
                         children: [
-                          Flexible(
-                              child: Text(emoteText(widget.repo.description!))),
+                          Flexible(child: Text(widget.repo.name!)),
                         ],
                       ),
                     ),
-                  if (widget.repo.language != null)
-                    InfoCard(
-                      title: 'Language',
-                      child: Row(
-                        children: [
-                          Flexible(
-                              child: LanguageIndicator(
-                            widget.repo.language,
-                            size: 14,
-                          )),
-                        ],
-                      ),
-                    ),
-                  if (widget.repo.fork!)
-                    InfoCard(
-                      title: 'Forked from',
-                      child: RepositoryCard(widget.repo.source),
-                    ),
-                  if (widget.repo.homepage != null &&
-                      widget.repo.homepage!.isNotEmpty)
-                    InfoCard(
-                      title: 'Homepage',
-                      onTap: () {
-                        linkHandler(context, widget.repo.homepage);
-                      },
-                      child: Row(
-                        children: [
-                          Flexible(child: Text(widget.repo.homepage!)),
-                        ],
-                      ),
-                    ),
-                  if (widget.repo.license != null)
-                    InfoCard(
-                      title: 'License',
-                      child: Row(
-                        children: [
-                          Flexible(child: Text(widget.repo.license!.name!)),
-                        ],
-                      ),
-                    ),
-                  InfoCard(
-                    title: 'Stats',
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    if (widget.repo.description != null)
+                      InfoCard(
+                        title: 'About',
+                        child: Row(
                           children: [
-                            Text('Open issues: ${widget.repo.openIssuesCount}'),
-                            const SizedBox(
-                              height: 8,
+                            Flexible(
+                              child: Text(emoteText(widget.repo.description!)),
                             ),
-                            Text('Forks: ${widget.repo.forksCount}'),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text('Watchers: ${widget.repo.watchersCount}'),
                           ],
                         ),
-                      ],
+                      ),
+                    if (widget.repo.language != null)
+                      InfoCard(
+                        title: 'Language',
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: LanguageIndicator(
+                                widget.repo.language,
+                                size: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (widget.repo.fork!)
+                      InfoCard(
+                        title: 'Forked from',
+                        child: RepositoryCard(widget.repo.source),
+                      ),
+                    if (widget.repo.homepage != null &&
+                        widget.repo.homepage!.isNotEmpty)
+                      InfoCard(
+                        title: 'Homepage',
+                        onTap: () {
+                          linkHandler(context, widget.repo.homepage);
+                        },
+                        child: Row(
+                          children: [
+                            Flexible(child: Text(widget.repo.homepage!)),
+                          ],
+                        ),
+                      ),
+                    if (widget.repo.license != null)
+                      InfoCard(
+                        title: 'License',
+                        child: Row(
+                          children: [
+                            Flexible(child: Text(widget.repo.license!.name!)),
+                          ],
+                        ),
+                      ),
+                    InfoCard(
+                      title: 'Stats',
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Open issues: ${widget.repo.openIssuesCount}',),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text('Forks: ${widget.repo.forksCount}'),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text('Watchers: ${widget.repo.watchersCount}'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-    );
-  }
+      );
 }
 
 class AboutScreenTile {
-  AboutScreenTile(this.label,
-      {required this.icon, this.trailing, required this.onTap});
+  AboutScreenTile(
+    this.label, {
+    required this.icon,
+    required this.onTap,
+    this.trailing,
+  });
   final String label;
   final IconData icon;
   final String? trailing;

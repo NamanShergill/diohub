@@ -11,32 +11,31 @@ import 'package:flutter/material.dart';
 /// Show loading indicator on app startup until authentication status is determined.
 @RoutePage()
 class LandingLoadingScreen extends StatelessWidget {
-  const LandingLoadingScreen({Key? key, this.initLink}) : super(key: key);
+  const LandingLoadingScreen({super.key, this.initLink});
   final Uri? initLink;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-        listener: (value) {
-          if (value == Status.loaded && initLink != null) {
-            deepLinkNavigate(initLink!);
-          }
-        },
-        loadingBuilder: (context) => SafeArea(
+  Widget build(final BuildContext context) => Scaffold(
+        body: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+          listener: (final value) {
+            if (value == Status.loaded && initLink != null) {
+              deepLinkNavigate(initLink!);
+            }
+          },
+          loadingBuilder: (final context) => SafeArea(
             child: Scaffold(
-          body: Column(
-            children: [
-              Expanded(child: Container()),
-              const Expanded(child: LoadingIndicator()),
-              const Expanded(
-                child: AppNameWithVersion(),
+              body: Column(
+                children: [
+                  Expanded(child: Container()),
+                  const Expanded(child: LoadingIndicator()),
+                  const Expanded(
+                    child: AppNameWithVersion(),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        )),
-        childBuilder: (context, value) => const LandingScreen(),
-      ),
-    );
-  }
+          childBuilder: (final context, final value) => const LandingScreen(),
+        ),
+      );
 }

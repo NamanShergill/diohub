@@ -8,23 +8,23 @@ class PullProvider extends BaseDataProvider<PullInfoMixin> {
   PullProvider(this.pullInfo);
   final PullInfoMixin pullInfo;
 
-  void updateLabels(List<Label> labels) {
+  void updateLabels(final List<Label> labels) {
     // data.labels = labels;
     notifyListeners();
   }
 
-  void updateAssignees(List<UserInfoModel> users) {
+  void updateAssignees(final List<UserInfoModel> users) {
     // data.assignees = users;
     notifyListeners();
   }
 
-  void updateIssue(PullRequestModel pull) {
+  void updateIssue(final PullRequestModel pull) {
     // data = pull;
     notifyListeners();
   }
 
   @override
-  Future<PullInfoMixin> setInitData({bool isInitialisation = false}) async {
-    return pullInfo;
-  }
+  Future<PullInfoMixin> setInitData(
+          {final bool isInitialisation = false,}) async =>
+      pullInfo;
 }

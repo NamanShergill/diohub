@@ -35,13 +35,14 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class RepositoryScreen extends DeepLinkWidget {
-  const RepositoryScreen(this.repositoryURL,
-      {this.branch,
-      this.index = 0,
-      PathData? deepLinkData,
-      Key? key,
-      this.initSHA})
-      : super(key: key, pathData: deepLinkData);
+  const RepositoryScreen(
+    this.repositoryURL, {
+    this.branch,
+    this.index = 0,
+    final PathData? deepLinkData,
+    super.key,
+    this.initSHA,
+  }) : super(pathData: deepLinkData);
   final String repositoryURL;
   final String? branch;
   final int index;
@@ -65,25 +66,22 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   late String? initBranch;
 
   @override
-  void handleDeepLink(PathData deepLinkData) {
+  void handleDeepLink(final PathData deepLinkData) {
     final data = deepLinkData;
     if (_isDeepLinkCode(data)) {
       initBranch = data.component(3);
     } else if (data.componentIs(2, 'wiki')) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((final timeStamp) {
         AutoRouter.of(context).push(WikiViewer(repoURL: widget.repositoryURL));
       });
     }
   }
 
-  bool _isDeepLinkCode(PathData? data) {
-    return data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
-        true;
-  }
+  bool _isDeepLinkCode(final PathData? data) =>
+      data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) == true;
 
-  bool _isDeepLinkComp(String data) {
-    return widget.pathData?.componentIs(2, data) ?? false;
-  }
+  bool _isDeepLinkComp(final String data) =>
+      widget.pathData?.componentIs(2, data) ?? false;
 
   @override
   void initState() {
@@ -99,7 +97,9 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   void _setupProviders() {
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
-        initialBranch: initBranch, initCommitSHA: widget.initSHA);
+      initialBranch: initBranch,
+      initCommitSHA: widget.initSHA,
+    );
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     issueTemplateProvider = IssueTemplateProvider();
@@ -111,7 +111,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
       DynamicTab(
         identifier: 'About',
         isDismissible: false,
-        tabViewBuilder: (context) => AboutRepository(
+        tabViewBuilder: (final context) => AboutRepository(
           context.repoProvider().data,
           onTabOpened: tabController.openTab,
         ),
@@ -119,13 +119,13 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
       DynamicTab(
         identifier: 'Readme',
         isDismissible: false,
-        tabViewBuilder: (context) =>
+        tabViewBuilder: (final context) =>
             RepositoryReadme(context.repoProvider(listen: false).url),
       ),
       DynamicTab(
         identifier: 'Code',
         isFocusedOnInit: _isDeepLinkCode(widget.pathData),
-        tabViewBuilder: (context) => CodeBrowser(
+        tabViewBuilder: (final context) => CodeBrowser(
           showCommitHistory: widget.pathData?.component(2) == 'commits',
         ),
       ),
@@ -133,20 +133,20 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
         identifier: 'Issues',
         isFocusedOnInit: _isDeepLinkComp('issues'),
         keepViewAlive: true,
-        tabViewBuilder: (context) => const IssuesList(),
+        tabViewBuilder: (final context) => const IssuesList(),
       ),
       DynamicTab(
         identifier: 'Pull Requests',
         isFocusedOnInit: _isDeepLinkComp('pulls'),
         keepViewAlive: true,
-        tabViewBuilder: (context) => const PullsList(),
+        tabViewBuilder: (final context) => const PullsList(),
       ),
       DynamicTab(
         identifier: 'More',
-        tabViewBuilder: (context) => Column(
+        tabViewBuilder: (final context) => Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Button(
                 onTap: () {
                   if (Provider.of<RepositoryProvider>(context, listen: false)
@@ -170,14 +170,14 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
             ),
           ],
         ),
-      )
+      ),
     ];
   }
 
   late List<DynamicTab> tabs;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context).currentSetting;
 
     return MultiProvider(
@@ -186,220 +186,224 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
           value: repositoryProvider,
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
-          create: (_) => repoBranchProvider,
-          update: (_, repo, __) => repoBranchProvider..updateProvider(repo),
+          create: (final _) => repoBranchProvider,
+          update: (final _, final repo, final __) =>
+              repoBranchProvider..updateProvider(repo),
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, IssueTemplateProvider>(
-          create: (_) => issueTemplateProvider,
-          update: (_, repo, __) => issueTemplateProvider..updateProvider(repo),
+          create: (final _) => issueTemplateProvider,
+          update: (final _, final repo, final __) =>
+              issueTemplateProvider..updateProvider(repo),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, PinnedIssuesProvider>(
-          create: (_) => pinnedIssuesProvider,
-          update: (_, repo, __) => pinnedIssuesProvider..updateProvider(repo),
+          create: (final _) => pinnedIssuesProvider,
+          update: (final _, final repo, final __) =>
+              pinnedIssuesProvider..updateProvider(repo),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
-            create: (_) => readmeProvider,
-            update: (_, branch, __) => readmeProvider..updateProvider(branch)),
+          create: (final _) => readmeProvider,
+          update: (final _, final branch, final __) =>
+              readmeProvider..updateProvider(branch),
+        ),
         ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
-          create: (_) => codeProvider,
-          update: (_, branch, __) => codeProvider..updateProvider(branch),
+          create: (final _) => codeProvider,
+          update: (final _, final branch, final __) =>
+              codeProvider..updateProvider(branch),
         ),
       ],
-      builder: (context, _) {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor:
-                Provider.of<PaletteSettings>(context).currentSetting.primary,
-            // Show a temporary app bar until the provider loads.
-            appBar:
-                Provider.of<RepositoryProvider>(context).status != Status.loaded
-                    ? AppBar(
-                        elevation: 0,
-                      )
-                    : PreferredSize(
-                        preferredSize: const Size(0, 0),
-                        child: Container(),
-                      ),
-            body: WillPopScope(
-              onWillPop: () async {
-                // Don't pop screen if code browsing is open and not the root tree.
-                if (Provider.of<CodeProvider>(context, listen: false)
-                            .tree
-                            .length >
-                        1 &&
-                    tabController.activeIdentifier == 'Code') {
-                  if (Provider.of<CodeProvider>(context, listen: false)
-                          .status !=
-                      Status.loading) {
-                    Provider.of<CodeProvider>(context, listen: false).popTree();
-                  }
-                  return false;
-                } else {
-                  return true;
-                }
-              },
-              child: ScaffoldBody(
-                child: ProviderLoadingProgressWrapper<RepositoryProvider>(
-                  childBuilder: (context, value) {
-                    final repo = value.data;
-                    return DynamicTabsParent(
-                      controller: tabController,
-                      tabs: tabs,
-                      builder: (context, tabs, tabView) => AppScrollView(
-                        // nestedScrollViewController: scrollController,
-                        scrollViewAppBar: ScrollViewAppBar(
-                          expandedHeight: 340,
-                          collapsedHeight: 150,
-                          tabBar: tabs,
-                          url: repo.htmlUrl,
-                          appBarWidget: Row(
-                            children: [
-                              ProfileTile.avatar(
-                                avatarUrl: repo.owner?.avatarUrl,
-                                userLogin: repo.owner?.login,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Flexible(
-                                child: RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(fontSize: 18),
-                                      children: [
-                                        TextSpan(text: '${repo.owner!.login}/'),
-                                        TextSpan(
-                                            text: repo.name,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                      ]),
+      builder: (final context, final _) => SafeArea(
+        child: Scaffold(
+          backgroundColor:
+              Provider.of<PaletteSettings>(context).currentSetting.primary,
+          // Show a temporary app bar until the provider loads.
+          appBar:
+              Provider.of<RepositoryProvider>(context).status != Status.loaded
+                  ? AppBar(
+                      elevation: 0,
+                    )
+                  : PreferredSize(
+                      preferredSize: Size.zero,
+                      child: Container(),
+                    ),
+          body: WillPopScope(
+            onWillPop: () async {
+              // Don't pop screen if code browsing is open and not the root tree.
+              if (Provider.of<CodeProvider>(context, listen: false)
+                          .tree
+                          .length >
+                      1 &&
+                  tabController.activeIdentifier == 'Code') {
+                Provider.of<CodeProvider>(context, listen: false).popTree();
+                return false;
+              } else {
+                return true;
+              }
+            },
+            child: ScaffoldBody(
+              child: ProviderLoadingProgressWrapper<RepositoryProvider>(
+                childBuilder: (final context, final value) {
+                  final repo = value.data;
+                  return DynamicTabsParent(
+                    controller: tabController,
+                    tabs: tabs,
+                    builder: (final context, final tabs, final tabView) =>
+                        AppScrollView(
+                      // nestedScrollViewController: scrollController,
+                      scrollViewAppBar: ScrollViewAppBar(
+                        expandedHeight: 340,
+                        collapsedHeight: 150,
+                        tabBar: tabs,
+                        url: repo.htmlUrl,
+                        appBarWidget: Row(
+                          children: [
+                            ProfileTile.avatar(
+                              avatarUrl: repo.owner?.avatarUrl,
+                              userLogin: repo.owner?.login,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Flexible(
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .copyWith(fontSize: 18),
+                                  children: [
+                                    TextSpan(text: '${repo.owner!.login}/'),
+                                    TextSpan(
+                                      text: repo.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          flexibleBackgroundWidget: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ProfileTile.login(
-                                    avatarUrl: repo.owner!.avatarUrl,
-                                    userLogin: repo.owner!.login,
-                                    padding: EdgeInsets.zero,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    repo.name!,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  RepoStar(
-                                    repo.owner!.login!,
-                                    repo.name!,
-                                    fadeIntoView: false,
-                                    inkWellRadius: medBorderRadius,
-                                    child: (context, data, onPress) {
-                                      return ActionButton(
-                                        count: data?.stargazerCount,
-                                        icon: Octicons.star_fill,
-                                        onTap: onPress,
-                                        doneColor: Colors.amber,
-                                        isDone: data?.viewerHasStarred,
-                                      );
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  WatchRepoWrapper(
-                                    repo.owner!.login!,
-                                    repo.name!,
-                                    builder: (context, watchData, onPress) =>
-                                        ActionButton(
-                                      count: watchData?.watchers.totalCount,
-                                      onTap: onPress,
-                                      doneColor: Colors.greenAccent,
-                                      icon: Octicons.eye,
-                                      isDone: isSubscribedToRepo(
-                                          watchData?.viewerSubscription),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Octicons.repo_forked,
-                                          color: Provider.of<PaletteSettings>(
-                                                  context)
-                                              .currentSetting
-                                              .faded3,
-                                          size: 15,
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          repo.forksCount.toString(),
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: theme.faded3,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  // ActionButton(
-                                  //   count: _repo.forksCount,
-                                  //   icon: Octicons.repo_forked,
-                                  //   action: 'Fork',
-                                  // ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 60,
-                              ),
-                            ],
-                          ),
-                          bottomPadding: 60,
-                          bottomHeader: BranchButton(
-                            repo: repo,
-                          ),
+                            ),
+                          ],
                         ),
-                        loading: loading,
-                        child: tabView,
+                        flexibleBackgroundWidget: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ProfileTile.login(
+                                  avatarUrl: repo.owner!.avatarUrl,
+                                  userLogin: repo.owner!.login,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  repo.name!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              children: [
+                                RepoStar(
+                                  repo.owner!.login!,
+                                  repo.name!,
+                                  fadeIntoView: false,
+                                  inkWellRadius: medBorderRadius,
+                                  child: (final context, final data,
+                                          final onPress,) =>
+                                      ActionButton(
+                                    count: data?.stargazerCount,
+                                    icon: Octicons.star_fill,
+                                    onTap: onPress,
+                                    doneColor: Colors.amber,
+                                    isDone: data?.viewerHasStarred,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                WatchRepoWrapper(
+                                  repo.owner!.login!,
+                                  repo.name!,
+                                  builder: (final context, final watchData,
+                                          final onPress,) =>
+                                      ActionButton(
+                                    count: watchData?.watchers.totalCount,
+                                    onTap: onPress,
+                                    doneColor: Colors.greenAccent,
+                                    icon: Octicons.eye,
+                                    isDone: isSubscribedToRepo(
+                                      watchData?.viewerSubscription,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Octicons.repo_forked,
+                                        color: Provider.of<PaletteSettings>(
+                                          context,
+                                        ).currentSetting.faded3,
+                                        size: 15,
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        repo.forksCount.toString(),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: theme.faded3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // ActionButton(
+                                //   count: _repo.forksCount,
+                                //   icon: Octicons.repo_forked,
+                                //   action: 'Fork',
+                                // ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 60,
+                            ),
+                          ],
+                        ),
+                        bottomPadding: 60,
+                        bottomHeader: BranchButton(
+                          repo: repo,
+                        ),
                       ),
-                    );
-                  },
-                ),
+                      loading: loading,
+                      child: tabView,
+                    ),
+                  );
+                },
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

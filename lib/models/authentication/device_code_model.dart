@@ -18,8 +18,8 @@ class DeviceCodeModel {
     deviceCode = json['device_code'];
     userCode = json['user_code'];
     verificationUri = json['verification_uri'];
-    expiresIn =
-        DateTime.now().millisecondsSinceEpoch + json['expires_in'] * 1000 as int?;
+    expiresIn = DateTime.now().millisecondsSinceEpoch +
+        json['expires_in'] * 1000 as int?;
     parsedOn = DateTime.now().millisecondsSinceEpoch;
     interval = json['interval'];
   }

@@ -5,49 +5,48 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SuccessPopup extends StatelessWidget {
-  const SuccessPopup({Key? key}) : super(key: key);
+  const SuccessPopup({super.key});
   @override
-  Widget build(BuildContext context) {
-    return ScaleExpandedSection(
-      child: BaseAuthDialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Successful.',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-            const Divider(
-              height: 32,
-            ),
-            Text(
-              'Authentication completed successfully.',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const Divider(
-              height: 32,
-            ),
-            Center(
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Tap here to close',
-                  style: TextStyle(
+  Widget build(final BuildContext context) => ScaleExpandedSection(
+        child: BaseAuthDialog(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Successful.',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              const Divider(
+                height: 32,
+              ),
+              Text(
+                'Authentication completed successfully.',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const Divider(
+                height: 32,
+              ),
+              Center(
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Tap here to close',
+                    style: TextStyle(
                       color: Provider.of<PaletteSettings>(context)
                           .currentSetting
-                          .baseElements),
+                          .baseElements,
+                    ),
+                  ),
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

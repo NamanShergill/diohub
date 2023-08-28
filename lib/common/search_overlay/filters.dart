@@ -1,7 +1,7 @@
 class SearchFilters {
   /// Create a [SearchFilters] instance with data of a repository search.
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-for-repositories
-  SearchFilters.repositories({List<String> blacklist = const []})
+  SearchFilters.repositories({final List<String> blacklist = const []})
       : _sortOptions = {
           'best': 'Best Match',
           'stars-desc': 'Most stars',
@@ -12,47 +12,50 @@ class SearchFilters {
           'updated-asc': 'Least Recently updated',
         },
         _searchType = SearchType.repositories {
-    _filterQueries([
-      searchQueries.archived,
-      searchQueries.created,
-      searchQueries.followers,
-      searchQueries.fork
-        ..addOptions({
-          'true': '',
-          'only': '',
-        }),
-      searchQueries.forks,
-      searchQueries.goodFirstIssues,
-      searchQueries.helpWantedIssues,
-      searchQueries.iN
-        ..addOptions({
-          'name': 'Name',
-          'description': 'Description',
-          'readme': 'Readme',
-        }),
-      searchQueries.iS
-        ..addOptions({
-          'public': '',
-          'internal': '',
-          'private': '',
-        }),
-      searchQueries.language,
-      searchQueries.license,
-      searchQueries.mirror,
-      searchQueries.org,
-      searchQueries.pushed,
-      searchQueries.repo,
-      searchQueries.size,
-      searchQueries.stars,
-      searchQueries.topic,
-      searchQueries.topics,
-      searchQueries.user,
-    ], blacklist);
+    _filterQueries(
+      [
+        searchQueries.archived,
+        searchQueries.created,
+        searchQueries.followers,
+        searchQueries.fork
+          ..addOptions({
+            'true': '',
+            'only': '',
+          }),
+        searchQueries.forks,
+        searchQueries.goodFirstIssues,
+        searchQueries.helpWantedIssues,
+        searchQueries.iN
+          ..addOptions({
+            'name': 'Name',
+            'description': 'Description',
+            'readme': 'Readme',
+          }),
+        searchQueries.iS
+          ..addOptions({
+            'public': '',
+            'internal': '',
+            'private': '',
+          }),
+        searchQueries.language,
+        searchQueries.license,
+        searchQueries.mirror,
+        searchQueries.org,
+        searchQueries.pushed,
+        searchQueries.repo,
+        searchQueries.size,
+        searchQueries.stars,
+        searchQueries.topic,
+        searchQueries.topics,
+        searchQueries.user,
+      ],
+      blacklist,
+    );
   }
 
   /// Create a [SearchFilters] instance with data of issues and pull requests search.
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
-  SearchFilters.issuesPulls({List<String> blacklist = const []})
+  SearchFilters.issuesPulls({final List<String> blacklist = const []})
       : _sortOptions = {
           'best': 'Best Match',
 
@@ -82,92 +85,95 @@ class SearchFilters {
           // 'reactions-eyes-asc': 'Least 👀',
         },
         _searchType = SearchType.issuesPulls {
-    _filterQueries([
-      searchQueries.archived,
-      searchQueries.assignee,
-      searchQueries.author,
-      searchQueries.base,
-      searchQueries.closed,
-      searchQueries.commenter,
-      searchQueries.comments,
-      searchQueries.created,
-      searchQueries.draft,
-      searchQueries.head,
-      searchQueries.iN
-        ..addOptions({
-          'title': 'Name',
-          'body': 'Description',
-          'comments': 'Readme',
-        }),
-      searchQueries.interactions,
-      searchQueries.involves,
-      searchQueries.iS
-        ..addOptions({
-          'open': '',
-          'closed': '',
-          'public': '',
-          'internal': '',
-          'private': '',
-          'merged': '',
-          'unmerged': '',
-          'locked': '',
-          'unlocked': '',
-        }),
-      searchQueries.label,
-      searchQueries.language,
-      searchQueries.linked
-        ..addOptions({
-          'pr': '',
-          'issue': '',
-        }),
-      searchQueries.milestone,
-      searchQueries.mentions,
-      searchQueries.merged,
-      searchQueries.no
-        ..addOptions({
-          'label': '',
-          'milestone': '',
-          'assignee': '',
-          'project': '',
-        }),
-      searchQueries.org,
-      searchQueries.project,
-      searchQueries.reactions,
-      searchQueries.repo,
-      searchQueries.review
-        ..addOptions({
-          'none': '',
-          'required': '',
-          'approved': '',
-          'changes_requested': '',
-        }),
-      searchQueries.reviewRequested,
-      searchQueries.state
-        ..addOptions({
-          'open': '',
-          'closed': '',
-        }),
-      searchQueries.status
-        ..addOptions({
-          'pending': '',
-          'success': '',
-          'failure': '',
-        }),
-      searchQueries.team,
-      searchQueries.teamReviewRequested,
-      searchQueries.type
-        ..addOptions({
-          'pr': 'Pull Request',
-          'issue': 'Issue',
-        }),
-      searchQueries.updated,
-      searchQueries.user,
-    ], blacklist);
+    _filterQueries(
+      [
+        searchQueries.archived,
+        searchQueries.assignee,
+        searchQueries.author,
+        searchQueries.base,
+        searchQueries.closed,
+        searchQueries.commenter,
+        searchQueries.comments,
+        searchQueries.created,
+        searchQueries.draft,
+        searchQueries.head,
+        searchQueries.iN
+          ..addOptions({
+            'title': 'Name',
+            'body': 'Description',
+            'comments': 'Readme',
+          }),
+        searchQueries.interactions,
+        searchQueries.involves,
+        searchQueries.iS
+          ..addOptions({
+            'open': '',
+            'closed': '',
+            'public': '',
+            'internal': '',
+            'private': '',
+            'merged': '',
+            'unmerged': '',
+            'locked': '',
+            'unlocked': '',
+          }),
+        searchQueries.label,
+        searchQueries.language,
+        searchQueries.linked
+          ..addOptions({
+            'pr': '',
+            'issue': '',
+          }),
+        searchQueries.milestone,
+        searchQueries.mentions,
+        searchQueries.merged,
+        searchQueries.no
+          ..addOptions({
+            'label': '',
+            'milestone': '',
+            'assignee': '',
+            'project': '',
+          }),
+        searchQueries.org,
+        searchQueries.project,
+        searchQueries.reactions,
+        searchQueries.repo,
+        searchQueries.review
+          ..addOptions({
+            'none': '',
+            'required': '',
+            'approved': '',
+            'changes_requested': '',
+          }),
+        searchQueries.reviewRequested,
+        searchQueries.state
+          ..addOptions({
+            'open': '',
+            'closed': '',
+          }),
+        searchQueries.status
+          ..addOptions({
+            'pending': '',
+            'success': '',
+            'failure': '',
+          }),
+        searchQueries.team,
+        searchQueries.teamReviewRequested,
+        searchQueries.type
+          ..addOptions({
+            'pr': 'Pull Request',
+            'issue': 'Issue',
+          }),
+        searchQueries.updated,
+        searchQueries.user,
+      ],
+      blacklist,
+    );
   }
 
   /// Create a [SearchFilters] instance with data of users search.
   /// Ref: https://docs.github.com/en/github/searching-for-information-on-github/searching-users
-  SearchFilters.users({List<String> blacklist = const []})
+  SearchFilters.users({final List<String> blacklist = const []})
       : _sortOptions = {
           'best': 'Best Match',
           'followers-desc': '',
@@ -178,27 +184,30 @@ class SearchFilters {
           'joined-asc': '',
         },
         _searchType = SearchType.users {
-    _filterQueries([
-      searchQueries.created,
-      searchQueries.followers,
-      searchQueries.fullName,
-      searchQueries.iN
-        ..addOptions({
-          'login': '',
-          'name': '',
-          'email': '',
-        }),
-      searchQueries.language,
-      searchQueries.location,
-      searchQueries.org,
-      searchQueries.repos,
-      searchQueries.type
-        ..addOptions({
-          'user': '',
-          'org': '',
-        }),
-      searchQueries.user,
-    ], blacklist);
+    _filterQueries(
+      [
+        searchQueries.created,
+        searchQueries.followers,
+        searchQueries.fullName,
+        searchQueries.iN
+          ..addOptions({
+            'login': '',
+            'name': '',
+            'email': '',
+          }),
+        searchQueries.language,
+        searchQueries.location,
+        searchQueries.org,
+        searchQueries.repos,
+        searchQueries.type
+          ..addOptions({
+            'user': '',
+            'org': '',
+          }),
+        searchQueries.user,
+      ],
+      blacklist,
+    );
   }
   final List<SearchQuery> _basicQueries = [];
   final List<SearchQuery> _sensitiveQueries = [];
@@ -214,7 +223,8 @@ class SearchFilters {
 
   /// Get regexp to match all valid queries in a string.
   RegExp get allValidQueriesRegexp => RegExp(
-      '${validBasicQueriesRegExp.pattern}|${validSensitiveQueriesRegExp.pattern}');
+        '${validBasicQueriesRegExp.pattern}|${validSensitiveQueriesRegExp.pattern}',
+      );
 
   /// Get regexp to match all invalid queries in a string.
   RegExp get allInvalidQueriesRegExp =>
@@ -246,11 +256,13 @@ class SearchFilters {
 
   /// Get regexp to match AND operators in a string.
   static RegExp get andOperatorRegExp => RegExp(
-      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:AND)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
+        '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:AND)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})',
+      );
 
   /// Get regexp to match OR operators in a string.
   static RegExp get orOperatorRegExp => RegExp(
-      '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:OR)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})');
+        '(${optionalQuotes('(\\w[^(NOT|OR|AND| )]+)', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})?(?:(\\s)+)(?:OR)(?:(\\s)+)(?!(NOT|OR|AND))(${optionalQuotes('\\w+', allowSpace: true, spacedRegex: '((\\w|\\s+)+)')})',
+      );
 
   /// Get regexp to match number queries in a string.
   RegExp? get numberQRegExp => _numberQRegExp;
@@ -261,16 +273,17 @@ class SearchFilters {
   /// Get all whitelisted queries for the [SearchFilters] instance.
   List<SearchQuery> get whiteListedQueries {
     final list = _sensitiveQueries + _basicQueries;
-    list.sort((a, b) => a.query.toLowerCase().compareTo(b.query.toLowerCase()));
+    list.sort((final a, final b) =>
+        a.query.toLowerCase().compareTo(b.query.toLowerCase()),);
     return list;
   }
 
   /// Get all whitelisted query strings for the [SearchFilters] instance.
   List<String> get whiteListedQueriesStrings =>
-      whiteListedQueries.map((e) => e.query).toList();
+      whiteListedQueries.map((final e) => e.query).toList();
 
   /// Get the corresponding [SearchQuery] instance in the lists from a given string.
-  SearchQuery? queryFromString(String query) {
+  SearchQuery? queryFromString(final String query) {
     var data = query;
     SearchQuery? value;
     if (data.startsWith('-')) {
@@ -285,7 +298,7 @@ class SearchFilters {
   }
 
   /// Create regexp for sensitive queries.
-  RegExp _getSensitiveQueryRegExp(List<SearchQuery> queries) {
+  RegExp _getSensitiveQueryRegExp(final List<SearchQuery> queries) {
     final optionQ = <SearchQuery>[];
     final dateQ = <SearchQuery>[];
     final numberQ = <SearchQuery>[];
@@ -317,7 +330,7 @@ class SearchFilters {
         (?:") -> Checks for end quote.
         (?=(\\s)(${spacedQs.join('|')})?|\$) ->  Ends with another query or end of line.
     */
-    final spacedQs = spacedQ.map((e) => '${e.query}:').toList();
+    final spacedQs = spacedQ.map((final e) => '${e.query}:').toList();
     final spacedRegExp =
         '(?:-)?(?:${spacedQs.join('|')})(((?:")((\\w|\\d| |[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)(?:"))|((\\w|\\d|[a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+))(?=(\\s))';
 
@@ -326,9 +339,11 @@ class SearchFilters {
         (?:${optionsQ.join('|')}) -> Starts with the given queries.
     */
     final optionsQ = optionQ
-        .map((query) => query.options!.keys
-            .map((option) => '${query.query}:($option|"$option")')
-            .join('|'))
+        .map(
+          (final query) => query.options!.keys
+              .map((final option) => '${query.query}:($option|"$option")')
+              .join('|'),
+        )
         .toList();
     final optionRegexp = '(?:-)?(?:${optionsQ.join('|')})(?=(\\s))';
 
@@ -346,12 +361,12 @@ class SearchFilters {
         -----------------------
         ([*][.][.])([0-9]+) -> [*..10]
     */
-    final numbersQ = numberQ.map((query) => '${query.query}:').toList();
+    final numbersQ = numberQ.map((final query) => '${query.query}:').toList();
     final numberRegexp =
         '(?:-)?(?:${numbersQ.join('|')})${optionalQuotes(rangeRegExp('([0-9]+)'))}(?=(\\s))';
     _numberQRegExp = RegExp(numberRegexp.replaceAll('(?=(\\s))', ''));
 
-    final datesQ = dateQ.map((query) => '${query.query}:').toList();
+    final datesQ = dateQ.map((final query) => '${query.query}:').toList();
     final dateRegexp =
         '(?:-)?(?:${datesQ.join('|')})${optionalQuotes(rangeRegExp('([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))'))}(?=(\\s))';
     _dateQRegExp = RegExp(dateRegexp.replaceAll('(?=(\\s))', ''));
@@ -364,7 +379,7 @@ class SearchFilters {
         (?:") -> Checks for end quote.
         (?=(\\s)($filter)?|\$) -> Ends with another query or end of line.
     */
-    final usersQ = userQ.map((query) => '${query.query}:').toList();
+    final usersQ = userQ.map((final query) => '${query.query}:').toList();
     final userRegExp =
         '(?:-)?(?:${usersQ.join('|')})${optionalQuotes('(([a-zA-Z0-9!><=@#\$&\\(\\)\\-`.+,/])+)')}(?=(\\s))';
 
@@ -392,8 +407,8 @@ class SearchFilters {
     return RegExp(finalRegex.join('|'));
   }
 
-  RegExp _getRegExp(List<SearchQuery> queries) {
-    final strings = queries.map((e) => '${e.query}:').toList();
+  RegExp _getRegExp(final List<SearchQuery> queries) {
+    final strings = queries.map((final e) => '${e.query}:').toList();
     final filter = strings.join('|');
     /*
         (?:-)? -> Optional [-] at start.
@@ -409,9 +424,9 @@ class SearchFilters {
   }
 
   RegExp _getIncompleteRegExp(
-    List<SearchQuery> queries,
+    final List<SearchQuery> queries,
   ) {
-    final strings = queries.map((e) => '${e.query}:').toList();
+    final strings = queries.map((final e) => '${e.query}:').toList();
     final filter = strings.join('|');
     /*
         (?:-)? -> Optional [-] at start.
@@ -427,7 +442,8 @@ class SearchFilters {
   }
 
   /// Filter queries into basic, sensitive, or blacklist groups.
-  void _filterQueries(List<SearchQuery> original, List<String> blacklist) {
+  void _filterQueries(
+      final List<SearchQuery> original, final List<String> blacklist,) {
     final allQueries = searchQueries.allQueries;
     for (final element in original) {
       if (!blacklist.contains(element.query)) {
@@ -448,17 +464,19 @@ class SearchFilters {
   }
 
   /// Get regex for optional quotes around a string.
-  static String optionalQuotes(String string,
-      {bool allowSpace = false, String? spacedRegex}) {
+  static String optionalQuotes(
+    final String string, {
+    final bool allowSpace = false,
+    final String? spacedRegex,
+  }) {
     if (allowSpace) {
       return '(((?:")$spacedRegex(?:"))|($string))';
     }
     return '(((?:")$string(?:"))|($string))';
   }
 
-  static String rangeRegExp(String string) {
-    return '(($string)([.][.])($string))|(($string)([.][.][*]))|(([*][.][.])($string))|(([><][=]?)?($string))';
-  }
+  static String rangeRegExp(final String string) =>
+      '(($string)([.][.])($string))|(($string)([.][.][*]))|(([*][.][.])($string))|(([><][=]?)?($string))';
 }
 
 class SearchQueries {
@@ -496,8 +514,11 @@ class SearchQueries {
       SearchQuery(SearchQueryStrings.archived, type: QueryType.bool);
   SearchQuery assignee =
       SearchQuery(SearchQueryStrings.assignee, type: QueryType.user);
-  SearchQuery author = SearchQuery(SearchQueryStrings.author,
-      customRegex: _authorRegex, type: QueryType.user);
+  SearchQuery author = SearchQuery(
+    SearchQueryStrings.author,
+    customRegex: _authorRegex,
+    type: QueryType.user,
+  );
   SearchQuery authorName = SearchQuery(SearchQueryStrings.authorName);
   SearchQuery authorEmail = SearchQuery(SearchQueryStrings.authorEmail);
   SearchQuery authorDate = SearchQuery(SearchQueryStrings.authorDate);
@@ -521,12 +542,14 @@ class SearchQueries {
   SearchQuery filename = SearchQuery(SearchQueryStrings.filename);
   SearchQuery followers =
       SearchQuery(SearchQueryStrings.followers, type: QueryType.number);
-  SearchQuery fork = SearchQuery(SearchQueryStrings.fork,
-      options: {
-        'true': 'Include forks.',
-        'only': 'Only show forks.',
-      },
-      qualifierQuery: false);
+  SearchQuery fork = SearchQuery(
+    SearchQueryStrings.fork,
+    options: {
+      'true': 'Include forks.',
+      'only': 'Only show forks.',
+    },
+    qualifierQuery: false,
+  );
   SearchQuery forks =
       SearchQuery(SearchQueryStrings.forks, type: QueryType.number);
   SearchQuery fullName =
@@ -589,8 +612,9 @@ class SearchQueries {
   SearchQuery team =
       SearchQuery(SearchQueryStrings.team, customRegex: _teamRegex);
   SearchQuery teamReviewRequested = SearchQuery(
-      SearchQueryStrings.teamReviewRequested,
-      customRegex: _teamRegex);
+    SearchQueryStrings.teamReviewRequested,
+    customRegex: _teamRegex,
+  );
   SearchQuery topic =
       SearchQuery(SearchQueryStrings.topic, type: QueryType.spacedString);
   SearchQuery topics =
@@ -667,7 +691,7 @@ class SearchQueries {
         tree,
         type,
         updated,
-        user
+        user,
       ];
 }
 
@@ -805,18 +829,19 @@ class SearchQueryStrings {
     tree,
     type,
     updated,
-    user
+    user,
   ];
 }
 
 class SearchQuery {
-  SearchQuery(this.query,
-      {this.description,
-      this.options,
-      this.customRegex,
-      QueryType? type,
-      this.qualifierQuery = true})
-      : type =
+  SearchQuery(
+    this.query, {
+    this.description,
+    this.options,
+    this.customRegex,
+    final QueryType? type,
+    this.qualifierQuery = true,
+  }) : type =
             type ?? (customRegex != null ? QueryType.custom : QueryType.basic) {
     if (type == QueryType.bool && options == null) {
       options = {'true': '', 'false': ''};
@@ -829,10 +854,10 @@ class SearchQuery {
   Map<String, String>? options;
   final QueryType type;
 
-  String toQueryString(String data) =>
+  String toQueryString(final String data) =>
       data.contains(' ') ? '$query:"$data"' : '$query:$data';
 
-  void addOptions(Map<String, String> options) {
+  void addOptions(final Map<String, String> options) {
     if (this.options == null) {
       this.options = {};
     }
@@ -872,7 +897,6 @@ class EnumValues<T> {
   Map<String, T> map;
   Map<T, String>? reverseMap;
 
-  Map<T, String>? get reverse {
-    return reverseMap ??= map.map((k, v) => MapEntry(v, k));
-  }
+  Map<T, String>? get reverse =>
+      reverseMap ??= map.map((final k, final v) => MapEntry(v, k));
 }

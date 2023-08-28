@@ -13,5 +13,5 @@ extension BuildContextExtensions on BuildContext {
 
 extension IsNotNull on Object {
   /// Convenience extension to be used to not have to write null checks on objects to return a value.
-  V returnIfNotNull<V>(V value) => value;
+  V returnIfNotNull<V>(final V value) => value;
 }

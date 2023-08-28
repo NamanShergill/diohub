@@ -9,16 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommitBrowser extends StatefulWidget {
-  const CommitBrowser(
-      {this.controller,
-      this.currentSHA,
-      this.isLocked,
-      this.onSelected,
-      this.path,
-      this.repoURL,
-      this.branchName,
-      Key? key})
-      : super(key: key);
+  const CommitBrowser({
+    this.controller,
+    this.currentSHA,
+    this.isLocked,
+    this.onSelected,
+    this.path,
+    this.repoURL,
+    this.branchName,
+    super.key,
+  });
   final ScrollController? controller;
   final String? currentSHA;
   final bool? isLocked;
@@ -47,13 +47,12 @@ class CommitBrowserState extends State<CommitBrowser> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Visibility(
+  Widget build(final BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
               visible: isLocked!,
               child: Button(
                 onTap: () {
@@ -63,100 +62,96 @@ class CommitBrowserState extends State<CommitBrowser> {
                   controller.refresh();
                 },
                 child: const Text('Load latest commits.'),
-              )),
-          Visibility(
-            visible: path.isNotEmpty,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  ' Showing history for',
-                  style: TextStyle(),
-                ),
-                SizedBox(
-                  height: 30,
-                  child: ListView.separated(
+              ),
+            ),
+            Visibility(
+              visible: path.isNotEmpty,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    ' Showing history for',
+                    style: TextStyle(),
+                  ),
+                  SizedBox(
+                    height: 30,
+                    child: ListView.separated(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: path.length + 1,
-                      separatorBuilder: (context, index) {
-                        return const Center(child: Text(' /'));
-                      },
-                      itemBuilder: (context, index) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: smallBorderRadius,
-                            onTap: () {
-                              setState(() {
-                                if (index == 0) {
-                                  path = [];
-                                } else {
-                                  path = path.sublist(0, index);
-                                }
-                              });
-                              controller.refresh();
-                            },
-                            child: Center(
-                              child: Text(
-                                ' ${index == 0 ? widget.repoURL!.split('/').last : path[index - 1]}',
-                                style: TextStyle(
-                                    color: index == path.length
-                                        ? Provider.of<PaletteSettings>(context)
-                                            .currentSetting
-                                            .accent
-                                        : Provider.of<PaletteSettings>(context)
-                                            .currentSetting
-                                            .baseElements,
-                                    fontWeight: index == path.length
-                                        ? FontWeight.bold
-                                        : FontWeight.w500),
+                      separatorBuilder: (final context, final index) =>
+                          const Center(child: Text(' /')),
+                      itemBuilder: (final context, final index) => Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: smallBorderRadius,
+                          onTap: () {
+                            setState(() {
+                              if (index == 0) {
+                                path = [];
+                              } else {
+                                path = path.sublist(0, index);
+                              }
+                            });
+                            controller.refresh();
+                          },
+                          child: Center(
+                            child: Text(
+                              ' ${index == 0 ? widget.repoURL!.split('/').last : path[index - 1]}',
+                              style: TextStyle(
+                                color: index == path.length
+                                    ? Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .accent
+                                    : Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .baseElements,
+                                fontWeight: index == path.length
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
                               ),
                             ),
                           ),
-                        );
-                      }),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-              ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: InfiniteScrollWrapper<CommitListModel>(
-              controller: controller,
-              shrinkWrap: true,
-              scrollController: widget.controller,
-              future: (data) {
-                return RepositoryServices.getCommitsList(
+            Expanded(
+              child: InfiniteScrollWrapper<CommitListModel>(
+                controller: controller,
+                shrinkWrap: true,
+                scrollController: widget.controller,
+                future: (final data) => RepositoryServices.getCommitsList(
                   repoURL: widget.repoURL!,
                   pageNumber: data.pageNumber,
                   pageSize: data.pageSize,
                   path: path.join('/'),
                   sha: isLocked! ? widget.currentSHA : widget.branchName,
                   refresh: data.refresh,
-                );
-              },
-              topSpacing: 16,
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 16,
-              ),
-              builder: (data) {
-                return CommitTilesREST(
+                ),
+                topSpacing: 16,
+                separatorBuilder: (final context, final index) =>
+                    const SizedBox(
+                  height: 16,
+                ),
+                builder: (final data) => CommitTilesREST(
                   highlighted: isLocked! && widget.currentSHA == data.item.sha,
                   item: data.item,
-                  onSelected: (value) {
+                  onSelected: (final value) {
                     widget.onSelected!(value);
                     Navigator.pop(context);
                   },
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

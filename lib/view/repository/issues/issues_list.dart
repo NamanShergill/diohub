@@ -23,21 +23,23 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
-  const IssuesList({Key? key}) : super(key: key);
+  const IssuesList({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final repo = Provider.of<RepositoryProvider>(context);
     final user = Provider.of<CurrentUserProvider>(context).data;
     return Stack(
       children: [
         SearchScrollWrapper(
           SearchData(
-              searchFilters: SearchFilters.issuesPulls(
-                  blacklist: [SearchQueryStrings.type]),
-              defaultHiddenFilters: [
-                SearchQueries().type.toQueryString('issue'),
-                SearchQueries().repo.toQueryString(repo.data.fullName!),
-              ]),
+            searchFilters: SearchFilters.issuesPulls(
+              blacklist: [SearchQueryStrings.type],
+            ),
+            defaultHiddenFilters: [
+              SearchQueries().type.toQueryString('issue'),
+              SearchQueries().repo.toQueryString(repo.data.fullName!),
+            ],
+          ),
           quickFilters: {
             SearchQueries().assignee.toQueryString(user.login!):
                 'Assigned to you',
@@ -48,10 +50,10 @@ class IssuesList extends StatelessWidget {
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
           showRepoNameOnIssues: false,
-          searchBarMessage: 'Search in ${repo.data.name}\'s issues',
+          searchBarMessage: "Search in ${repo.data.name}'s issues",
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          filterFn: (data) {
+          filterFn: (final data) {
             final filteredData = <IssueModel>[];
             for (final item in data) {
               if (item.pullRequest == null) {
@@ -68,8 +70,8 @@ class IssuesList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ProviderLoadingProgressWrapper<PinnedIssuesProvider>(
-                loadingBuilder: (context) => Container(),
-                childBuilder: (context, value) {
+                loadingBuilder: (final context) => Container(),
+                childBuilder: (final context, final value) {
                   if (value.data.totalCount > 0) {
                     return SlideExpandedSection(
                       child: Column(
@@ -81,27 +83,29 @@ class IssuesList extends StatelessWidget {
                               onPressed: () {
                                 showScrollableBottomSheet(
                                   context,
-                                  headerBuilder: (context, setState) =>
-                                      const BottomSheetHeaderText(
+                                  headerBuilder:
+                                      (final context, final setState) =>
+                                          const BottomSheetHeaderText(
                                     headerText: 'Pinned Issues',
                                   ),
-                                  scrollableBodyBuilder:
-                                      (context, setState, scrollController) =>
-                                          ListView.separated(
+                                  scrollableBodyBuilder: (final context,
+                                          final setState,
+                                          final scrollController,) =>
+                                      ListView.separated(
                                     controller: scrollController,
                                     padding: const EdgeInsets.only(bottom: 8),
-                                    itemBuilder: (context, index) {
-                                      return IssueLoadingCard(
-                                        toRepoAPIResource(
-                                          value.data.nodes![index]!.issue.url
-                                              .toString(),
-                                        ),
-                                        backgroundColor:
-                                            context.palette.secondary,
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                        const Divider(),
+                                    itemBuilder: (final context, final index) =>
+                                        IssueLoadingCard(
+                                      toRepoAPIResource(
+                                        value.data.nodes![index]!.issue.url
+                                            .toString(),
+                                      ),
+                                      backgroundColor:
+                                          context.palette.secondary,
+                                    ),
+                                    separatorBuilder:
+                                        (final context, final index) =>
+                                            const Divider(),
                                     itemCount: value.data.nodes!.length,
                                   ),
                                 );
@@ -118,45 +122,53 @@ class IssuesList extends StatelessWidget {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: ProviderLoadingProgressWrapper<IssueTemplateProvider>(
-                  loadingBuilder: (context) => const FloatingActionButton(
+                  loadingBuilder: (final context) => const FloatingActionButton(
                     onPressed: null,
                     child: LoadingIndicator(),
                   ),
-                  childBuilder: (context, value) => FloatingActionButton(
+                  childBuilder: (final context, final value) =>
+                      FloatingActionButton(
                     onPressed: () {
                       if (value.data.isNotEmpty) {
                         showScrollableBottomSheet(
                           context,
-                          headerBuilder: (context, setState) =>
+                          headerBuilder: (final context, final setState) =>
                               const BottomSheetHeaderText(
                             headerText: 'New Issue',
                           ),
-                          scrollableBodyBuilder:
-                              (context, setState, scrollController) =>
-                                  ListenableProvider.value(
-                            value: Provider.of<RepositoryProvider>(context,
-                                listen: false),
+                          scrollableBodyBuilder: (final context, final setState,
+                                  final scrollController,) =>
+                              ListenableProvider.value(
+                            value: Provider.of<RepositoryProvider>(
+                              context,
+                              listen: false,
+                            ),
                             child: ListView.separated(
-                                controller: scrollController,
-                                padding: const EdgeInsets.only(bottom: 8),
-                                itemBuilder: (context, index) {
-                                  if (value.data.length == index) {
-                                    return const BlankIssueTemplate();
-                                  } else {
-                                    return IssueTemplateCard(value.data[index]);
-                                  }
-                                },
-                                separatorBuilder: (context, index) =>
-                                    const Divider(),
-                                itemCount: value.data.length + 1),
+                              controller: scrollController,
+                              padding: const EdgeInsets.only(bottom: 8),
+                              itemBuilder: (final context, final index) {
+                                if (value.data.length == index) {
+                                  return const BlankIssueTemplate();
+                                } else {
+                                  return IssueTemplateCard(value.data[index]);
+                                }
+                              },
+                              separatorBuilder: (final context, final index) =>
+                                  const Divider(),
+                              itemCount: value.data.length + 1,
+                            ),
                           ),
                         );
                       } else {
                         final repo = context.read<RepositoryProvider>().data;
-                        AutoRouter.of(context).push(NewIssueRoute(
-                            owner: repo.owner!.login!, repo: repo.name!));
+                        AutoRouter.of(context).push(
+                          NewIssueRoute(
+                            owner: repo.owner!.login!,
+                            repo: repo.name!,
+                          ),
+                        );
                       }
                     },
                     child: const Icon(Icons.add),
@@ -172,59 +184,57 @@ class IssuesList extends StatelessWidget {
 }
 
 class IssueTemplateCard extends StatelessWidget {
-  const IssueTemplateCard(this.template, {Key? key, this.isBlank = false})
-      : super(key: key);
+  const IssueTemplateCard(this.template, {super.key, this.isBlank = false});
   final bool isBlank;
   final IssueTemplates$Query$Repository$IssueTemplates template;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Card(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
-        child: InkWell(
-          onTap: () {
-            final repo = context.read<RepositoryProvider>().data;
-            AutoRouter.of(context).push(NewIssueRoute(
-                owner: repo.owner!.login!,
-                repo: repo.name!,
-                template: isBlank ? null : template));
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  template.name,
-                  style: AppThemeTextStyles.eventCardChildTitle(context),
+  Widget build(final BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Card(
+          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
+          child: InkWell(
+            onTap: () {
+              final repo = context.read<RepositoryProvider>().data;
+              AutoRouter.of(context).push(
+                NewIssueRoute(
+                  owner: repo.owner!.login!,
+                  repo: repo.name!,
+                  template: isBlank ? null : template,
                 ),
-                if (template.about != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(template.about!),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    template.name,
+                    style: AppThemeTextStyles.eventCardChildTitle(context),
                   ),
-              ],
+                  if (template.about != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(template.about!),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class BlankIssueTemplate extends StatelessWidget {
-  const BlankIssueTemplate({Key? key}) : super(key: key);
+  const BlankIssueTemplate({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return IssueTemplateCard(
-      IssueTemplates$Query$Repository$IssueTemplates()
-        ..name = 'Don’t see your issue here?'
-        ..about = 'Open a blank issue.',
-      isBlank: true,
-    );
-  }
+  Widget build(final BuildContext context) => IssueTemplateCard(
+        IssueTemplates$Query$Repository$IssueTemplates()
+          ..name = 'Don’t see your issue here?'
+          ..about = 'Open a blank issue.',
+        isBlank: true,
+      );
 }

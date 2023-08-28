@@ -18,9 +18,12 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class NewIssueScreen extends StatefulWidget {
-  const NewIssueScreen(
-      {Key? key, this.template, required this.repo, required this.owner})
-      : super(key: key);
+  const NewIssueScreen({
+    required this.repo,
+    required this.owner,
+    super.key,
+    this.template,
+  });
   final IssueTemplates$Query$Repository$IssueTemplates? template;
   final String owner;
   final String repo;
@@ -54,11 +57,12 @@ class NewIssueScreenState extends State<NewIssueScreen> {
         status = PageStatus.loading;
       });
       final res = await IssuesService.createIssue(
-          title: controller.text,
-          body: comment,
-          owner: widget.owner,
-          repo: widget.repo);
-      router.replace(issuePullScreenRoute(PathData.fromURL(res.url!)));
+        title: controller.text,
+        body: comment,
+        owner: widget.owner,
+        repo: widget.repo,
+      );
+      await router.replace(issuePullScreenRoute(PathData.fromURL(res.url!)));
       // setState(() {
       //   status = PageStatus.loaded;
       // });
@@ -70,43 +74,43 @@ class NewIssueScreenState extends State<NewIssueScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'New Issue',
-              style: TextStyle(fontSize: 12),
-            ),
-            Text(
-              '${widget.owner}/${widget.repo}',
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: comment.isNotEmpty && status == PageStatus.loaded
-                ? () {
-                    setState(() {
-                      markdownView = !markdownView;
-                    });
-                  }
-                : null,
-            icon: const Icon(Icons.remove_red_eye_rounded),
-            disabledColor: Provider.of<PaletteSettings>(context)
-                .currentSetting
-                .faded3
-                .withOpacity(0.5),
-            color: markdownView
-                ? Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .baseElements
-                : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+  Widget build(final BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'New Issue',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                '${widget.owner}/${widget.repo}',
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
-          IconButton(
+          actions: [
+            IconButton(
+              onPressed: comment.isNotEmpty && status == PageStatus.loaded
+                  ? () {
+                      setState(() {
+                        markdownView = !markdownView;
+                      });
+                    }
+                  : null,
+              icon: const Icon(Icons.remove_red_eye_rounded),
+              disabledColor: Provider.of<PaletteSettings>(context)
+                  .currentSetting
+                  .faded3
+                  .withOpacity(0.5),
+              color: markdownView
+                  ? Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements
+                  : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            ),
+            IconButton(
               onPressed: status == PageStatus.loaded
                   ? () {
                       if (_formKey.currentState!.validate()) {
@@ -120,29 +124,30 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                   .withOpacity(0.5),
               icon: const Icon(
                 Icons.add,
-              )),
-        ],
-      ),
-      body: Form(
-        key: _formKey,
-        child: LoadingWrapper(
-          status: status,
-          loadingBuilder: (context) => const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LoadingIndicator(),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Creating Issue'),
               ),
-            ],
-          ),
-          builder: (context) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: !markdownView
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+            ),
+          ],
+        ),
+        body: Form(
+          key: _formKey,
+          child: LoadingWrapper(
+            status: status,
+            loadingBuilder: (final context) => const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LoadingIndicator(),
+                Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text('Creating Issue'),
+                ),
+              ],
+            ),
+            builder: (final context) => Padding(
+              padding: const EdgeInsets.all(8),
+              child: !markdownView
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         const SizedBox(
                           height: 8,
                         ),
@@ -156,7 +161,8 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                                   overflow:
                                       expanded ? null : TextOverflow.ellipsis,
                                   style: AppThemeTextStyles.eventCardChildTitle(
-                                      context),
+                                    context,
+                                  ),
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -180,9 +186,11 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                           ),
                         TextFormField(
                           decoration: inputDecoration(
-                              context: context, labelText: 'Title'),
+                            context: context,
+                            labelText: 'Title',
+                          ),
                           controller: controller,
-                          validator: (value) {
+                          validator: (final value) {
                             if (value!.isEmpty) {
                               return 'Title cannot be empty!';
                             }
@@ -195,41 +203,43 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                           height: 16,
                         ),
                         Expanded(
-                            child: MarkdownTextInput(
-                          maxLines: 99,
-                          initialValue: comment,
-                          onTextChanged: (value) {
-                            setState(() {
-                              comment = value;
-                            });
-                          },
-                          label: 'Leave a comment',
-                          boxDecoration: BoxDecoration(
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .secondary,
-                            borderRadius: medBorderRadius,
+                          child: MarkdownTextInput(
+                            maxLines: 99,
+                            initialValue: comment,
+                            onTextChanged: (final value) {
+                              setState(() {
+                                comment = value;
+                              });
+                            },
+                            label: 'Leave a comment',
+                            boxDecoration: BoxDecoration(
+                              color: Provider.of<PaletteSettings>(context)
+                                  .currentSetting
+                                  .secondary,
+                              borderRadius: medBorderRadius,
+                            ),
                           ),
-                        )),
-                      ])
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          controller.text.isNotEmpty
-                              ? controller.text
-                              : 'No title yet.',
-                          style: AppThemeTextStyles.appBarTitle(context),
                         ),
-                      ),
-                      const Divider(),
-                      Expanded(
-                        child: Container(
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            controller.text.isNotEmpty
+                                ? controller.text
+                                : 'No title yet.',
+                            style: AppThemeTextStyles.appBarTitle(context),
+                          ),
+                        ),
+                        const Divider(),
+                        Expanded(
+                          child: DecoratedBox(
                             decoration: BoxDecoration(
                               color: Provider.of<PaletteSettings>(context)
                                   .currentSetting
@@ -240,13 +250,13 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: MarkdownRenderAPI(comment),
-                            )),
-                      ),
-                    ],
-                  ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -11,8 +11,8 @@ class PinnedIssuesProvider extends ProxyProvider<
   );
 
   @override
-  Future<PinnedIssues$Query$Repository$PinnedIssues> setInitData(
-      {bool isInitialisation = false}) async {
-    return _repositoryServices.getPinnedIssues();
-  }
+  Future<PinnedIssues$Query$Repository$PinnedIssues> setInitData({
+    final bool isInitialisation = false,
+  }) async =>
+      _repositoryServices.getPinnedIssues();
 }

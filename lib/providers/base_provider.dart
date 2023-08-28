@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 abstract class BaseDataProvider<T> extends BaseProvider {
-  BaseDataProvider({Status? status, bool loadDataOnInit = true})
+  BaseDataProvider({final Status? status, final bool loadDataOnInit = true})
       : super(status) {
     if (loadDataOnInit) {
       loadData();
@@ -12,11 +12,11 @@ abstract class BaseDataProvider<T> extends BaseProvider {
 
   late T data;
 
-  Future<T> setInitData({bool isInitialisation = false});
+  Future<T> setInitData({final bool isInitialisation = false});
 
-  void onError(Object error) {}
+  void onError(final Object error) {}
 
-  void loadData() async {
+  Future<void> loadData() async {
     loading();
     try {
       data = await setInitData(isInitialisation: true);
@@ -29,9 +29,10 @@ abstract class BaseDataProvider<T> extends BaseProvider {
 }
 
 abstract class BaseProvider extends ChangeNotifier {
-  BaseProvider([Status? status]) : _status = status ?? Status.initialized {
+  BaseProvider([final Status? status])
+      : _status = status ?? Status.initialized {
     // Update provider status based on the data sent to the stream.
-    statusStream.listen((event) {
+    statusStream.listen((final event) {
       _status = event;
       notifyListeners();
     });
@@ -54,7 +55,7 @@ abstract class BaseProvider extends ChangeNotifier {
   }
 
   // Set provider status to [Status.error] with a custom message.
-  void error({Object? error}) {
+  void error({final Object? error}) {
     errorInfo = error;
     _statusController.add(Status.error);
   }

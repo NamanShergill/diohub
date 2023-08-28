@@ -9,17 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
-typedef StarBuilder = Widget Function(BuildContext context,
-    HasStarred$Query$Repository? starrredData, VoidCallback? onPress);
+typedef StarBuilder = Widget Function(
+  BuildContext context,
+  HasStarred$Query$Repository? starrredData,
+  VoidCallback? onPress,
+);
 
 class RepoStar extends StatefulWidget {
-  const RepoStar(this.owner, this.repoName,
-      {Key? key,
-      this.child,
-      this.onStarsChange,
-      this.inkWellRadius,
-      this.fadeIntoView = true})
-      : super(key: key);
+  const RepoStar(
+    this.owner,
+    this.repoName, {
+    super.key,
+    this.child,
+    this.onStarsChange,
+    this.inkWellRadius,
+    this.fadeIntoView = true,
+  });
   final String owner;
   final String repoName;
   final BorderRadius? inkWellRadius;
@@ -37,9 +42,9 @@ class RepoStarState extends State<RepoStar> {
   bool changing = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context).currentSetting;
-    VoidCallback? onPress(HasStarred$Query$Repository? data) =>
+    VoidCallback? onPress(final HasStarred$Query$Repository? data) =>
         data == null || changing
             ? null
             : () async {
@@ -52,20 +57,21 @@ class RepoStarState extends State<RepoStar> {
                 if (!data.viewerHasStarred) {
                   ResponseHandler.setSuccessMessage(
                     AppPopupData(
-                        title: 'Starred ${widget.repoName}',
-                        icon: Octicons.star_fill),
+                      title: 'Starred ${widget.repoName}',
+                      icon: Octicons.star_fill,
+                    ),
                   );
                 }
-                if (widget.onStarsChange != null) {
-                  widget.onStarsChange!(data.stargazerCount);
-                }
+                widget.onStarsChange?.call(data.stargazerCount);
                 final isStarred = data.viewerHasStarred;
                 controller.changeData(
-                    data..viewerHasStarred = !data.viewerHasStarred);
+                  data..viewerHasStarred = !data.viewerHasStarred,
+                );
                 await RepositoryServices.changeStar(
-                        widget.owner, widget.repoName,
-                        isStarred: isStarred)
-                    .then((value) {
+                  widget.owner,
+                  widget.repoName,
+                  isStarred: isStarred,
+                ).then((final value) {
                   controller.changeData(data..viewerHasStarred = value);
                 });
 
@@ -73,8 +79,7 @@ class RepoStarState extends State<RepoStar> {
                   changing = false;
                 });
               };
-    Widget iconButton(HasStarred$Query$Repository? data) {
-      return IconButton(
+    Widget iconButton(final HasStarred$Query$Repository? data) => IconButton(
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
           onPressed: onPress(data),
@@ -84,20 +89,20 @@ class RepoStarState extends State<RepoStar> {
             color: data != null && data.viewerHasStarred
                 ? Colors.amber
                 : theme.faded3,
-          ));
-    }
+          ),
+        );
 
     return APIWrapper<HasStarred$Query$Repository>(
-      apiCall: ({required refresh}) =>
+      apiCall: ({required final refresh}) =>
           RepositoryServices.isStarred(widget.owner, widget.repoName),
       apiWrapperController: controller,
-      loadingBuilder: (context) => widget.child != null
+      loadingBuilder: (final context) => widget.child != null
           ? widget.child!(context, null, null)
           : ShimmerWidget(
               child: iconButton(null),
             ),
       fadeIntoView: widget.fadeIntoView,
-      responseBuilder: (context, data) => widget.child != null
+      responseBuilder: (final context, final data) => widget.child != null
           ? widget.child!(context, data, onPress(data))
           : iconButton(data),
     );

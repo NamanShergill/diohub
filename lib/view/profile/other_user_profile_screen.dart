@@ -11,39 +11,36 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class OtherUserProfileScreen extends StatelessWidget {
-  const OtherUserProfileScreen(this.login, {Key? key}) : super(key: key);
+  const OtherUserProfileScreen(this.login, {super.key});
   final String login;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     if (Provider.of<CurrentUserProvider>(context).data.login == login) {
       return const SafeArea(
-          child: Scaffold(
-        body: CurrentUserProfileScreen(),
-      ));
+        child: Scaffold(
+          body: CurrentUserProfileScreen(),
+        ),
+      );
     }
     return ChangeNotifierProvider(
-      create: (_) => UserProvider(login),
-      builder: (context, child) {
-        return SafeArea(
-          child: Scaffold(
-            appBar: Provider.of<UserProvider>(context).status != Status.loaded
-                ? AppBar(
-                    elevation: 0,
-                  )
-                : null,
-            body: ScaffoldBody(
-              child: ProviderLoadingProgressWrapper<UserProvider>(
-                childBuilder: (context, value) {
-                  return UserProfileScreen(
-                    value.data,
-                    isCurrentUser: false,
-                  );
-                },
+      create: (final _) => UserProvider(login),
+      builder: (final context, final child) => SafeArea(
+        child: Scaffold(
+          appBar: Provider.of<UserProvider>(context).status != Status.loaded
+              ? AppBar(
+                  elevation: 0,
+                )
+              : null,
+          body: ScaffoldBody(
+            child: ProviderLoadingProgressWrapper<UserProvider>(
+              childBuilder: (final context, final value) => UserProfileScreen(
+                value.data,
+                isCurrentUser: false,
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

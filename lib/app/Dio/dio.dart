@@ -28,21 +28,21 @@ class RESTHandler extends BaseAPIHandler {
           baseURL: apiBaseURL,
         );
   RESTHandler.external({
+    required super.baseURL,
     super.apiLogSettings,
     super.cacheOptions,
-    required super.baseURL,
   }) : super(
           addAuthHeader: false,
         );
 
   Future<Response<T>> get<T>(
-    String url, {
-    bool refreshCache = false,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onReceiveProgress,
-    Map<String, dynamic>? requestHeaders,
+    final String url, {
+    final bool refreshCache = false,
+    final Map<String, dynamic>? queryParameters,
+    final Options? options,
+    final CancelToken? cancelToken,
+    final ProgressCallback? onReceiveProgress,
+    final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
       final response = await _request(
@@ -64,14 +64,14 @@ class RESTHandler extends BaseAPIHandler {
   }
 
   Future<Response> post<T>(
-    String url, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-    Map<String, dynamic>? requestHeaders,
+    final String url, {
+    final data,
+    final Map<String, dynamic>? queryParameters,
+    final Options? options,
+    final CancelToken? cancelToken,
+    final ProgressCallback? onSendProgress,
+    final ProgressCallback? onReceiveProgress,
+    final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
       final response = await _request(
@@ -92,14 +92,14 @@ class RESTHandler extends BaseAPIHandler {
   }
 
   Future<Response> put<T>(
-    String url, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-    Map<String, dynamic>? requestHeaders,
+    final String url, {
+    final data,
+    final Map<String, dynamic>? queryParameters,
+    final Options? options,
+    final CancelToken? cancelToken,
+    final ProgressCallback? onSendProgress,
+    final ProgressCallback? onReceiveProgress,
+    final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
       final response = await _request(
@@ -120,12 +120,12 @@ class RESTHandler extends BaseAPIHandler {
   }
 
   Future<Response> delete<T>(
-    String url, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? requestHeaders,
+    final String url, {
+    final data,
+    final Map<String, dynamic>? queryParameters,
+    final Options? options,
+    final CancelToken? cancelToken,
+    final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
       final response = await _request(
@@ -144,14 +144,14 @@ class RESTHandler extends BaseAPIHandler {
   }
 
   Future<Response> patch<T>(
-    String url, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? requestHeaders,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    final String url, {
+    final data,
+    final Map<String, dynamic>? queryParameters,
+    final Options? options,
+    final CancelToken? cancelToken,
+    final Map<String, dynamic>? requestHeaders,
+    final ProgressCallback? onSendProgress,
+    final ProgressCallback? onReceiveProgress,
   }) async {
     try {
       final response = await _request(
@@ -180,77 +180,73 @@ class GraphqlHandler extends BaseAPIHandler {
           baseURL: '$apiBaseURL/graphql',
         );
 
-  Future<GQLResponse> mutation(GraphQLQuery query) {
-    return _query(
-      query,
-      overrideAPICache: APICache.noCache(),
-    );
-  }
+  Future<GQLResponse> mutation(final GraphQLQuery query) => _query(
+        query,
+        overrideAPICache: APICache.noCache(),
+      );
 
   Future<GQLResponse> query(
-    GraphQLQuery query, {
-    bool refreshCache = false,
-    Map<String, dynamic>? requestHeaders,
-  }) async {
-    return _query(
-      query,
-      requestHeaders: requestHeaders,
-      overrideAPICache: activeCacheOptions.copyWith(
-        cachePolicy: refreshCache ? CachePolicy.refresh : null,
-      ),
-    );
-  }
+    final GraphQLQuery query, {
+    final bool refreshCache = false,
+    final Map<String, dynamic>? requestHeaders,
+  }) async =>
+      _query(
+        query,
+        requestHeaders: requestHeaders,
+        overrideAPICache: activeCacheOptions.copyWith(
+          cachePolicy: refreshCache ? CachePolicy.refresh : null,
+        ),
+      );
 
   @override
   APICache get _defaultCacheOptions => CacheManager.defaultGQLCache();
 
   Future<GQLResponse> _query(
-    GraphQLQuery query, {
-    APICache? overrideAPICache,
-    Map<String, dynamic>? requestHeaders,
-  }) async {
-    return DioLink(
-      '$apiBaseURL/graphql',
-      client: _request(
-        overrideAPICache: overrideAPICache,
-        requestHeaders: requestHeaders,
-      ),
-    )
-        .request(
-          GQLRequest(
-            operation: GQLOperation(document: query.document),
-            variables: query.variables!.toJson(),
-          ),
-        )
-        .first
-        .onError(
-      (error, stackTrace) {
-        // If data is from cache the header would be 304, hence the value should
-        // be returned.
-        if (error is DioLinkServerException &&
-            error.response.statusCode == 304) {
-          final gqlResponse =
-              const ResponseParser().parseResponse(error.response.data);
-          return GQLResponse(
-            data: gqlResponse.data,
-            errors: gqlResponse.errors,
-            response: gqlResponse.response,
-          );
-        } else {
-          throw error as DioLinkServerException;
-        }
-      },
-      test: (error) => error is DioLinkServerException,
-    );
-  }
+    final GraphQLQuery query, {
+    final APICache? overrideAPICache,
+    final Map<String, dynamic>? requestHeaders,
+  }) async =>
+      DioLink(
+        '$apiBaseURL/graphql',
+        client: _request(
+          overrideAPICache: overrideAPICache,
+          requestHeaders: requestHeaders,
+        ),
+      )
+          .request(
+            GQLRequest(
+              operation: GQLOperation(document: query.document),
+              variables: query.variables!.toJson(),
+            ),
+          )
+          .first
+          .onError(
+        (final error, final stackTrace) {
+          // If data is from cache the header would be 304, hence the value should
+          // be returned.
+          if (error is DioLinkServerException &&
+              error.response.statusCode == 304) {
+            final gqlResponse =
+                const ResponseParser().parseResponse(error.response.data);
+            return GQLResponse(
+              data: gqlResponse.data,
+              errors: gqlResponse.errors,
+              response: gqlResponse.response,
+            );
+          } else {
+            throw error! as DioLinkServerException;
+          }
+        },
+        test: (final error) => error is DioLinkServerException,
+      );
 }
 
 abstract class BaseAPIHandler {
   BaseAPIHandler({
+    required this.baseURL,
     this.cacheOptions,
     this.apiLogSettings,
     this.addAuthHeader = true,
-    required this.baseURL,
     this.propagateMessagesToUI = true,
   });
 
@@ -259,8 +255,7 @@ abstract class BaseAPIHandler {
   final String baseURL;
   final bool propagateMessagesToUI;
 
-  APICache get _defaultCacheOptions =>
-      APICache(cachePolicy: CachePolicy.request);
+  APICache get _defaultCacheOptions => APICache();
 
   APICache get activeCacheOptions => cacheOptions ?? _defaultCacheOptions;
 
@@ -270,8 +265,8 @@ abstract class BaseAPIHandler {
       APILoggingSettings.comprehensive();
 
   Dio _request({
-    Map<String, dynamic>? requestHeaders,
-    APICache? overrideAPICache,
+    final Map<String, dynamic>? requestHeaders,
+    final APICache? overrideAPICache,
   }) {
     final cache = overrideAPICache ?? cacheOptions ?? _defaultCacheOptions;
 
@@ -280,7 +275,7 @@ abstract class BaseAPIHandler {
     if (addAuthHeader) {
       dio.interceptors.add(
         QueuedInterceptorsWrapper(
-          onRequest: (options, handler) async {
+          onRequest: (final options, final handler) async {
             try {
               final authRepo = AuthRepository();
               final token = await authRepo.getAccessTokenFromDevice();
@@ -301,7 +296,7 @@ abstract class BaseAPIHandler {
     }
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) async {
+        onRequest: (final options, final handler) async {
           options.baseUrl = baseURL;
           options.headers['Accept'] = 'application/json';
           options.headers['setContentType'] = 'application/json';
@@ -312,18 +307,19 @@ abstract class BaseAPIHandler {
           // Proceed with the request.
           handler.next(options);
         },
-        onResponse: (response, handler) async {
+        onResponse: (final response, final handler) async {
           // If response contains a ['message'] key, show success popup to the
           // user with the message.
           if (response.data.runtimeType is Map &&
               response.data.containsKey('message') &&
               propagateMessagesToUI) {
             ResponseHandler.setSuccessMessage(
-                AppPopupData(title: response.data['message']));
+              AppPopupData(title: response.data['message']),
+            );
           }
           handler.next(response);
         },
-        onError: (error, handler) async {
+        onError: (final error, final handler) async {
           // TODO(namanshergill): Add better exception handling based on response codes.
           if (error.response == null) {
             handler.next(error);
@@ -331,7 +327,8 @@ abstract class BaseAPIHandler {
               error.response?.data.containsKey('message') &&
               propagateMessagesToUI) {
             ResponseHandler.setErrorMessage(
-                AppPopupData(title: error.response!.data['message']));
+              AppPopupData(title: error.response!.data['message']),
+            );
           }
           handler.next(error);
         },
@@ -342,7 +339,7 @@ abstract class BaseAPIHandler {
     // behaviour in that case is to refresh the data.
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) async {
+        onRequest: (final options, final handler) async {
           if (requestHeaders != null) {
             options.headers.addAll(requestHeaders);
           }
@@ -356,8 +353,7 @@ abstract class BaseAPIHandler {
                 DateTime.now()
                     .isBefore(cacheData.responseDate.add(cache.maxAge!))) {
               // Resolve the request and pass cached data as response.
-              return handler
-                  .resolve(cacheData.toResponse(options, fromNetwork: false));
+              return handler.resolve(cacheData.toResponse(options));
             }
           }
           handler.next(options);
@@ -399,30 +395,33 @@ abstract class BaseAPIHandler {
     _cacheStore = DbCacheStore(databasePath: directoryPath);
   }
 
-  static void clearCache() async {
+  static Future<void> clearCache() async {
     await _cacheStore.clean();
   }
 
-  Map<String, dynamic> acceptHeader(String header) => {
+  Map<String, dynamic> acceptHeader(final String header) => {
         'Accept': header,
       };
 }
 
 class APILoggingSettings {
-  APILoggingSettings(
-      {this.request = true,
-      this.requestHeader = false,
-      this.requestBody = false,
-      this.responseHeader = false,
-      this.responseBody = true,
-      this.error = true,
-      this.maxWidth = 90,
-      this.compact = true,
-      this.logPrint = print});
+  APILoggingSettings({
+    this.request = true,
+    this.requestHeader = false,
+    this.requestBody = false,
+    this.responseHeader = false,
+    this.responseBody = true,
+    this.error = true,
+    this.maxWidth = 90,
+    this.compact = true,
+    this.logPrint = print,
+  });
 
-  APILoggingSettings.comprehensive(
-      {this.maxWidth = 90, this.compact = true, this.logPrint = print})
-      : request = true,
+  APILoggingSettings.comprehensive({
+    this.maxWidth = 90,
+    this.compact = true,
+    this.logPrint = print,
+  })  : request = true,
         requestHeader = true,
         requestBody = true,
         responseHeader = true,

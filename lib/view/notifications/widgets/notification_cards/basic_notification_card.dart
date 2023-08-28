@@ -12,14 +12,14 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class BasicNotificationCard extends StatefulWidget {
-  const BasicNotificationCard(
-      {this.footerBuilder,
-      this.loading = false,
-      this.onTap,
-      this.iconBuilder,
-      required this.notification,
-      Key? key})
-      : super(key: key);
+  const BasicNotificationCard({
+    required this.notification,
+    this.footerBuilder,
+    this.loading = false,
+    this.onTap,
+    this.iconBuilder,
+    super.key,
+  });
   final WidgetBuilder? iconBuilder;
   final WidgetBuilder? footerBuilder;
   final bool loading;
@@ -44,68 +44,70 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Slidable(
-      enabled: widget.notification.unread!,
-      startActionPane: ActionPane(
-        motion: const DrawerMotion(),
-        extentRatio: 0.4,
-        dismissible: DismissiblePane(
-          dismissThreshold: 0.4,
-          closeOnCancel: true,
-          confirmDismiss: () async {
-            markAsRead();
-            return false;
-          },
-          onDismissed: () {},
-        ),
-        children: [
-          SlidableAction(
-            icon: LineIcons.check,
-            backgroundColor:
-                Provider.of<PaletteSettings>(context).currentSetting.green,
-            label: 'Mark as read',
-            onPressed: (_) => markAsRead,
-          )
-        ],
-      ),
-      endActionPane:
-          ActionPane(motion: const DrawerMotion(), extentRatio: 0.4, children: [
-        SlidableAction(
-          icon: LineIcons.check,
-          backgroundColor:
-              Provider.of<PaletteSettings>(context).currentSetting.green,
-          label: 'Mark as read',
-          onPressed: (_) => markAsRead,
-        ),
-      ]),
-      key: UniqueKey(),
-      child: Material(
-        key: key,
-        color: widget.notification.unread!
-            ? Provider.of<PaletteSettings>(context).currentSetting.secondary
-            : Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            if (widget.notification.unread == true) {
+  Widget build(final BuildContext context) => Slidable(
+        enabled: widget.notification.unread!,
+        startActionPane: ActionPane(
+          motion: const DrawerMotion(),
+          extentRatio: 0.4,
+          dismissible: DismissiblePane(
+            dismissThreshold: 0.4,
+            closeOnCancel: true,
+            confirmDismiss: () async {
               markAsRead();
-            }
-            widget.onTap!();
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: widget.iconBuilder!(context),
-                    ),
-                    Visibility(
+              return false;
+            },
+            onDismissed: () {},
+          ),
+          children: [
+            SlidableAction(
+              icon: LineIcons.check,
+              backgroundColor:
+                  Provider.of<PaletteSettings>(context).currentSetting.green,
+              label: 'Mark as read',
+              onPressed: (final _) => markAsRead,
+            ),
+          ],
+        ),
+        endActionPane: ActionPane(
+          motion: const DrawerMotion(),
+          extentRatio: 0.4,
+          children: [
+            SlidableAction(
+              icon: LineIcons.check,
+              backgroundColor:
+                  Provider.of<PaletteSettings>(context).currentSetting.green,
+              label: 'Mark as read',
+              onPressed: (final _) => markAsRead,
+            ),
+          ],
+        ),
+        key: UniqueKey(),
+        child: Material(
+          key: key,
+          color: widget.notification.unread!
+              ? Provider.of<PaletteSettings>(context).currentSetting.secondary
+              : Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              if (widget.notification.unread == true) {
+                markAsRead();
+              }
+              widget.onTap!();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: widget.iconBuilder!(context),
+                      ),
+                      Visibility(
                         visible: widget.notification.unread!,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: ClipOval(
                             child: Container(
                               height: 10,
@@ -115,46 +117,49 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
                                   .accent,
                             ),
                           ),
-                        )),
-                  ],
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text(
-                                widget.notification.repository!.fullName!,
-                                style: TextStyle(
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Flexible(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Text(
+                                  widget.notification.repository!.fullName!,
+                                  style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
-                                        .faded3),
+                                        .faded3,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            getDate(widget.notification.updatedAt.toString()),
-                            style: TextStyle(
+                            Text(
+                              getDate(widget.notification.updatedAt.toString()),
+                              style: TextStyle(
                                 color: Provider.of<PaletteSettings>(context)
                                     .currentSetting
-                                    .faded3),
-                          ),
-                        ],
-                      ),
-                      Flexible(
-                        child: Text(
-                          widget.notification.subject!.title!,
-                          style: TextStyle(
+                                    .faded3,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Flexible(
+                          child: Text(
+                            widget.notification.subject!.title!,
+                            style: TextStyle(
                               color: widget.notification.unread!
                                   ? Provider.of<PaletteSettings>(context)
                                       .currentSetting
@@ -163,59 +168,58 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
                                       .currentSetting
                                       .faded3,
                               fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      FadeAnimationSection(
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        FadeAnimationSection(
                           expand: !widget.loading,
-                          child: widget.footerBuilder!(context)),
-                      if (widget.loading) footerLoading(),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
+                          child: widget.footerBuilder!(context),
+                        ),
+                        if (widget.loading) footerLoading(),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget footerLoading() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ShimmerWidget(
-          child: ClipOval(
-            child: Container(
-              height: 20,
-              width: 20,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Expanded(
-          child: ShimmerWidget(
-            borderRadius: medBorderRadius,
-            child: Container(
-              decoration: BoxDecoration(
-                color:
-                    Provider.of<PaletteSettings>(context).currentSetting.faded1,
+                ],
               ),
-              height: 20,
             ),
           ),
         ),
-      ],
-    );
-  }
+      );
+
+  Widget footerLoading() => Row(
+        children: [
+          ShimmerWidget(
+            child: ClipOval(
+              child: Container(
+                height: 20,
+                width: 20,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: ShimmerWidget(
+              borderRadius: medBorderRadius,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .faded1,
+                ),
+                height: 20,
+              ),
+            ),
+          ),
+        ],
+      );
 }

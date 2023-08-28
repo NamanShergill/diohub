@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WatchingButton extends StatefulWidget {
-  const WatchingButton({Key? key}) : super(key: key);
+  const WatchingButton({super.key});
 
   @override
   WatchingButtonState createState() => WatchingButtonState();
@@ -9,7 +9,5 @@ class WatchingButton extends StatefulWidget {
 
 class WatchingButtonState extends State<WatchingButton> {
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(final BuildContext context) => Container();
 }

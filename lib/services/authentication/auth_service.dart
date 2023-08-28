@@ -28,9 +28,11 @@ class AuthRepository {
     return false;
   }
 
-  void storeAccessToken(AccessTokenModel accessTokenModel) async {
+  Future<void> storeAccessToken(final AccessTokenModel accessTokenModel) async {
     await _storage.write(
-        key: 'accessToken', value: accessTokenModel.accessToken);
+      key: 'accessToken',
+      value: accessTokenModel.accessToken,
+    );
     await _storage.write(key: 'scope', value: accessTokenModel.scope);
   }
 
@@ -40,7 +42,7 @@ class AuthRepository {
       return accessToken;
     } on PlatformException {
       // Workaround for https://github.com/mogol/flutter_secure_storage/issues/43
-      logOut(sendToAuthScreen: false);
+      await logOut(sendToAuthScreen: false);
     }
     return null;
   }
@@ -69,7 +71,7 @@ class AuthRepository {
         'delete:packages',
       ];
 
-  Future<Response> getAccessToken({String? deviceCode}) async {
+  Future<Response> getAccessToken({final String? deviceCode}) async {
     final formData = FormData.fromMap({
       'client_id': PrivateKeys.clientID,
       'device_code': deviceCode,
@@ -100,12 +102,12 @@ class AuthRepository {
     throw Exception('Some error occurred.');
   }
 
-  void logOut({bool sendToAuthScreen = true}) async {
-    BaseAPIHandler.clearCache();
+  Future<void> logOut({final bool sendToAuthScreen = true}) async {
+    await BaseAPIHandler.clearCache();
     await _storage.deleteAll();
     if (sendToAuthScreen) {
       if (currentContext.mounted) {
-        AutoRouter.of(currentContext).replaceAll(
+        await AutoRouter.of(currentContext).replaceAll(
           [
             AuthRoute(),
           ],
@@ -122,8 +124,9 @@ class AuthRepository {
         'auth.felix.diohub://login-callback',
         clientSecret: PrivateKeys.clientSecret,
         serviceConfiguration: const AuthorizationServiceConfiguration(
-            tokenEndpoint: 'https://github.com/login/oauth/access_token',
-            authorizationEndpoint: 'https://github.com/login/oauth/authorize'),
+          tokenEndpoint: 'https://github.com/login/oauth/access_token',
+          authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+        ),
         scopes: scopes,
       ),
     );

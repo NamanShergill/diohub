@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
   @override
   SearchScreenState createState() => SearchScreenState();
 }
@@ -26,7 +26,7 @@ class SearchScreenState extends State<SearchScreen>
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     final search = Provider.of<SearchDataProvider>(context);
     return Container(
@@ -45,7 +45,7 @@ class SearchScreenState extends State<SearchScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.all(24),
                     child: Text(
                       'Search GitHub',
                       style: Theme.of(context)
@@ -55,7 +55,7 @@ class SearchScreenState extends State<SearchScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     child: AppSearchBar(
                       backgroundColor: Provider.of<PaletteSettings>(context)
                           .currentSetting
@@ -69,77 +69,79 @@ class SearchScreenState extends State<SearchScreen>
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Material(
                         borderRadius: BorderRadius.vertical(
-                            top: medBorderRadius.topRight),
+                          top: medBorderRadius.topRight,
+                        ),
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary,
                         child: APIWrapper<List<RepositoryModel>>(
-                          apiCall: ({required refresh}) =>
+                          apiCall: ({required final refresh}) =>
                               SearchService.searchRepos(
-                                  SearchQueries().pushed.toQueryString(
-                                      '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}'),
-                                  page: 1,
-                                  perPage: 25),
-                          loadingBuilder: (context) {
-                            return const Padding(
-                              padding: EdgeInsets.all(48.0),
-                              child: LoadingIndicator(),
-                            );
-                          },
-                          responseBuilder: (context, data) {
-                            return SizeExpandedSection(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: ListView.separated(
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return Column(
+                            SearchQueries().pushed.toQueryString(
+                                  '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}',
+                                ),
+                            page: 1,
+                            perPage: 25,
+                          ),
+                          loadingBuilder: (final context) => const Padding(
+                            padding: EdgeInsets.all(48),
+                            child: LoadingIndicator(),
+                          ),
+                          responseBuilder: (final context, final data) =>
+                              SizeExpandedSection(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                itemBuilder: (final context, final index) =>
+                                    Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (index == 0)
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          if (index == 0)
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 16,
-                                                          left: 24,
-                                                          right: 16,
-                                                          bottom: 8),
-                                                  child: Text(
-                                                      'Trending Repositories',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleLarge!),
-                                                ),
-                                                // Divider(
-                                                //   height: 0,
-                                                // ),
-                                              ],
-                                            ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: RepositoryCard(
-                                              data[index],
-                                              isThemed: false,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
+                                            padding: const EdgeInsets.only(
+                                              top: 16,
+                                              left: 24,
+                                              right: 16,
+                                              bottom: 8,
+                                            ),
+                                            child: Text(
+                                              'Trending Repositories',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge,
                                             ),
                                           ),
+                                          // Divider(
+                                          //   height: 0,
+                                          // ),
                                         ],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                      ),
+                                      child: RepositoryCard(
+                                        data[index],
+                                        isThemed: false,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                separatorBuilder:
+                                    (final context, final index) =>
                                         const Divider(),
-                                    itemCount: data.length),
+                                itemCount: data.length,
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
                       ),
                     ),

@@ -5,19 +5,19 @@ enum PageStatus { loading, loaded, error }
 
 class LoadingWrapper extends StatelessWidget {
   const LoadingWrapper({
-    Key? key,
     required this.builder,
+    required this.status,
+    super.key,
     this.loadingBuilder,
     this.errorBuilder,
-    required this.status,
-  }) : super(key: key);
+  });
   final WidgetBuilder builder;
   final WidgetBuilder? loadingBuilder;
   final WidgetBuilder? errorBuilder;
   final PageStatus status;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     switch (status) {
       case PageStatus.loaded:
         return builder(context);

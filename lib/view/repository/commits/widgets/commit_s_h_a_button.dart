@@ -7,36 +7,34 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CommitSHAButton extends StatelessWidget {
-  const CommitSHAButton(this.sha, this.commitURL, {Key? key}) : super(key: key);
+  const CommitSHAButton(this.sha, this.commitURL, {super.key});
   final String? sha;
   final String? commitURL;
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      borderRadius: medBorderRadius,
-      color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-      child: InkWell(
+  Widget build(final BuildContext context) => Material(
+        elevation: 2,
         borderRadius: medBorderRadius,
-        onTap: () {
-          AutoRouter.of(context).push(CommitInfoRoute(commitURL: commitURL!));
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              const Icon(
-                Octicons.git_commit,
-                size: 16,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(sha!.substring(0, 6))
-            ],
+        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+        child: InkWell(
+          borderRadius: medBorderRadius,
+          onTap: () {
+            AutoRouter.of(context).push(CommitInfoRoute(commitURL: commitURL!));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                const Icon(
+                  Octicons.git_commit,
+                  size: 16,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(sha!.substring(0, 6)),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

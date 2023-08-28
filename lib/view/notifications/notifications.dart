@@ -15,7 +15,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({Key? key}) : super(key: key);
+  const NotificationsScreen({super.key});
   @override
   NotificationsScreenState createState() => NotificationsScreenState();
 }
@@ -39,7 +39,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
   bool loadingButton = false;
 
   /// Function to check if a specific notification fits the user filter or not.
-  bool? checkFilter(NotificationModel notification) {
+  bool? checkFilter(final NotificationModel notification) {
     bool? allowed = true;
     if (clientFilters['show_only'].isNotEmpty) {
       allowed = clientFilters['show_only'].contains(notification.reason);
@@ -51,18 +51,21 @@ class NotificationsScreenState extends State<NotificationsScreen>
   void showFilterSheet() {
     showScrollableBottomSheet(
       context,
-      scrollableBodyBuilder: (context, setState, scrollController) =>
-          FilterSheet(
+      scrollableBodyBuilder:
+          (final context, final setState, final scrollController) =>
+              FilterSheet(
         apiFilters: apiFilters,
         controller: scrollController,
         clientFilters: clientFilters,
-        onFiltersChanged: (updatedAPIFilters, updatedClientFilters) {
+        onFiltersChanged:
+            (final updatedAPIFilters, final updatedClientFilters) {
           apiFilters = updatedAPIFilters as Map<String, dynamic>;
           clientFilters = updatedClientFilters as Map<String, dynamic>;
           _controller.refresh();
         },
       ),
-      headerBuilder: (context, setState) => const BottomSheetHeaderText(
+      headerBuilder: (final context, final setState) =>
+          const BottomSheetHeaderText(
         headerText: 'Filter Notifications',
       ),
     );
@@ -72,10 +75,10 @@ class NotificationsScreenState extends State<NotificationsScreen>
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     return NestedScroll(
-      header: (context, {required isInnerBoxScrolled}) => [
+      header: (final context, {required final isInnerBoxScrolled}) => [
         SliverAppBar(
           expandedHeight: 150,
           collapsedHeight: 100,
@@ -107,7 +110,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
         ),
       ],
       body: Builder(
-        builder: (context) {
+        builder: (final context) {
           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
           return Column(
             children: [
@@ -118,10 +121,14 @@ class NotificationsScreenState extends State<NotificationsScreen>
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8),
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       child: Button(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 24),
+                          vertical: 16,
+                          horizontal: 24,
+                        ),
                         onTap: () async {
                           setState(() {
                             loadingButton = true;
@@ -136,7 +143,6 @@ class NotificationsScreenState extends State<NotificationsScreen>
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .secondary,
-                        elevation: 2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -153,15 +159,18 @@ class NotificationsScreenState extends State<NotificationsScreen>
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8),
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       child: Button(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 24),
+                          vertical: 16,
+                          horizontal: 24,
+                        ),
                         onTap: showFilterSheet,
                         color: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .secondary,
-                        elevation: 2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -183,18 +192,17 @@ class NotificationsScreenState extends State<NotificationsScreen>
               Expanded(
                 child: InfiniteScrollWrapper<NotificationModel>(
                   controller: _controller,
-                  separatorBuilder: (context, index) => const Divider(
+                  separatorBuilder: (final context, final index) =>
+                      const Divider(
                     height: 0,
                   ),
                   topSpacing: 16,
-                  future: (data) {
-                    return NotificationsService.getNotifications(
-                      page: data.pageNumber,
-                      perPage: data.pageSize,
-                      filters: apiFilters,
-                    );
-                  },
-                  filterFn: (list) {
+                  future: (final data) => NotificationsService.getNotifications(
+                    page: data.pageNumber,
+                    perPage: data.pageSize,
+                    filters: apiFilters,
+                  ),
+                  filterFn: (final list) {
                     final filtered = <NotificationModel>[];
                     for (final element in list) {
                       if (checkFilter(element)!) {
@@ -203,7 +211,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                     }
                     return filtered;
                   },
-                  builder: (data) {
+                  builder: (final data) {
                     if (data.item.subject!.type == SubjectType.ISSUE) {
                       return IssueNotificationCard(
                         data.item,

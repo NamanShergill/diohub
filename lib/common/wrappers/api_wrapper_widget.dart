@@ -15,15 +15,15 @@ typedef APICall<T> = Future<T> Function({required bool refresh});
 
 class APIWrapper<T> extends StatefulWidget {
   const APIWrapper({
-    Key? key,
     required this.apiCall,
+    required this.responseBuilder,
+    super.key,
     this.fadeIntoView = true,
     this.apiWrapperController,
     this.initialData,
-    required this.responseBuilder,
     this.errorBuilder,
     this.loadingBuilder,
-  }) : super(key: key);
+  });
   final APICall<T> apiCall;
   final ResponseBuilder<T> responseBuilder;
   final WidgetBuilder? loadingBuilder;
@@ -41,7 +41,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
   bool loading = true;
   Object? error;
 
-  void setupWidget() async {
+  Future<void> setupWidget() async {
     if (widget.initialData == null) {
       await fetchData(refresh: false);
     } else {
@@ -54,7 +54,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
     }
   }
 
-  Future fetchData({bool refresh = true}) async {
+  Future fetchData({final bool refresh = true}) async {
     if (mounted) {
       setState(() {
         loading = true;
@@ -77,7 +77,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
     }
   }
 
-  void changeData(T data) {
+  void changeData(final T data) {
     setState(() {
       this.data = data;
     });
@@ -92,7 +92,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     if (loading) {
       return widget.loadingBuilder != null
           ? widget.loadingBuilder!(context)
@@ -101,33 +101,36 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
       return widget.errorBuilder != null
           ? widget.errorBuilder!(context, error)
           // : Text(error!);
-          : Builder(builder: (context) {
-              if (error is DioException) {
-                final err = error as DioException;
-                if (err.type == DioExceptionType.badResponse) {
-                  return Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Text(
-                      '${err.response!.statusCode}. ${err.response!.statusMessage}.',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  );
-                } else if (err.type == DioExceptionType.unknown) {
-                  return Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Text(
-                      err.message ?? 'Something went wrong.',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  );
+          : Builder(
+              builder: (final context) {
+                if (error is DioException) {
+                  final err = error! as DioException;
+                  if (err.type == DioExceptionType.badResponse) {
+                    return Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(
+                        '${err.response!.statusCode}. ${err.response!.statusMessage}.',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  } else if (err.type == DioExceptionType.unknown) {
+                    return Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(
+                        err.message ?? 'Something went wrong.',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }
                 }
-              }
-              return Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Text(
-                    kReleaseMode ? 'Something went wrong.' : error.toString()),
-              );
-            });
+                return Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Text(
+                    kReleaseMode ? 'Something went wrong.' : error.toString(),
+                  ),
+                );
+              },
+            );
     }
 
     if (widget.fadeIntoView) {
@@ -141,20 +144,19 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
 
 class PullToRefreshWrapper<T> extends StatelessWidget {
   const PullToRefreshWrapper({
-    Key? key,
     required this.apiWrapperController,
     required this.child,
-  }) : super(key: key);
+    super.key,
+  });
   final APIWrapperController<T> apiWrapperController;
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    return RefreshIndicator(
+  Widget build(final BuildContext context) => RefreshIndicator(
         onRefresh: () => Future.sync(() async {
-              apiWrapperController.refresh();
-            }),
+          apiWrapperController.refresh();
+        }),
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        child: child);
-  }
+        child: child,
+      );
 }

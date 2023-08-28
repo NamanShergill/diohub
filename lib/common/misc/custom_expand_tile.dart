@@ -4,38 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomExpandTile extends StatelessWidget {
-  const CustomExpandTile(
-      {this.expanded = false,
-      required this.child,
-      required this.onTap,
-      required this.title,
-      Key? key})
-      : super(key: key);
+  const CustomExpandTile({
+    required this.child,
+    required this.onTap,
+    required this.title,
+    this.expanded = false,
+    super.key,
+  });
   final Widget title;
   final bool expanded;
   final Widget child;
   final Function() onTap;
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: title,
-          onTap: onTap,
-          trailing: Icon(
-            expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-            color: expanded
-                ? Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .baseElements
-                : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+  Widget build(final BuildContext context) => Column(
+        children: [
+          ListTile(
+            title: title,
+            onTap: onTap,
+            trailing: Icon(
+              expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              color: expanded
+                  ? Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements
+                  : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            ),
           ),
-        ),
-        SizeExpandedSection(
-          expand: expanded,
-          child: child,
-        ),
-      ],
-    );
-  }
+          SizeExpandedSection(
+            expand: expanded,
+            child: child,
+          ),
+        ],
+      );
 }

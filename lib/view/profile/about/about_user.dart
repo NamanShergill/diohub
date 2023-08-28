@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class AboutUser extends StatelessWidget {
-  const AboutUser(this.userInfoModel, {Key? key}) : super(key: key);
+  const AboutUser(this.userInfoModel, {super.key});
   final UserInfoModel? userInfoModel;
 
-  List<InfoCard> items(BuildContext context) => [
+  List<InfoCard> items(final BuildContext context) => [
         if (userInfoModel!.bio != null)
           InfoCard(
             title: 'Bio',
@@ -20,8 +20,10 @@ class AboutUser extends StatelessWidget {
             // title: 'Twitter',
             icon: LineIcons.twitter,
             onTap: () {
-              linkHandler(context,
-                  'https://twitter.com/${userInfoModel!.twitterUsername}');
+              linkHandler(
+                context,
+                'https://twitter.com/${userInfoModel!.twitterUsername}',
+              );
             },
             child: Text('@${userInfoModel!.twitterUsername}'),
           ),
@@ -67,20 +69,18 @@ class AboutUser extends StatelessWidget {
       ];
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: WrappedCollection(
-            children: items(context),
+  Widget build(final BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 16,
           ),
-        ),
-      ],
-    );
-  }
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: WrappedCollection(
+              children: items(context),
+            ),
+          ),
+        ],
+      );
 }

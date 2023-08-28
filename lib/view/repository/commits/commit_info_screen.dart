@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class CommitInfoScreen extends StatefulWidget {
-  const CommitInfoScreen({Key? key, required this.commitURL}) : super(key: key);
+  const CommitInfoScreen({required this.commitURL, super.key});
   final String commitURL;
 
   @override
@@ -22,75 +22,71 @@ class CommitInfoScreen extends StatefulWidget {
 
 class CommitInfoScreenState extends State<CommitInfoScreen> {
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => CommitProvider(widget.commitURL),
-      builder: (context, value) {
-        return SafeArea(
+  Widget build(final BuildContext context) => ChangeNotifierProvider(
+        create: (final _) => CommitProvider(widget.commitURL),
+        builder: (final context, final value) => SafeArea(
           child: Scaffold(
-              appBar: Provider.of<CommitProvider>(context).status !=
-                      Status.loaded
-                  ? AppBar(
-                      elevation: 0,
-                    )
-                  : DHAppBar(
-                      url: Provider.of<CommitProvider>(context).data.htmlUrl,
-                      title: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Octicons.git_commit,
-                            size: 15,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            Provider.of<CommitProvider>(context)
-                                .data
-                                .sha!
-                                .substring(0, 6),
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
+            appBar: Provider.of<CommitProvider>(context).status != Status.loaded
+                ? AppBar(
+                    elevation: 0,
+                  )
+                : DHAppBar(
+                    url: Provider.of<CommitProvider>(context).data.htmlUrl,
+                    title: Row(
+                      children: [
+                        const Icon(
+                          Octicons.git_commit,
+                          size: 15,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          Provider.of<CommitProvider>(context)
+                              .data
+                              .sha!
+                              .substring(0, 6),
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
                     ),
-              body: Builder(
-                builder: (context) {
-                  return ProviderLoadingProgressWrapper<CommitProvider>(
-                    childBuilder: (context, value) {
-                      return const ScaffoldBody(
-                        child: DefaultTabController(
-                          length: 2,
-                          initialIndex: 0,
-                          child: Column(
+                  ),
+            body: Builder(
+              builder: (final context) =>
+                  ProviderLoadingProgressWrapper<CommitProvider>(
+                childBuilder: (final context, final value) =>
+                    const ScaffoldBody(
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      children: [
+                        AppTabBar(
+                          tabs: [
+                            'Commit Information',
+
+                            'Changed Files',
+
+                            // AppTab(
+                            //   title: 'Comments',
+                            // ),
+                          ],
+                        ),
+                        Expanded(
+                          child: TabBarView(
                             children: [
-                              AppTabBar(tabs: [
-                                'Commit Information',
-
-                                'Changed Files',
-
-                                // AppTab(
-                                //   title: 'Comments',
-                                // ),
-                              ]),
-                              Expanded(
-                                child: TabBarView(children: [
-                                  CommitDetails(),
-                                  ChangedFiles(),
-                                  // Container(),
-                                ]),
-                              ),
+                              CommitDetails(),
+                              ChangedFiles(),
+                              // Container(),
                             ],
                           ),
                         ),
-                      );
-                    },
-                  );
-                },
-              )),
-        );
-      },
-    );
-  }
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
 }

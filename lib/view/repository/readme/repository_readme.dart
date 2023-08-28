@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {
-  const RepositoryReadme(this.repoURL, {Key? key}) : super(key: key);
+  const RepositoryReadme(this.repoURL, {super.key});
   final String? repoURL;
 
   @override
@@ -22,29 +22,24 @@ class RepositoryReadmeState extends State<RepositoryReadme>
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
-        loadingBuilder: (context) {
-          return const Padding(
-            padding: EdgeInsets.only(top: 48.0),
-            child: LoadingIndicator(),
-          );
-        },
-        childBuilder: (context, value) {
-          return ScrollToTopWrapper(
-            builder: (context, properties) => SingleChildScrollView(
-              child: MarkdownRenderAPI(
-                value.data!.content!,
-                repoName:
-                    Provider.of<RepositoryProvider>(context).data.fullName,
-                branch: Provider.of<RepoBranchProvider>(context).currentSHA,
-              ),
+        loadingBuilder: (final context) => const Padding(
+          padding: EdgeInsets.only(top: 48),
+          child: LoadingIndicator(),
+        ),
+        childBuilder: (final context, final value) => ScrollToTopWrapper(
+          builder: (final context, final properties) => SingleChildScrollView(
+            child: MarkdownRenderAPI(
+              value.data!.content!,
+              repoName: Provider.of<RepositoryProvider>(context).data.fullName,
+              branch: Provider.of<RepoBranchProvider>(context).currentSHA,
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

@@ -7,11 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
-StackRouter autoRoute(BuildContext context) => AutoRouter.of(context);
+StackRouter autoRoute(final BuildContext context) => AutoRouter.of(context);
 
 @AutoRouterConfig()
 class AppRouter extends $AppRouter {
-  AppRouter(BuildContext context) : authGuard = AuthGuard(context);
+  AppRouter(final BuildContext context) : authGuard = AuthGuard(context);
   final AuthGuard authGuard;
   @override
   RouteType get defaultRouteType => const RouteType.adaptive();
@@ -20,11 +20,12 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: AuthRoute.page),
         AutoRoute(
-            page: LandingLoadingRoute.page,
-            guards: [
-              authGuard,
-            ],
-            initial: true),
+          page: LandingLoadingRoute.page,
+          guards: [
+            authGuard,
+          ],
+          initial: true,
+        ),
         AutoRoute(
           page: LandingRoute.page,
           guards: [
@@ -38,9 +39,10 @@ class AppRouter extends $AppRouter {
           ],
         ),
         CustomRoute(
-            page: SearchOverlayRoute.page,
-            transitionsBuilder: TransitionsBuilders.fadeIn,
-            guards: [authGuard]),
+          page: SearchOverlayRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          guards: [authGuard],
+        ),
         AutoRoute(
           page: IssuePullRoute.page,
           guards: [
@@ -104,20 +106,21 @@ class AuthGuard extends AutoRouteGuard {
   AuthGuard(this.context);
   final BuildContext context;
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
+  void onNavigation(
+      final NavigationResolver resolver, final StackRouter router,) {
     if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
       router.replaceAll(
         [
           AuthRoute(
             onAuthenticated: () {
               router.removeLast();
-              resolver.next(true);
+              resolver.next();
             },
           ),
         ],
       );
     } else {
-      resolver.next(true);
+      resolver.next();
     }
   }
 }
@@ -132,9 +135,11 @@ class AuthGuard extends AutoRouteGuard {
 //   );
 // }
 
-T getRoute<T extends PageRouteInfo>(PathData path,
-    {required T Function(PathData path) onDeepLink,
-    T Function(PathData path)? onAPILink}) {
+T getRoute<T extends PageRouteInfo>(
+  final PathData path, {
+  required final T Function(PathData path) onDeepLink,
+  final T Function(PathData path)? onAPILink,
+}) {
   if (path.isAPIPath && onAPILink != null) {
     return onAPILink(path);
   }

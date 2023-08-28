@@ -7,7 +7,9 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class UserInfoService {
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
 
-  static final RESTHandler _restHandler = RESTHandler(apiLogSettings: APILoggingSettings.comprehensive(),);
+  static final RESTHandler _restHandler = RESTHandler(
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
 
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
@@ -19,11 +21,11 @@ class UserInfoService {
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
-    int perPage,
-    int pageNumber, {
-    required bool refresh,
-    String? sort,
-    bool? ascending = false,
+    final int perPage,
+    final int pageNumber, {
+    required final bool refresh,
+    final String? sort,
+    final bool? ascending = false,
   }) async {
     final response = await _restHandler.get(
       '/user/repos',
@@ -32,7 +34,7 @@ class UserInfoService {
         if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
         'per_page': perPage,
         'type': 'owner',
-        'page': pageNumber
+        'page': pageNumber,
       },
       refreshCache: refresh,
     );
@@ -41,11 +43,11 @@ class UserInfoService {
   }
 
   static Future<List<RepositoryModel>> getUserRepos(
-    String? username,
-    int perPage,
-    int pageNumber,
-    String? sort, {
-    required bool refresh,
+    final String? username,
+    final int perPage,
+    final int pageNumber,
+    final String? sort, {
+    required final bool refresh,
   }) async {
     final response = await _restHandler.get(
       '/users/$username/repos',
@@ -62,7 +64,7 @@ class UserInfoService {
     return data;
   }
 
-  static Future<UserInfoModel> getUserInfo(String? login) async {
+  static Future<UserInfoModel> getUserInfo(final String? login) async {
     final response = await _restHandler.get(
       '/users/$login',
     );
@@ -70,10 +72,11 @@ class UserInfoService {
   }
 
   static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
-      getUserPinnedRepos(String user) async {
+      getUserPinnedRepos(final String user) async {
     final res = await _gqlHandler.query(
       GetUserPinnedReposQuery(
-          variables: GetUserPinnedReposArguments(user: user)),
+        variables: GetUserPinnedReposArguments(user: user),
+      ),
     );
     return GetUserPinnedRepos$Query.fromJson(res.data!)
         .user!
@@ -82,7 +85,7 @@ class UserInfoService {
   }
 
   static Future<List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>>
-      getViewerOrgs({String? after, required bool refresh}) async {
+      getViewerOrgs({required final bool refresh, final String? after}) async {
     final res = await _gqlHandler.query(
       GetViewerOrgsQuery(variables: GetViewerOrgsArguments(cursor: after)),
       refreshCache: refresh,
@@ -90,15 +93,19 @@ class UserInfoService {
     return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;
   }
 
-  static Future<FollowStatusInfo$Query$User> getFollowInfo(String login) async {
-    return FollowStatusInfo$Query.fromJson((await _gqlHandler.query(
-                FollowStatusInfoQuery(
-                    variables: FollowStatusInfoArguments(user: login))))
-            .data!)
-        .user!;
-  }
+  static Future<FollowStatusInfo$Query$User> getFollowInfo(
+          final String login,) async =>
+      FollowStatusInfo$Query.fromJson(
+        (await _gqlHandler.query(
+          FollowStatusInfoQuery(
+            variables: FollowStatusInfoArguments(user: login),
+          ),
+        ))
+            .data!,
+      ).user!;
 
-  static Future changeFollowStatus(String id, {required bool follow}) async {
+  static Future changeFollowStatus(final String id,
+      {required final bool follow,}) async {
     if (follow) {
       return _gqlHandler.mutation(
         FollowUserMutation(

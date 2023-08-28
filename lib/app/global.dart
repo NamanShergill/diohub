@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 late AppRouter _customRouter;
 AppRouter get customRouter => _customRouter;
 
-void setUpRouter(BuildContext context) {
+void setUpRouter(final BuildContext context) {
   _customRouter = AppRouter(context);
 }
 

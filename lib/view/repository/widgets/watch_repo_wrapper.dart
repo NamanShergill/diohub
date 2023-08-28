@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
-bool? isSubscribedToRepo(SubscriptionState? state) {
+bool? isSubscribedToRepo(final SubscriptionState? state) {
   if (state != null) {
     switch (state) {
       case SubscriptionState.subscribed:
@@ -22,13 +22,19 @@ bool? isSubscribedToRepo(SubscriptionState? state) {
   return null;
 }
 
-typedef WatchRepoBuilder = Widget Function(BuildContext context,
-    HasWatched$Query$Repository? watchData, VoidCallback? onPress);
+typedef WatchRepoBuilder = Widget Function(
+  BuildContext context,
+  HasWatched$Query$Repository? watchData,
+  VoidCallback? onPress,
+);
 
 class WatchRepoWrapper extends StatefulWidget {
-  const WatchRepoWrapper(this.owner, this.name,
-      {Key? key, required this.builder})
-      : super(key: key);
+  const WatchRepoWrapper(
+    this.owner,
+    this.name, {
+    required this.builder,
+    super.key,
+  });
   final String name;
   final String owner;
   final WatchRepoBuilder builder;
@@ -42,11 +48,14 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
       APIWrapperController();
   bool changing = false;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme =
         Provider.of<PaletteSettings>(context, listen: false).currentSetting;
-    void updateWatchStatus(HasWatched$Query$Repository data,
-        {required bool isSubscribing, bool ignoring = false}) async {
+    Future<void> updateWatchStatus(
+      final HasWatched$Query$Repository data, {
+      required final bool isSubscribing,
+      final bool ignoring = false,
+    }) async {
       setState(() {
         Navigator.pop(context);
         changing = true;
@@ -67,41 +76,49 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
       });
       if (isSubscribedToRepo(data.viewerSubscription)!) {
         ResponseHandler.setSuccessMessage(
-            AppPopupData(title: 'Watching ${widget.name}', icon: Octicons.eye));
+          AppPopupData(title: 'Watching ${widget.name}', icon: Octicons.eye),
+        );
       }
 
-      await RepositoryServices.subscribeToRepo(widget.owner, widget.name,
-          isSubscribing: isSubscribing, ignored: ignoring);
+      await RepositoryServices.subscribeToRepo(
+        widget.owner,
+        widget.name,
+        isSubscribing: isSubscribing,
+        ignored: ignoring,
+      );
       setState(() {
         changing = false;
       });
     }
 
-    VoidCallback? onPress(HasWatched$Query$Repository? data) =>
+    VoidCallback? onPress(final HasWatched$Query$Repository? data) =>
         data == null || changing
             ? null
             : () async {
-                showDHBottomSheet(
+                await showDHBottomSheet(
                   context,
-                  builder: (context) => DHBottomSheet(
-                    headerBuilder: (context, setState) =>
+                  builder: (final context) => DHBottomSheet(
+                    headerBuilder: (final context, final setState) =>
                         const BottomSheetHeaderText(
                       headerText: 'Watch Repository',
                     ),
-                    builder: (context, setState) => BottomSheetBodyList(
+                    builder: (final context, final setState) =>
+                        BottomSheetBodyList(
                       children: [
                         ListTile(
                           title: Text(
                             'Participating and @mentions',
                             style: TextStyle(
-                                color: data.viewerSubscription !=
-                                        SubscriptionState.unsubscribed
-                                    ? Colors.white
-                                    : theme.accent,
-                                fontWeight: FontWeight.bold),
+                              color: data.viewerSubscription !=
+                                      SubscriptionState.unsubscribed
+                                  ? Colors.white
+                                  : theme.accent,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           subtitle: const Text(
-                              'Only receive notifications from this repository when participating or @mentioned.'),
+                            'Only receive notifications from this repository when participating or @mentioned.',
+                          ),
                           onTap: data.viewerSubscription ==
                                   SubscriptionState.unsubscribed
                               ? null
@@ -113,14 +130,16 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                           title: Text(
                             'All Activity',
                             style: TextStyle(
-                                color: data.viewerSubscription !=
-                                        SubscriptionState.subscribed
-                                    ? Colors.white
-                                    : theme.accent,
-                                fontWeight: FontWeight.bold),
+                              color: data.viewerSubscription !=
+                                      SubscriptionState.subscribed
+                                  ? Colors.white
+                                  : theme.accent,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           subtitle: const Text(
-                              'Notified of all notifications on this repository.'),
+                            'Notified of all notifications on this repository.',
+                          ),
                           onTap: data.viewerSubscription ==
                                   SubscriptionState.subscribed
                               ? null
@@ -132,19 +151,23 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                           title: Text(
                             'Ignore',
                             style: TextStyle(
-                                color: data.viewerSubscription !=
-                                        SubscriptionState.ignored
-                                    ? Colors.white
-                                    : theme.accent,
-                                fontWeight: FontWeight.bold),
+                              color: data.viewerSubscription !=
+                                      SubscriptionState.ignored
+                                  ? Colors.white
+                                  : theme.accent,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           subtitle: const Text('Never be notified.'),
                           onTap: data.viewerSubscription ==
                                   SubscriptionState.ignored
                               ? null
                               : () {
-                                  updateWatchStatus(data,
-                                      isSubscribing: true, ignoring: true);
+                                  updateWatchStatus(
+                                    data,
+                                    isSubscribing: true,
+                                    ignoring: true,
+                                  );
                                 },
                         ),
                       ],
@@ -153,12 +176,12 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                 );
               };
     return APIWrapper<HasWatched$Query$Repository>(
-      apiCall: ({required refresh}) =>
+      apiCall: ({required final refresh}) =>
           RepositoryServices.isSubscribed(widget.owner, widget.name),
       apiWrapperController: controller,
-      responseBuilder: (context, data) =>
+      responseBuilder: (final context, final data) =>
           widget.builder(context, data, onPress(data)),
-      loadingBuilder: (context) => widget.builder(context, null, null),
+      loadingBuilder: (final context) => widget.builder(context, null, null),
     );
   }
 }

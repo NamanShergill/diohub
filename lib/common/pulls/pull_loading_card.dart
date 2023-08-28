@@ -14,13 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullLoadingCard extends StatelessWidget {
-  const PullLoadingCard(this.url,
-      {this.compact = false,
-      this.issueModel,
-      this.disableMaterial = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
-      Key? key})
-      : super(key: key);
+  const PullLoadingCard(
+    this.url, {
+    this.compact = false,
+    this.issueModel,
+    this.disableMaterial = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    super.key,
+  });
   final String url;
   final bool compact;
   final IssueModel? issueModel;
@@ -28,106 +29,109 @@ class PullLoadingCard extends StatelessWidget {
   final bool disableMaterial;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Material(
-        elevation: disableMaterial ? 0 : 2,
-        color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        borderRadius: medBorderRadius,
-        child: APIWrapper<PullRequestModel>(
-          apiCall: ({required refresh}) =>
-              PullsService.getPullInformation(fullUrl: url, refresh: refresh),
-          loadingBuilder: (context) {
-            if (issueModel != null) {
-              return InkWell(
-                borderRadius: medBorderRadius,
-                onTap: () {
-                  AutoRouter.of(context).push(
-                      issuePullScreenRoute(PathData.fromURL(issueModel!.url!)));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const GetIcon(null, null),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Text(
-                                issueModel!.url!
-                                    .replaceAll(
-                                        'https://api.github.com/repos/', '')
-                                    .split('/')
-                                    .sublist(0, 2)
-                                    .join('/'),
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+  Widget build(final BuildContext context) => Padding(
+        padding: padding,
+        child: Material(
+          elevation: disableMaterial ? 0 : 2,
+          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+          borderRadius: medBorderRadius,
+          child: APIWrapper<PullRequestModel>(
+            apiCall: ({required final refresh}) =>
+                PullsService.getPullInformation(fullUrl: url, refresh: refresh),
+            loadingBuilder: (final context) {
+              if (issueModel != null) {
+                return InkWell(
+                  borderRadius: medBorderRadius,
+                  onTap: () {
+                    AutoRouter.of(context).push(
+                      issuePullScreenRoute(PathData.fromURL(issueModel!.url!)),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const GetIcon(null, null),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: Text(
+                                  issueModel!.url!
+                                      .replaceAll(
+                                        'https://api.github.com/repos/',
+                                        '',
+                                      )
+                                      .split('/')
+                                      .sublist(0, 2)
+                                      .join('/'),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
                                     color: Provider.of<PaletteSettings>(context)
                                         .currentSetting
-                                        .faded3),
+                                        .faded3,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            '#${issueModel!.number}',
-                            style: TextStyle(
+                            Text(
+                              '#${issueModel!.number}',
+                              style: TextStyle(
                                 color: Provider.of<PaletteSettings>(context)
                                     .currentSetting
-                                    .faded3),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        issueModel!.title!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 14),
-                      ),
-                      if (!compact)
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            ShimmerWidget(
-                              borderRadius: smallBorderRadius,
-                              child: Container(
-                                height: 20,
-                                width: double.infinity,
-                                color: Colors.grey,
+                                    .faded3,
                               ),
                             ),
                           ],
                         ),
-                    ],
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          issueModel!.title!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontSize: 14),
+                        ),
+                        if (!compact)
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              ShimmerWidget(
+                                borderRadius: smallBorderRadius,
+                                child: Container(
+                                  height: 20,
+                                  width: double.infinity,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
-                ),
+                );
+              }
+              return const SizedBox(
+                height: 80,
+                child: Center(child: LoadingIndicator()),
               );
-            }
-            return const SizedBox(
-                height: 80, child: Center(child: LoadingIndicator()));
-          },
-          responseBuilder: (context, data) {
-            return PullListCard(
+            },
+            responseBuilder: (final context, final data) => PullListCard(
               data,
               compact: compact,
               disableMaterial: true,
               padding: EdgeInsets.zero,
-            );
-          },
+            ),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -20,13 +20,14 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class SearchOverlayScreen extends StatefulWidget {
-  const SearchOverlayScreen(this.searchData,
-      {this.message,
-      this.heroTag = 'search_bar',
-      required this.multiHero,
-      required this.onSubmit,
-      Key? key})
-      : super(key: key);
+  const SearchOverlayScreen(
+    this.searchData, {
+    required this.multiHero,
+    required this.onSubmit,
+    this.message,
+    this.heroTag = 'search_bar',
+    super.key,
+  });
   final String? message;
   final ValueChanged<SearchData> onSubmit;
   final String heroTag;
@@ -65,8 +66,9 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
     var numberOfAndOrNot = 0;
     searchData.query.splitMapJoin(
       RegExp(
-          '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}'),
-      onMatch: (m) {
+        '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}',
+      ),
+      onMatch: (final m) {
         numberOfAndOrNot++;
         return '';
       },
@@ -75,7 +77,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
         numberOfAndOrNot <= 5;
   }
 
-  SearchFilters getFilters(SearchType type) {
+  SearchFilters getFilters(final SearchType type) {
     switch (type) {
       case SearchType.repositories:
         return SearchFilters.repositories();
@@ -83,348 +85,390 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
         return SearchFilters.issuesPulls();
       case SearchType.users:
         return SearchFilters.users();
-      default:
-        return SearchFilters.repositories();
     }
   }
 
   bool expanded = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Portal(
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Provider.of<PaletteSettings>(context, listen: false)
-              .currentSetting
-              .primary,
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: _SearchBar(
-                          searchData,
-                          multiHero: widget.multiHero,
-                          heroTag: widget.heroTag,
-                          onSubmit: (data) {
-                            if (isValid) {
-                              Navigator.pop(context);
-                              widget.onSubmit(searchData);
-                            }
-                          },
-                          onChanged: (data) {
-                            setState(() {
-                              searchData = data;
-                            });
-                          },
-                          message: widget.message,
+  Widget build(final BuildContext context) => Portal(
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor:
+                Provider.of<PaletteSettings>(context, listen: false)
+                    .currentSetting
+                    .primary,
+            body: Stack(
+              fit: StackFit.expand,
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: _SearchBar(
+                            searchData,
+                            multiHero: widget.multiHero,
+                            heroTag: widget.heroTag,
+                            onSubmit: (final data) {
+                              if (isValid) {
+                                Navigator.pop(context);
+                                widget.onSubmit(searchData);
+                              }
+                            },
+                            onChanged: (final data) {
+                              setState(() {
+                                searchData = data;
+                              });
+                            },
+                            message: widget.message,
+                          ),
                         ),
                       ),
-                    ),
-                    if (widget.searchData.multiType)
-                      const Divider(
-                        height: 0,
-                      ),
-                    if (widget.searchData.multiType)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 8),
-                        child: CustomExpandTile(
-                          title: Text(
-                            'Searching in ${searchTypeValues.reverse![searchData.searchFilters!.searchType]}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                      if (widget.searchData.multiType)
+                        const Divider(
+                          height: 0,
+                        ),
+                      if (widget.searchData.multiType)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
                           ),
-                          onTap: () {
-                            setState(() {
-                              expanded = !expanded;
-                            });
-                          },
-                          expanded: expanded,
-                          child: ListView.separated(
+                          child: CustomExpandTile(
+                            title: Text(
+                              'Searching in ${searchTypeValues.reverse![searchData.searchFilters!.searchType]}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                expanded = !expanded;
+                              });
+                            },
+                            expanded: expanded,
+                            child: ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return RadioListTile(
-                                  activeColor: Provider.of<PaletteSettings>(
-                                          context,
-                                          listen: false)
-                                      .currentSetting
-                                      .accent,
-                                  groupValue:
-                                      searchData.searchFilters!.searchType,
-                                  value: searchTypeValues.map.values
-                                      .toList()[index],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      searchData = searchData.copyWith(
-                                          searchFilters: getFilters(
-                                              searchTypeValues.map.values
-                                                  .toList()[index]));
-                                      expanded = !expanded;
-                                    });
-                                  },
-                                  title: Text(
-                                    searchTypeValues.map.keys.toList()[index],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const Divider(),
-                              itemCount: searchTypeValues.map.keys.length),
-                        ),
-                      ),
-                    const SizedBox(
-                      height: 250,
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 16,
-                left: 0,
-                right: 0,
-                child: KeyboardVisibilityBuilder(
-                    builder: (context, isKeyboardVisible) {
-                  return OverlayMenuWidget(
-                    controller: infoOverlay,
-                    heightMultiplier: isKeyboardVisible ? 0.3 : 0.5,
-                    childAnchor: Alignment.topCenter,
-                    portalAnchor: Alignment.bottomCenter,
-                    overlay: Material(
-                      color:
-                          Provider.of<PaletteSettings>(context, listen: false)
-                              .currentSetting
-                              .secondary,
-                      borderRadius: medBorderRadius,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(dividerColor: Colors.transparent),
-                          child: ListView(
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            children: const [
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 8.0),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'How to format your filters',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                              itemBuilder: (final context, final index) =>
+                                  RadioListTile(
+                                activeColor: Provider.of<PaletteSettings>(
+                                  context,
+                                  listen: false,
+                                ).currentSetting.accent,
+                                groupValue:
+                                    searchData.searchFilters!.searchType,
+                                value:
+                                    searchTypeValues.map.values.toList()[index],
+                                onChanged: (final value) {
+                                  setState(() {
+                                    searchData = searchData.copyWith(
+                                      searchFilters: getFilters(
+                                        searchTypeValues.map.values
+                                            .toList()[index],
+                                      ),
+                                    );
+                                    expanded = !expanded;
+                                  });
+                                },
+                                title: Text(
+                                  searchTypeValues.map.keys.toList()[index],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ),
-                              Divider(),
+                              separatorBuilder: (final context, final index) =>
+                                  const Divider(),
+                              itemCount: searchTypeValues.map.keys.length,
+                            ),
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 250,
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 16,
+                  left: 0,
+                  right: 0,
+                  child: KeyboardVisibilityBuilder(
+                    builder: (final context, final isKeyboardVisible) =>
+                        OverlayMenuWidget(
+                      controller: infoOverlay,
+                      heightMultiplier: isKeyboardVisible ? 0.3 : 0.5,
+                      childAnchor: Alignment.topCenter,
+                      portalAnchor: Alignment.bottomCenter,
+                      overlay: Material(
+                        color:
+                            Provider.of<PaletteSettings>(context, listen: false)
+                                .currentSetting
+                                .secondary,
+                        borderRadius: medBorderRadius,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ListView(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              children: const [
+                                Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'How to format your filters',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Divider(),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text:
+                                                  'Search filters should be in the format ',
+                                            ),
+                                            TextSpan(
+                                              text: 'filter:data',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(text: '.\n'),
+                                            TextSpan(
+                                              text:
+                                                  'Example, label:enhancement will include all results with a label named enhancement.',
+                                              style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(text: 'Add a '),
+                                            TextSpan(
+                                              text: 'minus (-)',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  ' before a search filter to exclude it from the results.\n',
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  'Example, -label:enhancement will exclude all results with a label named enhancement.',
+                                              style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(text: 'You can use '),
+                                            TextSpan(
+                                              text: 'AND, OR, NOT',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: ' operators in your query ',
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  '(upto a maximum of 5 times)',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(text: '.\n'),
+                                            TextSpan(
+                                              text:
+                                                  'Example, "jquery NOT bootstrap" matches results that do contain the word "jquery" but not "bootstrap".',
+                                              style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text:
+                                                  'Data containing whitespaces must be wrapped in quotes like ',
+                                            ),
+                                            TextSpan(
+                                              text: 'filter:"filter info"',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(text: '.\n'),
+                                            TextSpan(
+                                              text:
+                                                  'Example, label:"bug fix" will include all results with a label named bug fix.',
+                                              style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text.rich(
-                                      TextSpan(children: [
-                                        TextSpan(
-                                            text:
-                                                'Search filters should be in the format '),
-                                        TextSpan(
-                                            text: 'filter:data',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(text: '.\n'),
-                                        TextSpan(
-                                            text:
-                                                'Example, label:enhancement will include all results with a label named enhancement.',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic)),
-                                      ]),
+                                padding: const EdgeInsets.all(16),
+                                child: Material(
+                                  elevation: 2,
+                                  type: MaterialType.circle,
+                                  color: Provider.of<PaletteSettings>(
+                                    context,
+                                    listen: false,
+                                  ).currentSetting.secondary,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: IconButton(
+                                      iconSize: 20,
+                                      onPressed: () {
+                                        infoOverlay.tapped();
+                                      },
+                                      icon: const Icon(LineIcons.info),
                                     ),
-                                    Divider(),
-                                    Text.rich(
-                                      TextSpan(children: [
-                                        TextSpan(text: 'Add a '),
-                                        TextSpan(
-                                            text: 'minus (-)',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(
-                                            text:
-                                                ' before a search filter to exclude it from the results.\n'),
-                                        TextSpan(
-                                            text:
-                                                'Example, -label:enhancement will exclude all results with a label named enhancement.',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic)),
-                                      ]),
-                                    ),
-                                    Divider(),
-                                    Text.rich(
-                                      TextSpan(children: [
-                                        TextSpan(text: 'You can use '),
-                                        TextSpan(
-                                            text: 'AND, OR, NOT',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(
-                                            text: ' operators in your query '),
-                                        TextSpan(
-                                            text: '(upto a maximum of 5 times)',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(text: '.\n'),
-                                        TextSpan(
-                                            text:
-                                                'Example, "jquery NOT bootstrap" matches results that do contain the word "jquery" but not "bootstrap".',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic)),
-                                      ]),
-                                    ),
-                                    Divider(),
-                                    Text.rich(
-                                      TextSpan(children: [
-                                        TextSpan(
-                                            text:
-                                                'Data containing whitespaces must be wrapped in quotes like '),
-                                        TextSpan(
-                                            text: 'filter:"filter info"',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(text: '.\n'),
-                                        TextSpan(
-                                            text:
-                                                'Example, label:"bug fix" will include all results with a label named bug fix.',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic)),
-                                      ]),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Material(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: Hero(
+                              tag: 'homeNavButton',
+                              child: MaterialButton(
                                 elevation: 2,
-                                type: MaterialType.circle,
-                                color: Provider.of<PaletteSettings>(context,
-                                        listen: false)
-                                    .currentSetting
-                                    .secondary,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: IconButton(
-                                    iconSize: 20,
-                                    onPressed: () {
-                                      infoOverlay.tapped();
-                                    },
-                                    icon: const Icon(LineIcons.info),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                color: Provider.of<PaletteSettings>(
+                                  context,
+                                  listen: false,
+                                ).currentSetting.secondary,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Back'),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          child: Hero(
-                            tag: 'homeNavButton',
-                            child: MaterialButton(
-                              elevation: 2,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              color: Provider.of<PaletteSettings>(context,
-                                      listen: false)
-                                  .currentSetting
-                                  .secondary,
-                              child: const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('Back'),
-                                  ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: Hero(
+                              tag: 'searchNavButton',
+                              child: MaterialButton(
+                                elevation: 2,
+                                onPressed: isValid || isEmpty
+                                    ? () {
+                                        Navigator.pop(context);
+                                        widget.onSubmit(searchData);
+                                      }
+                                    : null,
+                                color: Provider.of<PaletteSettings>(
+                                  context,
+                                  listen: false,
+                                ).currentSetting.secondary,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Search'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          child: Hero(
-                            tag: 'searchNavButton',
-                            child: MaterialButton(
-                              elevation: 2,
-                              onPressed: isValid || isEmpty
-                                  ? () {
-                                      Navigator.pop(context);
-                                      widget.onSubmit(searchData);
-                                    }
-                                  : null,
-                              color: Provider.of<PaletteSettings>(context,
-                                      listen: false)
-                                  .currentSetting
-                                  .secondary,
-                              child: const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('Search'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  );
-                }),
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _SearchBar extends StatefulWidget {
-  const _SearchBar(this.searchData,
-      {this.message,
-      required this.multiHero,
-      required this.onChanged,
-      required this.onSubmit,
-      required this.heroTag});
+  const _SearchBar(
+    this.searchData, {
+    required this.multiHero,
+    required this.onChanged,
+    required this.onSubmit,
+    required this.heroTag,
+    this.message,
+  });
   final SearchData searchData;
   final String heroTag;
   final String? message;
@@ -446,9 +490,10 @@ class _SearchBarState extends State<_SearchBar> {
   void initState() {
     searchData = widget.searchData;
     controller = TextEditingController(
-        text: widget.searchData.toString().trim().isNotEmpty
-            ? '${widget.searchData.toString().trim()} '
-            : '');
+      text: widget.searchData.toString().trim().isNotEmpty
+          ? '${widget.searchData.toString().trim()} '
+          : '',
+    );
     getFocus();
     searchNode.addListener(() {
       setState(() {});
@@ -457,7 +502,7 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   @override
-  void didUpdateWidget(covariant _SearchBar oldWidget) {
+  void didUpdateWidget(covariant final _SearchBar oldWidget) {
     searchData = widget.searchData;
     super.didUpdateWidget(oldWidget);
   }
@@ -465,145 +510,149 @@ class _SearchBarState extends State<_SearchBar> {
   bool expanded = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          OverlayMenuWidget(
-            controller: suggestionsOverlayController,
-            overlay: overlayWidget,
-            child: Hero(
-              tag: widget.multiHero
-                  ? widget.heroTag + searchData.isActive.toString()
-                  : widget.heroTag,
-              child: Material(
-                color: Colors.transparent,
-                child: ExtendedTextField(
-                  controller: controller,
-                  maxLines: 10,
-                  focusNode: searchNode,
-                  minLines: 1,
-                  onChanged: (pattern) {
-                    // Handle cases for when the enter key is pressed.
-                    if (pattern.contains('\n')) {
-                      // Don't let {\n} enter the text.
-                      controller.text = controller.text.replaceAll('\n', '');
-                      // If the last char is not a space, enter a space.
-                      if (!controller.text.endsWith(' ')) {
-                        controller.text = '${controller.text} ';
-                      } else {
-                        _parseQuery(pattern);
-                        widget.onSubmit(null);
-                      }
-                      // Move the text controller to end.
-                      _moveControllerToEnd();
-                    }
-                    // Trim any white spaces.
-                    if (pattern.trim().isEmpty) {
-                      controller.text = controller.text.trim();
-                    }
-                    // Parse query for filters.
-                    _parseQuery(pattern);
-                    // Show suggestions to the user.
-                    _suggestions(pattern);
-                  },
-                  specialTextSpanBuilder: _TextSpanBuilder(
-                      widget.searchData.searchFilters!, controller,
-                      context: context, onChanged: (string) {
-                    controller.text = string;
-                    _parseQuery(string);
-                  }),
-                  decoration: inputDecoration(
-                    hintText: widget.message,
-                    context: context,
-                    labelText: 'Searching For',
+  Widget build(final BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          children: [
+            OverlayMenuWidget(
+              controller: suggestionsOverlayController,
+              overlay: overlayWidget,
+              child: Hero(
+                tag: widget.multiHero
+                    ? widget.heroTag + searchData.isActive.toString()
+                    : widget.heroTag,
+                child: Material(
+                  color: Colors.transparent,
+                  child: ExtendedTextField(
+                    controller: controller,
+                    maxLines: 10,
                     focusNode: searchNode,
+                    minLines: 1,
+                    onChanged: (final pattern) {
+                      // Handle cases for when the enter key is pressed.
+                      if (pattern.contains('\n')) {
+                        // Don't let {\n} enter the text.
+                        controller.text = controller.text.replaceAll('\n', '');
+                        // If the last char is not a space, enter a space.
+                        if (!controller.text.endsWith(' ')) {
+                          controller.text = '${controller.text} ';
+                        } else {
+                          _parseQuery(pattern);
+                          widget.onSubmit(null);
+                        }
+                        // Move the text controller to end.
+                        _moveControllerToEnd();
+                      }
+                      // Trim any white spaces.
+                      if (pattern.trim().isEmpty) {
+                        controller.text = controller.text.trim();
+                      }
+                      // Parse query for filters.
+                      _parseQuery(pattern);
+                      // Show suggestions to the user.
+                      _suggestions(pattern);
+                    },
+                    specialTextSpanBuilder: _TextSpanBuilder(
+                      widget.searchData.searchFilters!,
+                      controller,
+                      context: context,
+                      onChanged: (final string) {
+                        controller.text = string;
+                        _parseQuery(string);
+                      },
+                    ),
+                    decoration: inputDecoration(
+                      hintText: widget.message,
+                      context: context,
+                      labelText: 'Searching For',
+                      focusNode: searchNode,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: CustomExpandTile(
-              title: const Text(
-                'All Filters',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                setState(() {
-                  expanded = !expanded;
-                });
-              },
-              expanded: expanded,
-              child: ListView.separated(
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: CustomExpandTile(
+                title: const Text(
+                  'All Filters',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  setState(() {
+                    expanded = !expanded;
+                  });
+                },
+                expanded: expanded,
+                child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      onTap: () {
-                        addString(
-                            '${widget.searchData.searchFilters!.whiteListedQueries[index].query}:',
-                            addSpaceAtEnd: false,
-                            spaceAtStart: true);
-                        setState(() {
-                          expanded = false;
-                        });
-                        searchNode.requestFocus();
-                      },
-                      title: Text(
-                        widget.searchData.searchFilters!
-                            .whiteListedQueries[index].query,
-                        // style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemCount: widget
-                      .searchData.searchFilters!.whiteListedQueries.length),
-            ),
-          ),
-          SizeExpandedSection(
-            expand: controller.text.trim().isNotEmpty,
-            child: Column(
-              children: [
-                const Divider(
-                  height: 8,
-                  endIndent: 8,
-                  indent: 8,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MaterialButton(
-                    color: Provider.of<PaletteSettings>(context, listen: false)
-                        .currentSetting
-                        .secondary,
-                    onPressed: () {
+                  itemBuilder: (final context, final index) => ListTile(
+                    onTap: () {
+                      addString(
+                        '${widget.searchData.searchFilters!.whiteListedQueries[index].query}:',
+                        addSpaceAtEnd: false,
+                        spaceAtStart: true,
+                      );
                       setState(() {
-                        controller.text = '';
+                        expanded = false;
                       });
-                      widget.onChanged(searchData.cleared);
+                      searchNode.requestFocus();
                     },
-                    child: const Center(
-                        child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('Tap to Clear'),
-                    )),
+                    title: Text(
+                      widget.searchData.searchFilters!.whiteListedQueries[index]
+                          .query,
+                      // style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
+                  separatorBuilder: (final context, final index) =>
+                      const Divider(),
+                  itemCount: widget
+                      .searchData.searchFilters!.whiteListedQueries.length,
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            SizeExpandedSection(
+              expand: controller.text.trim().isNotEmpty,
+              child: Column(
+                children: [
+                  const Divider(
+                    height: 8,
+                    endIndent: 8,
+                    indent: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: MaterialButton(
+                      color:
+                          Provider.of<PaletteSettings>(context, listen: false)
+                              .currentSetting
+                              .secondary,
+                      onPressed: () {
+                        setState(() {
+                          controller.text = '';
+                        });
+                        widget.onChanged(searchData.cleared);
+                      },
+                      child: const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Text('Tap to Clear'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
-  void getFocus() async {
+  Future<void> getFocus() async {
     // TODO(namanshergill): Try new speed here.
     await Future.delayed(const Duration(milliseconds: 500));
     if (mounted) {
@@ -614,12 +663,12 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void addString(
-    String data, {
-    bool addSpaceAtEnd = true,
-    bool spaceAtStart = false,
-    bool addQuotesAtEnd = false,
-    bool addQuotesAround = false,
-    String remove = '',
+    final String data, {
+    final bool addSpaceAtEnd = true,
+    final bool spaceAtStart = false,
+    final bool addQuotesAtEnd = false,
+    final bool addQuotesAround = false,
+    final String remove = '',
   }) {
     // Remove the last [remove.length] numbers of chars.
     controller.text =
@@ -634,53 +683,52 @@ class _SearchBarState extends State<_SearchBar> {
     _suggestions(controller.text);
   }
 
-  void _moveControllerToEnd([int offset = 0]) {
+  void _moveControllerToEnd([final int offset = 0]) {
     controller.selection = TextSelection.fromPosition(
       TextPosition(offset: controller.text.length - offset),
     );
   }
 
   // Is the end the same as the given string.
-  bool isEndSame(String initial, String part) {
-    return initial.substring(initial.length - part.length) == part;
-  }
+  bool isEndSame(final String initial, final String part) =>
+      initial.substring(initial.length - part.length) == part;
 
   // Get all matches in a string from a certain Regexp.
-  List<String> getMatches(RegExp regexp, String pattern) {
+  List<String> getMatches(final RegExp regexp, final String pattern) {
     final matches = <String>[];
-    pattern.splitMapJoin(regexp, onMatch: (m) {
-      matches.add(m.group(0)!);
-      return m.group(0)!;
-    });
+    pattern.splitMapJoin(
+      regexp,
+      onMatch: (final m) {
+        matches.add(m.group(0)!);
+        return m.group(0)!;
+      },
+    );
     return matches;
   }
 
   // Show a list dropdown for suggestions.
-  Widget list(int length, IndexedWidgetBuilder builder, {Key? key}) {
-    return SizeExpandedSection(
-      key: key,
-      child: Material(
-        color: Provider.of<PaletteSettings>(context, listen: false)
-            .currentSetting
-            .secondary,
-        borderRadius: medBorderRadius,
-        elevation: 8,
-        child: ListView.separated(
+  Widget list(final int length, final IndexedWidgetBuilder builder,
+          {final Key? key,}) =>
+      SizeExpandedSection(
+        key: key,
+        child: Material(
+          color: Provider.of<PaletteSettings>(context, listen: false)
+              .currentSetting
+              .secondary,
+          borderRadius: medBorderRadius,
+          elevation: 8,
+          child: ListView.separated(
             shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return builder(context, index);
-            },
-            separatorBuilder: (context, index) {
-              return const Divider(
-                height: 0,
-              );
-            },
-            itemCount: length),
-      ),
-    );
-  }
+            itemBuilder: builder,
+            separatorBuilder: (final context, final index) => const Divider(
+              height: 0,
+            ),
+            itemCount: length,
+          ),
+        ),
+      );
 
-  void _showOverlay(Widget widget) {
+  void _showOverlay(final Widget widget) {
     setState(() {
       overlayWidget = widget;
       suggestionsOverlayController.open();
@@ -694,83 +742,100 @@ class _SearchBarState extends State<_SearchBar> {
     });
   }
 
-  void _parseQuery(String pattern) {
+  void _parseQuery(final String pattern) {
     var str = pattern;
     final filterStrings = <String>[];
     final filters = <SearchQuery>[];
 
     // Handle case of number and date ranges with the bigger value before.
-    str.splitMapJoin(widget.searchData.searchFilters!.allValidQueriesRegexp,
-        onMatch: (m) {
-      var string = m[0]!;
-      if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
-        string = m[0]!.splitMapJoin(
-            widget.searchData.searchFilters!.dateQRegExp!, onMatch: (m) {
-          final string = m[0]!.splitMapJoin(
-              RegExp(
-                  '((([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])))([.][.])(([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))))'),
-              onMatch: (m) {
-            String date(DateTime dateTime) {
-              return DateFormat('yyyy-MM-dd').format(dateTime);
-            }
+    str.splitMapJoin(
+      widget.searchData.searchFilters!.allValidQueriesRegexp,
+      onMatch: (final m) {
+        var string = m[0]!;
+        if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
+          string = m[0]!.splitMapJoin(
+            widget.searchData.searchFilters!.dateQRegExp!,
+            onMatch: (final m) {
+              final string = m[0]!.splitMapJoin(
+                RegExp(
+                  '((([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])))([.][.])(([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))))',
+                ),
+                onMatch: (final m) {
+                  String date(final DateTime dateTime) =>
+                      DateFormat('yyyy-MM-dd').format(dateTime);
 
-            final data = m[0]!;
-            final one = DateTime.parse(data.split('..').first);
-            final two = DateTime.parse(data.split('..').last);
-            if (one.isAfter(two)) {
-              return '${date(two)}..${date(one)}';
-            }
-            return '${date(one)}..${date(two)}';
-          });
-          return string;
-        });
-      } else if (widget.searchData.searchFilters!.numberQRegExp!
-          .hasMatch(string)) {
-        string = string.splitMapJoin(
-            widget.searchData.searchFilters!.numberQRegExp!, onMatch: (m) {
-          final string = m[0]!.splitMapJoin(
-              RegExp('((([0-9]+))([.][.])(([0-9]+)))'), onMatch: (m) {
-            final data = m[0]!;
-            final one = int.parse(data.split('..').first);
-            final two = int.parse(data.split('..').last);
-            if (one > two) {
-              return '$two..$one';
-            }
-            return '$one..$two';
-          });
-          return string;
-        });
-      }
+                  final data = m[0]!;
+                  final one = DateTime.parse(data.split('..').first);
+                  final two = DateTime.parse(data.split('..').last);
+                  if (one.isAfter(two)) {
+                    return '${date(two)}..${date(one)}';
+                  }
+                  return '${date(one)}..${date(two)}';
+                },
+              );
+              return string;
+            },
+          );
+        } else if (widget.searchData.searchFilters!.numberQRegExp!
+            .hasMatch(string)) {
+          string = string.splitMapJoin(
+            widget.searchData.searchFilters!.numberQRegExp!,
+            onMatch: (final m) {
+              final string = m[0]!.splitMapJoin(
+                RegExp('((([0-9]+))([.][.])(([0-9]+)))'),
+                onMatch: (final m) {
+                  final data = m[0]!;
+                  final one = int.parse(data.split('..').first);
+                  final two = int.parse(data.split('..').last);
+                  if (one > two) {
+                    return '$two..$one';
+                  }
+                  return '$one..$two';
+                },
+              );
+              return string;
+            },
+          );
+        }
 
-      filterStrings.add(string);
-      filters.add(widget.searchData.searchFilters!
-          .queryFromString(string.split(':').first)!);
-      return '';
-    });
+        filterStrings.add(string);
+        filters.add(
+          widget.searchData.searchFilters!
+              .queryFromString(string.split(':').first)!,
+        );
+        return '';
+      },
+    );
 
     // Remove all invalid queries from the string.
     str = str.replaceAll(
-        widget.searchData.searchFilters!.allInvalidQueriesRegExp, '');
+      widget.searchData.searchFilters!.allInvalidQueriesRegExp,
+      '',
+    );
 
     // Convert all extra spaces to just a single space.
     str = str.replaceAll(RegExp('(\\s+)'), ' ');
     // Send the new [SearchData] back.
-    widget.onChanged(searchData.copyWith(
-      query: str,
-      filterStrings: filterStrings,
-    ));
+    widget.onChanged(
+      searchData.copyWith(
+        query: str,
+        filterStrings: filterStrings,
+      ),
+    );
   }
 
-  void _suggestions(String pattern) {
+  void _suggestions(final String pattern) {
     // Close any previous overlays.
     _closeOverlay();
     // Get matches on the option queries on the supplied text.
     if (controller.selection.baseOffset == controller.text.length) {
       // Get all invalid or valid queries in the string.
       final matches = getMatches(
-          RegExp(
-              '${widget.searchData.searchFilters!.allValidQueriesRegexp.pattern}|${widget.searchData.searchFilters!.allInvalidQueriesRegExp.pattern}'),
-          pattern);
+        RegExp(
+          '${widget.searchData.searchFilters!.allValidQueriesRegexp.pattern}|${widget.searchData.searchFilters!.allInvalidQueriesRegExp.pattern}',
+        ),
+        pattern,
+      );
       // Current typed data of the latest filter.
       var typedData = '';
       // Current latest  query.
@@ -788,9 +853,11 @@ class _SearchBarState extends State<_SearchBar> {
       }
       // Get all completed valid queries.
       final List<String?> completedQueries = getMatches(
-          RegExp(
-              '${widget.searchData.searchFilters!.validSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.invalidSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.validBasicQueriesRegExp.pattern}'),
-          pattern);
+        RegExp(
+          '${widget.searchData.searchFilters!.validSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.invalidSensitiveQueriesRegExp.pattern}|${widget.searchData.searchFilters!.validBasicQueriesRegExp.pattern}',
+        ),
+        pattern,
+      );
       // Check if the last query has been completed.
       final isLastQueryComplete = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
@@ -811,26 +878,32 @@ class _SearchBarState extends State<_SearchBar> {
             }
           }
           // Show overlay with the filtered options.
-          _showOverlay(list(filteredOptions.length, (context, index) {
-            return ListTile(
-              onTap: () {
-                // Get query info from the string.
-                final query = widget.searchData.searchFilters!
-                    .queryFromString(filteredOptions[index])!;
-                // Add string to text on tap, with quotes at the end if it is
-                // a spaced string with no auto complete options.
-                addString('${filteredOptions[index]}:',
+          _showOverlay(
+            list(
+              filteredOptions.length,
+              (final context, final index) => ListTile(
+                onTap: () {
+                  // Get query info from the string.
+                  final query = widget.searchData.searchFilters!
+                      .queryFromString(filteredOptions[index])!;
+                  // Add string to text on tap, with quotes at the end if it is
+                  // a spaced string with no auto complete options.
+                  addString(
+                    '${filteredOptions[index]}:',
                     addQuotesAtEnd: query.options == null &&
                         query.type == QueryType.spacedString,
                     addSpaceAtEnd: false,
-                    remove: typedData);
-              },
-              title: Text(
-                filteredOptions[index],
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                    remove: typedData,
+                  );
+                },
+                title: Text(
+                  filteredOptions[index],
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            );
-          }, key: ValueKey(typedData)));
+              key: ValueKey(typedData),
+            ),
+          );
         }
       } else if ((query?.type == QueryType.number ||
               query?.type == QueryType.date) &&
@@ -839,42 +912,53 @@ class _SearchBarState extends State<_SearchBar> {
       } else if ((query?.type == QueryType.user ||
               query?.type == QueryType.org) &&
           !typedData.endsWith(' ')) {
-        _showOverlay(SizeExpandedSection(
-          child: UserSearchDropdown(
-            typedData,
-            onSelected: (data) {
-              addString(data, remove: typedData);
-            },
-            type: query!.type,
+        _showOverlay(
+          SizeExpandedSection(
+            child: UserSearchDropdown(
+              typedData,
+              onSelected: (final data) {
+                addString(data, remove: typedData);
+              },
+              type: query!.type,
+            ),
           ),
-        ));
+        );
       } else if (query?.options?.keys != null) {
         final filteredOptions = <String>[];
         query!.options?.keys.toList().forEach(
-          (element) {
+          (final element) {
             if (element.startsWith(typedData)) {
               filteredOptions.add(element);
             }
           },
         );
-        _showOverlay(list(filteredOptions.length, (context, index) {
-          return ListTile(
-            onTap: () {
-              addString(filteredOptions[index],
-                  addSpaceAtEnd: true, remove: typedData);
-            },
-            title: Text(filteredOptions[index]),
-          );
-        }, key: ValueKey(typedData)));
+        _showOverlay(
+          list(
+            filteredOptions.length,
+            (final context, final index) => ListTile(
+              onTap: () {
+                addString(
+                  filteredOptions[index],
+                  remove: typedData,
+                );
+              },
+              title: Text(filteredOptions[index]),
+            ),
+            key: ValueKey(typedData),
+          ),
+        );
       }
     }
   }
 }
 
 class _TextSpanBuilder extends SpecialTextSpanBuilder {
-  _TextSpanBuilder(this.searchFilters, this.controller,
-      {required this.onChanged, required this.context})
-      : patternMap = {
+  _TextSpanBuilder(
+    this.searchFilters,
+    this.controller, {
+    required this.onChanged,
+    required this.context,
+  })  : patternMap = {
           searchFilters.validSensitiveQueriesRegExp: TextStyle(
             color: Provider.of<PaletteSettings>(context, listen: false)
                 .currentSetting
@@ -892,15 +976,17 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
         },
         blacklistPatternMap = {
           searchFilters.invalidSensitiveQueriesRegExp: TextStyle(
-              color: Provider.of<PaletteSettings>(context, listen: false)
-                  .currentSetting
-                  .faded3,
-              decoration: TextDecoration.combine([TextDecoration.lineThrough])),
+            color: Provider.of<PaletteSettings>(context, listen: false)
+                .currentSetting
+                .faded3,
+            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+          ),
           searchFilters.invalidBasicQueriesRegExp: TextStyle(
-              color: Provider.of<PaletteSettings>(context, listen: false)
-                  .currentSetting
-                  .faded3,
-              decoration: TextDecoration.combine([TextDecoration.lineThrough])),
+            color: Provider.of<PaletteSettings>(context, listen: false)
+                .currentSetting
+                .faded3,
+            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+          ),
           searchFilters.blacklistRegExp: TextStyle(
             color: Colors.red,
             decoration: TextDecoration.combine([TextDecoration.lineThrough]),
@@ -914,9 +1000,9 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   final ValueChanged<String> onChanged;
   @override
   TextSpan build(
-    String data, {
-    TextStyle? textStyle,
-    void Function(dynamic)? onTap,
+    final String data, {
+    final TextStyle? textStyle,
+    final SpecialTextGestureTapCallback? onTap,
   }) {
     if (data == '') {
       return const TextSpan(text: '');
@@ -924,68 +1010,86 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
     final inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
       data.splitMapJoin(
-          RegExp(
-            searchFilters.allValidQueriesRegexp.pattern,
-          ), onMatch: (m) {
-        inlineList.add(
-          _ValidQuery(m[0]!, controller, textStyle,
-                  context: context, onChanged: onChanged)
-              .finishText(),
-        );
-        return '';
-      }, onNonMatch: (string) {
-        string.splitMapJoin(
+        RegExp(
+          searchFilters.allValidQueriesRegexp.pattern,
+        ),
+        onMatch: (final m) {
+          inlineList.add(
+            _ValidQuery(
+              m[0]!,
+              controller,
+              textStyle,
+              context: context,
+              onChanged: onChanged,
+            ).finishText(),
+          );
+          return '';
+        },
+        onNonMatch: (final string) {
+          string.splitMapJoin(
             RegExp(
-                '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}'),
-            onMatch: (m) {
-          var baseTextStyle = textStyle!;
-          if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
-            baseTextStyle = baseTextStyle.copyWith(
-                color: Provider.of<PaletteSettings>(context, listen: false)
-                    .currentSetting
-                    .red);
-          } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
-            baseTextStyle = baseTextStyle.copyWith(color: Colors.amber);
-          } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
-            baseTextStyle = baseTextStyle.copyWith(
-                color: Provider.of<PaletteSettings>(context, listen: false)
-                    .currentSetting
-                    .accent);
-          }
-          inlineList.add(getSpan(
-              m[0]!, baseTextStyle.copyWith(fontWeight: FontWeight.bold)));
+              '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}',
+            ),
+            onMatch: (final m) {
+              var baseTextStyle = textStyle!;
+              if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
+                baseTextStyle = baseTextStyle.copyWith(
+                  color: Provider.of<PaletteSettings>(context, listen: false)
+                      .currentSetting
+                      .red,
+                );
+              } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
+                baseTextStyle = baseTextStyle.copyWith(color: Colors.amber);
+              } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
+                baseTextStyle = baseTextStyle.copyWith(
+                  color: Provider.of<PaletteSettings>(context, listen: false)
+                      .currentSetting
+                      .accent,
+                );
+              }
+              inlineList.add(
+                getSpan(
+                  m[0]!,
+                  baseTextStyle.copyWith(fontWeight: FontWeight.bold),
+                ),
+              );
+              return '';
+            },
+            onNonMatch: (final string) {
+              inlineList.add(getSpan(string, textStyle));
+              return '';
+            },
+          );
           return '';
-        }, onNonMatch: (string) {
-          inlineList.add(getSpan(string, textStyle));
-          return '';
-        });
-        return '';
-      });
+        },
+      );
     } else {
       inlineList.add(TextSpan(text: data, style: textStyle));
     }
     return TextSpan(children: inlineList, style: textStyle);
   }
 
-  TextSpan getSpan(String text, TextStyle? style) {
+  TextSpan getSpan(final String text, final TextStyle? style) {
     final children = <TextSpan>[];
     final matches = <String>[];
     RegExp? allRegex;
-    final wlRegex = patternMap.keys.map((e) => e.pattern).join('|');
-    final blRegex = blacklistPatternMap.keys.map((e) => e.pattern).join('|');
+    final wlRegex = patternMap.keys.map((final e) => e.pattern).join('|');
+    final blRegex =
+        blacklistPatternMap.keys.map((final e) => e.pattern).join('|');
     final combinedMap = <RegExp, TextStyle>{};
     combinedMap.addAll(patternMap);
     combinedMap.addAll(blacklistPatternMap);
     allRegex = RegExp('$wlRegex|$blRegex');
     text.splitMapJoin(
       allRegex,
-      onMatch: (m) {
+      onMatch: (final m) {
         if (!matches.contains(m[0])) {
           matches.add(m[0]!);
         }
-        final k = combinedMap.entries.firstWhere((element) {
-          return element.key.allMatches(m[0]!).isNotEmpty;
-        }).key;
+        final k = combinedMap.entries
+            .firstWhere(
+                (final element) => element.key.allMatches(m[0]!).isNotEmpty,)
+            .key;
         children.add(
           TextSpan(
             text: m[0],
@@ -994,27 +1098,29 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
         );
         return '';
       },
-      onNonMatch: (span) {
+      onNonMatch: (final span) {
         children.add(TextSpan(text: span, style: style));
-        return span.toString();
+        return span;
       },
     );
     return TextSpan(style: style, children: children);
   }
 
   @override
-  SpecialText? createSpecialText(String flag,
-          {TextStyle? textStyle,
-          void Function(dynamic)? onTap,
-          required int index}) =>
+  SpecialText? createSpecialText(
+    final String flag, {
+    required final int index,
+    final TextStyle? textStyle,
+    final SpecialTextGestureTapCallback? onTap,
+  }) =>
       null;
 }
 
 class _ValidQuery extends SpecialText {
   _ValidQuery(
-    String startFlag,
+    final String startFlag,
     this.controller,
-    TextStyle? textStyle, {
+    final TextStyle? textStyle, {
     required this.onChanged,
     required this.context,
   }) : super(
@@ -1028,10 +1134,9 @@ class _ValidQuery extends SpecialText {
   final TextEditingController controller;
 
   @override
-  InlineSpan finishText() {
-    return ExtendedWidgetSpan(
-      alignment: PlaceholderAlignment.middle,
-      child: Material(
+  InlineSpan finishText() => ExtendedWidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: Material(
           borderRadius: smallBorderRadius,
           color: toString().startsWith('-')
               ? Provider.of<PaletteSettings>(context, listen: false)
@@ -1044,8 +1149,12 @@ class _ValidQuery extends SpecialText {
             borderRadius: smallBorderRadius,
             onTap: () {
               if (!toString().trim().startsWith('-')) {
-                onChanged(controller.text.replaceFirst(
-                    RegExp('(?!-)(?:(${toString().trim()}))'), ''));
+                onChanged(
+                  controller.text.replaceFirst(
+                    RegExp('(?!-)(?:(${toString().trim()}))'),
+                    '',
+                  ),
+                );
               } else {
                 onChanged(controller.text.replaceFirst(toString().trim(), ''));
               }
@@ -1060,29 +1169,31 @@ class _ValidQuery extends SpecialText {
             },
             child: Padding(
               padding:
-                  const EdgeInsets.only(top: 4.0, left: 6, right: 6, bottom: 4),
+                  const EdgeInsets.only(top: 4, left: 6, right: 6, bottom: 4),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                      child: RichText(
-                    text: TextSpan(
+                    child: RichText(
+                      text: TextSpan(
                         style: textStyle?.copyWith(fontSize: 14),
                         children: [
                           TextSpan(
-                              text:
-                                  '${toString().trim().replaceAll('"', '').split(':').first} ',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
+                            text:
+                                '${toString().trim().replaceAll('"', '').split(':').first} ',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           TextSpan(
-                              text: toString()
-                                  .trim()
-                                  .replaceAll('"', '')
-                                  .split(':')
-                                  .last),
-                        ]),
-                  )),
+                            text: toString()
+                                .trim()
+                                .replaceAll('"', '')
+                                .split(':')
+                                .last,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     width: 4,
                   ),
@@ -1095,14 +1206,14 @@ class _ValidQuery extends SpecialText {
                       child: Icon(
                         Icons.close_rounded,
                         color: toString().startsWith('-')
-                            ? Provider.of<PaletteSettings>(context,
-                                    listen: false)
-                                .currentSetting
-                                .red
-                            : Provider.of<PaletteSettings>(context,
-                                    listen: false)
-                                .currentSetting
-                                .accent,
+                            ? Provider.of<PaletteSettings>(
+                                context,
+                                listen: false,
+                              ).currentSetting.red
+                            : Provider.of<PaletteSettings>(
+                                context,
+                                listen: false,
+                              ).currentSetting.accent,
                         size: 12,
                       ),
                     ),
@@ -1110,11 +1221,11 @@ class _ValidQuery extends SpecialText {
                 ],
               ),
             ),
-          )),
-      actualText: toString(),
-      deleteAll: false,
-    );
-  }
+          ),
+        ),
+        actualText: toString(),
+        deleteAll: false,
+      );
 }
 
 class SearchData {
@@ -1124,8 +1235,8 @@ class SearchData {
     this.filterStrings = const [],
     this.searchFilters,
     this.sort = 'best',
-    bool multiType = false,
-    List<String> defaultHiddenFilters = const [],
+    final bool multiType = false,
+    final List<String> defaultHiddenFilters = const [],
   })  : _defaultFilters = defaultHiddenFilters,
         multiType = searchFilters == null || multiType;
 
@@ -1152,9 +1263,7 @@ class SearchData {
 
   /// Return string of the query without the default filters.
   @override
-  String toString() {
-    return '${query.trim()} ${filterStrings.join(' ').trim()} ';
-  }
+  String toString() => '${query.trim()} ${filterStrings.join(' ').trim()} ';
 
   /// Return string of the query with the default filters.
   String get toQuery =>
@@ -1194,15 +1303,17 @@ class SearchData {
 
   /// Clear all search related data.
   SearchData get cleared => copyWith(
-      query: '',
-      filterStrings: [],
-      sort: 'best',
-      searchFilters: multiType ? null : searchFilters);
+        query: '',
+        filterStrings: [],
+        sort: 'best',
+        searchFilters: multiType ? null : searchFilters,
+      );
 
   /// Replace the quick filters in all the filters and add a new one.
-  List<String> _quickFilterChange(String quickFilter, List<String> allFilters) {
+  List<String> _quickFilterChange(
+      final String quickFilter, final List<String> allFilters,) {
     final filters = allFilters.toList();
-    filters.removeWhere((element) {
+    filters.removeWhere((final element) {
       var exists = false;
       for (final e in quickFilters) {
         if (StringFunctions(e).isStringEqual(element)) {
@@ -1216,25 +1327,27 @@ class SearchData {
   }
 
   /// Copy search data with custom data.
-  SearchData copyWith(
-      {String? query,
-      List<String>? filterStrings,
-      List<String>? quickFilters,
-      String? quickFilter,
-      SearchFilters? searchFilters,
-      String? sort}) {
+  SearchData copyWith({
+    final String? query,
+    final List<String>? filterStrings,
+    final List<String>? quickFilters,
+    final String? quickFilter,
+    final SearchFilters? searchFilters,
+    final String? sort,
+  }) {
     var filters = filterStrings ?? this.filterStrings;
     // If a new quick filter is supplied, replace all current ones in the filters.
     if (quickFilter != null) {
       filters = _quickFilterChange(quickFilter, filters);
     }
     return SearchData(
-        query: query ?? this.query,
-        filterStrings: filters,
-        defaultHiddenFilters: _defaultFilters,
-        multiType: multiType,
-        quickFilters: quickFilters ?? this.quickFilters,
-        sort: sort ?? this.sort,
-        searchFilters: searchFilters ?? this.searchFilters);
+      query: query ?? this.query,
+      filterStrings: filters,
+      defaultHiddenFilters: _defaultFilters,
+      multiType: multiType,
+      quickFilters: quickFilters ?? this.quickFilters,
+      sort: sort ?? this.sort,
+      searchFilters: searchFilters ?? this.searchFilters,
+    );
   }
 }

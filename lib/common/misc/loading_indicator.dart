@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 
 class LoadingIndicator extends StatefulWidget {
   const LoadingIndicator({
-    Key? key,
+    super.key,
     this.color,
     this.size = 25.0,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double size;
@@ -28,12 +28,17 @@ class LoadingIndicatorState extends State<LoadingIndicator>
     super.initState();
 
     _controller = (AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000)))
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    ))
       ..addListener(() => setState(() {}))
       ..repeat();
-    _animation = Tween(begin: 0.0, end: 4.0).animate(CurvedAnimation(
+    _animation = Tween(begin: 0, end: 4).animate(
+      CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.0, 1.0, curve: Curves.easeOut)));
+        curve: const Interval(0, 1, curve: Curves.easeOut),
+      ),
+    );
   }
 
   @override
@@ -43,7 +48,7 @@ class LoadingIndicatorState extends State<LoadingIndicator>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     // return Center(
     //   child: SizedBox(
     //     height: widget.size,
@@ -68,13 +73,14 @@ class LoadingIndicatorState extends State<LoadingIndicator>
         child: SizedBox(
           height: widget.size,
           width: widget.size,
-          child: Image.asset('assets/loading.png',
-              color: widget.color ??
-                  Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .baseElements
-              // .withOpacity(0.8),
-              ),
+          child: Image.asset(
+            'assets/loading.png',
+            color: widget.color ??
+                Provider.of<PaletteSettings>(context)
+                    .currentSetting
+                    .baseElements,
+            // .withOpacity(0.8),
+          ),
         ),
       ),
     );
@@ -82,7 +88,6 @@ class LoadingIndicatorState extends State<LoadingIndicator>
 }
 
 // import 'package:flutter/material.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
 //
 // class LoadingIndicator extends StatelessWidget {
 //   final double size;

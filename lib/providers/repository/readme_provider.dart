@@ -11,8 +11,9 @@ class RepoReadmeProvider
 
   /// Fetch a [RepositoryReadmeModel] and load it in the provider.
   @override
-  Future<RepositoryReadmeModel?> setInitData(
-      {bool isInitialisation = false}) async {
+  Future<RepositoryReadmeModel?> setInitData({
+    final bool isInitialisation = false,
+  }) async {
     final branch = parentProvider.currentSHA;
     RepositoryReadmeModel? readmeModel;
     final readme =

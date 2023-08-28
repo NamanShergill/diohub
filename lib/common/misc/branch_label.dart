@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BranchLabel extends StatelessWidget {
-  const BranchLabel(this.name, {this.size = 16, Key? key}) : super(key: key);
+  const BranchLabel(this.name, {this.size = 16, super.key});
   final String name;
   final double size;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final color = Provider.of<PaletteSettings>(context).currentSetting;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size / 2),
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
-            color: Provider.of<PaletteSettings>(context).currentSetting.accent,
-            borderRadius: smallBorderRadius),
+          color: Provider.of<PaletteSettings>(context).currentSetting.accent,
+          borderRadius: smallBorderRadius,
+        ),
         child: Padding(
           padding:
               EdgeInsets.symmetric(vertical: size / 3, horizontal: size / 2),

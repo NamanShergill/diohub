@@ -9,10 +9,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class RangePicker extends StatefulWidget {
-  const RangePicker({Key? key, required this.onAdded, required this.queryType})
-      : assert(queryType == QueryType.date || queryType == QueryType.number,
-            'Only show for date and number queries!'),
-        super(key: key);
+  const RangePicker({required this.onAdded, required this.queryType, super.key})
+      : assert(
+          queryType == QueryType.date || queryType == QueryType.number,
+          'Only show for date and number queries!',
+        );
   final ValueChanged<String> onAdded;
   final QueryType queryType;
 
@@ -75,16 +76,17 @@ class RangePickerState extends State<RangePicker> {
 
   bool get isRanged => currentType == 'Range';
 
-  String date(DateTime dateTime) {
-    return DateFormat('yyyy-MM-dd').format(dateTime);
-  }
+  String date(final DateTime dateTime) =>
+      DateFormat('yyyy-MM-dd').format(dateTime);
 
-  Future<DateTime> getDate({DateTime? firstDate, DateTime? lastDate}) async {
+  Future<DateTime> getDate(
+      {final DateTime? firstDate, final DateTime? lastDate,}) async {
     final date = await showDatePicker(
-            context: context,
-            initialDate: lastDate ?? DateTime.now(),
-            firstDate: firstDate ?? DateTime.utc(1969, 7, 20, 20, 18, 04),
-            lastDate: lastDate ?? DateTime.now()) ??
+          context: context,
+          initialDate: lastDate ?? DateTime.now(),
+          firstDate: firstDate ?? DateTime.utc(1969, 7, 20, 20, 18, 04),
+          lastDate: lastDate ?? DateTime.now(),
+        ) ??
         DateTime.now();
     return date;
   }
@@ -100,208 +102,216 @@ class RangePickerState extends State<RangePicker> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizeExpandedSection(
-      child: Material(
-        borderRadius: medBorderRadius,
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomExpandTile(
-              title: Text(
-                currentType,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                setState(() {
-                  expanded = !expanded;
-                });
-              },
-              expanded: expanded,
-              child: ListView.separated(
+  Widget build(final BuildContext context) => SizeExpandedSection(
+        child: Material(
+          borderRadius: medBorderRadius,
+          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomExpandTile(
+                title: Text(
+                  currentType,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  setState(() {
+                    expanded = !expanded;
+                  });
+                },
+                expanded: expanded,
+                child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
-                      groupValue: currentType,
-                      value: types[index],
-                      onChanged: (value) {
-                        setState(() {
-                          currentType = types[index];
-                          expanded = !expanded;
-                        });
-                      },
-                      title: Text(
-                        types[index],
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                  itemBuilder: (final context, final index) => RadioListTile(
+                    activeColor: Provider.of<PaletteSettings>(context)
+                        .currentSetting
+                        .accent,
+                    groupValue: currentType,
+                    value: types[index],
+                    onChanged: (final value) {
+                      setState(() {
+                        currentType = types[index];
+                        expanded = !expanded;
+                      });
+                    },
+                    title: Text(
+                      types[index],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemCount: types.length),
-            ),
-            if (widget.queryType == QueryType.number)
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: TextField(
-                        controller: controller1,
-                        focusNode: node1,
-                        onSubmitted: (string) {
-                          if (isRanged && controller2.text.isEmpty) {
-                            node2.requestFocus();
-                          } else {
-                            submit();
-                          }
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: inputDecoration(
+                    ),
+                  ),
+                  separatorBuilder: (final context, final index) =>
+                      const Divider(),
+                  itemCount: types.length,
+                ),
+              ),
+              if (widget.queryType == QueryType.number)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: TextField(
+                          controller: controller1,
+                          focusNode: node1,
+                          onSubmitted: (final string) {
+                            if (isRanged && controller2.text.isEmpty) {
+                              node2.requestFocus();
+                            } else {
+                              submit();
+                            }
+                          },
+                          keyboardType: TextInputType.number,
+                          decoration: inputDecoration(
                             hintText: '00',
                             context: context,
                             enabledBorderColor:
                                 Provider.of<PaletteSettings>(context)
                                     .currentSetting
-                                    .faded3),
+                                    .faded3,
+                          ),
+                        ),
                       ),
-                    ),
-                    if (isRanged)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('-'),
-                      ),
-                    if (isRanged)
-                      Flexible(
-                        child: SizeExpandedSection(
-                          child: TextField(
-                            controller: controller2,
-                            focusNode: node2,
-                            onSubmitted: (string) {
-                              if (controller1.text.isEmpty) {
-                                node1.requestFocus();
-                              } else {
-                                submit();
-                              }
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: inputDecoration(
+                      if (isRanged)
+                        const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('-'),
+                        ),
+                      if (isRanged)
+                        Flexible(
+                          child: SizeExpandedSection(
+                            child: TextField(
+                              controller: controller2,
+                              focusNode: node2,
+                              onSubmitted: (final string) {
+                                if (controller1.text.isEmpty) {
+                                  node1.requestFocus();
+                                } else {
+                                  submit();
+                                }
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: inputDecoration(
                                 hintText: '00',
                                 context: context,
                                 enabledBorderColor:
                                     Provider.of<PaletteSettings>(context)
                                         .currentSetting
-                                        .faded3),
+                                        .faded3,
+                              ),
+                            ),
                           ),
                         ),
-                      )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            if (widget.queryType == QueryType.date)
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (isRanged)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('From'),
-                      ),
-                    if (isRanged)
-                      SizeExpandedSection(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: TextField(
-                            controller: TextEditingController(
-                                text: date2 != null ? date(date2!) : 'Select'),
-                            focusNode: AlwaysDisabledFocusNode(),
-                            onTap: () async {
-                              date2 = await getDate(
+              if (widget.queryType == QueryType.date)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (isRanged)
+                        const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('From'),
+                        ),
+                      if (isRanged)
+                        SizeExpandedSection(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: TextField(
+                              controller: TextEditingController(
+                                text: date2 != null ? date(date2!) : 'Select',
+                              ),
+                              focusNode: AlwaysDisabledFocusNode(),
+                              onTap: () async {
+                                date2 = await getDate(
                                   lastDate:
-                                      date1?.subtract(const Duration(days: 1)));
-                              setState(() {});
-                            },
-                            decoration: inputDecoration(
+                                      date1?.subtract(const Duration(days: 1)),
+                                );
+                                setState(() {});
+                              },
+                              decoration: inputDecoration(
                                 context: context,
                                 enabledBorderColor:
                                     Provider.of<PaletteSettings>(context)
                                         .currentSetting
-                                        .faded3),
+                                        .faded3,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    if (isRanged)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('To'),
-                      ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: TextField(
-                        controller: TextEditingController(
-                            text: date1 != null ? date(date1!) : 'Select'),
-                        focusNode: AlwaysDisabledFocusNode(),
-                        onTap: () async {
-                          date1 = await getDate(
+                      if (isRanged)
+                        const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text('To'),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: TextField(
+                          controller: TextEditingController(
+                            text: date1 != null ? date(date1!) : 'Select',
+                          ),
+                          focusNode: AlwaysDisabledFocusNode(),
+                          onTap: () async {
+                            date1 = await getDate(
                               firstDate: isRanged
                                   ? date2?.add(const Duration(days: 1))
-                                  : null);
-                          setState(() {});
-                        },
-                        decoration: inputDecoration(
+                                  : null,
+                            );
+                            setState(() {});
+                          },
+                          decoration: inputDecoration(
                             context: context,
                             enabledBorderColor:
                                 Provider.of<PaletteSettings>(context)
                                     .currentSetting
-                                    .faded3),
+                                    .faded3,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            if (!(isRanged || currentType == 'Only'))
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8),
-                child: CheckboxListTile(
+              if (!(isRanged || currentType == 'Only'))
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                  child: CheckboxListTile(
                     value: inclusive,
                     title: const Text('Inclusive'),
                     activeColor: Provider.of<PaletteSettings>(context)
                         .currentSetting
                         .accent,
-                    onChanged: (value) {
+                    onChanged: (final value) {
                       setState(() {
                         inclusive = value!;
                       });
-                    }),
-              ),
-            const Divider(
-              height: 0,
-            ),
-            MaterialButton(
-              onPressed: checkValid ? submit : null,
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text('Add'),
+                    },
                   ),
-                ],
+                ),
+              const Divider(
+                height: 0,
               ),
-            ),
-          ],
+              MaterialButton(
+                onPressed: checkValid ? submit : null,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text('Add'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

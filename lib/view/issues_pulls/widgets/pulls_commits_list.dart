@@ -7,29 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsCommitsList extends StatelessWidget {
-  const PullsCommitsList({Key? key}) : super(key: key);
+  const PullsCommitsList({super.key});
   @override
-  Widget build(BuildContext context) {
-    return InfiniteScrollWrapper<CommitListModel>(
-      future: (data) {
-        return PullsService.getPullCommits(
+  Widget build(final BuildContext context) =>
+      InfiniteScrollWrapper<CommitListModel>(
+        future: (final data) => PullsService.getPullCommits(
           Provider.of<PullProvider>(context, listen: false).data.url.toString(),
           perPage: data.pageSize,
           refresh: data.refresh,
           pageNumber: data.pageNumber,
-        );
-      },
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 16,
-      ),
-      builder: (data) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+        ),
+        separatorBuilder: (final context, final index) => const SizedBox(
+          height: 16,
+        ),
+        builder: (final data) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           child: CommitTilesREST(
             item: data.item,
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }

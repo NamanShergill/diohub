@@ -9,50 +9,51 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddedEventCard extends StatelessWidget {
-  const AddedEventCard(this.event, this.eventTextMiddle,
-      {this.branch, this.repo, Key? key})
-      : super(key: key);
+  const AddedEventCard(
+    this.event,
+    this.eventTextMiddle, {
+    this.branch,
+    this.repo,
+    super.key,
+  });
   final EventsModel event;
   final String eventTextMiddle;
   final RepositoryModel? repo;
   final String? branch;
   @override
-  Widget build(BuildContext context) {
-    return BaseEventCard(
-      actor: event.actor!.login,
-      headerText: [
-        TextSpan(text: ' $eventTextMiddle '),
-        TextSpan(
-          text: event.repo!.name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+  Widget build(final BuildContext context) => BaseEventCard(
+        actor: event.actor!.login,
+        headerText: [
+          TextSpan(text: ' $eventTextMiddle '),
+          TextSpan(
+            text: event.repo!.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+        userLogin: event.actor!.login,
+        date: event.createdAt,
+        avatarUrl: event.actor!.avatarUrl,
+        childPadding: EdgeInsets.zero,
+        child: Container(
+          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+          child: Column(
+            children: [
+              ProfileCard(
+                event.payload!.member!,
+                compact: true,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              RepoCardLoading(
+                repo != null ? repo!.url : event.repo!.url,
+                repo != null ? repo!.name : event.repo!.name,
+                elevation: 0,
+                branch: branch,
+              ),
+            ],
+          ),
         ),
-      ],
-      userLogin: event.actor!.login,
-      date: event.createdAt,
-      avatarUrl: event.actor!.avatarUrl,
-      childPadding: EdgeInsets.zero,
-      child: Container(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        child: Column(
-          children: [
-            ProfileCard(
-              event.payload!.member!,
-              compact: true,
-              padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            RepoCardLoading(
-              repo != null ? repo!.url : event.repo!.url,
-              repo != null ? repo!.name : event.repo!.name,
-              elevation: 0,
-              branch: branch,
-              padding: EdgeInsets.zero,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+      );
 }

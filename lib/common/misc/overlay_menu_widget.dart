@@ -9,20 +9,21 @@ class OverlayController {
 }
 
 class OverlayMenuWidget extends StatefulWidget {
-  const OverlayMenuWidget(
-      {required this.child,
-      required this.overlay,
-      required this.controller,
-      this.heightMultiplier = 0.7,
-      this.offSet = 0,
-      this.initiallyVisible = false,
-      this.childAnchor = Alignment.bottomCenter,
-      this.portalAnchor = Alignment.topCenter,
-      Key? key})
-      : assert(heightMultiplier <= 1, 'heightMultiplier should be less than 1'),
-        assert((childAnchor == null) == (portalAnchor == null),
-            'Either both should be none, or none of them should be.'),
-        super(key: key);
+  const OverlayMenuWidget({
+    required this.child,
+    required this.overlay,
+    required this.controller,
+    this.heightMultiplier = 0.7,
+    this.offSet = 0,
+    this.initiallyVisible = false,
+    this.childAnchor = Alignment.bottomCenter,
+    this.portalAnchor = Alignment.topCenter,
+    super.key,
+  })  : assert(heightMultiplier <= 1, 'heightMultiplier should be less than 1'),
+        assert(
+          (childAnchor == null) == (portalAnchor == null),
+          'Either both should be none, or none of them should be.',
+        );
   final Widget child;
   final Widget overlay;
   final bool initiallyVisible;
@@ -70,7 +71,7 @@ class OverlayMenuWidgetState extends State<OverlayMenuWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final media = MediaQuery.of(context).size;
     return PortalTarget(
       visible: visible,
@@ -84,24 +85,26 @@ class OverlayMenuWidgetState extends State<OverlayMenuWidget> {
       ),
       child: PortalTarget(
         portalFollower: SizeExpandedSection(
-            child: SizedBox(
-          height: (media.height - widget.offSet) * widget.heightMultiplier,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: widget.childAnchor == Alignment.topCenter
-                  ? MainAxisAlignment.end
-                  : MainAxisAlignment.start,
-              children: [
-                Flexible(child: widget.overlay),
-              ],
+          child: SizedBox(
+            height: (media.height - widget.offSet) * widget.heightMultiplier,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisAlignment: widget.childAnchor == Alignment.topCenter
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+                children: [
+                  Flexible(child: widget.overlay),
+                ],
+              ),
             ),
           ),
-        )),
+        ),
         visible: visible,
         anchor: Aligned(
-            follower: widget.portalAnchor ?? Alignment.topCenter,
-            target: widget.childAnchor ?? Alignment.bottomCenter),
+          follower: widget.portalAnchor ?? Alignment.topCenter,
+          target: widget.childAnchor ?? Alignment.bottomCenter,
+        ),
         child: widget.child,
       ),
     );

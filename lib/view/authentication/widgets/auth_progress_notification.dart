@@ -9,35 +9,35 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class AuthProgressNotification extends StatelessWidget {
-  const AuthProgressNotification({Key? key}) : super(key: key);
+  const AuthProgressNotification({super.key});
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-      if (state is AuthenticationInitialized) {
-        return SizeExpandedSection(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              borderRadius: medBorderRadius,
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              child: InkWell(
-                onTap: () {
-                  //   showDialog(
-                  //       context: context,
-                  //       builder: (_) {
-                  //         return const AuthScreen();
-                  //       });
-                },
-                borderRadius: medBorderRadius,
-                child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: medBorderRadius,
-                    ),
-                    width: double.infinity,
-                    child: CountdownTimer(
+  Widget build(final BuildContext context) =>
+      BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (final context, final state) {
+          if (state is AuthenticationInitialized) {
+            return SizeExpandedSection(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Material(
+                  borderRadius: medBorderRadius,
+                  color: Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .secondary,
+                  child: InkWell(
+                    onTap: () {
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (_) {
+                      //         return const AuthScreen();
+                      //       });
+                    },
+                    borderRadius: medBorderRadius,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: medBorderRadius,
+                      ),
+                      width: double.infinity,
+                      child: CountdownTimer(
                         endTime: state.deviceCodeModel.expiresIn,
                         onEnd: () {
                           if (!BlocProvider.of<AuthenticationBloc>(context)
@@ -47,59 +47,61 @@ class AuthProgressNotification extends StatelessWidget {
                                 .add(ResetStates());
                           }
                         },
-                        widgetBuilder: (_, time) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(LineIcons.exclamationCircle),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'Authentication in Progress. (${time!.min ?? '00'}:${time.sec! < 10 ? '0' : ''}${time.sec})',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
+                        widgetBuilder: (final _, final time) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(LineIcons.exclamationCircle),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Authentication in Progress. (${time!.min ?? '00'}:${time.sec! < 10 ? '0' : ''}${time.sec})',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ],
                               ),
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)),
-                                child: LinearProgressIndicator(
-                                  backgroundColor:
-                                      Provider.of<PaletteSettings>(context)
-                                          .currentSetting
-                                          .faded1,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Provider.of<PaletteSettings>(context)
-                                          .currentSetting
-                                          .faded3),
-                                  value: ((time.min ?? 0) * 60 + time.sec!) /
-                                      ((state.deviceCodeModel.expiresIn! -
-                                              state.deviceCodeModel.parsedOn!) /
-                                          1000),
-                                ),
+                            ),
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
                               ),
-                            ],
-                          );
-                        })),
+                              child: LinearProgressIndicator(
+                                backgroundColor:
+                                    Provider.of<PaletteSettings>(context)
+                                        .currentSetting
+                                        .faded1,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Provider.of<PaletteSettings>(context)
+                                      .currentSetting
+                                      .faded3,
+                                ),
+                                value: ((time.min ?? 0) * 60 + time.sec!) /
+                                    ((state.deviceCodeModel.expiresIn! -
+                                            state.deviceCodeModel.parsedOn!) /
+                                        1000),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        );
-      }
-      return Container();
-    });
-  }
+            );
+          }
+          return Container();
+        },
+      );
 }

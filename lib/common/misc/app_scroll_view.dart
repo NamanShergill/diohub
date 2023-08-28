@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppScrollView extends StatefulWidget {
-  const AppScrollView(
-      {required this.scrollViewAppBar,
-      this.tabController,
-      this.tabViews,
-      // required this.nestedScrollViewController,
-      this.child,
-      this.childrenColor,
-      this.loading = false,
-      Key? key})
-      : super(key: key);
+  const AppScrollView({
+    required this.scrollViewAppBar,
+    this.tabController,
+    this.tabViews,
+    // required this.nestedScrollViewController,
+    this.child,
+    this.childrenColor,
+    this.loading = false,
+    super.key,
+  });
   final Widget scrollViewAppBar;
   final List<Widget>? tabViews;
   final Widget? child;
@@ -32,17 +32,15 @@ class AppScrollView extends StatefulWidget {
 
 class AppScrollViewState extends State<AppScrollView> {
   @override
-  Widget build(BuildContext context) {
-    return NestedScroll(
+  Widget build(final BuildContext context) => NestedScroll(
         // controller: widget.nestedScrollViewController,
         header: (
-          context, {
-          required isInnerBoxScrolled,
-        }) {
-          return [
-            widget.scrollViewAppBar,
-          ];
-        },
+          final context, {
+          required final isInnerBoxScrolled,
+        }) =>
+            [
+          widget.scrollViewAppBar,
+        ],
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 50),
           child: widget.loading
@@ -54,11 +52,12 @@ class AppScrollViewState extends State<AppScrollView> {
                   child: const Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 48.0),
+                        padding: EdgeInsets.only(top: 48),
                         child: LoadingIndicator(),
                       ),
                     ],
-                  ))
+                  ),
+                )
               : Container(
                   color: widget.childrenColor ??
                       Provider.of<PaletteSettings>(context)
@@ -70,26 +69,26 @@ class AppScrollViewState extends State<AppScrollView> {
                         children: widget.tabViews!,
                       ),
                 ),
-        ));
-  }
+        ),
+      );
 }
 
 class ScrollViewAppBar extends StatelessWidget {
-  const ScrollViewAppBar(
-      {this.tabs,
-      required this.appBarWidget,
-      this.bottomHeader,
-      this.backgroundColor,
-      this.url,
-      this.tabController,
-      this.bottomPadding,
-      this.padding,
-      this.flexibleBackgroundWidget,
-      this.collapsedHeight,
-      this.expandedHeight,
-      this.tabBar,
-      Key? key})
-      : super(key: key);
+  const ScrollViewAppBar({
+    required this.appBarWidget,
+    this.tabs,
+    this.bottomHeader,
+    this.backgroundColor,
+    this.url,
+    this.tabController,
+    this.bottomPadding,
+    this.padding,
+    this.flexibleBackgroundWidget,
+    this.collapsedHeight,
+    this.expandedHeight,
+    this.tabBar,
+    super.key,
+  });
   final List<String>? tabs;
   final Widget appBarWidget;
   final double? expandedHeight;
@@ -103,7 +102,7 @@ class ScrollViewAppBar extends StatelessWidget {
   final Color? backgroundColor;
   final EdgeInsets? padding;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final hasTabs = tabs != null || tabBar != null;
     return SliverAppBar(
       leading: Navigator.canPop(context)
@@ -127,7 +126,11 @@ class ScrollViewAppBar extends StatelessWidget {
         background: Padding(
           padding: padding ??
               EdgeInsets.only(
-                  top: 16, right: 24, left: 24, bottom: hasTabs ? 40 : 0),
+                top: 16,
+                right: 24,
+                left: 24,
+                bottom: hasTabs ? 40 : 0,
+              ),
           child: flexibleBackgroundWidget,
         ),
       ),
@@ -145,15 +148,16 @@ class ScrollViewAppBar extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: bottomHeader ?? Container(),
                     ),
-                    tabBar != null
-                        ? tabBar!
-                        : AppTabBar(
-                            controller: tabController,
-                            tabs: List.generate(
-                              tabs!.length,
-                              (index) => tabs![index],
-                            ),
-                          ),
+                    if (tabBar != null)
+                      tabBar!
+                    else
+                      AppTabBar(
+                        controller: tabController,
+                        tabs: List.generate(
+                          tabs!.length,
+                          (final index) => tabs![index],
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -165,14 +169,12 @@ class ScrollViewAppBar extends StatelessWidget {
 
 class SliverAppBarTitle extends StatefulWidget {
   const SliverAppBarTitle({
-    Key? key,
     required this.child,
-  }) : super(key: key);
+    super.key,
+  });
   final Widget child;
   @override
-  SliverAppBarTitleState createState() {
-    return SliverAppBarTitleState();
-  }
+  SliverAppBarTitleState createState() => SliverAppBarTitleState();
 }
 
 class SliverAppBarTitleState extends State<SliverAppBarTitle> {
@@ -214,11 +216,9 @@ class SliverAppBarTitleState extends State<SliverAppBarTitle> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizeExpandedSection(
-      axisAlignment: -1.0,
-      expand: _visible!,
-      child: widget.child,
-    );
-  }
+  Widget build(final BuildContext context) => SizeExpandedSection(
+        axisAlignment: -1,
+        expand: _visible,
+        child: widget.child,
+      );
 }

@@ -9,7 +9,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class ColorSettingCard extends StatefulWidget {
-  const ColorSettingCard({Key? key}) : super(key: key);
+  const ColorSettingCard({super.key});
 
   @override
   ColorSettingCardState createState() => ColorSettingCardState();
@@ -17,7 +17,7 @@ class ColorSettingCard extends StatefulWidget {
 
 class ColorSettingCardState extends State<ColorSettingCard> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context);
     return InfoCard(
       title: 'App Theme',
@@ -26,28 +26,30 @@ class ColorSettingCardState extends State<ColorSettingCard> {
       onTap: () {
         showDHBottomSheet(
           context,
-          builder: (context) => DHBottomSheet(
-            headerBuilder: (context, setState) => const BottomSheetHeaderText(
+          builder: (final context) => DHBottomSheet(
+            headerBuilder: (final context, final setState) =>
+                const BottomSheetHeaderText(
               headerText: 'App Color Palette',
             ),
-            builder: (context, setState) => BottomSheetBodyList(
+            builder: (final context, final setState) => BottomSheetBodyList(
               children: [
                 ListTile(
                   title: Text(
                     'Share theme',
                     style: TextStyle(
-                        color: theme.currentSetting.toJson().toString() ==
-                                theme.defaultSetting.toJson().toString()
-                            ? theme.currentSetting.faded3
-                            : theme.currentSetting.baseElements),
+                      color: theme.currentSetting.toJson().toString() ==
+                              theme.defaultSetting.toJson().toString()
+                          ? theme.currentSetting.faded3
+                          : theme.currentSetting.baseElements,
+                    ),
                   ),
                   onTap: theme.currentSetting.toJson().toString() ==
                           theme.defaultSetting.toJson().toString()
                       ? null
-                      : () {
+                      : () async {
                           Navigator.pop(context);
 
-                          showURLActions(
+                          await showURLActions(
                             context,
                             uri: Uri(
                               host: 'theme.felix.diohub',
@@ -67,7 +69,7 @@ class ColorSettingCardState extends State<ColorSettingCard> {
                     Navigator.pop(context);
                     showDialog(
                       context: context,
-                      builder: (context) => AppDialog(
+                      builder: (final context) => AppDialog(
                         title: 'Reset to default?',
                         actions: [
                           MaterialButton(
@@ -82,7 +84,7 @@ class ColorSettingCardState extends State<ColorSettingCard> {
                               Navigator.pop(context);
                             },
                             child: const Text('Reset'),
-                          )
+                          ),
                         ],
                       ),
                     );
@@ -98,14 +100,14 @@ class ColorSettingCardState extends State<ColorSettingCard> {
           _ColorTab(
             type: 'Accent',
             color: Provider.of<PaletteSettings>(context).currentSetting.accent,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(theme.currentSetting.copyWith(accent: value));
             },
           ),
           _ColorTab(
             type: 'Primary',
             color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(theme.currentSetting.copyWith(primary: value));
             },
           ),
@@ -113,7 +115,7 @@ class ColorSettingCardState extends State<ColorSettingCard> {
             type: 'Secondary',
             color:
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(theme.currentSetting.copyWith(secondary: value));
             },
           ),
@@ -122,9 +124,10 @@ class ColorSettingCardState extends State<ColorSettingCard> {
             color: Provider.of<PaletteSettings>(context)
                 .currentSetting
                 .baseElements,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(
-                  theme.currentSetting.copyWith(baseElements: value));
+                theme.currentSetting.copyWith(baseElements: value),
+              );
             },
           ),
           _ColorTab(
@@ -132,29 +135,30 @@ class ColorSettingCardState extends State<ColorSettingCard> {
             color: Provider.of<PaletteSettings>(context)
                 .currentSetting
                 .elementsOnColors,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(
-                  theme.currentSetting.copyWith(elementsOnColors: value));
+                theme.currentSetting.copyWith(elementsOnColors: value),
+              );
             },
           ),
           _ColorTab(
             type: 'Faded 1',
             color: Provider.of<PaletteSettings>(context).currentSetting.faded1,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(theme.currentSetting.copyWith(faded1: value));
             },
           ),
           _ColorTab(
             type: 'Faded 2',
             color: Provider.of<PaletteSettings>(context).currentSetting.faded2,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(theme.currentSetting.copyWith(faded2: value));
             },
           ),
           _ColorTab(
             type: 'Faded 3',
             color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
-            onChange: (value) {
+            onChange: (final value) {
               theme.updateData(theme.currentSetting.copyWith(faded3: value));
             },
           ),
@@ -165,12 +169,11 @@ class ColorSettingCardState extends State<ColorSettingCard> {
 }
 
 class _ColorTab extends StatefulWidget {
-  const _ColorTab(
-      {Key? key,
-      required this.type,
-      required this.color,
-      required this.onChange})
-      : super(key: key);
+  const _ColorTab({
+    required this.type,
+    required this.color,
+    required this.onChange,
+  });
   final Color color;
   final String type;
   final ValueChanged<Color> onChange;
@@ -188,7 +191,7 @@ class __ColorTabState extends State<_ColorTab> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = Provider.of<PaletteSettings>(context).currentSetting;
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
@@ -201,51 +204,50 @@ class __ColorTabState extends State<_ColorTab> {
         width: 30,
         height: 30,
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: widget.color,
-            border: Border.all(color: theme.faded3, width: 0.5)),
+          shape: BoxShape.circle,
+          color: widget.color,
+          border: Border.all(color: theme.faded3, width: 0.5),
+        ),
       ),
       title: Text(widget.type),
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Pick a color!'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ColorPicker(
-                    pickerColor: widget.color,
-                    enableAlpha: false,
-                    pickerAreaBorderRadius: medBorderRadius,
-                    onColorChanged: (value) {
-                      setState(() {
-                        selectedColor = value;
-                      });
-                    },
-                    pickerAreaHeightPercent: 0.8,
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                MaterialButton(
-                  onPressed: () {
-                    widget.onChange(selectedColor);
-                    Navigator.of(context).pop();
+          builder: (final context) => AlertDialog(
+            title: const Text('Pick a color!'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ColorPicker(
+                  pickerColor: widget.color,
+                  enableAlpha: false,
+                  pickerAreaBorderRadius: medBorderRadius,
+                  onColorChanged: (final value) {
+                    setState(() {
+                      selectedColor = value;
+                    });
                   },
-                  child: const Text('Select'),
+                  pickerAreaHeightPercent: 0.8,
                 ),
               ],
-            );
-          },
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                onPressed: () {
+                  widget.onChange(selectedColor);
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Select'),
+              ),
+            ],
+          ),
         );
       },
     );
   }
 }
 
-void loadTheme(BuildContext context, Map<String, String> data) {
-  final theme = Provider.of<PaletteSettings>(context, listen: false);
-  theme.updateData(DioHubPalette.fromJson(data));
+void loadTheme(final BuildContext context, final Map<String, String> data) {
+  Provider.of<PaletteSettings>(context, listen: false)
+      .updateData(DioHubPalette.fromJson(data));
 }
