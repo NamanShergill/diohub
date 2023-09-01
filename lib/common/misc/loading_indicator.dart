@@ -33,7 +33,7 @@ class LoadingIndicatorState extends State<LoadingIndicator>
     ))
       ..addListener(() => setState(() {}))
       ..repeat();
-    _animation = Tween(begin: 0, end: 4).animate(
+    _animation = Tween<double>(begin: 0, end: 4).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0, 1, curve: Curves.easeOut),

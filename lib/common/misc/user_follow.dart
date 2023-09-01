@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
@@ -64,7 +64,8 @@ class UserFollowState extends State<UserFollow> {
 
                 final isFollowing = data.viewerIsFollowing;
                 controller.changeData(
-                    data..viewerIsFollowing = !data.viewerIsFollowing,);
+                  data..viewerIsFollowing = !data.viewerIsFollowing,
+                );
                 await UserInfoService.changeFollowStatus(
                   data.id,
                   follow: !isFollowing,

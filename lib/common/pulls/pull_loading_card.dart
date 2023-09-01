@@ -36,14 +36,14 @@ class PullLoadingCard extends StatelessWidget {
           color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: medBorderRadius,
           child: APIWrapper<PullRequestModel>(
-            apiCall: ({required final refresh}) =>
+            apiCall: ({required final refresh}) async =>
                 PullsService.getPullInformation(fullUrl: url, refresh: refresh),
             loadingBuilder: (final context) {
               if (issueModel != null) {
                 return InkWell(
                   borderRadius: medBorderRadius,
-                  onTap: () {
-                    AutoRouter.of(context).push(
+                  onTap: () async {
+                    await AutoRouter.of(context).push(
                       issuePullScreenRoute(PathData.fromURL(issueModel!.url!)),
                     );
                   },
@@ -54,7 +54,7 @@ class PullLoadingCard extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const GetIcon(null, null),
+                            // const GetPullIcon(null, null),
                             const SizedBox(
                               width: 4,
                             ),
@@ -122,7 +122,9 @@ class PullLoadingCard extends StatelessWidget {
               }
               return const SizedBox(
                 height: 80,
-                child: Center(child: LoadingIndicator()),
+                child: Center(
+                  child: LoadingIndicator(),
+                ),
               );
             },
             responseBuilder: (final context, final data) => PullListCard(

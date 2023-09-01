@@ -28,6 +28,7 @@ class Discussion extends StatefulWidget {
     this.createdAt,
     super.key,
   });
+
   // final ScrollController nestedScrollViewController;
 
   /// Show  comments since.
@@ -36,7 +37,7 @@ class Discussion extends StatefulWidget {
   final String owner;
   final String? pullNodeID;
   final BaseComment initComment;
-  final String issueUrl;
+  final Uri issueUrl;
   final int number;
   final bool? isLocked;
   final bool isPull;
@@ -62,8 +63,10 @@ class DiscussionState extends State<Discussion> {
     showCommentSheet(
       context,
       onSubmit: () async {
+        print(widget.issueUrl);
+        print('asdjknksjd');
         await IssuesService.addComment(
-          widget.issueUrl,
+          widget.issueUrl.toString(),
           context.read<CommentProvider>().data,
         );
         context.read<CommentProvider>().clearData();
@@ -213,7 +216,7 @@ class DiscussionState extends State<Discussion> {
           children: [
             Expanded(
               child: InfiniteScrollWrapper<dynamic>(
-                future: (final data) => IssuesService.getTimeline(
+                future: (final data) async => IssuesService.getTimeline(
                   repo: widget.repoName,
                   after: data.lastItem?.cursor,
                   number: widget.number,
@@ -240,7 +243,7 @@ class DiscussionState extends State<Discussion> {
                 ),
                 builder: (final data) {
                   return GetTimelineItem(
-                    data.item.edge.node,
+                    data.item.node,
                     pullNodeID: widget.pullNodeID,
                     onQuote: openCommentSheet,
                   );

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -95,9 +95,7 @@ class DHBottomSheet extends StatelessWidget {
               const Divider(
                 height: 0,
               ),
-              Flexible(
-                child: builder.call(context, setState),
-              ),
+              Flexible(child: builder.call(context, setState)),
               const SizedBox(
                 height: 8,
               ),

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -211,13 +211,11 @@ class _CommitTilesState extends State<_CommitTiles> {
                                       fontSize: 11,
                                       color: widget.highlighted
                                           ? Provider.of<PaletteSettings>(
-                                                  context,)
-                                              .currentSetting
-                                              .elementsOnColors
+                                              context,
+                                            ).currentSetting.elementsOnColors
                                           : Provider.of<PaletteSettings>(
-                                                  context,)
-                                              .currentSetting
-                                              .faded3,
+                                              context,
+                                            ).currentSetting.faded3,
                                     ),
                                   ),
                                 ],

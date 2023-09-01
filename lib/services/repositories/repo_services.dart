@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/models/repositories/branch_list_model.dart';
@@ -6,19 +6,20 @@ import 'package:dio_hub/models/repositories/branch_model.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/models/repositories/readme_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
 
 class RepositoryServices {
   RepositoryServices({
     required this.name,
     required this.owner,
   });
+
   final String owner;
   final String name;
 
-  static final GraphqlHandler _gqlHandler =
-      GraphqlHandler(apiLogSettings: APILoggingSettings.comprehensive());
-  static final RESTHandler _restHandler = RESTHandler();
+  static final GraphqlHandler _gqlHandler = GraphqlHandler();
+  static final RESTHandler _restHandler = RESTHandler(
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
 
   Future<PinnedIssues$Query$Repository$PinnedIssues> getPinnedIssues() async {
     final response = await _gqlHandler.query(
@@ -52,6 +53,7 @@ class RepositoryServices {
     final String repoUrl, {
     final String? branch,
   }) async {
+    print('jkasnf');
     final response = await _restHandler.get(
       '$repoUrl/readme',
       queryParameters: {
@@ -74,13 +76,16 @@ class RepositoryServices {
     final int perPage, {
     final bool refresh = false,
   }) async {
-    final response = await _restHandler.get(
+    final response = await _restHandler.get<List>(
       '$repoURL/branches',
       queryParameters: {'per_page': perPage, 'page': pageNumber},
       refreshCache: refresh,
     );
-    return listTypeCast<JsonMap>(response.data)
-        .map(RepoBranchListItemModel.fromJson)
+    return response.data!
+        .map(
+          // ignore: unnecessary_lambdas
+          (final e) => RepoBranchListItemModel.fromJson(e),
+        )
         .toList();
   }
 
@@ -109,7 +114,9 @@ class RepositoryServices {
       refreshCache: refresh,
     );
     // ignore: unnecessary_lambdas
-    return response.data!.map((final e) => CommitListModel.fromJson(e)).toList();
+    return response.data!
+        .map((final e) => CommitListModel.fromJson(e))
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit

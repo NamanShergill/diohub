@@ -1,8 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';

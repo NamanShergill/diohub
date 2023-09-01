@@ -1,9 +1,10 @@
 // import 'package:artemis/artemis.dart';
 import 'package:artemis/schema/graphql_query.dart';
+import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
-import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
@@ -65,7 +66,7 @@ class RESTHandler extends BaseAPIHandler {
 
   Future<Response> post<T>(
     final String url, {
-    final data,
+    final Object? data,
     final Map<String, dynamic>? queryParameters,
     final Options? options,
     final CancelToken? cancelToken,
@@ -93,7 +94,7 @@ class RESTHandler extends BaseAPIHandler {
 
   Future<Response> put<T>(
     final String url, {
-    final data,
+    final Object? data,
     final Map<String, dynamic>? queryParameters,
     final Options? options,
     final CancelToken? cancelToken,
@@ -121,7 +122,7 @@ class RESTHandler extends BaseAPIHandler {
 
   Future<Response> delete<T>(
     final String url, {
-    final data,
+    final Object? data,
     final Map<String, dynamic>? queryParameters,
     final Options? options,
     final CancelToken? cancelToken,
@@ -145,7 +146,7 @@ class RESTHandler extends BaseAPIHandler {
 
   Future<Response> patch<T>(
     final String url, {
-    final data,
+    final Object? data,
     final Map<String, dynamic>? queryParameters,
     final Options? options,
     final CancelToken? cancelToken,
@@ -261,8 +262,7 @@ abstract class BaseAPIHandler {
 
   final APILoggingSettings? apiLogSettings;
 
-  APILoggingSettings? get defaultAPILogSettings =>
-      APILoggingSettings.comprehensive();
+  APILoggingSettings? get defaultAPILogSettings => null;
 
   Dio _request({
     final Map<String, dynamic>? requestHeaders,
@@ -368,6 +368,15 @@ abstract class BaseAPIHandler {
     // Log the request in the console if `apiLogSettings` is not null.
     final logSettings = apiLogSettings ?? defaultAPILogSettings;
     if (logSettings != null) {
+      if (logSettings.cURL) {
+        print('logging');
+        print(dio.options.queryParameters);
+        dio.interceptors.add(
+          CurlLoggerDioInterceptor(
+            printOnSuccess: true,
+          ),
+        );
+      }
       dio.interceptors.add(
         PrettyDioLogger(
           requestHeader: logSettings.requestHeader,
@@ -407,6 +416,7 @@ abstract class BaseAPIHandler {
 class APILoggingSettings {
   APILoggingSettings({
     this.request = true,
+    this.cURL = true,
     this.requestHeader = false,
     this.requestBody = false,
     this.responseHeader = false,
@@ -426,10 +436,12 @@ class APILoggingSettings {
         requestBody = true,
         responseHeader = true,
         responseBody = true,
-        error = true;
+        error = true,
+        cURL = true;
 
   /// Print request [Options]
   final bool request;
+  final bool cURL;
 
   /// Print request header [Options.headers]
   final bool requestHeader;

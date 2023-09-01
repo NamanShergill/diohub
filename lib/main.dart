@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/app/Dio/response_handler.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
+import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/settings/font.dart';
 import 'package:dio_hub/app/settings/palette.dart';
@@ -13,10 +13,22 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/device_display_mode.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:provider/provider.dart';
+
+Future<void> debugURLLauncher() async {
+  await Future.delayed(const Duration(seconds: 2));
+  String? url;
+  url = 'namanshergill/git/issues/1';
+  if (kDebugMode) {
+    deepLinkNavigate(
+      Uri.parse(url ?? ''),
+    );
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +54,7 @@ void main() async {
       // initDeepLink: initLink,
     ),
   );
+  await debugURLLauncher();
 }
 
 class MyApp extends StatelessWidget {

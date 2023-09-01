@@ -4,10 +4,7 @@ fragment addedToProject on AddedToProjectEvent{
     actor{
         ...actor
     }
-    projectColumnName
-    project{
-        name
-    }
+
 }
 
 fragment assigned on AssignedEvent{
@@ -228,11 +225,11 @@ fragment movedColumnsInProject on MovedColumnsInProjectEvent{
     actor{
         ...actor
     }
-    previousProjectColumnName
-    projectColumnName
-    project{
-        name
-    }
+    #    previousProjectColumnName
+    #    projectColumnName
+    #    project{
+    #        name
+    #    }
 }
 
 fragment pinned on PinnedEvent{
@@ -252,6 +249,13 @@ fragment pullRequestCommit on PullRequestCommit{
 
 fragment  pullRequestReview on PullRequestReview{
     id
+    resourcePath
+    comments(first: 1){
+        totalCount
+        edges {
+            cursor
+        }
+    }
     author{
         ...actor
     }
@@ -261,9 +265,6 @@ fragment  pullRequestReview on PullRequestReview{
     bodyHTML
     lastEditedAt
     state
-    comments{
-        totalCount
-    }
     reactionGroups{
         ...reactionGroups
     }
@@ -288,10 +289,10 @@ fragment removedFromProject on RemovedFromProjectEvent{
     actor{
         ...actor
     }
-    project{
-        name
-    }
-    projectColumnName
+    #    project{
+    #        name
+    #    }
+    #    projectColumnName
 }
 
 fragment  renamedTitle on RenamedTitleEvent{
@@ -493,6 +494,11 @@ fragment reactorsGroup on ReactionGroup{
 
 fragment  pullRequestReviewComment on PullRequestReviewComment{
     id
+    pullRequestReview {
+        comments{
+            totalCount
+        }
+    }
     databaseId
     author{
         ...actor

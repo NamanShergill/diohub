@@ -4,12 +4,12 @@ import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
+import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/reaction_bar.dart';
@@ -20,7 +20,9 @@ import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/main.dart';
+import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
+import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
@@ -115,7 +117,14 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
               ),
             );
           } else if (data is PullInfoMixin) {
-            return PullScreen(data as PullInfoMixin);
+            return ChangeNotifierProvider(
+              create: (final context) => PullProvider(data as PullInfoMixin),
+              lazy: false,
+              builder: (final context, final child) => PullScreen(
+                data as PullInfoMixin,
+                // apiWrapperController: apiWrapperController,
+              ),
+            );
           } else {
             return Container();
           }
@@ -141,6 +150,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.assigneesInfo,
     required this.participantsInfo,
     required this.isPinned,
+    required this.uri,
     super.key,
     this.dynamicTabs = const [],
   });
@@ -159,6 +169,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final RepoInfoMixin repoInfo;
   final IssuePullState state;
   final String title;
+  final Uri uri;
   final bool viewerCanReact;
   final ParticipantsInfo participantsInfo;
   final bool isPinned;
@@ -213,32 +224,35 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               DynamicTab(
                 identifier: 'Conversation',
                 keepViewAlive: true,
-                tabViewBuilder: (final context) => Discussion(
-                  number: widget.number,
-                  isLocked: false,
-                  createdAt: widget.createdAt,
-                  owner: widget.repoInfo.owner.login,
-                  repoName: widget.repoInfo.name,
-                  initComment: BaseComment(
-                    onQuote: () {},
-                    isMinimized: false,
-                    reactions: widget.reactionGroups,
-                    viewerCanDelete: false,
-                    viewerCanMinimize: false,
-                    viewerCannotUpdateReasons: null,
-                    viewerCanReact: widget.viewerCanReact,
-                    viewerCanUpdate: false,
-                    viewerDidAuthor: false,
+                tabViewBuilder: (final context) => ChangeNotifierProvider(
+                  create: (final _) => CommentProvider(),
+                  builder: (final context, final child) => Discussion(
+                    number: widget.number,
+                    isLocked: false,
                     createdAt: widget.createdAt,
-                    author: widget.createdBy,
-                    body: widget.body,
-                    lastEditedAt: null,
-                    bodyHTML: widget.bodyHTML,
-                    authorAssociation: CommentAuthorAssociation.none,
+                    owner: widget.repoInfo.owner.login,
+                    repoName: widget.repoInfo.name,
+                    initComment: BaseComment(
+                      onQuote: () {},
+                      isMinimized: false,
+                      reactions: widget.reactionGroups,
+                      viewerCanDelete: false,
+                      viewerCanMinimize: false,
+                      viewerCannotUpdateReasons: null,
+                      viewerCanReact: widget.viewerCanReact,
+                      viewerCanUpdate: false,
+                      viewerDidAuthor: false,
+                      createdAt: widget.createdAt,
+                      author: widget.createdBy,
+                      body: widget.body,
+                      lastEditedAt: null,
+                      bodyHTML: widget.bodyHTML,
+                      authorAssociation: CommentAuthorAssociation.none,
+                    ),
+                    issueUrl: widget.uri,
+                    isPull: false,
+                    // nestedScrollViewController: scrollController,
                   ),
-                  issueUrl: '',
-                  isPull: false,
-                  // nestedScrollViewController: scrollController,
                 ),
               ),
             ],
@@ -588,8 +602,11 @@ class _AboutTab extends StatelessWidget {
                                   const BottomSheetHeaderText(
                                 headerText: 'Assignees',
                               ),
-                              scrollableBodyBuilder: (final context,
-                                      final setState, final scrollController,) =>
+                              scrollableBodyBuilder: (
+                                final context,
+                                final setState,
+                                final scrollController,
+                              ) =>
                                   InfiniteScrollWrapper<
                                       AssigneeUserListMixin$Assignees$Edges?>(
                                 future: (final data) =>
@@ -742,8 +759,8 @@ class _ScreenHeader extends StatelessWidget {
                   builder: (final context, final newValue) => MarkdownBody(
                     newValue != null ? mdToHtml(newValue) : widget.title,
                     defaultBodyStyle: Style(
-                      padding: EdgeInsets.zero,
-                      margin: EdgeInsets.zero,
+                      padding: HtmlPaddings.zero,
+                      margin: Margins.zero,
                       fontSize: FontSize(
                         context.textTheme.headlineSmall!.fontSize!,
                       ),

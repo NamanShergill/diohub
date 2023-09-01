@@ -692,11 +692,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$A
               ? null
               : AddedToProjectMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..projectColumnName = json['projectColumnName'] as String
-          ..project = json['project'] == null
-              ? null
-              : AddedToProjectMixin$Project.fromJson(
-                  json['project'] as Map<String, dynamic>)
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
@@ -707,8 +702,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -1029,13 +1022,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$M
               ? null
               : MovedColumnsInProjectMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..previousProjectColumnName =
-              json['previousProjectColumnName'] as String
-          ..projectColumnName = json['projectColumnName'] as String
-          ..project = json['project'] == null
-              ? null
-              : MovedColumnsInProjectMixin$Project.fromJson(
-                  json['project'] as Map<String, dynamic>)
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
@@ -1046,9 +1032,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'previousProjectColumnName': instance.previousProjectColumnName,
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -1085,11 +1068,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$R
               ? null
               : RemovedFromProjectMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..project = json['project'] == null
-              ? null
-              : RemovedFromProjectMixin$Project.fromJson(
-                  json['project'] as Map<String, dynamic>)
-          ..projectColumnName = json['projectColumnName'] as String
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
@@ -1100,8 +1078,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'project': instance.project?.toJson(),
-          'projectColumnName': instance.projectColumnName,
           '__typename': instance.$$typename,
         };
 
@@ -1364,11 +1340,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               ? null
               : AddedToProjectMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..projectColumnName = json['projectColumnName'] as String
-          ..project = json['project'] == null
-              ? null
-              : AddedToProjectMixin$Project.fromJson(
-                  json['project'] as Map<String, dynamic>)
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
@@ -1379,8 +1350,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -1894,13 +1863,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               ? null
               : MovedColumnsInProjectMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..previousProjectColumnName =
-              json['previousProjectColumnName'] as String
-          ..projectColumnName = json['projectColumnName'] as String
-          ..project = json['project'] == null
-              ? null
-              : MovedColumnsInProjectMixin$Project.fromJson(
-                  json['project'] as Map<String, dynamic>)
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
@@ -1911,9 +1873,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'previousProjectColumnName': instance.previousProjectColumnName,
-          'projectColumnName': instance.projectColumnName,
-          'project': instance.project?.toJson(),
           '__typename': instance.$$typename,
         };
 
@@ -1980,6 +1939,9 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
             Map<String, dynamic> json) =>
         GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview()
           ..id = json['id'] as String
+          ..resourcePath = Uri.parse(json['resourcePath'] as String)
+          ..comments = PullRequestReviewMixin$Comments.fromJson(
+              json['comments'] as Map<String, dynamic>)
           ..author = json['author'] == null
               ? null
               : PullRequestReviewMixin$Author.fromJson(
@@ -1995,8 +1957,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               : DateTime.parse(json['lastEditedAt'] as String)
           ..state = $enumDecode(_$PullRequestReviewStateEnumMap, json['state'],
               unknownValue: PullRequestReviewState.artemisUnknown)
-          ..comments = PullRequestReviewMixin$Comments.fromJson(
-              json['comments'] as Map<String, dynamic>)
           ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
               ?.map((e) => PullRequestReviewMixin$ReactionGroups.fromJson(
                   e as Map<String, dynamic>))
@@ -2016,8 +1976,10 @@ Map<String, dynamic>
     _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
             GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview
                 instance) =>
-        <String, dynamic>{
+    <String, dynamic>{
           'id': instance.id,
+          'resourcePath': instance.resourcePath.toString(),
+          'comments': instance.comments.toJson(),
           'author': instance.author?.toJson(),
           'createdAt': instance.createdAt.toIso8601String(),
           'authorAssociation':
@@ -2026,7 +1988,6 @@ Map<String, dynamic>
           'bodyHTML': instance.bodyHTML,
           'lastEditedAt': instance.lastEditedAt?.toIso8601String(),
           'state': _$PullRequestReviewStateEnumMap[instance.state]!,
-          'comments': instance.comments.toJson(),
           'reactionGroups':
               instance.reactionGroups?.map((e) => e.toJson()).toList(),
           'viewerCanDelete': instance.viewerCanDelete,
@@ -2097,11 +2058,6 @@ GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$
               ? null
               : RemovedFromProjectMixin$Actor.fromJson(
                   json['actor'] as Map<String, dynamic>)
-          ..project = json['project'] == null
-              ? null
-              : RemovedFromProjectMixin$Project.fromJson(
-                  json['project'] as Map<String, dynamic>)
-          ..projectColumnName = json['projectColumnName'] as String
           ..$$typename = json['__typename'] as String?;
 
 Map<String, dynamic>
@@ -2112,8 +2068,6 @@ Map<String, dynamic>
           'id': instance.id,
           'createdAt': instance.createdAt.toIso8601String(),
           'actor': instance.actor?.toJson(),
-          'project': instance.project?.toJson(),
-          'projectColumnName': instance.projectColumnName,
           '__typename': instance.$$typename,
         };
 
@@ -2476,16 +2430,6 @@ Map<String, dynamic> _$AddedToProjectMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
-    };
-
-AddedToProjectMixin$Project _$AddedToProjectMixin$ProjectFromJson(
-        Map<String, dynamic> json) =>
-    AddedToProjectMixin$Project()..name = json['name'] as String;
-
-Map<String, dynamic> _$AddedToProjectMixin$ProjectToJson(
-        AddedToProjectMixin$Project instance) =>
-    <String, dynamic>{
-      'name': instance.name,
     };
 
 AssignedMixin$Actor _$AssignedMixin$ActorFromJson(Map<String, dynamic> json) =>
@@ -2882,16 +2826,6 @@ Map<String, dynamic> _$MovedColumnsInProjectMixin$ActorToJson(
       'login': instance.login,
     };
 
-MovedColumnsInProjectMixin$Project _$MovedColumnsInProjectMixin$ProjectFromJson(
-        Map<String, dynamic> json) =>
-    MovedColumnsInProjectMixin$Project()..name = json['name'] as String;
-
-Map<String, dynamic> _$MovedColumnsInProjectMixin$ProjectToJson(
-        MovedColumnsInProjectMixin$Project instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
-
 PinnedMixin$Actor _$PinnedMixin$ActorFromJson(Map<String, dynamic> json) =>
     PinnedMixin$Actor()
       ..avatarUrl = Uri.parse(json['avatarUrl'] as String)
@@ -2914,16 +2848,6 @@ Map<String, dynamic> _$RemovedFromProjectMixin$ActorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
-    };
-
-RemovedFromProjectMixin$Project _$RemovedFromProjectMixin$ProjectFromJson(
-        Map<String, dynamic> json) =>
-    RemovedFromProjectMixin$Project()..name = json['name'] as String;
-
-Map<String, dynamic> _$RemovedFromProjectMixin$ProjectToJson(
-        RemovedFromProjectMixin$Project instance) =>
-    <String, dynamic>{
-      'name': instance.name,
     };
 
 RenamedTitleMixin$Actor _$RenamedTitleMixin$ActorFromJson(
@@ -3386,6 +3310,36 @@ Map<String, dynamic> _$CommitMixin$AuthorToJson(CommitMixin$Author instance) =>
       'user': instance.user?.toJson(),
     };
 
+PullRequestReviewMixin$Comments$Edges
+    _$PullRequestReviewMixin$Comments$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewMixin$Comments$Edges()
+          ..cursor = json['cursor'] as String;
+
+Map<String, dynamic> _$PullRequestReviewMixin$Comments$EdgesToJson(
+        PullRequestReviewMixin$Comments$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+    };
+
+PullRequestReviewMixin$Comments _$PullRequestReviewMixin$CommentsFromJson(
+        Map<String, dynamic> json) =>
+    PullRequestReviewMixin$Comments()
+      ..totalCount = json['totalCount'] as int
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : PullRequestReviewMixin$Comments$Edges.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$PullRequestReviewMixin$CommentsToJson(
+        PullRequestReviewMixin$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
 PullRequestReviewMixin$Author _$PullRequestReviewMixin$AuthorFromJson(
         Map<String, dynamic> json) =>
     PullRequestReviewMixin$Author()
@@ -3397,16 +3351,6 @@ Map<String, dynamic> _$PullRequestReviewMixin$AuthorToJson(
     <String, dynamic>{
       'avatarUrl': instance.avatarUrl.toString(),
       'login': instance.login,
-    };
-
-PullRequestReviewMixin$Comments _$PullRequestReviewMixin$CommentsFromJson(
-        Map<String, dynamic> json) =>
-    PullRequestReviewMixin$Comments()..totalCount = json['totalCount'] as int;
-
-Map<String, dynamic> _$PullRequestReviewMixin$CommentsToJson(
-        PullRequestReviewMixin$Comments instance) =>
-    <String, dynamic>{
-      'totalCount': instance.totalCount,
     };
 
 PullRequestReviewMixin$ReactionGroups
@@ -3558,8 +3502,12 @@ Map<String, dynamic> _$GetPRReviewComments$QueryToJson(
 PRReviewCommentsMixin$Comments$Edges$Node
     _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-        PRReviewCommentsMixin$Comments$Edges$Node()
+    PRReviewCommentsMixin$Comments$Edges$Node()
           ..id = json['id'] as String
+          ..pullRequestReview = json['pullRequestReview'] == null
+              ? null
+              : PullRequestReviewCommentMixin$PullRequestReview.fromJson(
+                  json['pullRequestReview'] as Map<String, dynamic>)
           ..databaseId = json['databaseId'] as int?
           ..author = json['author'] == null
               ? null
@@ -3609,6 +3557,7 @@ Map<String, dynamic> _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(
         PRReviewCommentsMixin$Comments$Edges$Node instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'pullRequestReview': instance.pullRequestReview?.toJson(),
       'databaseId': instance.databaseId,
       'author': instance.author?.toJson(),
       'createdAt': instance.createdAt.toIso8601String(),
@@ -3675,6 +3624,33 @@ Map<String, dynamic> _$PRReviewCommentsMixin$CommentsToJson(
         PRReviewCommentsMixin$Comments instance) =>
     <String, dynamic>{
       'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
+PullRequestReviewCommentMixin$PullRequestReview$Comments
+    _$PullRequestReviewCommentMixin$PullRequestReview$CommentsFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$PullRequestReview$Comments()
+          ..totalCount = json['totalCount'] as int;
+
+Map<String,
+    dynamic> _$PullRequestReviewCommentMixin$PullRequestReview$CommentsToJson(
+        PullRequestReviewCommentMixin$PullRequestReview$Comments instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullRequestReviewCommentMixin$PullRequestReview
+    _$PullRequestReviewCommentMixin$PullRequestReviewFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewCommentMixin$PullRequestReview()
+          ..comments =
+              PullRequestReviewCommentMixin$PullRequestReview$Comments.fromJson(
+                  json['comments'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PullRequestReviewCommentMixin$PullRequestReviewToJson(
+        PullRequestReviewCommentMixin$PullRequestReview instance) =>
+    <String, dynamic>{
+      'comments': instance.comments.toJson(),
     };
 
 PullRequestReviewCommentMixin$Author
@@ -3913,8 +3889,12 @@ Map<String, dynamic> _$ReviewThreadFirstCommentQuery$QueryToJson(
 ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
     _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
+    ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
           ..id = json['id'] as String
+          ..pullRequestReview = json['pullRequestReview'] == null
+              ? null
+              : PullRequestReviewCommentMixin$PullRequestReview.fromJson(
+                  json['pullRequestReview'] as Map<String, dynamic>)
           ..databaseId = json['databaseId'] as int?
           ..author = json['author'] == null
               ? null
@@ -3964,8 +3944,9 @@ Map<String, dynamic>
     _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
             ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
                 instance) =>
-        <String, dynamic>{
+    <String, dynamic>{
           'id': instance.id,
+          'pullRequestReview': instance.pullRequestReview?.toJson(),
           'databaseId': instance.databaseId,
           'author': instance.author?.toJson(),
           'createdAt': instance.createdAt.toIso8601String(),

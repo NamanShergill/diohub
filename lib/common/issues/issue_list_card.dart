@@ -62,7 +62,7 @@ class IssueListCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    getIcon(item.state)!,
+                    getIcon(item.state!),
                     const SizedBox(
                       width: 4,
                     ),
@@ -176,7 +176,7 @@ class IssueListCard extends StatelessWidget {
   }
 }
 
-Widget? getIcon(final IssueState? state) {
+Widget getIcon(final IssueState state) {
   switch (state) {
     case IssueState.CLOSED:
       return const Icon(
@@ -187,6 +187,12 @@ Widget? getIcon(final IssueState? state) {
     case IssueState.OPEN:
       return const Icon(
         Octicons.issue_opened,
+        color: Colors.green,
+        size: 15,
+      );
+    case IssueState.REOPENED:
+      return const Icon(
+        Octicons.issue_reopened,
         color: Colors.green,
         size: 15,
       );

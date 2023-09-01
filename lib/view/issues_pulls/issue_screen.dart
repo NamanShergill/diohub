@@ -64,10 +64,11 @@ class IssueScreenState extends State<IssueScreen>
             )
             .toList(),
       ),
+      uri: data.url,
     );
   }
 
-  Widget? getIcon(final IssueState? state, final double size) {
+  Widget? getIcon(final IssueState state, final double size) {
     switch (state) {
       case IssueState.CLOSED:
         return Icon(
@@ -78,6 +79,12 @@ class IssueScreenState extends State<IssueScreen>
       case IssueState.OPEN:
         return Icon(
           Octicons.issue_opened,
+          color: Colors.green,
+          size: size,
+        );
+      case IssueState.REOPENED:
+        return Icon(
+          Octicons.issue_reopened,
           color: Colors.green,
           size: size,
         );

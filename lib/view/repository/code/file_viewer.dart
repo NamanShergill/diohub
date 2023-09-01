@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
-import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
@@ -209,7 +209,7 @@ class TextViewerState extends State<TextViewer> {
               return SingleChildScrollView(
                 child: MarkdownRenderAPI(
                   content.join('\n'),
-                  repoName: widget.repoName,
+                  repoContext: widget.repoName,
                 ),
               );
             }

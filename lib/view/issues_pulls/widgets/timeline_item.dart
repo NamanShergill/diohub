@@ -55,6 +55,8 @@ class GetTimelineItem extends StatelessWidget {
         return 'Dismissed this.';
       case PullRequestReviewState.pending:
         return 'Review Pending.';
+      case PullRequestReviewState.artemisUnknown:
+        return 'Unknown';
     }
   }
 

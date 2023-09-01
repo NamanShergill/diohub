@@ -1,7 +1,7 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/markdown_body.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 typedef LoadingFuture = Future<void> Function();
 
-void showCommentSheet(
+Future<void> showCommentSheet(
   final BuildContext context, {
   required final LoadingFuture onSubmit,
   required final String? initialData,
@@ -17,10 +17,10 @@ void showCommentSheet(
   required final String owner,
   required final String repoName,
   final String type = 'Comment',
-}) {
+}) async {
   var markdownView = false;
   var loading = false;
-  showDHBottomSheet(
+  await showDHBottomSheet(
     context,
     isScrollControlled: true,
     builder: (final context) => DHBottomSheet(
@@ -88,13 +88,11 @@ void showCommentSheet(
           ),
         ],
       ),
-      builder: (final context, final setState) => Expanded(
-        child: CommentBox(
-          repoName: '$owner/$repoName',
-          markdownView: markdownView,
-          initialData: initialData,
-          onChanged: loading ? null : onChanged,
-        ),
+      builder: (final context, final setState) => CommentBox(
+        repoName: '$owner/$repoName',
+        markdownView: markdownView,
+        initialData: initialData,
+        onChanged: loading ? null : onChanged,
       ),
     ),
   );
@@ -162,7 +160,7 @@ class CommentBoxState extends State<CommentBox> {
       child: widget.markdownView
           ? MarkdownRenderAPI(
               data,
-              repoName: widget.repoName,
+              repoContext: widget.repoName,
             )
           : textBox(),
     );

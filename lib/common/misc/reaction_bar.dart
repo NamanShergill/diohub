@@ -30,6 +30,8 @@ String getReaction(final ReactionContent reaction) {
       return '🚀';
     case ReactionContent.eyes:
       return '👀';
+    default:
+      return '';
   }
 }
 

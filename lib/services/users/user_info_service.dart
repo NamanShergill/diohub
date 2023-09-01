@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/models/users/current_user_info_model.dart';
@@ -7,9 +7,7 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 class UserInfoService {
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
 
-  static final RESTHandler _restHandler = RESTHandler(
-    apiLogSettings: APILoggingSettings.comprehensive(),
-  );
+  static final RESTHandler _restHandler = RESTHandler();
 
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
@@ -94,7 +92,8 @@ class UserInfoService {
   }
 
   static Future<FollowStatusInfo$Query$User> getFollowInfo(
-          final String login,) async =>
+    final String login,
+  ) async =>
       FollowStatusInfo$Query.fromJson(
         (await _gqlHandler.query(
           FollowStatusInfoQuery(
@@ -104,8 +103,10 @@ class UserInfoService {
             .data!,
       ).user!;
 
-  static Future changeFollowStatus(final String id,
-      {required final bool follow,}) async {
+  static Future changeFollowStatus(
+    final String id, {
+    required final bool follow,
+  }) async {
     if (follow) {
       return _gqlHandler.mutation(
         FollowUserMutation(

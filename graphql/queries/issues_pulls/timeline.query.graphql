@@ -1,4 +1,5 @@
 query getTimeline($repoName: String!, $owner : String!, $number : Int!, $after: String, $since: DateTime){
+
     repository(name: $repoName, owner: $owner){
         issueOrPullRequest(number: $number){
             __typename

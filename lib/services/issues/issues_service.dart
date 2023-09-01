@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
@@ -13,12 +13,14 @@ class IssuesService {
     required this.user,
     required this.number,
   });
+
   final String repo;
   final String user;
   final int number;
 
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
-  static final RESTHandler _restHandler = RESTHandler();
+  static final RESTHandler _restHandler =
+      RESTHandler(apiLogSettings: APILoggingSettings.comprehensive());
 
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo({
@@ -75,7 +77,9 @@ class IssuesService {
   }
 
   static Future<void> addReaction(
-      final ReactionContent content, final String id,) async {
+    final ReactionContent content,
+    final String id,
+  ) async {
     await _gqlHandler.mutation(
       AddReactionMutation(
         variables: AddReactionArguments(content: content, id: id),
@@ -84,7 +88,9 @@ class IssuesService {
   }
 
   static Future<void> removeReaction(
-      final ReactionContent content, final String id,) async {
+    final ReactionContent content,
+    final String id,
+  ) async {
     await _gqlHandler.mutation(
       RemoveReactionMutation(
         variables: RemoveReactionArguments(content: content, id: id),
@@ -152,7 +158,9 @@ class IssuesService {
     );
 
     // ignore: unnecessary_lambdas
-    return response.data!.map((final e) => IssueEventModel.fromJson(e)).toList();
+    return response.data!
+        .map((final e) => IssueEventModel.fromJson(e))
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-issues-assigned-to-the-authenticated-user
@@ -225,9 +233,9 @@ class IssuesService {
       requestHeaders: _gqlHandler
           .acceptHeader('application/vnd.github.starfox-preview+json'),
     );
-    return (GetTimeline$Query.fromJson(response.data!) as dynamic)
-        .repository!
-        .issueOrPullRequest
+    return (GetTimeline$Query.fromJson(response.data!)
+            .repository!
+            .issueOrPullRequest! as dynamic)
         .timelineItems
         .edges!;
   }
@@ -324,7 +332,9 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
   static Future<IssueModel> updateIssue(
-      final String issueURL, final Map data,) async {
+    final String issueURL,
+    final Map data,
+  ) async {
     final response = await _restHandler.patch(
       issueURL,
       data: data,
@@ -336,7 +346,9 @@ class IssuesService {
 
   // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue-comment
   static Future<bool> addComment(
-      final String issueURL, final String body,) async {
+    final String issueURL,
+    final String body,
+  ) async {
     final response =
         await _restHandler.post('$issueURL/comments', data: {'body': body});
     if (response.statusCode == 201) {

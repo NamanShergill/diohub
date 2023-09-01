@@ -48,7 +48,7 @@ class PullListCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      GetIcon(item.state, item.mergedAt),
+                      GetPullIcon(item.state!, item.mergedAt),
                       const SizedBox(
                         width: 4,
                       ),
@@ -59,7 +59,9 @@ class PullListCard extends StatelessWidget {
                             child: Text(
                               item.links!.self!.href!
                                   .replaceAll(
-                                      'https://api.github.com/repos/', '',)
+                                    'https://api.github.com/repos/',
+                                    '',
+                                  )
                                   .split('/')
                                   .sublist(0, 2)
                                   .join('/'),
@@ -137,9 +139,10 @@ class PullListCard extends StatelessWidget {
       );
 }
 
-class GetIcon extends StatelessWidget {
-  const GetIcon(this.state, this.mergedAt, {super.key});
-  final IssueState? state;
+class GetPullIcon extends StatelessWidget {
+  const GetPullIcon(this.state, this.mergedAt, {super.key});
+
+  final IssueState state;
   final DateTime? mergedAt;
 
   @override
@@ -160,6 +163,7 @@ class GetIcon extends StatelessWidget {
           );
         }
       case IssueState.OPEN:
+      case IssueState.REOPENED:
         return const Icon(
           Octicons.git_pull_request,
           color: Colors.green,

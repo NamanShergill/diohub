@@ -240,9 +240,10 @@ class _InfiniteWrapper<T> extends StatelessWidget {
     this.pinnedHeader,
     super.key,
   });
+
   final InfiniteScrollWrapperController controller;
   final WidgetBuilder header;
-  final ScrollWrapperFuture searchFuture;
+  final ScrollWrapperFuture<T> searchFuture;
   final ScrollWrapperBuilder builder;
   final SearchData searchData;
   final FilterFn? filterFn;

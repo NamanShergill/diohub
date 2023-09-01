@@ -10,3 +10,6 @@
 [submodule "dependencies/highlight.dart"]
 	path = dependencies/highlight.dart
 	url = git@github.com:NamanShergill/highlight.dart.git
+[submodule "dependencies/flutter_html"]
+	path = dependencies/flutter_html
+	url = git@github.com:NamanShergill/flutter_html.git

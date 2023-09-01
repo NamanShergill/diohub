@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 
 class NotificationsService {

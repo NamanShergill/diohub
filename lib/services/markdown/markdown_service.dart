@@ -1,7 +1,9 @@
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 
 class MarkdownService {
-  static final RESTHandler _restHandler = RESTHandler();
+  static final RESTHandler _restHandler = RESTHandler(
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
 
   static Future<String> renderMarkdown(
     final String data, {

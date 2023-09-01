@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
@@ -87,8 +87,11 @@ class SearchService {
   // }
 
   static Future<List<SearchMentionUsers$Query$Search$Edges?>>
-      searchMentionUsers(final String query, final String type,
-          {final String? cursor,}) async {
+      searchMentionUsers(
+    final String query,
+    final String type, {
+    final String? cursor,
+  }) async {
     final q = '$query${' type:$type'}';
     final res = await _gqlHandler.query(
       SearchMentionUsersQuery(

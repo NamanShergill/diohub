@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/app/keys.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';

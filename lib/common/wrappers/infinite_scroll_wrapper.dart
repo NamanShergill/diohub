@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -16,7 +15,7 @@ class InfiniteScrollWrapperController {
   late void Function() refresh;
 }
 
-typedef ScrollWrapperFuture<T> = Future Function(
+typedef ScrollWrapperFuture<T> = Future<List<T>> Function(
   ({
     int pageNumber,
     int pageSize,
@@ -315,7 +314,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
   // Fetch the data to display.
   Future<void> _fetchPage(final int pageKey) async {
     try {
-      log.log(Level.debug, 'Fetching page $pageNumber, key:$pageKey, $this');
+      // log.log(Level.debug, 'Fetching page $pageNumber, key:$pageKey, $this');
       // Use the supplied APIs accordingly, based on the *refresh* value.
       final newItems = await widget.future(
         (
@@ -353,17 +352,18 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             filteredItems
                 .map((final e) => _ListItem(e, refresh: refresh))
                 .toList(),
-            nextPageKey as int?,
+            nextPageKey,
           );
         }
       }
+    } on DioException catch (error) {
+      log.e(error.response?.data);
+      if (mounted) {
+        _pagingController.error = error.response?.data;
+      }
+      rethrow;
     } catch (error) {
-      if (error is DioException) {
-        log.e(error.response?.data);
-        if (mounted) {
-          _pagingController.error = error.response?.data;
-        }
-      } else {
+      {
         log.e(error.toString());
         if (mounted) {
           _pagingController.error = error;
