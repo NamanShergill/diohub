@@ -18,6 +18,31 @@ fragment issueInfo on Issue{
     body
     closed
     closedAt
+    milestone {
+        number
+        description
+        dueOn
+    }
+
+    linkedBranches(first: 1){
+        totalCount
+        edges {
+            cursor
+            node {
+                ref {
+                    associatedPullRequests{
+                        totalCount
+                        edges {
+                            cursor
+                            node {
+                                number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     createdAt
     comments{
         totalCount
@@ -34,6 +59,12 @@ fragment issueInfo on Issue{
     }
     locked
     number
+    projectCards{
+        totalCount
+    }
+    projectsV2{
+        totalCount
+    }
     reactionGroups{
         ...reactionGroups
     }
@@ -62,6 +93,7 @@ fragment pullInfo on PullRequest{
     authorAssociation
     bodyHTML
     body
+
     closed
     closedAt
     createdAt
@@ -76,6 +108,12 @@ fragment pullInfo on PullRequest{
     }
     locked
     number
+    projectCards{
+        totalCount
+    }
+    projectsV2{
+        totalCount
+    }
     reactionGroups{
         ...reactionGroups
     }

@@ -180,7 +180,7 @@ class GetTimelineItem extends StatelessWidget {
             return BaseComment(
               isMinimized: item.isMinimized,
               onQuote: onQuote,
-              reactions: item.reactionGroups,
+              reactions: item.reactionGroups!,
               minimizedReason: item.minimizedReason,
               viewerCanDelete: item.viewerCanDelete,
               viewerCanMinimize: item.viewerCanMinimize,
@@ -284,7 +284,7 @@ class GetTimelineItem extends StatelessWidget {
               onQuote: onQuote,
               leading: Icons.remove_red_eye_rounded,
               isMinimized: false,
-              reactions: item.reactionGroups,
+              reactions: item.reactionGroups!,
               viewerCanDelete: item.viewerCanDelete,
               viewerCanMinimize: false,
               viewerCannotUpdateReasons: item.viewerCannotUpdateReasons,

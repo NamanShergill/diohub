@@ -1976,7 +1976,7 @@ Map<String, dynamic>
     _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
             GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReview
                 instance) =>
-    <String, dynamic>{
+        <String, dynamic>{
           'id': instance.id,
           'resourcePath': instance.resourcePath.toString(),
           'comments': instance.comments.toJson(),
@@ -3310,15 +3310,31 @@ Map<String, dynamic> _$CommitMixin$AuthorToJson(CommitMixin$Author instance) =>
       'user': instance.user?.toJson(),
     };
 
+PullRequestReviewMixin$Comments$Edges$Node
+    _$PullRequestReviewMixin$Comments$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        PullRequestReviewMixin$Comments$Edges$Node()..id = json['id'] as String;
+
+Map<String, dynamic> _$PullRequestReviewMixin$Comments$Edges$NodeToJson(
+        PullRequestReviewMixin$Comments$Edges$Node instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
 PullRequestReviewMixin$Comments$Edges
     _$PullRequestReviewMixin$Comments$EdgesFromJson(
             Map<String, dynamic> json) =>
         PullRequestReviewMixin$Comments$Edges()
+          ..node = json['node'] == null
+              ? null
+              : PullRequestReviewMixin$Comments$Edges$Node.fromJson(
+                  json['node'] as Map<String, dynamic>)
           ..cursor = json['cursor'] as String;
 
 Map<String, dynamic> _$PullRequestReviewMixin$Comments$EdgesToJson(
         PullRequestReviewMixin$Comments$Edges instance) =>
     <String, dynamic>{
+      'node': instance.node?.toJson(),
       'cursor': instance.cursor,
     };
 
@@ -3502,7 +3518,7 @@ Map<String, dynamic> _$GetPRReviewComments$QueryToJson(
 PRReviewCommentsMixin$Comments$Edges$Node
     _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-    PRReviewCommentsMixin$Comments$Edges$Node()
+        PRReviewCommentsMixin$Comments$Edges$Node()
           ..id = json['id'] as String
           ..pullRequestReview = json['pullRequestReview'] == null
               ? null
@@ -3889,7 +3905,7 @@ Map<String, dynamic> _$ReviewThreadFirstCommentQuery$QueryToJson(
 ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
     _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeFromJson(
             Map<String, dynamic> json) =>
-    ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
+        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node()
           ..id = json['id'] as String
           ..pullRequestReview = json['pullRequestReview'] == null
               ? null
@@ -3944,7 +3960,7 @@ Map<String, dynamic>
     _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
             ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
                 instance) =>
-    <String, dynamic>{
+        <String, dynamic>{
           'id': instance.id,
           'pullRequestReview': instance.pullRequestReview?.toJson(),
           'databaseId': instance.databaseId,
@@ -4305,6 +4321,12 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
           ..closedAt = json['closedAt'] == null
               ? null
               : DateTime.parse(json['closedAt'] as String)
+          ..milestone = json['milestone'] == null
+              ? null
+              : IssueInfoMixin$Milestone.fromJson(
+                  json['milestone'] as Map<String, dynamic>)
+          ..linkedBranches = IssueInfoMixin$LinkedBranches.fromJson(
+              json['linkedBranches'] as Map<String, dynamic>)
           ..createdAt = DateTime.parse(json['createdAt'] as String)
           ..comments = IssueInfoMixin$Comments.fromJson(
               json['comments'] as Map<String, dynamic>)
@@ -4320,6 +4342,10 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
                   json['labels'] as Map<String, dynamic>)
           ..locked = json['locked'] as bool
           ..number = json['number'] as int
+          ..projectCards = IssueInfoMixin$ProjectCards.fromJson(
+              json['projectCards'] as Map<String, dynamic>)
+          ..projectsV2 = IssueInfoMixin$ProjectsV2.fromJson(
+              json['projectsV2'] as Map<String, dynamic>)
           ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
               ?.map((e) => IssueInfoMixin$ReactionGroups.fromJson(
                   e as Map<String, dynamic>))
@@ -4351,6 +4377,8 @@ Map<String, dynamic>
           'body': instance.body,
           'closed': instance.closed,
           'closedAt': instance.closedAt?.toIso8601String(),
+          'milestone': instance.milestone?.toJson(),
+          'linkedBranches': instance.linkedBranches.toJson(),
           'createdAt': instance.createdAt.toIso8601String(),
           'comments': instance.comments.toJson(),
           'userContentEdits': instance.userContentEdits?.toJson(),
@@ -4359,6 +4387,8 @@ Map<String, dynamic>
           'labels': instance.labels?.toJson(),
           'locked': instance.locked,
           'number': instance.number,
+          'projectCards': instance.projectCards.toJson(),
+          'projectsV2': instance.projectsV2.toJson(),
           'reactionGroups':
               instance.reactionGroups?.map((e) => e.toJson()).toList(),
           'repository': instance.repository.toJson(),
@@ -4402,6 +4432,10 @@ IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
                   json['labels'] as Map<String, dynamic>)
           ..locked = json['locked'] as bool
           ..number = json['number'] as int
+          ..projectCards = PullInfoMixin$ProjectCards.fromJson(
+              json['projectCards'] as Map<String, dynamic>)
+          ..projectsV2 = PullInfoMixin$ProjectsV2.fromJson(
+              json['projectsV2'] as Map<String, dynamic>)
           ..reactionGroups = (json['reactionGroups'] as List<dynamic>?)
               ?.map((e) => PullInfoMixin$ReactionGroups.fromJson(
                   e as Map<String, dynamic>))
@@ -4464,6 +4498,8 @@ Map<String, dynamic>
           'labels': instance.labels?.toJson(),
           'locked': instance.locked,
           'number': instance.number,
+          'projectCards': instance.projectCards.toJson(),
+          'projectsV2': instance.projectsV2.toJson(),
           'reactionGroups':
               instance.reactionGroups?.map((e) => e.toJson()).toList(),
           'repository': instance.repository.toJson(),
@@ -4594,6 +4630,141 @@ Map<String, dynamic> _$IssueInfoMixin$ParticipantsToJson(
       'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
     };
 
+IssueInfoMixin$Milestone _$IssueInfoMixin$MilestoneFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$Milestone()
+      ..number = json['number'] as int
+      ..description = json['description'] as String?
+      ..dueOn = json['dueOn'] == null
+          ? null
+          : DateTime.parse(json['dueOn'] as String);
+
+Map<String, dynamic> _$IssueInfoMixin$MilestoneToJson(
+        IssueInfoMixin$Milestone instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+      'description': instance.description,
+      'dueOn': instance.dueOn?.toIso8601String(),
+    };
+
+IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node()
+          ..number = json['number'] as int;
+
+Map<String, dynamic>
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$NodeToJson(
+            IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node
+                instance) =>
+        <String, dynamic>{
+          'number': instance.number,
+        };
+
+IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$EdgesFromJson(
+            Map<String, dynamic> json) =>
+        IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$EdgesToJson(
+            IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges
+                instance) =>
+        <String, dynamic>{
+          'cursor': instance.cursor,
+          'node': instance.node?.toJson(),
+        };
+
+IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequestsFromJson(
+            Map<String, dynamic> json) =>
+        IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests()
+          ..totalCount = json['totalCount'] as int
+          ..edges = (json['edges'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic>
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequestsToJson(
+            IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
+                instance) =>
+        <String, dynamic>{
+          'totalCount': instance.totalCount,
+          'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+        };
+
+IssueInfoMixin$LinkedBranches$Edges$Node$Ref
+    _$IssueInfoMixin$LinkedBranches$Edges$Node$RefFromJson(
+            Map<String, dynamic> json) =>
+        IssueInfoMixin$LinkedBranches$Edges$Node$Ref()
+          ..associatedPullRequests =
+              IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
+                  .fromJson(
+                      json['associatedPullRequests'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$LinkedBranches$Edges$Node$RefToJson(
+        IssueInfoMixin$LinkedBranches$Edges$Node$Ref instance) =>
+    <String, dynamic>{
+      'associatedPullRequests': instance.associatedPullRequests.toJson(),
+    };
+
+IssueInfoMixin$LinkedBranches$Edges$Node
+    _$IssueInfoMixin$LinkedBranches$Edges$NodeFromJson(
+            Map<String, dynamic> json) =>
+        IssueInfoMixin$LinkedBranches$Edges$Node()
+          ..ref = json['ref'] == null
+              ? null
+              : IssueInfoMixin$LinkedBranches$Edges$Node$Ref.fromJson(
+                  json['ref'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$LinkedBranches$Edges$NodeToJson(
+        IssueInfoMixin$LinkedBranches$Edges$Node instance) =>
+    <String, dynamic>{
+      'ref': instance.ref?.toJson(),
+    };
+
+IssueInfoMixin$LinkedBranches$Edges
+    _$IssueInfoMixin$LinkedBranches$EdgesFromJson(Map<String, dynamic> json) =>
+        IssueInfoMixin$LinkedBranches$Edges()
+          ..cursor = json['cursor'] as String
+          ..node = json['node'] == null
+              ? null
+              : IssueInfoMixin$LinkedBranches$Edges$Node.fromJson(
+                  json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$IssueInfoMixin$LinkedBranches$EdgesToJson(
+        IssueInfoMixin$LinkedBranches$Edges instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'node': instance.node?.toJson(),
+    };
+
+IssueInfoMixin$LinkedBranches _$IssueInfoMixin$LinkedBranchesFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$LinkedBranches()
+      ..totalCount = json['totalCount'] as int
+      ..edges = (json['edges'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : IssueInfoMixin$LinkedBranches$Edges.fromJson(
+                  e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$IssueInfoMixin$LinkedBranchesToJson(
+        IssueInfoMixin$LinkedBranches instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'edges': instance.edges?.map((e) => e?.toJson()).toList(),
+    };
+
 IssueInfoMixin$Comments _$IssueInfoMixin$CommentsFromJson(
         Map<String, dynamic> json) =>
     IssueInfoMixin$Comments()..totalCount = json['totalCount'] as int;
@@ -4640,6 +4811,26 @@ Map<String, dynamic> _$IssueInfoMixin$LabelsToJson(
         IssueInfoMixin$Labels instance) =>
     <String, dynamic>{
       'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+IssueInfoMixin$ProjectCards _$IssueInfoMixin$ProjectCardsFromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$ProjectCards()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$ProjectCardsToJson(
+        IssueInfoMixin$ProjectCards instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+IssueInfoMixin$ProjectsV2 _$IssueInfoMixin$ProjectsV2FromJson(
+        Map<String, dynamic> json) =>
+    IssueInfoMixin$ProjectsV2()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$IssueInfoMixin$ProjectsV2ToJson(
+        IssueInfoMixin$ProjectsV2 instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
     };
 
 IssueInfoMixin$ReactionGroups _$IssueInfoMixin$ReactionGroupsFromJson(
@@ -4793,6 +4984,26 @@ Map<String, dynamic> _$PullInfoMixin$LabelsToJson(
         PullInfoMixin$Labels instance) =>
     <String, dynamic>{
       'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
+    };
+
+PullInfoMixin$ProjectCards _$PullInfoMixin$ProjectCardsFromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$ProjectCards()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$ProjectCardsToJson(
+        PullInfoMixin$ProjectCards instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+    };
+
+PullInfoMixin$ProjectsV2 _$PullInfoMixin$ProjectsV2FromJson(
+        Map<String, dynamic> json) =>
+    PullInfoMixin$ProjectsV2()..totalCount = json['totalCount'] as int;
+
+Map<String, dynamic> _$PullInfoMixin$ProjectsV2ToJson(
+        PullInfoMixin$ProjectsV2 instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
     };
 
 PullInfoMixin$ReactionGroups _$PullInfoMixin$ReactionGroupsFromJson(

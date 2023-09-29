@@ -30,8 +30,6 @@ mixin AddedToProjectMixin {
   late String id;
   late DateTime createdAt;
   AddedToProjectMixin$Actor? actor;
-  late String projectColumnName;
-  AddedToProjectMixin$Project? project;
 }
 mixin ActorMixin {
   late Uri avatarUrl;
@@ -130,9 +128,6 @@ mixin MovedColumnsInProjectMixin {
   late String id;
   late DateTime createdAt;
   MovedColumnsInProjectMixin$Actor? actor;
-  late String previousProjectColumnName;
-  late String projectColumnName;
-  MovedColumnsInProjectMixin$Project? project;
 }
 mixin PinnedMixin {
   late String id;
@@ -143,8 +138,6 @@ mixin RemovedFromProjectMixin {
   late String id;
   late DateTime createdAt;
   RemovedFromProjectMixin$Actor? actor;
-  RemovedFromProjectMixin$Project? project;
-  late String projectColumnName;
 }
 mixin RenamedTitleMixin {
   late String id;
@@ -253,6 +246,8 @@ mixin CommitMixin {
 }
 mixin PullRequestReviewMixin {
   late String id;
+  late Uri resourcePath;
+  late PullRequestReviewMixin$Comments comments;
   PullRequestReviewMixin$Author? author;
   late DateTime createdAt;
   @JsonKey(unknownEnumValue: CommentAuthorAssociation.artemisUnknown)
@@ -262,7 +257,6 @@ mixin PullRequestReviewMixin {
   DateTime? lastEditedAt;
   @JsonKey(unknownEnumValue: PullRequestReviewState.artemisUnknown)
   late PullRequestReviewState state;
-  late PullRequestReviewMixin$Comments comments;
   List<PullRequestReviewMixin$ReactionGroups>? reactionGroups;
   late bool viewerCanDelete;
   late bool viewerCanUpdate;
@@ -296,6 +290,7 @@ mixin PRReviewCommentsMixin {
 }
 mixin PullRequestReviewCommentMixin {
   late String id;
+  PullRequestReviewCommentMixin$PullRequestReview? pullRequestReview;
   int? databaseId;
   PullRequestReviewCommentMixin$Author? author;
   late DateTime createdAt;
@@ -335,6 +330,8 @@ mixin IssueInfoMixin {
   late String body;
   late bool closed;
   DateTime? closedAt;
+  IssueInfoMixin$Milestone? milestone;
+  late IssueInfoMixin$LinkedBranches linkedBranches;
   late DateTime createdAt;
   late IssueInfoMixin$Comments comments;
   IssueInfoMixin$UserContentEdits? userContentEdits;
@@ -343,6 +340,8 @@ mixin IssueInfoMixin {
   IssueInfoMixin$Labels? labels;
   late bool locked;
   late int number;
+  late IssueInfoMixin$ProjectCards projectCards;
+  late IssueInfoMixin$ProjectsV2 projectsV2;
   List<IssueInfoMixin$ReactionGroups>? reactionGroups;
   late IssueInfoMixin$Repository repository;
   @JsonKey(unknownEnumValue: IssueState.artemisUnknown)
@@ -377,6 +376,8 @@ mixin PullInfoMixin {
   PullInfoMixin$Labels? labels;
   late bool locked;
   late int number;
+  late PullInfoMixin$ProjectCards projectCards;
+  late PullInfoMixin$ProjectsV2 projectsV2;
   List<PullInfoMixin$ReactionGroups>? reactionGroups;
   late PullInfoMixin$Repository repository;
   @JsonKey(unknownEnumValue: PullRequestState.artemisUnknown)
@@ -1250,7 +1251,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
+  List<Object?> get props => [id, createdAt, actor];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
@@ -1458,14 +1459,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => [
-        id,
-        createdAt,
-        actor,
-        previousProjectColumnName,
-        projectColumnName,
-        project
-      ];
+  List<Object?> get props => [id, createdAt, actor];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
@@ -1503,7 +1497,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
+  List<Object?> get props => [id, createdAt, actor];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
@@ -1890,7 +1884,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, projectColumnName, project];
+  List<Object?> get props => [id, createdAt, actor];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
@@ -2253,14 +2247,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [
-        id,
-        createdAt,
-        actor,
-        previousProjectColumnName,
-        projectColumnName,
-        project
-      ];
+  List<Object?> get props => [id, createdAt, actor];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
@@ -2340,6 +2327,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   @override
   List<Object?> get props => [
         id,
+        resourcePath,
+        comments,
         author,
         createdAt,
         authorAssociation,
@@ -2347,7 +2336,6 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         bodyHTML,
         lastEditedAt,
         state,
-        comments,
         reactionGroups,
         viewerCanDelete,
         viewerCanUpdate,
@@ -2413,7 +2401,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => [id, createdAt, actor, project, projectColumnName];
+  List<Object?> get props => [id, createdAt, actor];
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
@@ -3025,21 +3013,6 @@ class AddedToProjectMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class AddedToProjectMixin$Project extends JsonSerializable with EquatableMixin {
-  AddedToProjectMixin$Project();
-
-  factory AddedToProjectMixin$Project.fromJson(Map<String, dynamic> json) =>
-      _$AddedToProjectMixin$ProjectFromJson(json);
-
-  late String name;
-
-  @override
-  List<Object?> get props => [name];
-  @override
-  Map<String, dynamic> toJson() => _$AddedToProjectMixin$ProjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class AssignedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   AssignedMixin$Actor();
@@ -3493,24 +3466,6 @@ class MovedColumnsInProjectMixin$Actor extends JsonSerializable
 }
 
 @JsonSerializable(explicitToJson: true)
-class MovedColumnsInProjectMixin$Project extends JsonSerializable
-    with EquatableMixin {
-  MovedColumnsInProjectMixin$Project();
-
-  factory MovedColumnsInProjectMixin$Project.fromJson(
-          Map<String, dynamic> json) =>
-      _$MovedColumnsInProjectMixin$ProjectFromJson(json);
-
-  late String name;
-
-  @override
-  List<Object?> get props => [name];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$MovedColumnsInProjectMixin$ProjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class PinnedMixin$Actor extends JsonSerializable
     with EquatableMixin, ActorMixin {
   PinnedMixin$Actor();
@@ -3536,23 +3491,6 @@ class RemovedFromProjectMixin$Actor extends JsonSerializable
   List<Object?> get props => [avatarUrl, login];
   @override
   Map<String, dynamic> toJson() => _$RemovedFromProjectMixin$ActorToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class RemovedFromProjectMixin$Project extends JsonSerializable
-    with EquatableMixin {
-  RemovedFromProjectMixin$Project();
-
-  factory RemovedFromProjectMixin$Project.fromJson(Map<String, dynamic> json) =>
-      _$RemovedFromProjectMixin$ProjectFromJson(json);
-
-  late String name;
-
-  @override
-  List<Object?> get props => [name];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$RemovedFromProjectMixin$ProjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4115,17 +4053,41 @@ class CommitMixin$Author extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PullRequestReviewMixin$Author extends JsonSerializable
-    with EquatableMixin, ActorMixin {
-  PullRequestReviewMixin$Author();
+class PullRequestReviewMixin$Comments$Edges$Node extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewMixin$Comments$Edges$Node();
 
-  factory PullRequestReviewMixin$Author.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestReviewMixin$AuthorFromJson(json);
+  factory PullRequestReviewMixin$Comments$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$Comments$Edges$NodeFromJson(json);
+
+  late String id;
 
   @override
-  List<Object?> get props => [avatarUrl, login];
+  List<Object?> get props => [id];
   @override
-  Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewMixin$Comments$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$Comments$Edges extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewMixin$Comments$Edges();
+
+  factory PullRequestReviewMixin$Comments$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$Comments$EdgesFromJson(json);
+
+  PullRequestReviewMixin$Comments$Edges$Node? node;
+
+  late String cursor;
+
+  @override
+  List<Object?> get props => [node, cursor];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewMixin$Comments$EdgesToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4138,11 +4100,27 @@ class PullRequestReviewMixin$Comments extends JsonSerializable
 
   late int totalCount;
 
+  List<PullRequestReviewMixin$Comments$Edges?>? edges;
+
   @override
-  List<Object?> get props => [totalCount];
+  List<Object?> get props => [totalCount, edges];
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewMixin$Author extends JsonSerializable
+    with EquatableMixin, ActorMixin {
+  PullRequestReviewMixin$Author();
+
+  factory PullRequestReviewMixin$Author.fromJson(Map<String, dynamic> json) =>
+      _$PullRequestReviewMixin$AuthorFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+  @override
+  Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4350,6 +4328,7 @@ class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
   @override
   List<Object?> get props => [
         id,
+        pullRequestReview,
         databaseId,
         author,
         createdAt,
@@ -4415,6 +4394,42 @@ class PRReviewCommentsMixin$Comments extends JsonSerializable
   List<Object?> get props => [edges];
   @override
   Map<String, dynamic> toJson() => _$PRReviewCommentsMixin$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$PullRequestReview$Comments
+    extends JsonSerializable with EquatableMixin {
+  PullRequestReviewCommentMixin$PullRequestReview$Comments();
+
+  factory PullRequestReviewCommentMixin$PullRequestReview$Comments.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$PullRequestReview$CommentsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$PullRequestReview$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullRequestReviewCommentMixin$PullRequestReview extends JsonSerializable
+    with EquatableMixin {
+  PullRequestReviewCommentMixin$PullRequestReview();
+
+  factory PullRequestReviewCommentMixin$PullRequestReview.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullRequestReviewCommentMixin$PullRequestReviewFromJson(json);
+
+  late PullRequestReviewCommentMixin$PullRequestReview$Comments comments;
+
+  @override
+  List<Object?> get props => [comments];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullRequestReviewCommentMixin$PullRequestReviewToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -4726,6 +4741,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
   @override
   List<Object?> get props => [
         id,
+        pullRequestReview,
         databaseId,
         author,
         createdAt,
@@ -5201,6 +5217,8 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         body,
         closed,
         closedAt,
+        milestone,
+        linkedBranches,
         createdAt,
         comments,
         userContentEdits,
@@ -5209,6 +5227,8 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         labels,
         locked,
         number,
+        projectCards,
+        projectsV2,
         reactionGroups,
         repository,
         state,
@@ -5249,6 +5269,8 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
         labels,
         locked,
         number,
+        projectCards,
+        projectsV2,
         reactionGroups,
         repository,
         state,
@@ -5411,6 +5433,166 @@ class IssueInfoMixin$Participants extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Milestone extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$Milestone();
+
+  factory IssueInfoMixin$Milestone.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$MilestoneFromJson(json);
+
+  late int number;
+
+  String? description;
+
+  DateTime? dueOn;
+
+  @override
+  List<Object?> get props => [number, description, dueOn];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$MilestoneToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node
+    extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node();
+
+  factory IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$NodeFromJson(
+          json);
+
+  late int number;
+
+  @override
+  List<Object?> get props => [number];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$NodeToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges
+    extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges();
+
+  factory IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$EdgesFromJson(
+          json);
+
+  late String cursor;
+
+  IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$Node?
+      node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$EdgesToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
+    extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests();
+
+  factory IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequestsFromJson(
+          json);
+
+  late int totalCount;
+
+  List<IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges?>?
+      edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequestsToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches$Edges$Node$Ref extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$LinkedBranches$Edges$Node$Ref();
+
+  factory IssueInfoMixin$LinkedBranches$Edges$Node$Ref.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$RefFromJson(json);
+
+  late IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
+      associatedPullRequests;
+
+  @override
+  List<Object?> get props => [associatedPullRequests];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$LinkedBranches$Edges$Node$RefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches$Edges$Node extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$LinkedBranches$Edges$Node();
+
+  factory IssueInfoMixin$LinkedBranches$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranches$Edges$NodeFromJson(json);
+
+  IssueInfoMixin$LinkedBranches$Edges$Node$Ref? ref;
+
+  @override
+  List<Object?> get props => [ref];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$LinkedBranches$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches$Edges extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$LinkedBranches$Edges();
+
+  factory IssueInfoMixin$LinkedBranches$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranches$EdgesFromJson(json);
+
+  late String cursor;
+
+  IssueInfoMixin$LinkedBranches$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$LinkedBranches$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$LinkedBranches extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$LinkedBranches();
+
+  factory IssueInfoMixin$LinkedBranches.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LinkedBranchesFromJson(json);
+
+  late int totalCount;
+
+  List<IssueInfoMixin$LinkedBranches$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$LinkedBranchesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class IssueInfoMixin$Comments extends JsonSerializable with EquatableMixin {
   IssueInfoMixin$Comments();
 
@@ -5469,6 +5651,36 @@ class IssueInfoMixin$Labels extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [nodes];
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$LabelsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$ProjectCards extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$ProjectCards();
+
+  factory IssueInfoMixin$ProjectCards.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$ProjectCardsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$ProjectCardsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$ProjectsV2 extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$ProjectsV2();
+
+  factory IssueInfoMixin$ProjectsV2.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$ProjectsV2FromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$ProjectsV2ToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -5633,6 +5845,36 @@ class PullInfoMixin$Labels extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [nodes];
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$LabelsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullInfoMixin$ProjectCards extends JsonSerializable with EquatableMixin {
+  PullInfoMixin$ProjectCards();
+
+  factory PullInfoMixin$ProjectCards.fromJson(Map<String, dynamic> json) =>
+      _$PullInfoMixin$ProjectCardsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$PullInfoMixin$ProjectCardsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullInfoMixin$ProjectsV2 extends JsonSerializable with EquatableMixin {
+  PullInfoMixin$ProjectsV2();
+
+  factory PullInfoMixin$ProjectsV2.fromJson(Map<String, dynamic> json) =>
+      _$PullInfoMixin$ProjectsV2FromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+  @override
+  Map<String, dynamic> toJson() => _$PullInfoMixin$ProjectsV2ToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -9673,28 +9915,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
           )
         ]),
       ),
-      FieldNode(
-        name: NameNode(value: 'projectColumnName'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'project'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null,
-          )
-        ]),
-      ),
     ]),
   ),
   FragmentDefinitionNode(
@@ -10592,35 +10812,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
           )
         ]),
       ),
-      FieldNode(
-        name: NameNode(value: 'previousProjectColumnName'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'projectColumnName'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'project'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null,
-          )
-        ]),
-      ),
     ]),
   ),
   FragmentDefinitionNode(
@@ -10694,28 +10885,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
             directives: [],
           )
         ]),
-      ),
-      FieldNode(
-        name: NameNode(value: 'project'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null,
-          )
-        ]),
-      ),
-      FieldNode(
-        name: NameNode(value: 'projectColumnName'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: null,
       ),
     ]),
   ),
@@ -11708,6 +11877,63 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
         selectionSet: null,
       ),
       FieldNode(
+        name: NameNode(value: 'resourcePath'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'comments'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '1'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  )
+                ]),
+              ),
+              FieldNode(
+                name: NameNode(value: 'cursor'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+        ]),
+      ),
+      FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
         arguments: [],
@@ -11760,21 +11986,6 @@ final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
         arguments: [],
         directives: [],
         selectionSet: null,
-      ),
-      FieldNode(
-        name: NameNode(value: 'comments'),
-        alias: null,
-        arguments: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-            name: NameNode(value: 'totalCount'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null,
-          )
-        ]),
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
@@ -12195,6 +12406,29 @@ final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
         arguments: [],
         directives: [],
         selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'pullRequestReview'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'totalCount'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          )
+        ]),
       ),
       FieldNode(
         name: NameNode(value: 'databaseId'),
@@ -12912,6 +13146,29 @@ final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
         arguments: [],
         directives: [],
         selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'pullRequestReview'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'comments'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'totalCount'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          )
+        ]),
       ),
       FieldNode(
         name: NameNode(value: 'databaseId'),
@@ -13936,6 +14193,131 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
         selectionSet: null,
       ),
       FieldNode(
+        name: NameNode(value: 'milestone'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'number'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'description'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'dueOn'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'linkedBranches'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '1'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'cursor'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'ref'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
+                      FieldNode(
+                        name: NameNode(value: 'associatedPullRequests'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                            name: NameNode(value: 'totalCount'),
+                            alias: null,
+                            arguments: [],
+                            directives: [],
+                            selectionSet: null,
+                          ),
+                          FieldNode(
+                            name: NameNode(value: 'edges'),
+                            alias: null,
+                            arguments: [],
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
+                              FieldNode(
+                                name: NameNode(value: 'cursor'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'node'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
+                                  FieldNode(
+                                    name: NameNode(value: 'number'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null,
+                                  )
+                                ]),
+                              ),
+                            ]),
+                          ),
+                        ]),
+                      )
+                    ]),
+                  )
+                ]),
+              ),
+            ]),
+          ),
+        ]),
+      ),
+      FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
         arguments: [],
@@ -14024,6 +14406,36 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
         arguments: [],
         directives: [],
         selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'projectCards'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'projectsV2'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
@@ -14431,6 +14843,36 @@ final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
         arguments: [],
         directives: [],
         selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'projectCards'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'projectsV2'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),

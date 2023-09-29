@@ -43,7 +43,7 @@ class BaseComment extends StatefulWidget {
   final IconData? leading;
   final String? bodyHTML;
   // TODO(namanshergill): Temp nullable
-  final List<ReactionGroupsMixin>? reactions;
+  final List<ReactionGroupsMixin> reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
   final bool isMinimized;
@@ -277,7 +277,7 @@ class BaseCommentState extends State<BaseComment> {
               height: 8,
             ),
           ReactionBar(
-            widget.reactions!,
+            widget.reactions,
             viewerCanReact: widget.viewerCanReact,
           ),
         ],

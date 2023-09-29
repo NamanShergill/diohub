@@ -18,9 +18,12 @@ class IssuesService {
   final String user;
   final int number;
 
-  static final GraphqlHandler _gqlHandler = GraphqlHandler();
-  static final RESTHandler _restHandler =
-      RESTHandler(apiLogSettings: APILoggingSettings.comprehensive());
+  static final GraphqlHandler _gqlHandler = GraphqlHandler(
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
+  static final RESTHandler _restHandler = RESTHandler(
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
 
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue
   static Future<IssueModel> getIssueInfo({

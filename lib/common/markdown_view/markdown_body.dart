@@ -6,6 +6,7 @@ import 'package:dio_hub/services/markdown/markdown_service.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_table/flutter_html_table.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 
@@ -72,11 +73,10 @@ class MarkdownBody extends StatefulWidget {
 }
 
 class MarkdownBodyState extends State<MarkdownBody> {
-  late String content;
+  // late String content;
   late dom.Document doc;
   @override
   void initState() {
-    print('inint');
     updateData(widget.content);
     super.initState();
   }
@@ -116,7 +116,7 @@ class MarkdownBodyState extends State<MarkdownBody> {
 
   @override
   Widget build(final BuildContext context) => Html.fromDom(
-    document: doc,
+        document: doc,
         // onLinkTap: (String? url, RenderContext rContext,
         //     Map<String, String> attributes, data) {
         //   return linkHandler(context, url);
@@ -124,7 +124,9 @@ class MarkdownBodyState extends State<MarkdownBody> {
         extensions: markdownTagExtensions(
           context,
           imgSrcModifiers: widget.imgSrcModifiers,
-        ),
+        )..addAll([
+            const TableHtmlExtension(),
+          ]),
         // tagsList: Html.tags
         //   ..addAll(
         //     ['g-emoji'],
@@ -165,7 +167,7 @@ class MarkdownBodyState extends State<MarkdownBody> {
           ),
           'ul': Style(
             padding: HtmlPaddings(
-              inlineStart: HtmlPadding(8),
+              inlineStart: HtmlPadding(16),
               // top: HtmlPadding(0),
               // inlineEnd: HtmlPadding(0),
             ),

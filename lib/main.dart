@@ -22,7 +22,9 @@ import 'package:provider/provider.dart';
 Future<void> debugURLLauncher() async {
   await Future.delayed(const Duration(seconds: 2));
   String? url;
-  url = 'namanshergill/git/issues/1';
+  // https://github.com/flutter/flutter/issues/120732
+  // https://github.com/flutter/flutter/issues/128696
+  url = 'https://github.com/flutter/flutter/issues/120732';
   if (kDebugMode) {
     deepLinkNavigate(
       Uri.parse(url ?? ''),

@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/Dio/dio.dart';
+import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
@@ -25,8 +25,9 @@ class PullsService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
-  static Future<ReviewModel> getPullReviews(
-      {required final String fullUrl,}) async {
+  static Future<ReviewModel> getPullReviews({
+    required final String fullUrl,
+  }) async {
     final response = await _restHandler.get('$fullUrl/reviews');
     return ReviewModel.fromJson(response.data);
   }
@@ -178,7 +179,9 @@ class PullsService {
   }
 
   static Future<bool> hasPendingReviews(
-      final String pullNode, final String user,) async {
+    final String pullNode,
+    final String user,
+  ) async {
     final res = await _gqlHandler.query(
       CheckPendingViewerReviewsQuery(
         variables: CheckPendingViewerReviewsArguments(

@@ -93,7 +93,8 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
   @override
   Widget build(final BuildContext context) =>
       APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>(
-        apiCall: ({required final refresh}) => IssuesService.getIssuePullInfo(
+        apiCall: ({required final refresh}) async =>
+            IssuesService.getIssuePullInfo(
           widget.number,
           repo: widget.repoName,
           user: widget.ownerName,
@@ -117,6 +118,8 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
               ),
             );
           } else if (data is PullInfoMixin) {
+            print((data as PullInfoMixin).reactionGroups);
+            print('yjhjvk');
             return ChangeNotifierProvider(
               create: (final context) => PullProvider(data as PullInfoMixin),
               lazy: false,

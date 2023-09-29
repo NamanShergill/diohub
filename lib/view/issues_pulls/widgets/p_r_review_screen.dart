@@ -180,7 +180,7 @@ class PRReviewScreen extends StatelessWidget {
                         PaddingWrap(
                           child: BaseComment(
                             isMinimized: comment.isMinimized,
-                            reactions: comment.reactionGroups,
+                            reactions: comment.reactionGroups!,
                             viewerCanDelete: comment.viewerCanDelete,
                             viewerCanMinimize: comment.viewerCanMinimize,
                             onQuote: openCommentSheet,
@@ -309,7 +309,7 @@ class PRReviewScreen extends StatelessWidget {
                           Navigator.pop(context);
                           openCommentSheet();
                         },
-                        reactions: reply.reactionGroups,
+                        reactions: reply.reactionGroups!,
                         viewerCanDelete: reply.viewerCanDelete,
                         viewerCanMinimize: reply.viewerCanMinimize,
                         viewerCannotUpdateReasons:

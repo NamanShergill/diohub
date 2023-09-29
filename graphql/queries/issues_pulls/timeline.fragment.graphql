@@ -253,6 +253,10 @@ fragment  pullRequestReview on PullRequestReview{
     comments(first: 1){
         totalCount
         edges {
+            node {
+                id
+
+            }
             cursor
         }
     }

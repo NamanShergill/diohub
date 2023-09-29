@@ -2,8 +2,9 @@ import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/models/events/events_model.dart';
 
 class EventsService {
-  static final RESTHandler _restHandler =
-      RESTHandler(apiLogSettings: APILoggingSettings.comprehensive());
+  static final RESTHandler _restHandler = RESTHandler(
+      // apiLogSettings: APILoggingSettings.comprehensive(),
+      );
 
   // Ref: https://docs.github.com/en/rest/reference/activity#list-events-for-the-authenticated-user
   static Future<List<EventsModel>> getUserEvents(
