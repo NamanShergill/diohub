@@ -4,10 +4,10 @@ import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/main.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/extensions.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -41,10 +41,14 @@ Future<T?> showScrollableBottomSheet<T>(
     showDHBottomSheet<T>(
       context,
       isScrollControlled: true,
-      builder: (final context) => DHBottomSheet(
+      builder: (final BuildContext context) => DHBottomSheet(
         headerBuilder: headerBuilder,
-        builder: (final context, final setState) => BottomSheetBodyScrollable(
-          scrollBuilder: (final context, final scrollController) =>
+        builder: (final BuildContext context, final StateSetter setState) =>
+            BottomSheetBodyScrollable(
+          scrollBuilder: (
+            final BuildContext context,
+            final ScrollController scrollController,
+          ) =>
               scrollableBodyBuilder.call(context, setState, scrollController),
         ),
       ),
@@ -64,9 +68,10 @@ class DHBottomSheet extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => SafeArea(
         child: StatefulBuilder(
-          builder: (final context, final setState) => Column(
+          builder: (final BuildContext context, final StateSetter setState) =>
+              Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               const SizedBox(
                 height: 4,
               ),
@@ -81,7 +86,7 @@ class DHBottomSheet extends StatelessWidget {
                   width: context.mediaQuery.size.width * 0.1,
                 ),
               ),
-              if (headerBuilder != null) ...[
+              if (headerBuilder != null) ...<Widget>[
                 Padding(
                   padding: titlePadding,
                   child: Center(

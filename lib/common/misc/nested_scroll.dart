@@ -15,7 +15,7 @@ class NestedScroll extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => NestedScrollView(
-        headerSliverBuilder: (final context, final value) => [
+        headerSliverBuilder: (final BuildContext context, final bool value) => <Widget>[
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverSafeArea(
@@ -30,7 +30,7 @@ class NestedScroll extends StatelessWidget {
           ),
         ],
         body: Builder(
-          builder: (final context) {
+          builder: (final BuildContext context) {
             NestedScrollView.sliverOverlapAbsorberHandleFor(context);
 
             return body;

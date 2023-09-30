@@ -1,6 +1,7 @@
 import 'package:dio_hub/common/search_overlay/filters.dart';
 import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
@@ -10,24 +11,24 @@ class PullsList extends StatelessWidget {
   const PullsList({super.key});
   @override
   Widget build(final BuildContext context) {
-    final repo = Provider.of<RepositoryProvider>(context);
-    final user = Provider.of<CurrentUserProvider>(context).data;
+    final RepositoryProvider repo = Provider.of<RepositoryProvider>(context);
+    final CurrentUserInfoModel user = Provider.of<CurrentUserProvider>(context).data;
 
     return SearchScrollWrapper(
       SearchData(
         searchFilters:
-            SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-        defaultHiddenFilters: [
+            SearchFilters.issuesPulls(blacklist: <String>[SearchQueryStrings.type]),
+        defaultHiddenFilters: <String>[
           SearchQueries().type.toQueryString('pr'),
           SearchQueries().repo.toQueryString(repo.data.fullName!),
         ],
       ),
-      quickFilters: {
+      quickFilters: <String, String>{
         SearchQueries().assignee.toQueryString(user.login!): 'Assigned to you',
         SearchQueries().author.toQueryString(user.login!): 'Your pull requests',
         SearchQueries().mentions.toQueryString(user.login!): 'Mentions you',
       },
-      quickOptions: {
+      quickOptions: <String, String>{
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
       searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),

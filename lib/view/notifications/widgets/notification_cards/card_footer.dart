@@ -12,7 +12,7 @@ class CardFooter extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => FadeAnimationSection(
         child: Row(
-          children: [
+          children: <Widget>[
             Opacity(
               opacity: unread! ? 1 : 0.7,
               child: ProfileTile.avatar(

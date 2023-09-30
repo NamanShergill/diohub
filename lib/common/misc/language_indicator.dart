@@ -16,7 +16,7 @@ class LanguageIndicator extends StatelessWidget {
         padding: EdgeInsets.all(size / 6),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Container(
               decoration: BoxDecoration(
                 color: Color(

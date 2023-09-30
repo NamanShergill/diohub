@@ -21,7 +21,7 @@ class CopyButtonState extends State<CopyButton> {
       copied = true;
     });
     await copyToClipboard(widget.data);
-    await Future.delayed(const Duration(seconds: 4));
+    await Future<void>.delayed(const Duration(seconds: 4));
     setState(() {
       copied = false;
     });

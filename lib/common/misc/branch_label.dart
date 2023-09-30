@@ -9,7 +9,7 @@ class BranchLabel extends StatelessWidget {
   final double size;
   @override
   Widget build(final BuildContext context) {
-    final color = Provider.of<PaletteSettings>(context).currentSetting;
+    final DioHubPalette color = Provider.of<PaletteSettings>(context).currentSetting;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size / 2),
       child: DecoratedBox(

@@ -31,13 +31,13 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
 
   @override
   void initState() {
-    labels = widget.labels!.map((final e) => e.name).toList();
+    labels = widget.labels!.map((final Label e) => e.name).toList();
     super.initState();
   }
 
   @override
   Widget build(final BuildContext context) => Column(
-        children: [
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8),
             child: Button(
@@ -46,9 +46,11 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
                   .secondary,
               onTap: () async {
                 try {
-                  final newLabels =
+                  final List<Label> newLabels =
                       await IssuesService.setLabels(widget.issueUrl, labels);
-                  Navigator.pop(context);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                   widget.newLabels!(newLabels);
                 } catch (e) {
                   rethrow;
@@ -62,21 +64,34 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
           ),
           Expanded(
             child: InfiniteScrollWrapper<Label>(
-              future: (final data) => IssuesService.listAvailableLabels(
+              future: (final ({
+                        Label? lastItem,
+                        int pageNumber,
+                        int pageSize,
+                        bool refresh
+                      }) data,) async =>
+                  IssuesService.listAvailableLabels(
                 widget.repoURL,
                 data.pageNumber,
                 data.pageSize,
               ),
-              separatorBuilder: (final context, final index) => const Divider(
+              separatorBuilder: (final BuildContext context, final int index) =>
+                  const Divider(
                 height: 8,
               ),
               scrollController: widget.controller,
               listEndIndicator: false,
-              builder: (final data) => CheckboxListTile(
+              builder: (final ({
+                        BuildContext context,
+                        int index,
+                        Label item,
+                        bool refresh
+                      }) data,) =>
+                  CheckboxListTile(
                 activeColor:
                     Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: labels!.contains(data.item.name),
-                onChanged: (final value) {
+                onChanged: (final bool? value) {
                   setState(() {
                     if (labels!.contains(data.item.name)) {
                       labels!.remove(data.item.name);

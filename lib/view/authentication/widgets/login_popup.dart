@@ -3,6 +3,7 @@ import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/button.dart';
+import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,8 @@ class LoginPopupState extends State<LoginPopup> {
   bool loading = false;
   @override
   Widget build(final BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+    final DioHubPalette theme =
+        Provider.of<PaletteSettings>(context).currentSetting;
 
     return ScaleExpandedSection(
       child: StringButton(
@@ -39,7 +41,7 @@ class LoginPopupState extends State<LoginPopup> {
               title: 'Choose Login Method',
               content: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   StringButton(
                     color: theme.secondary,
                     onTap: () async {
@@ -49,15 +51,17 @@ class LoginPopupState extends State<LoginPopup> {
                           loading = true;
                         });
                         await AuthRepository().oauth2().then(
-                              (final value) =>
+                              (final AccessTokenModel value) =>
                                   BlocProvider.of<AuthenticationBloc>(context)
                                       .add(
                                 AuthSuccessful(value),
                               ),
                             );
                       } catch (e) {
-                        BlocProvider.of<AuthenticationBloc>(context)
-                            .add(AuthError(e.toString()));
+                        if (context.mounted) {
+                          BlocProvider.of<AuthenticationBloc>(context)
+                              .add(AuthError(e.toString()));
+                        }
                       } finally {
                         setState(() {
                           loading = false;

@@ -23,7 +23,7 @@ class AboutRepositoryState extends State<AboutRepository> {
 
   @override
   void initState() {
-    tiles = [
+    tiles = <AboutScreenTile>[
       AboutScreenTile(
         widget.repo.language ?? 'Code',
         icon: Octicons.code,
@@ -63,19 +63,21 @@ class AboutRepositoryState extends State<AboutRepository> {
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: true
             ? ListView.separated(
-                separatorBuilder: (final context, final index) => const Divider(
+                separatorBuilder:
+                    (final BuildContext context, final int index) =>
+                        const Divider(
                   height: 0,
                 ),
                 itemCount: tiles.length,
-                itemBuilder: (final context, final index) {
-                  final item = tiles[index];
+                itemBuilder: (final BuildContext context, final int index) {
+                  final AboutScreenTile item = tiles[index];
                   return ListTile(
                     leading: Icon(item.icon),
                     title: Text(item.label),
                     onTap: item.onTap,
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: <Widget>[
                         if (item.trailing != null) Text(item.trailing!),
                         const Icon(Icons.arrow_right_rounded),
                       ],
@@ -85,11 +87,11 @@ class AboutRepositoryState extends State<AboutRepository> {
               )
             : SingleChildScrollView(
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     InfoCard(
                       title: 'Name',
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Flexible(child: Text(widget.repo.name!)),
                         ],
                       ),
@@ -98,7 +100,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                       InfoCard(
                         title: 'About',
                         child: Row(
-                          children: [
+                          children: <Widget>[
                             Flexible(
                               child: Text(emoteText(widget.repo.description!)),
                             ),
@@ -109,7 +111,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                       InfoCard(
                         title: 'Language',
                         child: Row(
-                          children: [
+                          children: <Widget>[
                             Flexible(
                               child: LanguageIndicator(
                                 widget.repo.language,
@@ -128,11 +130,11 @@ class AboutRepositoryState extends State<AboutRepository> {
                         widget.repo.homepage!.isNotEmpty)
                       InfoCard(
                         title: 'Homepage',
-                        onTap: () {
-                          linkHandler(context, widget.repo.homepage);
+                        onTap: () async {
+                          await linkHandler(context, widget.repo.homepage);
                         },
                         child: Row(
-                          children: [
+                          children: <Widget>[
                             Flexible(child: Text(widget.repo.homepage!)),
                           ],
                         ),
@@ -141,7 +143,7 @@ class AboutRepositoryState extends State<AboutRepository> {
                       InfoCard(
                         title: 'License',
                         child: Row(
-                          children: [
+                          children: <Widget>[
                             Flexible(child: Text(widget.repo.license!.name!)),
                           ],
                         ),
@@ -149,12 +151,13 @@ class AboutRepositoryState extends State<AboutRepository> {
                     InfoCard(
                       title: 'Stats',
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Text(
-                                  'Open issues: ${widget.repo.openIssuesCount}',),
+                                'Open issues: ${widget.repo.openIssuesCount}',
+                              ),
                               const SizedBox(
                                 height: 8,
                               ),

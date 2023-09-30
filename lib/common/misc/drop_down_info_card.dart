@@ -62,12 +62,12 @@ class DropDownInfoCardState extends State<DropDownInfoCard>
                 borderRadius: medBorderRadius,
               ),
               child: Column(
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Row(
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(
                               top: 16,

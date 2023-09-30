@@ -76,12 +76,12 @@ class BaseCommentState extends State<BaseComment> {
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               Row(
-                children: [
+                children: <Widget>[
                   if (widget.leading != null)
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
@@ -103,7 +103,7 @@ class BaseCommentState extends State<BaseComment> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         widget.author?.login ?? 'N/A',
                         style: const TextStyle(
@@ -116,7 +116,7 @@ class BaseCommentState extends State<BaseComment> {
                           widget.authorAssociation !=
                               CommentAuthorAssociation.none)
                         Builder(
-                          builder: (final context) {
+                          builder: (final BuildContext context) {
                             String? str;
                             if (widget.authorAssociation ==
                                 CommentAuthorAssociation.collaborator) {
@@ -147,10 +147,10 @@ class BaseCommentState extends State<BaseComment> {
                 ],
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
+                    children: <Widget>[
                       Text(
                         getDate(widget.createdAt.toString(), shorten: false),
                         style: TextStyle(
@@ -200,7 +200,7 @@ class BaseCommentState extends State<BaseComment> {
           SizeExpandedSection(
             expand: optionsExpanded,
             child: Column(
-              children: [
+              children: <Widget>[
                 const Divider(),
                 ListTile(
                   leading: const Icon(
@@ -221,11 +221,14 @@ class BaseCommentState extends State<BaseComment> {
                   dense: true,
                   leading: const Icon(Icons.content_copy),
                   title: const Text('Select Text'),
-                  onTap: () => showDialog(
+                  onTap: () async => showDialog(
                     context: context,
-                    builder: (final cxt) => ListenableProvider.value(
+                    builder: (final BuildContext cxt) =>
+                        ListenableProvider<CommentProvider>.value(
                       value: Provider.of<CommentProvider>(context),
-                      builder: (final context, final child) => _SelectAndCopy(
+                      builder:
+                          (final BuildContext context, final Widget? child) =>
+                              _SelectAndCopy(
                         widget.body,
                         onQuote: widget.onQuote,
                       ),
@@ -253,9 +256,9 @@ class BaseCommentState extends State<BaseComment> {
               padding: widget.headerPadding,
               child: widget.header,
             ),
-          if (widget.bodyHTML?.isNotEmpty == true)
+          if (widget.bodyHTML?.isNotEmpty ?? false)
             Row(
-              children: [
+              children: <Widget>[
                 Flexible(
                   child: MarkdownBody(
                     widget.bodyHTML!,
@@ -263,7 +266,7 @@ class BaseCommentState extends State<BaseComment> {
                 ),
               ],
             ),
-          if (widget.footer != null && widget.bodyHTML?.isEmpty == true)
+          if (widget.footer != null && (widget.bodyHTML?.isEmpty ?? false))
             const SizedBox(
               height: 8,
             ),
@@ -305,14 +308,15 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           child: SelectableText(
             widget.data,
             style: Theme.of(context).textTheme.bodyMedium,
-            onSelectionChanged: (final selection, final cause) {
+            onSelectionChanged: (final TextSelection selection,
+                final SelectionChangedCause? cause,) {
               setState(() {
                 selectedText = selection.textInside(widget.data);
               });
             },
           ),
         ),
-        actions: [
+        actions: <Widget>[
           MaterialButton(
             onPressed: () {
               Navigator.pop(context);
@@ -324,9 +328,11 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           ),
           MaterialButton(
             onPressed: selectedText.isNotEmpty
-                ? () {
-                    copyToClipboard(selectedText);
-                    Navigator.pop(context);
+                ? () async {
+                    await copyToClipboard(selectedText);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                   }
                 : null,
             child: const Padding(

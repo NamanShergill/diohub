@@ -19,17 +19,17 @@ class AuthScreen extends StatelessWidget {
   Widget build(final BuildContext context) => SafeArea(
         child: Scaffold(
           body: Stack(
-            children: [
+            children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   SizeExpandedSection(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
+                          children: <Widget>[
                             AppLogoWidget(
                               size: MediaQuery.of(context).size.width * 0.3,
                             ),
@@ -46,7 +46,7 @@ class AuthScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
                     child:
                         BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                      listener: (final context, final state) async {
+                      listener: (final BuildContext context, final AuthenticationState state) async {
                         if (state is AuthenticationSuccessful) {
                           if (onAuthenticated != null) {
                             onAuthenticated!();
@@ -56,7 +56,7 @@ class AuthScreen extends StatelessWidget {
                           }
                         }
                       },
-                      builder: (final context, final state) {
+                      builder: (final BuildContext context, final AuthenticationState state) {
                         if (state is AuthenticationUnauthenticated) {
                           return const LoginPopup();
                         } else if (state is AuthenticationInitialized) {

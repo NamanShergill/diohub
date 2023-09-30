@@ -15,7 +15,7 @@ class CommentProvider extends ChangeNotifier {
   }
 
   void addQuote(final String data) {
-    var str = data;
+    String str = data;
     str = '\n> ${str.replaceAll(RegExp('\n'), '\n> ')}';
     _data = '$_data$str\n\n';
   }

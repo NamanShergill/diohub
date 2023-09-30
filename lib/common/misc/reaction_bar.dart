@@ -53,7 +53,7 @@ class ReactionBar extends StatefulWidget {
 
 class _ReactionBarState extends State<ReactionBar> {
   bool loading = false;
-  Future updateReaction(final ReactionGroupsMixin value) async {
+  Future<void> updateReaction(final ReactionGroupsMixin value) async {
     setState(() {
       loading = true;
     });
@@ -84,14 +84,14 @@ class _ReactionBarState extends State<ReactionBar> {
 
   @override
   Widget build(final BuildContext context) => Row(
-        children: [
+        children: <Widget>[
           Flexible(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               physics: const BouncingScrollPhysics(),
               child: Row(
-                children: [
+                children: <Widget>[
                   if (widget.viewerCanReact)
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -116,10 +116,11 @@ class _ReactionBarState extends State<ReactionBar> {
                               boxColor: Provider.of<PaletteSettings>(context)
                                   .currentSetting
                                   .primary,
-                              onReactionChanged: (final value) async {
+                              onReactionChanged:
+                                  (final ReactionGroupsMixin? value) async {
                                 await updateReaction(value!);
                               },
-                              initialReaction: Reaction(
+                              initialReaction: Reaction<ReactionGroupsMixin>(
                                 icon: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 8,
@@ -142,9 +143,11 @@ class _ReactionBarState extends State<ReactionBar> {
                                 ),
                                 value: null,
                               ),
-                              reactions: List.generate(
+                              reactions:
+                                  List<Reaction<ReactionGroupsMixin>>.generate(
                                 widget.reactionGroups.length,
-                                (final index) => Reaction(
+                                (final int index) =>
+                                    Reaction<ReactionGroupsMixin>(
                                   icon: Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: Text(
@@ -162,9 +165,9 @@ class _ReactionBarState extends State<ReactionBar> {
                         ),
                       ),
                     ),
-                  ...List.generate(
+                  ...List<Widget>.generate(
                     widget.reactionGroups.length,
-                    (final index) => ScaleSwitch(
+                    (final int index) => ScaleSwitch(
                       visible:
                           widget.reactionGroups[index].reactors.totalCount > 0,
                       child: IgnorePointer(
@@ -173,7 +176,7 @@ class _ReactionBarState extends State<ReactionBar> {
                           widget.reactionGroups[index],
                           onTap: loading || !widget.viewerCanReact
                               ? null
-                              : (final group) async {
+                              : (final ReactionGroupsMixin group) async {
                                   try {
                                     await updateReaction(group);
                                   } catch (e) {
@@ -232,38 +235,47 @@ class ReactionItemState extends State<ReactionItem> {
           borderRadius: bigBorderRadius,
           child: InkWell(
             onTap: widget.onTap != null ? changeReaction : null,
-            onLongPress: () {
-              showScrollableBottomSheet(
+            onLongPress: () async {
+              await showScrollableBottomSheet(
                 context,
-                headerBuilder: (final context, final setState) =>
-                    BottomSheetHeaderText(
+                headerBuilder:
+                    (final BuildContext context, final StateSetter setState) =>
+                        BottomSheetHeaderText(
                   headerText: getReaction(widget.reactionGroup.content),
                 ),
-                scrollableBodyBuilder:
-                    (final context, final setState, final scrollController) =>
-                        APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
-                  apiCall: ({required final refresh}) =>
+                scrollableBodyBuilder: (
+                  final BuildContext context,
+                  final StateSetter setState,
+                  final ScrollController scrollController,
+                ) =>
+                    APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
+                  apiCall: ({required final bool refresh}) =>
                       IssuesService.getReactors(
                     widget.reactionGroup.subject.id,
                     widget.reactionGroup.content,
                   ),
-                  responseBuilder: (final context, final data) => Padding(
+                  responseBuilder: (
+                    final BuildContext context,
+                    final List<ReactorsGroupMixin$Reactors$Edges?> data,
+                  ) =>
+                      Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 4,
                     ),
                     child: ListView(
                       controller: scrollController,
-                      children: [
-                        ...List.generate(
+                      children: <Widget>[
+                        ...List<Widget>.generate(
                           data.length,
                           // shrinkWrap: true,
-                          (final index) {
-                            final actor = data[index]!.node as ActorMixin;
+                          (final int index) {
+                            final ActorMixin actor =
+                                data[index]!.node as ActorMixin;
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 4),
                               child: Row(
-                                children: [
+                                children: <Widget>[
                                   Expanded(
                                     child: ProfileTile.login(
                                       avatarUrl: actor.avatarUrl.toString(),
@@ -300,7 +312,7 @@ class ReactionItemState extends State<ReactionItem> {
                 child: _shimmer(
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(
                         width: 8,
                       ),

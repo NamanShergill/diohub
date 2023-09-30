@@ -20,9 +20,9 @@ class ImageLoader extends StatelessWidget {
         height: height,
         width: width,
         fit: BoxFit.fill,
-        errorWidget: (final context, final _, final __) =>
+        errorWidget: (final BuildContext context, final _, final __) =>
             errorBuilder != null ? errorBuilder!(context) : Container(),
-        placeholder: (final context, final string) =>
+        placeholder: (final BuildContext context, final String string) =>
             (height != null || width != null)
                 ? ShimmerWidget(
                     child: Container(

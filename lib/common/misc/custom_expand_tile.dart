@@ -17,7 +17,7 @@ class CustomExpandTile extends StatelessWidget {
   final Function() onTap;
   @override
   Widget build(final BuildContext context) => Column(
-        children: [
+        children: <Widget>[
           ListTile(
             title: title,
             onTap: onTap,

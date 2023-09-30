@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/models/events/events_model.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 
 class EventsService {
   static final RESTHandler _restHandler = RESTHandler(
@@ -13,14 +15,15 @@ class EventsService {
     final int? page,
     final int? perPage,
   }) async {
-    final response = await _restHandler.get(
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
       '/users/$user/events',
-      queryParameters: {'per_page': perPage, 'page': page},
+      queryParameters: <String, dynamic>{'per_page': perPage, 'page': page},
       refreshCache: refresh,
     );
-    final List unParsedEvents = response.data;
-    final parsedEvents = <EventsModel>[];
-    for (final event in unParsedEvents) {
+    final List<dynamic> unParsedEvents = response.data!;
+    final List<EventsModel> parsedEvents = <EventsModel>[];
+    for (final TypeMap event in unParsedEvents) {
       parsedEvents.add(EventsModel.fromJson(event));
     }
     return parsedEvents;
@@ -33,8 +36,11 @@ class EventsService {
     final int? perPage,
     final int? page,
   }) async {
-    final parameters = <String, dynamic>{'per_page': perPage, 'page': page};
-    final response = await _restHandler.get<List>(
+    final Map<String, dynamic> parameters = <String, dynamic>{
+      'per_page': perPage,
+      'page': page,
+    };
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '/users/$user/received_events',
       queryParameters: parameters,
       refreshCache: refresh,
@@ -42,7 +48,7 @@ class EventsService {
     return response.data!
         .map(
           // ignore: unnecessary_lambdas
-          (final e) => EventsModel.fromJson(e),
+          (final dynamic e) => EventsModel.fromJson(e),
         )
         .toList();
   }
@@ -53,8 +59,11 @@ class EventsService {
     final int? perPage,
     final int? page,
   }) async {
-    final parameters = <String, dynamic>{'per_page': perPage, 'page': page};
-    final response = await _restHandler.get<List>(
+    final Map<String, dynamic> parameters = <String, dynamic>{
+      'per_page': perPage,
+      'page': page,
+    };
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '/events',
       queryParameters: parameters,
       refreshCache: refresh,
@@ -62,7 +71,7 @@ class EventsService {
     return response.data!
         .map(
           // ignore: unnecessary_lambdas
-          (final e) => EventsModel.fromJson(e),
+          (final dynamic e) => EventsModel.fromJson(e),
         )
         .toList();
   }

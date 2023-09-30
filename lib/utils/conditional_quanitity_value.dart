@@ -19,7 +19,7 @@ extension ConditionalQuantityValues<T> on List<T> {
     required final ConditionalValue<V, T> defaultValue,
   }) =>
       valuesOnLength<V>(
-        values: {
+        values: <int, V Function()>{
           0: onNoItems.call,
           1: () => onOneItem.call(first),
         },
@@ -45,7 +45,7 @@ extension ConditionalIntValues on int {
     required final ConditionalEmptyValue<V> defaultValue,
   }) =>
       valuesOnLength<V>(
-        values: {
+        values: <int, V Function()>{
           0: onZero.call,
           1: onOne.call,
         },

@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/providers/users/user_provider.dart';
@@ -22,9 +23,9 @@ class OtherUserProfileScreen extends StatelessWidget {
         ),
       );
     }
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<UserProvider>(
       create: (final _) => UserProvider(login),
-      builder: (final context, final child) => SafeArea(
+      builder: (final BuildContext context, final Widget? child) => SafeArea(
         child: Scaffold(
           appBar: Provider.of<UserProvider>(context).status != Status.loaded
               ? AppBar(
@@ -33,7 +34,9 @@ class OtherUserProfileScreen extends StatelessWidget {
               : null,
           body: ScaffoldBody(
             child: ProviderLoadingProgressWrapper<UserProvider>(
-              childBuilder: (final context, final value) => UserProfileScreen(
+              childBuilder:
+                  (final BuildContext context, final UserProvider value) =>
+                      UserProfileScreen<UserInfoModel>(
                 value.data,
                 isCurrentUser: false,
               ),

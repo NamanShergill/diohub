@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
@@ -6,6 +7,7 @@ import 'package:dio_hub/models/repositories/branch_model.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/models/repositories/readme_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 
 class RepositoryServices {
   RepositoryServices({
@@ -22,7 +24,7 @@ class RepositoryServices {
   );
 
   Future<PinnedIssues$Query$Repository$PinnedIssues> getPinnedIssues() async {
-    final response = await _gqlHandler.query(
+    final GQLResponse response = await _gqlHandler.query(
       PinnedIssuesQuery(
         variables: PinnedIssuesArguments(
           name: name,
@@ -41,11 +43,11 @@ class RepositoryServices {
     final String url, {
     final bool refresh = false,
   }) async {
-    final response = await _restHandler.get(
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       url,
       refreshCache: refresh,
     );
-    return RepositoryModel.fromJson(response.data);
+    return RepositoryModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
@@ -53,20 +55,20 @@ class RepositoryServices {
     final String repoUrl, {
     final String? branch,
   }) async {
-    print('jkasnf');
-    final response = await _restHandler.get(
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       '$repoUrl/readme',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'ref': branch,
       },
     );
-    return RepositoryReadmeModel.fromJson(response.data);
+    return RepositoryReadmeModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
   static Future<BranchModel> fetchBranch(final String branchUrl) async {
-    final response = await _restHandler.get(branchUrl);
-    return BranchModel.fromJson(response.data);
+    final Response<TypeMap> response =
+        await _restHandler.get<TypeMap>(branchUrl);
+    return BranchModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-branches
@@ -76,15 +78,19 @@ class RepositoryServices {
     final int perPage, {
     final bool refresh = false,
   }) async {
-    final response = await _restHandler.get<List>(
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
       '$repoURL/branches',
-      queryParameters: {'per_page': perPage, 'page': pageNumber},
+      queryParameters: <String, dynamic>{
+        'per_page': perPage,
+        'page': pageNumber,
+      },
       refreshCache: refresh,
     );
     return response.data!
         .map(
           // ignore: unnecessary_lambdas
-          (final e) => RepoBranchListItemModel.fromJson(e),
+          (final dynamic e) => RepoBranchListItemModel.fromJson(e),
         )
         .toList();
   }
@@ -99,7 +105,7 @@ class RepositoryServices {
     final String? author,
     final bool refresh = false,
   }) async {
-    final queryParams = <String, dynamic>{
+    final Map<String, dynamic> queryParams = <String, dynamic>{
       'path': path,
       'per_page': pageSize,
       'page': pageNumber,
@@ -108,14 +114,16 @@ class RepositoryServices {
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await _restHandler.get<List>(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$repoURL/commits',
       queryParameters: queryParams,
       refreshCache: refresh,
     );
-    // ignore: unnecessary_lambdas
     return response.data!
-        .map((final e) => CommitListModel.fromJson(e))
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => CommitListModel.fromJson(e),
+        )
         .toList();
   }
 
@@ -124,11 +132,11 @@ class RepositoryServices {
     final String commitURL, {
     final bool refresh = false,
   }) async {
-    final response = await _restHandler.get(
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       commitURL,
       refreshCache: refresh,
     );
-    return CommitModel.fromJson(response.data);
+    return CommitModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
@@ -155,7 +163,7 @@ class RepositoryServices {
 
   static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
       getIssueTemplates(final String name, final String owner) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       IssueTemplatesQuery(
         variables: IssueTemplatesArguments(name: name, owner: owner),
       ),
@@ -168,7 +176,7 @@ class RepositoryServices {
     final String owner,
     final String name,
   ) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       HasStarredQuery(variables: HasStarredArguments(name: name, owner: owner)),
       refreshCache: true,
     );
@@ -181,8 +189,8 @@ class RepositoryServices {
     final String name, {
     required final bool isStarred,
   }) async {
-    final endpoint = '/user/starred/$owner/$name';
-    final res = isStarred
+    final String endpoint = '/user/starred/$owner/$name';
+    final Response<dynamic> res = isStarred
         ? await _restHandler.delete(endpoint)
         : await _restHandler.put(endpoint);
     if (res.statusCode == 204) {
@@ -211,10 +219,10 @@ class RepositoryServices {
     required final bool isSubscribing,
     final bool ignored = false,
   }) async {
-    final res = isSubscribing
+    final Response<dynamic> res = isSubscribing
         ? await _restHandler.put(
             '/repos/$owner/$name/subscription',
-            data: {
+            data: <String, bool>{
               if (ignored) 'ignored': true,
               if (!ignored) 'subscribed': true,
             },

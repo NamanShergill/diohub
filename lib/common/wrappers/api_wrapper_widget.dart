@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -33,7 +35,7 @@ class APIWrapper<T> extends StatefulWidget {
   final bool fadeIntoView;
 
   @override
-  APIWrapperState<T> createState() => APIWrapperState();
+  APIWrapperState<T> createState() => APIWrapperState<T>();
 }
 
 class APIWrapperState<T> extends State<APIWrapper<T>> {
@@ -54,7 +56,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
     }
   }
 
-  Future fetchData({final bool refresh = true}) async {
+  Future<void> fetchData({final bool refresh = true}) async {
     if (mounted) {
       setState(() {
         loading = true;
@@ -87,7 +89,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
   void initState() {
     widget.apiWrapperController?.refresh = fetchData;
     widget.apiWrapperController?.changeData = changeData;
-    setupWidget();
+    unawaited(setupWidget());
     super.initState();
   }
 
@@ -102,9 +104,9 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
           ? widget.errorBuilder!(context, error)
           // : Text(error!);
           : Builder(
-              builder: (final context) {
+              builder: (final BuildContext context) {
                 if (error is DioException) {
-                  final err = error! as DioException;
+                  final DioException err = error! as DioException;
                   if (err.type == DioExceptionType.badResponse) {
                     return Padding(
                       padding: const EdgeInsets.all(24),
@@ -153,7 +155,7 @@ class PullToRefreshWrapper<T> extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => RefreshIndicator(
-        onRefresh: () => Future.sync(() async {
+        onRefresh: () => Future<void>.sync(() async {
           apiWrapperController.refresh();
         }),
         triggerMode: RefreshIndicatorTriggerMode.anywhere,

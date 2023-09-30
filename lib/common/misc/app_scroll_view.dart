@@ -35,22 +35,22 @@ class AppScrollViewState extends State<AppScrollView> {
   Widget build(final BuildContext context) => NestedScroll(
         // controller: widget.nestedScrollViewController,
         header: (
-          final context, {
-          required final isInnerBoxScrolled,
+          final BuildContext context, {
+          required final bool isInnerBoxScrolled,
         }) =>
-            [
+            <Widget>[
           widget.scrollViewAppBar,
         ],
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 50),
           child: widget.loading
-              ? Container(
+              ? ColoredBox(
                   color: widget.childrenColor ??
                       Provider.of<PaletteSettings>(context)
                           .currentSetting
                           .secondary,
                   child: const Column(
-                    children: [
+                    children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 48),
                         child: LoadingIndicator(),
@@ -58,7 +58,7 @@ class AppScrollViewState extends State<AppScrollView> {
                     ],
                   ),
                 )
-              : Container(
+              : ColoredBox(
                   color: widget.childrenColor ??
                       Provider.of<PaletteSettings>(context)
                           .currentSetting
@@ -103,7 +103,7 @@ class ScrollViewAppBar extends StatelessWidget {
   final EdgeInsets? padding;
   @override
   Widget build(final BuildContext context) {
-    final hasTabs = tabs != null || tabBar != null;
+    final bool hasTabs = tabs != null || tabBar != null;
     return SliverAppBar(
       leading: Navigator.canPop(context)
           ? IconButton(
@@ -118,7 +118,7 @@ class ScrollViewAppBar extends StatelessWidget {
       pinned: true,
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
-      actions: [
+      actions: <Widget>[
         if (url != null)
           if (url != null) ShareButton(url!),
       ],
@@ -143,7 +143,7 @@ class ScrollViewAppBar extends StatelessWidget {
                   highlightColor: Colors.transparent,
                 ),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: bottomHeader ?? Container(),
@@ -153,9 +153,9 @@ class ScrollViewAppBar extends StatelessWidget {
                     else
                       AppTabBar(
                         controller: tabController,
-                        tabs: List.generate(
+                        tabs: List<String>.generate(
                           tabs!.length,
-                          (final index) => tabs![index],
+                          (final int index) => tabs![index],
                         ),
                       ),
                   ],
@@ -204,9 +204,9 @@ class SliverAppBarTitleState extends State<SliverAppBarTitle> {
   }
 
   void _positionListener() {
-    final settings =
+    final FlexibleSpaceBarSettings? settings =
         context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
-    final visible =
+    final bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {
       setState(() {

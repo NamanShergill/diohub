@@ -79,7 +79,7 @@ class FadeSwitch extends StatelessWidget {
   Widget build(final BuildContext context) => AnimatedSwitcher(
         duration: duration ?? defaultAnimDuration,
         child: child,
-        transitionBuilder: (final child, final animation) => FadeTransition(
+        transitionBuilder: (final Widget child, final Animation<double> animation) => FadeTransition(
           opacity: animation,
           child: child,
         ),

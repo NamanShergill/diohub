@@ -25,7 +25,7 @@ class CollapsibleAppBar extends StatelessWidget {
   final double childHeight;
 
   double _calculateExpandRatio(final BoxConstraints constraints) {
-    var expandRatio =
+    double expandRatio =
         (constraints.maxHeight - minHeight!) / (maxHeight! - minHeight!);
     if (expandRatio > 1.0) {
       expandRatio = 1.0;
@@ -37,23 +37,25 @@ class CollapsibleAppBar extends StatelessWidget {
   }
 
   double _calculateAbsExpandRatio(final BoxConstraints constraints) {
-    final expandRatio =
+    final double expandRatio =
         (constraints.maxHeight - minHeight!) / (maxHeight! - minHeight!);
     return expandRatio;
   }
 
   @override
   Widget build(final BuildContext context) => LayoutBuilder(
-        builder: (final context, final constraints) {
-          final expandRatio = _calculateExpandRatio(constraints);
-          final animation = AlwaysStoppedAnimation(expandRatio);
-          final absRatio = _calculateAbsExpandRatio(constraints);
+        builder:
+            (final BuildContext context, final BoxConstraints constraints) {
+          final double expandRatio = _calculateExpandRatio(constraints);
+          final AlwaysStoppedAnimation<double> animation =
+              AlwaysStoppedAnimation<double>(expandRatio);
+          final double absRatio = _calculateAbsExpandRatio(constraints);
 
           return Padding(
             padding: padding,
             child: Stack(
               fit: StackFit.expand,
-              children: [
+              children: <Widget>[
                 Align(
                   alignment: AlignmentTween(
                     begin: child != null
@@ -73,7 +75,7 @@ class CollapsibleAppBar extends StatelessWidget {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: <Widget>[
                           Text(
                             title!,
                             style: Theme.of(context)
@@ -101,7 +103,7 @@ class CollapsibleAppBar extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       SizeExpandedSection(
                         expand: absRatio > childCollapseValue,
                         child: Padding(

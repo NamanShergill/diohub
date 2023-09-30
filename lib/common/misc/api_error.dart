@@ -10,7 +10,7 @@ class APIError extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               statusCode.toString(),
               style: Theme.of(context).textTheme.displayMedium,

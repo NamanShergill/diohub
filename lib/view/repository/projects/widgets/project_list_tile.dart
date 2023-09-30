@@ -30,12 +30,12 @@ class ProjectListTile extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Row(
-                        children: [
+                        children: <Widget>[
                           Icon(
                             Octicons.project,
                             color: project.closed
@@ -53,7 +53,7 @@ class ProjectListTile extends StatelessWidget {
                         ],
                       ),
                       Row(
-                        children: [
+                        children: <Widget>[
                           Icon(
                             Icons.timelapse_outlined,
                             size: 11,

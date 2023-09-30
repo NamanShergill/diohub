@@ -29,11 +29,11 @@ class DynamicTabsParent extends StatelessWidget {
         tabBarSettings: DynamicTabSettings(
           indicatorPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         ),
-        tabBuilder: (final context, final tab) => Tab(
+        tabBuilder: (final BuildContext context, final DynamicTab tab) => Tab(
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16)
                     .copyWith(right: tab.isDismissible ? 0 : 16),

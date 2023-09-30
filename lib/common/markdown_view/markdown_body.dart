@@ -22,9 +22,10 @@ class MarkdownRenderAPI extends StatelessWidget {
   final String? repoContext;
   final String? branch;
 
-  List<MarkdownImgSrcModifiers> get _repoMarkdownImgSrcModifiers => [
-        (final srcData) {
-          var src = srcData.src;
+  List<MarkdownImgSrcModifiers> get _repoMarkdownImgSrcModifiers =>
+      <MarkdownImgSrcModifiers>[
+        (final MarkdownImgSrcData srcData) {
+          String src = srcData.src;
           if (!srcData.isHttp && branch != null) {
             src = 'https://raw.githubusercontent.com/$repoContext/$branch/$src';
           } else if (repoContext != null &&
@@ -41,14 +42,15 @@ class MarkdownRenderAPI extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => APIWrapper<String>(
         apiCall: ({
-          required final refresh,
+          required final bool refresh,
         }) async =>
             MarkdownService.renderMarkdown(data, context: repoContext),
-        loadingBuilder: (final context) => const Padding(
+        loadingBuilder: (final BuildContext context) => const Padding(
           padding: EdgeInsets.symmetric(vertical: 48),
           child: LoadingIndicator(),
         ),
-        responseBuilder: (final context, final data) => MarkdownBody(
+        responseBuilder: (final BuildContext context, final String data) =>
+            MarkdownBody(
           data,
           imgSrcModifiers: _repoMarkdownImgSrcModifiers,
         ),
@@ -82,11 +84,11 @@ class MarkdownBodyState extends State<MarkdownBody> {
   }
 
   void updateData(final String data) {
-    final document = parse(data);
+    final dom.Document document = parse(data);
     // The list of tags to perform modifications on.
-    final tags = <String>['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-    for (final element in tags) {
-      final elements = document.getElementsByTagName(element);
+    final List<String> tags = <String>['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+    for (final String element in tags) {
+      final List<dom.Element> elements = document.getElementsByTagName(element);
       performModifications(elements);
     }
     doc = document;
@@ -95,16 +97,15 @@ class MarkdownBodyState extends State<MarkdownBody> {
   @override
   void didUpdateWidget(covariant final MarkdownBody oldWidget) {
     if (oldWidget.content != widget.content) {
-      print('upadting');
       updateData(widget.content);
     }
     super.didUpdateWidget(oldWidget);
   }
 
   void performModifications(final List<dom.Element> elements) {
-    for (final node in elements) {
+    for (final dom.Element node in elements) {
       node.attributes.addAll(
-        {
+        <Object, String>{
           'id': node.text
               .toLowerCase()
               .replaceAll(' ', '-')
@@ -124,14 +125,14 @@ class MarkdownBodyState extends State<MarkdownBody> {
         extensions: markdownTagExtensions(
           context,
           imgSrcModifiers: widget.imgSrcModifiers,
-        )..addAll([
+        )..addAll(<HtmlExtension>[
             const TableHtmlExtension(),
           ]),
         // tagsList: Html.tags
         //   ..addAll(
         //     ['g-emoji'],
         //   ),
-        style: {
+        style: <String, Style>{
           'a': Style(
             textDecoration: TextDecoration.none,
             color: Colors.blueAccent,
@@ -178,7 +179,8 @@ class MarkdownBodyState extends State<MarkdownBody> {
           //   ),
           // )
         },
-        onLinkTap: (final url, final attributes, final element) async =>
+        onLinkTap: (final String? url, final Map<String, String> attributes,
+                final dom.Element? element,) async =>
             linkHandler(context, url),
 //         customRender:  {
 //           // 'a': (final renderContext, final child) {

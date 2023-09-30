@@ -18,15 +18,16 @@ Future<void> showCommentSheet(
   required final String repoName,
   final String type = 'Comment',
 }) async {
-  var markdownView = false;
-  var loading = false;
+  bool markdownView = false;
+  bool loading = false;
   await showDHBottomSheet(
     context,
     isScrollControlled: true,
-    builder: (final context) => DHBottomSheet(
-      headerBuilder: (final context, final setState) => Row(
+    builder: (final BuildContext context) => DHBottomSheet(
+      headerBuilder: (final BuildContext context, final StateSetter setState) =>
+          Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           IconButton(
             onPressed: () {
               setState.call(
@@ -51,7 +52,7 @@ Future<void> showCommentSheet(
                 child: Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       Text(
                         type,
                         style: Theme.of(context).textTheme.titleLarge,
@@ -88,7 +89,11 @@ Future<void> showCommentSheet(
           ),
         ],
       ),
-      builder: (final context, final setState) => CommentBox(
+      builder: (
+        final BuildContext context,
+        final StateSetter setState,
+      ) =>
+          CommentBox(
         repoName: '$owner/$repoName',
         markdownView: markdownView,
         initialData: initialData,
@@ -133,7 +138,7 @@ class CommentBoxState extends State<CommentBox> {
           initialValue: data,
           autoFocus: true,
           onTextChanged: widget.onChanged != null
-              ? (final value) {
+              ? (final String value) {
                   setState(() {
                     // Provider.of<CommentProvider>(context, listen: false)
                     //     .updateData(value);

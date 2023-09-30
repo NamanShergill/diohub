@@ -72,7 +72,7 @@ class OverlayMenuWidgetState extends State<OverlayMenuWidget> {
 
   @override
   Widget build(final BuildContext context) {
-    final media = MediaQuery.of(context).size;
+    final Size media = MediaQuery.of(context).size;
     return PortalTarget(
       visible: visible,
       portalFollower: GestureDetector(
@@ -93,7 +93,7 @@ class OverlayMenuWidgetState extends State<OverlayMenuWidget> {
                 mainAxisAlignment: widget.childAnchor == Alignment.topCenter
                     ? MainAxisAlignment.end
                     : MainAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Flexible(child: widget.overlay),
                 ],
               ),

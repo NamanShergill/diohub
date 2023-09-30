@@ -11,6 +11,7 @@ import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:gql_exec/gql_exec.dart' as gql_exec;
 import 'package:gql_link/gql_link.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:uuid/uuid.dart';
@@ -46,7 +47,7 @@ class RESTHandler extends BaseAPIHandler {
     final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
-      final response = await _request(
+      final Response<T> response = await _request(
         requestHeaders: requestHeaders,
         overrideAPICache: activeCacheOptions.copyWith(
           cachePolicy: refreshCache ? CachePolicy.refresh : null,
@@ -64,7 +65,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> post<T>(
+  Future<Response<T>> post<T>(
     final String url, {
     final Object? data,
     final Map<String, dynamic>? queryParameters,
@@ -75,7 +76,7 @@ class RESTHandler extends BaseAPIHandler {
     final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
-      final response = await _request(
+      final Response<T> response = await _request(
         requestHeaders: requestHeaders,
       ).post<T>(
         url,
@@ -92,7 +93,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> put<T>(
+  Future<Response<T>> put<T>(
     final String url, {
     final Object? data,
     final Map<String, dynamic>? queryParameters,
@@ -103,7 +104,7 @@ class RESTHandler extends BaseAPIHandler {
     final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
-      final response = await _request(
+      final Response<T> response = await _request(
         requestHeaders: requestHeaders,
       ).put<T>(
         url,
@@ -120,7 +121,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> delete<T>(
+  Future<Response<T>> delete<T>(
     final String url, {
     final Object? data,
     final Map<String, dynamic>? queryParameters,
@@ -129,7 +130,7 @@ class RESTHandler extends BaseAPIHandler {
     final Map<String, dynamic>? requestHeaders,
   }) async {
     try {
-      final response = await _request(
+      final Response<T> response = await _request(
         requestHeaders: requestHeaders,
       ).delete<T>(
         url,
@@ -144,7 +145,7 @@ class RESTHandler extends BaseAPIHandler {
     }
   }
 
-  Future<Response> patch<T>(
+  Future<Response<T>> patch<T>(
     final String url, {
     final Object? data,
     final Map<String, dynamic>? queryParameters,
@@ -155,7 +156,7 @@ class RESTHandler extends BaseAPIHandler {
     final ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      final response = await _request(
+      final Response<T> response = await _request(
         requestHeaders: requestHeaders,
       ).patch<T>(
         url,
@@ -181,13 +182,15 @@ class GraphqlHandler extends BaseAPIHandler {
           baseURL: '$apiBaseURL/graphql',
         );
 
-  Future<GQLResponse> mutation(final GraphQLQuery query) => _query(
+  Future<GQLResponse> mutation(
+          final GraphQLQuery<dynamic, JsonSerializable> query,) =>
+      _query(
         query,
         overrideAPICache: APICache.noCache(),
       );
 
   Future<GQLResponse> query(
-    final GraphQLQuery query, {
+    final GraphQLQuery<dynamic, JsonSerializable> query, {
     final bool refreshCache = false,
     final Map<String, dynamic>? requestHeaders,
   }) async =>
@@ -203,7 +206,7 @@ class GraphqlHandler extends BaseAPIHandler {
   APICache get _defaultCacheOptions => CacheManager.defaultGQLCache();
 
   Future<GQLResponse> _query(
-    final GraphQLQuery query, {
+    final GraphQLQuery<dynamic, JsonSerializable> query, {
     final APICache? overrideAPICache,
     final Map<String, dynamic>? requestHeaders,
   }) async =>
@@ -222,12 +225,12 @@ class GraphqlHandler extends BaseAPIHandler {
           )
           .first
           .onError(
-        (final error, final stackTrace) {
+        (final Object? error, final StackTrace stackTrace) {
           // If data is from cache the header would be 304, hence the value should
           // be returned.
           if (error is DioLinkServerException &&
               error.response.statusCode == 304) {
-            final gqlResponse =
+            final gql_exec.Response gqlResponse =
                 const ResponseParser().parseResponse(error.response.data);
             return GQLResponse(
               data: gqlResponse.data,
@@ -238,7 +241,7 @@ class GraphqlHandler extends BaseAPIHandler {
             throw error! as DioLinkServerException;
           }
         },
-        test: (final error) => error is DioLinkServerException,
+        test: (final Object? error) => error is DioLinkServerException,
       );
 }
 
@@ -268,17 +271,21 @@ abstract class BaseAPIHandler {
     final Map<String, dynamic>? requestHeaders,
     final APICache? overrideAPICache,
   }) {
-    final cache = overrideAPICache ?? cacheOptions ?? _defaultCacheOptions;
+    final APICache cache =
+        overrideAPICache ?? cacheOptions ?? _defaultCacheOptions;
 
-    final dio = Dio();
+    final Dio dio = Dio();
 
     if (addAuthHeader) {
       dio.interceptors.add(
         QueuedInterceptorsWrapper(
-          onRequest: (final options, final handler) async {
+          onRequest: (
+            final RequestOptions options,
+            final RequestInterceptorHandler handler,
+          ) async {
             try {
-              final authRepo = AuthRepository();
-              final token = await authRepo.getAccessTokenFromDevice();
+              final AuthRepository authRepo = AuthRepository();
+              final String? token = await authRepo.getAccessTokenFromDevice();
               options.headers['Authorization'] = 'token $token';
               handler.next(options);
             } catch (e) {
@@ -296,7 +303,10 @@ abstract class BaseAPIHandler {
     }
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (final options, final handler) async {
+        onRequest: (
+          final RequestOptions options,
+          final RequestInterceptorHandler handler,
+        ) async {
           options.baseUrl = baseURL;
           options.headers['Accept'] = 'application/json';
           options.headers['setContentType'] = 'application/json';
@@ -307,19 +317,26 @@ abstract class BaseAPIHandler {
           // Proceed with the request.
           handler.next(options);
         },
-        onResponse: (final response, final handler) async {
+        onResponse: (
+          final Response<Object?> response,
+          final ResponseInterceptorHandler handler,
+        ) async {
+          final Object? data = response.data;
           // If response contains a ['message'] key, show success popup to the
           // user with the message.
-          if (response.data.runtimeType is Map &&
-              response.data.containsKey('message') &&
+          if (data is Map &&
+              data.containsKey('message') &&
               propagateMessagesToUI) {
             ResponseHandler.setSuccessMessage(
-              AppPopupData(title: response.data['message']),
+              AppPopupData(title: data['message']),
             );
           }
           handler.next(response);
         },
-        onError: (final error, final handler) async {
+        onError: (
+          final DioException error,
+          final ErrorInterceptorHandler handler,
+        ) async {
           // TODO(namanshergill): Add better exception handling based on response codes.
           if (error.response == null) {
             handler.next(error);
@@ -339,16 +356,20 @@ abstract class BaseAPIHandler {
     // behaviour in that case is to refresh the data.
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (final options, final handler) async {
+        onRequest: (
+          final RequestOptions options,
+          final RequestInterceptorHandler handler,
+        ) async {
           if (requestHeaders != null) {
             options.headers.addAll(requestHeaders);
           }
-          final checkCache = cache.cacheOptions.policy != CachePolicy.noCache &&
-              cache.cacheOptions.policy != CachePolicy.refresh &&
-              cache.maxAge != null;
+          final bool checkCache =
+              cache.cacheOptions.policy != CachePolicy.noCache &&
+                  cache.cacheOptions.policy != CachePolicy.refresh &&
+                  cache.maxAge != null;
           if (checkCache) {
-            final key = cache.cacheOptions.keyBuilder(options);
-            final cacheData = await _cacheStore.get(key);
+            final String key = cache.cacheOptions.keyBuilder(options);
+            final CacheResponse? cacheData = await _cacheStore.get(key);
             if (cacheData != null &&
                 DateTime.now()
                     .isBefore(cacheData.responseDate.add(cache.maxAge!))) {
@@ -366,11 +387,10 @@ abstract class BaseAPIHandler {
     );
 
     // Log the request in the console if `apiLogSettings` is not null.
-    final logSettings = apiLogSettings ?? defaultAPILogSettings;
+    final APILoggingSettings? logSettings =
+        apiLogSettings ?? defaultAPILogSettings;
     if (logSettings != null) {
       if (logSettings.cURL) {
-        print('logging');
-        print(dio.options.queryParameters);
         dio.interceptors.add(
           CurlLoggerDioInterceptor(
             printOnSuccess: true,
@@ -397,7 +417,7 @@ abstract class BaseAPIHandler {
 
   static late final DbCacheStore _cacheStore;
 
-  static Future setupDioAPICache() async {
+  static Future<void> setupDioAPICache() async {
     String? directoryPath;
 
     directoryPath = (await getApplicationDocumentsDirectory()).path;
@@ -408,7 +428,7 @@ abstract class BaseAPIHandler {
     await _cacheStore.clean();
   }
 
-  Map<String, dynamic> acceptHeader(final String header) => {
+  Map<String, dynamic> acceptHeader(final String header) => <String, dynamic>{
         'Accept': header,
       };
 }

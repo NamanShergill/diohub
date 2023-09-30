@@ -12,11 +12,11 @@ class VersionInfoWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: FutureBuilder<PackageInfo>(
           future: PackageInfo.fromPlatform(),
-          builder: (final context, final snapshot) {
+          builder: (final BuildContext context, final AsyncSnapshot<PackageInfo> snapshot) {
             if (snapshot.hasData) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Image.asset(
                     'assets/loading.png',
                     height: 13,

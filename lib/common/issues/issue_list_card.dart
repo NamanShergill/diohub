@@ -51,17 +51,17 @@ class IssueListCard extends StatelessWidget {
         borderRadius: medBorderRadius,
         child: InkWell(
           borderRadius: medBorderRadius,
-          onTap: () {
-            AutoRouter.of(context)
+          onTap: () async {
+            await AutoRouter.of(context)
                 .push(issuePullScreenRoute(PathData.fromURL(item.url!)));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     getIcon(item.state!),
                     const SizedBox(
                       width: 4,
@@ -95,7 +95,7 @@ class IssueListCard extends StatelessWidget {
                     ),
                     if (item.comments != 0)
                       Row(
-                        children: [
+                        children: <Widget>[
                           const SizedBox(
                             width: 16,
                           ),
@@ -135,7 +135,7 @@ class IssueListCard extends StatelessWidget {
                 if (!compact)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(
                         height: 8,
                       ),
@@ -154,9 +154,9 @@ class IssueListCard extends StatelessWidget {
                         height: 8,
                       ),
                       Wrap(
-                        children: List.generate(
+                        children: List<Widget>.generate(
                           item.labels!.length,
-                          (final index) => Padding(
+                          (final int index) => Padding(
                             padding: const EdgeInsets.only(
                               right: 8,
                               bottom: 8,
@@ -220,13 +220,15 @@ class IssueLoadingCard extends StatelessWidget {
               Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: medBorderRadius,
           child: APIWrapper<IssueModel>(
-            apiCall: ({required final refresh}) =>
+            apiCall: ({required final bool refresh}) async =>
                 IssuesService.getIssueInfo(fullUrl: url, refresh: refresh),
-            loadingBuilder: (final context) => const SizedBox(
+            loadingBuilder: (final BuildContext context) => const SizedBox(
               height: 80,
               child: Center(child: LoadingIndicator()),
             ),
-            responseBuilder: (final context, final data) => IssueListCard(
+            responseBuilder:
+                (final BuildContext context, final IssueModel data) =>
+                    IssueListCard(
               data,
               compact: compact,
               disableMaterial: true,

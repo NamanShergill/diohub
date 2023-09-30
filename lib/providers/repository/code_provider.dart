@@ -10,14 +10,14 @@ import 'package:dio_hub/services/repositories/repo_services.dart';
 
 class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   CodeProvider({final String? repoURL}) : _repoURL = repoURL;
-  List<CodeTreeModel> _tree = [];
+  List<CodeTreeModel> _tree = <CodeTreeModel>[];
 
   /// The list of [CodeTreeModel]s for a branch currently opened, used to track the
   /// current directory.
   List<CodeTreeModel> get tree => _tree;
 
   /// Indexes of the selected trees in the directory.
-  List<int> _pathIndex = [];
+  List<int> _pathIndex = <int>[];
 
   /// Get the indexes of the selected trees in the directory.
   List<int> get pathIndex => _pathIndex;
@@ -38,7 +38,7 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   @override
   void customStreams() {
     // Listen to tree pop and push events and fetch data accordingly.
-    _treeController.stream.listen((final event) async {
+    _treeController.stream.listen((final String event) async {
       // Fetch the last tree in the list after the pop/push events are done,
       await _fetchTree(event, currentRootSHA: parentProvider.currentSHA);
     });
@@ -52,7 +52,7 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   }) async {
     loading();
     // Start with initial future to fetch code tree.
-    final future = <Future>[
+    final List<Future<dynamic>> future = <Future<dynamic>>[
       GitDatabaseService.getTree(repoURL: _repoURL, sha: treeSHA),
       RepositoryServices.getCommitsList(
         repoURL: _repoURL!,
@@ -63,7 +63,7 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
       ),
     ];
     // Run the futures.
-    final data = await Future.wait(future);
+    final List<dynamic> data = await Future.wait(future);
     // Add data to tree if the selected branch has not been changed.
     if (parentProvider.currentSHA == currentRootSHA) {
       // Get _codeTree data from the completed futures.
@@ -80,8 +80,8 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   }
 
   String getPath() {
-    final temp = <String?>[];
-    for (var i = 0; i < _pathIndex.length; i++) {
+    final List<String?> temp = <String?>[];
+    for (int i = 0; i < _pathIndex.length; i++) {
       temp.add(_tree[i].tree![_pathIndex[i]].path);
     }
     return temp.join('/');
@@ -90,12 +90,12 @@ class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   @override
   void reset() {
     super.reset();
-    _tree = [];
-    _pathIndex = [];
+    _tree = <CodeTreeModel>[];
+    _pathIndex = <int>[];
   }
 
   @override
-  void disposeStreams() {
+  Future<void> disposeStreams() {
     unawaited(
       _treeController.close(),
     );

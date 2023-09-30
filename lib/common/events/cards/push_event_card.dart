@@ -16,8 +16,8 @@ class PushEventCard extends StatelessWidget {
   final Payload data;
   @override
   Widget build(final BuildContext context) => BaseEventCard(
-        onTap: () {
-          AutoRouter.of(context).push(
+        onTap: () async {
+          await AutoRouter.of(context).push(
             RepositoryRoute(
               repositoryURL: event.repo!.url!,
               branch: data.ref!.split('/').last,
@@ -29,7 +29,7 @@ class PushEventCard extends StatelessWidget {
         date: event.createdAt,
         childPadding: const EdgeInsets.all(8),
         actor: event.actor!.login,
-        headerText: [
+        headerText: <TextSpan>[
           TextSpan(
             text: ' pushed to ',
             style: AppThemeTextStyles.eventCardHeaderMed(context),
@@ -43,7 +43,7 @@ class PushEventCard extends StatelessWidget {
         child: CustomExpansionTile(
           expanded: false,
           title: Row(
-            children: [
+            children: <Widget>[
               Text(
                 '${data.size} commit${data.size! > 1 ? 's' : ''} to',
                 style: AppThemeTextStyles.eventCardChildTitleSmall(context),
@@ -56,27 +56,30 @@ class PushEventCard extends StatelessWidget {
               ),
             ],
           ),
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(16),
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: data.commits!.length,
-                separatorBuilder: (final context, final index) => const Divider(
+                separatorBuilder:
+                    (final BuildContext context, final int index) =>
+                        const Divider(
                   height: 0,
                 ),
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (final context, final index) => InkWell(
+                itemBuilder: (final BuildContext context, final int index) =>
+                    InkWell(
                   borderRadius: smallBorderRadius,
-                  onTap: () {
-                    AutoRouter.of(context).push(
+                  onTap: () async {
+                    await AutoRouter.of(context).push(
                       CommitInfoRoute(
                         commitURL: data.commits![index].url!,
                       ),
                     );
                   },
-                  onLongPress: () {
-                    AutoRouter.of(context).push(
+                  onLongPress: () async {
+                    await AutoRouter.of(context).push(
                       RepositoryRoute(
                         index: 2,
                         branch: data.ref!.split('/').last,
@@ -93,7 +96,7 @@ class PushEventCard extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(
                         style: Theme.of(context).textTheme.bodyMedium,
-                        children: [
+                        children: <InlineSpan>[
                           TextSpan(
                             text:
                                 '#${data.commits![index].sha!.substring(0, 6)}',

@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/main.dart';
 import 'package:dio_hub/utils/extensions.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class InkWellCard extends StatelessWidget {

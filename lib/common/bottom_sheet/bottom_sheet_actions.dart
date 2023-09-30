@@ -12,13 +12,13 @@ Future<T?> showActionsSheet<T>(
       context: context,
 
       // bottomSheetColor: context.paletteStatic.primary,
-      builder: (final context) => CupertinoActionSheet(
+      builder: (final BuildContext context) => CupertinoActionSheet(
         title: title,
         message: message,
         cancelButton: cancelButton,
         actions: actions
             .map(
-              (final e) => CupertinoActionSheetAction(
+              (final BottomSheetAction e) => CupertinoActionSheetAction(
                 onPressed: e.onPressed,
                 isDefaultAction: e.isDefaultAction,
                 isDestructiveAction: e.isDestructiveAction,
@@ -35,13 +35,13 @@ Future<T?> showActionsSheet<T>(
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (e.leading != null) ...[
+                    children: <Widget>[
+                      if (e.leading != null) ...<Widget>[
                         e.leading!,
                         const SizedBox(width: 15),
                       ],
                       e.title,
-                      if (e.trailing != null) ...[
+                      if (e.trailing != null) ...<Widget>[
                         const SizedBox(width: 10),
                         e.trailing!,
                       ],
@@ -57,17 +57,18 @@ Future<T?> showActionsSheet<T>(
   return showDHBottomSheet(
     context,
     isScrollControlled: true,
-    builder: (final context) => DHBottomSheet(
+    builder: (final BuildContext context) => DHBottomSheet(
       headerBuilder: title?.returnIfNotNull(
-            (final context, final setState) => title,
+            (final BuildContext context, final StateSetter setState) => title,
           ) ??
           message?.returnIfNotNull(
-            (final context, final setState) => message,
+            (final BuildContext context, final StateSetter setState) => message,
           ),
-      builder: (final context, final setState) => BottomSheetBodyList(
+      builder: (final BuildContext context, final StateSetter setState) =>
+          BottomSheetBodyList(
         children: actions
             .map(
-              (final e) => ListTile(
+              (final BottomSheetAction e) => ListTile(
                 title: e.title,
                 leading: e.leading,
                 trailing: e.trailing,
@@ -116,7 +117,7 @@ class BottomSheetAction {
   final bool isDestructiveAction;
 }
 
-Future showURLActions<T>(
+Future<T?> showURLActions<T>(
   final BuildContext context, {
   required final Uri uri,
   final bool showOpenAction = true,
@@ -128,7 +129,7 @@ Future showURLActions<T>(
         uri.toString(),
       ),
       // message: Text('URL Actions'),
-      actions: [
+      actions: <BottomSheetAction>[
         if (showOpenAction &&
             !isDeepLink(
               uri.toString(),
@@ -141,7 +142,7 @@ Future showURLActions<T>(
             isDefaultAction: true,
             onPressed: () {
               canLaunchUrl(uri).then(
-                (final value) {
+                (final bool value) {
                   Navigator.pop(context);
                   if (value) {
                     launchUrl(uri);
@@ -158,7 +159,7 @@ Future showURLActions<T>(
         if (showOpenAction &&
             isDeepLink(
               uri.toString(),
-            )) ...[
+            )) ...<BottomSheetAction>[
           BottomSheetAction(
             title: const Text('Open in App'),
             trailing: const AppLogoWidget(size: 25),
@@ -179,7 +180,7 @@ Future showURLActions<T>(
             // isDefaultAction: true,
             onPressed: () {
               canLaunchUrl(uri).then(
-                (final value) {
+                (final bool value) {
                   Navigator.pop(context);
                   if (value) {
                     launchUrl(uri);
@@ -217,7 +218,7 @@ Future showURLActions<T>(
             } else {
               shareText = uri.toString();
             }
-            final box = context.findRenderObject() as RenderBox?;
+            final RenderBox? box = context.findRenderObject() as RenderBox?;
             Share.share(
               shareText,
               sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,

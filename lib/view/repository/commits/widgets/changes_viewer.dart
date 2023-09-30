@@ -18,10 +18,10 @@ class ChangesViewerState extends State<ChangesViewer> {
   @override
   Widget build(final BuildContext context) => Scaffold(
         appBar: AppBar(
-          actions: [
+          actions: <Widget>[
             WrapIconButton(
               wrap: wrap,
-              onWrap: (final value) {
+              onWrap: (final bool value) {
                 setState(() {
                   wrap = value;
                 });

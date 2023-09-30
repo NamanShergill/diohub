@@ -64,20 +64,20 @@ class ProfileTile extends StatelessWidget {
             padding: padding ?? const EdgeInsets.all(8),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 ClipOval(
                   child: CachedNetworkImage(
                     imageUrl: avatarUrl ?? 'N/A',
                     height: size,
                     fit: BoxFit.fill,
-                    placeholder: (final context, final string) => ShimmerWidget(
+                    placeholder: (final BuildContext context, final String string) => ShimmerWidget(
                       child: Container(
                         height: size,
                         width: size,
                         color: Colors.grey,
                       ),
                     ),
-                    errorWidget: (final context, final _, final __) => Icon(
+                    errorWidget: (final BuildContext context, final _, final __) => Icon(
                       LineIcons.exclamationCircle,
                       size: size,
                     ),
@@ -87,7 +87,7 @@ class ProfileTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       if (fullName != null)
                         Flexible(
                           child: Padding(

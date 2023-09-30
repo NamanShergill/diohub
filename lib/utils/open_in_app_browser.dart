@@ -1,10 +1,10 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 Future<void> openInAppBrowser(final Uri link) async {
-  var uri = link;
+  Uri uri = link;
   await ChromeSafariBrowser.isAvailable().then(
-    (final value) {
-      if (!['http', 'https'].contains(uri.scheme)) {
+    (final bool value) {
+      if (!<String>['http', 'https'].contains(uri.scheme)) {
         uri = _handleGithubPaths(uri);
       }
       if (value) {

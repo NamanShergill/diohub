@@ -38,12 +38,13 @@ class RepoStar extends StatefulWidget {
 
 class RepoStarState extends State<RepoStar> {
   final APIWrapperController<HasStarred$Query$Repository> controller =
-      APIWrapperController();
+      APIWrapperController<HasStarred$Query$Repository>();
   bool changing = false;
 
   @override
   Widget build(final BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+    final DioHubPalette theme =
+        Provider.of<PaletteSettings>(context).currentSetting;
     VoidCallback? onPress(final HasStarred$Query$Repository? data) =>
         data == null || changing
             ? null
@@ -63,7 +64,7 @@ class RepoStarState extends State<RepoStar> {
                   );
                 }
                 widget.onStarsChange?.call(data.stargazerCount);
-                final isStarred = data.viewerHasStarred;
+                final bool isStarred = data.viewerHasStarred;
                 controller.changeData(
                   data..viewerHasStarred = !data.viewerHasStarred,
                 );
@@ -71,7 +72,7 @@ class RepoStarState extends State<RepoStar> {
                   widget.owner,
                   widget.repoName,
                   isStarred: isStarred,
-                ).then((final value) {
+                ).then((final bool value) {
                   controller.changeData(data..viewerHasStarred = value);
                 });
 
@@ -93,18 +94,22 @@ class RepoStarState extends State<RepoStar> {
         );
 
     return APIWrapper<HasStarred$Query$Repository>(
-      apiCall: ({required final refresh}) =>
+      apiCall: ({required final bool refresh}) async =>
           RepositoryServices.isStarred(widget.owner, widget.repoName),
       apiWrapperController: controller,
-      loadingBuilder: (final context) => widget.child != null
+      loadingBuilder: (final BuildContext context) => widget.child != null
           ? widget.child!(context, null, null)
           : ShimmerWidget(
               child: iconButton(null),
             ),
       fadeIntoView: widget.fadeIntoView,
-      responseBuilder: (final context, final data) => widget.child != null
-          ? widget.child!(context, data, onPress(data))
-          : iconButton(data),
+      responseBuilder: (
+        final BuildContext context,
+        final HasStarred$Query$Repository data,
+      ) =>
+          widget.child != null
+              ? widget.child!(context, data, onPress(data))
+              : iconButton(data),
     );
   }
 }

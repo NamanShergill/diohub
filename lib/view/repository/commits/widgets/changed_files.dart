@@ -1,4 +1,5 @@
 import 'package:dio_hub/common/misc/changed_files_list_card.dart';
+import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/providers/commits/commit_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,10 @@ class ChangedFiles extends StatefulWidget {
 class ChangedFilesState extends State<ChangedFiles> {
   @override
   Widget build(final BuildContext context) {
-    final commit = Provider.of<CommitProvider>(context).data;
-    final files = Provider.of<CommitProvider>(context).data.files!;
+    final CommitModel commit = Provider.of<CommitProvider>(context).data;
+    final List<FileElement> files = Provider.of<CommitProvider>(context).data.files!;
     return ListView(
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(24),
           child: Text(
@@ -29,10 +30,10 @@ class ChangedFilesState extends State<ChangedFiles> {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: files.length,
-          separatorBuilder: (final context, final index) => const SizedBox(
+          separatorBuilder: (final BuildContext context, final int index) => const SizedBox(
             height: 12,
           ),
-          itemBuilder: (final context, final index) =>
+          itemBuilder: (final BuildContext context, final int index) =>
               ChangedFilesListCard(files[index]),
         ),
       ],

@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
@@ -6,6 +6,7 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
+import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -35,7 +36,7 @@ class NewIssueScreen extends StatefulWidget {
 class NewIssueScreenState extends State<NewIssueScreen> {
   bool expanded = false;
   bool markdownView = false;
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   String comment = '';
   PageStatus status = PageStatus.loaded;
@@ -50,13 +51,13 @@ class NewIssueScreenState extends State<NewIssueScreen> {
     super.initState();
   }
 
-  Future createIssue() async {
-    final router = autoRoute(context);
+  Future<void> createIssue() async {
+    final StackRouter router = autoRoute(context);
     try {
       setState(() {
         status = PageStatus.loading;
       });
-      final res = await IssuesService.createIssue(
+      final IssueModel res = await IssuesService.createIssue(
         title: controller.text,
         body: comment,
         owner: widget.owner,
@@ -78,7 +79,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
         appBar: AppBar(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               const Text(
                 'New Issue',
                 style: TextStyle(fontSize: 12),
@@ -90,7 +91,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
               ),
             ],
           ),
-          actions: [
+          actions: <Widget>[
             IconButton(
               onPressed: comment.isNotEmpty && status == PageStatus.loaded
                   ? () {
@@ -112,9 +113,9 @@ class NewIssueScreenState extends State<NewIssueScreen> {
             ),
             IconButton(
               onPressed: status == PageStatus.loaded
-                  ? () {
+                  ? () async {
                       if (_formKey.currentState!.validate()) {
-                        createIssue();
+                        await createIssue();
                       }
                     }
                   : null,
@@ -132,9 +133,9 @@ class NewIssueScreenState extends State<NewIssueScreen> {
           key: _formKey,
           child: LoadingWrapper(
             status: status,
-            loadingBuilder: (final context) => const Column(
+            loadingBuilder: (final BuildContext context) => const Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 LoadingIndicator(),
                 Padding(
                   padding: EdgeInsets.all(8),
@@ -142,18 +143,18 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                 ),
               ],
             ),
-            builder: (final context) => Padding(
+            builder: (final BuildContext context) => Padding(
               padding: const EdgeInsets.all(8),
               child: !markdownView
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         const SizedBox(
                           height: 8,
                         ),
                         if (widget.template != null)
                           Column(
-                            children: [
+                            children: <Widget>[
                               CustomExpandTile(
                                 expanded: expanded,
                                 title: Text(
@@ -170,7 +171,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                                   });
                                 },
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     if (widget.template!.about != null)
                                       Padding(
                                         padding: const EdgeInsets.all(16),
@@ -190,7 +191,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                             labelText: 'Title',
                           ),
                           controller: controller,
-                          validator: (final value) {
+                          validator: (final String? value) {
                             if (value!.isEmpty) {
                               return 'Title cannot be empty!';
                             }
@@ -206,7 +207,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                           child: MarkdownTextInput(
                             maxLines: 99,
                             initialValue: comment,
-                            onTextChanged: (final value) {
+                            onTextChanged: (final String value) {
                               setState(() {
                                 comment = value;
                               });
@@ -224,7 +225,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                     )
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         const SizedBox(
                           height: 8,
                         ),

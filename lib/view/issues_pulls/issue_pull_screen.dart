@@ -19,7 +19,6 @@ import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/main.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
@@ -31,6 +30,7 @@ import 'package:dio_hub/utils/conditional_quanitity_value.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/markdown_to_html.dart';
 import 'package:dio_hub/utils/rich_text.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
@@ -47,12 +47,12 @@ import 'package:sliver_tools/sliver_tools.dart';
 IssuePullRoute issuePullScreenRoute(final PathData path) =>
     getRoute<IssuePullRoute>(
       path,
-      onDeepLink: (final path) => IssuePullRoute(
+      onDeepLink: (final PathData path) => IssuePullRoute(
         ownerName: path.component(0)!,
         repoName: path.component(1)!,
         number: int.parse(path.component(3)!),
       ),
-      onAPILink: (final path) => IssuePullRoute(
+      onAPILink: (final PathData path) => IssuePullRoute(
         ownerName: path.component(1)!,
         repoName: path.component(2)!,
         number: int.parse(path.component(4)!),
@@ -93,7 +93,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
   @override
   Widget build(final BuildContext context) =>
       APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>(
-        apiCall: ({required final refresh}) async =>
+        apiCall: ({required final bool refresh}) async =>
             IssuesService.getIssuePullInfo(
           widget.number,
           repo: widget.repoName,
@@ -101,29 +101,34 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
           refresh: refresh,
         ),
         apiWrapperController: apiWrapperController,
-        loadingBuilder: (final context) => Scaffold(
+        loadingBuilder: (final BuildContext context) => Scaffold(
           appBar: AppBar(
             elevation: 0,
           ),
           body: const LoadingIndicator(),
         ),
-        responseBuilder: (final context, final data) {
+        responseBuilder: (
+          final BuildContext context,
+          final IssuePullInfo$Query$Repository$IssueOrPullRequest data,
+        ) {
           if (data is IssueInfoMixin) {
-            return ChangeNotifierProvider(
-              create: (final context) => IssueProvider(data as IssueInfoMixin),
+            return ChangeNotifierProvider<IssueProvider>(
+              create: (final BuildContext context) =>
+                  IssueProvider(data as IssueInfoMixin),
               lazy: false,
-              builder: (final context, final child) => IssueScreen(
+              builder: (final BuildContext context, final Widget? child) =>
+                  IssueScreen(
                 data as IssueInfoMixin,
                 apiWrapperController: apiWrapperController,
               ),
             );
           } else if (data is PullInfoMixin) {
-            print((data as PullInfoMixin).reactionGroups);
-            print('yjhjvk');
-            return ChangeNotifierProvider(
-              create: (final context) => PullProvider(data as PullInfoMixin),
+            return ChangeNotifierProvider<PullProvider>(
+              create: (final BuildContext context) =>
+                  PullProvider(data as PullInfoMixin),
               lazy: false,
-              builder: (final context, final child) => PullScreen(
+              builder: (final BuildContext context, final Widget? child) =>
+                  PullScreen(
                 data as PullInfoMixin,
                 // apiWrapperController: apiWrapperController,
               ),
@@ -155,10 +160,11 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.isPinned,
     required this.uri,
     super.key,
-    this.dynamicTabs = const [],
+    this.dynamicTabs = const <DynamicTab>[],
   });
 
-  final APIWrapperController apiWrapperController;
+  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
+      apiWrapperController;
   final AssigneeInfoMixin assigneesInfo;
   final String body;
   final String bodyHTML;
@@ -182,7 +188,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
 }
 
 class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
-  late EditingController assigneeEditingController;
+  late EditingController<Object> assigneeEditingController;
   late EditingController<String> descEditingController;
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
   late EditingController<List<LabelMixin?>> labelsEditingController;
@@ -201,7 +207,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       widget.body,
       onEditTap: () => null,
     );
-    assigneeEditingController = EditingController(
+    assigneeEditingController = EditingController<Object>(
       widget.body,
       onEditTap: () => null,
     );
@@ -211,13 +217,13 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   @override
   Widget build(final BuildContext context) => DynamicTabsParent(
         controller: dynamicTabsController,
-        tabs: List.from(widget.dynamicTabs)
+        tabs: List<DynamicTab>.from(widget.dynamicTabs)
           ..addAll(
-            [
+            <DynamicTab>[
               DynamicTab(
                 identifier: 'About',
                 isDismissible: false,
-                tabViewBuilder: (final context) => _AboutTab(
+                tabViewBuilder: (final BuildContext context) => _AboutTab(
                   widget: widget,
                   descEditingController: descEditingController,
                   assigneeEditingController: assigneeEditingController,
@@ -227,9 +233,11 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               DynamicTab(
                 identifier: 'Conversation',
                 keepViewAlive: true,
-                tabViewBuilder: (final context) => ChangeNotifierProvider(
+                tabViewBuilder: (final BuildContext context) =>
+                    ChangeNotifierProvider<CommentProvider>(
                   create: (final _) => CommentProvider(),
-                  builder: (final context, final child) => Discussion(
+                  builder: (final BuildContext context, final Widget? child) =>
+                      Discussion(
                     number: widget.number,
                     isLocked: false,
                     createdAt: widget.createdAt,
@@ -260,24 +268,32 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               ),
             ],
           ),
-        builder: (final context, final tabBar, final tabView) => EditingWrapper(
+        builder: (
+          final BuildContext context,
+          final PreferredSizeWidget tabBar,
+          final Widget tabView,
+        ) =>
+            EditingWrapper(
           onSave: () {},
-          editingControllers: [
+          editingControllers: <EditingController<dynamic>>[
             titleEditingController,
             labelsEditingController,
             descEditingController,
             assigneeEditingController,
           ],
-          builder: (final context) => Scaffold(
+          builder: (final BuildContext context) => Scaffold(
             appBar: buildAppBar(context),
             body: RefreshIndicator(
-              onRefresh: () => Future.sync(
+              onRefresh: () => Future<void>.sync(
                 () => widget.apiWrapperController.refresh(),
               ),
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               child: NestedScroll(
-                header: (final context, {required final isInnerBoxScrolled}) =>
-                    [
+                header: (
+                  final BuildContext context, {
+                  required final bool isInnerBoxScrolled,
+                }) =>
+                    <Widget>[
                   SliverToBoxAdapter(
                     child: _ScreenHeader(
                       widget: widget,
@@ -302,14 +318,14 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
         hasEditableChildren: true,
         title: Row(
-          children: [
+          children: <Widget>[
             widget.state.icon(),
             // const SizedBox(
             //   width: 8,
             // ),
             Expanded(
               child: richText(
-                [
+                <TextSpan>[
                   TextSpan(text: ' #${widget.number} '),
                   TextSpan(
                     text: widget.repoInfo.name,
@@ -326,7 +342,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
       );
 
   Column buildTabsView(final PreferredSizeWidget tabBar) => Column(
-        children: [
+        children: <Widget>[
           const SizedBox(
             height: 8,
           ),
@@ -355,20 +371,20 @@ class _AboutTab extends StatelessWidget {
   final IssuePullInfoTemplate widget;
   final EditingController<String> descEditingController;
   final DynamicTabsController dynamicTabsController;
-  final EditingController assigneeEditingController;
+  final EditingController<Object> assigneeEditingController;
 
   @override
   Widget build(final BuildContext context) => SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             const SizedBox(
               height: 12,
             ),
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
+              children: <Widget>[
                 Card(
                   color: widget.state.color,
                   margin: EdgeInsets.zero,
@@ -376,7 +392,7 @@ class _AboutTab extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: <Widget>[
                         widget.state.icon(
                           color: context.palette.elementsOnColors,
                         ),
@@ -410,7 +426,7 @@ class _AboutTab extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
               margin: EdgeInsets.zero,
               child: Column(
-                children: [
+                children: <Widget>[
                   const SizedBox(
                     height: 4,
                   ),
@@ -421,14 +437,14 @@ class _AboutTab extends StatelessWidget {
                   EditWidget<String>(
                     editingController: descEditingController,
                     builder: ({
-                      required final context,
-                      required final currentState,
-                      required final currentlyEditing,
-                      required final newValue,
-                      required final tools,
+                      required final BuildContext context,
+                      required final EditingState currentState,
+                      required final bool currentlyEditing,
+                      required final String? newValue,
+                      required final Widget tools,
                     }) =>
                         Row(
-                      children: [
+                      children: <Widget>[
                         if (widget.bodyHTML.isNotEmpty)
                           Expanded(
                             child: Padding(
@@ -497,9 +513,9 @@ class _AboutTab extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: <Widget>[
                               Row(
-                                children: [
+                                children: <Widget>[
                                   const Padding(
                                     padding: EdgeInsets.all(8),
                                     child: Icon(
@@ -528,11 +544,11 @@ class _AboutTab extends StatelessWidget {
               height: 8,
             ),
             WrappedCollection(
-              children: [
+              children: <Widget>[
                 InfoCard(
                   // icon: widget.state.icon(color: context.palette.faded3),
-                  onTap: () {
-                    context.router
+                  onTap: () async {
+                    await context.router
                         .push(RepositoryRoute(repositoryURL: 'repositoryURL'));
                   },
                   title: '#${widget.number}',
@@ -541,7 +557,7 @@ class _AboutTab extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       ProfileTile.avatar(
                         avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
                         size: 16,
@@ -560,63 +576,92 @@ class _AboutTab extends StatelessWidget {
                 //   height: 30,
                 //   color: Colors.red,
                 // ),
-                EditWidget(
+                EditWidget<Object>(
                   editingController: assigneeEditingController,
                   builder: ({
-                    required final context,
-                    required final currentState,
-                    required final currentlyEditing,
-                    required final newValue,
-                    required final tools,
+                    required final BuildContext context,
+                    required final EditingState currentState,
+                    required final bool currentlyEditing,
+                    required final Object? newValue,
+                    required final Widget tools,
                   }) {
-                    final assignees = widget.assigneesInfo.edges ?? [];
+                    final List<AssigneeInfoMixin$Edges?> assignees =
+                        widget.assigneesInfo.edges ??
+                            <AssigneeInfoMixin$Edges?>[];
                     return MinRowEditWidget(
                       tools: tools,
                       child: InfoCard(
                         title: assignees.valuesOnLengthBasic(
                           onNoItems: () => 'Assignees',
-                          onOneItem: (final item) => 'Assignee',
-                          defaultValue: (final items) =>
-                              '${items.length} Assignees',
+                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
+                              'Assignee',
+                          defaultValue:
+                              (final List<AssigneeInfoMixin$Edges?> items) =>
+                                  '${items.length} Assignees',
                         ),
                         trailingIcon: assignees.valuesOnLengthBasic(
                           onNoItems: () => null,
-                          onOneItem: (final item) => null,
-                          defaultValue: (final items) => const Icon(
+                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
+                              null,
+                          defaultValue:
+                              (final List<AssigneeInfoMixin$Edges?> items) =>
+                                  const Icon(
                             Icons.arrow_drop_down_rounded,
                           ),
                         ),
                         onTap: assignees.valuesOnLengthBasic(
                           onNoItems: () => null,
-                          onOneItem: (final item) => () {
+                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
+                              () {
                             navigateToProfile(
                               login: item!.node!.login,
                               context: context,
                             );
                           },
-                          defaultValue: (final items) => () {
+                          defaultValue:
+                              (final List<AssigneeInfoMixin$Edges?> items) =>
+                                  () async {
                             Future<List<AssigneeUserListMixin$Assignees$Edges?>>
-                                getAssignees(final String? cursor) => context
-                                    .issueProvider(listen: false)
-                                    .getAssignees(after: cursor);
-                            showScrollableBottomSheet(
+                                getAssignees(final String? cursor) async =>
+                                    context
+                                        .issueProvider(listen: false)
+                                        .getAssignees(after: cursor);
+                            await showScrollableBottomSheet(
                               context,
-                              headerBuilder: (final context, final setState) =>
+                              headerBuilder: (
+                                final BuildContext context,
+                                final StateSetter setState,
+                              ) =>
                                   const BottomSheetHeaderText(
                                 headerText: 'Assignees',
                               ),
                               scrollableBodyBuilder: (
-                                final context,
-                                final setState,
-                                final scrollController,
+                                final BuildContext context,
+                                final StateSetter setState,
+                                final ScrollController scrollController,
                               ) =>
                                   InfiniteScrollWrapper<
                                       AssigneeUserListMixin$Assignees$Edges?>(
-                                future: (final data) =>
+                                future: (
+                                  final ({
+                                    AssigneeUserListMixin$Assignees$Edges? lastItem,
+                                    int pageNumber,
+                                    int pageSize,
+                                    bool refresh
+                                  }) data,
+                                ) =>
                                     getAssignees(data.lastItem?.cursor),
                                 scrollController: scrollController,
-                                builder: (final data) {
-                                  final node = data.item!.node!;
+                                builder: (
+                                  final ({
+                                    BuildContext context,
+                                    int index,
+                                    AssigneeUserListMixin$Assignees$Edges? item,
+                                    bool refresh
+                                  }) data,
+                                ) {
+                                  final AssigneeUserListMixin$Assignees$Edges$Node
+                                      node = data.item!.node!;
                                   return ProfileTile.login(
                                     avatarUrl: node.avatarUrl.toString(),
                                     userLogin: node.login,
@@ -628,12 +673,15 @@ class _AboutTab extends StatelessWidget {
                         ),
                         child: assignees.valuesOnLengthBasic<Widget>(
                           onNoItems: () => const Text('None'),
-                          onOneItem: (final item) => ProfileTile.login(
+                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
+                              ProfileTile.login(
                             avatarUrl: item!.node!.avatarUrl.toString(),
                             userLogin: item.node!.login,
                             disableTap: true,
                           ),
-                          defaultValue: (final items) => ImageStack.widgets(
+                          defaultValue:
+                              (final List<AssigneeInfoMixin$Edges?> items) =>
+                                  ImageStack.widgets(
                             totalCount: items.length,
                             backgroundColor: context.palette.secondary,
                             widgetBorderColor: context.palette.secondary,
@@ -643,7 +691,8 @@ class _AboutTab extends StatelessWidget {
                             widgetRadius: 29,
                             children: items
                                 .map(
-                                  (final e) => ProfileTile.avatar(
+                                  (final AssigneeInfoMixin$Edges? e) =>
+                                      ProfileTile.avatar(
                                     avatarUrl: e!.node!.avatarUrl.toString(),
                                     padding: EdgeInsets.zero,
                                   ),
@@ -659,7 +708,7 @@ class _AboutTab extends StatelessWidget {
                   title: 'Participants',
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       ImageStack.widgets(
                         totalCount: widget.participantsInfo.count,
                         backgroundColor: context.palette.secondary,
@@ -670,7 +719,7 @@ class _AboutTab extends StatelessWidget {
                         widgetRadius: 29,
                         children: widget.participantsInfo.avatarURLs
                             .map(
-                              (final e) => ProfileTile.avatar(
+                              (final String e) => ProfileTile.avatar(
                                 avatarUrl: e,
                                 padding: EdgeInsets.zero,
                               ),
@@ -726,19 +775,19 @@ class _ScreenHeader extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const SizedBox(
             height: 8,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
-              children: [
+              children: <Widget>[
                 if (widget.isPinned)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         Icon(
                           Octicons.pin,
                           size: 15,
@@ -759,7 +808,9 @@ class _ScreenHeader extends StatelessWidget {
                   ),
                 EditableTextItem(
                   titleEditingController,
-                  builder: (final context, final newValue) => MarkdownBody(
+                  builder:
+                      (final BuildContext context, final String? newValue) =>
+                          MarkdownBody(
                     newValue != null ? mdToHtml(newValue) : widget.title,
                     defaultBodyStyle: Style(
                       padding: HtmlPaddings.zero,
@@ -784,24 +835,25 @@ class _ScreenHeader extends StatelessWidget {
         ],
       );
 
-  EditWidget<Object> buildLabelsWidget() => EditWidget(
+  EditWidget<List<LabelMixin?>> buildLabelsWidget() =>
+      EditWidget<List<LabelMixin?>>(
         editingController: labelsEditingController,
         builder: ({
-          required final context,
-          required final currentState,
-          required final currentlyEditing,
-          required final newValue,
-          required final tools,
+          required final BuildContext context,
+          required final EditingState currentState,
+          required final bool currentlyEditing,
+          required final Object? newValue,
+          required final Widget tools,
         }) {
           return Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Row(
-              children: [
+              children: <Widget>[
                 Flexible(
                   child: Wrap(
                     children: widget.labels
                         .map(
-                          (final e) => Padding(
+                          (final LabelMixin? e) => Padding(
                             padding: const EdgeInsets.all(4),
                             child: IssueLabel.gql(e!),
                           ),
@@ -816,7 +868,7 @@ class _ScreenHeader extends StatelessWidget {
           if (widget.labels.isNotEmpty) {
           } else {
             return Row(
-              children: [
+              children: <Widget>[
                 ScaleSwitch(
                   child: currentState == EditingState.editMode
                       ? Padding(

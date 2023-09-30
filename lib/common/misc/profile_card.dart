@@ -38,8 +38,8 @@ class ProfileCard extends StatelessWidget {
           borderRadius: medBorderRadius,
           child: InkWell(
             borderRadius: medBorderRadius,
-            onTap: () {
-              AutoRouter.of(context)
+            onTap: () async {
+              await AutoRouter.of(context)
                   .push(OtherUserProfileRoute(login: user.login!));
             },
             child: Padding(
@@ -47,10 +47,10 @@ class ProfileCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       IgnorePointer(
                         child: ProfileTile.extended(
                           avatarUrl: user.avatarUrl,
@@ -64,7 +64,7 @@ class ProfileCard extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 8),
                           child: Flexible(
                             child: Row(
-                              children: [
+                              children: <Widget>[
                                 Flexible(
                                   child: Text(
                                     user.bio!,
@@ -81,13 +81,13 @@ class ProfileCard extends StatelessWidget {
                         ),
                       if (!compact)
                         Column(
-                          children: [
+                          children: <Widget>[
                             const SizedBox(
                               height: 8,
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 const Icon(
                                   LineIcons.users,
                                   size: 12,
@@ -140,11 +140,13 @@ class ProfileCardLoading extends StatelessWidget {
           color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: medBorderRadius,
           child: APIWrapper<UserInfoModel>(
-            apiCall: ({required final refresh}) =>
+            apiCall: ({required final bool refresh}) async =>
                 UserInfoService.getUserInfo(login),
-            responseBuilder: (final context, final data) => SizeExpandedSection(
+            responseBuilder:
+                (final BuildContext context, final UserInfoModel data) =>
+                    SizeExpandedSection(
               child: Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: ProfileCard(
                       data,
@@ -156,7 +158,7 @@ class ProfileCardLoading extends StatelessWidget {
                 ],
               ),
             ),
-            loadingBuilder: (final context) => const Padding(
+            loadingBuilder: (final BuildContext context) => const Padding(
               padding: EdgeInsets.all(16),
               child: LoadingIndicator(),
             ),

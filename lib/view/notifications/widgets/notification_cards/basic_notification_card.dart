@@ -24,7 +24,7 @@ class BasicNotificationCard extends StatefulWidget {
   final WidgetBuilder? footerBuilder;
   final bool loading;
   final NotificationModel notification;
-  final Function? onTap;
+  final VoidCallback? onTap;
 
   @override
   BasicNotificationCardState createState() => BasicNotificationCardState();
@@ -35,12 +35,12 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
   // to prevent unnecessary rebuilds.
   GlobalKey key = GlobalKey();
 
-  void markAsRead() {
-    HapticFeedback.mediumImpact();
-    NotificationsService.markThreadAsRead(widget.notification.id);
+  Future<void> markAsRead() async {
+    await NotificationsService.markThreadAsRead(widget.notification.id);
     setState(() {
       widget.notification.unread = false;
     });
+    await HapticFeedback.mediumImpact();
   }
 
   @override
@@ -53,12 +53,12 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
             dismissThreshold: 0.4,
             closeOnCancel: true,
             confirmDismiss: () async {
-              markAsRead();
+              await markAsRead();
               return false;
             },
             onDismissed: () {},
           ),
-          children: [
+          children: <Widget>[
             SlidableAction(
               icon: LineIcons.check,
               backgroundColor:
@@ -71,7 +71,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
         endActionPane: ActionPane(
           motion: const DrawerMotion(),
           extentRatio: 0.4,
-          children: [
+          children: <Widget>[
             SlidableAction(
               icon: LineIcons.check,
               backgroundColor:
@@ -88,18 +88,18 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
               ? Provider.of<PaletteSettings>(context).currentSetting.secondary
               : Colors.transparent,
           child: InkWell(
-            onTap: () {
-              if (widget.notification.unread == true) {
-                markAsRead();
+            onTap: () async {
+              if (widget.notification.unread ?? false) {
+                await markAsRead();
               }
-              widget.onTap!();
+              widget.onTap?.call();
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
-                children: [
+                children: <Widget>[
                   Column(
-                    children: [
+                    children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8),
                         child: widget.iconBuilder!(context),
@@ -128,10 +128,10 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: <Widget>[
                             Flexible(
                               child: Padding(
                                 padding:
@@ -194,7 +194,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
       );
 
   Widget footerLoading() => Row(
-        children: [
+        children: <Widget>[
           ShimmerWidget(
             child: ClipOval(
               child: Container(

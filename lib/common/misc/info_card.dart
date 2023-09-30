@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/tappable_card.dart';
-import 'package:dio_hub/main.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class WrappedCollection extends StatelessWidget {
@@ -51,12 +51,12 @@ class InfoCard extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Flexible(
               child: IntrinsicHeight(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     _buildDescriptors(context),
                     const SizedBox(
                       width: 4,
@@ -79,12 +79,12 @@ class InfoCard extends StatelessWidget {
       case InfoCardMode.expanded:
         return Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   _buildDescriptors(context),
                   _buildTrailingWidget(),
                 ],
@@ -103,7 +103,7 @@ class InfoCard extends StatelessWidget {
   }
 
   Row _buildDescriptors(final BuildContext context) => Row(
-        children: [
+        children: <Widget>[
           if (icon != null)
             Icon(
               icon,

@@ -1,28 +1,32 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class Settings<T> extends ChangeNotifier {
-  Settings(final String path,
-      {required this.defaultSetting, this.formatVer = 0,})
-      : _path = path {
+  Settings(
+    final String path, {
+    required this.defaultSetting,
+    this.formatVer = 0,
+  }) : _path = path {
     // Global.sharedPrefs.remove(_path);
     try {
-      final data = sharedPrefs.getString(_path);
+      final String? data = sharedPrefs.getString(_path);
       if (data != null) {
-        final content = jsonDecode(data);
+        final TypeMap content = jsonDecode(data);
         if (content['format_version'] == formatVer) {
           currentSetting = toType(content['data']);
         } else {
-          sharedPrefs.remove(_path);
+          unawaited(sharedPrefs.remove(_path));
           currentSetting = defaultSetting;
         }
       } else {
         currentSetting = defaultSetting;
       }
     } catch (e) {
-      sharedPrefs.remove(_path);
+      unawaited(sharedPrefs.remove(_path));
       currentSetting = defaultSetting;
     }
   }
@@ -31,13 +35,13 @@ abstract class Settings<T> extends ChangeNotifier {
   final String _path;
   final int formatVer;
 
-  void _saveSettings() {
-    sharedPrefs.setString(_path, _toStr());
+  Future<void> _saveSettings() async {
+    await sharedPrefs.setString(_path, _toStr());
   }
 
-  void updateData(final T data) {
+  Future<void> updateData(final T data) async {
     currentSetting = data;
-    _saveSettings();
+    await _saveSettings();
     notifyListeners();
   }
 
@@ -45,13 +49,13 @@ abstract class Settings<T> extends ChangeNotifier {
 
   String toPrefData();
 
-  void resetToDefault() {
+  Future<void> resetToDefault() async {
     currentSetting = defaultSetting;
-    sharedPrefs.remove(_path);
+    await sharedPrefs.remove(_path);
     notifyListeners();
   }
 
-  String _toStr() => jsonEncode({
+  String _toStr() => jsonEncode(<String, Object>{
         'format_version': formatVer,
         'data': toPrefData(),
       });

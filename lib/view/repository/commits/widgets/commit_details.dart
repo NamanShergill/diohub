@@ -15,19 +15,19 @@ class CommitDetails extends StatelessWidget {
   const CommitDetails({super.key});
   @override
   Widget build(final BuildContext context) {
-    final commit = Provider.of<CommitProvider>(context);
+    final CommitProvider commit = Provider.of<CommitProvider>(context);
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const SizedBox(
             height: 24,
           ),
           InfoCard(
             title: 'Message',
             child: Row(
-              children: [
+              children: <Widget>[
                 Flexible(
                   child: Text(
                     commit.data.commit!.message!,
@@ -39,7 +39,7 @@ class CommitDetails extends StatelessWidget {
           InfoCard(
             title: 'Made by',
             child: Row(
-              children: [
+              children: <Widget>[
                 Flexible(
                   child: ProfileTile.login(
                     avatarUrl: commit.data.author?.avatarUrl,
@@ -53,7 +53,7 @@ class CommitDetails extends StatelessWidget {
           InfoCard(
             title: 'Committed',
             child: Row(
-              children: [
+              children: <Widget>[
                 Text(
                   getDate(
                     commit.data.commit!.committer!.date.toString(),
@@ -67,7 +67,7 @@ class CommitDetails extends StatelessWidget {
             title: 'Parents',
             child: commit.data.parents!.isEmpty
                 ? const Row(
-                    children: [
+                    children: <Widget>[
                       Text('No parents.'),
                     ],
                   )
@@ -75,11 +75,11 @@ class CommitDetails extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: commit.data.parents!.length,
-                    separatorBuilder: (final context, final index) =>
+                    separatorBuilder: (final BuildContext context, final int index) =>
                         const SizedBox(
                       height: 8,
                     ),
-                    itemBuilder: (final context, final index) =>
+                    itemBuilder: (final BuildContext context, final int index) =>
                         CommitSHAButton(
                       commit.data.parents![index].sha,
                       commit.data.parents![index].url,
@@ -89,10 +89,10 @@ class CommitDetails extends StatelessWidget {
           InfoCard(
             title: 'Stats',
             child: Row(
-              children: [
+              children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text('Files Changed: ${commit.data.files!.length}'),
                     const SizedBox(
                       height: 8,
@@ -140,11 +140,11 @@ class CommitDetails extends StatelessWidget {
 }
 
 String _repoURLFromCommitURL(final String commitURL) {
-  final url = commitURL.split('/');
+  final List<String> url = commitURL.split('/');
   return url.sublist(0, url.length - 2).join('/');
 }
 
 String _repoNameFromCommitURL(final String commitURL) {
-  final url = commitURL.split('/');
+  final List<String> url = commitURL.split('/');
   return url.sublist(url.length - 3, url.length - 2).join('/');
 }

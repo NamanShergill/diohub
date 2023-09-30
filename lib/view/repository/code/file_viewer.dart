@@ -68,7 +68,7 @@ class FileViewerAPIState extends State<FileViewerAPI> {
             widget.fileName!,
             style: const TextStyle(fontSize: 14),
           ),
-          actions: [
+          actions: <Widget>[
             // IconButton(
             //   icon: Icon(
             //     Icons.edit,
@@ -103,16 +103,17 @@ class FileViewerAPIState extends State<FileViewerAPI> {
           ],
         ),
         body: APIWrapper<BlobModel>(
-          apiCall: ({required final refresh}) => GitDatabaseService.getBlob(
+          apiCall: ({required final bool refresh}) async =>
+              GitDatabaseService.getBlob(
             sha: widget.sha,
             repoURL: widget.repoURL,
           ),
-          responseBuilder: (final context, final blob) {
+          responseBuilder: (final BuildContext context, final BlobModel blob) {
             if (fileType != null && fileType!.startsWith('image')) {
               return Column(
-                children: [
+                children: <Widget>[
                   Expanded(
-                    child: Container(
+                    child: ColoredBox(
                       color: Colors.white,
                       child: InteractiveViewer(
                         child: Image.memory(
@@ -173,7 +174,7 @@ class TextViewerState extends State<TextViewer> {
   void initState() {
     setupController();
     content = parseBase64(widget.blob.content!).split('\n');
-    for (final str in content) {
+    for (final String str in content) {
       if (str.length > numberOfMaxChars) {
         numberOfMaxChars = str.length;
       }
@@ -204,7 +205,7 @@ class TextViewerState extends State<TextViewer> {
   Widget build(final BuildContext context) => Visibility(
         // visible: !editing,
         child: Builder(
-          builder: (final context) {
+          builder: (final BuildContext context) {
             if (fileType == 'md' || fileType == 'markdown') {
               return SingleChildScrollView(
                 child: MarkdownRenderAPI(
@@ -224,8 +225,9 @@ class TextViewerState extends State<TextViewer> {
                         : MediaQuery.of(context).size.width,
                 child: ListView.builder(
                   itemCount: content.length,
-                  itemBuilder: (final context, final index) => Container(
-                    color: index % 2 == 0
+                  itemBuilder: (final BuildContext context, final int index) =>
+                      ColoredBox(
+                    color: index.isEven
                         ? Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .primary
@@ -235,7 +237,7 @@ class TextViewerState extends State<TextViewer> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           const SizedBox(
                             width: 8,
                           ),

@@ -1,22 +1,23 @@
+import 'package:dio/dio.dart';
 import 'package:dio_hub/app/api_handler/dio.dart';
 
 class MarkdownService {
   static final RESTHandler _restHandler = RESTHandler(
-    apiLogSettings: APILoggingSettings(cURL: true, responseBody: false),
+    apiLogSettings: APILoggingSettings(responseBody: false),
   );
 
   static Future<String> renderMarkdown(
     final String data, {
     required final String? context,
   }) async {
-    final res = await _restHandler.post(
+    final Response<String> res = await _restHandler.post<String>(
       '/markdown',
-      data: {
+      data: <String, String>{
         'text': data,
         'mode': 'gfm',
         if (context != null) 'context': context,
       },
     );
-    return res.data;
+    return res.data!;
   }
 }

@@ -9,7 +9,7 @@ class PullEventCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => BaseEventCard(
         actor: event.actor!.login,
-        headerText: [
+        headerText: <TextSpan>[
           TextSpan(text: ' ${event.payload!.action} a pull request in '),
           TextSpan(
             text: event.repo!.name,

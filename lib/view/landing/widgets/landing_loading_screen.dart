@@ -17,15 +17,15 @@ class LandingLoadingScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Scaffold(
         body: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-          listener: (final value) {
+          listener: (final Status value) async {
             if (value == Status.loaded && initLink != null) {
-              deepLinkNavigate(initLink!);
+              await deepLinkNavigate(initLink!);
             }
           },
-          loadingBuilder: (final context) => SafeArea(
+          loadingBuilder: (final BuildContext context) => SafeArea(
             child: Scaffold(
               body: Column(
-                children: [
+                children: <Widget>[
                   Expanded(child: Container()),
                   const Expanded(child: LoadingIndicator()),
                   const Expanded(
@@ -35,7 +35,9 @@ class LandingLoadingScreen extends StatelessWidget {
               ),
             ),
           ),
-          childBuilder: (final context, final value) => const LandingScreen(),
+          childBuilder:
+              (final BuildContext context, final CurrentUserProvider value) =>
+                  const LandingScreen(),
         ),
       );
 }

@@ -33,9 +33,9 @@ class BasicEventCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 Icon(
                   leading,
                   size: 16,
@@ -124,7 +124,7 @@ class BasicEventTextCard extends StatelessWidget {
         iconColor: iconColor,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               textContent,
               style: AppThemeTextStyles.basicIssueEventCardText(context),
@@ -157,7 +157,7 @@ class BasicEventAssignedCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => BasicEventCard(
         content: Row(
-          children: [
+          children: <Widget>[
             Text(
               isAssigned ? 'Assigned' : 'Unassigned',
               style: AppThemeTextStyles.basicIssueEventCardText(context),
@@ -216,7 +216,7 @@ class BasicEventLabeledCard extends StatelessWidget {
         iconColor: iconColor,
         content: Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
+          children: <Widget>[
             Text(
               '${added ? 'Added' : 'Removed'} the',
               style: AppThemeTextStyles.basicIssueEventCardText(context),

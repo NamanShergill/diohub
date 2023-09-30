@@ -26,17 +26,34 @@ class BranchSelectSheet extends StatelessWidget {
       InfiniteScrollWrapper<RepoBranchListItemModel>(
         listEndIndicator: false,
         topSpacing: 8,
-        separatorBuilder: (final context, final index) => const SizedBox(
+        separatorBuilder: (final BuildContext context, final int index) =>
+            const SizedBox(
           height: 16,
         ),
-        future: (final data) => RepositoryServices.fetchBranchList(
+        future: (
+          final ({
+            RepoBranchListItemModel? lastItem,
+            int pageNumber,
+            int pageSize,
+            bool refresh
+          }) data,
+        ) async =>
+            RepositoryServices.fetchBranchList(
           repoURL,
           data.pageNumber,
           data.pageSize,
           refresh: data.refresh,
         ),
         scrollController: controller,
-        builder: (final data) => Padding(
+        builder: (
+          final ({
+            BuildContext context,
+            int index,
+            RepoBranchListItemModel item,
+            bool refresh
+          }) data,
+        ) =>
+            Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Material(
             borderRadius: medBorderRadius,
@@ -56,10 +73,10 @@ class BranchSelectSheet extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Flexible(
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           const Icon(Octicons.git_branch),
                           const SizedBox(
                             width: 8,

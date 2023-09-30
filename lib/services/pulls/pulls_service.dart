@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/models/pull_requests/review_model.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 
 class PullsService {
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
@@ -14,22 +16,23 @@ class PullsService {
     required final String fullUrl,
     required final bool refresh,
   }) async {
-    final response = await _restHandler.get(
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       fullUrl,
       requestHeaders: _restHandler.acceptHeader(
         'application/vnd.github.black-cat-preview+json, application/vnd.github.VERSION.html, application/vnd.github.v3+json',
       ),
       refreshCache: refresh,
     );
-    return PullRequestModel.fromJson(response.data);
+    return PullRequestModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-reviews-for-a-pull-request
   static Future<ReviewModel> getPullReviews({
     required final String fullUrl,
   }) async {
-    final response = await _restHandler.get('$fullUrl/reviews');
-    return ReviewModel.fromJson(response.data);
+    final Response<TypeMap> response =
+        await _restHandler.get<TypeMap>('$fullUrl/reviews');
+    return ReviewModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#list-pull-requests
@@ -39,9 +42,10 @@ class PullsService {
     final int? perPage,
     final int? pageNumber,
   }) async {
-    final response = await _restHandler.get(
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
       '$repoURL/pulls',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': pageNumber,
         // 'sort': 'popularity',
@@ -50,8 +54,11 @@ class PullsService {
       },
       refreshCache: refresh,
     );
-    final unParsedData = response.data;
-    final parsedData = unParsedData.map(PullRequestModel.fromJson).toList();
+    final List<dynamic> unParsedData = response.data!;
+    final List<PullRequestModel> parsedData = unParsedData
+        // ignore: unnecessary_lambdas
+        .map((final dynamic e) => PullRequestModel.fromJson(e))
+        .toList();
     return parsedData;
   }
 
@@ -62,16 +69,21 @@ class PullsService {
     final int? perPage,
     final int? pageNumber,
   }) async {
-    final response = await _restHandler.get(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$pullURL/commits',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': pageNumber,
       },
       refreshCache: refresh,
     );
-    final unParsedData = response.data;
-    final parsedData = unParsedData.map(CommitListModel.fromJson).toList();
+    final DynamicList unParsedData = response.data!;
+    final List<CommitListModel> parsedData = unParsedData
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => CommitListModel.fromJson(e),
+        )
+        .toList();
     return parsedData;
   }
 
@@ -82,16 +94,21 @@ class PullsService {
     final int? perPage,
     final int? pageNumber,
   }) async {
-    final response = await _restHandler.get(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$pullURL/files',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': pageNumber,
       },
       refreshCache: refresh,
     );
-    final unParsedData = response.data;
-    final parsedData = unParsedData.map(FileElement.fromJson).toList();
+    final DynamicList unParsedData = response.data!;
+    final List<FileElement> parsedData = unParsedData
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => FileElement.fromJson(e),
+        )
+        .toList();
     return parsedData;
   }
 
@@ -100,7 +117,7 @@ class PullsService {
     required final bool refresh,
     final String? cursor,
   }) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       GetPRReviewCommentsQuery(
         variables: GetPRReviewCommentsArguments(cursor: cursor, id: id),
       ),
@@ -120,7 +137,7 @@ class PullsService {
     final String? cursor, {
     required final bool refresh,
   }) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       ReviewThreadCommentsQueryQuery(
         variables: ReviewThreadCommentsQueryArguments(
           nodeID: nodeID,
@@ -145,7 +162,7 @@ class PullsService {
     required final String? cursor,
     required final bool refresh,
   }) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       ReviewThreadFirstCommentQueryQuery(
         variables: ReviewThreadFirstCommentQueryArguments(
           cursor: cursor,
@@ -156,10 +173,11 @@ class PullsService {
       ),
       refreshCache: refresh,
     );
-    final parsed = ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
+    final ReviewThreadFirstCommentQuery$Query parsed =
+        ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
 
     if (parsed.repository!.pullRequest!.reviewThreads.edges!.isNotEmpty) {
-      for (final thread
+      for (final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
           in parsed.repository!.pullRequest!.reviewThreads.edges!) {
         if (thread?.node?.comments.nodes?.first?.id == commentID) {
           return thread!;
@@ -182,7 +200,7 @@ class PullsService {
     final String pullNode,
     final String user,
   ) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       CheckPendingViewerReviewsQuery(
         variables: CheckPendingViewerReviewsArguments(
           author: user,
@@ -190,8 +208,9 @@ class PullsService {
         ),
       ),
     );
-    final item = CheckPendingViewerReviews$Query.fromJson(res.data!).node!
-        as CheckPendingViewerReviews$Query$Node$PullRequest;
+    final CheckPendingViewerReviews$Query$Node$PullRequest item =
+        CheckPendingViewerReviews$Query.fromJson(res.data!).node!
+            as CheckPendingViewerReviews$Query$Node$PullRequest;
     if ((item.reviews?.totalCount ?? 0) > 0) {
       return true;
     } else {
@@ -207,9 +226,9 @@ class PullsService {
     required final String repo,
     required final int pullNumber,
   }) async {
-    final res = await _restHandler.post(
+    final Response<dynamic> res = await _restHandler.post(
       '/repos/$owner/$repo/pulls/$pullNumber/comments/$id/replies',
-      data: {'body': body},
+      data: <String, String>{'body': body},
     );
     if (res.statusCode == 201) {
       return true;

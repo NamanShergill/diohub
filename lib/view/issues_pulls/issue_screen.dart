@@ -16,7 +16,8 @@ class IssueScreen extends StatefulWidget {
   final IssueInfoMixin issueInfo;
   final DateTime? commentsSince;
   final int initialIndex;
-  final APIWrapperController apiWrapperController;
+  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
+      apiWrapperController;
 
   @override
   IssueScreenState createState() => IssueScreenState();
@@ -39,7 +40,7 @@ class IssueScreenState extends State<IssueScreen>
 
   @override
   Widget build(final BuildContext context) {
-    final data = widget.issueInfo;
+    final IssueInfoMixin data = widget.issueInfo;
     return IssuePullInfoTemplate(
       number: data.number,
       isPinned: data.isPinned ?? false,
@@ -60,7 +61,8 @@ class IssueScreenState extends State<IssueScreen>
         count: data.participants.totalCount,
         avatarURLs: data.participants.nodes!
             .map(
-              (final e) => e!.avatarUrl.toString(),
+              (final IssueInfoMixin$Participants$Nodes? e) =>
+                  e!.avatarUrl.toString(),
             )
             .toList(),
       ),

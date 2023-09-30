@@ -32,7 +32,7 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
   @override
   void initState() {
     if (widget.listener != null) {
-      context.read<T>().statusStream.listen((final event) {
+      context.read<T>().statusStream.listen((final Status event) {
         widget.listener?.call(event);
       });
     }
@@ -42,10 +42,11 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
   @override
   Widget build(final BuildContext context) {
     final BaseProvider value = Provider.of<T>(context);
-    return StreamBuilder(
+    return StreamBuilder<Status>(
       stream: value.statusStream,
       initialData: value.status,
-      builder: (final context, final snapshot) {
+      builder:
+          (final BuildContext context, final AsyncSnapshot<Status> snapshot) {
         if (snapshot.data == Status.loaded) {
           return widget.childBuilder(context, value as T);
         }
@@ -61,9 +62,9 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
                   value.errorInfo ?? 'Something went wrong.',
                 )
               : Builder(
-                  builder: (final context) {
+                  builder: (final BuildContext context) {
                     if (value.errorInfo is DioException) {
-                      final err = value.errorInfo! as DioException;
+                      final DioException err = value.errorInfo! as DioException;
                       if (err.response != null) {
                         return Center(
                           child: APIError(

@@ -4,6 +4,7 @@ import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class AuthProgressNotification extends StatelessWidget {
   @override
   Widget build(final BuildContext context) =>
       BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (final context, final state) {
+        builder: (final BuildContext context, final AuthenticationState state) {
           if (state is AuthenticationInitialized) {
             return SizeExpandedSection(
               child: Padding(
@@ -47,14 +48,14 @@ class AuthProgressNotification extends StatelessWidget {
                                 .add(ResetStates());
                           }
                         },
-                        widgetBuilder: (final _, final time) => Column(
+                        widgetBuilder: (final _, final CurrentRemainingTime? time) => Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
+                          children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(16),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: <Widget>[
                                   const Icon(LineIcons.exclamationCircle),
                                   const SizedBox(
                                     width: 5,

@@ -11,10 +11,10 @@ import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
   IssueInformation({super.key});
-  final APIWrapperController labelController = APIWrapperController();
+  final APIWrapperController<dynamic> labelController =
+      APIWrapperController<dynamic>();
   @override
   Widget build(final BuildContext context) {
-    // final _issue = Provider.of<IssueProvider>(context).data;
     // final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
     return Container();
     // SingleChildScrollView(
@@ -242,7 +242,7 @@ class __IssueButtonState extends State<_IssueButton> {
               title: widget.issue.state != IssueState.CLOSED
                   ? 'Close Issue?'
                   : 'Reopen Issue?',
-              actions: [
+              actions: <Widget>[
                 MaterialButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cancel'),
@@ -255,17 +255,19 @@ class __IssueButtonState extends State<_IssueButton> {
                       loading = true;
                     });
                     // ignore: omit_local_variable_types
-                    final Map data = {};
+                    final Map<String, dynamic> data = <String, dynamic>{};
                     if (widget.issue.state != IssueState.CLOSED) {
                       data['state'] = 'closed';
                     } else {
                       data['state'] = 'open';
                     }
-                    final issue = await IssuesService.updateIssue(
+                    final IssueModel issue = await IssuesService.updateIssue(
                       widget.issue.url!,
                       data,
                     );
-                    context.issueProvider(listen: false).updateIssue(issue);
+                    if (context.mounted) {
+                      context.issueProvider(listen: false).updateIssue(issue);
+                    }
                     setState(() {
                       loading = false;
                     });
@@ -282,7 +284,7 @@ class __IssueButtonState extends State<_IssueButton> {
         child: widget.issue.state != IssueState.CLOSED
             ? const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Text('Close issue'),
                   SizedBox(
                     width: 8,
@@ -292,7 +294,7 @@ class __IssueButtonState extends State<_IssueButton> {
               )
             : const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Text('Reopen issue'),
                   SizedBox(
                     width: 8,

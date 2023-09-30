@@ -9,7 +9,7 @@ class AboutUser extends StatelessWidget {
   const AboutUser(this.userInfoModel, {super.key});
   final UserInfoModel? userInfoModel;
 
-  List<InfoCard> items(final BuildContext context) => [
+  List<InfoCard> items(final BuildContext context) => <InfoCard>[
         if (userInfoModel!.bio != null)
           InfoCard(
             title: 'Bio',
@@ -19,8 +19,8 @@ class AboutUser extends StatelessWidget {
           InfoCard(
             // title: 'Twitter',
             icon: LineIcons.twitter,
-            onTap: () {
-              linkHandler(
+            onTap: () async {
+              await linkHandler(
                 context,
                 'https://twitter.com/${userInfoModel!.twitterUsername}',
               );
@@ -30,8 +30,8 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.email != null)
           InfoCard(
             title: 'Email',
-            onTap: () {
-              linkHandler(context, 'mailto:${userInfoModel!.email}');
+            onTap: () async {
+              await linkHandler(context, 'mailto:${userInfoModel!.email}');
             },
             icon: LineIcons.at,
             child: Text(userInfoModel!.email!),
@@ -39,8 +39,8 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.blog != null && userInfoModel!.blog!.isNotEmpty)
           InfoCard(
             title: 'Blog',
-            onTap: () {
-              linkHandler(context, userInfoModel!.blog);
+            onTap: () async {
+              await linkHandler(context, userInfoModel!.blog);
             },
             child: Text(userInfoModel!.blog!),
           ),
@@ -71,7 +71,7 @@ class AboutUser extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const SizedBox(
             height: 16,
           ),

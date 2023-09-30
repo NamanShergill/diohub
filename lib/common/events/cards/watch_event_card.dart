@@ -24,7 +24,7 @@ class RepoEventCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => BaseEventCard(
         actor: event.actor!.login,
-        headerText: [
+        headerText: <TextSpan>[
           TextSpan(text: ' $eventTextMiddle '),
           TextSpan(
             text: event.repo!.name,

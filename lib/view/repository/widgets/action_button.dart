@@ -36,7 +36,7 @@ class ActionButtonState extends State<ActionButton> {
         onTap: widget.onTap,
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             if (widget.isDone != null)
               Icon(
                 widget.icon,
@@ -58,7 +58,7 @@ class ActionButtonState extends State<ActionButton> {
               SizeExpandedSection(
                 axis: Axis.horizontal,
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     const SizedBox(
                       width: 8,
                     ),

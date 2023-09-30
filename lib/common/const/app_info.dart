@@ -11,7 +11,7 @@ class AppNameWidget extends StatelessWidget {
         TextSpan(
           style:
               Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: size),
-          children: const [
+          children: const <InlineSpan>[
             TextSpan(text: 'DIO'),
             TextSpan(
                 text: 'HUB', style: TextStyle(fontWeight: FontWeight.bold),),
@@ -45,7 +45,7 @@ class AppInfoWidget extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final children = <Widget>[
+    final List<Widget> children = <Widget>[
       AppLogoWidget(size: logoSize ?? MediaQuery.of(context).size.width * 0.3),
       AppNameWidget(
         size: nameSize,
@@ -54,7 +54,7 @@ class AppInfoWidget extends StatelessWidget {
     return SizeExpandedSection(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           if (axis == Axis.vertical)
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -79,7 +79,7 @@ class AppNameWithVersion extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+          children: <Widget>[
             AppNameWidget(
               size: 20,
             ),

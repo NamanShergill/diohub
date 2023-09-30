@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -37,13 +39,13 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
 
   @override
   void initState() {
-    getInfo();
+    unawaited(getInfo());
     super.initState();
   }
 
   Future<void> getInfo() async {
     // Get more information on issue to display
-    final futures = <Future>[
+    final List<Future<dynamic>> futures = <Future<dynamic>>[
       IssuesService.getIssueInfo(
         fullUrl: widget.notification.subject!.url!,
         refresh: widget.refresh,
@@ -57,11 +59,11 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
         refresh: widget.refresh,
       ),
     ];
-    final results = await Future.wait(futures);
+    final List<dynamic> results = await Future.wait(futures);
     issueInfo = results[0];
     latestComment = results[1];
     // Get latest event to compare with the latest comment.
-    final List issueEvents = results[2];
+    final List<IssueEventModel> issueEvents = results[2];
     if (issueEvents.isNotEmpty) {
       latestIssueEvent = issueEvents.last;
     }
@@ -76,16 +78,16 @@ class IssueNotificationCardState extends State<IssueNotificationCard>
   Widget build(final BuildContext context) {
     super.build(context);
     return BasicNotificationCard(
-      iconBuilder: (final context) => getIcon(),
-      onTap: () {
-        AutoRouter.of(context).push(
+      iconBuilder: (final BuildContext context) => getIcon(),
+      onTap: () async {
+        await AutoRouter.of(context).push(
           issuePullScreenRoute(
             PathData.fromURL(widget.notification.subject!.url!),
           ),
         );
       },
       loading: loading,
-      footerBuilder: (final context) {
+      footerBuilder: (final BuildContext context) {
         if (!loading) {
           return getIssueFooter();
         }

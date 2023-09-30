@@ -62,10 +62,10 @@ class GetTimelineItem extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final item = timelineItem;
+    final dynamic item = timelineItem;
     return PaddingWrap(
       child: Builder(
-        builder: (final context) {
+        builder: (final BuildContext context) {
           if (item is AddedToProjectMixin) {
           } else if (item is AssignedMixin) {
             return BasicEventAssignedCard(
@@ -122,8 +122,8 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventTextCard(
               textContent: str,
               footer: Builder(
-                builder: (final context) {
-                  final source = item.source;
+                builder: (final BuildContext context) {
+                  final CrossReferenceMixin$Source source = item.source;
                   if (source is IssueMixin) {
                     return IssueLoadingCard(
                       toRepoAPIResource((source as IssueMixin).url.toString()),
@@ -214,8 +214,9 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventTextCard(
               textContent: 'Marked this as a duplicate of',
               footer: Builder(
-                builder: (final context) {
-                  final canonical = item.canonical;
+                builder: (final BuildContext context) {
+                  final MarkedAsDuplicateMixin$Canonical? canonical =
+                      item.canonical;
                   if (canonical is IssueMixin) {
                     return IssueLoadingCard(
                       toRepoAPIResource(
@@ -299,8 +300,8 @@ class GetTimelineItem extends StatelessWidget {
               lastEditedAt: item.lastEditedAt,
               footer: item.comments.totalCount > 0
                   ? StringButton(
-                      onTap: () {
-                        AutoRouter.of(context).push(
+                      onTap: () async {
+                        await AutoRouter.of(context).push(
                           PRReviewRoute(
                             nodeID: item.id,
                             pullNodeID: pullNodeID!,
@@ -330,7 +331,7 @@ class GetTimelineItem extends StatelessWidget {
               date: item.createdAt,
               content: Text.rich(
                 TextSpan(
-                  children: [
+                  children: <InlineSpan>[
                     const TextSpan(text: 'Renamed this.\n'),
                     TextSpan(
                       text: '${item.previousTitle}\n',
@@ -364,7 +365,7 @@ class GetTimelineItem extends StatelessWidget {
               leading: Icons.remove_red_eye_rounded,
               content: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
+                children: <Widget>[
                   const Text('Requested a review from'),
                   Padding(
                     padding: const EdgeInsets.all(8),
@@ -409,8 +410,9 @@ class GetTimelineItem extends StatelessWidget {
             return BasicEventTextCard(
               textContent: 'Marked this as not a duplicate of',
               footer: Builder(
-                builder: (final context) {
-                  final canonical = item.canonical;
+                builder: (final BuildContext context) {
+                  final UnmarkedAsDuplicateMixin$Canonical? canonical =
+                      item.canonical;
                   if (canonical is IssueMixin) {
                     return IssueLoadingCard(
                       toRepoAPIResource(

@@ -6,6 +6,7 @@ import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:provider/provider.dart';
 
 class RepositoryReadme extends StatefulWidget {
@@ -28,12 +29,16 @@ class RepositoryReadmeState extends State<RepositoryReadme>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ProviderLoadingProgressWrapper<RepoReadmeProvider>(
-        loadingBuilder: (final context) => const Padding(
+        loadingBuilder: (final BuildContext context) => const Padding(
           padding: EdgeInsets.only(top: 48),
           child: LoadingIndicator(),
         ),
-        childBuilder: (final context, final value) => ScrollToTopWrapper(
-          builder: (final context, final properties) => SingleChildScrollView(
+        childBuilder:
+            (final BuildContext context, final RepoReadmeProvider value) =>
+                ScrollToTopWrapper(
+          builder: (final BuildContext context,
+                  final ScrollViewProperties properties,) =>
+              SingleChildScrollView(
             child: MarkdownRenderAPI(
               value.data!.content!,
               repoContext:

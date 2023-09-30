@@ -40,12 +40,12 @@ class BrowserListTile extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           if (tree.type == Type.TREE) {
             Provider.of<CodeProvider>(context, listen: false)
                 .pushTree(tree.sha!, index);
           } else if (tree.type == Type.BLOB) {
-            AutoRouter.of(context).push(
+            await AutoRouter.of(context).push(
               FileViewerAPI(
                 repoURL: repoURL,
                 sha: tree.sha,
@@ -63,7 +63,7 @@ class BrowserListTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Row(
-            children: [
+            children: <Widget>[
               getIcon()!,
               const SizedBox(
                 width: 16,

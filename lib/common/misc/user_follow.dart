@@ -35,7 +35,7 @@ class UserFollow extends StatefulWidget {
 
 class UserFollowState extends State<UserFollow> {
   final APIWrapperController<FollowStatusInfo$Query$User> controller =
-      APIWrapperController();
+      APIWrapperController<FollowStatusInfo$Query$User>();
   bool changing = false;
 
   @override
@@ -62,7 +62,7 @@ class UserFollowState extends State<UserFollow> {
                 }
                 widget.onFollowersChange?.call(data.followers.totalCount);
 
-                final isFollowing = data.viewerIsFollowing;
+                final bool isFollowing = data.viewerIsFollowing;
                 controller.changeData(
                   data..viewerIsFollowing = !data.viewerIsFollowing,
                 );
@@ -89,18 +89,22 @@ class UserFollowState extends State<UserFollow> {
         );
 
     return APIWrapper<FollowStatusInfo$Query$User>(
-      apiCall: ({required final refresh}) =>
+      apiCall: ({required final bool refresh}) async =>
           UserInfoService.getFollowInfo(widget.login),
       apiWrapperController: controller,
-      loadingBuilder: (final context) => widget.child != null
+      loadingBuilder: (final BuildContext context) => widget.child != null
           ? widget.child!(context, null, null)
           : ShimmerWidget(
               child: iconButton(null),
             ),
       fadeIntoView: widget.fadeIntoView,
-      responseBuilder: (final context, final data) => widget.child != null
-          ? widget.child!(context, data, onPress(data))
-          : iconButton(data),
+      responseBuilder: (
+        final BuildContext context,
+        final FollowStatusInfo$Query$User data,
+      ) =>
+          widget.child != null
+              ? widget.child!(context, data, onPress(data))
+              : iconButton(data),
     );
   }
 }

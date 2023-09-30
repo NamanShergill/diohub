@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -17,83 +19,83 @@ class AppRouter extends $AppRouter {
   RouteType get defaultRouteType => const RouteType.adaptive();
 
   @override
-  List<AutoRoute> get routes => [
+  List<AutoRoute> get routes => <AutoRoute>[
         AutoRoute(page: AuthRoute.page),
         AutoRoute(
           page: LandingLoadingRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
           initial: true,
         ),
         AutoRoute(
           page: LandingRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: PlaceHolderRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         CustomRoute(
           page: SearchOverlayRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
-          guards: [authGuard],
+          guards: <AutoRouteGuard>[authGuard],
         ),
         AutoRoute(
           page: IssuePullRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: RepositoryRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: FileViewerAPI.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: CommitInfoRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: WikiViewer.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: ChangesViewer.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: OtherUserProfileRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: NewIssueRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
         AutoRoute(
           page: PRReviewRoute.page,
-          guards: [
+          guards: <AutoRouteGuard>[
             authGuard,
           ],
         ),
@@ -107,17 +109,21 @@ class AuthGuard extends AutoRouteGuard {
   final BuildContext context;
   @override
   void onNavigation(
-      final NavigationResolver resolver, final StackRouter router,) {
+    final NavigationResolver resolver,
+    final StackRouter router,
+  ) {
     if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
-      router.replaceAll(
-        [
-          AuthRoute(
-            onAuthenticated: () {
-              router.removeLast();
-              resolver.next();
-            },
-          ),
-        ],
+      unawaited(
+        router.replaceAll(
+          <PageRouteInfo>[
+            AuthRoute(
+              onAuthenticated: () {
+                router.removeLast();
+                resolver.next();
+              },
+            ),
+          ],
+        ),
       );
     } else {
       resolver.next();

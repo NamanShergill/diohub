@@ -33,7 +33,7 @@ class CodeBrowserState extends State<CodeBrowser>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((final timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((final Duration timeStamp) {
       if (widget.showCommitHistory) {
         showCommitHistory(
           context,
@@ -50,13 +50,18 @@ class CodeBrowserState extends State<CodeBrowser>
       child: Column(
         // physics: const NeverScrollableScrollPhysics(),
         // shrinkWrap: true,
-        children: [
+        children: <Widget>[
           const SizedBox(
             height: 16,
           ),
           Consumer<CodeProvider>(
-            builder: (final context, final value, final _) => Column(
-              children: [
+            builder: (
+              final BuildContext context,
+              final CodeProvider value,
+              final _,
+            ) =>
+                Column(
+              children: <Widget>[
                 if (context.read<RepoBranchProvider>().isCommit &&
                     value.tree.isNotEmpty)
                   _buildPathWidget(value, context),
@@ -87,14 +92,16 @@ class CodeBrowserState extends State<CodeBrowser>
             ),
           ),
           ProviderLoadingProgressWrapper<CodeProvider>(
-            childBuilder: (final context, final value) => Column(
+            childBuilder:
+                (final BuildContext context, final CodeProvider value) =>
+                    Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Visibility(
                   visible: value.tree.length > 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(
                         height: 16,
                       ),
@@ -107,10 +114,12 @@ class CodeBrowserState extends State<CodeBrowser>
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: value.tree.length,
-                            separatorBuilder: (final context, final index) =>
-                                const Center(child: Text(' /')),
-                            itemBuilder: (final context, final index) =>
-                                Material(
+                            separatorBuilder:
+                                (final BuildContext context, final int index) =>
+                                    const Center(child: Text(' /')),
+                            itemBuilder:
+                                (final BuildContext context, final int index) =>
+                                    Material(
                               color: Colors.transparent,
                               child: InkWell(
                                 borderRadius: smallBorderRadius,
@@ -168,8 +177,9 @@ class CodeBrowserState extends State<CodeBrowser>
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemBuilder: (final context, final index) =>
-                              BrowserListTile(
+                          itemBuilder:
+                              (final BuildContext context, final int index) =>
+                                  BrowserListTile(
                             value.tree.last.tree![index],
                             Provider.of<RepositoryProvider>(
                               context,
@@ -177,8 +187,9 @@ class CodeBrowserState extends State<CodeBrowser>
                             ).data.url,
                             index,
                           ),
-                          separatorBuilder: (final context, final index) =>
-                              const Divider(
+                          separatorBuilder:
+                              (final BuildContext context, final int index) =>
+                                  const Divider(
                             height: 0,
                           ),
                           itemCount: value.tree.last.tree!.length,
@@ -189,7 +200,7 @@ class CodeBrowserState extends State<CodeBrowser>
                 ),
               ],
             ),
-            loadingBuilder: (final context) => Container(),
+            loadingBuilder: (final BuildContext context) => Container(),
           ),
         ],
       ),
@@ -204,7 +215,7 @@ class CodeBrowserState extends State<CodeBrowser>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
-            children: [
+            children: <Widget>[
               Button(
                 padding: const EdgeInsets.all(8),
                 onTap: value.status == Status.loaded
@@ -213,7 +224,7 @@ class CodeBrowserState extends State<CodeBrowser>
                       }
                     : null,
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Text(
                       'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA.substring(0, 6)}.',
                       textAlign: TextAlign.center,
@@ -240,18 +251,19 @@ class CodeBrowserState extends State<CodeBrowser>
 }
 
 void showCommitHistory(final BuildContext context, final String? currentSHA) {
-  final repoUrl = context.read<RepositoryProvider>().data.url;
+  final String? repoUrl = context.read<RepositoryProvider>().data.url;
 
-  final branchName = context.read<RepoBranchProvider>().currentSHA;
+  final String branchName = context.read<RepoBranchProvider>().currentSHA;
 
-  final path = context.read<CodeProvider>().getPath();
+  final String path = context.read<CodeProvider>().getPath();
 
-  final isLocked = context.read<RepoBranchProvider>().isCommit;
+  final bool isLocked = context.read<RepoBranchProvider>().isCommit;
   unawaited(
     showScrollableBottomSheet(
       context,
-      headerBuilder: (final context, final setState) => Column(
-        children: [
+      headerBuilder: (final BuildContext context, final StateSetter setState) =>
+          Column(
+        children: <Widget>[
           const Text(
             'Commit History',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -261,7 +273,7 @@ void showCommitHistory(final BuildContext context, final String? currentSHA) {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               const Icon(
                 Octicons.git_branch,
                 size: 14,
@@ -274,16 +286,19 @@ void showCommitHistory(final BuildContext context, final String? currentSHA) {
           ),
         ],
       ),
-      scrollableBodyBuilder:
-          (final context, final setState, final scrollController) =>
-              CommitBrowser(
+      scrollableBodyBuilder: (
+        final BuildContext context,
+        final StateSetter setState,
+        final ScrollController scrollController,
+      ) =>
+          CommitBrowser(
         controller: scrollController,
         currentSHA: currentSHA,
         isLocked: isLocked,
         repoURL: repoUrl,
         path: path,
         branchName: branchName,
-        onSelected: (final sha) {
+        onSelected: (final String sha) {
           Provider.of<RepoBranchProvider>(context, listen: false)
               .setBranch(sha, isCommitSha: true);
         },

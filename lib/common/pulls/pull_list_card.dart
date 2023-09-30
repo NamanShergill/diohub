@@ -37,17 +37,17 @@ class PullListCard extends StatelessWidget {
           borderRadius: medBorderRadius,
           child: InkWell(
             borderRadius: medBorderRadius,
-            onTap: () {
-              AutoRouter.of(context)
+            onTap: () async {
+              await AutoRouter.of(context)
                   .push(issuePullScreenRoute(PathData.fromURL(item.issueUrl!)));
             },
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Row(
-                    children: [
+                    children: <Widget>[
                       GetPullIcon(item.state!, item.mergedAt),
                       const SizedBox(
                         width: 4,
@@ -97,7 +97,7 @@ class PullListCard extends StatelessWidget {
                   if (!compact)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         const SizedBox(
                           height: 8,
                         ),
@@ -118,9 +118,9 @@ class PullListCard extends StatelessWidget {
                           height: 8,
                         ),
                         Wrap(
-                          children: List.generate(
+                          children: List<Widget>.generate(
                             item.labels!.length,
-                            (final index) => Padding(
+                            (final int index) => Padding(
                               padding: const EdgeInsets.only(
                                 right: 8,
                                 bottom: 8,

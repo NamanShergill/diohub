@@ -7,19 +7,17 @@ import 'package:dio_hub/models/popup/popup_type.dart';
 class ResponseHandler {
   ResponseHandler._();
 
-  static final StreamController _errorController =
+  static final StreamController<AppPopupData> _errorController =
       StreamController<AppPopupData>.broadcast();
-  static final StreamController _successController =
+  static final StreamController<AppPopupData> _successController =
       StreamController<AppPopupData>.broadcast();
 
-  static Stream<AppPopupData> get _errorStream =>
-      _errorController.stream as Stream<AppPopupData>;
-  static Stream<AppPopupData> get _successStream =>
-      _successController.stream as Stream<AppPopupData>;
+  static Stream<AppPopupData> get _errorStream => _errorController.stream;
+  static Stream<AppPopupData> get _successStream => _successController.stream;
 
   void dispose() {
-    _errorController.close();
-    _successController.close();
+    unawaited(_errorController.close());
+    unawaited(_successController.close());
   }
 
   static void setErrorMessage(final AppPopupData popupData) {
@@ -31,9 +29,9 @@ class ResponseHandler {
   }
 
   static void getErrorStream() {
-    _errorStream.listen((final error) {
+    _errorStream.listen((final AppPopupData error) async {
       error.popupType = PopupType.failed;
-      DialogHelper.appPopup(
+      await DialogHelper.appPopup(
         currentContext,
         error,
       );
@@ -41,9 +39,9 @@ class ResponseHandler {
   }
 
   static void getSuccessStream() {
-    _successStream.listen((final success) {
+    _successStream.listen((final AppPopupData success) async {
       success.popupType = PopupType.success;
-      DialogHelper.appPopup(
+      await DialogHelper.appPopup(
         currentContext,
         success,
       );

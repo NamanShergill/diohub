@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:provider/provider.dart';
 
@@ -48,9 +49,11 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
       ClipboardData(text: widget.deviceCodeModel.userCode!),
     );
     if (pop) {
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     } else {
-      await Future.delayed(const Duration(milliseconds: 250));
+      await Future<void>.delayed(const Duration(milliseconds: 250));
     }
     ResponseHandler.setSuccessMessage(
       AppPopupData(title: 'Copied Code ${widget.deviceCodeModel.userCode}'),
@@ -61,13 +64,14 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
   Widget build(final BuildContext context) => ScaleExpandedSection(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Center(
               child: CountdownTimer(
                 controller: timerController,
                 endWidget: const Text('Time Expired.'),
-                widgetBuilder: (final _, final time) => Column(
-                  children: [
+                widgetBuilder: (final _, final CurrentRemainingTime? time) =>
+                    Column(
+                  children: <Widget>[
                     const Divider(
                       height: 32,
                     ),
@@ -117,7 +121,7 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                   setState(() {
                     copied = true;
                   });
-                  await Future.delayed(const Duration(seconds: 4));
+                  await Future<void>.delayed(const Duration(seconds: 4));
                   setState(() {
                     copied = false;
                   });
@@ -128,7 +132,7 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                     .currentSetting
                     .secondary,
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Text(
                       widget.deviceCodeModel.userCode!,
                       style: Theme.of(context)
@@ -141,7 +145,7 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Visibility(
                           visible: !copied,
                           replacement: const Icon(
@@ -205,16 +209,16 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                 elevation: 2,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    linkHandler(
+                  onTap: () async {
+                    await linkHandler(
                       context,
                       widget.deviceCodeModel.verificationUri,
                       shareDescription:
                           'Enter the code ${widget.deviceCodeModel.userCode} on:',
                     );
                   },
-                  onLongPress: () {
-                    linkHandler(
+                  onLongPress: () async {
+                    await linkHandler(
                       context,
                       widget.deviceCodeModel.verificationUri,
                       showSheetOnDeepLink: true,
@@ -226,7 +230,7 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Flexible(
                           child: Text(
                             widget.deviceCodeModel.verificationUri!,

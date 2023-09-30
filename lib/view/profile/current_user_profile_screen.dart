@@ -9,7 +9,7 @@ class CurrentUserProfileScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) =>
       ProviderLoadingProgressWrapper<CurrentUserProvider>(
-        childBuilder: (final context, final value) =>
+        childBuilder: (final BuildContext context, final CurrentUserProvider value) =>
             UserProfileScreen<CurrentUserInfoModel>(
           value.data,
           isCurrentUser: true,

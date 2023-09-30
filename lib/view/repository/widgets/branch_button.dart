@@ -25,7 +25,7 @@ class BranchButton extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(borderRadius: medBorderRadius),
             child: ProviderLoadingProgressWrapper<RepoBranchProvider>(
-              loadingBuilder: (final context) => ShimmerWidget(
+              loadingBuilder: (final BuildContext context) => ShimmerWidget(
                 borderRadius: medBorderRadius,
                 baseColor: Provider.of<PaletteSettings>(context)
                     .currentSetting
@@ -39,25 +39,36 @@ class BranchButton extends StatelessWidget {
                   height: height,
                 ),
               ),
-              childBuilder: (final context, final value) =>
+              childBuilder: (
+                final BuildContext context,
+                final RepoBranchProvider value,
+              ) =>
                   FadeAnimationSection(
                 child: InkWell(
-                  onTap: () {
-                    final currentBranch =
+                  onTap: () async {
+                    final String currentBranch =
                         context.read<RepoBranchProvider>().currentSHA;
-                    void changeBranch(final String branch) {
-                      Provider.of<RepoBranchProvider>(context, listen: false)
-                          .setBranch(branch);
+                    Future<void> changeBranch(final String branch) async {
+                      await Provider.of<RepoBranchProvider>(
+                        context,
+                        listen: false,
+                      ).setBranch(branch);
                     }
 
-                    showScrollableBottomSheet(
+                    await showScrollableBottomSheet(
                       context,
-                      headerBuilder: (final context, final setState) =>
+                      headerBuilder: (
+                        final BuildContext context,
+                        final StateSetter setState,
+                      ) =>
                           const BottomSheetHeaderText(
                         headerText: 'Select Branch',
                       ),
-                      scrollableBodyBuilder: (final context, final setState,
-                              final scrollController,) =>
+                      scrollableBodyBuilder: (
+                        final BuildContext context,
+                        final StateSetter setState,
+                        final ScrollController scrollController,
+                      ) =>
                           BranchSelectSheet(
                         _repo!.url!,
                         controller: scrollController,
@@ -75,10 +86,10 @@ class BranchButton extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: <Widget>[
                           Flexible(
                             child: Row(
-                              children: [
+                              children: <Widget>[
                                 const Icon(Octicons.git_branch),
                                 const SizedBox(
                                   width: 8,

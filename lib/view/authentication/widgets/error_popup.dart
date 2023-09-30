@@ -12,7 +12,7 @@ class ErrorPopup extends StatelessWidget {
   Widget build(final BuildContext context) => ScaleExpandedSection(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             const Divider(
               height: 32,
             ),

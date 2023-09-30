@@ -70,7 +70,7 @@ class _CommitTilesState extends State<_CommitTiles> {
             });
           },
           child: Column(
-            children: [
+            children: <Widget>[
               const SizedBox(
                 height: 16,
               ),
@@ -78,18 +78,18 @@ class _CommitTilesState extends State<_CommitTiles> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     const SizedBox(
                       width: 16,
                     ),
                     Flexible(
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Flexible(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: <Widget>[
                                 Flexible(
                                   child: Text(
                                     widget.message,
@@ -103,12 +103,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
+                                    children: <Widget>[
                                       const SizedBox(
                                         height: 8,
                                       ),
                                       Row(
-                                        children: [
+                                        children: <Widget>[
                                           ProfileTile.avatar(
                                             avatarUrl: widget.authorAvatarUrl,
                                             size: 13,
@@ -134,9 +134,9 @@ class _CommitTilesState extends State<_CommitTiles> {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
+                      children: <Widget>[
                         Row(
-                          children: [
+                          children: <Widget>[
                             Icon(
                               Octicons.git_commit,
                               size: 11,
@@ -182,12 +182,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                         if (!widget.compact)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               const SizedBox(
                                 height: 8,
                               ),
                               Row(
-                                children: [
+                                children: <Widget>[
                                   Icon(
                                     Icons.timelapse_outlined,
                                     size: 11,
@@ -236,7 +236,7 @@ class _CommitTilesState extends State<_CommitTiles> {
               SizeExpandedSection(
                 expand: expanded,
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     const SizedBox(
                       height: 8,
                     ),
@@ -244,11 +244,11 @@ class _CommitTilesState extends State<_CommitTiles> {
                       height: 0,
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (widget.onSelected != null) {
                           widget.onSelected!(widget.sha);
                         } else {
-                          AutoRouter.of(context).push(
+                          await AutoRouter.of(context).push(
                             RepositoryRoute(
                               repositoryURL:
                                   toRepoAPIResource(widget.url, endIndex: 2),
@@ -262,7 +262,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Text(
                               'View Code',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -279,15 +279,15 @@ class _CommitTilesState extends State<_CommitTiles> {
                       height: 0,
                     ),
                     InkWell(
-                      onTap: () {
-                        AutoRouter.of(context)
+                      onTap: () async {
+                        await AutoRouter.of(context)
                             .push(CommitInfoRoute(commitURL: widget.url));
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Text(
                               'Commit Details',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -309,7 +309,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Text(
                               'Copy SHA',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -386,7 +386,7 @@ class CommitTilesGQL extends StatelessWidget {
       );
 
   String get toApiURL {
-    final temp = item.commitUrl
+    final List<String> temp = item.commitUrl
         .toString()
         .replaceAll('https://github.com/', '')
         .split('/');

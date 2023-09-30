@@ -16,24 +16,24 @@ class UserRepositories extends StatelessWidget {
   final bool? currentUser;
 
   @override
-  Widget build(final BuildContext context) => Container(
+  Widget build(final BuildContext context) => ColoredBox(
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: SearchScrollWrapper(
           SearchData(
             searchFilters: SearchFilters.repositories(
-              blacklist: [SearchQueryStrings.user, SearchQueryStrings.org],
+              blacklist: <String>[SearchQueryStrings.user, SearchQueryStrings.org],
             ),
-            defaultHiddenFilters: [
+            defaultHiddenFilters: <String>[
               SearchQueries().user.toQueryString(userInfoModel.login!),
             ],
           ),
-          quickFilters: {
+          quickFilters: <String, String>{
             SearchQueries().iS.toQueryString('public'): 'Public',
             SearchQueries().iS.toQueryString('private'): 'Private',
             SearchQueries().archived.toQueryString('true'): 'Archived',
             SearchQueries().mirror.toQueryString('true'): 'Mirrors',
           },
-          quickOptions: {
+          quickOptions: <String, String>{
             SearchQueries().fork.toQueryString('true'): 'Include forks',
           },
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

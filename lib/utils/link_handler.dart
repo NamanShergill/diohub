@@ -11,7 +11,7 @@ Future<void> linkHandler(
 }) async {
   // print(isDeepLink(url!));
   if (isDeepLink(url!) && !showSheetOnDeepLink) {
-    deepLinkNavigate(
+    await deepLinkNavigate(
       Uri.parse(url),
     );
   } else {

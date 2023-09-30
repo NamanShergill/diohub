@@ -101,7 +101,7 @@ class DioHubPalette {
         faded3: faded3 ?? _faded3,
       );
 
-  Map<String, String> toJson() => {
+  Map<String, String> toJson() => <String, String>{
         if (_accent != null) 'accent': toHexString(_accent!),
         if (_primary != null) 'primary': toHexString(_primary!),
         if (_secondary != null) 'secondary': toHexString(_secondary!),
@@ -118,7 +118,7 @@ class DioHubPalette {
 
 Color? _getColor(final Map<String, dynamic> json, final String key) {
   if (json[key] != null) {
-    final hex = 'ff${(json[key] as String).substring(2)}';
+    final String hex = 'ff${(json[key] as String).substring(2)}';
     if (int.tryParse('0x$hex') != null) {
       return Color(int.parse('0x$hex'));
     } else {

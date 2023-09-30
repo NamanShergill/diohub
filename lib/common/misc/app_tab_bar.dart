@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppTabBar extends StatelessWidget {
-  const AppTabBar(
-      {required this.tabs, final TabController? controller, super.key,})
-      : _tabController = controller;
+  const AppTabBar({
+    required this.tabs,
+    final TabController? controller,
+    super.key,
+  }) : _tabController = controller;
 
   final TabController? _tabController;
 
   final List<String> tabs;
   @override
-  Widget build(final BuildContext context) => Container(
+  Widget build(final BuildContext context) => ColoredBox(
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         child: Column(
-          children: [
+          children: <Widget>[
             // Divider(
             //   height: 0,
             //   color: Provider.of<PaletteSettings>(context).currentSetting.grey3,
@@ -41,7 +43,7 @@ class AppTabBar extends StatelessWidget {
               labelPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
               tabs: tabs
                   .map(
-                    (final e) => Tab(
+                    (final String e) => Tab(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(e),

@@ -23,7 +23,7 @@ class AddedEventCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => BaseEventCard(
         actor: event.actor!.login,
-        headerText: [
+        headerText: <TextSpan>[
           TextSpan(text: ' $eventTextMiddle '),
           TextSpan(
             text: event.repo!.name,
@@ -34,10 +34,10 @@ class AddedEventCard extends StatelessWidget {
         date: event.createdAt,
         avatarUrl: event.actor!.avatarUrl,
         childPadding: EdgeInsets.zero,
-        child: Container(
+        child: ColoredBox(
           color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
           child: Column(
-            children: [
+            children: <Widget>[
               ProfileCard(
                 event.payload!.member!,
                 compact: true,

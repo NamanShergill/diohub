@@ -45,7 +45,7 @@ class ChangedFilesListCard extends StatelessWidget {
               .textTheme
               .titleMedium!
               .copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-          children: [
+          children: <InlineSpan>[
             TextSpan(
               text: '${file.changes} Changes: ',
             ),
@@ -92,7 +92,7 @@ class ChangedFilesListCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8),
             child: getSubtitle(file),
           ),
-          children: [
+          children: <Widget>[
             Divider(
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
@@ -101,8 +101,8 @@ class ChangedFilesListCard extends StatelessWidget {
             ),
             InkWell(
               onTap: file.patch != null
-                  ? () {
-                      AutoRouter.of(context).push(
+                  ? () async {
+                      await AutoRouter.of(context).push(
                         ChangesViewer(
                           patch: file.patch,
                           contentURL: file.contentsUrl,
@@ -115,7 +115,7 @@ class ChangedFilesListCard extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Text(
                       'View Changes',
                       style: TextStyle(

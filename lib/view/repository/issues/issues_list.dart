@@ -10,6 +10,8 @@ import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
+import 'package:dio_hub/models/users/current_user_info_model.dart';
 import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
 import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
@@ -26,36 +28,37 @@ class IssuesList extends StatelessWidget {
   const IssuesList({super.key});
   @override
   Widget build(final BuildContext context) {
-    final repo = Provider.of<RepositoryProvider>(context);
-    final user = Provider.of<CurrentUserProvider>(context).data;
+    final RepositoryProvider repo = Provider.of<RepositoryProvider>(context);
+    final CurrentUserInfoModel user =
+        Provider.of<CurrentUserProvider>(context).data;
     return Stack(
-      children: [
+      children: <Widget>[
         SearchScrollWrapper(
           SearchData(
             searchFilters: SearchFilters.issuesPulls(
-              blacklist: [SearchQueryStrings.type],
+              blacklist: <String>[SearchQueryStrings.type],
             ),
-            defaultHiddenFilters: [
+            defaultHiddenFilters: <String>[
               SearchQueries().type.toQueryString('issue'),
               SearchQueries().repo.toQueryString(repo.data.fullName!),
             ],
           ),
-          quickFilters: {
+          quickFilters: <String, String>{
             SearchQueries().assignee.toQueryString(user.login!):
                 'Assigned to you',
             SearchQueries().author.toQueryString(user.login!): 'Your issues',
             SearchQueries().mentions.toQueryString(user.login!): 'Mentions you',
           },
-          quickOptions: {
+          quickOptions: <String, String>{
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
           showRepoNameOnIssues: false,
           searchBarMessage: "Search in ${repo.data.name}'s issues",
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          filterFn: (final data) {
-            final filteredData = <IssueModel>[];
-            for (final item in data) {
+          filterFn: (final List<dynamic> data) {
+            final List<IssueModel> filteredData = <IssueModel>[];
+            for (final IssueModel item in data) {
               if (item.pullRequest == null) {
                 filteredData.add(item);
               }
@@ -68,33 +71,43 @@ class IssuesList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
+            children: <Widget>[
               ProviderLoadingProgressWrapper<PinnedIssuesProvider>(
-                loadingBuilder: (final context) => Container(),
-                childBuilder: (final context, final value) {
+                loadingBuilder: (final BuildContext context) => Container(),
+                childBuilder: (
+                  final BuildContext context,
+                  final PinnedIssuesProvider value,
+                ) {
                   if (value.data.totalCount > 0) {
                     return SlideExpandedSection(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: FloatingActionButton.extended(
-                              onPressed: () {
-                                showScrollableBottomSheet(
+                              onPressed: () async {
+                                await showScrollableBottomSheet(
                                   context,
-                                  headerBuilder:
-                                      (final context, final setState) =>
-                                          const BottomSheetHeaderText(
+                                  headerBuilder: (
+                                    final BuildContext context,
+                                    final StateSetter setState,
+                                  ) =>
+                                      const BottomSheetHeaderText(
                                     headerText: 'Pinned Issues',
                                   ),
-                                  scrollableBodyBuilder: (final context,
-                                          final setState,
-                                          final scrollController,) =>
+                                  scrollableBodyBuilder: (
+                                    final BuildContext context,
+                                    final StateSetter setState,
+                                    final ScrollController scrollController,
+                                  ) =>
                                       ListView.separated(
                                     controller: scrollController,
                                     padding: const EdgeInsets.only(bottom: 8),
-                                    itemBuilder: (final context, final index) =>
+                                    itemBuilder: (
+                                      final BuildContext context,
+                                      final int index,
+                                    ) =>
                                         IssueLoadingCard(
                                       toRepoAPIResource(
                                         value.data.nodes![index]!.issue.url
@@ -103,9 +116,11 @@ class IssuesList extends StatelessWidget {
                                       backgroundColor:
                                           context.palette.secondary,
                                     ),
-                                    separatorBuilder:
-                                        (final context, final index) =>
-                                            const Divider(),
+                                    separatorBuilder: (
+                                      final BuildContext context,
+                                      final int index,
+                                    ) =>
+                                        const Divider(),
                                     itemCount: value.data.nodes!.length,
                                   ),
                                 );
@@ -124,23 +139,33 @@ class IssuesList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: ProviderLoadingProgressWrapper<IssueTemplateProvider>(
-                  loadingBuilder: (final context) => const FloatingActionButton(
+                  loadingBuilder: (final BuildContext context) =>
+                      const FloatingActionButton(
                     onPressed: null,
                     child: LoadingIndicator(),
                   ),
-                  childBuilder: (final context, final value) =>
+                  childBuilder: (
+                    final BuildContext context,
+                    final IssueTemplateProvider value,
+                  ) =>
                       FloatingActionButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (value.data.isNotEmpty) {
-                        showScrollableBottomSheet(
+                        await showScrollableBottomSheet(
                           context,
-                          headerBuilder: (final context, final setState) =>
+                          headerBuilder: (
+                            final BuildContext context,
+                            final StateSetter setState,
+                          ) =>
                               const BottomSheetHeaderText(
                             headerText: 'New Issue',
                           ),
-                          scrollableBodyBuilder: (final context, final setState,
-                                  final scrollController,) =>
-                              ListenableProvider.value(
+                          scrollableBodyBuilder: (
+                            final BuildContext context,
+                            final StateSetter setState,
+                            final ScrollController scrollController,
+                          ) =>
+                              ListenableProvider<RepositoryProvider>.value(
                             value: Provider.of<RepositoryProvider>(
                               context,
                               listen: false,
@@ -148,22 +173,29 @@ class IssuesList extends StatelessWidget {
                             child: ListView.separated(
                               controller: scrollController,
                               padding: const EdgeInsets.only(bottom: 8),
-                              itemBuilder: (final context, final index) {
+                              itemBuilder: (
+                                final BuildContext context,
+                                final int index,
+                              ) {
                                 if (value.data.length == index) {
                                   return const BlankIssueTemplate();
                                 } else {
                                   return IssueTemplateCard(value.data[index]);
                                 }
                               },
-                              separatorBuilder: (final context, final index) =>
+                              separatorBuilder: (
+                                final BuildContext context,
+                                final int index,
+                              ) =>
                                   const Divider(),
                               itemCount: value.data.length + 1,
                             ),
                           ),
                         );
                       } else {
-                        final repo = context.read<RepositoryProvider>().data;
-                        AutoRouter.of(context).push(
+                        final RepositoryModel repo =
+                            context.read<RepositoryProvider>().data;
+                        await AutoRouter.of(context).push(
                           NewIssueRoute(
                             owner: repo.owner!.login!,
                             repo: repo.name!,
@@ -195,9 +227,10 @@ class IssueTemplateCard extends StatelessWidget {
           color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
           shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
           child: InkWell(
-            onTap: () {
-              final repo = context.read<RepositoryProvider>().data;
-              AutoRouter.of(context).push(
+            onTap: () async {
+              final RepositoryModel repo =
+                  context.read<RepositoryProvider>().data;
+              await AutoRouter.of(context).push(
                 NewIssueRoute(
                   owner: repo.owner!.login!,
                   repo: repo.name!,
@@ -209,7 +242,7 @@ class IssueTemplateCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     template.name,
                     style: AppThemeTextStyles.eventCardChildTitle(context),

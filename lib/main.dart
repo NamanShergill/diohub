@@ -18,15 +18,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 Future<void> debugURLLauncher() async {
-  await Future.delayed(const Duration(seconds: 2));
+  await Future<void>.delayed(const Duration(seconds: 2));
   String? url;
   // https://github.com/flutter/flutter/issues/120732
   // https://github.com/flutter/flutter/issues/128696
   url = 'https://github.com/flutter/flutter/issues/120732';
   if (kDebugMode) {
-    deepLinkNavigate(
+    await deepLinkNavigate(
       Uri.parse(url ?? ''),
     );
   }
@@ -41,7 +42,7 @@ void main() async {
   // Connectivity check stream initialised.
   await InternetConnectivity.networkStatusService();
 
-  await Future.wait([
+  await Future.wait(<Future<void>>[
     BaseAPIHandler.setupDioAPICache(),
     setUpSharedPrefs(),
     setHighRefreshRate(),
@@ -49,7 +50,7 @@ void main() async {
 
   // final initLink = await initUniLink();
   uniLinkStream();
-  final auth = await AuthRepository().isAuthenticated;
+  final bool auth = await AuthRepository().isAuthenticated;
   runApp(
     MyApp(
       authenticated: auth,
@@ -66,35 +67,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => MultiBlocProvider(
-        providers: [
+        providers: <SingleChildWidget>[
           // Initialise Authentication Bloc and add event to check auth state.
-          BlocProvider(
+          BlocProvider<AuthenticationBloc>(
             create: (final _) =>
                 AuthenticationBloc(authenticated: authenticated),
             lazy: false,
           ),
         ],
         child: Builder(
-          builder: (final context) => MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
+          builder: (final BuildContext context) => MultiProvider(
+            providers: <SingleChildWidget>[
+              ChangeNotifierProvider<CurrentUserProvider>(
                 lazy: false,
                 create: (final _) => CurrentUserProvider(
                   authenticationBloc:
                       BlocProvider.of<AuthenticationBloc>(context),
                 ),
               ),
-              ChangeNotifierProvider(
+              ChangeNotifierProvider<SearchDataProvider>(
                 create: (final _) => SearchDataProvider(),
               ),
-              ChangeNotifierProvider(
+              ChangeNotifierProvider<FontSettings>(
                 create: (final _) => FontSettings(),
               ),
-              ChangeNotifierProvider(
+              ChangeNotifierProvider<PaletteSettings>(
                 create: (final _) => PaletteSettings(),
               ),
             ],
-            builder: (final context, final child) => const Portal(
+            builder: (final BuildContext context, final Widget? child) =>
+                const Portal(
               child: RootApp(),
             ),
           ),
@@ -122,7 +124,8 @@ class _RootAppState extends State<RootApp> {
         theme: _getTheme(context, brightness: Brightness.light),
         darkTheme: _getTheme(context, brightness: Brightness.dark),
         routerDelegate: customRouter.delegate(
-          deepLinkBuilder: (final deepLink) => DeepLink([
+          deepLinkBuilder: (final PlatformDeepLink deepLink) =>
+              DeepLink(<PageRouteInfo>[
             LandingLoadingRoute(
               initLink: deepLink.configuration.uri,
             ),
@@ -137,7 +140,8 @@ ThemeData _getTheme(
   final BuildContext context, {
   required final Brightness brightness,
 }) {
-  final palette = Provider.of<PaletteSettings>(context).currentSetting;
+  final DioHubPalette palette =
+      Provider.of<PaletteSettings>(context).currentSetting;
 
   return ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -149,7 +153,7 @@ ThemeData _getTheme(
       ),
     ),
     pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
+      builders: <TargetPlatform, PageTransitionsBuilder>{
         // TargetPlatform.android: CupertinoPageTransitionsBuilder(),
         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       },
@@ -250,10 +254,4 @@ ThemeData _getTheme(
         .copyWith(secondary: palette.accent)
         .copyWith(background: palette.primary),
   );
-}
-
-extension ThemeExtension on BuildContext {
-  ThemeData get themeData => Theme.of(this);
-
-  TextTheme get textTheme => themeData.textTheme;
 }

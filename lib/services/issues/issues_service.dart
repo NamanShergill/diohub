@@ -30,14 +30,14 @@ class IssuesService {
     required final String fullUrl,
     required final bool refresh,
   }) async {
-    final response = await _restHandler.get(
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       fullUrl,
       requestHeaders: _restHandler.acceptHeader(
         'application/vnd.github.VERSION.full+json',
       ),
       refreshCache: refresh,
     );
-    return IssueModel.fromJson(response.data);
+    return IssueModel.fromJson(response.data!);
   }
 
   static Future<IssuePullInfo$Query$Repository$IssueOrPullRequest>
@@ -47,7 +47,7 @@ class IssuesService {
     required final String repo,
     final bool refresh = false,
   }) async {
-    final response = await _gqlHandler.query(
+    final GQLResponse response = await _gqlHandler.query(
       IssuePullInfoQuery(
         variables:
             IssuePullInfoArguments(user: user, repo: repo, number: number),
@@ -62,7 +62,7 @@ class IssuesService {
   Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees({
     required final String? after,
   }) async {
-    final response = await _gqlHandler.query(
+    final GQLResponse response = await _gqlHandler.query(
       IssuePullAssigneesQuery(
         variables: IssuePullAssigneesArguments(
           number: number,
@@ -105,7 +105,7 @@ class IssuesService {
     final String reactableID,
     final ReactionContent content,
   ) async {
-    final res = await _gqlHandler.query(
+    final GQLResponse res = await _gqlHandler.query(
       GetReactorsQuery(
         variables: GetReactorsArguments(
           id: reactableID,
@@ -115,7 +115,10 @@ class IssuesService {
     return (GetReactors$Query.fromJson(res.data!).node!
             as GetReactors$Query$Node$Issue)
         .reactionGroups!
-        .firstWhere((final element) => element.content == content)
+        .firstWhere(
+          (final GetReactors$Query$Node$Issue$ReactionGroups element) =>
+              element.content == content,
+        )
         .reactors
         .edges!;
   }
@@ -125,11 +128,11 @@ class IssuesService {
     required final String fullUrl,
     required final bool refresh,
   }) async {
-    final response = await _restHandler.get(
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       fullUrl,
       refreshCache: refresh,
     );
-    return IssueCommentsModel.fromJson(response.data);
+    return IssueCommentsModel.fromJson(response.data!);
   }
 
   // // Ref: https://docs.github.com/en/rest/reference/issues#list-issue-comments
@@ -154,15 +157,17 @@ class IssuesService {
     required final bool refresh,
     final String? since,
   }) async {
-    final response = await _restHandler.get<List>(
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
       '$fullUrl/events',
-      queryParameters: {'since': since},
+      queryParameters: <String, dynamic>{'since': since},
       refreshCache: refresh,
     );
 
     // ignore: unnecessary_lambdas
     return response.data!
-        .map((final e) => IssueEventModel.fromJson(e))
+        // ignore: unnecessary_lambdas
+        .map((final dynamic e) => IssueEventModel.fromJson(e))
         .toList();
   }
 
@@ -174,9 +179,10 @@ class IssuesService {
     final bool? ascending = false,
     final String? sort,
   }) async {
-    final response = await _restHandler.get(
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
       '/issues',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': pageNumber,
         if (sort != null) 'sort': sort,
@@ -184,8 +190,13 @@ class IssuesService {
       },
       refreshCache: refresh,
     );
-    final unParsedData = response.data;
-    final parsedData = unParsedData.map(IssueModel.fromJson).toList();
+    final List<dynamic> unParsedData = response.data!;
+    final List<IssueModel> parsedData = unParsedData
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => IssueModel.fromJson(e),
+        )
+        .toList();
     return parsedData;
   }
 
@@ -198,9 +209,9 @@ class IssuesService {
     final String? sort,
     final bool? ascending = false,
   }) async {
-    final response = await _restHandler.get(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$repoURL/issues',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': pageNumber,
         if (sort != null) 'sort': sort,
@@ -208,8 +219,13 @@ class IssuesService {
       },
       refreshCache: refresh,
     );
-    final unParsedData = response.data;
-    final parsedData = unParsedData.map(IssueModel.fromJson).toList();
+    final DynamicList unParsedData = response.data!;
+    final List<IssueModel> parsedData = unParsedData
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => IssueModel.fromJson(e),
+        )
+        .toList();
     return parsedData;
   }
 
@@ -222,7 +238,7 @@ class IssuesService {
     final String? after,
     final DateTime? since,
   }) async {
-    final response = await _gqlHandler.query(
+    final GQLResponse response = await _gqlHandler.query(
       GetTimelineQuery(
         variables: GetTimelineArguments(
           after: after,
@@ -248,10 +264,10 @@ class IssuesService {
     final String login,
     final String repoURL,
   ) async {
-    final response = await _restHandler.get(
+    final Response<dynamic> response = await _restHandler.get<dynamic>(
       '$repoURL/assignees/$login',
       options: Options(
-        validateStatus: (final status) => status! < 500,
+        validateStatus: (final int? status) => status! < 500,
       ),
     );
     if (response.statusCode == 204) {
@@ -267,15 +283,20 @@ class IssuesService {
     final int page,
     final int perPage,
   ) async {
-    final response = await _restHandler.get(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$repoURL/assignees',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': page,
       },
     );
-    final data = response.data;
-    return data.map(UserInfoModel.fromJson).toList();
+    final DynamicList data = response.data!;
+    return data
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => UserInfoModel.fromJson(e),
+        )
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#add-assignees-to-an-issue
@@ -283,9 +304,11 @@ class IssuesService {
     final String? issueURL,
     final List<String?> users,
   ) async {
-    final response = await _restHandler
-        .post('$issueURL/assignees', data: {'assignees': users});
-    return IssueModel.fromJson(response.data);
+    final Response<TypeMap> response = await _restHandler.post<TypeMap>(
+      '$issueURL/assignees',
+      data: <String, List<String?>>{'assignees': users},
+    );
+    return IssueModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#remove-assignees-from-an-issue
@@ -293,16 +316,24 @@ class IssuesService {
     final String? issueURL,
     final List<String?> users,
   ) async {
-    final response = await _restHandler
-        .delete('$issueURL/assignees', data: {'assignees': users});
-    return IssueModel.fromJson(response.data);
+    final Response<TypeMap> response = await _restHandler.delete<TypeMap>(
+      '$issueURL/assignees',
+      data: <String, List<String?>>{'assignees': users},
+    );
+    return IssueModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-an-issue
   static Future<List<Label>> listLabels(final String issueURL) async {
-    final response = await _restHandler.get('$issueURL/labels');
-    final data = response.data;
-    return data.map(Label.fromJson).toList();
+    final Response<DynamicList> response =
+        await _restHandler.get<DynamicList>('$issueURL/labels');
+    final DynamicList data = response.data!;
+    return data
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => Label.fromJson(e),
+        )
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
@@ -311,15 +342,20 @@ class IssuesService {
     final int page,
     final int perPage,
   ) async {
-    final response = await _restHandler.get(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$repoURL/labels',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'per_page': perPage,
         'page': page,
       },
     );
-    final data = response.data;
-    return data.map(Label.fromJson).toList();
+    final DynamicList data = response.data!;
+    return data
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => Label.fromJson(e),
+        )
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#set-labels-for-an-issue
@@ -327,24 +363,31 @@ class IssuesService {
     final String? issueURL,
     final List<String?>? labels,
   ) async {
-    final response =
-        await _restHandler.put('$issueURL/labels', data: {'labels': labels});
-    final data = response.data;
-    return data.map(Label.fromJson).toList();
+    final Response<DynamicList> response = await _restHandler.put<DynamicList>(
+      '$issueURL/labels',
+      data: <String, List<String?>?>{'labels': labels},
+    );
+    final DynamicList data = response.data!;
+    return data
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => Label.fromJson(e),
+        )
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#update-an-issue
   static Future<IssueModel> updateIssue(
     final String issueURL,
-    final Map data,
+    final TypeMap data,
   ) async {
-    final response = await _restHandler.patch(
+    final Response<TypeMap> response = await _restHandler.patch<TypeMap>(
       issueURL,
       data: data,
       requestHeaders:
           _restHandler.acceptHeader('application/vnd.github.VERSION.full+json'),
     );
-    return IssueModel.fromJson(response.data);
+    return IssueModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#create-an-issue-comment
@@ -352,8 +395,9 @@ class IssuesService {
     final String issueURL,
     final String body,
   ) async {
-    final response =
-        await _restHandler.post('$issueURL/comments', data: {'body': body});
+    final Response<dynamic> response = await _restHandler.post<dynamic>(
+        '$issueURL/comments',
+        data: <String, String>{'body': body});
     if (response.statusCode == 201) {
       return true;
     }
@@ -370,10 +414,10 @@ class IssuesService {
     required final String owner,
     required final String repo,
   }) async {
-    final res = await _restHandler.post(
+    final Response<TypeMap> res = await _restHandler.post<TypeMap>(
       '/repos/$owner/$repo/issues',
-      data: {'title': title, if (body.isNotEmpty) 'body': body},
+      data: <String, String>{'title': title, if (body.isNotEmpty) 'body': body},
     );
-    return IssueModel.fromJson(res.data);
+    return IssueModel.fromJson(res.data!);
   }
 }

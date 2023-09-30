@@ -41,7 +41,7 @@ class CommitBrowserState extends State<CommitBrowser> {
     path = widget.path!.split('/');
     isLocked = widget.isLocked;
     if (path.first.isEmpty || isLocked!) {
-      path = [];
+      path = <String>[];
     }
     super.initState();
   }
@@ -51,7 +51,7 @@ class CommitBrowserState extends State<CommitBrowser> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Visibility(
               visible: isLocked!,
               child: Button(
@@ -68,7 +68,7 @@ class CommitBrowserState extends State<CommitBrowser> {
               visible: path.isNotEmpty,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   const Text(
                     ' Showing history for',
                     style: TextStyle(),
@@ -80,16 +80,19 @@ class CommitBrowserState extends State<CommitBrowser> {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: path.length + 1,
-                      separatorBuilder: (final context, final index) =>
-                          const Center(child: Text(' /')),
-                      itemBuilder: (final context, final index) => Material(
+                      separatorBuilder:
+                          (final BuildContext context, final int index) =>
+                              const Center(child: Text(' /')),
+                      itemBuilder:
+                          (final BuildContext context, final int index) =>
+                              Material(
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius: smallBorderRadius,
                           onTap: () {
                             setState(() {
                               if (index == 0) {
-                                path = [];
+                                path = <String>[];
                               } else {
                                 path = path.sublist(0, index);
                               }
@@ -128,7 +131,15 @@ class CommitBrowserState extends State<CommitBrowser> {
                 controller: controller,
                 shrinkWrap: true,
                 scrollController: widget.controller,
-                future: (final data) => RepositoryServices.getCommitsList(
+                future: (
+                  final ({
+                    CommitListModel? lastItem,
+                    int pageNumber,
+                    int pageSize,
+                    bool refresh
+                  }) data,
+                ) async =>
+                    RepositoryServices.getCommitsList(
                   repoURL: widget.repoURL!,
                   pageNumber: data.pageNumber,
                   pageSize: data.pageSize,
@@ -137,14 +148,23 @@ class CommitBrowserState extends State<CommitBrowser> {
                   refresh: data.refresh,
                 ),
                 topSpacing: 16,
-                separatorBuilder: (final context, final index) =>
-                    const SizedBox(
+                separatorBuilder:
+                    (final BuildContext context, final int index) =>
+                        const SizedBox(
                   height: 16,
                 ),
-                builder: (final data) => CommitTilesREST(
+                builder: (
+                  final ({
+                    BuildContext context,
+                    int index,
+                    CommitListModel item,
+                    bool refresh
+                  }) data,
+                ) =>
+                    CommitTilesREST(
                   highlighted: isLocked! && widget.currentSHA == data.item.sha,
                   item: data.item,
-                  onSelected: (final value) {
+                  onSelected: (final String value) {
                     widget.onSelected!(value);
                     Navigator.pop(context);
                   },

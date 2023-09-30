@@ -17,7 +17,7 @@ class IssueLabel extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: smallBorderRadius,

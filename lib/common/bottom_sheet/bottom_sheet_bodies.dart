@@ -12,11 +12,11 @@ class BottomSheetBodyList extends StatelessWidget {
   Widget build(final BuildContext context) => ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (final context, final index) => Padding(
+        itemBuilder: (final BuildContext context, final int index) => Padding(
           padding: itemPadding,
           child: children[index],
         ),
-        separatorBuilder: (final context, final index) => const Divider(
+        separatorBuilder: (final BuildContext context, final int index) => const Divider(
           height: 0,
         ),
         itemCount: children.length,

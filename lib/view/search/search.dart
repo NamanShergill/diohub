@@ -28,13 +28,13 @@ class SearchScreenState extends State<SearchScreen>
   @override
   Widget build(final BuildContext context) {
     super.build(context);
-    final search = Provider.of<SearchDataProvider>(context);
-    return Container(
+    final SearchDataProvider search = Provider.of<SearchDataProvider>(context);
+    return ColoredBox(
       color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
       child: search.searchData.searchFilters != null
           ? SearchScrollWrapper(
               search.searchData,
-              key: ValueKey(search.searchData.toQuery),
+              key: ValueKey<String>(search.searchData.toQuery),
               onChanged: search.updateSearchData,
               // searchBarColor: Provider.of<PaletteSettings>(context).currentSetting.onBackground,
               searchHeroTag: 'searchScreen',
@@ -43,7 +43,7 @@ class SearchScreenState extends State<SearchScreen>
           : SizeExpandedSection(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(24),
                     child: Text(
@@ -75,7 +75,7 @@ class SearchScreenState extends State<SearchScreen>
                             .currentSetting
                             .primary,
                         child: APIWrapper<List<RepositoryModel>>(
-                          apiCall: ({required final refresh}) =>
+                          apiCall: ({required final bool refresh}) async =>
                               SearchService.searchRepos(
                             SearchQueries().pushed.toQueryString(
                                   '>${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))}',
@@ -83,25 +83,32 @@ class SearchScreenState extends State<SearchScreen>
                             page: 1,
                             perPage: 25,
                           ),
-                          loadingBuilder: (final context) => const Padding(
+                          loadingBuilder: (final BuildContext context) =>
+                              const Padding(
                             padding: EdgeInsets.all(48),
                             child: LoadingIndicator(),
                           ),
-                          responseBuilder: (final context, final data) =>
+                          responseBuilder: (
+                            final BuildContext context,
+                            final List<RepositoryModel> data,
+                          ) =>
                               SizeExpandedSection(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: ListView.separated(
                                 shrinkWrap: true,
-                                itemBuilder: (final context, final index) =>
+                                itemBuilder: (
+                                  final BuildContext context,
+                                  final int index,
+                                ) =>
                                     Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: <Widget>[
                                     if (index == 0)
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: [
+                                        children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
                                               top: 16,
@@ -135,9 +142,11 @@ class SearchScreenState extends State<SearchScreen>
                                     ),
                                   ],
                                 ),
-                                separatorBuilder:
-                                    (final context, final index) =>
-                                        const Divider(),
+                                separatorBuilder: (
+                                  final BuildContext context,
+                                  final int index,
+                                ) =>
+                                    const Divider(),
                                 itemCount: data.length,
                               ),
                             ),

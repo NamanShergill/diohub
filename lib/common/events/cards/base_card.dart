@@ -30,16 +30,16 @@ class BaseEventCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const SizedBox(
             height: 8,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               Flexible(
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     ProfileTile.avatar(
                       avatarUrl: avatarUrl,
                       userLogin: userLogin,
@@ -55,7 +55,7 @@ class BaseEventCard extends StatelessWidget {
                               .textTheme
                               .bodyMedium!
                               .copyWith(fontSize: 15, letterSpacing: 0),
-                          children: [
+                          children: <TextSpan>[
                                 TextSpan(
                                   text: actor,
                                   style: AppThemeTextStyles.eventCardHeaderMed(

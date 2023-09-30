@@ -92,7 +92,7 @@ class SizeSwitch extends StatelessWidget {
   Widget build(final BuildContext context) => AnimatedSwitcher(
         duration: duration ?? defaultAnimDuration,
         child: visible ? child : replacement ?? Container(),
-        transitionBuilder: (final child, final animation) => SizeTransition(
+        transitionBuilder: (final Widget child, final Animation<double> animation) => SizeTransition(
           sizeFactor: animation,
           child: child,
         ),

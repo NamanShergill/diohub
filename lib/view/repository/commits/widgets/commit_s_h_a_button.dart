@@ -17,13 +17,14 @@ class CommitSHAButton extends StatelessWidget {
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         child: InkWell(
           borderRadius: medBorderRadius,
-          onTap: () {
-            AutoRouter.of(context).push(CommitInfoRoute(commitURL: commitURL!));
+          onTap: () async {
+            await AutoRouter.of(context)
+                .push(CommitInfoRoute(commitURL: commitURL!));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
-              children: [
+              children: <Widget>[
                 const Icon(
                   Octicons.git_commit,
                   size: 16,

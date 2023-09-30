@@ -4,7 +4,7 @@ import 'package:markdown/markdown.dart';
 String mdToHtml(final String data, {final String? repo}) => markdownToHtml(
       data,
       extensionSet: ExtensionSet.gitHubWeb,
-      inlineSyntaxes: [
+      inlineSyntaxes: <InlineSyntax>[
         TeamMentionSyntax(),
         MentionSyntax(),
         if (repo != null) IssuesPullsNumberSyntax(repo),

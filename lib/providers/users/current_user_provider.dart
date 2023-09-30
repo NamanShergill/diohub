@@ -9,11 +9,12 @@ import 'package:dio_hub/services/users/user_info_service.dart';
 class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   CurrentUserProvider({required this.authenticationBloc})
       : super(loadDataOnInit: authenticationBloc.state.authenticated) {
-    authenticationBloc.stream.listen((final authState) {
+    authenticationBloc.stream
+        .listen((final AuthenticationState authState) async {
       // Fetch user details if authentication is successful.
       if (authState is AuthenticationSuccessful) {
         // Start the recursive function.
-        loadData();
+        await loadData();
       } else if (authState is AuthenticationUnauthenticated) {
         // Reset provider if the user is unauthenticated.
         if (status != Status.initialized) {
@@ -36,7 +37,8 @@ class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   }
 
   @override
-  Future<CurrentUserInfoModel> setInitData(
-          {final bool isInitialisation = false,}) =>
+  Future<CurrentUserInfoModel> setInitData({
+    final bool isInitialisation = false,
+  }) =>
       UserInfoService.getCurrentUserInfo();
 }

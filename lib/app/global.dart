@@ -20,7 +20,7 @@ Logger get log => _log;
 late SharedPreferences _sharedPrefs;
 SharedPreferences get sharedPrefs => _sharedPrefs;
 
-Future setUpSharedPrefs() async {
+Future<void> setUpSharedPrefs() async {
   _sharedPrefs = await SharedPreferences.getInstance();
   // // Workaround for https://github.com/mogol/flutter_secure_storage/issues/210
   // if (sharedPrefs.getBool('first_run') ?? true) {

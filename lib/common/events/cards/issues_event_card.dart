@@ -16,7 +16,7 @@ class IssuesEventCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => BaseEventCard(
         actor: event.actor!.login,
-        headerText: [
+        headerText: <TextSpan>[
           TextSpan(text: ' ${event.payload!.action} $trailingHeaderText '),
           TextSpan(
             text: event.repo!.name,

@@ -48,43 +48,24 @@ class LoadingIndicatorState extends State<LoadingIndicator>
   }
 
   @override
-  Widget build(final BuildContext context) {
-    // return Center(
-    //   child: SizedBox(
-    //     height: widget.size,
-    //     width: widget.size,
-    //     child: ShimmerWidget(
-    //       baseColor: faded3(context),
-    //       highlightColor: elementsOnColors(context),
-    //       child: Image.asset(
-    //         'assets/loading.png',
-    //         color: widget.color ??
-    //             Provider.of<PaletteSettings>(context)
-    //                 .currentSetting
-    //                 .baseElements,
-    //       ),
-    //     ),
-    //   ),
-    // );
-    return Center(
-      child: Transform(
-        transform: Matrix4.identity()..rotateZ((_animation.value) * math.pi),
-        alignment: FractionalOffset.center,
-        child: SizedBox(
-          height: widget.size,
-          width: widget.size,
-          child: Image.asset(
-            'assets/loading.png',
-            color: widget.color ??
-                Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .baseElements,
-            // .withOpacity(0.8),
+  Widget build(final BuildContext context) => Center(
+        child: Transform(
+          transform: Matrix4.identity()..rotateZ((_animation.value) * math.pi),
+          alignment: FractionalOffset.center,
+          child: SizedBox(
+            height: widget.size,
+            width: widget.size,
+            child: Image.asset(
+              'assets/loading.png',
+              color: widget.color ??
+                  Provider.of<PaletteSettings>(context)
+                      .currentSetting
+                      .baseElements,
+              // .withOpacity(0.8),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 // import 'package:flutter/material.dart';

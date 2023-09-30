@@ -17,16 +17,17 @@ class Events extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final user = Provider.of<CurrentUserProvider>(context);
+    final CurrentUserProvider user = Provider.of<CurrentUserProvider>(context);
     return InfiniteScrollWrapper<EventsModel>(
       topSpacing: 24,
-      separatorBuilder: (final context, final index) => const Divider(
+      separatorBuilder: (final BuildContext context, final int index) =>
+          const Divider(
         height: 32,
       ),
-      filterFn: (final items) {
-        final temp = <EventsModel>[];
-        for (final item in items) {
-          if ({
+      filterFn: (final List<EventsModel> items) {
+        final List<EventsModel> temp = <EventsModel>[];
+        for (final EventsModel item in items) {
+          if (<EventsType>{
             // EventsType.CommitCommentEvent,
             EventsType.CreateEvent,
             EventsType.DeleteEvent,
@@ -49,7 +50,14 @@ class Events extends StatelessWidget {
 
         return temp;
       },
-      future: (final data) {
+      future: (
+        final ({
+          EventsModel? lastItem,
+          int pageNumber,
+          int pageSize,
+          bool refresh
+        }) data,
+      ) async {
         if (specificUser != null) {
           return EventsService.getUserEvents(
             specificUser,
@@ -72,12 +80,19 @@ class Events extends StatelessWidget {
           );
         }
       },
-      builder: (final data) {
-        final item = data.item;
+      builder: (
+        final ({
+          BuildContext context,
+          int index,
+          EventsModel item,
+          bool refresh
+        }) data,
+      ) {
+        final EventsModel item = data.item;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Builder(
-            builder: (final context) {
+            builder: (final BuildContext context) {
               if (item.type == EventsType.PushEvent) {
                 return PushEventCard(item, item.payload!);
               } else if (item.type == EventsType.WatchEvent) {
@@ -145,7 +160,8 @@ class Events extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                      'Unimplemented: ${eventsValues.reverse![item.type]}',),
+                    'Unimplemented: ${eventsValues.reverse![item.type]}',
+                  ),
                 ),
               );
             },

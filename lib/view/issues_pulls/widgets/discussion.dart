@@ -59,17 +59,17 @@ class DiscussionState extends State<Discussion> {
     super.initState();
   }
 
-  void openCommentSheet() {
-    showCommentSheet(
+  Future<void> openCommentSheet() async {
+    await showCommentSheet(
       context,
       onSubmit: () async {
-        print(widget.issueUrl);
-        print('asdjknksjd');
         await IssuesService.addComment(
           widget.issueUrl.toString(),
           context.read<CommentProvider>().data,
         );
-        context.read<CommentProvider>().clearData();
+        if (context.mounted) {
+          context.read<CommentProvider>().clearData();
+        }
         setState(() {
           commentsSince = DateTime.now();
           commentsSinceController.refresh();
@@ -77,7 +77,7 @@ class DiscussionState extends State<Discussion> {
         return;
       },
       initialData: context.read<CommentProvider>().data,
-      onChanged: (final value) {
+      onChanged: (final String value) {
         Provider.of<CommentProvider>(context, listen: false).updateData(value);
       },
       owner: widget.owner,
@@ -91,7 +91,7 @@ class DiscussionState extends State<Discussion> {
 
     final Widget header = commentsSince != null
         ? Column(
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Button(
@@ -106,7 +106,7 @@ class DiscussionState extends State<Discussion> {
                     commentsSinceController.refresh();
                   },
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       Text(
                         'Showing timeline since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
                         textAlign: TextAlign.center,
@@ -136,7 +136,7 @@ class DiscussionState extends State<Discussion> {
             ],
           )
         : Column(
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Button(
@@ -167,7 +167,7 @@ class DiscussionState extends State<Discussion> {
                             .primary,
                       ),
                       maxTime: DateTime.now(),
-                      onConfirm: (final date) {
+                      onConfirm: (final DateTime date) {
                         setState(() {
                           commentsSince = date;
                         });
@@ -192,9 +192,9 @@ class DiscussionState extends State<Discussion> {
             ],
           );
     return Stack(
-      children: [
+      children: <Widget>[
         Row(
-          children: [
+          children: <Widget>[
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.1,
             ),
@@ -213,10 +213,16 @@ class DiscussionState extends State<Discussion> {
           ],
         ),
         Column(
-          children: [
+          children: <Widget>[
             Expanded(
               child: InfiniteScrollWrapper<dynamic>(
-                future: (final data) async => IssuesService.getTimeline(
+                future: (final ({
+                          dynamic lastItem,
+                          int pageNumber,
+                          int pageSize,
+                          bool refresh
+                        }) data,) async =>
+                    IssuesService.getTimeline(
                   repo: widget.repoName,
                   after: data.lastItem?.cursor,
                   number: widget.number,
@@ -228,124 +234,32 @@ class DiscussionState extends State<Discussion> {
                 ),
                 // scrollController: widget.nestedScrollViewController,
                 controller: commentsSinceController,
-                firstPageLoadingBuilder: (final context) => Container(
+                firstPageLoadingBuilder: (final BuildContext context) =>
+                    ColoredBox(
                   color: Provider.of<PaletteSettings>(context)
                       .currentSetting
                       .primary,
                   child: const LoadingIndicator(),
                 ),
                 // scrollController: widget.nestedScrollViewController,
-                header: (final context) => header,
+                header: (final BuildContext context) => header,
                 topSpacing: 8,
-                separatorBuilder: (final context, final index) =>
-                    const SizedBox(
+                separatorBuilder:
+                    (final BuildContext context, final int index) =>
+                        const SizedBox(
                   height: 8,
                 ),
-                builder: (final data) {
-                  return GetTimelineItem(
-                    data.item.node,
-                    pullNodeID: widget.pullNodeID,
-                    onQuote: openCommentSheet,
-                  );
-                  // return Builder(
-                  //   builder: (context) {
-                  //     final item = node;
-                  //     if (item is IssueCommentMixin) {
-                  //       return paddingWrap(child: BaseComment(item));
-                  //     } else if (item.event == Event.closed) {
-                  //       return paddingWrap(
-                  //           child: BasicEventTextCard(
-                  //         user: item.actor,
-                  //         leading: Octicons.issue_closed,
-                  //         iconColor: Provider.of<PaletteSettings>(context).currentSetting.red,
-                  //         date: item.createdAt.toString(),
-                  //         textContent: 'Closed this.',
-                  //       ));
-                  //     } else if (item.event == Event.renamed) {
-                  //       return paddingWrap(
-                  //           child: BasicEventTextCard(
-                  //         user: item.actor,
-                  //         leading: Octicons.pencil,
-                  //         date: item.createdAt.toString(),
-                  //         content: RichText(
-                  //           text: TextSpan(
-                  //               style: Theme.of(context)
-                  //                   .textTheme
-                  //                   .titleMedium!
-                  //                   .merge(AppThemeTextStyles
-                  //                       .basicIssueEventCardText),
-                  //               children: [
-                  //                 const TextSpan(text: 'Renamed this.\n'),
-                  //                 TextSpan(
-                  //                     text: '${item.rename!.from}\n',
-                  //                     style: const TextStyle(
-                  //                         decoration: TextDecoration
-                  //                             .lineThrough)),
-                  //                 TextSpan(text: item.rename!.to),
-                  //               ]),
-                  //         ),
-                  //       ));
-                  //     } else if (item.event == Event.pinned) {
-                  //       return paddingWrap(
-                  //           child: BasicEventTextCard(
-                  //         user: item.actor,
-                  //         leading: LineIcons.thumbtack,
-                  //         date: item.createdAt.toString(),
-                  //         textContent: 'Pinned this.',
-                  //       ));
-                  //     } else if (item.event == Event.reopened) {
-                  //       return paddingWrap(
-                  //           child: BasicEventTextCard(
-                  //         user: item.actor,
-                  //         leading: Octicons.issue_reopened,
-                  //         iconColor: Provider.of<PaletteSettings>(context).currentSetting.green,
-                  //         date: item.createdAt.toString(),
-                  //         textContent: 'Reopened this.',
-                  //       ));
-                  //     } else if (item.event == Event.assigned ||
-                  //         item.event == Event.unassigned) {
-                  //       return paddingWrap(
-                  //           child: BasicEventAssignedCard(
-                  //         user: item.actor,
-                  //         leading: LineIcons.user,
-                  //         isAssigned: item.event == Event.assigned,
-                  //         date: item.createdAt.toString(),
-                  //         content: item.assignee,
-                  //       ));
-                  //     } else if (item.event == Event.cross_referenced) {
-                  //       return paddingWrap(
-                  //           child: BasicIssueCrossReferencedCard(
-                  //         user: item.actor,
-                  //         leading: LineIcons.alternateComment,
-                  //         date: item.createdAt.toString(),
-                  //         content: item.source,
-                  //       ));
-                  //     } else if (item.event == Event.labeled ||
-                  //         item.event == Event.unlabeled) {
-                  //       return paddingWrap(
-                  //           child: BasicEventLabeledCard(
-                  //         user: item.actor,
-                  //         leading: LineIcons.alternateComment,
-                  //         date: item.createdAt.toString(),
-                  //         content: item.label,
-                  //         added: item.event == Event.labeled,
-                  //       ));
-                  //     } else if (item.event == Event.committed) {
-                  //       return paddingWrap(
-                  //           child: BasicEventCommitCard(
-                  //         user: item.author,
-                  //         leading: LineIcons.alternateComment,
-                  //         date: item.author!.date.toString(),
-                  //         message: item.message,
-                  //         sha: item.sha,
-                  //         // Don't need a direct reference to the git database.
-                  //         commitURL: item.url!.split('/git').join(''),
-                  //       ));
-                  //     }
-                  //     return Text(eventValues.reverse![item.event!]!);
-                  //   },
-                  // );
-                },
+                builder: (final ({
+                          BuildContext context,
+                          int index,
+                          dynamic item,
+                          bool refresh
+                        }) data,) =>
+                    GetTimelineItem(
+                  data.item.node,
+                  pullNodeID: widget.pullNodeID,
+                  onQuote: openCommentSheet,
+                ),
               ),
             ),
             _CommentButton(
@@ -369,7 +283,8 @@ class _CommentButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+    final DioHubPalette theme =
+        Provider.of<PaletteSettings>(context).currentSetting;
 
     return Material(
       elevation: 2,
@@ -382,7 +297,7 @@ class _CommentButton extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Text(
                 'Add a comment',
                 style: TextStyle(

@@ -12,7 +12,7 @@ class SuccessPopup extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 'Successful.',
                 style: Theme.of(context)

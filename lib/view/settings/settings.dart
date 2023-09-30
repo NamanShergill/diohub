@@ -34,114 +34,54 @@ class SettingsScreenState extends State<SettingsScreen>
   }
 
   @override
-  Widget build(final BuildContext context) {
-    return AppScrollView(
-      scrollViewAppBar: ScrollViewAppBar(
-        expandedHeight: 180,
-        collapsedHeight: 60,
-        appBarWidget: AppInfoWidget(
-          axis: Axis.horizontal,
-          logoSize: 30,
-          nameSize: Theme.of(context).textTheme.titleLarge!.fontSize!,
-        ),
-        flexibleBackgroundWidget: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppInfoWidget(
-              axis: Axis.horizontal,
-              logoSize: 45,
-              nameSize: 30,
-            ),
-            VersionInfoWidget(),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8),
-            //   child: Text(
-            //     'App Settings',
-            //     style: Theme.of(context).textTheme.headlineSmall,
-            //   ),
-            // ),
-            // Row(
-            //   children: const [
-            //     VersionInfoWidget(),
-            //   ],
-            // ),
+  Widget build(final BuildContext context) => AppScrollView(
+        scrollViewAppBar: ScrollViewAppBar(
+          expandedHeight: 180,
+          collapsedHeight: 60,
+          appBarWidget: AppInfoWidget(
+            axis: Axis.horizontal,
+            logoSize: 30,
+            nameSize: Theme.of(context).textTheme.titleLarge!.fontSize!,
+          ),
+          flexibleBackgroundWidget: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AppInfoWidget(
+                axis: Axis.horizontal,
+                logoSize: 45,
+                nameSize: 30,
+              ),
+              VersionInfoWidget(),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: Text(
+              //     'App Settings',
+              //     style: Theme.of(context).textTheme.headlineSmall,
+              //   ),
+              // ),
+              // Row(
+              //   children: const [
+              //     VersionInfoWidget(),
+              //   ],
+              // ),
+            ],
+          ),
+          bottomPadding: 60,
+          tabController: controller,
+          tabs: const <String>[
+            'General',
+            'About',
           ],
         ),
-        bottomPadding: 60,
         tabController: controller,
-        tabs: const [
-          'General',
-          'About',
+        childrenColor:
+            Provider.of<PaletteSettings>(context).currentSetting.primary,
+        tabViews: const <Widget>[
+          _GeneralSettings(),
+          _About(),
         ],
-      ),
-      tabController: controller,
-      childrenColor:
-          Provider.of<PaletteSettings>(context).currentSetting.primary,
-      tabViews: const [
-        _GeneralSettings(),
-        _About(),
-      ],
-    );
-//     return NestedScrollView(
-//       controller: scrollController,
-//       headerSliverBuilder: (context, _) {
-//         return [
-//           SliverOverlapAbsorber(
-//             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-//             sliver: SliverSafeArea(
-//               sliver: SliverAppBar(
-//                 expandedHeight: 120,
-//                 collapsedHeight: 100,
-//                 pinned: true,
-//                 elevation: 2,
-//                 backgroundColor: Provider.of<PaletteSettings>(context).currentSetting.background,
-//                 flexibleSpace: GestureDetector(
-//                   child: const CollapsibleAppBar(
-//                     minHeight: 100,
-//                     maxHeight: 120,
-//                     expandedParentPadding: 0,
-//                     title: 'App Settings',
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ];
-//       },
-//       body: Builder(
-//         builder: (context) {
-//           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-//           return DefaultTabController(
-//             length: 2,
-//             initialIndex: 0,
-//             child: Column(
-//               // crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 const Padding(
-//                   padding: EdgeInsets.symmetric(horizontal: 16),
-//                   child: AppTabBar(tabs: [
-//                     AppTab(
-//                       title: 'General',
-//                     ),
-//                     AppTab(
-//                       title: 'About',
-//                     ),
-//                   ]),
-//                 ),
-//                 Expanded(
-//                   child: TabBarView(children: [
-// ,
-//                     Container(),
-//                   ]),
-//                 ),
-//               ],
-//             ),
-//           );
-//         },
-//       ),
-//     );
-  }
+      );
 }
 
 class _GeneralSettings extends StatelessWidget {
@@ -150,7 +90,7 @@ class _GeneralSettings extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => SingleChildScrollView(
         child: Column(
-          children: [
+          children: <Widget>[
             const SizedBox(
               height: 8,
             ),
@@ -163,15 +103,15 @@ class _GeneralSettings extends StatelessWidget {
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .secondary,
-                onTap: () {
-                  showDialog(
+                onTap: () async {
+                  await showDialog(
                     context: context,
-                    builder: (final context) => AlertDialog(
+                    builder: (final BuildContext context) => AlertDialog(
                       title: Text(
                         'Log Out?',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      actions: [
+                      actions: <Widget>[
                         MaterialButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -216,7 +156,7 @@ class _About extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => SingleChildScrollView(
         child: Column(
-          children: [
+          children: <Widget>[
             InfoCard(
               mode: InfoCardMode.expanded,
               title: 'Repository',
@@ -238,7 +178,7 @@ class _About extends StatelessWidget {
               mode: InfoCardMode.expanded,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   const Padding(
                     padding: EdgeInsets.all(8),
                     child: Text('Let me know at'),
@@ -253,8 +193,8 @@ class _About extends StatelessWidget {
                     elevation: 2,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        linkHandler(
+                      onTap: () async {
+                        await linkHandler(
                           context,
                           'https://github.com/NamanShergill/diohub/issues',
                         );
@@ -263,7 +203,7 @@ class _About extends StatelessWidget {
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Flexible(
                               child: Text(
                                 'https://github.com/NamanShergill/diohub/issues',
@@ -288,17 +228,19 @@ class _About extends StatelessWidget {
                 color: Provider.of<PaletteSettings>(context)
                     .currentSetting
                     .secondary,
-                onTap: () {
-                  PackageInfo.fromPlatform().then((final value) {
+                onTap: () async {
+                  final PackageInfo packageInfo =
+                      await PackageInfo.fromPlatform();
+                  if (context.mounted) {
                     showLicensePage(
                       context: context,
                       applicationIcon: const AppLogoWidget(
                         size: 50,
                       ),
                       applicationName: 'DioHub',
-                      applicationVersion: value.version,
+                      applicationVersion: packageInfo.version,
                     );
-                  });
+                  }
                   // AutoRouter.of(context).push(const DependenciesScreenRoute());
                 },
                 title: 'Licenses',

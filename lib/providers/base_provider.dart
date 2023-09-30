@@ -6,7 +6,7 @@ abstract class BaseDataProvider<T> extends BaseProvider {
   BaseDataProvider({final Status? status, final bool loadDataOnInit = true})
       : super(status) {
     if (loadDataOnInit) {
-      loadData();
+      unawaited(loadData());
     }
   }
 
@@ -32,7 +32,7 @@ abstract class BaseProvider extends ChangeNotifier {
   BaseProvider([final Status? status])
       : _status = status ?? Status.initialized {
     // Update provider status based on the data sent to the stream.
-    statusStream.listen((final event) {
+    statusStream.listen((final Status event) {
       _status = event;
       notifyListeners();
     });
@@ -50,8 +50,8 @@ abstract class BaseProvider extends ChangeNotifier {
   Stream<Status> get statusStream => _statusController.stream;
 
   /// Dispose the stream.
-  void disposeStreams() {
-    _statusController.close();
+  Future<void> disposeStreams() async {
+    await _statusController.close();
   }
 
   // Set provider status to [Status.error] with a custom message.

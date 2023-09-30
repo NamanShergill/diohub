@@ -14,9 +14,9 @@ class RepoReadmeProvider
   Future<RepositoryReadmeModel?> setInitData({
     final bool isInitialisation = false,
   }) async {
-    final branch = parentProvider.currentSHA;
+    final String branch = parentProvider.currentSHA;
     RepositoryReadmeModel? readmeModel;
-    final readme =
+    final RepositoryReadmeModel readme =
         await RepositoryServices.fetchReadme(repoURL, branch: branch);
     if (parentProvider.currentSHA == branch) {
       readmeModel = readme;

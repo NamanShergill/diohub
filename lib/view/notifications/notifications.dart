@@ -7,6 +7,7 @@ import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
 import 'package:dio_hub/services/activity/notifications_service.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 import 'package:dio_hub/view/notifications/widgets/filter_sheet.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/issue_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/pull_request_notification_card.dart';
@@ -23,10 +24,12 @@ class NotificationsScreen extends StatefulWidget {
 class NotificationsScreenState extends State<NotificationsScreen>
     with AutomaticKeepAliveClientMixin {
   /// Filters to be supplied to the API.
-  Map<String, dynamic> apiFilters = {'all': true};
+  Map<String, dynamic> apiFilters = <String, dynamic>{'all': true};
 
   /// Filters to be applied client side.
-  Map<String, dynamic> clientFilters = {'show_only': []};
+  Map<String, dynamic> clientFilters = <String, dynamic>{
+    'show_only': <dynamic>[],
+  };
 
   /// Is the action button pane expanded.
   bool expanded = false;
@@ -48,23 +51,28 @@ class NotificationsScreenState extends State<NotificationsScreen>
   }
 
   /// Show bottom sheet to apply filters.
-  void showFilterSheet() {
-    showScrollableBottomSheet(
+  Future<void> showFilterSheet() async {
+    await showScrollableBottomSheet(
       context,
-      scrollableBodyBuilder:
-          (final context, final setState, final scrollController) =>
-              FilterSheet(
+      scrollableBodyBuilder: (
+        final BuildContext context,
+        final StateSetter setState,
+        final ScrollController scrollController,
+      ) =>
+          FilterSheet(
         apiFilters: apiFilters,
         controller: scrollController,
         clientFilters: clientFilters,
-        onFiltersChanged:
-            (final updatedAPIFilters, final updatedClientFilters) {
-          apiFilters = updatedAPIFilters as Map<String, dynamic>;
-          clientFilters = updatedClientFilters as Map<String, dynamic>;
+        onFiltersChanged: (
+          final TypeMap updatedAPIFilters,
+          final TypeMap updatedClientFilters,
+        ) {
+          apiFilters = updatedAPIFilters;
+          clientFilters = updatedClientFilters;
           _controller.refresh();
         },
       ),
-      headerBuilder: (final context, final setState) =>
+      headerBuilder: (final BuildContext context, final StateSetter setState) =>
           const BottomSheetHeaderText(
         headerText: 'Filter Notifications',
       ),
@@ -78,7 +86,11 @@ class NotificationsScreenState extends State<NotificationsScreen>
   Widget build(final BuildContext context) {
     super.build(context);
     return NestedScroll(
-      header: (final context, {required final isInnerBoxScrolled}) => [
+      header: (
+        final BuildContext context, {
+        required final bool isInnerBoxScrolled,
+      }) =>
+          <Widget>[
         SliverAppBar(
           expandedHeight: 150,
           collapsedHeight: 100,
@@ -110,14 +122,14 @@ class NotificationsScreenState extends State<NotificationsScreen>
         ),
       ],
       body: Builder(
-        builder: (final context) {
+        builder: (final BuildContext context) {
           NestedScrollView.sliverOverlapAbsorberHandleFor(context);
           return Column(
-            children: [
+            children: <Widget>[
               SizeExpandedSection(
                 expand: expanded,
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -145,7 +157,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                             .secondary,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: <Widget>[
                             Text(
                               'Mark all as read',
                               style: Theme.of(context).textTheme.bodyLarge,
@@ -173,7 +185,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                             .secondary,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: <Widget>[
                             Text(
                               'Filter Inbox',
                               style: Theme.of(context).textTheme.bodyLarge,
@@ -192,26 +204,43 @@ class NotificationsScreenState extends State<NotificationsScreen>
               Expanded(
                 child: InfiniteScrollWrapper<NotificationModel>(
                   controller: _controller,
-                  separatorBuilder: (final context, final index) =>
-                      const Divider(
+                  separatorBuilder:
+                      (final BuildContext context, final int index) =>
+                          const Divider(
                     height: 0,
                   ),
                   topSpacing: 16,
-                  future: (final data) => NotificationsService.getNotifications(
+                  future: (
+                    final ({
+                      NotificationModel? lastItem,
+                      int pageNumber,
+                      int pageSize,
+                      bool refresh
+                    }) data,
+                  ) async =>
+                      NotificationsService.getNotifications(
                     page: data.pageNumber,
                     perPage: data.pageSize,
                     filters: apiFilters,
                   ),
-                  filterFn: (final list) {
-                    final filtered = <NotificationModel>[];
-                    for (final element in list) {
+                  filterFn: (final List<NotificationModel> list) {
+                    final List<NotificationModel> filtered =
+                        <NotificationModel>[];
+                    for (final NotificationModel element in list) {
                       if (checkFilter(element)!) {
                         filtered.add(element);
                       }
                     }
                     return filtered;
                   },
-                  builder: (final data) {
+                  builder: (
+                    final ({
+                      BuildContext context,
+                      int index,
+                      NotificationModel item,
+                      bool refresh
+                    }) data,
+                  ) {
                     if (data.item.subject!.type == SubjectType.ISSUE) {
                       return IssueNotificationCard(
                         data.item,

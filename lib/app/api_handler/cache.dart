@@ -18,7 +18,7 @@ const Duration _maxAge = Duration(minutes: 2);
 class APICache {
   APICache({
     this.maxAge = _maxAge,
-    final List<int>? hitCacheOnErrorExcept = const [401, 403],
+    final List<int>? hitCacheOnErrorExcept = const <int>[401, 403],
     final CacheKeyBuilder keyBuilder = CacheOptions.defaultCacheKeyBuilder,
     final Duration maxStale = const Duration(days: 7),
     final CachePriority priority = CachePriority.normal,

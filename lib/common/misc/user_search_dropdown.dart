@@ -22,7 +22,7 @@ class UserSearchDropdown extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final media = MediaQuery.of(context).size;
+    final Size media = MediaQuery.of(context).size;
     return Container(
       constraints: BoxConstraints(
         maxHeight: media.height * 0.4,
@@ -39,31 +39,45 @@ class UserSearchDropdown extends StatelessWidget {
                       SearchMentionUsers$Query$Search$Edges?>(
                     shrinkWrap: true,
                     showScrollToTopButton: false,
-                    paginationKey: ValueKey(query),
-                    separatorBuilder: (final context, final index) =>
-                        const Divider(
+                    paginationKey: ValueKey<String>(query),
+                    separatorBuilder:
+                        (final BuildContext context, final int index) =>
+                            const Divider(
                       height: 8,
                     ),
                     disableRefresh: true,
                     topSpacing: 8,
                     bottomSpacing: 8,
                     listEndIndicator: false,
-                    future: (final data) => SearchService.searchMentionUsers(
+                    future: (
+                      final ({
+                        SearchMentionUsers$Query$Search$Edges? lastItem,
+                        int pageNumber,
+                        int pageSize,
+                        bool refresh
+                      }) data,
+                    ) async =>
+                        SearchService.searchMentionUsers(
                       query,
                       _type,
                       cursor: data.lastItem?.cursor,
                     ),
-                    builder: (final data) {
+                    builder: (
+                      final ({
+                        BuildContext context,
+                        int index,
+                        SearchMentionUsers$Query$Search$Edges? item,
+                        bool refresh
+                      }) data,
+                    ) {
                       final dynamic item = data.item!.node;
                       return InkWell(
                         borderRadius: medBorderRadius,
                         onTap: () {
-                          if (onSelected != null) {
-                            onSelected!(item.login);
-                          }
+                          onSelected?.call(item.login);
                         },
                         child: Row(
-                          children: [
+                          children: <Widget>[
                             ProfileTile.login(
                               avatarUrl: item!.avatarUrl.toString(),
                               disableTap: true,

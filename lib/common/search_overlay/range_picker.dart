@@ -23,7 +23,12 @@ class RangePicker extends StatefulWidget {
 
 class RangePickerState extends State<RangePicker> {
   late String currentType;
-  final List<String> types = ['Greater than', 'Less than', 'Range', 'Only'];
+  final List<String> types = <String>[
+    'Greater than',
+    'Less than',
+    'Range',
+    'Only',
+  ];
 
   @override
   void initState() {
@@ -79,9 +84,11 @@ class RangePickerState extends State<RangePicker> {
   String date(final DateTime dateTime) =>
       DateFormat('yyyy-MM-dd').format(dateTime);
 
-  Future<DateTime> getDate(
-      {final DateTime? firstDate, final DateTime? lastDate,}) async {
-    final date = await showDatePicker(
+  Future<DateTime> getDate({
+    final DateTime? firstDate,
+    final DateTime? lastDate,
+  }) async {
+    final DateTime date = await showDatePicker(
           context: context,
           initialDate: lastDate ?? DateTime.now(),
           firstDate: firstDate ?? DateTime.utc(1969, 7, 20, 20, 18, 04),
@@ -108,7 +115,7 @@ class RangePickerState extends State<RangePicker> {
           color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               CustomExpandTile(
                 title: Text(
                   currentType,
@@ -123,13 +130,14 @@ class RangePickerState extends State<RangePicker> {
                 child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemBuilder: (final context, final index) => RadioListTile(
+                  itemBuilder: (final BuildContext context, final int index) =>
+                      RadioListTile<String>(
                     activeColor: Provider.of<PaletteSettings>(context)
                         .currentSetting
                         .accent,
                     groupValue: currentType,
                     value: types[index],
-                    onChanged: (final value) {
+                    onChanged: (final String? value) {
                       setState(() {
                         currentType = types[index];
                         expanded = !expanded;
@@ -143,8 +151,9 @@ class RangePickerState extends State<RangePicker> {
                       ),
                     ),
                   ),
-                  separatorBuilder: (final context, final index) =>
-                      const Divider(),
+                  separatorBuilder:
+                      (final BuildContext context, final int index) =>
+                          const Divider(),
                   itemCount: types.length,
                 ),
               ),
@@ -152,12 +161,12 @@ class RangePickerState extends State<RangePicker> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       Flexible(
                         child: TextField(
                           controller: controller1,
                           focusNode: node1,
-                          onSubmitted: (final string) {
+                          onSubmitted: (final String string) {
                             if (isRanged && controller2.text.isEmpty) {
                               node2.requestFocus();
                             } else {
@@ -186,7 +195,7 @@ class RangePickerState extends State<RangePicker> {
                             child: TextField(
                               controller: controller2,
                               focusNode: node2,
-                              onSubmitted: (final string) {
+                              onSubmitted: (final String string) {
                                 if (controller1.text.isEmpty) {
                                   node1.requestFocus();
                                 } else {
@@ -213,7 +222,7 @@ class RangePickerState extends State<RangePicker> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       if (isRanged)
                         const Padding(
                           padding: EdgeInsets.all(8),
@@ -286,7 +295,7 @@ class RangePickerState extends State<RangePicker> {
                     activeColor: Provider.of<PaletteSettings>(context)
                         .currentSetting
                         .accent,
-                    onChanged: (final value) {
+                    onChanged: (final bool? value) {
                       setState(() {
                         inclusive = value!;
                       });
@@ -300,7 +309,7 @@ class RangePickerState extends State<RangePicker> {
                 onPressed: checkValid ? submit : null,
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Text('Add'),

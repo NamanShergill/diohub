@@ -26,17 +26,21 @@ class ScaffoldBody extends StatefulWidget {
 class ScaffoldBodyState extends State<ScaffoldBody> {
   @override
   Widget build(final BuildContext context) => Stack(
-        children: [
+        children: <Widget>[
           Column(
-            children: [
+            children: <Widget>[
               Visibility(
                 visible: widget.showHeader,
                 child: widget.header ??
-                    StreamBuilder(
-                      initialData: true,
+                    StreamBuilder<NetworkStatus>(
+                      // initialData: true,
                       stream: InternetConnectivity.networkStream,
-                      builder: (final context, final snapshot) => Stack(
-                        children: [
+                      builder: (
+                        final BuildContext context,
+                        final AsyncSnapshot<NetworkStatus> snapshot,
+                      ) =>
+                          Stack(
+                        children: <Widget>[
                           SizeExpandedSection(
                             expand: snapshot.data == NetworkStatus.offline,
                             child: Container(

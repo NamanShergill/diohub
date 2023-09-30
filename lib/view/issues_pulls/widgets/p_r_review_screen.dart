@@ -30,28 +30,48 @@ class PRReviewScreen extends StatelessWidget {
           // Check if user has pending reviews to disable reply button accordingly.
           // See https://github.com/NamanShergill/diohub/issues/18 for info.
           body: APIWrapper<bool>(
-            apiCall: ({required final refresh}) =>
+            apiCall: ({required final bool refresh}) async =>
                 PullsService.hasPendingReviews(
               pullNodeID,
               context.read<CurrentUserProvider>().data.login!,
             ),
-            responseBuilder: (final context, final repliesEnabled) =>
+            responseBuilder: (
+              final BuildContext context,
+              final bool repliesEnabled,
+            ) =>
                 InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
-              future: (final data) => PullsService.getPRReview(
+              future: (
+                final ({
+                  PRReviewCommentsMixin$Comments$Edges? lastItem,
+                  int pageNumber,
+                  int pageSize,
+                  bool refresh
+                }) data,
+              ) async =>
+                  PullsService.getPRReview(
                 nodeID,
                 refresh: data.refresh,
                 cursor: data.lastItem?.cursor,
               ),
-              separatorBuilder: (final context, final index) => const Divider(
+              separatorBuilder: (final BuildContext context, final int index) =>
+                  const Divider(
                 height: 32,
               ),
-              builder: (final data) {
-                final comment = data.item!.node!;
-                return ChangeNotifierProvider(
+              builder: (
+                final ({
+                  BuildContext context,
+                  int index,
+                  PRReviewCommentsMixin$Comments$Edges? item,
+                  bool refresh
+                }) data,
+              ) {
+                final PRReviewCommentsMixin$Comments$Edges$Node comment =
+                    data.item!.node!;
+                return ChangeNotifierProvider<CommentProvider>(
                   create: (final _) => CommentProvider(),
-                  builder: (final context, final child) {
-                    void openCommentSheet() {
-                      showCommentSheet(
+                  builder: (final BuildContext context, final Widget? child) {
+                    Future<void> openCommentSheet() async {
+                      await showCommentSheet(
                         context,
                         onSubmit: () async {
                           await PullsService.replyToReviewComment(
@@ -68,7 +88,7 @@ class PRReviewScreen extends StatelessWidget {
                         },
                         type: 'Reply',
                         initialData: context.read<CommentProvider>().data,
-                        onChanged: (final value) {
+                        onChanged: (final String value) {
                           Provider.of<CommentProvider>(context, listen: false)
                               .updateData(value);
                         },
@@ -77,14 +97,18 @@ class PRReviewScreen extends StatelessWidget {
                       );
                     }
 
-                    Widget replyButton(final data) => Row(
-                          children: [
+                    Widget replyButton({
+                      required final bool repliesEnabled,
+                    }) =>
+                        Row(
+                          children: <Widget>[
                             Button(
-                              onTap: () {
-                                if (data) {
-                                  showDialog(
+                              onTap: () async {
+                                if (repliesEnabled) {
+                                  await showDialog(
                                     context: context,
-                                    builder: (final context) => AlertDialog(
+                                    builder: (final BuildContext context) =>
+                                        AlertDialog(
                                       title: Text(
                                         'Cannot reply.',
                                         style: Theme.of(context)
@@ -99,7 +123,7 @@ class PRReviewScreen extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children: [
+                                          children: <Widget>[
                                             Text(
                                               'Cannot add a reply to other review comments when you have a pending review on the PR.',
                                             ),
@@ -111,7 +135,7 @@ class PRReviewScreen extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      actions: [
+                                      actions: <Widget>[
                                         MaterialButton(
                                           onPressed: () =>
                                               Navigator.pop(context),
@@ -121,7 +145,7 @@ class PRReviewScreen extends StatelessWidget {
                                     ),
                                   );
                                 } else {
-                                  openCommentSheet();
+                                  await openCommentSheet();
                                 }
                               },
                               color: Provider.of<PaletteSettings>(context)
@@ -138,7 +162,7 @@ class PRReviewScreen extends StatelessWidget {
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Material(
                           color: Provider.of<PaletteSettings>(context)
                               .currentSetting
@@ -147,7 +171,7 @@ class PRReviewScreen extends StatelessWidget {
                           //     borderRadius: BorderRadius.vertical(
                           //         top: AppThemeBorderRadius.medBorderRadius.topLeft)),
                           child: Row(
-                            children: [
+                            children: <Widget>[
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8),
@@ -199,7 +223,7 @@ class PRReviewScreen extends StatelessWidget {
                                 const EdgeInsets.only(left: 8, right: 8),
                             footer: APIWrapper<
                                 ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>(
-                              apiCall: ({required final refresh}) =>
+                              apiCall: ({required final bool refresh}) async =>
                                   PullsService.getPRReviewThreadID(
                                 comment.id,
                                 name: comment.repository.name,
@@ -209,9 +233,10 @@ class PRReviewScreen extends StatelessWidget {
                                 cursor: null,
                               ),
                               fadeIntoView: false,
-                              loadingBuilder: (final context) => Row(
-                                children: [
-                                  replyButton(repliesEnabled),
+                              loadingBuilder: (final BuildContext context) =>
+                                  Row(
+                                children: <Widget>[
+                                  replyButton(repliesEnabled: repliesEnabled),
                                   Expanded(
                                     child: StringButton(
                                       onTap: null,
@@ -227,11 +252,17 @@ class PRReviewScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              responseBuilder: (final context, final data) {
+                              responseBuilder: (
+                                final BuildContext context,
+                                final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?
+                                    data,
+                              ) {
                                 if (data != null) {
                                   return Row(
-                                    children: [
-                                      replyButton(repliesEnabled),
+                                    children: <Widget>[
+                                      replyButton(
+                                        repliesEnabled: repliesEnabled,
+                                      ),
                                       _buildRepliesButton(
                                         context,
                                         data,
@@ -266,42 +297,71 @@ class PRReviewScreen extends StatelessWidget {
   ) =>
       Expanded(
         child: StringButton(
-          key: const ValueKey('loaded'),
-          onTap: () {
-            showScrollableBottomSheet(
+          key: const ValueKey<String>('loaded'),
+          onTap: () async {
+            await showScrollableBottomSheet(
               context,
-              headerBuilder: (final context, final setState) =>
-                  const BottomSheetHeaderText(
+              headerBuilder:
+                  (final BuildContext context, final StateSetter setState) =>
+                      const BottomSheetHeaderText(
                 headerText: 'Replies',
               ),
-              scrollableBodyBuilder:
-                  (final context, final setState, final scrollController) =>
-                      ListenableProvider.value(
+              scrollableBodyBuilder: (
+                final BuildContext context,
+                final StateSetter setState,
+                final ScrollController scrollController,
+              ) =>
+                  ListenableProvider<CommentProvider>.value(
                 value: Provider.of<CommentProvider>(context),
-                builder: (final context, final child) => InfiniteScrollWrapper<
-                    ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
+                builder: (final BuildContext context, final Widget? child) =>
+                    InfiniteScrollWrapper<
+                        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
                   scrollController: scrollController,
-                  separatorBuilder: (final context, final index) =>
-                      const SizedBox(
+                  separatorBuilder:
+                      (final BuildContext context, final int index) =>
+                          const SizedBox(
                     height: 8,
                   ),
-                  future: (final data) => PullsService.getReviewThreadReplies(
+                  future: (
+                    final ({
+                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? lastItem,
+                      int pageNumber,
+                      int pageSize,
+                      bool refresh
+                    }) data,
+                  ) =>
+                      PullsService.getReviewThreadReplies(
                     edgeData.node!.id,
                     data.lastItem?.cursor,
                     refresh: data.refresh,
                   ),
-                  filterFn: (final items) {
-                    final temp =
+                  filterFn: (
+                    final List<
+                            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>
+                        items,
+                  ) {
+                    final List<
+                            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>
+                        temp =
                         <ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
-                    for (final item in items) {
+                    for (final ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? item
+                        in items) {
                       if (item!.node!.id != comment.id) {
                         temp.add(item);
                       }
                     }
                     return temp;
                   },
-                  builder: (final data) {
-                    final reply = data.item!.node!;
+                  builder: (
+                    final ({
+                      BuildContext context,
+                      int index,
+                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? item,
+                      bool refresh
+                    }) data,
+                  ) {
+                    final ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+                        reply = data.item!.node!;
                     return PaddingWrap(
                       child: BaseComment(
                         isMinimized: reply.isMinimized,

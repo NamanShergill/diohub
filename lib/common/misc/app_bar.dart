@@ -20,12 +20,13 @@ class DHAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(final BuildContext context) => AppBar(
         title: title,
         elevation: 0,
-        actions: [
+        actions: <Widget>[
           if (url != null) ShareButton(url!),
           if (hasEditableChildren)
             IconButton(
               onPressed: () {
-                final editingState = context.read<EditingProvider>();
+                final EditingProvider editingState =
+                    context.read<EditingProvider>();
                 if (editingState.editingState != EditingState.editMode) {
                   editingState.editMode();
                 } else {
@@ -45,8 +46,8 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => IconButton(
         iconSize: 20,
-        onPressed: () {
-          linkHandler(
+        onPressed: () async {
+          await linkHandler(
             context,
             url,
             showSheetOnDeepLink: true,

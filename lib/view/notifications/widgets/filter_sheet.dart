@@ -3,12 +3,13 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
-typedef FilterChange = Function(Map, Map);
+typedef FilterChange = Function(TypeMap, TypeMap);
 
 class FilterSheet extends StatefulWidget {
   const FilterSheet({
@@ -23,10 +24,10 @@ class FilterSheet extends StatefulWidget {
   final FilterChange onFiltersChanged;
 
   ///  Current API Filters.
-  final Map? apiFilters;
+  final TypeMap? apiFilters;
 
   /// Current client filters.
-  final Map? clientFilters;
+  final TypeMap? clientFilters;
 
   /// Controller to scroll the bottom sheet along with the [ListView].
   final ScrollController? controller;
@@ -36,8 +37,8 @@ class FilterSheet extends StatefulWidget {
 }
 
 class FilterSheetState extends State<FilterSheet> {
-  Map<String, dynamic> apiFilters = {};
-  Map<String, dynamic> clientFilters = {};
+  Map<String, dynamic> apiFilters = <String, dynamic>{};
+  Map<String, dynamic> clientFilters = <String, dynamic>{};
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class FilterSheetState extends State<FilterSheet> {
   void deepCopy() {
     apiFilters['all'] = widget.apiFilters!['all'];
     clientFilters['show_only'] =
-        widget.clientFilters!['show_only'].map((final e) => e).toList();
+        widget.clientFilters!['show_only'].map((final dynamic e) => e).toList();
   }
 
   // TODO(namanshergill): Add remove filters button.
@@ -75,13 +76,13 @@ class FilterSheetState extends State<FilterSheet> {
 
   @override
   Widget build(final BuildContext context) => Stack(
-        children: [
+        children: <Widget>[
           ListView(
             controller: widget.controller,
             shrinkWrap: true,
-            children: [
+            children: <Widget>[
               section(
-                contents: [
+                contents: <Widget>[
                   tileWrapper(
                     function: () {
                       apiFilters['all'] = !apiFilters['all'];
@@ -95,14 +96,14 @@ class FilterSheetState extends State<FilterSheet> {
                         'Only unread notifications',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool value) {},
                     ),
                   ),
                 ],
               ),
               section(
                 title: 'Show only',
-                contents: [
+                contents: <Widget>[
                   tileWrapper(
                     function: () {
                       if (clientFilters['show_only'].contains('assign')) {
@@ -123,7 +124,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Assigned',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -146,7 +147,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Author',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -169,7 +170,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Comment',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -192,7 +193,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Invitation',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -215,7 +216,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Following',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -238,7 +239,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Mentioned',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -263,7 +264,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Review Requested',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -288,7 +289,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Security Alert',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -312,7 +313,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Actions',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -335,7 +336,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Subscribed',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                   tileWrapper(
@@ -359,7 +360,7 @@ class FilterSheetState extends State<FilterSheet> {
                         'Team Mention',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      onChanged: (final value) {},
+                      onChanged: (final bool? value) {},
                     ),
                   ),
                 ],
@@ -370,16 +371,16 @@ class FilterSheetState extends State<FilterSheet> {
             alignment: Alignment.bottomCenter,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
+              children: <Widget>[
                 SizeExpandedSection(
                   expand: isModified(),
-                  child: Container(
+                  child: ColoredBox(
                     color: Provider.of<PaletteSettings>(context)
                         .currentSetting
                         .primary,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: 16,
@@ -416,7 +417,7 @@ class FilterSheetState extends State<FilterSheet> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Visibility(
               visible: title != null,
               child: Padding(

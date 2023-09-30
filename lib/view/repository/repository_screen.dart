@@ -10,7 +10,9 @@ import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
+import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
+import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
@@ -32,6 +34,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 @RoutePage()
 class RepositoryScreen extends DeepLinkWidget {
@@ -67,18 +70,21 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
 
   @override
   void handleDeepLink(final PathData deepLinkData) {
-    final data = deepLinkData;
+    final PathData data = deepLinkData;
     if (_isDeepLinkCode(data)) {
       initBranch = data.component(3);
     } else if (data.componentIs(2, 'wiki')) {
-      WidgetsBinding.instance.addPostFrameCallback((final timeStamp) {
-        AutoRouter.of(context).push(WikiViewer(repoURL: widget.repositoryURL));
+      WidgetsBinding.instance
+          .addPostFrameCallback((final Duration timeStamp) async {
+        await AutoRouter.of(context)
+            .push(WikiViewer(repoURL: widget.repositoryURL));
       });
     }
   }
 
   bool _isDeepLinkCode(final PathData? data) =>
-      data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) == true;
+      data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ??
+      false;
 
   bool _isDeepLinkComp(final String data) =>
       widget.pathData?.componentIs(2, data) ?? false;
@@ -107,11 +113,11 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   }
 
   void _setupTabs() {
-    tabs = [
+    tabs = <DynamicTab>[
       DynamicTab(
         identifier: 'About',
         isDismissible: false,
-        tabViewBuilder: (final context) => AboutRepository(
+        tabViewBuilder: (final BuildContext context) => AboutRepository(
           context.repoProvider().data,
           onTabOpened: tabController.openTab,
         ),
@@ -119,13 +125,13 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
       DynamicTab(
         identifier: 'Readme',
         isDismissible: false,
-        tabViewBuilder: (final context) =>
+        tabViewBuilder: (final BuildContext context) =>
             RepositoryReadme(context.repoProvider(listen: false).url),
       ),
       DynamicTab(
         identifier: 'Code',
         isFocusedOnInit: _isDeepLinkCode(widget.pathData),
-        tabViewBuilder: (final context) => CodeBrowser(
+        tabViewBuilder: (final BuildContext context) => CodeBrowser(
           showCommitHistory: widget.pathData?.component(2) == 'commits',
         ),
       ),
@@ -133,26 +139,26 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
         identifier: 'Issues',
         isFocusedOnInit: _isDeepLinkComp('issues'),
         keepViewAlive: true,
-        tabViewBuilder: (final context) => const IssuesList(),
+        tabViewBuilder: (final BuildContext context) => const IssuesList(),
       ),
       DynamicTab(
         identifier: 'Pull Requests',
         isFocusedOnInit: _isDeepLinkComp('pulls'),
         keepViewAlive: true,
-        tabViewBuilder: (final context) => const PullsList(),
+        tabViewBuilder: (final BuildContext context) => const PullsList(),
       ),
       DynamicTab(
         identifier: 'More',
-        tabViewBuilder: (final context) => Column(
-          children: [
+        tabViewBuilder: (final BuildContext context) => Column(
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8),
               child: Button(
-                onTap: () {
+                onTap: () async {
                   if (Provider.of<RepositoryProvider>(context, listen: false)
                       .data
                       .hasWiki!) {
-                    AutoRouter.of(context).push(
+                    await AutoRouter.of(context).push(
                       WikiViewer(
                         repoURL: widget.repositoryURL,
                       ),
@@ -178,42 +184,47 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
 
   @override
   Widget build(final BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+    final DioHubPalette theme =
+        Provider.of<PaletteSettings>(context).currentSetting;
 
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<RepositoryProvider>.value(
           value: repositoryProvider,
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
           create: (final _) => repoBranchProvider,
-          update: (final _, final repo, final __) =>
-              repoBranchProvider..updateProvider(repo),
+          update: (
+            final BuildContext context,
+            final RepositoryProvider value,
+            final RepoBranchProvider? previous,
+          ) =>
+              repoBranchProvider..updateProvider(value),
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, IssueTemplateProvider>(
           create: (final _) => issueTemplateProvider,
-          update: (final _, final repo, final __) =>
+          update: (final _, final RepositoryProvider repo, final __) =>
               issueTemplateProvider..updateProvider(repo),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<RepositoryProvider, PinnedIssuesProvider>(
           create: (final _) => pinnedIssuesProvider,
-          update: (final _, final repo, final __) =>
+          update: (final _, final RepositoryProvider repo, final __) =>
               pinnedIssuesProvider..updateProvider(repo),
           lazy: false,
         ),
         ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
           create: (final _) => readmeProvider,
-          update: (final _, final branch, final __) =>
+          update: (final _, final RepoBranchProvider branch, final __) =>
               readmeProvider..updateProvider(branch),
         ),
         ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
           create: (final _) => codeProvider,
-          update: (final _, final branch, final __) =>
+          update: (final _, final RepoBranchProvider branch, final __) =>
               codeProvider..updateProvider(branch),
         ),
       ],
-      builder: (final context, final _) => SafeArea(
+      builder: (final BuildContext context, final _) => SafeArea(
         child: Scaffold(
           backgroundColor:
               Provider.of<PaletteSettings>(context).currentSetting.primary,
@@ -243,12 +254,19 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
             },
             child: ScaffoldBody(
               child: ProviderLoadingProgressWrapper<RepositoryProvider>(
-                childBuilder: (final context, final value) {
-                  final repo = value.data;
+                childBuilder: (
+                  final BuildContext context,
+                  final RepositoryProvider value,
+                ) {
+                  final RepositoryModel repo = value.data;
                   return DynamicTabsParent(
                     controller: tabController,
                     tabs: tabs,
-                    builder: (final context, final tabs, final tabView) =>
+                    builder: (
+                      final BuildContext context,
+                      final PreferredSizeWidget tabs,
+                      final Widget tabView,
+                    ) =>
                         AppScrollView(
                       // nestedScrollViewController: scrollController,
                       scrollViewAppBar: ScrollViewAppBar(
@@ -257,7 +275,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         tabBar: tabs,
                         url: repo.htmlUrl,
                         appBarWidget: Row(
-                          children: [
+                          children: <Widget>[
                             ProfileTile.avatar(
                               avatarUrl: repo.owner?.avatarUrl,
                               userLogin: repo.owner?.login,
@@ -273,7 +291,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                       .textTheme
                                       .headlineSmall!
                                       .copyWith(fontSize: 18),
-                                  children: [
+                                  children: <InlineSpan>[
                                     TextSpan(text: '${repo.owner!.login}/'),
                                     TextSpan(
                                       text: repo.name,
@@ -290,10 +308,10 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         flexibleBackgroundWidget: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: <Widget>[
                                 ProfileTile.login(
                                   avatarUrl: repo.owner!.avatarUrl,
                                   userLogin: repo.owner!.login,
@@ -316,16 +334,16 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                               height: 16,
                             ),
                             Row(
-                              children: [
+                              children: <Widget>[
                                 RepoStar(
                                   repo.owner!.login!,
                                   repo.name!,
                                   fadeIntoView: false,
                                   inkWellRadius: medBorderRadius,
                                   child: (
-                                    final context,
-                                    final data,
-                                    final onPress,
+                                    final BuildContext context,
+                                    final HasStarred$Query$Repository? data,
+                                    final VoidCallback? onPress,
                                   ) =>
                                       ActionButton(
                                     count: data?.stargazerCount,
@@ -342,9 +360,10 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                   repo.owner!.login!,
                                   repo.name!,
                                   builder: (
-                                    final context,
-                                    final watchData,
-                                    final onPress,
+                                    final BuildContext context,
+                                    final HasWatched$Query$Repository?
+                                        watchData,
+                                    final VoidCallback? onPress,
                                   ) =>
                                       ActionButton(
                                     count: watchData?.watchers.totalCount,
@@ -362,7 +381,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                 Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: Row(
-                                    children: [
+                                    children: <Widget>[
                                       Icon(
                                         Octicons.repo_forked,
                                         color: Provider.of<PaletteSettings>(

@@ -3,6 +3,7 @@ import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/user_follow.dart';
+import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
@@ -50,9 +51,9 @@ class UserProfileScreenState<T extends UserInfoModel>
           flexibleBackgroundWidget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Row(
-                children: [
+                children: <Widget>[
                   ProfileTile.avatar(
                     avatarUrl: data.avatarUrl,
                     size: 50,
@@ -62,7 +63,7 @@ class UserProfileScreenState<T extends UserInfoModel>
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         data.name ?? data.login!,
                         style: Theme.of(context)
@@ -89,11 +90,11 @@ class UserProfileScreenState<T extends UserInfoModel>
                 height: 16,
               ),
               Row(
-                children: [
+                children: <Widget>[
                   if (data.login ==
                       Provider.of<CurrentUserProvider>(context).data.login)
                     Row(
-                      children: [
+                      children: <Widget>[
                         const Icon(LineIcons.users),
                         const SizedBox(
                           width: 8,
@@ -104,7 +105,7 @@ class UserProfileScreenState<T extends UserInfoModel>
                                 .textTheme
                                 .bodyLarge!
                                 .copyWith(fontSize: 15),
-                            children: [
+                            children: <InlineSpan>[
                               TextSpan(
                                 text: data.followers.toString(),
                                 style: const TextStyle(
@@ -122,9 +123,12 @@ class UserProfileScreenState<T extends UserInfoModel>
                       data.login!,
                       fadeIntoView: false,
                       inkWellRadius: medBorderRadius,
-                      child:
-                          (final context, final followingData, final onPress) =>
-                              ActionButton(
+                      child: (
+                        final BuildContext context,
+                        final FollowStatusInfo$Query$User? followingData,
+                        final VoidCallback? onPress,
+                      ) =>
+                          ActionButton(
                         action: 'Followers',
                         count: followingData?.followers.totalCount,
                         isDone: followingData?.viewerIsFollowing,
@@ -143,7 +147,7 @@ class UserProfileScreenState<T extends UserInfoModel>
                             .textTheme
                             .bodyLarge!
                             .copyWith(fontSize: 15),
-                        children: [
+                        children: <InlineSpan>[
                           TextSpan(
                             text: data.following.toString(),
                             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -156,7 +160,7 @@ class UserProfileScreenState<T extends UserInfoModel>
               ),
             ],
           ),
-          tabs: [
+          tabs: <String>[
             'About',
             if (data.type == Type.user) 'Overview',
             'Repositories',
@@ -165,7 +169,7 @@ class UserProfileScreenState<T extends UserInfoModel>
           appBarWidget: Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
-              children: [
+              children: <Widget>[
                 ProfileTile.avatar(
                   avatarUrl: data.avatarUrl,
                   padding: EdgeInsets.zero,
@@ -187,7 +191,7 @@ class UserProfileScreenState<T extends UserInfoModel>
           ),
         ),
         tabController: tabController,
-        tabViews: [
+        tabViews: <Widget>[
           AboutUser(data),
           if (data.type == Type.user) UserOverviewScreen(data),
           UserRepositories(
@@ -195,7 +199,7 @@ class UserProfileScreenState<T extends UserInfoModel>
             currentUser: widget.isCurrentUser,
           ),
           if (data.type == Type.user)
-            Container(
+            ColoredBox(
               color: Provider.of<PaletteSettings>(context)
                   .currentSetting
                   .secondary,

@@ -52,7 +52,7 @@ class LandingScreenState extends State<LandingScreen>
             child: TabBarView(
               controller: _controller,
               physics: const NeverScrollableScrollPhysics(),
-              children: [
+              children: <Widget>[
                 HomeScreen(
                   deepLinkData: widget.deepLinkData,
                   parentTabController: _controller,
@@ -66,7 +66,7 @@ class LandingScreenState extends State<LandingScreen>
           ),
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(4),
                 child: GNav(
@@ -104,7 +104,7 @@ class LandingScreenState extends State<LandingScreen>
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12, vertical: 16.5,),
                   duration: const Duration(milliseconds: 250),
-                  tabs: const [
+                  tabs: const <GButton>[
                     GButton(
                       icon: LineIcons.home,
                       text: 'Home',

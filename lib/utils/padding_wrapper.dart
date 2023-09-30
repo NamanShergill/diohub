@@ -6,7 +6,7 @@ List<Widget> wrapPaddingToWidgets(
 }) =>
     widgets
         .map(
-          (final e) => Padding(
+          (final Widget e) => Padding(
             padding: padding,
             child: e,
           ),

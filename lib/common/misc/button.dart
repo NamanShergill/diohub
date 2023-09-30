@@ -54,13 +54,13 @@ class ButtonState extends State<Button> {
             Provider.of<PaletteSettings>(context).currentSetting.accent,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             if (!widget.loading)
               Row(
                 mainAxisSize:
                     widget.stretch ? MainAxisSize.max : MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Visibility(
                     visible: widget.leadingIcon != null,
                     child: Padding(
@@ -83,7 +83,7 @@ class ButtonState extends State<Button> {
                 mainAxisSize:
                     widget.stretch ? MainAxisSize.max : MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Visibility(
                     visible: widget.loadingWidget != null,
                     child: widget.loadingWidget ?? Container(),
@@ -148,7 +148,7 @@ class StringButton extends StatelessWidget {
         loading: loading,
         stretch: stretch,
         child: Column(
-          children: [
+          children: <Widget>[
             Text(
               title!,
               style: Theme.of(context)

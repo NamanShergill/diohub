@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
@@ -55,20 +57,20 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
       searchData.query.trim().isEmpty && searchData.visibleStrings.isEmpty;
 
   bool get isValid {
-    var isValid = false;
-    for (final element in searchData.visibleStrings) {
-      final query =
+    bool isValid = false;
+    for (final String element in searchData.visibleStrings) {
+      final SearchQuery query =
           searchData.searchFilters!.queryFromString(element.split(':').first)!;
       if (query.qualifierQuery) {
         isValid = true;
       }
     }
-    var numberOfAndOrNot = 0;
+    int numberOfAndOrNot = 0;
     searchData.query.splitMapJoin(
       RegExp(
         '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}',
       ),
-      onMatch: (final m) {
+      onMatch: (final Match m) {
         numberOfAndOrNot++;
         return '';
       },
@@ -100,11 +102,11 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                     .primary,
             body: Stack(
               fit: StackFit.expand,
-              children: [
+              children: <Widget>[
                 SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Material(
@@ -113,13 +115,13 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             searchData,
                             multiHero: widget.multiHero,
                             heroTag: widget.heroTag,
-                            onSubmit: (final data) {
+                            onSubmit: () {
                               if (isValid) {
                                 Navigator.pop(context);
                                 widget.onSubmit(searchData);
                               }
                             },
-                            onChanged: (final data) {
+                            onChanged: (final SearchData data) {
                               setState(() {
                                 searchData = data;
                               });
@@ -153,8 +155,11 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             child: ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemBuilder: (final context, final index) =>
-                                  RadioListTile(
+                              itemBuilder: (
+                                final BuildContext context,
+                                final int index,
+                              ) =>
+                                  RadioListTile<SearchType>(
                                 activeColor: Provider.of<PaletteSettings>(
                                   context,
                                   listen: false,
@@ -163,7 +168,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                     searchData.searchFilters!.searchType,
                                 value:
                                     searchTypeValues.map.values.toList()[index],
-                                onChanged: (final value) {
+                                onChanged: (final SearchType? value) {
                                   setState(() {
                                     searchData = searchData.copyWith(
                                       searchFilters: getFilters(
@@ -182,7 +187,10 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                   ),
                                 ),
                               ),
-                              separatorBuilder: (final context, final index) =>
+                              separatorBuilder: (
+                                final BuildContext context,
+                                final int index,
+                              ) =>
                                   const Divider(),
                               itemCount: searchTypeValues.map.keys.length,
                             ),
@@ -199,7 +207,10 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                   left: 0,
                   right: 0,
                   child: KeyboardVisibilityBuilder(
-                    builder: (final context, final isKeyboardVisible) =>
+                    builder: (
+                      final BuildContext context,
+                      final bool isKeyboardVisible,
+                    ) =>
                         OverlayMenuWidget(
                       controller: infoOverlay,
                       heightMultiplier: isKeyboardVisible ? 0.3 : 0.5,
@@ -219,7 +230,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             child: ListView(
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
-                              children: const [
+                              children: const <Widget>[
                                 Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8),
@@ -245,10 +256,10 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
-                                    children: [
+                                    children: <Widget>[
                                       Text.rich(
                                         TextSpan(
-                                          children: [
+                                          children: <InlineSpan>[
                                             TextSpan(
                                               text:
                                                   'Search filters should be in the format ',
@@ -273,7 +284,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       Divider(),
                                       Text.rich(
                                         TextSpan(
-                                          children: [
+                                          children: <InlineSpan>[
                                             TextSpan(text: 'Add a '),
                                             TextSpan(
                                               text: 'minus (-)',
@@ -298,7 +309,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       Divider(),
                                       Text.rich(
                                         TextSpan(
-                                          children: [
+                                          children: <InlineSpan>[
                                             TextSpan(text: 'You can use '),
                                             TextSpan(
                                               text: 'AND, OR, NOT',
@@ -330,7 +341,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       Divider(),
                                       Text.rich(
                                         TextSpan(
-                                          children: [
+                                          children: <InlineSpan>[
                                             TextSpan(
                                               text:
                                                   'Data containing whitespaces must be wrapped in quotes like ',
@@ -362,10 +373,10 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: Material(
@@ -409,7 +420,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                   padding: EdgeInsets.all(16),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                                    children: <Widget>[
                                       Text('Back'),
                                     ],
                                   ),
@@ -440,7 +451,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                   padding: EdgeInsets.all(16),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                                    children: <Widget>[
                                       Text('Search'),
                                     ],
                                   ),
@@ -473,7 +484,7 @@ class _SearchBar extends StatefulWidget {
   final String heroTag;
   final String? message;
   final ValueChanged<SearchData> onChanged;
-  final ValueChanged<void> onSubmit;
+  final VoidCallback onSubmit;
   final bool multiHero;
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -494,7 +505,7 @@ class _SearchBarState extends State<_SearchBar> {
           ? '${widget.searchData.toString().trim()} '
           : '',
     );
-    getFocus();
+    unawaited(getFocus());
     searchNode.addListener(() {
       setState(() {});
     });
@@ -513,7 +524,7 @@ class _SearchBarState extends State<_SearchBar> {
   Widget build(final BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
-          children: [
+          children: <Widget>[
             OverlayMenuWidget(
               controller: suggestionsOverlayController,
               overlay: overlayWidget,
@@ -528,7 +539,7 @@ class _SearchBarState extends State<_SearchBar> {
                     maxLines: 10,
                     focusNode: searchNode,
                     minLines: 1,
-                    onChanged: (final pattern) {
+                    onChanged: (final String pattern) {
                       // Handle cases for when the enter key is pressed.
                       if (pattern.contains('\n')) {
                         // Don't let {\n} enter the text.
@@ -538,7 +549,7 @@ class _SearchBarState extends State<_SearchBar> {
                           controller.text = '${controller.text} ';
                         } else {
                           _parseQuery(pattern);
-                          widget.onSubmit(null);
+                          widget.onSubmit();
                         }
                         // Move the text controller to end.
                         _moveControllerToEnd();
@@ -556,7 +567,7 @@ class _SearchBarState extends State<_SearchBar> {
                       widget.searchData.searchFilters!,
                       controller,
                       context: context,
-                      onChanged: (final string) {
+                      onChanged: (final String string) {
                         controller.text = string;
                         _parseQuery(string);
                       },
@@ -587,7 +598,8 @@ class _SearchBarState extends State<_SearchBar> {
                 child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemBuilder: (final context, final index) => ListTile(
+                  itemBuilder: (final BuildContext context, final int index) =>
+                      ListTile(
                     onTap: () {
                       addString(
                         '${widget.searchData.searchFilters!.whiteListedQueries[index].query}:',
@@ -605,8 +617,9 @@ class _SearchBarState extends State<_SearchBar> {
                       // style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  separatorBuilder: (final context, final index) =>
-                      const Divider(),
+                  separatorBuilder:
+                      (final BuildContext context, final int index) =>
+                          const Divider(),
                   itemCount: widget
                       .searchData.searchFilters!.whiteListedQueries.length,
                 ),
@@ -615,7 +628,7 @@ class _SearchBarState extends State<_SearchBar> {
             SizeExpandedSection(
               expand: controller.text.trim().isNotEmpty,
               child: Column(
-                children: [
+                children: <Widget>[
                   const Divider(
                     height: 8,
                     endIndent: 8,
@@ -654,7 +667,7 @@ class _SearchBarState extends State<_SearchBar> {
 
   Future<void> getFocus() async {
     // TODO(namanshergill): Try new speed here.
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     if (mounted) {
       setState(() {
         searchNode.requestFocus();
@@ -671,11 +684,12 @@ class _SearchBarState extends State<_SearchBar> {
     final String remove = '',
   }) {
     // Remove the last [remove.length] numbers of chars.
-    controller.text =
-        controller.text.substring(0, controller.text.length - remove.length);
-    // Add new text according to the parameters.
-    controller.text =
-        '${controller.text}${'${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}'}${addQuotesAtEnd ? '""' : ''}';
+    controller
+      ..text =
+          controller.text.substring(0, controller.text.length - remove.length)
+      // Add new text according to the parameters.
+      ..text =
+          '${controller.text}${'${spaceAtStart ? ' ' : ''}${addQuotesAround ? '"' : ''}$data${addQuotesAround ? '"' : ''}${addSpaceAtEnd ? ' ' : ''}'}${addQuotesAtEnd ? '""' : ''}';
     // Move controller to end, or end-1 if quotes were added.
     _moveControllerToEnd(addQuotesAtEnd ? 1 : 0);
     searchNode.requestFocus();
@@ -695,10 +709,10 @@ class _SearchBarState extends State<_SearchBar> {
 
   // Get all matches in a string from a certain Regexp.
   List<String> getMatches(final RegExp regexp, final String pattern) {
-    final matches = <String>[];
+    final List<String> matches = <String>[];
     pattern.splitMapJoin(
       regexp,
-      onMatch: (final m) {
+      onMatch: (final Match m) {
         matches.add(m.group(0)!);
         return m.group(0)!;
       },
@@ -707,8 +721,11 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   // Show a list dropdown for suggestions.
-  Widget list(final int length, final IndexedWidgetBuilder builder,
-          {final Key? key,}) =>
+  Widget list(
+    final int length,
+    final IndexedWidgetBuilder builder, {
+    final Key? key,
+  }) =>
       SizeExpandedSection(
         key: key,
         child: Material(
@@ -720,7 +737,8 @@ class _SearchBarState extends State<_SearchBar> {
           child: ListView.separated(
             shrinkWrap: true,
             itemBuilder: builder,
-            separatorBuilder: (final context, final index) => const Divider(
+            separatorBuilder: (final BuildContext context, final int index) =>
+                const Divider(
               height: 0,
             ),
             itemCount: length,
@@ -743,30 +761,30 @@ class _SearchBarState extends State<_SearchBar> {
   }
 
   void _parseQuery(final String pattern) {
-    var str = pattern;
-    final filterStrings = <String>[];
-    final filters = <SearchQuery>[];
+    String str = pattern;
+    final List<String> filterStrings = <String>[];
+    final List<SearchQuery> filters = <SearchQuery>[];
 
     // Handle case of number and date ranges with the bigger value before.
     str.splitMapJoin(
       widget.searchData.searchFilters!.allValidQueriesRegexp,
-      onMatch: (final m) {
-        var string = m[0]!;
+      onMatch: (final Match m) {
+        String string = m[0]!;
         if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
           string = m[0]!.splitMapJoin(
             widget.searchData.searchFilters!.dateQRegExp!,
-            onMatch: (final m) {
-              final string = m[0]!.splitMapJoin(
+            onMatch: (final Match m) {
+              final String string = m[0]!.splitMapJoin(
                 RegExp(
                   '((([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])))([.][.])(([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))))',
                 ),
-                onMatch: (final m) {
+                onMatch: (final Match m) {
                   String date(final DateTime dateTime) =>
                       DateFormat('yyyy-MM-dd').format(dateTime);
 
-                  final data = m[0]!;
-                  final one = DateTime.parse(data.split('..').first);
-                  final two = DateTime.parse(data.split('..').last);
+                  final String data = m[0]!;
+                  final DateTime one = DateTime.parse(data.split('..').first);
+                  final DateTime two = DateTime.parse(data.split('..').last);
                   if (one.isAfter(two)) {
                     return '${date(two)}..${date(one)}';
                   }
@@ -780,13 +798,13 @@ class _SearchBarState extends State<_SearchBar> {
             .hasMatch(string)) {
           string = string.splitMapJoin(
             widget.searchData.searchFilters!.numberQRegExp!,
-            onMatch: (final m) {
-              final string = m[0]!.splitMapJoin(
+            onMatch: (final Match m) {
+              final String string = m[0]!.splitMapJoin(
                 RegExp('((([0-9]+))([.][.])(([0-9]+)))'),
-                onMatch: (final m) {
-                  final data = m[0]!;
-                  final one = int.parse(data.split('..').first);
-                  final two = int.parse(data.split('..').last);
+                onMatch: (final Match m) {
+                  final String data = m[0]!;
+                  final int one = int.parse(data.split('..').first);
+                  final int two = int.parse(data.split('..').last);
                   if (one > two) {
                     return '$two..$one';
                   }
@@ -830,21 +848,21 @@ class _SearchBarState extends State<_SearchBar> {
     // Get matches on the option queries on the supplied text.
     if (controller.selection.baseOffset == controller.text.length) {
       // Get all invalid or valid queries in the string.
-      final matches = getMatches(
+      final List<String> matches = getMatches(
         RegExp(
           '${widget.searchData.searchFilters!.allValidQueriesRegexp.pattern}|${widget.searchData.searchFilters!.allInvalidQueriesRegExp.pattern}',
         ),
         pattern,
       );
       // Current typed data of the latest filter.
-      var typedData = '';
+      String typedData = '';
       // Current latest  query.
       SearchQuery? query;
       // Check if any of the matches above are the query currently being typed.
-      for (final element in matches) {
+      for (final String element in matches) {
         if (isEndSame(pattern, element)) {
           typedData = element.substring(0).split(':')[1];
-          var queryString = element.split(':').first;
+          String queryString = element.split(':').first;
           if (queryString.startsWith('-')) {
             queryString = queryString.substring(1);
           }
@@ -859,11 +877,11 @@ class _SearchBarState extends State<_SearchBar> {
         pattern,
       );
       // Check if the last query has been completed.
-      final isLastQueryComplete = completedQueries.isNotEmpty &&
+      final bool isLastQueryComplete = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
       // Show filter suggestions if the last filter was not complete.
       if (!isLastQueryComplete) {
-        final filteredOptions = <String>[];
+        final List<String> filteredOptions = <String>[];
         // Last filter being typed.
         typedData = pattern.split(' ').last;
         // Remove the '-' from the case.
@@ -871,7 +889,7 @@ class _SearchBarState extends State<_SearchBar> {
           typedData = typedData.substring(1);
         }
         if (typedData.isNotEmpty) {
-          for (final element
+          for (final String element
               in widget.searchData.searchFilters!.whiteListedQueriesStrings) {
             if (element.startsWith(typedData)) {
               filteredOptions.add(element);
@@ -881,10 +899,10 @@ class _SearchBarState extends State<_SearchBar> {
           _showOverlay(
             list(
               filteredOptions.length,
-              (final context, final index) => ListTile(
+              (final BuildContext context, final int index) => ListTile(
                 onTap: () {
                   // Get query info from the string.
-                  final query = widget.searchData.searchFilters!
+                  final SearchQuery query = widget.searchData.searchFilters!
                       .queryFromString(filteredOptions[index])!;
                   // Add string to text on tap, with quotes at the end if it is
                   // a spaced string with no auto complete options.
@@ -901,7 +919,7 @@ class _SearchBarState extends State<_SearchBar> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              key: ValueKey(typedData),
+              key: ValueKey<String>(typedData),
             ),
           );
         }
@@ -916,7 +934,7 @@ class _SearchBarState extends State<_SearchBar> {
           SizeExpandedSection(
             child: UserSearchDropdown(
               typedData,
-              onSelected: (final data) {
+              onSelected: (final String data) {
                 addString(data, remove: typedData);
               },
               type: query!.type,
@@ -924,9 +942,9 @@ class _SearchBarState extends State<_SearchBar> {
           ),
         );
       } else if (query?.options?.keys != null) {
-        final filteredOptions = <String>[];
+        final List<String> filteredOptions = <String>[];
         query!.options?.keys.toList().forEach(
-          (final element) {
+          (final String element) {
             if (element.startsWith(typedData)) {
               filteredOptions.add(element);
             }
@@ -935,7 +953,7 @@ class _SearchBarState extends State<_SearchBar> {
         _showOverlay(
           list(
             filteredOptions.length,
-            (final context, final index) => ListTile(
+            (final BuildContext context, final int index) => ListTile(
               onTap: () {
                 addString(
                   filteredOptions[index],
@@ -944,7 +962,7 @@ class _SearchBarState extends State<_SearchBar> {
               },
               title: Text(filteredOptions[index]),
             ),
-            key: ValueKey(typedData),
+            key: ValueKey<String>(typedData),
           ),
         );
       }
@@ -958,7 +976,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
     this.controller, {
     required this.onChanged,
     required this.context,
-  })  : patternMap = {
+  })  : patternMap = <RegExp, TextStyle>{
           searchFilters.validSensitiveQueriesRegExp: TextStyle(
             color: Provider.of<PaletteSettings>(context, listen: false)
                 .currentSetting
@@ -974,22 +992,28 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
             fontWeight: FontWeight.bold,
           ),
         },
-        blacklistPatternMap = {
+        blacklistPatternMap = <RegExp, TextStyle>{
           searchFilters.invalidSensitiveQueriesRegExp: TextStyle(
             color: Provider.of<PaletteSettings>(context, listen: false)
                 .currentSetting
                 .faded3,
-            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+            decoration: TextDecoration.combine(
+              <TextDecoration>[TextDecoration.lineThrough],
+            ),
           ),
           searchFilters.invalidBasicQueriesRegExp: TextStyle(
             color: Provider.of<PaletteSettings>(context, listen: false)
                 .currentSetting
                 .faded3,
-            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+            decoration: TextDecoration.combine(
+              <TextDecoration>[TextDecoration.lineThrough],
+            ),
           ),
           searchFilters.blacklistRegExp: TextStyle(
             color: Colors.red,
-            decoration: TextDecoration.combine([TextDecoration.lineThrough]),
+            decoration: TextDecoration.combine(
+              <TextDecoration>[TextDecoration.lineThrough],
+            ),
           ),
         };
   final BuildContext context;
@@ -1007,13 +1031,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
     if (data == '') {
       return const TextSpan(text: '');
     }
-    final inlineList = <InlineSpan>[];
+    final List<InlineSpan> inlineList = <InlineSpan>[];
     if (data.isNotEmpty) {
       data.splitMapJoin(
         RegExp(
           searchFilters.allValidQueriesRegexp.pattern,
         ),
-        onMatch: (final m) {
+        onMatch: (final Match m) {
           inlineList.add(
             _ValidQuery(
               m[0]!,
@@ -1025,13 +1049,13 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
           );
           return '';
         },
-        onNonMatch: (final string) {
+        onNonMatch: (final String string) {
           string.splitMapJoin(
             RegExp(
               '${SearchFilters.notOperatorRegExp.pattern}|${SearchFilters.andOperatorRegExp.pattern}|${SearchFilters.orOperatorRegExp.pattern}',
             ),
-            onMatch: (final m) {
-              var baseTextStyle = textStyle!;
+            onMatch: (final Match m) {
+              TextStyle baseTextStyle = textStyle!;
               if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
                   color: Provider.of<PaletteSettings>(context, listen: false)
@@ -1055,7 +1079,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
               );
               return '';
             },
-            onNonMatch: (final string) {
+            onNonMatch: (final String string) {
               inlineList.add(getSpan(string, textStyle));
               return '';
             },
@@ -1070,25 +1094,28 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   }
 
   TextSpan getSpan(final String text, final TextStyle? style) {
-    final children = <TextSpan>[];
-    final matches = <String>[];
+    final List<TextSpan> children = <TextSpan>[];
+    final List<String> matches = <String>[];
     RegExp? allRegex;
-    final wlRegex = patternMap.keys.map((final e) => e.pattern).join('|');
-    final blRegex =
-        blacklistPatternMap.keys.map((final e) => e.pattern).join('|');
-    final combinedMap = <RegExp, TextStyle>{};
-    combinedMap.addAll(patternMap);
-    combinedMap.addAll(blacklistPatternMap);
+    final String wlRegex =
+        patternMap.keys.map((final RegExp e) => e.pattern).join('|');
+    final String blRegex =
+        blacklistPatternMap.keys.map((final RegExp e) => e.pattern).join('|');
+    final Map<RegExp, TextStyle> combinedMap = <RegExp, TextStyle>{}
+      ..addAll(patternMap)
+      ..addAll(blacklistPatternMap);
     allRegex = RegExp('$wlRegex|$blRegex');
     text.splitMapJoin(
       allRegex,
-      onMatch: (final m) {
+      onMatch: (final Match m) {
         if (!matches.contains(m[0])) {
           matches.add(m[0]!);
         }
-        final k = combinedMap.entries
+        final RegExp k = combinedMap.entries
             .firstWhere(
-                (final element) => element.key.allMatches(m[0]!).isNotEmpty,)
+              (final MapEntry<RegExp, TextStyle> element) =>
+                  element.key.allMatches(m[0]!).isNotEmpty,
+            )
             .key;
         children.add(
           TextSpan(
@@ -1098,7 +1125,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
         );
         return '';
       },
-      onNonMatch: (final span) {
+      onNonMatch: (final String span) {
         children.add(TextSpan(text: span, style: style));
         return span;
       },
@@ -1147,7 +1174,7 @@ class _ValidQuery extends SpecialText {
                   .accent,
           child: InkWell(
             borderRadius: smallBorderRadius,
-            onTap: () {
+            onTap: () async {
               if (!toString().trim().startsWith('-')) {
                 onChanged(
                   controller.text.replaceFirst(
@@ -1165,19 +1192,19 @@ class _ValidQuery extends SpecialText {
               if (controller.text.trim().isEmpty) {
                 onChanged(controller.text.trim());
               }
-              HapticFeedback.vibrate();
+              await HapticFeedback.vibrate();
             },
             child: Padding(
               padding:
                   const EdgeInsets.only(top: 4, left: 6, right: 6, bottom: 4),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Flexible(
                     child: RichText(
                       text: TextSpan(
                         style: textStyle?.copyWith(fontSize: 14),
-                        children: [
+                        children: <InlineSpan>[
                           TextSpan(
                             text:
                                 '${toString().trim().replaceAll('"', '').split(':').first} ',
@@ -1198,7 +1225,7 @@ class _ValidQuery extends SpecialText {
                     width: 4,
                   ),
                   ClipOval(
-                    child: Container(
+                    child: ColoredBox(
                       color:
                           Provider.of<PaletteSettings>(context, listen: false)
                               .currentSetting
@@ -1231,12 +1258,12 @@ class _ValidQuery extends SpecialText {
 class SearchData {
   SearchData({
     this.query = '',
-    this.quickFilters = const [],
-    this.filterStrings = const [],
+    this.quickFilters = const <String>[],
+    this.filterStrings = const <String>[],
     this.searchFilters,
     this.sort = 'best',
     final bool multiType = false,
-    final List<String> defaultHiddenFilters = const [],
+    final List<String> defaultHiddenFilters = const <String>[],
   })  : _defaultFilters = defaultHiddenFilters,
         multiType = searchFilters == null || multiType;
 
@@ -1283,9 +1310,9 @@ class SearchData {
 
   /// Get if a quick filter is currently in the filters.
   String? get activeQuickFilter {
-    final active = <String>[];
-    for (final element in filterStrings) {
-      for (final e in quickFilters) {
+    final List<String> active = <String>[];
+    for (final String element in filterStrings) {
+      for (final String e in quickFilters) {
         if (StringFunctions(e).isStringEqual(element)) {
           active.add(element);
         }
@@ -1304,26 +1331,28 @@ class SearchData {
   /// Clear all search related data.
   SearchData get cleared => copyWith(
         query: '',
-        filterStrings: [],
+        filterStrings: <String>[],
         sort: 'best',
         searchFilters: multiType ? null : searchFilters,
       );
 
   /// Replace the quick filters in all the filters and add a new one.
   List<String> _quickFilterChange(
-      final String quickFilter, final List<String> allFilters,) {
-    final filters = allFilters.toList();
-    filters.removeWhere((final element) {
-      var exists = false;
-      for (final e in quickFilters) {
-        if (StringFunctions(e).isStringEqual(element)) {
-          exists = true;
+    final String quickFilter,
+    final List<String> allFilters,
+  ) {
+    final List<String> filters = allFilters.toList();
+    return filters
+      ..removeWhere((final String element) {
+        bool exists = false;
+        for (final String e in quickFilters) {
+          if (StringFunctions(e).isStringEqual(element)) {
+            exists = true;
+          }
         }
-      }
-      return exists;
-    });
-    filters.add(quickFilter);
-    return filters;
+        return exists;
+      })
+      ..add(quickFilter);
   }
 
   /// Copy search data with custom data.
@@ -1335,7 +1364,7 @@ class SearchData {
     final SearchFilters? searchFilters,
     final String? sort,
   }) {
-    var filters = filterStrings ?? this.filterStrings;
+    List<String> filters = filterStrings ?? this.filterStrings;
     // If a new quick filter is supplied, replace all current ones in the filters.
     if (quickFilter != null) {
       filters = _quickFilterChange(quickFilter, filters);

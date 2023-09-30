@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
@@ -40,21 +42,21 @@ class PullRequestNotificationCardState
 
   @override
   void initState() {
-    getInfo();
+    unawaited(getInfo());
     super.initState();
   }
 
   Future<void> getInfo() async {
     // Get more information on the pull request to display
     // TODO(namanshergill): Update pull notification cards when I figure out how Github does it.
-    final futures = <Future>[
+    final List<Future<dynamic>> futures = <Future<dynamic>>[
       PullsService.getPullInformation(
         fullUrl: widget.notification.subject!.url!,
         refresh: widget.refresh,
       ),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
-    final data = await Future.wait(futures);
+    final List<dynamic> data = await Future.wait(futures);
     pullRequest = data[0];
     // reviews = data[1];
     if (mounted) {
@@ -69,14 +71,14 @@ class PullRequestNotificationCardState
     super.build(context);
     return BasicNotificationCard(
       notification: widget.notification,
-      iconBuilder: (final context) => getIcon(),
-      onTap: () => AutoRouter.of(context).push(
+      iconBuilder: (final BuildContext context) => getIcon(),
+      onTap: () async => AutoRouter.of(context).push(
         issuePullScreenRoute(
           PathData.fromURL(widget.notification.subject!.url!),
         ),
       ),
       loading: loading,
-      footerBuilder: (final context) {
+      footerBuilder: (final BuildContext context) {
         if (!loading) {
           return getPullFooter();
         }

@@ -9,16 +9,18 @@ class DialogHelper {
   // static exit(context) => showDialog(
   //     context: context, builder: (context) => const ExitConfirmationDialog());
 
-  static void appPopup(
-          final BuildContext context, final AppPopupData appPopup,) =>
-      Flushbar(
+  static Future<void> appPopup(
+    final BuildContext context,
+    final AppPopupData appPopup,
+  ) async =>
+      Flushbar<dynamic>(
         margin: const EdgeInsets.all(8),
         borderRadius: BorderRadius.circular(8),
         shouldIconPulse: false,
         animationDuration: const Duration(milliseconds: 750),
         reverseAnimationCurve: Curves.decelerate,
         forwardAnimationCurve: Curves.decelerate,
-        boxShadows: [
+        boxShadows: <BoxShadow>[
           BoxShadow(
             color: appPopup.popupType == PopupType.failed
                 ? Provider.of<PaletteSettings>(context, listen: false)
@@ -33,11 +35,11 @@ class DialogHelper {
         ],
         backgroundGradient: LinearGradient(
           colors: appPopup.popupType == PopupType.failed
-              ? [
+              ? <Color>[
                   const Color(0xffF9484A),
                   const Color(0xffa71d31),
                 ]
-              : [
+              : <Color>[
                   const Color(0xff0BAB64),
                   const Color(0xff3BB78F),
                 ],

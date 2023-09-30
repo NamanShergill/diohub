@@ -6,13 +6,14 @@ import 'package:dio_hub/app/keys.dart';
 import 'package:dio_hub/models/authentication/access_token_model.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/utils/type_cast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthRepository {
-  static const _storage = FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   final RESTHandler _restHandler = RESTHandler.external(
     baseURL: 'https://github.com/login/',
@@ -20,7 +21,7 @@ class AuthRepository {
   );
 
   Future<bool> get isAuthenticated async {
-    final token = await getAccessTokenFromDevice();
+    final String? token = await getAccessTokenFromDevice();
     debugPrint('Auth token ${token ?? 'not found.'}');
     if (token != null) {
       return true;
@@ -38,7 +39,7 @@ class AuthRepository {
 
   Future<String?> getAccessTokenFromDevice() async {
     try {
-      final accessToken = await _storage.read(key: 'accessToken');
+      final String? accessToken = await _storage.read(key: 'accessToken');
       return accessToken;
     } on PlatformException {
       // Workaround for https://github.com/mogol/flutter_secure_storage/issues/43
@@ -47,17 +48,18 @@ class AuthRepository {
     return null;
   }
 
-  Future<Response> getDeviceToken() async {
-    final formData = FormData.fromMap({
+  Future<TypeMap> getDeviceToken() async {
+    final FormData formData = FormData.fromMap(<String, dynamic>{
       'client_id': PrivateKeys.clientID,
       'scope': scopeString,
     });
-    final response = await _restHandler.post('device/code', data: formData);
-    return response;
+    final Response<TypeMap> response =
+        await _restHandler.post<TypeMap>('device/code', data: formData);
+    return response.data!;
   }
 
   String get scopeString => scopes.join(' ');
-  List<String> get scopes => const [
+  List<String> get scopes => const <String>[
         'repo',
         'public_repo',
         'repo:invite',
@@ -71,32 +73,32 @@ class AuthRepository {
         'delete:packages',
       ];
 
-  Future<Response> getAccessToken({final String? deviceCode}) async {
-    final formData = FormData.fromMap({
+  Future<TypeMap> getAccessToken({final String? deviceCode}) async {
+    final FormData formData = FormData.fromMap(<String, dynamic>{
       'client_id': PrivateKeys.clientID,
       'device_code': deviceCode,
       'grant_type': 'urn:ietf:params:oauth:grant-type:device_code',
     });
     try {
-      final response =
-          await _restHandler.post('oauth/access_token', data: formData);
-      if (response.data['access_token'] != null) {
-        return response;
-      } else if (response.data['error'] != null &&
-          response.data['error'] != 'authorization_pending' &&
-          response.data['error'] != 'slow_down') {
-        throw Exception(response.data['error_description']);
+      final Response<TypeMap> response = await _restHandler
+          .post<TypeMap>('oauth/access_token', data: formData);
+      if (response.data!['access_token'] != null) {
+        return response.data!;
+      } else if (response.data!['error'] != null &&
+          response.data!['error'] != 'authorization_pending' &&
+          response.data!['error'] != 'slow_down') {
+        throw Exception(response.data!['error_description']);
       }
-      return response;
+      return response.data!;
     } catch (e) {
       throw Exception(e);
     }
   }
 
   Future<DeviceCodeModel> getDeviceCode() async {
-    final data = await getDeviceToken();
-    if (data.data['device_code'] != null) {
-      return DeviceCodeModel.fromJson(data.data);
+    final TypeMap data = await getDeviceToken();
+    if (data['device_code'] != null) {
+      return DeviceCodeModel.fromJson(data);
     }
     //Exception is thrown if the response does not contain device_code.
     throw Exception('Some error occurred.');
@@ -108,7 +110,7 @@ class AuthRepository {
     if (sendToAuthScreen) {
       if (currentContext.mounted) {
         await AutoRouter.of(currentContext).replaceAll(
-          [
+          <PageRouteInfo>[
             AuthRoute(),
           ],
         );
@@ -117,8 +119,9 @@ class AuthRepository {
   }
 
   Future<AccessTokenModel> oauth2() async {
-    const appAuth = FlutterAppAuth();
-    final result = await appAuth.authorizeAndExchangeCode(
+    const FlutterAppAuth appAuth = FlutterAppAuth();
+    final AuthorizationTokenResponse? result =
+        await appAuth.authorizeAndExchangeCode(
       AuthorizationTokenRequest(
         PrivateKeys.clientID,
         'auth.felix.diohub://login-callback',

@@ -19,9 +19,9 @@ class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   bool isCommit = false;
 
   @override
-  void disposeStreams() {
-    super.disposeStreams();
-    _loadBranch.close();
+  Future<void> disposeStreams() async {
+    await super.disposeStreams();
+    await _loadBranch.close();
   }
 
   void reloadBranch() {

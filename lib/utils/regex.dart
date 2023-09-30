@@ -1,5 +1,5 @@
 String regexORCases(final List<String> cases) =>
-    '(${cases.map((final e) => '($e)').toList().join('|')})';
+    '(${cases.map((final String e) => '($e)').toList().join('|')})';
 
 String regexPattern(final List<String> cases, [final String joinWith = '']) =>
     '(${cases.join(joinWith)})';
@@ -12,12 +12,13 @@ String nonCapturingGroup(final String pattern) => '(?:$pattern)';
 
 extension RegExpExtension on RegExp {
   List<String?> allMatchesWithSep(final String input, [final int start = 0]) {
-    var startVal = start;
-    final result = <String?>[];
+    int startVal = start;
+    final List<String?> result = <String?>[];
 
-    for (final match in allMatches(input, startVal)) {
-      result.add(input.substring(startVal, match.start));
-      result.add(match[0]);
+    for (final RegExpMatch match in allMatches(input, startVal)) {
+      result
+        ..add(input.substring(startVal, match.start))
+        ..add(match[0]);
       startVal = match.end;
     }
     result.add(input.substring(startVal));

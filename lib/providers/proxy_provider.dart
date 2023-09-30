@@ -1,6 +1,6 @@
 import 'package:dio_hub/providers/base_provider.dart';
 
-abstract class ProxyProvider<T, Parent extends BaseDataProvider>
+abstract class ProxyProvider<T, Parent extends BaseDataProvider<dynamic>>
     extends BaseDataProvider<T> {
   ProxyProvider([final Status status = Status.initialized])
       : super(status: status, loadDataOnInit: false);
@@ -19,7 +19,7 @@ abstract class ProxyProvider<T, Parent extends BaseDataProvider>
         await loadData();
       }
       _parentProvider!.statusStream.listen(
-        (final event) async {
+        (final Status event) async {
           // This event happens whenever the parent provider is reloaded, so this provider
           // is reset and new data is fetched.
           if (event == Status.loaded) {

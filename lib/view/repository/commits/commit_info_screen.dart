@@ -22,9 +22,10 @@ class CommitInfoScreen extends StatefulWidget {
 
 class CommitInfoScreenState extends State<CommitInfoScreen> {
   @override
-  Widget build(final BuildContext context) => ChangeNotifierProvider(
+  Widget build(final BuildContext context) =>
+      ChangeNotifierProvider<CommitProvider>(
         create: (final _) => CommitProvider(widget.commitURL),
-        builder: (final context, final value) => SafeArea(
+        builder: (final BuildContext context, final Widget? value) => SafeArea(
           child: Scaffold(
             appBar: Provider.of<CommitProvider>(context).status != Status.loaded
                 ? AppBar(
@@ -33,7 +34,7 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                 : DHAppBar(
                     url: Provider.of<CommitProvider>(context).data.htmlUrl,
                     title: Row(
-                      children: [
+                      children: <Widget>[
                         const Icon(
                           Octicons.git_commit,
                           size: 15,
@@ -52,16 +53,17 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                     ),
                   ),
             body: Builder(
-              builder: (final context) =>
+              builder: (final BuildContext context) =>
                   ProviderLoadingProgressWrapper<CommitProvider>(
-                childBuilder: (final context, final value) =>
-                    const ScaffoldBody(
+                childBuilder:
+                    (final BuildContext context, final CommitProvider value) =>
+                        const ScaffoldBody(
                   child: DefaultTabController(
                     length: 2,
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         AppTabBar(
-                          tabs: [
+                          tabs: <String>[
                             'Commit Information',
 
                             'Changed Files',
@@ -73,7 +75,7 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                         ),
                         Expanded(
                           child: TabBarView(
-                            children: [
+                            children: <Widget>[
                               CommitDetails(),
                               ChangedFiles(),
                               // Container(),

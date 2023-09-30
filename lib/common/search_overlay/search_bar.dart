@@ -67,10 +67,10 @@ class AppSearchBarState extends State<AppSearchBar> {
     final String? exclude,
     final Map<String, String> map,
   ) {
-    final tMap = <String, String>{};
-    map.forEach((final key, final value) {
+    final Map<String, String> tMap = <String, String>{};
+    map.forEach((final String key, final String value) {
       if (key != exclude) {
-        tMap.addAll({key: value});
+        tMap.addAll(<String, String>{key: value});
       }
     });
     return tMap;
@@ -80,8 +80,8 @@ class AppSearchBarState extends State<AppSearchBar> {
     final Map<String, String> qFilters,
     final String? activeFilter,
   ) {
-    var qFilter = 'Quick Filters';
-    qFilters.forEach((final key, final value) {
+    String qFilter = 'Quick Filters';
+    qFilters.forEach((final String key, final String value) {
       if (StringFunctions(key).isStringEqual(activeFilter)) {
         qFilter = qFilters[key]!;
       }
@@ -125,7 +125,11 @@ class AppSearchBarState extends State<AppSearchBar> {
   bool quickFiltersExpanded = false;
   @override
   Widget build(final BuildContext context) {
-    Widget quickActionsExpandAnim(final context, final expand, final child) =>
+    Widget quickActionsExpandAnim(
+      final BuildContext context, {
+      required final bool expand,
+      required final Widget child,
+    }) =>
         quickActionsAnim
             ? SizeExpandedSection(
                 axis: Axis.horizontal,
@@ -133,14 +137,14 @@ class AppSearchBarState extends State<AppSearchBar> {
                 child: child,
               )
             : child;
-    Widget quickActions(final context) => Material(
+    Widget quickActions(final BuildContext context) => Material(
           color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: BorderRadius.only(
             bottomLeft: medBorderRadius.bottomLeft,
             bottomRight: medBorderRadius.bottomRight,
           ),
           child: Column(
-            children: [
+            children: <Widget>[
               const Divider(
                 height: 0,
               ),
@@ -173,10 +177,10 @@ class AppSearchBarState extends State<AppSearchBar> {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Flexible(
                           flex: !quickFiltersExpanded ? 1 : 0,
                           child: Container(
@@ -187,8 +191,8 @@ class AppSearchBarState extends State<AppSearchBar> {
                             ),
                             child: quickActionsExpandAnim(
                               context,
-                              !quickFiltersExpanded,
-                              CustomExpandTile(
+                              expand: !quickFiltersExpanded,
+                              child: CustomExpandTile(
                                 title: Text(
                                   searchData!.searchFilters!
                                           .sortOptions[searchData!.sort] ??
@@ -211,7 +215,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                                   changeSortExpanded();
                                 },
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     const Padding(
                                       padding: EdgeInsets.only(top: 1),
                                       child: Divider(
@@ -219,9 +223,11 @@ class AppSearchBarState extends State<AppSearchBar> {
                                       ),
                                     ),
                                     ListView.separated(
-                                      separatorBuilder:
-                                          (final context, final index) =>
-                                              const Divider(
+                                      separatorBuilder: (
+                                        final BuildContext context,
+                                        final int index,
+                                      ) =>
+                                          const Divider(
                                         height: 0,
                                       ),
                                       shrinkWrap: true,
@@ -232,9 +238,11 @@ class AppSearchBarState extends State<AppSearchBar> {
                                         widget.searchData!.searchFilters!
                                             .sortOptions,
                                       ).length,
-                                      itemBuilder:
-                                          (final context, final index) =>
-                                              ListTile(
+                                      itemBuilder: (
+                                        final BuildContext context,
+                                        final int index,
+                                      ) =>
+                                          ListTile(
                                         title: Text(
                                           getWithoutValue(
                                             searchData!.sort,
@@ -279,8 +287,8 @@ class AppSearchBarState extends State<AppSearchBar> {
                               ),
                               child: quickActionsExpandAnim(
                                 context,
-                                !sortExpanded,
-                                CustomExpandTile(
+                                expand: !sortExpanded,
+                                child: CustomExpandTile(
                                   title: Text(
                                     getQuickFilterTitle(
                                       widget.quickFilters!,
@@ -305,7 +313,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                                   },
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    children: [
+                                    children: <Widget>[
                                       const Padding(
                                         padding: EdgeInsets.only(top: 1),
                                         child: Divider(
@@ -313,9 +321,11 @@ class AppSearchBarState extends State<AppSearchBar> {
                                         ),
                                       ),
                                       ListView.separated(
-                                        separatorBuilder:
-                                            (final context, final index) =>
-                                                const Divider(
+                                        separatorBuilder: (
+                                          final BuildContext context,
+                                          final int index,
+                                        ) =>
+                                            const Divider(
                                           height: 0,
                                         ),
                                         shrinkWrap: true,
@@ -325,9 +335,11 @@ class AppSearchBarState extends State<AppSearchBar> {
                                           searchData!.activeQuickFilter,
                                           widget.quickFilters!,
                                         ).length,
-                                        itemBuilder:
-                                            (final context, final index) =>
-                                                ListTile(
+                                        itemBuilder: (
+                                          final BuildContext context,
+                                          final int index,
+                                        ) =>
+                                            ListTile(
                                           title: Text(
                                             getWithoutValue(
                                               searchData!.activeQuickFilter,
@@ -367,7 +379,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                           expand: !quickFiltersExpanded && !sortExpanded,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: <Widget>[
                               const SizedBox(
                                 height: 1,
                               ),
@@ -379,7 +391,10 @@ class AppSearchBarState extends State<AppSearchBar> {
                                   shrinkWrap: true,
                                   itemCount: widget.quickOptions!.length,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (final context, final index) =>
+                                  itemBuilder: (
+                                    final BuildContext context,
+                                    final int index,
+                                  ) =>
                                       CheckboxListTile(
                                     title: Text(
                                       widget.quickOptions!.values
@@ -394,8 +409,8 @@ class AppSearchBarState extends State<AppSearchBar> {
                                     value: searchData!.filterStrings.contains(
                                       widget.quickOptions!.keys.toList()[index],
                                     ),
-                                    onChanged: (final value) {
-                                      final filters =
+                                    onChanged: (final bool? value) {
+                                      final List<String> filters =
                                           searchData!.visibleStrings.toList();
                                       if (value!) {
                                         filters.add(
@@ -433,7 +448,7 @@ class AppSearchBarState extends State<AppSearchBar> {
           ? const EdgeInsets.all(8)
           : EdgeInsets.zero,
       child: Column(
-        children: [
+        children: <Widget>[
           Material(
             color: widget.backgroundColor ??
                 Provider.of<PaletteSettings>(context).currentSetting.secondary,
@@ -448,14 +463,14 @@ class AppSearchBarState extends State<AppSearchBar> {
                     : medBorderRadius,
             child: InkWell(
               borderRadius: medBorderRadius,
-              onTap: () {
-                AutoRouter.of(context).push(
+              onTap: () async {
+                await AutoRouter.of(context).push(
                   SearchOverlayRoute(
                     message: widget.message,
                     multiHero: widget.updateBarOnChange,
                     searchData: searchData != null ? searchData! : SearchData(),
                     heroTag: widget._heroTag,
-                    onSubmit: (final data) {
+                    onSubmit: (final SearchData data) {
                       if (widget.updateBarOnChange) {
                         setState(() {
                           searchData = data;
@@ -467,7 +482,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                 );
               },
               child: Column(
-                children: [
+                children: <Widget>[
                   if (searchData != null && (searchData?.isActive ?? false))
                     Material(
                       color: Provider.of<PaletteSettings>(context)
@@ -498,7 +513,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                               child: _ActiveSearch(
                                 searchData: searchData!,
                                 trailing: widget.trailing,
-                                onSubmit: (final data) {
+                                onSubmit: (final SearchData data) {
                                   setState(() {
                                     searchData = data;
                                   });
@@ -521,7 +536,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Row(
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Icon(
@@ -582,16 +597,16 @@ class _ActiveSearch extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 if (searchData.query.trim().isNotEmpty)
                   Flexible(
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Icon(
@@ -601,7 +616,8 @@ class _ActiveSearch extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                              'Searching for "${searchData.query.trim()}"',),
+                            'Searching for "${searchData.query.trim()}"',
+                          ),
                         ),
                       ],
                     ),
@@ -617,15 +633,15 @@ class _ActiveSearch extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Wrap(
-                    children: List.generate(
+                    children: List<Widget>.generate(
                       searchData.visibleStrings.length,
-                      (final index) => Row(
+                      (final int index) => Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
+                        children: <Widget>[
                           RichText(
                             text: TextSpan(
                               style: Theme.of(context).textTheme.titleSmall,
-                              children: [
+                              children: <InlineSpan>[
                                 TextSpan(
                                   text:
                                       '${searchData.visibleStrings[index].trim().replaceAll('"', '').split(':').first} ',

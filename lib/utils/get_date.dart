@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 
 String getDate(final String date, {final bool shorten = true}) {
-  final dateTime = DateTime.parse(date);
-  final difference = DateTime.now().difference(dateTime);
+  final DateTime dateTime = DateTime.parse(date);
+  final Duration difference = DateTime.now().difference(dateTime);
   if (difference.inMinutes < 1) {
     return '${difference.inSeconds}${shorten ? 's' : ' seconds ago'}';
   } else if (difference.inHours < 1) {

@@ -13,11 +13,14 @@ class EditingWrapper extends StatelessWidget {
   });
   final WidgetBuilder builder;
   final VoidCallback onSave;
-  final List<EditingController> editingControllers;
+  final List<EditingController<dynamic>> editingControllers;
   @override
-  Widget build(final BuildContext context) => ChangeNotifierProvider(
-        create: (final context) => EditingProvider(editingControllers),
-        builder: (final context, final child) => builder(context),
+  Widget build(final BuildContext context) =>
+      ChangeNotifierProvider<EditingProvider>(
+        create: (final BuildContext context) =>
+            EditingProvider(editingControllers),
+        builder: (final BuildContext context, final Widget? child) =>
+            builder(context),
       );
 }
 
@@ -30,7 +33,7 @@ class EditingController<T> extends ChangeNotifier {
   });
   final T initialValue;
   T? newValue;
-  EditingHandler? editingHandler;
+  EditingHandler<T>? editingHandler;
   bool _currentlyEditing = false;
   final Future<T>? Function()? onEditTap;
   final bool Function(T newValue, T oldValue)? compare;
@@ -45,12 +48,13 @@ class EditingController<T> extends ChangeNotifier {
   }
 
   Future<void> edit() async {
-    if (onEditTap != null) {
-      final tempValue = await onEditTap!.call();
+    final T? tempValue = await onEditTap?.call();
+    if (tempValue != null) {
       newValue = tempValue;
     } else {
       _currentlyEditing = true;
     }
+
     notifyListeners();
   }
 
@@ -95,7 +99,7 @@ class EditWidget<T> extends StatefulWidget {
     this.toolsAxis = Axis.horizontal,
     this.buttonColors,
   });
-  final EditingController editingController;
+  final EditingController<T> editingController;
   final Widget Function({
     required BuildContext context,
     required T? newValue,
@@ -128,12 +132,15 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
   Color get _buttonColor => widget.buttonColors ?? context.palette.accent;
 
   @override
-  Widget build(final BuildContext context) => ChangeNotifierProvider.value(
+  Widget build(final BuildContext context) =>
+      ChangeNotifierProvider<EditingController<T>>.value(
         value: widget.editingController,
-        builder: (final context, final child) {
-          final editing = context.watch<EditingProvider>().editingState;
-          final controller = context.watch<EditingController>();
-          final items = <Widget>[
+        builder: (final BuildContext context, final Widget? child) {
+          final EditingState editing =
+              context.watch<EditingProvider>().editingState;
+          final EditingController<T> controller =
+              context.watch<EditingController<T>>();
+          final List<Widget> items = <Widget>[
             ScaleExpandedSection(
               expand: editing == EditingState.editMode &&
                   !controller.currentlyEditing,
@@ -223,7 +230,7 @@ class MinRowEditWidget extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           child,
           tools,
         ],
@@ -232,7 +239,7 @@ class MinRowEditWidget extends StatelessWidget {
 
 class EditingProvider extends ChangeNotifier {
   EditingProvider(this.controllers);
-  final List<EditingController> controllers;
+  final List<EditingController<dynamic>> controllers;
   EditingState editingState = EditingState.viewMode;
 
   void editMode() {
@@ -242,7 +249,7 @@ class EditingProvider extends ChangeNotifier {
 
   void viewMode() {
     editingState = EditingState.viewMode;
-    for (final element in controllers) {
+    for (final EditingController<dynamic> element in controllers) {
       element.discard();
     }
     notifyListeners();

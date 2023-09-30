@@ -19,57 +19,64 @@ class UserOverviewScreen extends StatelessWidget {
   const UserOverviewScreen(this.userInfoModel, {super.key});
   final UserInfoModel? userInfoModel;
   @override
-  Widget build(final BuildContext context) => Container(
+  Widget build(final BuildContext context) => ColoredBox(
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
         child: Column(
-          children: [
+          children: <Widget>[
             Flexible(
               child: WrappedCollection(
-                children: [
+                children: <Widget>[
                   InfoCard(
                     title: 'Pinned Repos',
                     mode: InfoCardMode.expanded,
                     child: APIWrapper<
                         List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
-                      apiCall: ({required final refresh}) =>
+                      apiCall: ({required final bool refresh}) async =>
                           UserInfoService.getUserPinnedRepos(
                         userInfoModel!.login!,
                       ),
-                      responseBuilder: (final context, final data) => data
-                              .isEmpty
-                          ? const Text('No Pinned items.')
-                          : SizeExpandedSection(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: data.length,
-                                itemBuilder: (final context, final index) {
-                                  final node = data[index]!.node!
-                                      as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
-                                  return RepositoryCard(
-                                    RepositoryModel(
-                                      stargazersCount: node.stargazerCount,
-                                      description: node.description,
-                                      language:
-                                          node.languages!.edges!.isNotEmpty
-                                              ? node.languages?.edges?.first!
-                                                      .node.name ??
-                                                  'N/A'
-                                              : 'N/A',
-                                      owner: Owner(login: node.owner.login),
-                                      name: node.name,
-                                      private: false,
-                                      url: node.url.toString().replaceFirst(
-                                            'https://github.com',
-                                            'https://api.github.com/repos',
-                                          ),
-                                      updatedAt: node.updatedAt,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                      loadingBuilder: (final context) => const Padding(
+                      responseBuilder: (final BuildContext context,
+                              final List<
+                                      GetUserPinnedRepos$Query$User$PinnedItems$Edges?>
+                                  data,) =>
+                          data.isEmpty
+                              ? const Text('No Pinned items.')
+                              : SizeExpandedSection(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: data.length,
+                                    itemBuilder: (final BuildContext context,
+                                        final int index,) {
+                                      final GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
+                                          node = data[index]!.node!
+                                              as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
+                                      return RepositoryCard(
+                                        RepositoryModel(
+                                          stargazersCount: node.stargazerCount,
+                                          description: node.description,
+                                          language:
+                                              node.languages!.edges!.isNotEmpty
+                                                  ? node.languages?.edges
+                                                          ?.first!.node.name ??
+                                                      'N/A'
+                                                  : 'N/A',
+                                          owner: Owner(login: node.owner.login),
+                                          name: node.name,
+                                          private: false,
+                                          url: node.url.toString().replaceFirst(
+                                                'https://github.com',
+                                                'https://api.github.com/repos',
+                                              ),
+                                          updatedAt: node.updatedAt,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                      loadingBuilder: (final BuildContext context) =>
+                          const Padding(
                         padding: EdgeInsets.symmetric(vertical: 24),
                         child: LoadingIndicator(),
                       ),
@@ -81,10 +88,10 @@ class UserOverviewScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           SvgPicture.network(
                             'http://ghchart.rshah.org/${toHexString(Provider.of<PaletteSettings>(context).currentSetting.accent).substring(2)}/${userInfoModel!.login}',
-                            placeholderBuilder: (final context) =>
+                            placeholderBuilder: (final BuildContext context) =>
                                 ShimmerWidget(
                               baseColor: Provider.of<PaletteSettings>(context)
                                   .currentSetting

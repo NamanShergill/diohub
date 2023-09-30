@@ -7,6 +7,7 @@ import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/search_overlay/search_bar.dart';
+import 'package:dio_hub/common/search_overlay/search_overlay.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -51,11 +52,13 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(final BuildContext context) {
-    final search = Provider.of<SearchDataProvider>(context);
+    final SearchDataProvider search = Provider.of<SearchDataProvider>(context);
 
     super.build(context);
     return NestedScroll(
-      header: (final context, {required final isInnerBoxScrolled}) => [
+      header: (final BuildContext context,
+              {required final bool isInnerBoxScrolled,}) =>
+          <Widget>[
         SliverAppBar(
           expandedHeight: 300,
           collapsedHeight: 155,
@@ -75,20 +78,25 @@ class HomeScreenState extends State<HomeScreen>
                     widget.parentTabController.animateTo(3);
                   },
                   child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                    childBuilder: (final context, final value) =>
+                    childBuilder: (final BuildContext context,
+                            final CurrentUserProvider value,) =>
                         CachedNetworkImage(
                       imageUrl: value.data.avatarUrl!,
-                      placeholder: (final context, final _) => ShimmerWidget(
+                      placeholder: (final BuildContext context, final _) =>
+                          ShimmerWidget(
                         child: Container(
                           color: Colors.grey,
                         ),
                       ),
                     ),
-                    errorBuilder: (final context, final error) => const Icon(
+                    errorBuilder:
+                        (final BuildContext context, final Object error) =>
+                            const Icon(
                       LineIcons.exclamationCircle,
                       size: 40,
                     ),
-                    loadingBuilder: (final context) => ShimmerWidget(
+                    loadingBuilder: (final BuildContext context) =>
+                        ShimmerWidget(
                       child: Container(
                         color: Colors.grey,
                       ),
@@ -98,7 +106,7 @@ class HomeScreenState extends State<HomeScreen>
               ),
               child: AppSearchBar(
                 updateBarOnChange: false,
-                onSubmit: (final data) {
+                onSubmit: (final SearchData data) {
                   search.updateSearchData(data);
                   widget.parentTabController.animateTo(1);
                 },
@@ -108,12 +116,12 @@ class HomeScreenState extends State<HomeScreen>
           ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(0),
-            child: Container(
+            child: ColoredBox(
               color:
                   Provider.of<PaletteSettings>(context).currentSetting.primary,
               child: AppTabBar(
                 controller: _tabController,
-                tabs: const [
+                tabs: const <String>[
                   'Activity',
                   'Issues',
                   'Pull Requests',
@@ -125,16 +133,18 @@ class HomeScreenState extends State<HomeScreen>
           ),
         ),
       ],
-      body: Container(
+      body: ColoredBox(
         color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-          childBuilder: (final context, final value) => Builder(
-            builder: (final context) {
+          childBuilder:
+              (final BuildContext context, final CurrentUserProvider value) =>
+                  Builder(
+            builder: (final BuildContext context) {
               NestedScrollView.sliverOverlapAbsorberHandleFor(context);
               return TabBarView(
                 controller: _tabController,
                 physics: const BouncingScrollPhysics(),
-                children: [
+                children: <Widget>[
                   const Events(),
                   IssuesTab(
                     deepLinkData:
@@ -150,19 +160,32 @@ class HomeScreenState extends State<HomeScreen>
                   ),
                   InfiniteScrollWrapper<
                       GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
-                    future: (final data) => UserInfoService.getViewerOrgs(
+                    future: (final ({
+                              GetViewerOrgs$Query$Viewer$Organizations$Edges? lastItem,
+                              int pageNumber,
+                              int pageSize,
+                              bool refresh
+                            }) data,) async =>
+                        UserInfoService.getViewerOrgs(
                       refresh: data.refresh,
                       after: data.lastItem?.cursor,
                     ),
-                    separatorBuilder: (final context, final index) =>
-                        const Divider(
+                    separatorBuilder:
+                        (final BuildContext context, final int index) =>
+                            const Divider(
                       height: 8,
                     ),
                     topSpacing: 8,
                     listEndIndicator: false,
                     // divider: false,
-                    builder: (final data) => Row(
-                      children: [
+                    builder: (final ({
+                              BuildContext context,
+                              int index,
+                              GetViewerOrgs$Query$Viewer$Organizations$Edges? item,
+                              bool refresh
+                            }) data,) =>
+                        Row(
+                      children: <Widget>[
                         Expanded(
                           child: ProfileTile.login(
                             avatarUrl: data.item?.node?.avatarUrl.toString(),

@@ -55,6 +55,7 @@ dependencies:
   flutter_html:
     path: dependencies/flutter_html
 
+  flutter_html_table: ^3.0.0-beta.2
   flutter_inappwebview: ^6.0.0-beta.24+1
   flutter_keyboard_visibility: ^5.4.1
   flutter_portal: ^1.1.4
@@ -118,6 +119,8 @@ dependency_overrides:
   # Override for conflict between artemis and flutter_test.
   collection: ^1.18.0
   # flutter_html 2.1.2 uses a version not compatible with flutter >3.
+  flutter_html:
+    path: dependencies/flutter_html
   flutter_layout_grid: ^2.0.4
   flutter_math_fork: ^0.7.1
   flutter_svg: ^2.0.7

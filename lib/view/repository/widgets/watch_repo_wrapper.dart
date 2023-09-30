@@ -45,11 +45,11 @@ class WatchRepoWrapper extends StatefulWidget {
 
 class WatchRepoWrapperState extends State<WatchRepoWrapper> {
   final APIWrapperController<HasWatched$Query$Repository> controller =
-      APIWrapperController();
+      APIWrapperController<HasWatched$Query$Repository>();
   bool changing = false;
   @override
   Widget build(final BuildContext context) {
-    final theme =
+    final DioHubPalette theme =
         Provider.of<PaletteSettings>(context, listen: false).currentSetting;
     Future<void> updateWatchStatus(
       final HasWatched$Query$Repository data, {
@@ -97,14 +97,20 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
             : () async {
                 await showDHBottomSheet(
                   context,
-                  builder: (final context) => DHBottomSheet(
-                    headerBuilder: (final context, final setState) =>
+                  builder: (final BuildContext context) => DHBottomSheet(
+                    headerBuilder: (
+                      final BuildContext context,
+                      final StateSetter setState,
+                    ) =>
                         const BottomSheetHeaderText(
                       headerText: 'Watch Repository',
                     ),
-                    builder: (final context, final setState) =>
+                    builder: (
+                      final BuildContext context,
+                      final StateSetter setState,
+                    ) =>
                         BottomSheetBodyList(
-                      children: [
+                      children: <Widget>[
                         ListTile(
                           title: Text(
                             'Participating and @mentions',
@@ -176,12 +182,16 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                 );
               };
     return APIWrapper<HasWatched$Query$Repository>(
-      apiCall: ({required final refresh}) =>
+      apiCall: ({required final bool refresh}) async =>
           RepositoryServices.isSubscribed(widget.owner, widget.name),
       apiWrapperController: controller,
-      responseBuilder: (final context, final data) =>
+      responseBuilder: (
+        final BuildContext context,
+        final HasWatched$Query$Repository data,
+      ) =>
           widget.builder(context, data, onPress(data)),
-      loadingBuilder: (final context) => widget.builder(context, null, null),
+      loadingBuilder: (final BuildContext context) =>
+          widget.builder(context, null, null),
     );
   }
 }

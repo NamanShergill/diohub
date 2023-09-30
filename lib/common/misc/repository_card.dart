@@ -43,8 +43,8 @@ class RepositoryCardState extends State<RepositoryCard> {
           borderRadius: medBorderRadius,
           child: InkWell(
             borderRadius: medBorderRadius,
-            onTap: () {
-              AutoRouter.of(context).push(
+            onTap: () async {
+              await AutoRouter.of(context).push(
                 RepositoryRoute(
                   repositoryURL: widget.repo!.url!,
                   branch: widget.branch,
@@ -52,22 +52,22 @@ class RepositoryCardState extends State<RepositoryCard> {
               );
             },
             child: Stack(
-              children: [
+              children: <Widget>[
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(
                         height: 8,
                       ),
                       Row(
-                        children: [
+                        children: <Widget>[
                           Expanded(
                             child: Wrap(
                               crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
+                              children: <Widget>[
                                 Visibility(
                                   visible: widget.repo!.private!,
                                   child: Padding(
@@ -95,7 +95,7 @@ class RepositoryCardState extends State<RepositoryCard> {
                                   visible: widget.repo!.fork ?? false,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
-                                    children: [
+                                    children: <Widget>[
                                       Icon(
                                         Octicons.repo_forked,
                                         size: 12,
@@ -130,7 +130,7 @@ class RepositoryCardState extends State<RepositoryCard> {
                         height: 8,
                       ),
                       Row(
-                        children: [
+                        children: <Widget>[
                           Flexible(
                             child: Text(
                               widget.repo!.description != null
@@ -151,19 +151,20 @@ class RepositoryCardState extends State<RepositoryCard> {
                       ),
                       Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
+                        children: <Widget>[
                           LanguageIndicator(
                             widget.repo!.language,
                             size: 11,
                             textStyle: AppThemeTextStyles.eventCardChildFooter(
-                                context,),
+                              context,
+                            ),
                           ),
                           const SizedBox(
                             width: 16,
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: <Widget>[
                               Icon(
                                 Octicons.star_fill,
                                 size: 12,
@@ -188,7 +189,8 @@ class RepositoryCardState extends State<RepositoryCard> {
                           Text(
                             'Updated ${getDate(widget.repo!.updatedAt.toString(), shorten: false)}',
                             style: AppThemeTextStyles.eventCardChildFooter(
-                                context,),
+                              context,
+                            ),
                           ),
                         ],
                       ),
@@ -203,7 +205,7 @@ class RepositoryCardState extends State<RepositoryCard> {
                     child: RepoStar(
                       widget.repo!.owner!.login!,
                       widget.repo!.name!,
-                      onStarsChange: (final value) {
+                      onStarsChange: (final int value) {
                         setState(() {
                           widget.repo!.stargazersCount = value;
                         });
@@ -242,13 +244,13 @@ class RepoCardLoading extends StatelessWidget {
           color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: medBorderRadius,
           child: APIWrapper<RepositoryModel>(
-            apiCall: ({required final refresh}) =>
+            apiCall: ({required final bool refresh}) async =>
                 RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
-            loadingBuilder: (final context) => Padding(
+            loadingBuilder: (final BuildContext context) => Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     repoName!.split('/').last,
                     style: AppThemeTextStyles.eventCardChildTitle(context),
@@ -278,7 +280,9 @@ class RepoCardLoading extends StatelessWidget {
                 ],
               ),
             ),
-            responseBuilder: (final context, final repo) => RepositoryCard(
+            responseBuilder:
+                (final BuildContext context, final RepositoryModel repo) =>
+                    RepositoryCard(
               repo,
               branch: branch,
               isThemed: false,

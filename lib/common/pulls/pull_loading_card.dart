@@ -36,9 +36,9 @@ class PullLoadingCard extends StatelessWidget {
           color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           borderRadius: medBorderRadius,
           child: APIWrapper<PullRequestModel>(
-            apiCall: ({required final refresh}) async =>
+            apiCall: ({required final bool refresh}) async =>
                 PullsService.getPullInformation(fullUrl: url, refresh: refresh),
-            loadingBuilder: (final context) {
+            loadingBuilder: (final BuildContext context) {
               if (issueModel != null) {
                 return InkWell(
                   borderRadius: medBorderRadius,
@@ -51,9 +51,9 @@ class PullLoadingCard extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Row(
-                          children: [
+                          children: <Widget>[
                             // const GetPullIcon(null, null),
                             const SizedBox(
                               width: 4,
@@ -101,7 +101,7 @@ class PullLoadingCard extends StatelessWidget {
                         ),
                         if (!compact)
                           Column(
-                            children: [
+                            children: <Widget>[
                               const SizedBox(
                                 height: 16,
                               ),
@@ -127,7 +127,7 @@ class PullLoadingCard extends StatelessWidget {
                 ),
               );
             },
-            responseBuilder: (final context, final data) => PullListCard(
+            responseBuilder: (final BuildContext context, final PullRequestModel data) => PullListCard(
               data,
               compact: compact,
               disableMaterial: true,

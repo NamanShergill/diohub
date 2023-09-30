@@ -10,9 +10,9 @@ class CommitInfoButton extends StatelessWidget {
   const CommitInfoButton({super.key});
   @override
   Widget build(final BuildContext context) => Consumer<CodeProvider>(
-        builder: (final context, final value, final _) => Row(
+        builder: (final BuildContext context, final CodeProvider value, final _) => Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             const SizedBox(
               width: 16,
             ),
@@ -20,7 +20,7 @@ class CommitInfoButton extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Flexible(
                     child: Text(
                       value.tree.last.commit!.commit!.message!.length > 25
@@ -36,7 +36,7 @@ class CommitInfoButton extends StatelessWidget {
                     height: 5,
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       ProfileTile.avatar(
                         avatarUrl:
                             value.tree.last.commit!.author?.avatarUrl ?? '',
@@ -57,9 +57,9 @@ class CommitInfoButton extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
+              children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     Icon(
                       Octicons.git_commit,
                       size: 11,
@@ -92,7 +92,7 @@ class CommitInfoButton extends StatelessWidget {
                   height: 5,
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Icon(
                       Icons.timelapse_outlined,
                       size: 11,

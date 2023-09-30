@@ -5,9 +5,9 @@ import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/copy_button.dart';
 import 'package:dio_hub/common/misc/image_loader.dart';
 import 'package:dio_hub/common/misc/patch_viewer.dart';
-import 'package:dio_hub/main.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/link_handler.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,13 +15,9 @@ import 'package:highlight/languages/all.dart';
 import 'package:provider/provider.dart';
 
 part 'a_extension.dart';
-
 part 'code_extension.dart';
-
 part 'div_extension.dart';
-
 part 'img_extension.dart';
-
 part 'pre_extension.dart';
 
 extension InlineSpanExtension on ExtensionContext {
@@ -41,7 +37,7 @@ List<HtmlExtension> markdownTagExtensions(
   final BuildContext context, {
   required final List<MarkdownImgSrcModifiers>? imgSrcModifiers,
 }) =>
-    [
+    <HtmlExtension>[
       ..._tagWrapExtensions(context),
       ..._tagExtensions(
         context,
@@ -53,11 +49,11 @@ List<TagExtension> _tagExtensions(
   final BuildContext context, {
   required final List<MarkdownImgSrcModifiers>? imgSrcModifiers,
 }) =>
-    [
+    <TagExtension>[
       _divExtension(context).extension,
       _imgExtension(
         context,
-        imgSrcModifiers: imgSrcModifiers ?? [],
+        imgSrcModifiers: imgSrcModifiers ?? <MarkdownImgSrcModifiers>[],
       ).extension,
       _preExtension(context).extension,
       _aExtension(context).extension,
@@ -65,12 +61,13 @@ List<TagExtension> _tagExtensions(
       // TagExtension(tagsToExtend: {'li'}, child: Placeholder()),
     ];
 
-List<TagExtension> _tagWrapExtensions(final BuildContext context) => [
+List<TagExtension> _tagWrapExtensions(final BuildContext context) =>
+    <TagExtension>[
       TagExtension(
-        tagsToExtend: {
+        tagsToExtend: <String>{
           'blockquote',
         },
-        builder: (p0) => DecoratedBox(
+        builder: (final ExtensionContext p0) => DecoratedBox(
           // padding: const EdgeInsets.only(bottom: 40),
           decoration: BoxDecoration(
             color: context.palette.faded3.withOpacity(0.2),
@@ -85,10 +82,10 @@ List<TagExtension> _tagWrapExtensions(final BuildContext context) => [
         ),
       ),
       TagExtension(
-        tagsToExtend: {
+        tagsToExtend: <String>{
           'code',
         },
-        builder: (final child) => Padding(
+        builder: (final ExtensionContext child) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 1),
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -130,7 +127,7 @@ class _CodeViewState extends State<_CodeView> {
       ),
     );
     return Row(
-      children: [
+      children: <Widget>[
         Expanded(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -139,7 +136,7 @@ class _CodeViewState extends State<_CodeView> {
               borderRadius: smallBorderRadius,
             ),
             child: Stack(
-              children: [
+              children: <Widget>[
                 if (!wrapText)
                   Scrollbar(
                     child: SingleChildScrollView(
@@ -168,7 +165,7 @@ class _CodeViewState extends State<_CodeView> {
                     color: Colors.transparent,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: <Widget>[
                         CopyButton(
                           widget.data,
                           size: 14,
@@ -176,7 +173,7 @@ class _CodeViewState extends State<_CodeView> {
                         WrapIconButton(
                           wrap: wrapText,
                           size: 14,
-                          onWrap: (final value) {
+                          onWrap: (final bool value) {
                             setState(() {
                               wrapText = value;
                             });
@@ -215,15 +212,17 @@ class _MarkdownExtension {
     required this.tag,
     this.child,
     this.builder,
-  }) : assert((child != null) || (builder != null),
-            'Either child or builder needs to be provided to TagExtension');
+  }) : assert(
+          (child != null) || (builder != null),
+          'Either child or builder needs to be provided to TagExtension',
+        );
 
   final String tag;
   final Widget? child;
   final _ExtensionWidget Function(ExtensionContext extensionContext)? builder;
 
   TagExtension get extension => TagExtension(
-        tagsToExtend: {
+        tagsToExtend: <String>{
           tag,
         },
         builder: builder,

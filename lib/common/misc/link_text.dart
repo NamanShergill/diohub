@@ -12,11 +12,11 @@ class LinkText extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: smallBorderRadius,
-          onTap: () {
-            linkHandler(context, link);
+          onTap: () async {
+            await linkHandler(context, link);
           },
-          onLongPress: () {
-            linkHandler(context, link, showSheetOnDeepLink: true);
+          onLongPress: () async {
+            await linkHandler(context, link, showSheetOnDeepLink: true);
           },
           child: Text(
             text ?? link,

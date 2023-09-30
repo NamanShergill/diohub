@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/global.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
@@ -16,15 +18,15 @@ String get _slash => '(/)';
 String get _digit => '(\\d+)';
 
 Future<String?> initUniLink() async {
-  final initialLink = await getInitialLink();
+  final String? initialLink = await getInitialLink();
   return initialLink;
 }
 
 void uniLinkStream() {
   linkStream.listen(
-    (final link) {
+    (final String? link) async {
       if (link != null) {
-        deepLinkNavigate(
+        await deepLinkNavigate(
           Uri.parse(link),
         );
       }
@@ -32,14 +34,14 @@ void uniLinkStream() {
   );
 }
 
-void deepLinkNavigate(final Uri link) {
+Future<void> deepLinkNavigate(final Uri link) async {
   if (link.toString().startsWith(_themeLinkPattern)) {
     // AutoRouter.of(Global.currentContext).replaceAll([LandingScreenRoute()]);
-    showDialog(
+    await showDialog(
       context: currentContext,
-      builder: (final context) => AppDialog(
+      builder: (final BuildContext context) => AppDialog(
         title: 'Load theme?',
-        actions: [
+        actions: <Widget>[
           MaterialButton(
             onPressed: () {
               Navigator.pop(context);
@@ -61,21 +63,22 @@ void deepLinkNavigate(final Uri link) {
     );
   } else if (_getRoutes(link)?.isNotEmpty ?? false) {
     if (_getRoutes(link)?.first is LandingRoute) {
-      AutoRouter.of(currentContext).popUntil((final route) => false);
+      AutoRouter.of(currentContext)
+          .popUntil((final Route<dynamic> route) => false);
     }
     // AutoRouter.of(Global.currentContext).replaceAll(getRoutes(link)!);
-    AutoRouter.of(currentContext).pushAll(_getRoutes(link)!);
+    await AutoRouter.of(currentContext).pushAll(_getRoutes(link)!);
   }
 }
 
 String githubURLtoPath(final String link) {
-  var str = link;
+  String str = link;
   if (str.endsWith('/')) {
     str = str.substring(0, str.length - 1);
   }
   return str.toLowerCase().replaceFirst(
         RegExp('((http(s)?)(:(//)))?${regexORCases(
-          [
+          <String>[
             'www.',
             'api.',
           ],
@@ -98,7 +101,7 @@ RegExp get _themeLinkPattern =>
     RegExp('((http(s)?)(:(//)))?(theme.felix.diohub)');
 
 List<PageRouteInfo>? _getRoutes(final Uri uri) {
-  final link = uri;
+  final Uri link = uri;
 
   if (link.pathSegments.isEmpty) {
     return null;
@@ -110,10 +113,10 @@ List<PageRouteInfo>? _getRoutes(final Uri uri) {
   } else {
     path = link.path;
   }
-  final relPath = StringFunctions(path);
-  final temp = <PageRouteInfo>[];
+  final StringFunctions relPath = StringFunctions(path);
+  final List<PageRouteInfo> temp = <PageRouteInfo>[];
   if (relPath.regexCompleteMatch(_exceptionURLPatterns)) {
-    openInAppBrowser(link);
+    unawaited(openInAppBrowser(link));
   } else if (relPath.regexCompleteMatch(_landingPageURLPattern)) {
     temp.add(LandingRoute(deepLinkData: relPath.toPathData));
   } else if (relPath.regexCompleteMatch(_issuePageURLPattern) ||
@@ -144,7 +147,7 @@ List<PageRouteInfo>? _getRoutes(final Uri uri) {
       ),
     );
   } else {
-    openInAppBrowser(link);
+    unawaited(openInAppBrowser(link));
   }
   return temp;
 }
@@ -153,10 +156,10 @@ String _urlWithPrefix(final String url) => 'https://api.github.com/$url';
 
 RegExp get _exceptionURLPatterns => RegExp(
       regexORCases(
-        [
+        <String>[
           'login/device',
           regexPattern(
-            [
+            <String>[
               'settings/',
               _any,
             ],
@@ -167,23 +170,23 @@ RegExp get _exceptionURLPatterns => RegExp(
 
 RegExp get _landingPageURLPattern => RegExp(
       regexORCases(
-        [
+        <String>[
           'search',
           'notifications',
           regexPattern(
-            [
+            <String>[
               regexORCases(
-                [
+                <String>[
                   'issues',
                   'pulls',
                 ],
               ),
               optionalRegex(
                 regexPattern(
-                  [
+                  <String>[
                     _slash,
                     regexORCases(
-                      [
+                      <String>[
                         'assigned',
                         'mentioned',
                       ],
@@ -199,7 +202,7 @@ RegExp get _landingPageURLPattern => RegExp(
 
 RegExp get _issuePageURLPattern => RegExp(
       regexPattern(
-        [
+        <String>[
           _chars,
           _slash,
           _chars,
@@ -213,7 +216,7 @@ RegExp get _issuePageURLPattern => RegExp(
 
 RegExp get _pullPageURLPattern => RegExp(
       regexPattern(
-        [
+        <String>[
           _chars,
           _slash,
           _chars,
@@ -227,7 +230,7 @@ RegExp get _pullPageURLPattern => RegExp(
 
 RegExp get _commitPageURLPattern => RegExp(
       regexPattern(
-        [
+        <String>[
           _chars,
           _slash,
           _chars,
@@ -239,23 +242,23 @@ RegExp get _commitPageURLPattern => RegExp(
 
 RegExp get _repoPageURLPattern => RegExp(
       regexPattern(
-        [
+        <String>[
           _chars,
           _slash,
           _chars,
           optionalRegex(
             regexORCases(
-              [
+              <String>[
                 regexPattern(
-                  [
+                  <String>[
                     '/commits',
-                    optionalRegex(regexPattern([_slash, _chars])),
+                    optionalRegex(regexPattern(<String>[_slash, _chars])),
                   ],
                 ),
                 regexPattern(
-                  [
+                  <String>[
                     _slash,
-                    regexORCases(['tree', 'blob']),
+                    regexORCases(<String>['tree', 'blob']),
                     _slash,
                     _chars,
                     // optionalRegex(

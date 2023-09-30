@@ -14,7 +14,7 @@ class FontSettingCard extends StatefulWidget {
 }
 
 class FontSettingCardState extends State<FontSettingCard> {
-  final Map<String, String?> settings = {
+  final Map<String, String?> settings = <String, String?>{
     'System Default': null,
     'Montserrat': null,
     'Manrope': null,
@@ -27,20 +27,20 @@ class FontSettingCardState extends State<FontSettingCard> {
         title: 'App Font',
         mode: InfoCardMode.expanded,
         trailingIcon: const Icon(LineIcons.edit),
-        onTap: () {
-          showDialog(
+        onTap: () async {
+          await showDialog(
             context: context,
-            builder: (final context) => AppDialog(
+            builder: (final BuildContext context) => AppDialog(
               title: 'App Font',
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(
+                children: List<Widget>.generate(
                   settings.keys.toList().length,
-                  (final index) => Column(
+                  (final int index) => Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const Divider(),
                       RadioListTile<String>(
                         value: settings.keys.toList()[index],
@@ -65,7 +65,7 @@ class FontSettingCardState extends State<FontSettingCard> {
                         activeColor: Provider.of<PaletteSettings>(context)
                             .currentSetting
                             .accent,
-                        onChanged: (final value) {
+                        onChanged: (final String? value) {
                           context.read<FontSettings>().updateData(value!);
                           Navigator.pop(context);
                         },
@@ -78,7 +78,7 @@ class FontSettingCardState extends State<FontSettingCard> {
           );
         },
         child: Column(
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(

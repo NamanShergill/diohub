@@ -5,20 +5,21 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 enum NetworkStatus { online, offline, restored }
 
 class InternetConnectivity {
-  static final StreamController _networkController =
+  static final StreamController<NetworkStatus> _networkController =
       StreamController<NetworkStatus>.broadcast();
 
-  static Stream<NetworkStatus> get networkStream =>
-      _networkController.stream as Stream<NetworkStatus>;
+  static Stream<NetworkStatus> get networkStream => _networkController.stream;
 
   static NetworkStatus _status = NetworkStatus.online;
   static NetworkStatus get status => _status;
 
   static Future<void> networkStatusService() async {
-    Connectivity().onConnectivityChanged.listen((final status) async {
+    Connectivity()
+        .onConnectivityChanged
+        .listen((final ConnectivityResult status) async {
       if (status != ConnectivityResult.none) {
         _networkController.add(NetworkStatus.restored);
-        await Future.delayed(const Duration(seconds: 5));
+        await Future<void>.delayed(const Duration(seconds: 5));
         if (status != ConnectivityResult.none) {
           _networkController.add(NetworkStatus.online);
         }
@@ -26,7 +27,7 @@ class InternetConnectivity {
         _networkController.add(NetworkStatus.offline);
       }
     });
-    _networkController.stream.listen((final event) {
+    _networkController.stream.listen((final NetworkStatus event) {
       _status = event;
     });
     if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
@@ -35,6 +36,6 @@ class InternetConnectivity {
   }
 
   void dispose() {
-    _networkController.close();
+    unawaited(_networkController.close());
   }
 }
