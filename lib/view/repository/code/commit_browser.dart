@@ -154,12 +154,8 @@ class CommitBrowserState extends State<CommitBrowser> {
                   height: 16,
                 ),
                 builder: (
-                  final ({
-                    BuildContext context,
-                    int index,
-                    CommitListModel item,
-                    bool refresh
-                  }) data,
+                  final BuildContext context,
+                  final ({int index, CommitListModel item, bool refresh}) data,
                 ) =>
                     CommitTilesREST(
                   highlighted: isLocked! && widget.currentSHA == data.item.sha,

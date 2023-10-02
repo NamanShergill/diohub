@@ -12,7 +12,10 @@ class VersionInfoWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: FutureBuilder<PackageInfo>(
           future: PackageInfo.fromPlatform(),
-          builder: (final BuildContext context, final AsyncSnapshot<PackageInfo> snapshot) {
+          builder: (
+            final BuildContext context,
+            final AsyncSnapshot<PackageInfo> snapshot,
+          ) {
             if (snapshot.hasData) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,

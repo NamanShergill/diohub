@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: always_declare_return_types, always_put_control_body_on_new_line, always_put_required_named_parameters_first, always_require_non_null_named_parameters, always_use_package_imports, annotate_overrides, avoid_annotating_with_dynamic, avoid_bool_literals_in_conditional_expressions, avoid_catches_without_on_clauses, avoid_catching_errors, avoid_classes_with_only_static_members, avoid_double_and_int_checks, avoid_dynamic_calls, avoid_empty_else, avoid_equals_and_hash_code_on_mutable_classes, avoid_escaping_inner_quotes, avoid_field_initializers_in_const_classes, avoid_function_literals_in_foreach_calls, avoid_implementing_value_types, avoid_init_to_null, avoid_js_rounded_ints, avoid_multiple_declarations_per_line, avoid_null_checks_in_equality_operators, avoid_positional_boolean_parameters, avoid_print, avoid_private_typedef_functions, avoid_redundant_argument_values, avoid_relative_lib_imports, avoid_renaming_method_parameters, avoid_return_types_on_setters, avoid_returning_null, avoid_returning_null_for_future, avoid_returning_null_for_void, avoid_returning_this, avoid_setters_without_getters, avoid_shadowing_type_parameters, avoid_single_cascade_in_expression_statements, avoid_slow_async_io, avoid_type_to_string, avoid_types_as_parameter_names, avoid_types_on_closure_parameters, avoid_unnecessary_containers, avoid_unused_constructor_parameters, avoid_void_async, avoid_web_libraries_in_flutter, await_only_futures, camel_case_extensions, camel_case_types, cancel_subscriptions, cascade_invocations, cast_nullable_to_non_nullable, close_sinks, collection_methods_unrelated_type, combinators_ordering, comment_references, conditional_uri_does_not_exist, constant_identifier_names, control_flow_in_finally, curly_braces_in_flow_control_structures, dangling_library_doc_comments, depend_on_referenced_packages, deprecated_consistency, deprecated_member_use_from_same_package, directives_ordering, discarded_futures, do_not_use_environment, empty_catches, empty_constructor_bodies, empty_statements, eol_at_end_of_file, exhaustive_cases, file_names, flutter_style_todos, hash_and_equals, implementation_imports, implicit_call_tearoffs, implicit_reopen, invalid_case_patterns, join_return_with_assignment, leading_newlines_in_multiline_strings, library_annotations, library_names, library_prefixes, library_private_types_in_public_api, lines_longer_than_80_chars, literal_only_boolean_expressions, matching_super_parameters, missing_whitespace_between_adjacent_strings, no_adjacent_strings_in_list, no_default_cases, no_duplicate_case_values, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, no_literal_bool_comparisons, no_logic_in_create_state, no_runtimeType_toString, no_self_assignments, no_wildcard_variable_uses, non_constant_identifier_names, noop_primitive_operations, null_check_on_nullable_type_parameter, null_closures, one_member_abstracts, only_throw_errors, overridden_fields, package_api_docs, package_names, package_prefixed_library_names, parameter_assignments, prefer_adjacent_string_concatenation, prefer_asserts_in_initializer_lists, prefer_asserts_with_message, prefer_collection_literals, prefer_conditional_assignment, prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_literals_to_create_immutables, prefer_constructors_over_static_methods, prefer_contains, prefer_expression_function_bodies, prefer_final_fields, prefer_final_in_for_each, prefer_final_locals, prefer_final_parameters, prefer_for_elements_to_map_fromIterable, prefer_foreach, prefer_function_declarations_over_variables, prefer_generic_function_type_aliases, prefer_if_elements_to_conditional_expressions, prefer_if_null_operators, prefer_initializing_formals, prefer_inlined_adds, prefer_int_literals, prefer_interpolation_to_compose_strings, prefer_is_empty, prefer_is_not_empty, prefer_is_not_operator, prefer_iterable_whereType, prefer_mixin, prefer_null_aware_method_calls, prefer_null_aware_operators, prefer_single_quotes, prefer_spread_collections, prefer_typing_uninitialized_variables, prefer_void_to_null, provide_deprecation_message, recursive_getters, require_trailing_commas, secure_pubspec_urls, sized_box_for_whitespace, sized_box_shrink_expand, slash_for_doc_comments, sort_child_properties_last, sort_constructors_first, sort_pub_dependencies, sort_unnamed_constructors_first, test_types_in_equals, throw_in_finally, tighten_type_of_initializing_formals, type_annotate_public_apis, type_init_formals, type_literal_in_constant_pattern, unawaited_futures, unnecessary_await_in_return, unnecessary_brace_in_string_interps, unnecessary_breaks, unnecessary_const, unnecessary_constructor_name, unnecessary_getters_setters, unnecessary_lambdas, unnecessary_late, unnecessary_library_directive, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_null_aware_operator_on_extension_on_nullable, unnecessary_null_checks, unnecessary_null_in_if_null_operators, unnecessary_nullable_for_final_variable_declarations, unnecessary_overrides, unnecessary_parenthesis, unnecessary_statements, unnecessary_string_escapes, unnecessary_string_interpolations, unnecessary_this, unnecessary_to_list_in_spreads, unreachable_from_main, unrelated_type_equality_checks, unsafe_html, use_build_context_synchronously, use_colored_box, use_decorated_box, use_enums, use_full_hex_values_for_flutter_colors, use_function_type_syntax_for_parameters, use_if_null_to_convert_nulls_to_bools, use_is_even_rather_than_modulo, use_key_in_widget_constructors, use_late_for_private_fields_and_variables, use_named_constants, use_rethrow_when_possible, use_setters_to_change_properties, use_string_buffers, use_string_in_part_of_directives, use_super_parameters, use_test_throws_matchers, use_to_and_as_if_applicable, valid_regexps, void_checks
+// ignore_for_file: type=lint
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -331,14 +331,16 @@ mixin IssueInfoMixin {
   late bool closed;
   DateTime? closedAt;
   IssueInfoMixin$Milestone? milestone;
-  late IssueInfoMixin$LinkedBranches linkedBranches;
   late DateTime createdAt;
   late IssueInfoMixin$Comments comments;
-  IssueInfoMixin$UserContentEdits? userContentEdits;
   late bool includesCreatedEdit;
   bool? isPinned;
   IssueInfoMixin$Labels? labels;
   late bool locked;
+  late int trackedIssuesCount;
+  late IssueInfoMixin$TrackedInIssues trackedInIssues;
+  late IssueInfoMixin$TrackedIssues trackedIssues;
+  late IssueInfoMixin$LinkedBranches linkedBranches;
   late int number;
   late IssueInfoMixin$ProjectCards projectCards;
   late IssueInfoMixin$ProjectsV2 projectsV2;
@@ -349,8 +351,12 @@ mixin IssueInfoMixin {
   late String titleHTML;
   late IssueInfoMixin$TimelineItems timelineItems;
   late Uri url;
+  IssueInfoMixin$UserContentEdits? userContentEdits;
   late bool viewerCanReact;
   late bool viewerCanUpdate;
+  late bool viewerCanSubscribe;
+  @JsonKey(unknownEnumValue: SubscriptionState.artemisUnknown)
+  SubscriptionState? viewerSubscription;
 }
 mixin AssigneeInfoMixin {
   late int totalCount;
@@ -409,6 +415,12 @@ mixin ReactorsGroupMixin {
 mixin AssigneeUserListMixin {
   late AssigneeUserListMixin$Assignees assignees;
 }
+mixin IssueParticipantUserListMixin {
+  late IssueParticipantUserListMixin$Participants participants;
+}
+mixin PullParticipantUserListMixin {
+  late PullParticipantUserListMixin$Participants participants;
+}
 
 @JsonSerializable(explicitToJson: true)
 class GetRepoProjects$Query$Repository$Projects$Edges$Node
@@ -420,7 +432,7 @@ class GetRepoProjects$Query$Repository$Projects$Edges$Node
       _$GetRepoProjects$Query$Repository$Projects$Edges$NodeFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         name,
         id,
         databaseId,
@@ -431,6 +443,7 @@ class GetRepoProjects$Query$Repository$Projects$Edges$Node
         closed,
         progress
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetRepoProjects$Query$Repository$Projects$Edges$NodeToJson(this);
@@ -450,7 +463,8 @@ class GetRepoProjects$Query$Repository$Projects$Edges extends JsonSerializable
   GetRepoProjects$Query$Repository$Projects$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetRepoProjects$Query$Repository$Projects$EdgesToJson(this);
@@ -470,7 +484,8 @@ class GetRepoProjects$Query$Repository$Projects extends JsonSerializable
   List<GetRepoProjects$Query$Repository$Projects$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetRepoProjects$Query$Repository$ProjectsToJson(this);
@@ -488,7 +503,8 @@ class GetRepoProjects$Query$Repository extends JsonSerializable
   late GetRepoProjects$Query$Repository$Projects projects;
 
   @override
-  List<Object?> get props => <Object?>[projects];
+  List<Object?> get props => [projects];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetRepoProjects$Query$RepositoryToJson(this);
@@ -504,7 +520,8 @@ class GetRepoProjects$Query extends JsonSerializable with EquatableMixin {
   GetRepoProjects$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$GetRepoProjects$QueryToJson(this);
 }
@@ -519,7 +536,8 @@ class ProjectMixin$Progress extends JsonSerializable with EquatableMixin {
   late double donePercentage;
 
   @override
-  List<Object?> get props => <Object?>[donePercentage];
+  List<Object?> get props => [donePercentage];
+
   @override
   Map<String, dynamic> toJson() => _$ProjectMixin$ProgressToJson(this);
 }
@@ -534,7 +552,7 @@ class GetProjectInfo$Query$Node$Project extends GetProjectInfo$Query$Node
       _$GetProjectInfo$Query$Node$ProjectFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         name,
         id,
         databaseId,
@@ -545,6 +563,7 @@ class GetProjectInfo$Query$Node$Project extends GetProjectInfo$Query$Node
         closed,
         progress
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectInfo$Query$Node$ProjectToJson(this);
@@ -567,7 +586,8 @@ class GetProjectInfo$Query$Node extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -589,7 +609,8 @@ class GetProjectInfo$Query extends JsonSerializable with EquatableMixin {
   GetProjectInfo$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$GetProjectInfo$QueryToJson(this);
 }
@@ -610,7 +631,8 @@ class GetProjectColumns$Query$Node$Project$Columns$Edges$Node
   late DateTime updatedAt;
 
   @override
-  List<Object?> get props => <Object?>[name, id, updatedAt];
+  List<Object?> get props => [name, id, updatedAt];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumns$Query$Node$Project$Columns$Edges$NodeToJson(this);
@@ -630,7 +652,8 @@ class GetProjectColumns$Query$Node$Project$Columns$Edges
   GetProjectColumns$Query$Node$Project$Columns$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumns$Query$Node$Project$Columns$EdgesToJson(this);
@@ -650,7 +673,8 @@ class GetProjectColumns$Query$Node$Project$Columns extends JsonSerializable
   List<GetProjectColumns$Query$Node$Project$Columns$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumns$Query$Node$Project$ColumnsToJson(this);
@@ -668,7 +692,8 @@ class GetProjectColumns$Query$Node$Project extends GetProjectColumns$Query$Node
   late GetProjectColumns$Query$Node$Project$Columns columns;
 
   @override
-  List<Object?> get props => <Object?>[columns];
+  List<Object?> get props => [columns];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumns$Query$Node$ProjectToJson(this);
@@ -692,7 +717,8 @@ class GetProjectColumns$Query$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -714,7 +740,8 @@ class GetProjectColumns$Query extends JsonSerializable with EquatableMixin {
   GetProjectColumns$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$GetProjectColumns$QueryToJson(this);
 }
@@ -737,7 +764,8 @@ class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$Is
   late int number;
 
   @override
-  List<Object?> get props => <Object?>[bodyHTML, title, number];
+  List<Object?> get props => [bodyHTML, title, number];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content$IssueToJson(
@@ -765,7 +793,8 @@ class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node$Content
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -796,7 +825,8 @@ class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node
       content;
 
   @override
-  List<Object?> get props => <Object?>[note, content];
+  List<Object?> get props => [note, content];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$NodeToJson(
@@ -818,7 +848,8 @@ class GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges
   GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumnCards$Query$Node$ProjectColumn$Cards$EdgesToJson(this);
@@ -838,7 +869,8 @@ class GetProjectColumnCards$Query$Node$ProjectColumn$Cards
   List<GetProjectColumnCards$Query$Node$ProjectColumn$Cards$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumnCards$Query$Node$ProjectColumn$CardsToJson(this);
@@ -856,7 +888,8 @@ class GetProjectColumnCards$Query$Node$ProjectColumn
   late GetProjectColumnCards$Query$Node$ProjectColumn$Cards cards;
 
   @override
-  List<Object?> get props => <Object?>[cards];
+  List<Object?> get props => [cards];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetProjectColumnCards$Query$Node$ProjectColumnToJson(this);
@@ -880,7 +913,8 @@ class GetProjectColumnCards$Query$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -903,7 +937,8 @@ class GetProjectColumnCards$Query extends JsonSerializable with EquatableMixin {
   GetProjectColumnCards$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$GetProjectColumnCards$QueryToJson(this);
 }
@@ -926,7 +961,8 @@ class IssueTemplates$Query$Repository$IssueTemplates extends JsonSerializable
   String? about;
 
   @override
-  List<Object?> get props => <Object?>[name, title, body, about];
+  List<Object?> get props => [name, title, body, about];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueTemplates$Query$Repository$IssueTemplatesToJson(this);
@@ -943,7 +979,8 @@ class IssueTemplates$Query$Repository extends JsonSerializable
   List<IssueTemplates$Query$Repository$IssueTemplates>? issueTemplates;
 
   @override
-  List<Object?> get props => <Object?>[issueTemplates];
+  List<Object?> get props => [issueTemplates];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueTemplates$Query$RepositoryToJson(this);
@@ -959,7 +996,8 @@ class IssueTemplates$Query extends JsonSerializable with EquatableMixin {
   IssueTemplates$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$IssueTemplates$QueryToJson(this);
 }
@@ -974,7 +1012,8 @@ class PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue
       _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, issueState, repository];
+  List<Object?> get props => [url, title, number, issueState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PinnedIssues$Query$Repository$PinnedIssues$Nodes$IssueToJson(this);
@@ -992,7 +1031,8 @@ class PinnedIssues$Query$Repository$PinnedIssues$Nodes extends JsonSerializable
   late PinnedIssues$Query$Repository$PinnedIssues$Nodes$Issue issue;
 
   @override
-  List<Object?> get props => <Object?>[issue];
+  List<Object?> get props => [issue];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PinnedIssues$Query$Repository$PinnedIssues$NodesToJson(this);
@@ -1012,7 +1052,8 @@ class PinnedIssues$Query$Repository$PinnedIssues extends JsonSerializable
   List<PinnedIssues$Query$Repository$PinnedIssues$Nodes?>? nodes;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, nodes];
+  List<Object?> get props => [totalCount, nodes];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PinnedIssues$Query$Repository$PinnedIssuesToJson(this);
@@ -1029,7 +1070,8 @@ class PinnedIssues$Query$Repository extends JsonSerializable
   PinnedIssues$Query$Repository$PinnedIssues? pinnedIssues;
 
   @override
-  List<Object?> get props => <Object?>[pinnedIssues];
+  List<Object?> get props => [pinnedIssues];
+
   @override
   Map<String, dynamic> toJson() => _$PinnedIssues$Query$RepositoryToJson(this);
 }
@@ -1044,7 +1086,8 @@ class PinnedIssues$Query extends JsonSerializable with EquatableMixin {
   PinnedIssues$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$PinnedIssues$QueryToJson(this);
 }
@@ -1061,7 +1104,8 @@ class IssueMixin$Repository extends JsonSerializable with EquatableMixin {
   late String nameWithOwner;
 
   @override
-  List<Object?> get props => <Object?>[name, nameWithOwner];
+  List<Object?> get props => [name, nameWithOwner];
+
   @override
   Map<String, dynamic> toJson() => _$IssueMixin$RepositoryToJson(this);
 }
@@ -1078,7 +1122,8 @@ class HasStarred$Query$Repository extends JsonSerializable with EquatableMixin {
   late int stargazerCount;
 
   @override
-  List<Object?> get props => <Object?>[viewerHasStarred, stargazerCount];
+  List<Object?> get props => [viewerHasStarred, stargazerCount];
+
   @override
   Map<String, dynamic> toJson() => _$HasStarred$Query$RepositoryToJson(this);
 }
@@ -1093,7 +1138,8 @@ class HasStarred$Query extends JsonSerializable with EquatableMixin {
   HasStarred$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$HasStarred$QueryToJson(this);
 }
@@ -1110,7 +1156,8 @@ class HasWatched$Query$Repository$Watchers extends JsonSerializable
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() =>
       _$HasWatched$Query$Repository$WatchersToJson(this);
@@ -1131,7 +1178,8 @@ class HasWatched$Query$Repository extends JsonSerializable with EquatableMixin {
   late HasWatched$Query$Repository$Watchers watchers;
 
   @override
-  List<Object?> get props => <Object?>[viewerSubscription, viewerCanSubscribe, watchers];
+  List<Object?> get props => [viewerSubscription, viewerCanSubscribe, watchers];
+
   @override
   Map<String, dynamic> toJson() => _$HasWatched$Query$RepositoryToJson(this);
 }
@@ -1146,7 +1194,8 @@ class HasWatched$Query extends JsonSerializable with EquatableMixin {
   HasWatched$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$HasWatched$QueryToJson(this);
 }
@@ -1165,7 +1214,8 @@ class GetViewerOrgs$Query$Viewer$Organizations$Edges$Node
   late String login;
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetViewerOrgs$Query$Viewer$Organizations$Edges$NodeToJson(this);
@@ -1185,7 +1235,8 @@ class GetViewerOrgs$Query$Viewer$Organizations$Edges extends JsonSerializable
   GetViewerOrgs$Query$Viewer$Organizations$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetViewerOrgs$Query$Viewer$Organizations$EdgesToJson(this);
@@ -1203,7 +1254,8 @@ class GetViewerOrgs$Query$Viewer$Organizations extends JsonSerializable
   List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetViewerOrgs$Query$Viewer$OrganizationsToJson(this);
@@ -1219,7 +1271,8 @@ class GetViewerOrgs$Query$Viewer extends JsonSerializable with EquatableMixin {
   late GetViewerOrgs$Query$Viewer$Organizations organizations;
 
   @override
-  List<Object?> get props => <Object?>[organizations];
+  List<Object?> get props => [organizations];
+
   @override
   Map<String, dynamic> toJson() => _$GetViewerOrgs$Query$ViewerToJson(this);
 }
@@ -1234,7 +1287,8 @@ class GetViewerOrgs$Query extends JsonSerializable with EquatableMixin {
   late GetViewerOrgs$Query$Viewer viewer;
 
   @override
-  List<Object?> get props => <Object?>[viewer];
+  List<Object?> get props => [viewer];
+
   @override
   Map<String, dynamic> toJson() => _$GetViewerOrgs$QueryToJson(this);
 }
@@ -1251,7 +1305,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AddedToProjectEventToJson(
@@ -1270,7 +1325,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, assignee];
+  List<Object?> get props => [id, createdAt, actor, assignee];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$AssignedEventToJson(
@@ -1289,7 +1345,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ClosedEventToJson(
@@ -1308,7 +1365,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, source, isCrossRepository];
+  List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$CrossReferencedEventToJson(
@@ -1327,7 +1385,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, milestoneTitle];
+  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$DemilestonedEventToJson(
@@ -1346,7 +1405,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         author,
         createdAt,
@@ -1364,6 +1423,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
         viewerCannotUpdateReasons,
         viewerCanReact
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$IssueCommentToJson(
@@ -1382,7 +1442,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, label];
+  List<Object?> get props => [id, createdAt, actor, label];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LabeledEventToJson(
@@ -1401,7 +1462,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, lockReason];
+  List<Object?> get props => [id, createdAt, actor, lockReason];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$LockedEventToJson(
@@ -1421,7 +1483,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, isCrossRepository, canonical];
+      [id, createdAt, actor, isCrossRepository, canonical];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
@@ -1440,7 +1503,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, milestoneTitle];
+  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MilestonedEventToJson(
@@ -1459,7 +1523,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
@@ -1478,7 +1543,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$PinnedEventToJson(
@@ -1497,7 +1563,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
@@ -1517,7 +1584,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, previousTitle, currentTitle];
+      [id, createdAt, actor, previousTitle, currentTitle];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$RenamedTitleEventToJson(
@@ -1536,7 +1604,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$ReopenedEventToJson(
@@ -1555,7 +1624,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, assignee];
+  List<Object?> get props => [id, createdAt, actor, assignee];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnassignedEventToJson(
@@ -1574,7 +1644,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, label];
+  List<Object?> get props => [id, createdAt, actor, label];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlabeledEventToJson(
@@ -1593,7 +1664,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnlockedEventToJson(
@@ -1613,7 +1685,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, isCrossRepository, canonical];
+      [id, createdAt, actor, isCrossRepository, canonical];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
@@ -1632,7 +1705,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$Node$UnpinnedEventToJson(
@@ -1717,7 +1791,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges$
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -1824,7 +1899,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$Edges
   late String cursor;
 
   @override
-  List<Object?> get props => <Object?>[node, cursor];
+  List<Object?> get props => [node, cursor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems$EdgesToJson(
@@ -1845,7 +1921,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItems
       edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$Issue$TimelineItemsToJson(
@@ -1866,7 +1943,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$Issue
       timelineItems;
 
   @override
-  List<Object?> get props => <Object?>[timelineItems];
+  List<Object?> get props => [timelineItems];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$IssueToJson(this);
@@ -1884,7 +1962,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AddedToProjectEventToJson(
@@ -1903,7 +1982,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, assignee];
+  List<Object?> get props => [id, createdAt, actor, assignee];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$AssignedEventToJson(
@@ -1923,7 +2003,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, currentRefName, previousRefName];
+      [id, createdAt, actor, currentRefName, previousRefName];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefChangedEventToJson(
@@ -1942,7 +2023,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, baseRefName];
+  List<Object?> get props => [id, createdAt, actor, baseRefName];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefDeletedEventToJson(
@@ -1962,7 +2044,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, beforeCommit, afterCommit, ref, actor];
+      [id, createdAt, beforeCommit, afterCommit, ref, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$BaseRefForcePushedEventToJson(
@@ -1981,7 +2064,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ClosedEventToJson(
@@ -2000,7 +2084,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ConvertToDraftEventToJson(
@@ -2019,7 +2104,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, source, isCrossRepository];
+  List<Object?> get props => [id, createdAt, actor, source, isCrossRepository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$CrossReferencedEventToJson(
@@ -2038,7 +2124,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, milestoneTitle];
+  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$DemilestonedEventToJson(
@@ -2057,7 +2144,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, headRefName];
+  List<Object?> get props => [id, createdAt, actor, headRefName];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefDeletedEventToJson(
@@ -2077,7 +2165,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, beforeCommit, afterCommit, ref, actor];
+      [id, createdAt, beforeCommit, afterCommit, ref, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefForcePushedEventToJson(
@@ -2096,7 +2185,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$HeadRefRestoredEventToJson(
@@ -2115,7 +2205,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         author,
         createdAt,
@@ -2133,6 +2223,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         viewerCannotUpdateReasons,
         viewerCanReact
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$IssueCommentToJson(
@@ -2151,7 +2242,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, label];
+  List<Object?> get props => [id, createdAt, actor, label];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LabeledEventToJson(
@@ -2170,7 +2262,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, lockReason];
+  List<Object?> get props => [id, createdAt, actor, lockReason];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$LockedEventToJson(
@@ -2190,7 +2283,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, isCrossRepository, canonical];
+      [id, createdAt, actor, isCrossRepository, canonical];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MarkedAsDuplicateEventToJson(
@@ -2209,7 +2303,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, mergeRefName];
+  List<Object?> get props => [id, createdAt, actor, mergeRefName];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MergedEventToJson(
@@ -2228,7 +2323,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, milestoneTitle];
+  List<Object?> get props => [id, createdAt, actor, milestoneTitle];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MilestonedEventToJson(
@@ -2247,7 +2343,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$MovedColumnsInProjectEventToJson(
@@ -2266,7 +2363,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PinnedEventToJson(
@@ -2285,7 +2383,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, commit];
+  List<Object?> get props => [id, commit];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitToJson(
@@ -2306,7 +2405,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestCommitCommentThreadToJson(
@@ -2325,7 +2425,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         resourcePath,
         comments,
@@ -2343,6 +2443,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         viewerCannotUpdateReasons,
         viewerCanReact
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewToJson(
@@ -2363,7 +2464,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$PullRequestReviewThreadToJson(
@@ -2382,7 +2484,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReadyForReviewEventToJson(
@@ -2401,7 +2504,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RemovedFromProjectEventToJson(
@@ -2421,7 +2525,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, previousTitle, currentTitle];
+      [id, createdAt, actor, previousTitle, currentTitle];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$RenamedTitleEventToJson(
@@ -2440,7 +2545,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReopenedEventToJson(
@@ -2459,7 +2565,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         createdAt,
         actor,
@@ -2467,6 +2573,7 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
         dismissalMessageHTML,
         previousReviewState
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewDismissedEventToJson(
@@ -2485,7 +2592,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, requestedReviewer];
+  List<Object?> get props => [id, createdAt, actor, requestedReviewer];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$ReviewRequestedEventToJson(
@@ -2504,7 +2612,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, assignee];
+  List<Object?> get props => [id, createdAt, actor, assignee];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnassignedEventToJson(
@@ -2523,7 +2632,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor, label];
+  List<Object?> get props => [id, createdAt, actor, label];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlabeledEventToJson(
@@ -2542,7 +2652,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnlockedEventToJson(
@@ -2562,7 +2673,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
 
   @override
   List<Object?> get props =>
-      <Object?>[id, createdAt, actor, isCrossRepository, canonical];
+      [id, createdAt, actor, isCrossRepository, canonical];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnmarkedAsDuplicateEventToJson(
@@ -2581,7 +2693,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
           json);
 
   @override
-  List<Object?> get props => <Object?>[id, createdAt, actor];
+  List<Object?> get props => [id, createdAt, actor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$Edges$Node$UnpinnedEventToJson(
@@ -2711,7 +2824,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -2878,7 +2992,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$
   late String cursor;
 
   @override
-  List<Object?> get props => <Object?>[node, cursor];
+  List<Object?> get props => [node, cursor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems$EdgesToJson(
@@ -2899,7 +3014,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItems
       edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest$TimelineItemsToJson(
@@ -2921,7 +3037,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest$PullRequest
       timelineItems;
 
   @override
-  List<Object?> get props => <Object?>[timelineItems];
+  List<Object?> get props => [timelineItems];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetTimeline$Query$Repository$IssueOrPullRequest$PullRequestToJson(this);
@@ -2950,7 +3067,8 @@ class GetTimeline$Query$Repository$IssueOrPullRequest extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -2978,7 +3096,8 @@ class GetTimeline$Query$Repository extends JsonSerializable
   GetTimeline$Query$Repository$IssueOrPullRequest? issueOrPullRequest;
 
   @override
-  List<Object?> get props => <Object?>[issueOrPullRequest];
+  List<Object?> get props => [issueOrPullRequest];
+
   @override
   Map<String, dynamic> toJson() => _$GetTimeline$Query$RepositoryToJson(this);
 }
@@ -2993,7 +3112,8 @@ class GetTimeline$Query extends JsonSerializable with EquatableMixin {
   GetTimeline$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$GetTimeline$QueryToJson(this);
 }
@@ -3007,7 +3127,8 @@ class AddedToProjectMixin$Actor extends JsonSerializable
       _$AddedToProjectMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$AddedToProjectMixin$ActorToJson(this);
 }
@@ -3021,7 +3142,8 @@ class AssignedMixin$Actor extends JsonSerializable
       _$AssignedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$AssignedMixin$ActorToJson(this);
 }
@@ -3035,7 +3157,8 @@ class AssignedMixin$Assignee$User extends AssignedMixin$Assignee
       _$AssignedMixin$Assignee$UserFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$AssignedMixin$Assignee$UserToJson(this);
 }
@@ -3049,7 +3172,8 @@ class AssignedMixin$Assignee$Bot extends AssignedMixin$Assignee
       _$AssignedMixin$Assignee$BotFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$AssignedMixin$Assignee$BotToJson(this);
 }
@@ -3064,7 +3188,8 @@ class AssignedMixin$Assignee$Mannequin extends AssignedMixin$Assignee
       _$AssignedMixin$Assignee$MannequinFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AssignedMixin$Assignee$MannequinToJson(this);
@@ -3080,7 +3205,8 @@ class AssignedMixin$Assignee$Organization extends AssignedMixin$Assignee
       _$AssignedMixin$Assignee$OrganizationFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AssignedMixin$Assignee$OrganizationToJson(this);
@@ -3109,7 +3235,8 @@ class AssignedMixin$Assignee extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -3136,7 +3263,8 @@ class ClosedMixin$Actor extends JsonSerializable
       _$ClosedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$ClosedMixin$ActorToJson(this);
 }
@@ -3150,7 +3278,8 @@ class CrossReferenceMixin$Actor extends JsonSerializable
       _$CrossReferenceMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$CrossReferenceMixin$ActorToJson(this);
 }
@@ -3165,7 +3294,8 @@ class CrossReferenceMixin$Source$Issue extends CrossReferenceMixin$Source
       _$CrossReferenceMixin$Source$IssueFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, issueState, repository];
+  List<Object?> get props => [url, title, number, issueState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CrossReferenceMixin$Source$IssueToJson(this);
@@ -3181,7 +3311,8 @@ class CrossReferenceMixin$Source$PullRequest extends CrossReferenceMixin$Source
       _$CrossReferenceMixin$Source$PullRequestFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, pullState, repository];
+  List<Object?> get props => [url, title, number, pullState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CrossReferenceMixin$Source$PullRequestToJson(this);
@@ -3206,7 +3337,8 @@ class CrossReferenceMixin$Source extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -3232,7 +3364,8 @@ class PullRequestMixin$Repository extends JsonSerializable with EquatableMixin {
   late String nameWithOwner;
 
   @override
-  List<Object?> get props => <Object?>[name, nameWithOwner];
+  List<Object?> get props => [name, nameWithOwner];
+
   @override
   Map<String, dynamic> toJson() => _$PullRequestMixin$RepositoryToJson(this);
 }
@@ -3246,7 +3379,8 @@ class DeMileStonedMixin$Actor extends JsonSerializable
       _$DeMileStonedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$DeMileStonedMixin$ActorToJson(this);
 }
@@ -3260,7 +3394,8 @@ class IssueCommentMixin$Author extends JsonSerializable
       _$IssueCommentMixin$AuthorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$IssueCommentMixin$AuthorToJson(this);
 }
@@ -3275,7 +3410,8 @@ class IssueCommentMixin$ReactionGroups extends JsonSerializable
       _$IssueCommentMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, viewerHasReacted, reactors, subject];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueCommentMixin$ReactionGroupsToJson(this);
@@ -3292,7 +3428,8 @@ class ReactionGroupsMixin$Reactors extends JsonSerializable
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$ReactionGroupsMixin$ReactorsToJson(this);
 }
@@ -3307,7 +3444,8 @@ class ReactionGroupsMixin$Subject extends JsonSerializable with EquatableMixin {
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() => _$ReactionGroupsMixin$SubjectToJson(this);
 }
@@ -3321,7 +3459,8 @@ class LabeledMixin$Actor extends JsonSerializable
       _$LabeledMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$LabeledMixin$ActorToJson(this);
 }
@@ -3335,7 +3474,8 @@ class LabeledMixin$Label extends JsonSerializable
       _$LabeledMixin$LabelFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[color, name];
+  List<Object?> get props => [color, name];
+
   @override
   Map<String, dynamic> toJson() => _$LabeledMixin$LabelToJson(this);
 }
@@ -3349,7 +3489,8 @@ class LockedMixin$Actor extends JsonSerializable
       _$LockedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$LockedMixin$ActorToJson(this);
 }
@@ -3363,7 +3504,8 @@ class MarkedAsDuplicateMixin$Actor extends JsonSerializable
       _$MarkedAsDuplicateMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$MarkedAsDuplicateMixin$ActorToJson(this);
 }
@@ -3378,7 +3520,8 @@ class MarkedAsDuplicateMixin$Canonical$Issue
       _$MarkedAsDuplicateMixin$Canonical$IssueFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, issueState, repository];
+  List<Object?> get props => [url, title, number, issueState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$MarkedAsDuplicateMixin$Canonical$IssueToJson(this);
@@ -3395,7 +3538,8 @@ class MarkedAsDuplicateMixin$Canonical$PullRequest
       _$MarkedAsDuplicateMixin$Canonical$PullRequestFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, pullState, repository];
+  List<Object?> get props => [url, title, number, pullState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$MarkedAsDuplicateMixin$Canonical$PullRequestToJson(this);
@@ -3421,7 +3565,8 @@ class MarkedAsDuplicateMixin$Canonical extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -3444,7 +3589,8 @@ class MileStonedMixin$Actor extends JsonSerializable
       _$MileStonedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$MileStonedMixin$ActorToJson(this);
 }
@@ -3459,7 +3605,8 @@ class MovedColumnsInProjectMixin$Actor extends JsonSerializable
       _$MovedColumnsInProjectMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$MovedColumnsInProjectMixin$ActorToJson(this);
@@ -3474,7 +3621,8 @@ class PinnedMixin$Actor extends JsonSerializable
       _$PinnedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$PinnedMixin$ActorToJson(this);
 }
@@ -3488,7 +3636,8 @@ class RemovedFromProjectMixin$Actor extends JsonSerializable
       _$RemovedFromProjectMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$RemovedFromProjectMixin$ActorToJson(this);
 }
@@ -3502,7 +3651,8 @@ class RenamedTitleMixin$Actor extends JsonSerializable
       _$RenamedTitleMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$RenamedTitleMixin$ActorToJson(this);
 }
@@ -3516,7 +3666,8 @@ class ReopenedMixin$Actor extends JsonSerializable
       _$ReopenedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$ReopenedMixin$ActorToJson(this);
 }
@@ -3530,7 +3681,8 @@ class UnassignedMixin$Actor extends JsonSerializable
       _$UnassignedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnassignedMixin$ActorToJson(this);
 }
@@ -3544,7 +3696,8 @@ class UnassignedMixin$Assignee$User extends UnassignedMixin$Assignee
       _$UnassignedMixin$Assignee$UserFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnassignedMixin$Assignee$UserToJson(this);
 }
@@ -3558,7 +3711,8 @@ class UnassignedMixin$Assignee$Bot extends UnassignedMixin$Assignee
       _$UnassignedMixin$Assignee$BotFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnassignedMixin$Assignee$BotToJson(this);
 }
@@ -3573,7 +3727,8 @@ class UnassignedMixin$Assignee$Mannequin extends UnassignedMixin$Assignee
       _$UnassignedMixin$Assignee$MannequinFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$UnassignedMixin$Assignee$MannequinToJson(this);
@@ -3589,7 +3744,8 @@ class UnassignedMixin$Assignee$Organization extends UnassignedMixin$Assignee
       _$UnassignedMixin$Assignee$OrganizationFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$UnassignedMixin$Assignee$OrganizationToJson(this);
@@ -3618,7 +3774,8 @@ class UnassignedMixin$Assignee extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -3645,7 +3802,8 @@ class UnlabeledMixin$Actor extends JsonSerializable
       _$UnlabeledMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnlabeledMixin$ActorToJson(this);
 }
@@ -3659,7 +3817,8 @@ class UnlabeledMixin$Label extends JsonSerializable
       _$UnlabeledMixin$LabelFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[color, name];
+  List<Object?> get props => [color, name];
+
   @override
   Map<String, dynamic> toJson() => _$UnlabeledMixin$LabelToJson(this);
 }
@@ -3673,7 +3832,8 @@ class UnlockedMixin$Actor extends JsonSerializable
       _$UnlockedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnlockedMixin$ActorToJson(this);
 }
@@ -3687,7 +3847,8 @@ class UnmarkedAsDuplicateMixin$Actor extends JsonSerializable
       _$UnmarkedAsDuplicateMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnmarkedAsDuplicateMixin$ActorToJson(this);
 }
@@ -3702,7 +3863,8 @@ class UnmarkedAsDuplicateMixin$Canonical$Issue
       _$UnmarkedAsDuplicateMixin$Canonical$IssueFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, issueState, repository];
+  List<Object?> get props => [url, title, number, issueState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$UnmarkedAsDuplicateMixin$Canonical$IssueToJson(this);
@@ -3719,7 +3881,8 @@ class UnmarkedAsDuplicateMixin$Canonical$PullRequest
       _$UnmarkedAsDuplicateMixin$Canonical$PullRequestFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[url, title, number, pullState, repository];
+  List<Object?> get props => [url, title, number, pullState, repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$UnmarkedAsDuplicateMixin$Canonical$PullRequestToJson(this);
@@ -3746,7 +3909,8 @@ class UnmarkedAsDuplicateMixin$Canonical extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -3770,7 +3934,8 @@ class UnpinnedMixin$Actor extends JsonSerializable
       _$UnpinnedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$UnpinnedMixin$ActorToJson(this);
 }
@@ -3784,7 +3949,8 @@ class BaseRefChangedMixin$Actor extends JsonSerializable
       _$BaseRefChangedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$BaseRefChangedMixin$ActorToJson(this);
 }
@@ -3798,7 +3964,8 @@ class BaseRefDeletedMixin$Actor extends JsonSerializable
       _$BaseRefDeletedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$BaseRefDeletedMixin$ActorToJson(this);
 }
@@ -3817,7 +3984,8 @@ class BaseRefForcePushedMixin$BeforeCommit extends JsonSerializable
   late Uri url;
 
   @override
-  List<Object?> get props => <Object?>[abbreviatedOid, url];
+  List<Object?> get props => [abbreviatedOid, url];
+
   @override
   Map<String, dynamic> toJson() =>
       _$BaseRefForcePushedMixin$BeforeCommitToJson(this);
@@ -3837,7 +4005,8 @@ class BaseRefForcePushedMixin$AfterCommit extends JsonSerializable
   late String abbreviatedOid;
 
   @override
-  List<Object?> get props => <Object?>[url, abbreviatedOid];
+  List<Object?> get props => [url, abbreviatedOid];
+
   @override
   Map<String, dynamic> toJson() =>
       _$BaseRefForcePushedMixin$AfterCommitToJson(this);
@@ -3853,7 +4022,8 @@ class BaseRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
   late String name;
 
   @override
-  List<Object?> get props => <Object?>[name];
+  List<Object?> get props => [name];
+
   @override
   Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$RefToJson(this);
 }
@@ -3867,7 +4037,8 @@ class BaseRefForcePushedMixin$Actor extends JsonSerializable
       _$BaseRefForcePushedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$BaseRefForcePushedMixin$ActorToJson(this);
 }
@@ -3881,7 +4052,8 @@ class ConvertedToDraftMixin$Actor extends JsonSerializable
       _$ConvertedToDraftMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$ConvertedToDraftMixin$ActorToJson(this);
 }
@@ -3895,7 +4067,8 @@ class HeadRefDeletedMixin$Actor extends JsonSerializable
       _$HeadRefDeletedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$HeadRefDeletedMixin$ActorToJson(this);
 }
@@ -3914,7 +4087,8 @@ class HeadRefForcePushedMixin$BeforeCommit extends JsonSerializable
   late Uri url;
 
   @override
-  List<Object?> get props => <Object?>[abbreviatedOid, url];
+  List<Object?> get props => [abbreviatedOid, url];
+
   @override
   Map<String, dynamic> toJson() =>
       _$HeadRefForcePushedMixin$BeforeCommitToJson(this);
@@ -3934,7 +4108,8 @@ class HeadRefForcePushedMixin$AfterCommit extends JsonSerializable
   late String abbreviatedOid;
 
   @override
-  List<Object?> get props => <Object?>[url, abbreviatedOid];
+  List<Object?> get props => [url, abbreviatedOid];
+
   @override
   Map<String, dynamic> toJson() =>
       _$HeadRefForcePushedMixin$AfterCommitToJson(this);
@@ -3950,7 +4125,8 @@ class HeadRefForcePushedMixin$Ref extends JsonSerializable with EquatableMixin {
   late String name;
 
   @override
-  List<Object?> get props => <Object?>[name];
+  List<Object?> get props => [name];
+
   @override
   Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$RefToJson(this);
 }
@@ -3964,7 +4140,8 @@ class HeadRefForcePushedMixin$Actor extends JsonSerializable
       _$HeadRefForcePushedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$HeadRefForcePushedMixin$ActorToJson(this);
 }
@@ -3978,7 +4155,8 @@ class HeadRefRestoredMixin$Actor extends JsonSerializable
       _$HeadRefRestoredMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$HeadRefRestoredMixin$ActorToJson(this);
 }
@@ -3992,7 +4170,8 @@ class MergedMixin$Actor extends JsonSerializable
       _$MergedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$MergedMixin$ActorToJson(this);
 }
@@ -4006,7 +4185,7 @@ class PullRequestCommitMixin$Commit extends JsonSerializable
       _$PullRequestCommitMixin$CommitFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         additions,
         authoredDate,
         oid,
@@ -4015,6 +4194,7 @@ class PullRequestCommitMixin$Commit extends JsonSerializable
         messageHeadline,
         author
       ];
+
   @override
   Map<String, dynamic> toJson() => _$PullRequestCommitMixin$CommitToJson(this);
 }
@@ -4028,7 +4208,8 @@ class CommitMixin$Author$User extends JsonSerializable
       _$CommitMixin$Author$UserFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$CommitMixin$Author$UserToJson(this);
 }
@@ -4047,7 +4228,8 @@ class CommitMixin$Author extends JsonSerializable with EquatableMixin {
   CommitMixin$Author$User? user;
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, name, user];
+  List<Object?> get props => [avatarUrl, name, user];
+
   @override
   Map<String, dynamic> toJson() => _$CommitMixin$AuthorToJson(this);
 }
@@ -4064,7 +4246,8 @@ class PullRequestReviewMixin$Comments$Edges$Node extends JsonSerializable
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$Comments$Edges$NodeToJson(this);
@@ -4084,7 +4267,8 @@ class PullRequestReviewMixin$Comments$Edges extends JsonSerializable
   late String cursor;
 
   @override
-  List<Object?> get props => <Object?>[node, cursor];
+  List<Object?> get props => [node, cursor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$Comments$EdgesToJson(this);
@@ -4103,7 +4287,8 @@ class PullRequestReviewMixin$Comments extends JsonSerializable
   List<PullRequestReviewMixin$Comments$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$CommentsToJson(this);
@@ -4118,7 +4303,8 @@ class PullRequestReviewMixin$Author extends JsonSerializable
       _$PullRequestReviewMixin$AuthorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$PullRequestReviewMixin$AuthorToJson(this);
 }
@@ -4133,7 +4319,8 @@ class PullRequestReviewMixin$ReactionGroups extends JsonSerializable
       _$PullRequestReviewMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, viewerHasReacted, reactors, subject];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewMixin$ReactionGroupsToJson(this);
@@ -4148,7 +4335,8 @@ class ReadyForReviewMixin$Actor extends JsonSerializable
       _$ReadyForReviewMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$ReadyForReviewMixin$ActorToJson(this);
 }
@@ -4162,7 +4350,8 @@ class ReviewDismissedMixin$Actor extends JsonSerializable
       _$ReviewDismissedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$ReviewDismissedMixin$ActorToJson(this);
 }
@@ -4176,7 +4365,8 @@ class ReviewRequestedMixin$Actor extends JsonSerializable
       _$ReviewRequestedMixin$ActorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$ReviewRequestedMixin$ActorToJson(this);
 }
@@ -4192,7 +4382,8 @@ class ReviewRequestedMixin$RequestedReviewer$User
       _$ReviewRequestedMixin$RequestedReviewer$UserFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$UserToJson(this);
@@ -4212,7 +4403,8 @@ class ReviewRequestedMixin$RequestedReviewer$Team
   late String name;
 
   @override
-  List<Object?> get props => <Object?>[avatar, name];
+  List<Object?> get props => [avatar, name];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewRequestedMixin$RequestedReviewer$TeamToJson(this);
@@ -4239,7 +4431,8 @@ class ReviewRequestedMixin$RequestedReviewer extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -4264,7 +4457,8 @@ class GetPRReviewComments$Query$Node$PullRequestReview
       _$GetPRReviewComments$Query$Node$PullRequestReviewFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[comments];
+  List<Object?> get props => [comments];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetPRReviewComments$Query$Node$PullRequestReviewToJson(this);
@@ -4288,7 +4482,8 @@ class GetPRReviewComments$Query$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -4311,7 +4506,8 @@ class GetPRReviewComments$Query extends JsonSerializable with EquatableMixin {
   GetPRReviewComments$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$GetPRReviewComments$QueryToJson(this);
 }
@@ -4326,7 +4522,7 @@ class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
       _$PRReviewCommentsMixin$Comments$Edges$NodeFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         pullRequestReview,
         databaseId,
@@ -4352,6 +4548,7 @@ class PRReviewCommentsMixin$Comments$Edges$Node extends JsonSerializable
         pullRequest,
         repository
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PRReviewCommentsMixin$Comments$Edges$NodeToJson(this);
@@ -4374,7 +4571,8 @@ class PRReviewCommentsMixin$Comments$Edges extends JsonSerializable
   PRReviewCommentsMixin$Comments$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[$$typename, cursor, node];
+  List<Object?> get props => [$$typename, cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PRReviewCommentsMixin$Comments$EdgesToJson(this);
@@ -4391,7 +4589,8 @@ class PRReviewCommentsMixin$Comments extends JsonSerializable
   List<PRReviewCommentsMixin$Comments$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() => _$PRReviewCommentsMixin$CommentsToJson(this);
 }
@@ -4408,7 +4607,8 @@ class PullRequestReviewCommentMixin$PullRequestReview$Comments
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$PullRequestReview$CommentsToJson(this);
@@ -4426,7 +4626,8 @@ class PullRequestReviewCommentMixin$PullRequestReview extends JsonSerializable
   late PullRequestReviewCommentMixin$PullRequestReview$Comments comments;
 
   @override
-  List<Object?> get props => <Object?>[comments];
+  List<Object?> get props => [comments];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$PullRequestReviewToJson(this);
@@ -4442,7 +4643,8 @@ class PullRequestReviewCommentMixin$Author extends JsonSerializable
       _$PullRequestReviewCommentMixin$AuthorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$AuthorToJson(this);
@@ -4460,7 +4662,8 @@ class PullRequestReviewCommentMixin$ReplyTo extends JsonSerializable
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$ReplyToToJson(this);
@@ -4476,7 +4679,8 @@ class PullRequestReviewCommentMixin$ReactionGroups extends JsonSerializable
       _$PullRequestReviewCommentMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, viewerHasReacted, reactors, subject];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$ReactionGroupsToJson(this);
@@ -4494,7 +4698,8 @@ class PullRequestReviewCommentMixin$PullRequest extends JsonSerializable
   late int number;
 
   @override
-  List<Object?> get props => <Object?>[number];
+  List<Object?> get props => [number];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$PullRequestToJson(this);
@@ -4512,7 +4717,8 @@ class PullRequestReviewCommentMixin$Repository$Owner extends JsonSerializable
   late String login;
 
   @override
-  List<Object?> get props => <Object?>[login];
+  List<Object?> get props => [login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$Repository$OwnerToJson(this);
@@ -4532,7 +4738,8 @@ class PullRequestReviewCommentMixin$Repository extends JsonSerializable
   late PullRequestReviewCommentMixin$Repository$Owner owner;
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullRequestReviewCommentMixin$RepositoryToJson(this);
@@ -4551,7 +4758,8 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$Comments$NodesToJson(
@@ -4574,7 +4782,8 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
       nodes;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, nodes];
+  List<Object?> get props => [totalCount, nodes];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$Node$CommentsToJson(
@@ -4609,7 +4818,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
       comments;
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         viewerCanResolve,
         viewerCanUnresolve,
@@ -4619,6 +4828,7 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
         isResolved,
         comments
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges$NodeToJson(
@@ -4641,7 +4851,8 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$E
       node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$EdgesToJson(
@@ -4662,7 +4873,8 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads
       edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreadsToJson(
@@ -4685,7 +4897,8 @@ class ReviewThreadFirstCommentQuery$Query$Repository$PullRequest
       reviewThreads;
 
   @override
-  List<Object?> get props => <Object?>[id, reviewThreads];
+  List<Object?> get props => [id, reviewThreads];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$Repository$PullRequestToJson(this);
@@ -4703,7 +4916,8 @@ class ReviewThreadFirstCommentQuery$Query$Repository extends JsonSerializable
   ReviewThreadFirstCommentQuery$Query$Repository$PullRequest? pullRequest;
 
   @override
-  List<Object?> get props => <Object?>[pullRequest];
+  List<Object?> get props => [pullRequest];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$Query$RepositoryToJson(this);
@@ -4721,7 +4935,8 @@ class ReviewThreadFirstCommentQuery$Query extends JsonSerializable
   ReviewThreadFirstCommentQuery$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQuery$QueryToJson(this);
@@ -4739,7 +4954,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
           json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         pullRequestReview,
         databaseId,
@@ -4765,6 +4980,7 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
         pullRequest,
         repository
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$NodeToJson(
@@ -4787,7 +5003,8 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edge
       node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$EdgesToJson(
@@ -4808,7 +5025,8 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments
       edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$CommentsToJson(
@@ -4829,7 +5047,8 @@ class ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread
       comments;
 
   @override
-  List<Object?> get props => <Object?>[comments];
+  List<Object?> get props => [comments];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThreadToJson(
@@ -4856,7 +5075,8 @@ class ReviewThreadCommentsQuery$Query$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -4881,7 +5101,8 @@ class ReviewThreadCommentsQuery$Query extends JsonSerializable
   ReviewThreadCommentsQuery$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQuery$QueryToJson(this);
@@ -4900,7 +5121,8 @@ class CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes
   late Uri url;
 
   @override
-  List<Object?> get props => <Object?>[url];
+  List<Object?> get props => [url];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$NodesToJson(
@@ -4921,7 +5143,8 @@ class CheckPendingViewerReviews$Query$Node$PullRequest$Reviews
   List<CheckPendingViewerReviews$Query$Node$PullRequest$Reviews$Nodes?>? nodes;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, nodes];
+  List<Object?> get props => [totalCount, nodes];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$Query$Node$PullRequest$ReviewsToJson(this);
@@ -4939,7 +5162,8 @@ class CheckPendingViewerReviews$Query$Node$PullRequest
   CheckPendingViewerReviews$Query$Node$PullRequest$Reviews? reviews;
 
   @override
-  List<Object?> get props => <Object?>[reviews];
+  List<Object?> get props => [reviews];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$Query$Node$PullRequestToJson(this);
@@ -4964,7 +5188,8 @@ class CheckPendingViewerReviews$Query$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -4988,7 +5213,8 @@ class CheckPendingViewerReviews$Query extends JsonSerializable
   CheckPendingViewerReviews$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviews$QueryToJson(this);
@@ -5004,7 +5230,8 @@ class GetParticipants$Query$Node$Issue$Participants$Edges$Node
       _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetParticipants$Query$Node$Issue$Participants$Edges$NodeToJson(this);
@@ -5024,7 +5251,8 @@ class GetParticipants$Query$Node$Issue$Participants$Edges
   GetParticipants$Query$Node$Issue$Participants$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetParticipants$Query$Node$Issue$Participants$EdgesToJson(this);
@@ -5042,7 +5270,8 @@ class GetParticipants$Query$Node$Issue$Participants extends JsonSerializable
   List<GetParticipants$Query$Node$Issue$Participants$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetParticipants$Query$Node$Issue$ParticipantsToJson(this);
@@ -5060,7 +5289,8 @@ class GetParticipants$Query$Node$Issue extends GetParticipants$Query$Node
   late GetParticipants$Query$Node$Issue$Participants participants;
 
   @override
-  List<Object?> get props => <Object?>[participants];
+  List<Object?> get props => [participants];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetParticipants$Query$Node$IssueToJson(this);
@@ -5083,7 +5313,8 @@ class GetParticipants$Query$Node extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -5105,7 +5336,8 @@ class GetParticipants$Query extends JsonSerializable with EquatableMixin {
   GetParticipants$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$GetParticipants$QueryToJson(this);
 }
@@ -5120,7 +5352,8 @@ class FetchReview$Query$Node$PullRequestReviewComment$Author
       _$FetchReview$Query$Node$PullRequestReviewComment$AuthorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$FetchReview$Query$Node$PullRequestReviewComment$AuthorToJson(this);
@@ -5144,7 +5377,8 @@ class FetchReview$Query$Node$PullRequestReviewComment
   late String path;
 
   @override
-  List<Object?> get props => <Object?>[bodyHTML, author, diffHunk, path];
+  List<Object?> get props => [bodyHTML, author, diffHunk, path];
+
   @override
   Map<String, dynamic> toJson() =>
       _$FetchReview$Query$Node$PullRequestReviewCommentToJson(this);
@@ -5167,7 +5401,8 @@ class FetchReview$Query$Node extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -5190,7 +5425,8 @@ class FetchReview$Query extends JsonSerializable with EquatableMixin {
   FetchReview$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$FetchReview$QueryToJson(this);
 }
@@ -5206,7 +5442,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
       _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         id,
         activeLockReason,
         assignees,
@@ -5218,14 +5454,16 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         closed,
         closedAt,
         milestone,
-        linkedBranches,
         createdAt,
         comments,
-        userContentEdits,
         includesCreatedEdit,
         isPinned,
         labels,
         locked,
+        trackedIssuesCount,
+        trackedInIssues,
+        trackedIssues,
+        linkedBranches,
         number,
         projectCards,
         projectsV2,
@@ -5235,9 +5473,13 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$Issue
         titleHTML,
         timelineItems,
         url,
+        userContentEdits,
         viewerCanReact,
-        viewerCanUpdate
+        viewerCanUpdate,
+        viewerCanSubscribe,
+        viewerSubscription
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssuePullInfo$Query$Repository$IssueOrPullRequest$IssueToJson(this);
@@ -5255,7 +5497,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
           json);
 
   @override
-  List<Object?> get props => <Object?>[
+  List<Object?> get props => [
         activeLockReason,
         assignees,
         author,
@@ -5292,6 +5534,7 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequest
         reviewDecision,
         viewerCanUpdate
       ];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssuePullInfo$Query$Repository$IssueOrPullRequest$PullRequestToJson(
@@ -5321,7 +5564,8 @@ class IssuePullInfo$Query$Repository$IssueOrPullRequest extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -5349,7 +5593,8 @@ class IssuePullInfo$Query$Repository extends JsonSerializable
   IssuePullInfo$Query$Repository$IssueOrPullRequest? issueOrPullRequest;
 
   @override
-  List<Object?> get props => <Object?>[issueOrPullRequest];
+  List<Object?> get props => [issueOrPullRequest];
+
   @override
   Map<String, dynamic> toJson() => _$IssuePullInfo$Query$RepositoryToJson(this);
 }
@@ -5364,7 +5609,8 @@ class IssuePullInfo$Query extends JsonSerializable with EquatableMixin {
   IssuePullInfo$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$IssuePullInfo$QueryToJson(this);
 }
@@ -5378,7 +5624,8 @@ class IssueInfoMixin$Assignees extends JsonSerializable
       _$IssueInfoMixin$AssigneesFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$AssigneesToJson(this);
 }
@@ -5392,24 +5639,24 @@ class IssueInfoMixin$Author extends JsonSerializable
       _$IssueInfoMixin$AuthorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$AuthorToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class IssueInfoMixin$Participants$Nodes extends JsonSerializable
-    with EquatableMixin {
+    with EquatableMixin, ActorMixin {
   IssueInfoMixin$Participants$Nodes();
 
   factory IssueInfoMixin$Participants$Nodes.fromJson(
           Map<String, dynamic> json) =>
       _$IssueInfoMixin$Participants$NodesFromJson(json);
 
-  late Uri avatarUrl;
-
   @override
-  List<Object?> get props => <Object?>[avatarUrl];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$Participants$NodesToJson(this);
@@ -5427,7 +5674,8 @@ class IssueInfoMixin$Participants extends JsonSerializable with EquatableMixin {
   List<IssueInfoMixin$Participants$Nodes?>? nodes;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, nodes];
+  List<Object?> get props => [totalCount, nodes];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$ParticipantsToJson(this);
 }
@@ -5446,9 +5694,171 @@ class IssueInfoMixin$Milestone extends JsonSerializable with EquatableMixin {
   DateTime? dueOn;
 
   @override
-  List<Object?> get props => <Object?>[number, description, dueOn];
+  List<Object?> get props => [number, description, dueOn];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$MilestoneToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Comments extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$Comments();
+
+  factory IssueInfoMixin$Comments.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$CommentsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$CommentsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Labels$Nodes extends JsonSerializable
+    with EquatableMixin, LabelMixin {
+  IssueInfoMixin$Labels$Nodes();
+
+  factory IssueInfoMixin$Labels$Nodes.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$Labels$NodesFromJson(json);
+
+  @override
+  List<Object?> get props => [color, name];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$Labels$NodesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$Labels extends JsonSerializable with EquatableMixin {
+  IssueInfoMixin$Labels();
+
+  factory IssueInfoMixin$Labels.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$LabelsFromJson(json);
+
+  List<IssueInfoMixin$Labels$Nodes?>? nodes;
+
+  @override
+  List<Object?> get props => [nodes];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$LabelsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TrackedInIssues$Edges$Node extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TrackedInIssues$Edges$Node();
+
+  factory IssueInfoMixin$TrackedInIssues$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TrackedInIssues$Edges$NodeFromJson(json);
+
+  late String title;
+
+  @override
+  List<Object?> get props => [title];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$TrackedInIssues$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TrackedInIssues$Edges extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TrackedInIssues$Edges();
+
+  factory IssueInfoMixin$TrackedInIssues$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TrackedInIssues$EdgesFromJson(json);
+
+  IssueInfoMixin$TrackedInIssues$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$TrackedInIssues$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TrackedInIssues extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TrackedInIssues();
+
+  factory IssueInfoMixin$TrackedInIssues.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TrackedInIssuesFromJson(json);
+
+  late int totalCount;
+
+  List<IssueInfoMixin$TrackedInIssues$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$TrackedInIssuesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TrackedIssues$Edges$Node extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TrackedIssues$Edges$Node();
+
+  factory IssueInfoMixin$TrackedIssues$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TrackedIssues$Edges$NodeFromJson(json);
+
+  late String title;
+
+  @override
+  List<Object?> get props => [title];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$TrackedIssues$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TrackedIssues$Edges extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TrackedIssues$Edges();
+
+  factory IssueInfoMixin$TrackedIssues$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TrackedIssues$EdgesFromJson(json);
+
+  IssueInfoMixin$TrackedIssues$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [node];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$TrackedIssues$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$TrackedIssues extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$TrackedIssues();
+
+  factory IssueInfoMixin$TrackedIssues.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$TrackedIssuesFromJson(json);
+
+  late int totalCount;
+
+  List<IssueInfoMixin$TrackedIssues$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [totalCount, edges];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssueInfoMixin$TrackedIssuesToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -5463,8 +5873,11 @@ class IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$
 
   late int number;
 
+  late String titleHTML;
+
   @override
-  List<Object?> get props => <Object?>[number];
+  List<Object?> get props => [number, titleHTML];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges$NodeToJson(
@@ -5487,7 +5900,8 @@ class IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$Edges
       node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests$EdgesToJson(
@@ -5510,7 +5924,8 @@ class IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
       edges;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequestsToJson(
@@ -5526,11 +5941,18 @@ class IssueInfoMixin$LinkedBranches$Edges$Node$Ref extends JsonSerializable
           Map<String, dynamic> json) =>
       _$IssueInfoMixin$LinkedBranches$Edges$Node$RefFromJson(json);
 
+  late String id;
+
+  late String prefix;
+
+  late String name;
+
   late IssueInfoMixin$LinkedBranches$Edges$Node$Ref$AssociatedPullRequests
       associatedPullRequests;
 
   @override
-  List<Object?> get props => <Object?>[associatedPullRequests];
+  List<Object?> get props => [id, prefix, name, associatedPullRequests];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$LinkedBranches$Edges$Node$RefToJson(this);
@@ -5545,10 +5967,16 @@ class IssueInfoMixin$LinkedBranches$Edges$Node extends JsonSerializable
           Map<String, dynamic> json) =>
       _$IssueInfoMixin$LinkedBranches$Edges$NodeFromJson(json);
 
+  late String id;
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   IssueInfoMixin$LinkedBranches$Edges$Node$Ref? ref;
 
   @override
-  List<Object?> get props => <Object?>[ref];
+  List<Object?> get props => [id, $$typename, ref];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$LinkedBranches$Edges$NodeToJson(this);
@@ -5568,7 +5996,8 @@ class IssueInfoMixin$LinkedBranches$Edges extends JsonSerializable
   IssueInfoMixin$LinkedBranches$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssueInfoMixin$LinkedBranches$EdgesToJson(this);
@@ -5587,70 +6016,10 @@ class IssueInfoMixin$LinkedBranches extends JsonSerializable
   List<IssueInfoMixin$LinkedBranches$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$LinkedBranchesToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Comments extends JsonSerializable with EquatableMixin {
-  IssueInfoMixin$Comments();
-
-  factory IssueInfoMixin$Comments.fromJson(Map<String, dynamic> json) =>
-      _$IssueInfoMixin$CommentsFromJson(json);
-
-  late int totalCount;
-
-  @override
-  List<Object?> get props => <Object?>[totalCount];
-  @override
-  Map<String, dynamic> toJson() => _$IssueInfoMixin$CommentsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$UserContentEdits extends JsonSerializable
-    with EquatableMixin {
-  IssueInfoMixin$UserContentEdits();
-
-  factory IssueInfoMixin$UserContentEdits.fromJson(Map<String, dynamic> json) =>
-      _$IssueInfoMixin$UserContentEditsFromJson(json);
-
-  late int totalCount;
-
-  @override
-  List<Object?> get props => <Object?>[totalCount];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$IssueInfoMixin$UserContentEditsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Labels$Nodes extends JsonSerializable
-    with EquatableMixin, LabelMixin {
-  IssueInfoMixin$Labels$Nodes();
-
-  factory IssueInfoMixin$Labels$Nodes.fromJson(Map<String, dynamic> json) =>
-      _$IssueInfoMixin$Labels$NodesFromJson(json);
-
-  @override
-  List<Object?> get props => <Object?>[color, name];
-  @override
-  Map<String, dynamic> toJson() => _$IssueInfoMixin$Labels$NodesToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IssueInfoMixin$Labels extends JsonSerializable with EquatableMixin {
-  IssueInfoMixin$Labels();
-
-  factory IssueInfoMixin$Labels.fromJson(Map<String, dynamic> json) =>
-      _$IssueInfoMixin$LabelsFromJson(json);
-
-  List<IssueInfoMixin$Labels$Nodes?>? nodes;
-
-  @override
-  List<Object?> get props => <Object?>[nodes];
-  @override
-  Map<String, dynamic> toJson() => _$IssueInfoMixin$LabelsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -5663,7 +6032,8 @@ class IssueInfoMixin$ProjectCards extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$ProjectCardsToJson(this);
 }
@@ -5678,7 +6048,8 @@ class IssueInfoMixin$ProjectsV2 extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$ProjectsV2ToJson(this);
 }
@@ -5692,7 +6063,8 @@ class IssueInfoMixin$ReactionGroups extends JsonSerializable
       _$IssueInfoMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, viewerHasReacted, reactors, subject];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$ReactionGroupsToJson(this);
 }
@@ -5706,7 +6078,8 @@ class IssueInfoMixin$Repository extends JsonSerializable
       _$IssueInfoMixin$RepositoryFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$RepositoryToJson(this);
 }
@@ -5722,9 +6095,28 @@ class IssueInfoMixin$TimelineItems extends JsonSerializable
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$IssueInfoMixin$TimelineItemsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueInfoMixin$UserContentEdits extends JsonSerializable
+    with EquatableMixin {
+  IssueInfoMixin$UserContentEdits();
+
+  factory IssueInfoMixin$UserContentEdits.fromJson(Map<String, dynamic> json) =>
+      _$IssueInfoMixin$UserContentEditsFromJson(json);
+
+  late int totalCount;
+
+  @override
+  List<Object?> get props => [totalCount];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueInfoMixin$UserContentEditsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -5736,7 +6128,8 @@ class AssigneeInfoMixin$Edges$Node extends JsonSerializable
       _$AssigneeInfoMixin$Edges$NodeFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$AssigneeInfoMixin$Edges$NodeToJson(this);
 }
@@ -5753,7 +6146,8 @@ class AssigneeInfoMixin$Edges extends JsonSerializable with EquatableMixin {
   AssigneeInfoMixin$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() => _$AssigneeInfoMixin$EdgesToJson(this);
 }
@@ -5770,7 +6164,8 @@ class RepoInfoMixin$Owner extends JsonSerializable with EquatableMixin {
   late Uri avatarUrl;
 
   @override
-  List<Object?> get props => <Object?>[login, avatarUrl];
+  List<Object?> get props => [login, avatarUrl];
+
   @override
   Map<String, dynamic> toJson() => _$RepoInfoMixin$OwnerToJson(this);
 }
@@ -5784,7 +6179,8 @@ class PullInfoMixin$Assignees extends JsonSerializable
       _$PullInfoMixin$AssigneesFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[totalCount, edges];
+  List<Object?> get props => [totalCount, edges];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$AssigneesToJson(this);
 }
@@ -5798,7 +6194,8 @@ class PullInfoMixin$Author extends JsonSerializable
       _$PullInfoMixin$AuthorFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$AuthorToJson(this);
 }
@@ -5813,7 +6210,8 @@ class PullInfoMixin$Comments extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$CommentsToJson(this);
 }
@@ -5827,7 +6225,8 @@ class PullInfoMixin$Labels$Nodes extends JsonSerializable
       _$PullInfoMixin$Labels$NodesFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[color, name];
+  List<Object?> get props => [color, name];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$Labels$NodesToJson(this);
 }
@@ -5842,7 +6241,8 @@ class PullInfoMixin$Labels extends JsonSerializable with EquatableMixin {
   List<PullInfoMixin$Labels$Nodes?>? nodes;
 
   @override
-  List<Object?> get props => <Object?>[nodes];
+  List<Object?> get props => [nodes];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$LabelsToJson(this);
 }
@@ -5857,7 +6257,8 @@ class PullInfoMixin$ProjectCards extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$ProjectCardsToJson(this);
 }
@@ -5872,7 +6273,8 @@ class PullInfoMixin$ProjectsV2 extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$ProjectsV2ToJson(this);
 }
@@ -5886,7 +6288,8 @@ class PullInfoMixin$ReactionGroups extends JsonSerializable
       _$PullInfoMixin$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, viewerHasReacted, reactors, subject];
+  List<Object?> get props => [content, viewerHasReacted, reactors, subject];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$ReactionGroupsToJson(this);
 }
@@ -5900,7 +6303,8 @@ class PullInfoMixin$Repository extends JsonSerializable
       _$PullInfoMixin$RepositoryFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$RepositoryToJson(this);
 }
@@ -5915,7 +6319,8 @@ class PullInfoMixin$TimelineItems extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$TimelineItemsToJson(this);
 }
@@ -5931,7 +6336,8 @@ class PullInfoMixin$UserContentEdits extends JsonSerializable
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$UserContentEditsToJson(this);
 }
@@ -5948,7 +6354,8 @@ class PullInfoMixin$BaseRef$Repository extends JsonSerializable
   late Uri url;
 
   @override
-  List<Object?> get props => <Object?>[url];
+  List<Object?> get props => [url];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullInfoMixin$BaseRef$RepositoryToJson(this);
@@ -5966,7 +6373,8 @@ class PullInfoMixin$BaseRef extends JsonSerializable with EquatableMixin {
   late PullInfoMixin$BaseRef$Repository repository;
 
   @override
-  List<Object?> get props => <Object?>[name, repository];
+  List<Object?> get props => [name, repository];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$BaseRefToJson(this);
 }
@@ -5983,7 +6391,8 @@ class PullInfoMixin$HeadRef$Repository extends JsonSerializable
   late Uri url;
 
   @override
-  List<Object?> get props => <Object?>[url];
+  List<Object?> get props => [url];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullInfoMixin$HeadRef$RepositoryToJson(this);
@@ -6001,7 +6410,8 @@ class PullInfoMixin$HeadRef extends JsonSerializable with EquatableMixin {
   late PullInfoMixin$HeadRef$Repository repository;
 
   @override
-  List<Object?> get props => <Object?>[name, repository];
+  List<Object?> get props => [name, repository];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$HeadRefToJson(this);
 }
@@ -6018,7 +6428,8 @@ class PullInfoMixin$ClosingIssuesReferences extends JsonSerializable
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() =>
       _$PullInfoMixin$ClosingIssuesReferencesToJson(this);
@@ -6034,7 +6445,8 @@ class PullInfoMixin$Commits extends JsonSerializable with EquatableMixin {
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() => _$PullInfoMixin$CommitsToJson(this);
 }
@@ -6049,7 +6461,8 @@ class GetReactors$Query$Node$Issue$ReactionGroups extends JsonSerializable
       _$GetReactors$Query$Node$Issue$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, reactors];
+  List<Object?> get props => [content, reactors];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetReactors$Query$Node$Issue$ReactionGroupsToJson(this);
@@ -6066,7 +6479,8 @@ class GetReactors$Query$Node$Issue extends GetReactors$Query$Node
   List<GetReactors$Query$Node$Issue$ReactionGroups>? reactionGroups;
 
   @override
-  List<Object?> get props => <Object?>[reactionGroups];
+  List<Object?> get props => [reactionGroups];
+
   @override
   Map<String, dynamic> toJson() => _$GetReactors$Query$Node$IssueToJson(this);
 }
@@ -6081,7 +6495,8 @@ class GetReactors$Query$Node$PullRequest$ReactionGroups extends JsonSerializable
       _$GetReactors$Query$Node$PullRequest$ReactionGroupsFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[content, reactors];
+  List<Object?> get props => [content, reactors];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetReactors$Query$Node$PullRequest$ReactionGroupsToJson(this);
@@ -6099,7 +6514,8 @@ class GetReactors$Query$Node$PullRequest extends GetReactors$Query$Node
   List<GetReactors$Query$Node$PullRequest$ReactionGroups>? reactionGroups;
 
   @override
-  List<Object?> get props => <Object?>[reactionGroups];
+  List<Object?> get props => [reactionGroups];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetReactors$Query$Node$PullRequestToJson(this);
@@ -6124,7 +6540,8 @@ class GetReactors$Query$Node extends JsonSerializable with EquatableMixin {
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -6148,7 +6565,8 @@ class GetReactors$Query extends JsonSerializable with EquatableMixin {
   GetReactors$Query$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$GetReactors$QueryToJson(this);
 }
@@ -6164,7 +6582,8 @@ class ReactorsGroupMixin$Reactors$Edges$Node$User
       _$ReactorsGroupMixin$Reactors$Edges$Node$UserFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReactorsGroupMixin$Reactors$Edges$Node$UserToJson(this);
@@ -6189,7 +6608,8 @@ class ReactorsGroupMixin$Reactors$Edges$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -6215,7 +6635,8 @@ class ReactorsGroupMixin$Reactors$Edges extends JsonSerializable
   late ReactorsGroupMixin$Reactors$Edges$Node node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReactorsGroupMixin$Reactors$EdgesToJson(this);
@@ -6231,7 +6652,8 @@ class ReactorsGroupMixin$Reactors extends JsonSerializable with EquatableMixin {
   List<ReactorsGroupMixin$Reactors$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() => _$ReactorsGroupMixin$ReactorsToJson(this);
 }
@@ -6248,7 +6670,8 @@ class AddReaction$Mutation$AddReaction$Reaction extends JsonSerializable
   late DateTime createdAt;
 
   @override
-  List<Object?> get props => <Object?>[createdAt];
+  List<Object?> get props => [createdAt];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AddReaction$Mutation$AddReaction$ReactionToJson(this);
@@ -6266,7 +6689,8 @@ class AddReaction$Mutation$AddReaction extends JsonSerializable
   AddReaction$Mutation$AddReaction$Reaction? reaction;
 
   @override
-  List<Object?> get props => <Object?>[reaction];
+  List<Object?> get props => [reaction];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AddReaction$Mutation$AddReactionToJson(this);
@@ -6282,7 +6706,8 @@ class AddReaction$Mutation extends JsonSerializable with EquatableMixin {
   AddReaction$Mutation$AddReaction? addReaction;
 
   @override
-  List<Object?> get props => <Object?>[addReaction];
+  List<Object?> get props => [addReaction];
+
   @override
   Map<String, dynamic> toJson() => _$AddReaction$MutationToJson(this);
 }
@@ -6299,7 +6724,8 @@ class RemoveReaction$Mutation$RemoveReaction$Reaction extends JsonSerializable
   late DateTime createdAt;
 
   @override
-  List<Object?> get props => <Object?>[createdAt];
+  List<Object?> get props => [createdAt];
+
   @override
   Map<String, dynamic> toJson() =>
       _$RemoveReaction$Mutation$RemoveReaction$ReactionToJson(this);
@@ -6317,7 +6743,8 @@ class RemoveReaction$Mutation$RemoveReaction extends JsonSerializable
   RemoveReaction$Mutation$RemoveReaction$Reaction? reaction;
 
   @override
-  List<Object?> get props => <Object?>[reaction];
+  List<Object?> get props => [reaction];
+
   @override
   Map<String, dynamic> toJson() =>
       _$RemoveReaction$Mutation$RemoveReactionToJson(this);
@@ -6333,7 +6760,8 @@ class RemoveReaction$Mutation extends JsonSerializable with EquatableMixin {
   RemoveReaction$Mutation$RemoveReaction? removeReaction;
 
   @override
-  List<Object?> get props => <Object?>[removeReaction];
+  List<Object?> get props => [removeReaction];
+
   @override
   Map<String, dynamic> toJson() => _$RemoveReaction$MutationToJson(this);
 }
@@ -6350,7 +6778,8 @@ class IssuePullAssignees$Query$Repository$IssueOrPullRequest$Issue
           json);
 
   @override
-  List<Object?> get props => <Object?>[assignees];
+  List<Object?> get props => [assignees];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssuePullAssignees$Query$Repository$IssueOrPullRequest$IssueToJson(
@@ -6369,7 +6798,8 @@ class IssuePullAssignees$Query$Repository$IssueOrPullRequest$PullRequest
           json);
 
   @override
-  List<Object?> get props => <Object?>[assignees];
+  List<Object?> get props => [assignees];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssuePullAssignees$Query$Repository$IssueOrPullRequest$PullRequestToJson(
@@ -6400,7 +6830,8 @@ class IssuePullAssignees$Query$Repository$IssueOrPullRequest
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -6430,7 +6861,8 @@ class IssuePullAssignees$Query$Repository extends JsonSerializable
   IssuePullAssignees$Query$Repository$IssueOrPullRequest? issueOrPullRequest;
 
   @override
-  List<Object?> get props => <Object?>[issueOrPullRequest];
+  List<Object?> get props => [issueOrPullRequest];
+
   @override
   Map<String, dynamic> toJson() =>
       _$IssuePullAssignees$Query$RepositoryToJson(this);
@@ -6446,7 +6878,8 @@ class IssuePullAssignees$Query extends JsonSerializable with EquatableMixin {
   IssuePullAssignees$Query$Repository? repository;
 
   @override
-  List<Object?> get props => <Object?>[repository];
+  List<Object?> get props => [repository];
+
   @override
   Map<String, dynamic> toJson() => _$IssuePullAssignees$QueryToJson(this);
 }
@@ -6461,7 +6894,8 @@ class AssigneeUserListMixin$Assignees$Edges$Node extends JsonSerializable
       _$AssigneeUserListMixin$Assignees$Edges$NodeFromJson(json);
 
   @override
-  List<Object?> get props => <Object?>[avatarUrl, login];
+  List<Object?> get props => [avatarUrl, login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AssigneeUserListMixin$Assignees$Edges$NodeToJson(this);
@@ -6481,7 +6915,8 @@ class AssigneeUserListMixin$Assignees$Edges extends JsonSerializable
   AssigneeUserListMixin$Assignees$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[cursor, node];
+  List<Object?> get props => [cursor, node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AssigneeUserListMixin$Assignees$EdgesToJson(this);
@@ -6498,10 +6933,244 @@ class AssigneeUserListMixin$Assignees extends JsonSerializable
   List<AssigneeUserListMixin$Assignees$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$AssigneeUserListMixin$AssigneesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssuePullParticipants$Query$Repository$IssueOrPullRequest$Issue
+    extends IssuePullParticipants$Query$Repository$IssueOrPullRequest
+    with EquatableMixin, IssueParticipantUserListMixin {
+  IssuePullParticipants$Query$Repository$IssueOrPullRequest$Issue();
+
+  factory IssuePullParticipants$Query$Repository$IssueOrPullRequest$Issue.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssuePullParticipants$Query$Repository$IssueOrPullRequest$IssueFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [participants];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssuePullParticipants$Query$Repository$IssueOrPullRequest$IssueToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequest
+    extends IssuePullParticipants$Query$Repository$IssueOrPullRequest
+    with EquatableMixin, PullParticipantUserListMixin {
+  IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequest();
+
+  factory IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequestFromJson(
+          json);
+
+  @override
+  List<Object?> get props => [participants];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequestToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssuePullParticipants$Query$Repository$IssueOrPullRequest
+    extends JsonSerializable with EquatableMixin {
+  IssuePullParticipants$Query$Repository$IssueOrPullRequest();
+
+  factory IssuePullParticipants$Query$Repository$IssueOrPullRequest.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Issue':
+        return IssuePullParticipants$Query$Repository$IssueOrPullRequest$Issue
+            .fromJson(json);
+      case r'PullRequest':
+        return IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequest
+            .fromJson(json);
+      default:
+    }
+    return _$IssuePullParticipants$Query$Repository$IssueOrPullRequestFromJson(
+        json);
+  }
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [$$typename];
+
+  @override
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Issue':
+        return (this
+                as IssuePullParticipants$Query$Repository$IssueOrPullRequest$Issue)
+            .toJson();
+      case r'PullRequest':
+        return (this
+                as IssuePullParticipants$Query$Repository$IssueOrPullRequest$PullRequest)
+            .toJson();
+      default:
+    }
+    return _$IssuePullParticipants$Query$Repository$IssueOrPullRequestToJson(
+        this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssuePullParticipants$Query$Repository extends JsonSerializable
+    with EquatableMixin {
+  IssuePullParticipants$Query$Repository();
+
+  factory IssuePullParticipants$Query$Repository.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssuePullParticipants$Query$RepositoryFromJson(json);
+
+  IssuePullParticipants$Query$Repository$IssueOrPullRequest? issueOrPullRequest;
+
+  @override
+  List<Object?> get props => [issueOrPullRequest];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssuePullParticipants$Query$RepositoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssuePullParticipants$Query extends JsonSerializable with EquatableMixin {
+  IssuePullParticipants$Query();
+
+  factory IssuePullParticipants$Query.fromJson(Map<String, dynamic> json) =>
+      _$IssuePullParticipants$QueryFromJson(json);
+
+  IssuePullParticipants$Query$Repository? repository;
+
+  @override
+  List<Object?> get props => [repository];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssuePullParticipants$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueParticipantUserListMixin$Participants$Edges$Node
+    extends JsonSerializable with EquatableMixin, ActorMixin {
+  IssueParticipantUserListMixin$Participants$Edges$Node();
+
+  factory IssueParticipantUserListMixin$Participants$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueParticipantUserListMixin$Participants$Edges$NodeFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueParticipantUserListMixin$Participants$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueParticipantUserListMixin$Participants$Edges extends JsonSerializable
+    with EquatableMixin {
+  IssueParticipantUserListMixin$Participants$Edges();
+
+  factory IssueParticipantUserListMixin$Participants$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueParticipantUserListMixin$Participants$EdgesFromJson(json);
+
+  late String cursor;
+
+  IssueParticipantUserListMixin$Participants$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueParticipantUserListMixin$Participants$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssueParticipantUserListMixin$Participants extends JsonSerializable
+    with EquatableMixin {
+  IssueParticipantUserListMixin$Participants();
+
+  factory IssueParticipantUserListMixin$Participants.fromJson(
+          Map<String, dynamic> json) =>
+      _$IssueParticipantUserListMixin$ParticipantsFromJson(json);
+
+  List<IssueParticipantUserListMixin$Participants$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [edges];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$IssueParticipantUserListMixin$ParticipantsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullParticipantUserListMixin$Participants$Edges$Node
+    extends JsonSerializable with EquatableMixin, ActorMixin {
+  PullParticipantUserListMixin$Participants$Edges$Node();
+
+  factory PullParticipantUserListMixin$Participants$Edges$Node.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullParticipantUserListMixin$Participants$Edges$NodeFromJson(json);
+
+  @override
+  List<Object?> get props => [avatarUrl, login];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullParticipantUserListMixin$Participants$Edges$NodeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullParticipantUserListMixin$Participants$Edges extends JsonSerializable
+    with EquatableMixin {
+  PullParticipantUserListMixin$Participants$Edges();
+
+  factory PullParticipantUserListMixin$Participants$Edges.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullParticipantUserListMixin$Participants$EdgesFromJson(json);
+
+  late String cursor;
+
+  PullParticipantUserListMixin$Participants$Edges$Node? node;
+
+  @override
+  List<Object?> get props => [cursor, node];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullParticipantUserListMixin$Participants$EdgesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PullParticipantUserListMixin$Participants extends JsonSerializable
+    with EquatableMixin {
+  PullParticipantUserListMixin$Participants();
+
+  factory PullParticipantUserListMixin$Participants.fromJson(
+          Map<String, dynamic> json) =>
+      _$PullParticipantUserListMixin$ParticipantsFromJson(json);
+
+  List<PullParticipantUserListMixin$Participants$Edges?>? edges;
+
+  @override
+  List<Object?> get props => [edges];
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PullParticipantUserListMixin$ParticipantsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -6518,7 +7187,8 @@ class SearchMentionUsers$Query$Search$Edges$Node$User
   late Uri avatarUrl;
 
   @override
-  List<Object?> get props => <Object?>[login, avatarUrl];
+  List<Object?> get props => [login, avatarUrl];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$Search$Edges$Node$UserToJson(this);
@@ -6538,7 +7208,8 @@ class SearchMentionUsers$Query$Search$Edges$Node$Organization
   late Uri avatarUrl;
 
   @override
-  List<Object?> get props => <Object?>[login, avatarUrl];
+  List<Object?> get props => [login, avatarUrl];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$Search$Edges$Node$OrganizationToJson(this);
@@ -6566,7 +7237,8 @@ class SearchMentionUsers$Query$Search$Edges$Node extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -6596,7 +7268,8 @@ class SearchMentionUsers$Query$Search$Edges extends JsonSerializable
   late String cursor;
 
   @override
-  List<Object?> get props => <Object?>[node, cursor];
+  List<Object?> get props => [node, cursor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$Search$EdgesToJson(this);
@@ -6613,7 +7286,8 @@ class SearchMentionUsers$Query$Search extends JsonSerializable
   List<SearchMentionUsers$Query$Search$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SearchMentionUsers$Query$SearchToJson(this);
@@ -6629,7 +7303,8 @@ class SearchMentionUsers$Query extends JsonSerializable with EquatableMixin {
   late SearchMentionUsers$Query$Search search;
 
   @override
-  List<Object?> get props => <Object?>[search];
+  List<Object?> get props => [search];
+
   @override
   Map<String, dynamic> toJson() => _$SearchMentionUsers$QueryToJson(this);
 }
@@ -6647,7 +7322,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Owner
   late String login;
 
   @override
-  List<Object?> get props => <Object?>[login];
+  List<Object?> get props => [login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$OwnerToJson(
@@ -6667,7 +7343,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$
   late String name;
 
   @override
-  List<Object?> get props => <Object?>[name];
+  List<Object?> get props => [name];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$Edges$NodeToJson(
@@ -6688,7 +7365,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$
       node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages$EdgesToJson(
@@ -6709,7 +7387,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$Languages
       edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository$LanguagesToJson(
@@ -6745,7 +7424,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
 
   @override
   List<Object?> get props =>
-      <Object?>[name, description, stargazerCount, updatedAt, url, owner, languages];
+      [name, description, stargazerCount, updatedAt, url, owner, languages];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$RepositoryToJson(
@@ -6772,7 +7452,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node
   String? $$typename;
 
   @override
-  List<Object?> get props => <Object?>[$$typename];
+  List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -6798,7 +7479,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems$Edges extends JsonSerializable
   GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node? node;
 
   @override
-  List<Object?> get props => <Object?>[node];
+  List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItems$EdgesToJson(this);
@@ -6816,7 +7498,8 @@ class GetUserPinnedRepos$Query$User$PinnedItems extends JsonSerializable
   List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>? edges;
 
   @override
-  List<Object?> get props => <Object?>[edges];
+  List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$GetUserPinnedRepos$Query$User$PinnedItemsToJson(this);
@@ -6833,7 +7516,8 @@ class GetUserPinnedRepos$Query$User extends JsonSerializable
   late GetUserPinnedRepos$Query$User$PinnedItems pinnedItems;
 
   @override
-  List<Object?> get props => <Object?>[pinnedItems];
+  List<Object?> get props => [pinnedItems];
+
   @override
   Map<String, dynamic> toJson() => _$GetUserPinnedRepos$Query$UserToJson(this);
 }
@@ -6848,7 +7532,8 @@ class GetUserPinnedRepos$Query extends JsonSerializable with EquatableMixin {
   GetUserPinnedRepos$Query$User? user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$GetUserPinnedRepos$QueryToJson(this);
 }
@@ -6865,7 +7550,8 @@ class FollowStatusInfo$Query$User$Followers extends JsonSerializable
   late int totalCount;
 
   @override
-  List<Object?> get props => <Object?>[totalCount];
+  List<Object?> get props => [totalCount];
+
   @override
   Map<String, dynamic> toJson() =>
       _$FollowStatusInfo$Query$User$FollowersToJson(this);
@@ -6888,7 +7574,8 @@ class FollowStatusInfo$Query$User extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props =>
-      <Object?>[id, viewerIsFollowing, viewerCanFollow, followers];
+      [id, viewerIsFollowing, viewerCanFollow, followers];
+
   @override
   Map<String, dynamic> toJson() => _$FollowStatusInfo$Query$UserToJson(this);
 }
@@ -6903,7 +7590,8 @@ class FollowStatusInfo$Query extends JsonSerializable with EquatableMixin {
   FollowStatusInfo$Query$User? user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$FollowStatusInfo$QueryToJson(this);
 }
@@ -6920,7 +7608,8 @@ class FollowUser$Mutation$FollowUser$User extends JsonSerializable
   late String login;
 
   @override
-  List<Object?> get props => <Object?>[login];
+  List<Object?> get props => [login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$FollowUser$Mutation$FollowUser$UserToJson(this);
@@ -6937,7 +7626,8 @@ class FollowUser$Mutation$FollowUser extends JsonSerializable
   FollowUser$Mutation$FollowUser$User? user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$FollowUser$Mutation$FollowUserToJson(this);
 }
@@ -6952,7 +7642,8 @@ class FollowUser$Mutation extends JsonSerializable with EquatableMixin {
   FollowUser$Mutation$FollowUser? followUser;
 
   @override
-  List<Object?> get props => <Object?>[followUser];
+  List<Object?> get props => [followUser];
+
   @override
   Map<String, dynamic> toJson() => _$FollowUser$MutationToJson(this);
 }
@@ -6969,7 +7660,8 @@ class UnfollowUser$Mutation$UnfollowUser$User extends JsonSerializable
   late String login;
 
   @override
-  List<Object?> get props => <Object?>[login];
+  List<Object?> get props => [login];
+
   @override
   Map<String, dynamic> toJson() =>
       _$UnfollowUser$Mutation$UnfollowUser$UserToJson(this);
@@ -6987,7 +7679,8 @@ class UnfollowUser$Mutation$UnfollowUser extends JsonSerializable
   UnfollowUser$Mutation$UnfollowUser$User? user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() =>
       _$UnfollowUser$Mutation$UnfollowUserToJson(this);
@@ -7003,7 +7696,8 @@ class UnfollowUser$Mutation extends JsonSerializable with EquatableMixin {
   UnfollowUser$Mutation$UnfollowUser? unfollowUser;
 
   @override
-  List<Object?> get props => <Object?>[unfollowUser];
+  List<Object?> get props => [unfollowUser];
+
   @override
   Map<String, dynamic> toJson() => _$UnfollowUser$MutationToJson(this);
 }
@@ -7221,17 +7915,18 @@ class GetRepoProjectsArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props =>
-      <Object?>[name, owner, cursor, query, states, orderByField, orderByDir];
+      [name, owner, cursor, query, states, orderByField, orderByDir];
+
   @override
   Map<String, dynamic> toJson() => _$GetRepoProjectsArgumentsToJson(this);
 }
 
-final String GET_REPO_PROJECTS_QUERY_DOCUMENT_OPERATION_NAME = 'getRepoProjects';
-final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_REPO_PROJECTS_QUERY_DOCUMENT_OPERATION_NAME = 'getRepoProjects';
+final GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getRepoProjects'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'name')),
         type: NamedTypeNode(
@@ -7239,7 +7934,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -7248,7 +7943,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
@@ -7257,7 +7952,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'query')),
@@ -7266,7 +7961,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'states')),
@@ -7278,7 +7973,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'orderByField')),
@@ -7287,7 +7982,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'orderByDir')),
@@ -7296,15 +7991,15 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'name')),
@@ -7314,12 +8009,12 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'projects'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'first'),
                 value: IntValueNode(value: '10'),
@@ -7338,7 +8033,7 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
               ),
               ArgumentNode(
                 name: NameNode(value: 'orderBy'),
-                value: ObjectValueNode(fields: <ObjectFieldNode>[
+                value: ObjectValueNode(fields: [
                   ObjectFieldNode(
                     name: NameNode(value: 'field'),
                     value: VariableNode(name: NameNode(value: 'orderByField')),
@@ -7350,37 +8045,37 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
                 ]),
               ),
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'totalCount'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'edges'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'cursor'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   FieldNode(
                     name: NameNode(value: 'node'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FragmentSpreadNode(
                         name: NameNode(value: 'project'),
-                        directives: <DirectiveNode>[],
+                        directives: [],
                       )
                     ]),
                   ),
@@ -7399,75 +8094,75 @@ final DocumentNode GET_REPO_PROJECTS_QUERY_DOCUMENT = DocumentNode(definitions: 
       name: NameNode(value: 'Project'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'name'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'databaseId'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'updatedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closed'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'progress'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'donePercentage'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -7490,7 +8185,8 @@ class GetRepoProjectsQuery
   final GetRepoProjectsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetRepoProjects$Query parse(Map<String, dynamic> json) =>
       GetRepoProjects$Query.fromJson(json);
@@ -7507,17 +8203,18 @@ class GetProjectInfoArguments extends JsonSerializable with EquatableMixin {
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() => _$GetProjectInfoArgumentsToJson(this);
 }
 
-final String GET_PROJECT_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'getProjectInfo';
-final DocumentNode GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_PROJECT_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'getProjectInfo';
+final GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getProjectInfo'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -7525,27 +8222,27 @@ final DocumentNode GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -7554,11 +8251,11 @@ final DocumentNode GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <
               name: NameNode(value: 'Project'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'project'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -7573,75 +8270,75 @@ final DocumentNode GET_PROJECT_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <
       name: NameNode(value: 'Project'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'name'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'databaseId'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'updatedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closed'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'progress'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'donePercentage'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -7664,7 +8361,8 @@ class GetProjectInfoQuery
   final GetProjectInfoArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetProjectInfo$Query parse(Map<String, dynamic> json) =>
       GetProjectInfo$Query.fromJson(json);
@@ -7686,17 +8384,18 @@ class GetProjectColumnsArguments extends JsonSerializable with EquatableMixin {
   final String? cursor;
 
   @override
-  List<Object?> get props => <Object?>[id, cursor];
+  List<Object?> get props => [id, cursor];
+
   @override
   Map<String, dynamic> toJson() => _$GetProjectColumnsArgumentsToJson(this);
 }
 
-final String GET_PROJECT_COLUMNS_QUERY_DOCUMENT_OPERATION_NAME = 'getProjectColumns';
-final DocumentNode GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_PROJECT_COLUMNS_QUERY_DOCUMENT_OPERATION_NAME = 'getProjectColumns';
+final GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getProjectColumns'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -7704,7 +8403,7 @@ final DocumentNode GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
@@ -7713,27 +8412,27 @@ final DocumentNode GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -7742,12 +8441,12 @@ final DocumentNode GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions
               name: NameNode(value: 'Project'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'columns'),
                 alias: null,
-                arguments: <ArgumentNode>[
+                arguments: [
                   ArgumentNode(
                     name: NameNode(value: 'first'),
                     value: IntValueNode(value: '10'),
@@ -7757,53 +8456,53 @@ final DocumentNode GET_PROJECT_COLUMNS_QUERY_DOCUMENT = DocumentNode(definitions
                     value: VariableNode(name: NameNode(value: 'cursor')),
                   ),
                 ],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'totalCount'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   FieldNode(
                     name: NameNode(value: 'edges'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'cursor'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'node'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FieldNode(
                             name: NameNode(value: 'name'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'id'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'updatedAt'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                         ]),
@@ -7835,7 +8534,8 @@ class GetProjectColumnsQuery
   final GetProjectColumnsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetProjectColumns$Query parse(Map<String, dynamic> json) =>
       GetProjectColumns$Query.fromJson(json);
@@ -7862,18 +8562,19 @@ class GetProjectColumnCardsArguments extends JsonSerializable
   final List<ProjectCardArchivedState>? archiveStates;
 
   @override
-  List<Object?> get props => <Object?>[id, cursor, archiveStates];
+  List<Object?> get props => [id, cursor, archiveStates];
+
   @override
   Map<String, dynamic> toJson() => _$GetProjectColumnCardsArgumentsToJson(this);
 }
 
-final String GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT_OPERATION_NAME =
+final GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT_OPERATION_NAME =
     'getProjectColumnCards';
-final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getProjectColumnCards'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -7881,7 +8582,7 @@ final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(defini
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
@@ -7890,7 +8591,7 @@ final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(defini
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'archiveStates')),
@@ -7902,27 +8603,27 @@ final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(defini
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -7931,12 +8632,12 @@ final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(defini
               name: NameNode(value: 'ProjectColumn'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'cards'),
                 alias: null,
-                arguments: <ArgumentNode>[
+                arguments: [
                   ArgumentNode(
                     name: NameNode(value: 'first'),
                     value: IntValueNode(value: '10'),
@@ -7950,52 +8651,52 @@ final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(defini
                     value: VariableNode(name: NameNode(value: 'cursor')),
                   ),
                 ],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'totalCount'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   FieldNode(
                     name: NameNode(value: 'edges'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'cursor'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'node'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FieldNode(
                             name: NameNode(value: 'note'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'content'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                            arguments: [],
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
                               FieldNode(
                                 name: NameNode(value: '__typename'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
+                                arguments: [],
+                                directives: [],
                                 selectionSet: null,
                               ),
                               InlineFragmentNode(
@@ -8004,27 +8705,27 @@ final DocumentNode GET_PROJECT_COLUMN_CARDS_QUERY_DOCUMENT = DocumentNode(defini
                                   name: NameNode(value: 'Issue'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FieldNode(
                                     name: NameNode(value: 'bodyHTML'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
+                                    arguments: [],
+                                    directives: [],
                                     selectionSet: null,
                                   ),
                                   FieldNode(
                                     name: NameNode(value: 'title'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
+                                    arguments: [],
+                                    directives: [],
                                     selectionSet: null,
                                   ),
                                   FieldNode(
                                     name: NameNode(value: 'number'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
+                                    arguments: [],
+                                    directives: [],
                                     selectionSet: null,
                                   ),
                                 ]),
@@ -8060,7 +8761,8 @@ class GetProjectColumnCardsQuery extends GraphQLQuery<
   final GetProjectColumnCardsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetProjectColumnCards$Query parse(Map<String, dynamic> json) =>
       GetProjectColumnCards$Query.fromJson(json);
@@ -8082,17 +8784,18 @@ class IssueTemplatesArguments extends JsonSerializable with EquatableMixin {
   late String owner;
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() => _$IssueTemplatesArgumentsToJson(this);
 }
 
-final String ISSUE_TEMPLATES_QUERY_DOCUMENT_OPERATION_NAME = 'issueTemplates';
-final DocumentNode ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final ISSUE_TEMPLATES_QUERY_DOCUMENT_OPERATION_NAME = 'issueTemplates';
+final ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'issueTemplates'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'name')),
         type: NamedTypeNode(
@@ -8100,7 +8803,7 @@ final DocumentNode ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -8109,15 +8812,15 @@ final DocumentNode ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'name')),
@@ -8127,40 +8830,40 @@ final DocumentNode ISSUE_TEMPLATES_QUERY_DOCUMENT = DocumentNode(definitions: <D
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'issueTemplates'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'name'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'title'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'body'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'about'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
             ]),
@@ -8185,7 +8888,8 @@ class IssueTemplatesQuery
   final IssueTemplatesArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   IssueTemplates$Query parse(Map<String, dynamic> json) =>
       IssueTemplates$Query.fromJson(json);
@@ -8207,17 +8911,18 @@ class PinnedIssuesArguments extends JsonSerializable with EquatableMixin {
   late String owner;
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() => _$PinnedIssuesArgumentsToJson(this);
 }
 
-final String PINNED_ISSUES_QUERY_DOCUMENT_OPERATION_NAME = 'pinnedIssues';
-final DocumentNode PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final PINNED_ISSUES_QUERY_DOCUMENT_OPERATION_NAME = 'pinnedIssues';
+final PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'pinnedIssues'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'name')),
         type: NamedTypeNode(
@@ -8225,7 +8930,7 @@ final DocumentNode PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: <Def
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -8234,15 +8939,15 @@ final DocumentNode PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: <Def
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'name')),
@@ -8252,41 +8957,41 @@ final DocumentNode PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: <Def
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'pinnedIssues'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'first'),
                 value: IntValueNode(value: '3'),
               )
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'totalCount'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'nodes'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'issue'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FragmentSpreadNode(
                         name: NameNode(value: 'issue'),
-                        directives: <DirectiveNode>[],
+                        directives: [],
                       )
                     ]),
                   )
@@ -8305,54 +9010,54 @@ final DocumentNode PINNED_ISSUES_QUERY_DOCUMENT = DocumentNode(definitions: <Def
       name: NameNode(value: 'Issue'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'url'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'title'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: NameNode(value: 'issueState'),
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'nameWithOwner'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -8375,7 +9080,8 @@ class PinnedIssuesQuery
   final PinnedIssuesArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   PinnedIssues$Query parse(Map<String, dynamic> json) =>
       PinnedIssues$Query.fromJson(json);
@@ -8397,17 +9103,18 @@ class HasStarredArguments extends JsonSerializable with EquatableMixin {
   late String owner;
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() => _$HasStarredArgumentsToJson(this);
 }
 
-final String HAS_STARRED_QUERY_DOCUMENT_OPERATION_NAME = 'hasStarred';
-final DocumentNode HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final HAS_STARRED_QUERY_DOCUMENT_OPERATION_NAME = 'hasStarred';
+final HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'hasStarred'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'name')),
         type: NamedTypeNode(
@@ -8415,7 +9122,7 @@ final DocumentNode HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: <Defin
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -8424,15 +9131,15 @@ final DocumentNode HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: <Defin
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'name')),
@@ -8442,20 +9149,20 @@ final DocumentNode HAS_STARRED_QUERY_DOCUMENT = DocumentNode(definitions: <Defin
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'viewerHasStarred'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'stargazerCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -8478,7 +9185,8 @@ class HasStarredQuery
   final HasStarredArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   HasStarred$Query parse(Map<String, dynamic> json) =>
       HasStarred$Query.fromJson(json);
@@ -8500,17 +9208,18 @@ class HasWatchedArguments extends JsonSerializable with EquatableMixin {
   late String owner;
 
   @override
-  List<Object?> get props => <Object?>[name, owner];
+  List<Object?> get props => [name, owner];
+
   @override
   Map<String, dynamic> toJson() => _$HasWatchedArgumentsToJson(this);
 }
 
-final String HAS_WATCHED_QUERY_DOCUMENT_OPERATION_NAME = 'hasWatched';
-final DocumentNode HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final HAS_WATCHED_QUERY_DOCUMENT_OPERATION_NAME = 'hasWatched';
+final HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'hasWatched'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'name')),
         type: NamedTypeNode(
@@ -8518,7 +9227,7 @@ final DocumentNode HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: <Defin
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -8527,15 +9236,15 @@ final DocumentNode HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: <Defin
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'name')),
@@ -8545,33 +9254,33 @@ final DocumentNode HAS_WATCHED_QUERY_DOCUMENT = DocumentNode(definitions: <Defin
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'viewerSubscription'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'viewerCanSubscribe'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'watchers'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'totalCount'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -8596,7 +9305,8 @@ class HasWatchedQuery
   final HasWatchedArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   HasWatched$Query parse(Map<String, dynamic> json) =>
       HasWatched$Query.fromJson(json);
@@ -8613,17 +9323,18 @@ class GetViewerOrgsArguments extends JsonSerializable with EquatableMixin {
   final String? cursor;
 
   @override
-  List<Object?> get props => <Object?>[cursor];
+  List<Object?> get props => [cursor];
+
   @override
   Map<String, dynamic> toJson() => _$GetViewerOrgsArgumentsToJson(this);
 }
 
-final String GET_VIEWER_ORGS_QUERY_DOCUMENT_OPERATION_NAME = 'getViewerOrgs';
-final DocumentNode GET_VIEWER_ORGS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_VIEWER_ORGS_QUERY_DOCUMENT_OPERATION_NAME = 'getViewerOrgs';
+final GET_VIEWER_ORGS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getViewerOrgs'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
         type: NamedTypeNode(
@@ -8631,21 +9342,21 @@ final DocumentNode GET_VIEWER_ORGS_QUERY_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'viewer'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'organizations'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'first'),
                 value: IntValueNode(value: '10'),
@@ -8655,39 +9366,39 @@ final DocumentNode GET_VIEWER_ORGS_QUERY_DOCUMENT = DocumentNode(definitions: <D
                 value: VariableNode(name: NameNode(value: 'cursor')),
               ),
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'edges'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'cursor'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   FieldNode(
                     name: NameNode(value: 'node'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'avatarUrl'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'login'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                     ]),
@@ -8716,7 +9427,8 @@ class GetViewerOrgsQuery
   final GetViewerOrgsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetViewerOrgs$Query parse(Map<String, dynamic> json) =>
       GetViewerOrgs$Query.fromJson(json);
@@ -8747,17 +9459,18 @@ class GetTimelineArguments extends JsonSerializable with EquatableMixin {
   final DateTime? since;
 
   @override
-  List<Object?> get props => <Object?>[repoName, owner, number, after, since];
+  List<Object?> get props => [repoName, owner, number, after, since];
+
   @override
   Map<String, dynamic> toJson() => _$GetTimelineArgumentsToJson(this);
 }
 
-final String GET_TIMELINE_QUERY_DOCUMENT_OPERATION_NAME = 'getTimeline';
-final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_TIMELINE_QUERY_DOCUMENT_OPERATION_NAME = 'getTimeline';
+final GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getTimeline'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'repoName')),
         type: NamedTypeNode(
@@ -8765,7 +9478,7 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -8774,7 +9487,7 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'number')),
@@ -8783,7 +9496,7 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'after')),
@@ -8792,7 +9505,7 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'since')),
@@ -8801,15 +9514,15 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'repoName')),
@@ -8819,24 +9532,24 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'issueOrPullRequest'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'number'),
                 value: VariableNode(name: NameNode(value: 'number')),
               )
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: '__typename'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               InlineFragmentNode(
@@ -8845,12 +9558,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                   name: NameNode(value: 'Issue'),
                   isNonNull: false,
                 )),
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'timelineItems'),
                     alias: null,
-                    arguments: <ArgumentNode>[
+                    arguments: [
                       ArgumentNode(
                         name: NameNode(value: 'first'),
                         value: IntValueNode(value: '20'),
@@ -8865,7 +9578,7 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                       ),
                       ArgumentNode(
                         name: NameNode(value: 'itemTypes'),
-                        value: ListValueNode(values: <ValueNode>[
+                        value: ListValueNode(values: [
                           EnumValueNode(
                               name: NameNode(value: 'ADDED_TO_PROJECT_EVENT')),
                           EnumValueNode(
@@ -8908,25 +9621,25 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                         ]),
                       ),
                     ],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'edges'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FieldNode(
                             name: NameNode(value: 'node'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                            arguments: [],
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
                               FieldNode(
                                 name: NameNode(value: '__typename'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
+                                arguments: [],
+                                directives: [],
                                 selectionSet: null,
                               ),
                               InlineFragmentNode(
@@ -8935,11 +9648,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'AddedToProjectEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'addedToProject'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -8949,11 +9662,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'AssignedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'assigned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -8963,11 +9676,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ClosedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'closed'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -8977,11 +9690,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'CrossReferencedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'crossReference'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -8991,11 +9704,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'DemilestonedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'deMileStoned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9005,11 +9718,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'IssueComment'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'issueComment'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9019,11 +9732,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'LabeledEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'labeled'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9033,11 +9746,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'LockedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'locked'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9048,11 +9761,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       NameNode(value: 'MarkedAsDuplicateEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'markedAsDuplicate'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9062,11 +9775,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'MilestonedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'mileStoned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9077,12 +9790,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'MovedColumnsInProjectEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(
                                         value: 'movedColumnsInProject'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9092,11 +9805,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'PinnedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'pinned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9107,11 +9820,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'RemovedFromProjectEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'removedFromProject'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9121,11 +9834,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'RenamedTitleEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'renamedTitle'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9135,11 +9848,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ReopenedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'reopened'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9149,11 +9862,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnassignedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unassigned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9163,11 +9876,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnlabeledEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unlabeled'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9177,11 +9890,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnlockedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unlocked'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9192,12 +9905,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'UnmarkedAsDuplicateEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name:
                                         NameNode(value: 'unmarkedAsDuplicate'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9207,11 +9920,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnpinnedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unpinned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9220,8 +9933,8 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                           FieldNode(
                             name: NameNode(value: 'cursor'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                         ]),
@@ -9236,12 +9949,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                   name: NameNode(value: 'PullRequest'),
                   isNonNull: false,
                 )),
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'timelineItems'),
                     alias: null,
-                    arguments: <ArgumentNode>[
+                    arguments: [
                       ArgumentNode(
                         name: NameNode(value: 'first'),
                         value: IntValueNode(value: '20'),
@@ -9256,7 +9969,7 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                       ),
                       ArgumentNode(
                         name: NameNode(value: 'itemTypes'),
-                        value: ListValueNode(values: <ValueNode>[
+                        value: ListValueNode(values: [
                           EnumValueNode(
                               name: NameNode(value: 'ADDED_TO_PROJECT_EVENT')),
                           EnumValueNode(
@@ -9332,25 +10045,25 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                         ]),
                       ),
                     ],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'edges'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FieldNode(
                             name: NameNode(value: 'node'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                            arguments: [],
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
                               FieldNode(
                                 name: NameNode(value: '__typename'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
+                                arguments: [],
+                                directives: [],
                                 selectionSet: null,
                               ),
                               InlineFragmentNode(
@@ -9359,11 +10072,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'AddedToProjectEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'addedToProject'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9373,11 +10086,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'AssignedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'assigned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9387,11 +10100,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'BaseRefChangedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'baseRefChanged'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9401,11 +10114,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'BaseRefDeletedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'baseRefDeleted'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9416,11 +10129,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'BaseRefForcePushedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'baseRefForcePushed'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9430,11 +10143,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ClosedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'closed'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9444,11 +10157,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ConvertToDraftEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'convertedToDraft'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9458,11 +10171,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'CrossReferencedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'crossReference'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9472,11 +10185,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'DemilestonedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'deMileStoned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9486,11 +10199,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'HeadRefDeletedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'headRefDeleted'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9501,11 +10214,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'HeadRefForcePushedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'headRefForcePushed'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9515,11 +10228,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'HeadRefRestoredEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'headRefRestored'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9529,11 +10242,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'IssueComment'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'issueComment'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9543,11 +10256,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'LabeledEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'labeled'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9557,11 +10270,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'LockedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'locked'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9572,11 +10285,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       NameNode(value: 'MarkedAsDuplicateEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'markedAsDuplicate'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9586,11 +10299,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'MergedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'merged'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9600,11 +10313,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'MilestonedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'mileStoned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9615,12 +10328,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'MovedColumnsInProjectEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(
                                         value: 'movedColumnsInProject'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9630,11 +10343,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'PinnedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'pinned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9644,11 +10357,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'PullRequestCommit'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'pullRequestCommit'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9659,13 +10372,13 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'PullRequestCommitCommentThread'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FieldNode(
                                     name: NameNode(value: 'id'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
+                                    arguments: [],
+                                    directives: [],
                                     selectionSet: null,
                                   )
                                 ]),
@@ -9676,11 +10389,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'PullRequestReview'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'pullRequestReview'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9691,13 +10404,13 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'PullRequestReviewThread'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FieldNode(
                                     name: NameNode(value: 'id'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
+                                    arguments: [],
+                                    directives: [],
                                     selectionSet: null,
                                   )
                                 ]),
@@ -9708,11 +10421,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ReadyForReviewEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'readyForReview'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9723,11 +10436,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'RemovedFromProjectEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'removedFromProject'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9737,11 +10450,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'RenamedTitleEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'renamedTitle'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9751,11 +10464,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ReopenedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'reopened'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9765,11 +10478,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ReviewDismissedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'reviewDismissed'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9779,11 +10492,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'ReviewRequestedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'reviewRequested'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9793,11 +10506,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnassignedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unassigned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9807,11 +10520,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnlabeledEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unlabeled'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9821,11 +10534,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnlockedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unlocked'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9836,12 +10549,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                       value: 'UnmarkedAsDuplicateEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name:
                                         NameNode(value: 'unmarkedAsDuplicate'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9851,11 +10564,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                                   name: NameNode(value: 'UnpinnedEvent'),
                                   isNonNull: false,
                                 )),
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FragmentSpreadNode(
                                     name: NameNode(value: 'unpinned'),
-                                    directives: <DirectiveNode>[],
+                                    directives: [],
                                   )
                                 ]),
                               ),
@@ -9864,8 +10577,8 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                           FieldNode(
                             name: NameNode(value: 'cursor'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                         ]),
@@ -9887,31 +10600,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'AddedToProjectEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -9924,20 +10637,20 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -9949,45 +10662,45 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'AssignedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'assignee'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -9996,11 +10709,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'User'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10010,11 +10723,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Bot'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10024,11 +10737,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Mannequin'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10038,11 +10751,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Organization'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10057,31 +10770,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ClosedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -10094,45 +10807,45 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'CrossReferencedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'source'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -10141,11 +10854,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Issue'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'issue'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10155,11 +10868,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'PullRequest'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'pullRequest'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10168,8 +10881,8 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'isCrossRepository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10181,54 +10894,54 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'Issue'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'url'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'title'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: NameNode(value: 'issueState'),
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'nameWithOwner'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -10242,54 +10955,54 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'PullRequest'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'url'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'title'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: NameNode(value: 'pullState'),
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'nameWithOwner'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -10303,39 +11016,39 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'DemilestonedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'milestoneTitle'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10347,128 +11060,128 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'IssueComment'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'authorAssociation'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'lastEditedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'isMinimized'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'minimizedReason'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'reactionGroups'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanMinimize'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanDelete'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanUpdate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerDidAuthor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCannotUpdateReasons'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanReact'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10480,33 +11193,33 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ReactionGroup'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'content'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerHasReacted'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactors'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -10514,14 +11227,14 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'subject'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -10535,43 +11248,43 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'LabeledEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'label'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'label'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -10584,20 +11297,20 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'Label'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'color'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'name'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10609,39 +11322,39 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'LockedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'lockReason'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10653,52 +11366,52 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'MarkedAsDuplicateEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'isCrossRepository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'canonical'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -10707,11 +11420,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Issue'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'issue'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10721,11 +11434,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'PullRequest'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'pullRequest'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -10740,39 +11453,39 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'MilestonedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'milestoneTitle'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10784,31 +11497,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'MovedColumnsInProjectEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -10821,31 +11534,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'PinnedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -10858,31 +11571,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'RemovedFromProjectEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -10895,46 +11608,46 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'RenamedTitleEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'previousTitle'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'currentTitle'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -10946,31 +11659,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ReopenedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -10983,45 +11696,45 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'UnassignedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'assignee'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -11030,11 +11743,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'User'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11044,11 +11757,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Bot'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11058,11 +11771,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Mannequin'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11072,11 +11785,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Organization'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11091,43 +11804,43 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'UnlabeledEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'label'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'label'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11140,31 +11853,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'UnlockedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11177,52 +11890,52 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'UnmarkedAsDuplicateEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'isCrossRepository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'canonical'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -11231,11 +11944,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Issue'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'issue'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11245,11 +11958,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'PullRequest'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'pullRequest'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11264,31 +11977,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'UnpinnedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11301,46 +12014,46 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'BaseRefChangedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'currentRefName'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'previousRefName'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -11352,39 +12065,39 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'BaseRefDeletedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'baseRefName'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -11396,40 +12109,40 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'BaseRefForcePushedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'beforeCommit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'abbreviatedOid'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'url'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -11437,21 +12150,21 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'afterCommit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'url'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'abbreviatedOid'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -11459,14 +12172,14 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'ref'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -11474,12 +12187,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11492,31 +12205,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ConvertToDraftEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11529,39 +12242,39 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'HeadRefDeletedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'headRefName'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -11573,40 +12286,40 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'HeadRefForcePushedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'beforeCommit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'abbreviatedOid'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'url'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -11614,21 +12327,21 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'afterCommit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'url'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'abbreviatedOid'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -11636,14 +12349,14 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'ref'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -11651,12 +12364,12 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11669,31 +12382,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'HeadRefRestoredEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11706,39 +12419,39 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'MergedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'mergeRefName'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -11750,24 +12463,24 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'PullRequestCommit'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'commit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'commit'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -11780,79 +12493,79 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'Commit'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'additions'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'authoredDate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'oid'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'message'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'commitUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'messageHeadline'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'avatarUrl'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'user'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -11867,57 +12580,57 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'PullRequestReview'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'resourcePath'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'comments'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '1'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'edges'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'node'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'id'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   )
                 ]),
@@ -11925,8 +12638,8 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               FieldNode(
                 name: NameNode(value: 'cursor'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
             ]),
@@ -11936,102 +12649,102 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'authorAssociation'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'lastEditedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'reactionGroups'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanDelete'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanUpdate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerDidAuthor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCannotUpdateReasons'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanReact'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -12043,31 +12756,31 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ReadyForReviewEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
@@ -12080,53 +12793,53 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ReviewDismissedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'dismissalMessage'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'dismissalMessageHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'previousReviewState'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -12138,45 +12851,45 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ReviewRequestedEvent'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'actor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'requestedReviewer'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -12185,11 +12898,11 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'User'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -12199,20 +12912,20 @@ final DocumentNode GET_TIMELINE_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Team'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'avatarUrl'),
                 alias: NameNode(value: 'avatar'),
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'name'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
             ]),
@@ -12237,7 +12950,8 @@ class GetTimelineQuery
   final GetTimelineArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetTimeline$Query parse(Map<String, dynamic> json) =>
       GetTimeline$Query.fromJson(json);
@@ -12260,18 +12974,19 @@ class GetPRReviewCommentsArguments extends JsonSerializable
   final String? cursor;
 
   @override
-  List<Object?> get props => <Object?>[id, cursor];
+  List<Object?> get props => [id, cursor];
+
   @override
   Map<String, dynamic> toJson() => _$GetPRReviewCommentsArgumentsToJson(this);
 }
 
-final String GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT_OPERATION_NAME =
+final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT_OPERATION_NAME =
     'getPRReviewComments';
-final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getPRReviewComments'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -12279,7 +12994,7 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
@@ -12288,27 +13003,27 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -12317,11 +13032,11 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
               name: NameNode(value: 'PullRequestReview'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'PRReviewComments'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -12336,12 +13051,12 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       name: NameNode(value: 'PullRequestReview'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'comments'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '10'),
@@ -12351,37 +13066,37 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
             value: VariableNode(name: NameNode(value: 'cursor')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'edges'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: '__typename'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'cursor'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'node'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'pullRequestReviewComment'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
@@ -12398,32 +13113,32 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       name: NameNode(value: 'PullRequestReviewComment'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'pullRequestReview'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'comments'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'totalCount'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -12433,96 +13148,96 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       FieldNode(
         name: NameNode(value: 'databaseId'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'authorAssociation'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'lastEditedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'diffHunk'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'outdated'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'isMinimized'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'replyTo'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -12530,75 +13245,75 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       FieldNode(
         name: NameNode(value: 'path'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'reactionGroups'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanDelete'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanUpdate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerDidAuthor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCannotUpdateReasons'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanReact'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanMinimize'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'pullRequest'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'number'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -12606,27 +13321,27 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'owner'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'login'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -12642,20 +13357,20 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -12667,33 +13382,33 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       name: NameNode(value: 'ReactionGroup'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'content'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerHasReacted'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactors'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -12701,14 +13416,14 @@ final DocumentNode GET_P_R_REVIEW_COMMENTS_QUERY_DOCUMENT = DocumentNode(definit
       FieldNode(
         name: NameNode(value: 'subject'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -12732,7 +13447,8 @@ class GetPRReviewCommentsQuery extends GraphQLQuery<GetPRReviewComments$Query,
   final GetPRReviewCommentsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetPRReviewComments$Query parse(Map<String, dynamic> json) =>
       GetPRReviewComments$Query.fromJson(json);
@@ -12762,20 +13478,21 @@ class ReviewThreadFirstCommentQueryArguments extends JsonSerializable
   final String? cursor;
 
   @override
-  List<Object?> get props => <Object?>[name, owner, number, cursor];
+  List<Object?> get props => [name, owner, number, cursor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadFirstCommentQueryArgumentsToJson(this);
 }
 
-final String REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT_OPERATION_NAME =
+final REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT_OPERATION_NAME =
     'reviewThreadFirstCommentQuery';
-final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
-    DocumentNode(definitions: <DefinitionNode>[
+final REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
+    DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'reviewThreadFirstCommentQuery'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'name')),
         type: NamedTypeNode(
@@ -12783,7 +13500,7 @@ final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'owner')),
@@ -12792,7 +13509,7 @@ final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'number')),
@@ -12801,7 +13518,7 @@ final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
@@ -12810,15 +13527,15 @@ final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'name')),
@@ -12828,30 +13545,30 @@ final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
             value: VariableNode(name: NameNode(value: 'owner')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'pullRequest'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'number'),
                 value: VariableNode(name: NameNode(value: 'number')),
               )
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'id'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'reviewThreads'),
                 alias: null,
-                arguments: <ArgumentNode>[
+                arguments: [
                   ArgumentNode(
                     name: NameNode(value: 'first'),
                     value: IntValueNode(value: '25'),
@@ -12861,105 +13578,105 @@ final DocumentNode REVIEW_THREAD_FIRST_COMMENT_QUERY_QUERY_DOCUMENT =
                     value: VariableNode(name: NameNode(value: 'cursor')),
                   ),
                 ],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'edges'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'cursor'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'node'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FieldNode(
                             name: NameNode(value: 'id'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'viewerCanResolve'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'viewerCanUnresolve'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'viewerCanReply'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'isOutdated'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'isCollapsed'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'isResolved'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'comments'),
                             alias: null,
-                            arguments: <ArgumentNode>[
+                            arguments: [
                               ArgumentNode(
                                 name: NameNode(value: 'first'),
                                 value: IntValueNode(value: '1'),
                               )
                             ],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
                               FieldNode(
                                 name: NameNode(value: 'totalCount'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
+                                arguments: [],
+                                directives: [],
                                 selectionSet: null,
                               ),
                               FieldNode(
                                 name: NameNode(value: 'nodes'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FieldNode(
                                     name: NameNode(value: 'id'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
+                                    arguments: [],
+                                    directives: [],
                                     selectionSet: null,
                                   )
                                 ]),
@@ -12997,7 +13714,8 @@ class ReviewThreadFirstCommentQueryQuery extends GraphQLQuery<
   final ReviewThreadFirstCommentQueryArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   ReviewThreadFirstCommentQuery$Query parse(Map<String, dynamic> json) =>
       ReviewThreadFirstCommentQuery$Query.fromJson(json);
@@ -13021,19 +13739,20 @@ class ReviewThreadCommentsQueryArguments extends JsonSerializable
   final String? cursor;
 
   @override
-  List<Object?> get props => <Object?>[nodeID, cursor];
+  List<Object?> get props => [nodeID, cursor];
+
   @override
   Map<String, dynamic> toJson() =>
       _$ReviewThreadCommentsQueryArgumentsToJson(this);
 }
 
-final String REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT_OPERATION_NAME =
+final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT_OPERATION_NAME =
     'reviewThreadCommentsQuery';
-final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'reviewThreadCommentsQuery'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'nodeID')),
         type: NamedTypeNode(
@@ -13041,7 +13760,7 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'cursor')),
@@ -13050,27 +13769,27 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'nodeID')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -13079,12 +13798,12 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
               name: NameNode(value: 'PullRequestReviewThread'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'comments'),
                 alias: null,
-                arguments: <ArgumentNode>[
+                arguments: [
                   ArgumentNode(
                     name: NameNode(value: 'first'),
                     value: IntValueNode(value: '10'),
@@ -13094,30 +13813,30 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
                     value: VariableNode(name: NameNode(value: 'cursor')),
                   ),
                 ],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'edges'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'cursor'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'node'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FragmentSpreadNode(
                             name: NameNode(value: 'pullRequestReviewComment'),
-                            directives: <DirectiveNode>[],
+                            directives: [],
                           )
                         ]),
                       ),
@@ -13138,32 +13857,32 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       name: NameNode(value: 'PullRequestReviewComment'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'pullRequestReview'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'comments'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'totalCount'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -13173,96 +13892,96 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       FieldNode(
         name: NameNode(value: 'databaseId'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'authorAssociation'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'lastEditedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'diffHunk'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'outdated'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'isMinimized'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'replyTo'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -13270,75 +13989,75 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       FieldNode(
         name: NameNode(value: 'path'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'reactionGroups'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanDelete'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanUpdate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerDidAuthor'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCannotUpdateReasons'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanReact'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanMinimize'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'pullRequest'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'number'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -13346,27 +14065,27 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'owner'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'login'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -13382,20 +14101,20 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -13407,33 +14126,33 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       name: NameNode(value: 'ReactionGroup'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'content'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerHasReacted'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactors'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -13441,14 +14160,14 @@ final DocumentNode REVIEW_THREAD_COMMENTS_QUERY_QUERY_DOCUMENT = DocumentNode(de
       FieldNode(
         name: NameNode(value: 'subject'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -13472,7 +14191,8 @@ class ReviewThreadCommentsQueryQuery extends GraphQLQuery<
   final ReviewThreadCommentsQueryArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   ReviewThreadCommentsQuery$Query parse(Map<String, dynamic> json) =>
       ReviewThreadCommentsQuery$Query.fromJson(json);
@@ -13496,19 +14216,20 @@ class CheckPendingViewerReviewsArguments extends JsonSerializable
   late String author;
 
   @override
-  List<Object?> get props => <Object?>[pullNodeID, author];
+  List<Object?> get props => [pullNodeID, author];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckPendingViewerReviewsArgumentsToJson(this);
 }
 
-final String CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT_OPERATION_NAME =
+final CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT_OPERATION_NAME =
     'checkPendingViewerReviews';
-final DocumentNode CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'checkPendingViewerReviews'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'pullNodeID')),
         type: NamedTypeNode(
@@ -13516,7 +14237,7 @@ final DocumentNode CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(de
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'author')),
@@ -13525,27 +14246,27 @@ final DocumentNode CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(de
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'pullNodeID')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -13554,19 +14275,19 @@ final DocumentNode CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(de
               name: NameNode(value: 'PullRequest'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'reviews'),
                 alias: null,
-                arguments: <ArgumentNode>[
+                arguments: [
                   ArgumentNode(
                     name: NameNode(value: 'author'),
                     value: VariableNode(name: NameNode(value: 'author')),
                   ),
                   ArgumentNode(
                     name: NameNode(value: 'states'),
-                    value: ListValueNode(values: <ValueNode>[
+                    value: ListValueNode(values: [
                       EnumValueNode(name: NameNode(value: 'PENDING'))
                     ]),
                   ),
@@ -13575,26 +14296,26 @@ final DocumentNode CHECK_PENDING_VIEWER_REVIEWS_QUERY_DOCUMENT = DocumentNode(de
                     value: IntValueNode(value: '1'),
                   ),
                 ],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'totalCount'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   FieldNode(
                     name: NameNode(value: 'nodes'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'url'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       )
                     ]),
@@ -13624,7 +14345,8 @@ class CheckPendingViewerReviewsQuery extends GraphQLQuery<
   final CheckPendingViewerReviewsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   CheckPendingViewerReviews$Query parse(Map<String, dynamic> json) =>
       CheckPendingViewerReviews$Query.fromJson(json);
@@ -13646,17 +14368,18 @@ class GetParticipantsArguments extends JsonSerializable with EquatableMixin {
   final String? after;
 
   @override
-  List<Object?> get props => <Object?>[id, after];
+  List<Object?> get props => [id, after];
+
   @override
   Map<String, dynamic> toJson() => _$GetParticipantsArgumentsToJson(this);
 }
 
-final String GET_PARTICIPANTS_QUERY_DOCUMENT_OPERATION_NAME = 'getParticipants';
-final DocumentNode GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_PARTICIPANTS_QUERY_DOCUMENT_OPERATION_NAME = 'getParticipants';
+final GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getParticipants'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -13664,7 +14387,7 @@ final DocumentNode GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: <
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'after')),
@@ -13673,27 +14396,27 @@ final DocumentNode GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: <
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -13702,41 +14425,41 @@ final DocumentNode GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: <
               name: NameNode(value: 'Issue'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'participants'),
                 alias: null,
-                arguments: <ArgumentNode>[
+                arguments: [
                   ArgumentNode(
                     name: NameNode(value: 'after'),
                     value: VariableNode(name: NameNode(value: 'after')),
                   )
                 ],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'edges'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'cursor'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'node'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        arguments: [],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FragmentSpreadNode(
                             name: NameNode(value: 'actor'),
-                            directives: <DirectiveNode>[],
+                            directives: [],
                           )
                         ]),
                       ),
@@ -13757,20 +14480,20 @@ final DocumentNode GET_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: <
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -13791,7 +14514,8 @@ class GetParticipantsQuery
   final GetParticipantsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetParticipants$Query parse(Map<String, dynamic> json) =>
       GetParticipants$Query.fromJson(json);
@@ -13808,17 +14532,18 @@ class FetchReviewArguments extends JsonSerializable with EquatableMixin {
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() => _$FetchReviewArgumentsToJson(this);
 }
 
-final String FETCH_REVIEW_QUERY_DOCUMENT_OPERATION_NAME = 'fetchReview';
-final DocumentNode FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final FETCH_REVIEW_QUERY_DOCUMENT_OPERATION_NAME = 'fetchReview';
+final FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'fetchReview'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -13826,27 +14551,27 @@ final DocumentNode FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -13855,39 +14580,39 @@ final DocumentNode FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'PullRequestReviewComment'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'bodyHTML'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'author'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'actor'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
               FieldNode(
                 name: NameNode(value: 'diffHunk'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'path'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
             ]),
@@ -13903,20 +14628,20 @@ final DocumentNode FETCH_REVIEW_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -13937,7 +14662,8 @@ class FetchReviewQuery
   final FetchReviewArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   FetchReview$Query parse(Map<String, dynamic> json) =>
       FetchReview$Query.fromJson(json);
@@ -13962,17 +14688,18 @@ class IssuePullInfoArguments extends JsonSerializable with EquatableMixin {
   late int number;
 
   @override
-  List<Object?> get props => <Object?>[user, repo, number];
+  List<Object?> get props => [user, repo, number];
+
   @override
   Map<String, dynamic> toJson() => _$IssuePullInfoArgumentsToJson(this);
 }
 
-final String ISSUE_PULL_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'issuePullInfo';
-final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final ISSUE_PULL_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'issuePullInfo';
+final ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'issuePullInfo'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user')),
         type: NamedTypeNode(
@@ -13980,7 +14707,7 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'repo')),
@@ -13989,7 +14716,7 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'number')),
@@ -13998,15 +14725,15 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'repo')),
@@ -14016,24 +14743,24 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
             value: VariableNode(name: NameNode(value: 'user')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'issueOrPullRequest'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'number'),
                 value: VariableNode(name: NameNode(value: 'number')),
               )
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: '__typename'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               InlineFragmentNode(
@@ -14042,11 +14769,11 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
                   name: NameNode(value: 'Issue'),
                   isNonNull: false,
                 )),
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'issueInfo'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
@@ -14056,11 +14783,11 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
                   name: NameNode(value: 'PullRequest'),
                   isNonNull: false,
                 )),
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'pullInfo'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
@@ -14077,81 +14804,78 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'Issue'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'id'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'activeLockReason'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'assignees'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '5'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'assigneeInfo'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'participants'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '5'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'nodes'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
-              FieldNode(
-                name: NameNode(value: 'avatarUrl'),
-                alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'actor'),
+                directives: [],
               )
             ]),
           ),
@@ -14160,196 +14884,85 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'authorAssociation'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closed'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'milestone'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'number'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'description'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'dueOn'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
-          ),
-        ]),
-      ),
-      FieldNode(
-        name: NameNode(value: 'linkedBranches'),
-        alias: null,
-        arguments: <ArgumentNode>[
-          ArgumentNode(
-            name: NameNode(value: 'first'),
-            value: IntValueNode(value: '1'),
-          )
-        ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
-          FieldNode(
-            name: NameNode(value: 'totalCount'),
-            alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: null,
-          ),
-          FieldNode(
-            name: NameNode(value: 'edges'),
-            alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
-              FieldNode(
-                name: NameNode(value: 'cursor'),
-                alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: null,
-              ),
-              FieldNode(
-                name: NameNode(value: 'node'),
-                alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
-                  FieldNode(
-                    name: NameNode(value: 'ref'),
-                    alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
-                      FieldNode(
-                        name: NameNode(value: 'associatedPullRequests'),
-                        alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
-                          FieldNode(
-                            name: NameNode(value: 'totalCount'),
-                            alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
-                            selectionSet: null,
-                          ),
-                          FieldNode(
-                            name: NameNode(value: 'edges'),
-                            alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
-                              FieldNode(
-                                name: NameNode(value: 'cursor'),
-                                alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
-                                selectionSet: null,
-                              ),
-                              FieldNode(
-                                name: NameNode(value: 'node'),
-                                alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
-                                  FieldNode(
-                                    name: NameNode(value: 'number'),
-                                    alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
-                                    selectionSet: null,
-                                  )
-                                ]),
-                              ),
-                            ]),
-                          ),
-                        ]),
-                      )
-                    ]),
-                  )
-                ]),
-              ),
-            ]),
           ),
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'comments'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: null,
-          )
-        ]),
-      ),
-      FieldNode(
-        name: NameNode(value: 'userContentEdits'),
-        alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
-          FieldNode(
-            name: NameNode(value: 'totalCount'),
-            alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14357,37 +14970,37 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'includesCreatedEdit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'isPinned'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'labels'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '100'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'nodes'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'label'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           )
@@ -14396,28 +15009,264 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'locked'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'trackedIssuesCount'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'trackedInIssues'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '10'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'title'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  )
+                ]),
+              )
+            ]),
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'trackedIssues'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '10'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'title'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  )
+                ]),
+              )
+            ]),
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'linkedBranches'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '10'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'cursor'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'ref'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
+                      FieldNode(
+                        name: NameNode(value: 'id'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'prefix'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null,
+                      ),
+                      FieldNode(
+                        name: NameNode(value: 'associatedPullRequests'),
+                        alias: null,
+                        arguments: [
+                          ArgumentNode(
+                            name: NameNode(value: 'first'),
+                            value: IntValueNode(value: '1'),
+                          )
+                        ],
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
+                          FieldNode(
+                            name: NameNode(value: 'totalCount'),
+                            alias: null,
+                            arguments: [],
+                            directives: [],
+                            selectionSet: null,
+                          ),
+                          FieldNode(
+                            name: NameNode(value: 'edges'),
+                            alias: null,
+                            arguments: [],
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
+                              FieldNode(
+                                name: NameNode(value: 'cursor'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: null,
+                              ),
+                              FieldNode(
+                                name: NameNode(value: 'node'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
+                                  FieldNode(
+                                    name: NameNode(value: 'number'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null,
+                                  ),
+                                  FieldNode(
+                                    name: NameNode(value: 'titleHTML'),
+                                    alias: null,
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: null,
+                                  ),
+                                ]),
+                              ),
+                            ]),
+                          ),
+                        ]),
+                      ),
+                    ]),
+                  ),
+                ]),
+              ),
+            ]),
+          ),
+        ]),
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'projectCards'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14425,14 +15274,14 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'projectsV2'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14440,52 +15289,52 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'reactionGroups'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'repoInfo'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'titleHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'timelineItems'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14493,22 +15342,51 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'url'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'userContentEdits'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'totalCount'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanReact'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanUpdate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'viewerCanSubscribe'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'viewerSubscription'),
+        alias: null,
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -14520,37 +15398,37 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'UserConnection'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'totalCount'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'edges'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'cursor'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'node'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'actor'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           ),
@@ -14565,20 +15443,20 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -14590,20 +15468,20 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'Label'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'color'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'name'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -14615,33 +15493,33 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'ReactionGroup'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'content'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerHasReacted'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactors'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14649,14 +15527,14 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'subject'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14670,33 +15548,33 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'Repository'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'name'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'owner'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'login'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'avatarUrl'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
         ]),
@@ -14710,97 +15588,97 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       name: NameNode(value: 'PullRequest'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'activeLockReason'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'assignees'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '5'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'assigneeInfo'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'author'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'actor'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'authorAssociation'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'bodyHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'body'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closed'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closedAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'createdAt'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'comments'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14808,23 +15686,23 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'labels'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '100'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'nodes'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FragmentSpreadNode(
                 name: NameNode(value: 'label'),
-                directives: <DirectiveNode>[],
+                directives: [],
               )
             ]),
           )
@@ -14833,28 +15711,28 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'locked'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'number'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'projectCards'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14862,14 +15740,14 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'projectsV2'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14877,45 +15755,45 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'reactionGroups'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'reactionGroups'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FragmentSpreadNode(
             name: NameNode(value: 'repoInfo'),
-            directives: <DirectiveNode>[],
+            directives: [],
           )
         ]),
       ),
       FieldNode(
         name: NameNode(value: 'state'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'timelineItems'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14923,28 +15801,28 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'titleHTML'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'url'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'userContentEdits'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -14952,55 +15830,55 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'includesCreatedEdit'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanReact'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'additions'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'deletions'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'baseRef'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'repository'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'url'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -15010,27 +15888,27 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'headRef'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'name'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'repository'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'url'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -15040,21 +15918,21 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'changedFiles'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'closingIssuesReferences'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -15062,14 +15940,14 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'commits'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'totalCount'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           )
         ]),
@@ -15077,29 +15955,29 @@ final DocumentNode ISSUE_PULL_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <D
       FieldNode(
         name: NameNode(value: 'isCrossRepository'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'merged'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reviewDecision'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'viewerCanUpdate'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -15120,7 +15998,8 @@ class IssuePullInfoQuery
   final IssuePullInfoArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   IssuePullInfo$Query parse(Map<String, dynamic> json) =>
       IssuePullInfo$Query.fromJson(json);
@@ -15137,17 +16016,18 @@ class GetReactorsArguments extends JsonSerializable with EquatableMixin {
   late String id;
 
   @override
-  List<Object?> get props => <Object?>[id];
+  List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() => _$GetReactorsArgumentsToJson(this);
 }
 
-final String GET_REACTORS_QUERY_DOCUMENT_OPERATION_NAME = 'getReactors';
-final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_REACTORS_QUERY_DOCUMENT_OPERATION_NAME = 'getReactors';
+final GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getReactors'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -15155,27 +16035,27 @@ final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'node'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'id'),
             value: VariableNode(name: NameNode(value: 'id')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           InlineFragmentNode(
@@ -15184,17 +16064,17 @@ final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'Issue'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'reactionGroups'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'reactorsGroup'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               )
@@ -15206,17 +16086,17 @@ final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
               name: NameNode(value: 'PullRequest'),
               isNonNull: false,
             )),
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'reactionGroups'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'reactorsGroup'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               )
@@ -15233,50 +16113,50 @@ final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'ReactionGroup'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'content'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'reactors'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'first'),
             value: IntValueNode(value: '11'),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'edges'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'cursor'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'node'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: '__typename'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   InlineFragmentNode(
@@ -15285,11 +16165,11 @@ final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
                       name: NameNode(value: 'User'),
                       isNonNull: false,
                     )),
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FragmentSpreadNode(
                         name: NameNode(value: 'actor'),
-                        directives: <DirectiveNode>[],
+                        directives: [],
                       )
                     ]),
                   ),
@@ -15308,20 +16188,20 @@ final DocumentNode GET_REACTORS_QUERY_DOCUMENT = DocumentNode(definitions: <Defi
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -15342,7 +16222,8 @@ class GetReactorsQuery
   final GetReactorsArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetReactors$Query parse(Map<String, dynamic> json) =>
       GetReactors$Query.fromJson(json);
@@ -15365,17 +16246,18 @@ class AddReactionArguments extends JsonSerializable with EquatableMixin {
   late ReactionContent content;
 
   @override
-  List<Object?> get props => <Object?>[id, content];
+  List<Object?> get props => [id, content];
+
   @override
   Map<String, dynamic> toJson() => _$AddReactionArgumentsToJson(this);
 }
 
-final String ADD_REACTION_MUTATION_DOCUMENT_OPERATION_NAME = 'addReaction';
-final DocumentNode ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final ADD_REACTION_MUTATION_DOCUMENT_OPERATION_NAME = 'addReaction';
+final ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.mutation,
     name: NameNode(value: 'addReaction'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -15383,7 +16265,7 @@ final DocumentNode ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'content')),
@@ -15392,18 +16274,18 @@ final DocumentNode ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: <D
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'addReaction'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: ObjectValueNode(fields: <ObjectFieldNode>[
+            value: ObjectValueNode(fields: [
               ObjectFieldNode(
                 name: NameNode(value: 'subjectId'),
                 value: VariableNode(name: NameNode(value: 'id')),
@@ -15415,19 +16297,19 @@ final DocumentNode ADD_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: <D
             ]),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'reaction'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'createdAt'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -15452,7 +16334,8 @@ class AddReactionMutation
   final AddReactionArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   AddReaction$Mutation parse(Map<String, dynamic> json) =>
       AddReaction$Mutation.fromJson(json);
@@ -15475,17 +16358,18 @@ class RemoveReactionArguments extends JsonSerializable with EquatableMixin {
   late ReactionContent content;
 
   @override
-  List<Object?> get props => <Object?>[id, content];
+  List<Object?> get props => [id, content];
+
   @override
   Map<String, dynamic> toJson() => _$RemoveReactionArgumentsToJson(this);
 }
 
-final String REMOVE_REACTION_MUTATION_DOCUMENT_OPERATION_NAME = 'removeReaction';
-final DocumentNode REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final REMOVE_REACTION_MUTATION_DOCUMENT_OPERATION_NAME = 'removeReaction';
+final REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.mutation,
     name: NameNode(value: 'removeReaction'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
@@ -15493,7 +16377,7 @@ final DocumentNode REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions:
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'content')),
@@ -15502,18 +16386,18 @@ final DocumentNode REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions:
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'removeReaction'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: ObjectValueNode(fields: <ObjectFieldNode>[
+            value: ObjectValueNode(fields: [
               ObjectFieldNode(
                 name: NameNode(value: 'subjectId'),
                 value: VariableNode(name: NameNode(value: 'id')),
@@ -15525,19 +16409,19 @@ final DocumentNode REMOVE_REACTION_MUTATION_DOCUMENT = DocumentNode(definitions:
             ]),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'reaction'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'createdAt'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -15562,7 +16446,8 @@ class RemoveReactionMutation
   final RemoveReactionArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   RemoveReaction$Mutation parse(Map<String, dynamic> json) =>
       RemoveReaction$Mutation.fromJson(json);
@@ -15590,17 +16475,18 @@ class IssuePullAssigneesArguments extends JsonSerializable with EquatableMixin {
   final String? after;
 
   @override
-  List<Object?> get props => <Object?>[user, repo, number, after];
+  List<Object?> get props => [user, repo, number, after];
+
   @override
   Map<String, dynamic> toJson() => _$IssuePullAssigneesArgumentsToJson(this);
 }
 
-final String ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT_OPERATION_NAME = 'issuePullAssignees';
-final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT_OPERATION_NAME = 'issuePullAssignees';
+final ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'issuePullAssignees'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user')),
         type: NamedTypeNode(
@@ -15608,7 +16494,7 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'repo')),
@@ -15617,7 +16503,7 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'number')),
@@ -15626,7 +16512,7 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'after')),
@@ -15635,15 +16521,15 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'repository'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'name'),
             value: VariableNode(name: NameNode(value: 'repo')),
@@ -15653,24 +16539,24 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
             value: VariableNode(name: NameNode(value: 'user')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'issueOrPullRequest'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'number'),
                 value: VariableNode(name: NameNode(value: 'number')),
               )
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: '__typename'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               InlineFragmentNode(
@@ -15679,11 +16565,11 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
                   name: NameNode(value: 'Issue'),
                   isNonNull: false,
                 )),
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'assigneeUserList'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
@@ -15693,11 +16579,11 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
                   name: NameNode(value: 'PullRequest'),
                   isNonNull: false,
                 )),
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'assigneeUserList'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
@@ -15714,12 +16600,12 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
       name: NameNode(value: 'Assignable'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'assignees'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'after'),
             value: VariableNode(name: NameNode(value: 'after')),
@@ -15729,30 +16615,30 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
             value: IntValueNode(value: '10'),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'edges'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'cursor'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
               FieldNode(
                 name: NameNode(value: 'node'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FragmentSpreadNode(
                     name: NameNode(value: 'actor'),
-                    directives: <DirectiveNode>[],
+                    directives: [],
                   )
                 ]),
               ),
@@ -15769,20 +16655,20 @@ final DocumentNode ISSUE_PULL_ASSIGNEES_QUERY_DOCUMENT = DocumentNode(definition
       name: NameNode(value: 'Actor'),
       isNonNull: false,
     )),
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'avatarUrl'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
       FieldNode(
         name: NameNode(value: 'login'),
         alias: null,
-        arguments: <ArgumentNode>[],
-        directives: <DirectiveNode>[],
+        arguments: [],
+        directives: [],
         selectionSet: null,
       ),
     ]),
@@ -15804,10 +16690,312 @@ class IssuePullAssigneesQuery extends GraphQLQuery<IssuePullAssignees$Query,
   final IssuePullAssigneesArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   IssuePullAssignees$Query parse(Map<String, dynamic> json) =>
       IssuePullAssignees$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class IssuePullParticipantsArguments extends JsonSerializable
+    with EquatableMixin {
+  IssuePullParticipantsArguments({
+    required this.user,
+    required this.repo,
+    required this.number,
+    this.after,
+  });
+
+  @override
+  factory IssuePullParticipantsArguments.fromJson(Map<String, dynamic> json) =>
+      _$IssuePullParticipantsArgumentsFromJson(json);
+
+  late String user;
+
+  late String repo;
+
+  late int number;
+
+  final String? after;
+
+  @override
+  List<Object?> get props => [user, repo, number, after];
+
+  @override
+  Map<String, dynamic> toJson() => _$IssuePullParticipantsArgumentsToJson(this);
+}
+
+final ISSUE_PULL_PARTICIPANTS_QUERY_DOCUMENT_OPERATION_NAME =
+    'issuePullParticipants';
+final ISSUE_PULL_PARTICIPANTS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'issuePullParticipants'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'user')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'repo')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'number')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'after')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'repository'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'name'),
+            value: VariableNode(name: NameNode(value: 'repo')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'owner'),
+            value: VariableNode(name: NameNode(value: 'user')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'issueOrPullRequest'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                name: NameNode(value: 'number'),
+                value: VariableNode(name: NameNode(value: 'number')),
+              )
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: '__typename'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              InlineFragmentNode(
+                typeCondition: TypeConditionNode(
+                    on: NamedTypeNode(
+                  name: NameNode(value: 'Issue'),
+                  isNonNull: false,
+                )),
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FragmentSpreadNode(
+                    name: NameNode(value: 'issueParticipantUserList'),
+                    directives: [],
+                  )
+                ]),
+              ),
+              InlineFragmentNode(
+                typeCondition: TypeConditionNode(
+                    on: NamedTypeNode(
+                  name: NameNode(value: 'PullRequest'),
+                  isNonNull: false,
+                )),
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FragmentSpreadNode(
+                    name: NameNode(value: 'pullParticipantUserList'),
+                    directives: [],
+                  )
+                ]),
+              ),
+            ]),
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'issueParticipantUserList'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Issue'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'participants'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'after'),
+            value: VariableNode(name: NameNode(value: 'after')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '10'),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'cursor'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FragmentSpreadNode(
+                    name: NameNode(value: 'actor'),
+                    directives: [],
+                  )
+                ]),
+              ),
+            ]),
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'actor'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Actor'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'avatarUrl'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'login'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'pullParticipantUserList'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'PullRequest'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'participants'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'after'),
+            value: VariableNode(name: NameNode(value: 'after')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: IntValueNode(value: '10'),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'cursor'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FragmentSpreadNode(
+                    name: NameNode(value: 'actor'),
+                    directives: [],
+                  )
+                ]),
+              ),
+            ]),
+          )
+        ]),
+      )
+    ]),
+  ),
+]);
+
+class IssuePullParticipantsQuery extends GraphQLQuery<
+    IssuePullParticipants$Query, IssuePullParticipantsArguments> {
+  IssuePullParticipantsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = ISSUE_PULL_PARTICIPANTS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      ISSUE_PULL_PARTICIPANTS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final IssuePullParticipantsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+
+  @override
+  IssuePullParticipants$Query parse(Map<String, dynamic> json) =>
+      IssuePullParticipants$Query.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -15826,17 +17014,18 @@ class SearchMentionUsersArguments extends JsonSerializable with EquatableMixin {
   final String? after;
 
   @override
-  List<Object?> get props => <Object?>[query, after];
+  List<Object?> get props => [query, after];
+
   @override
   Map<String, dynamic> toJson() => _$SearchMentionUsersArgumentsToJson(this);
 }
 
-final String SEARCH_MENTION_USERS_QUERY_DOCUMENT_OPERATION_NAME = 'searchMentionUsers';
-final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final SEARCH_MENTION_USERS_QUERY_DOCUMENT_OPERATION_NAME = 'searchMentionUsers';
+final SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'searchMentionUsers'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'query')),
         type: NamedTypeNode(
@@ -15844,7 +17033,7 @@ final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definition
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'after')),
@@ -15853,15 +17042,15 @@ final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definition
           isNonNull: false,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       ),
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'search'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'query'),
             value: VariableNode(name: NameNode(value: 'query')),
@@ -15879,25 +17068,25 @@ final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definition
             value: VariableNode(name: NameNode(value: 'after')),
           ),
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'edges'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'node'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: '__typename'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
+                    arguments: [],
+                    directives: [],
                     selectionSet: null,
                   ),
                   InlineFragmentNode(
@@ -15906,20 +17095,20 @@ final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definition
                       name: NameNode(value: 'User'),
                       isNonNull: false,
                     )),
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'login'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'avatarUrl'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                     ]),
@@ -15930,20 +17119,20 @@ final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definition
                       name: NameNode(value: 'Organization'),
                       isNonNull: false,
                     )),
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: 'login'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       FieldNode(
                         name: NameNode(value: 'avatarUrl'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                     ]),
@@ -15953,8 +17142,8 @@ final DocumentNode SEARCH_MENTION_USERS_QUERY_DOCUMENT = DocumentNode(definition
               FieldNode(
                 name: NameNode(value: 'cursor'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               ),
             ]),
@@ -15980,7 +17169,8 @@ class SearchMentionUsersQuery extends GraphQLQuery<SearchMentionUsers$Query,
   final SearchMentionUsersArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   SearchMentionUsers$Query parse(Map<String, dynamic> json) =>
       SearchMentionUsers$Query.fromJson(json);
@@ -15997,18 +17187,19 @@ class GetUserPinnedReposArguments extends JsonSerializable with EquatableMixin {
   late String user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$GetUserPinnedReposArgumentsToJson(this);
 }
 
-final String GET_USER_PINNED_REPOS_QUERY_DOCUMENT_OPERATION_NAME =
+final GET_USER_PINNED_REPOS_QUERY_DOCUMENT_OPERATION_NAME =
     'getUserPinnedRepos';
-final DocumentNode GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'getUserPinnedRepos'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user')),
         type: NamedTypeNode(
@@ -16016,56 +17207,56 @@ final DocumentNode GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitio
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'user'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'login'),
             value: VariableNode(name: NameNode(value: 'user')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'pinnedItems'),
             alias: null,
-            arguments: <ArgumentNode>[
+            arguments: [
               ArgumentNode(
                 name: NameNode(value: 'first'),
                 value: IntValueNode(value: '6'),
               ),
               ArgumentNode(
                 name: NameNode(value: 'types'),
-                value: ListValueNode(values: <ValueNode>[
+                value: ListValueNode(values: [
                   EnumValueNode(name: NameNode(value: 'REPOSITORY'))
                 ]),
               ),
             ],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'edges'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
-                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
                   FieldNode(
                     name: NameNode(value: 'node'),
                     alias: null,
-                    arguments: <ArgumentNode>[],
-                    directives: <DirectiveNode>[],
-                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
                       FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
-                        arguments: <ArgumentNode>[],
-                        directives: <DirectiveNode>[],
+                        arguments: [],
+                        directives: [],
                         selectionSet: null,
                       ),
                       InlineFragmentNode(
@@ -16074,54 +17265,54 @@ final DocumentNode GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitio
                           name: NameNode(value: 'Repository'),
                           isNonNull: false,
                         )),
-                        directives: <DirectiveNode>[],
-                        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                        directives: [],
+                        selectionSet: SelectionSetNode(selections: [
                           FieldNode(
                             name: NameNode(value: 'name'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'description'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'stargazerCount'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'updatedAt'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'url'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
+                            arguments: [],
+                            directives: [],
                             selectionSet: null,
                           ),
                           FieldNode(
                             name: NameNode(value: 'owner'),
                             alias: null,
-                            arguments: <ArgumentNode>[],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                            arguments: [],
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
                               FieldNode(
                                 name: NameNode(value: 'login'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
+                                arguments: [],
+                                directives: [],
                                 selectionSet: null,
                               )
                             ]),
@@ -16129,10 +17320,10 @@ final DocumentNode GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitio
                           FieldNode(
                             name: NameNode(value: 'languages'),
                             alias: null,
-                            arguments: <ArgumentNode>[
+                            arguments: [
                               ArgumentNode(
                                 name: NameNode(value: 'orderBy'),
-                                value: ObjectValueNode(fields: <ObjectFieldNode>[
+                                value: ObjectValueNode(fields: [
                                   ObjectFieldNode(
                                     name: NameNode(value: 'direction'),
                                     value: EnumValueNode(
@@ -16150,25 +17341,25 @@ final DocumentNode GET_USER_PINNED_REPOS_QUERY_DOCUMENT = DocumentNode(definitio
                                 value: IntValueNode(value: '1'),
                               ),
                             ],
-                            directives: <DirectiveNode>[],
-                            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                            directives: [],
+                            selectionSet: SelectionSetNode(selections: [
                               FieldNode(
                                 name: NameNode(value: 'edges'),
                                 alias: null,
-                                arguments: <ArgumentNode>[],
-                                directives: <DirectiveNode>[],
-                                selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
                                   FieldNode(
                                     name: NameNode(value: 'node'),
                                     alias: null,
-                                    arguments: <ArgumentNode>[],
-                                    directives: <DirectiveNode>[],
-                                    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: SelectionSetNode(selections: [
                                       FieldNode(
                                         name: NameNode(value: 'name'),
                                         alias: null,
-                                        arguments: <ArgumentNode>[],
-                                        directives: <DirectiveNode>[],
+                                        arguments: [],
+                                        directives: [],
                                         selectionSet: null,
                                       )
                                     ]),
@@ -16206,7 +17397,8 @@ class GetUserPinnedReposQuery extends GraphQLQuery<GetUserPinnedRepos$Query,
   final GetUserPinnedReposArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   GetUserPinnedRepos$Query parse(Map<String, dynamic> json) =>
       GetUserPinnedRepos$Query.fromJson(json);
@@ -16223,17 +17415,18 @@ class FollowStatusInfoArguments extends JsonSerializable with EquatableMixin {
   late String user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$FollowStatusInfoArgumentsToJson(this);
 }
 
-final String FOLLOW_STATUS_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'followStatusInfo';
-final DocumentNode FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final FOLLOW_STATUS_INFO_QUERY_DOCUMENT_OPERATION_NAME = 'followStatusInfo';
+final FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.query,
     name: NameNode(value: 'followStatusInfo'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user')),
         type: NamedTypeNode(
@@ -16241,54 +17434,54 @@ final DocumentNode FOLLOW_STATUS_INFO_QUERY_DOCUMENT = DocumentNode(definitions:
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'user'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'login'),
             value: VariableNode(name: NameNode(value: 'user')),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'id'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'viewerIsFollowing'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'viewerCanFollow'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
+            arguments: [],
+            directives: [],
             selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'followers'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'totalCount'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -16313,7 +17506,8 @@ class FollowStatusInfoQuery
   final FollowStatusInfoArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   FollowStatusInfo$Query parse(Map<String, dynamic> json) =>
       FollowStatusInfo$Query.fromJson(json);
@@ -16330,17 +17524,18 @@ class FollowUserArguments extends JsonSerializable with EquatableMixin {
   late String user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$FollowUserArgumentsToJson(this);
 }
 
-final String FOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'followUser';
-final DocumentNode FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final FOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'followUser';
+final FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.mutation,
     name: NameNode(value: 'followUser'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user')),
         type: NamedTypeNode(
@@ -16348,18 +17543,18 @@ final DocumentNode FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: <De
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'followUser'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: ObjectValueNode(fields: <ObjectFieldNode>[
+            value: ObjectValueNode(fields: [
               ObjectFieldNode(
                 name: NameNode(value: 'userId'),
                 value: VariableNode(name: NameNode(value: 'user')),
@@ -16367,19 +17562,19 @@ final DocumentNode FOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: <De
             ]),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'user'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'login'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -16404,7 +17599,8 @@ class FollowUserMutation
   final FollowUserArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   FollowUser$Mutation parse(Map<String, dynamic> json) =>
       FollowUser$Mutation.fromJson(json);
@@ -16421,17 +17617,18 @@ class UnfollowUserArguments extends JsonSerializable with EquatableMixin {
   late String user;
 
   @override
-  List<Object?> get props => <Object?>[user];
+  List<Object?> get props => [user];
+
   @override
   Map<String, dynamic> toJson() => _$UnfollowUserArgumentsToJson(this);
 }
 
-final String UNFOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'unfollowUser';
-final DocumentNode UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: <DefinitionNode>[
+final UNFOLLOW_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'unfollowUser';
+final UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.mutation,
     name: NameNode(value: 'unfollowUser'),
-    variableDefinitions: <VariableDefinitionNode>[
+    variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'user')),
         type: NamedTypeNode(
@@ -16439,18 +17636,18 @@ final DocumentNode UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: <
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
-        directives: <DirectiveNode>[],
+        directives: [],
       )
     ],
-    directives: <DirectiveNode>[],
-    selectionSet: SelectionSetNode(selections: <SelectionNode>[
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
       FieldNode(
         name: NameNode(value: 'unfollowUser'),
         alias: null,
-        arguments: <ArgumentNode>[
+        arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: ObjectValueNode(fields: <ObjectFieldNode>[
+            value: ObjectValueNode(fields: [
               ObjectFieldNode(
                 name: NameNode(value: 'userId'),
                 value: VariableNode(name: NameNode(value: 'user')),
@@ -16458,19 +17655,19 @@ final DocumentNode UNFOLLOW_USER_MUTATION_DOCUMENT = DocumentNode(definitions: <
             ]),
           )
         ],
-        directives: <DirectiveNode>[],
-        selectionSet: SelectionSetNode(selections: <SelectionNode>[
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
           FieldNode(
             name: NameNode(value: 'user'),
             alias: null,
-            arguments: <ArgumentNode>[],
-            directives: <DirectiveNode>[],
-            selectionSet: SelectionSetNode(selections: <SelectionNode>[
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
               FieldNode(
                 name: NameNode(value: 'login'),
                 alias: null,
-                arguments: <ArgumentNode>[],
-                directives: <DirectiveNode>[],
+                arguments: [],
+                directives: [],
                 selectionSet: null,
               )
             ]),
@@ -16495,7 +17692,8 @@ class UnfollowUserMutation
   final UnfollowUserArguments variables;
 
   @override
-  List<Object?> get props => <Object?>[document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
+
   @override
   UnfollowUser$Mutation parse(Map<String, dynamic> json) =>
       UnfollowUser$Mutation.fromJson(json);

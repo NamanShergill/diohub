@@ -12,12 +12,14 @@ class PullsList extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final RepositoryProvider repo = Provider.of<RepositoryProvider>(context);
-    final CurrentUserInfoModel user = Provider.of<CurrentUserProvider>(context).data;
+    final CurrentUserInfoModel user =
+        Provider.of<CurrentUserProvider>(context).data;
 
     return SearchScrollWrapper(
       SearchData(
-        searchFilters:
-            SearchFilters.issuesPulls(blacklist: <String>[SearchQueryStrings.type]),
+        searchFilters: SearchFilters.issuesPulls(
+          blacklist: <String>[SearchQueryStrings.type],
+        ),
         defaultHiddenFilters: <String>[
           SearchQueries().type.toQueryString('pr'),
           SearchQueries().repo.toQueryString(repo.data.fullName!),

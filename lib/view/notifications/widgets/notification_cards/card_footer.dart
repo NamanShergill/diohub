@@ -4,8 +4,12 @@ import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:flutter/material.dart';
 
 class CardFooter extends StatelessWidget {
-  const CardFooter(this.avatarUrl, this.text,
-      {required this.unread, super.key,});
+  const CardFooter(
+    this.avatarUrl,
+    this.text, {
+    required this.unread,
+    super.key,
+  });
   final String? avatarUrl;
   final String? text;
   final bool? unread;

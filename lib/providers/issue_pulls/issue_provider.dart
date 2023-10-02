@@ -1,3 +1,4 @@
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
@@ -37,13 +38,19 @@ class IssueProvider extends BaseDataProvider<IssueInfoMixin> {
   }
 
   Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees({
-    final String? after,
+    required final String? after,
   }) =>
       _issueRepo.getAssignees(after: after);
 
+  Future<List<NodeWithPaginationInfo<ActorMixin>>> getParticipants({
+    required final String? after,
+  }) =>
+      _issueRepo.getParticipants(after: after);
+
   @override
-  Future<IssueInfoMixin> setInitData(
-          {final bool isInitialisation = false,}) async =>
+  Future<IssueInfoMixin> setInitData({
+    final bool isInitialisation = false,
+  }) async =>
       issueInfo;
 }
 

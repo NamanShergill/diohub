@@ -14,7 +14,9 @@ class AppNameWidget extends StatelessWidget {
           children: const <InlineSpan>[
             TextSpan(text: 'DIO'),
             TextSpan(
-                text: 'HUB', style: TextStyle(fontWeight: FontWeight.bold),),
+              text: 'HUB',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       );

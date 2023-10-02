@@ -5,12 +5,10 @@ import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/repo_star.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/base_provider.dart';
@@ -21,15 +19,12 @@ import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
 import 'package:dio_hub/view/repository/pulls/pulls_list.dart';
 import 'package:dio_hub/view/repository/readme/repository_readme.dart';
 import 'package:dio_hub/view/repository/widgets/about_repository.dart';
-import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:dio_hub/view/repository/widgets/branch_button.dart';
-import 'package:dio_hub/view/repository/widgets/watch_repo_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -335,46 +330,46 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                             ),
                             Row(
                               children: <Widget>[
-                                RepoStar(
-                                  repo.owner!.login!,
-                                  repo.name!,
-                                  fadeIntoView: false,
-                                  inkWellRadius: medBorderRadius,
-                                  child: (
-                                    final BuildContext context,
-                                    final HasStarred$Query$Repository? data,
-                                    final VoidCallback? onPress,
-                                  ) =>
-                                      ActionButton(
-                                    count: data?.stargazerCount,
-                                    icon: Octicons.star_fill,
-                                    onTap: onPress,
-                                    doneColor: Colors.amber,
-                                    isDone: data?.viewerHasStarred,
-                                  ),
-                                ),
+                                // RepoStar(
+                                //   repo.owner!.login!,
+                                //   repo.name!,
+                                //   fadeIntoView: false,
+                                //   inkWellRadius: medBorderRadius,
+                                //   child: (
+                                //     final BuildContext context,
+                                //     final HasStarred$Query$Repository? data,
+                                //     final VoidCallback? onPress,
+                                //   ) =>
+                                //       ActionButton(
+                                //     count: data?.stargazerCount,
+                                //     icon: Octicons.star_fill,
+                                //     onTap: onPress,
+                                //     doneColor: Colors.amber,
+                                //     isDone: data?.viewerHasStarred,
+                                //   ),
+                                // ),
                                 const SizedBox(
                                   width: 16,
                                 ),
-                                WatchRepoWrapper(
-                                  repo.owner!.login!,
-                                  repo.name!,
-                                  builder: (
-                                    final BuildContext context,
-                                    final HasWatched$Query$Repository?
-                                        watchData,
-                                    final VoidCallback? onPress,
-                                  ) =>
-                                      ActionButton(
-                                    count: watchData?.watchers.totalCount,
-                                    onTap: onPress,
-                                    doneColor: Colors.greenAccent,
-                                    icon: Octicons.eye,
-                                    isDone: isSubscribedToRepo(
-                                      watchData?.viewerSubscription,
-                                    ),
-                                  ),
-                                ),
+                                // WatchRepoWrapper(
+                                //   repo.owner!.login!,
+                                //   repo.name!,
+                                //   builder: (
+                                //     final BuildContext context,
+                                //     final HasWatched$Query$Repository?
+                                //         watchData,
+                                //     final VoidCallback? onPress,
+                                //   ) =>
+                                //       ActionButton(
+                                //     count: watchData?.watchers.totalCount,
+                                //     onTap: onPress,
+                                //     doneColor: Colors.greenAccent,
+                                //     icon: Octicons.eye,
+                                //     isDone: isSubscribedToRepo(
+                                //       watchData?.viewerSubscription,
+                                //     ),
+                                //   ),
+                                // ),
                                 const SizedBox(
                                   width: 16,
                                 ),

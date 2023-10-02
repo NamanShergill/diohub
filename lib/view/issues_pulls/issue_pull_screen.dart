@@ -26,7 +26,6 @@ import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/conditional_quanitity_value.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/markdown_to_html.dart';
 import 'package:dio_hub/utils/rich_text.dart';
@@ -180,7 +179,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final String title;
   final Uri uri;
   final bool viewerCanReact;
-  final ParticipantsInfo participantsInfo;
+  final MultiItemInfoCardList<ActorMixin> participantsInfo;
   final bool isPinned;
 
   @override
@@ -215,100 +214,103 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   }
 
   @override
-  Widget build(final BuildContext context) => DynamicTabsParent(
-        controller: dynamicTabsController,
-        tabs: List<DynamicTab>.from(widget.dynamicTabs)
-          ..addAll(
-            <DynamicTab>[
-              DynamicTab(
-                identifier: 'About',
-                isDismissible: false,
-                tabViewBuilder: (final BuildContext context) => _AboutTab(
-                  widget: widget,
-                  descEditingController: descEditingController,
-                  assigneeEditingController: assigneeEditingController,
-                  dynamicTabsController: dynamicTabsController,
+  Widget build(final BuildContext context) => SafeArea(
+        child: DynamicTabsParent(
+          controller: dynamicTabsController,
+          tabs: List<DynamicTab>.from(widget.dynamicTabs)
+            ..addAll(
+              <DynamicTab>[
+                DynamicTab(
+                  identifier: 'About',
+                  isDismissible: false,
+                  tabViewBuilder: (final BuildContext context) => _AboutTab(
+                    widget: widget,
+                    descEditingController: descEditingController,
+                    assigneeEditingController: assigneeEditingController,
+                    dynamicTabsController: dynamicTabsController,
+                  ),
                 ),
-              ),
-              DynamicTab(
-                identifier: 'Conversation',
-                keepViewAlive: true,
-                tabViewBuilder: (final BuildContext context) =>
-                    ChangeNotifierProvider<CommentProvider>(
-                  create: (final _) => CommentProvider(),
-                  builder: (final BuildContext context, final Widget? child) =>
-                      Discussion(
-                    number: widget.number,
-                    isLocked: false,
-                    createdAt: widget.createdAt,
-                    owner: widget.repoInfo.owner.login,
-                    repoName: widget.repoInfo.name,
-                    initComment: BaseComment(
-                      onQuote: () {},
-                      isMinimized: false,
-                      reactions: widget.reactionGroups,
-                      viewerCanDelete: false,
-                      viewerCanMinimize: false,
-                      viewerCannotUpdateReasons: null,
-                      viewerCanReact: widget.viewerCanReact,
-                      viewerCanUpdate: false,
-                      viewerDidAuthor: false,
+                DynamicTab(
+                  identifier: 'Conversation',
+                  keepViewAlive: true,
+                  tabViewBuilder: (final BuildContext context) =>
+                      ChangeNotifierProvider<CommentProvider>(
+                    create: (final _) => CommentProvider(),
+                    builder:
+                        (final BuildContext context, final Widget? child) =>
+                            Discussion(
+                      number: widget.number,
+                      isLocked: false,
                       createdAt: widget.createdAt,
-                      author: widget.createdBy,
-                      body: widget.body,
-                      lastEditedAt: null,
-                      bodyHTML: widget.bodyHTML,
-                      authorAssociation: CommentAuthorAssociation.none,
+                      owner: widget.repoInfo.owner.login,
+                      repoName: widget.repoInfo.name,
+                      initComment: BaseComment(
+                        onQuote: () {},
+                        isMinimized: false,
+                        reactions: widget.reactionGroups,
+                        viewerCanDelete: false,
+                        viewerCanMinimize: false,
+                        viewerCannotUpdateReasons: null,
+                        viewerCanReact: widget.viewerCanReact,
+                        viewerCanUpdate: false,
+                        viewerDidAuthor: false,
+                        createdAt: widget.createdAt,
+                        author: widget.createdBy,
+                        body: widget.body,
+                        lastEditedAt: null,
+                        bodyHTML: widget.bodyHTML,
+                        authorAssociation: CommentAuthorAssociation.none,
+                      ),
+                      issueUrl: widget.uri,
+                      isPull: false,
+                      // nestedScrollViewController: scrollController,
                     ),
-                    issueUrl: widget.uri,
-                    isPull: false,
-                    // nestedScrollViewController: scrollController,
                   ),
                 ),
-              ),
+              ],
+            ),
+          builder: (
+            final BuildContext context,
+            final PreferredSizeWidget tabBar,
+            final Widget tabView,
+          ) =>
+              EditingWrapper(
+            onSave: () {},
+            editingControllers: <EditingController<dynamic>>[
+              titleEditingController,
+              labelsEditingController,
+              descEditingController,
+              assigneeEditingController,
             ],
-          ),
-        builder: (
-          final BuildContext context,
-          final PreferredSizeWidget tabBar,
-          final Widget tabView,
-        ) =>
-            EditingWrapper(
-          onSave: () {},
-          editingControllers: <EditingController<dynamic>>[
-            titleEditingController,
-            labelsEditingController,
-            descEditingController,
-            assigneeEditingController,
-          ],
-          builder: (final BuildContext context) => Scaffold(
-            appBar: buildAppBar(context),
-            body: RefreshIndicator(
-              onRefresh: () => Future<void>.sync(
-                () => widget.apiWrapperController.refresh(),
-              ),
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              child: NestedScroll(
-                header: (
-                  final BuildContext context, {
-                  required final bool isInnerBoxScrolled,
-                }) =>
-                    <Widget>[
-                  SliverToBoxAdapter(
-                    child: _ScreenHeader(
-                      widget: widget,
-                      titleEditingController: titleEditingController,
-                      labelsEditingController: labelsEditingController,
+            builder: (final BuildContext context) => Scaffold(
+              appBar: buildAppBar(context),
+              body: RefreshIndicator(
+                onRefresh: () => Future<void>.sync(
+                  () => widget.apiWrapperController.refresh(),
+                ),
+                triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                child: NestedScroll(
+                  header: (
+                    final BuildContext context, {
+                    required final bool isInnerBoxScrolled,
+                  }) =>
+                      <Widget>[
+                    SliverToBoxAdapter(
+                      child: _ScreenHeader(
+                        widget: widget,
+                        titleEditingController: titleEditingController,
+                        labelsEditingController: labelsEditingController,
+                      ),
                     ),
-                  ),
-                  SliverPinnedHeader(
-                    child: SizeExpandedSection(
-                      expand: dynamicTabsController.activeLength > 1,
-                      child: buildTabsView(tabBar),
+                    SliverPinnedHeader(
+                      child: SizeExpandedSection(
+                        expand: dynamicTabsController.activeLength > 1,
+                        child: buildTabsView(tabBar),
+                      ),
                     ),
-                  ),
-                ],
-                body: tabView,
+                  ],
+                  body: tabView,
+                ),
               ),
             ),
           ),
@@ -551,7 +553,11 @@ class _AboutTab extends StatelessWidget {
                     await context.router
                         .push(RepositoryRoute(repositoryURL: 'repositoryURL'));
                   },
-                  title: '#${widget.number}',
+                  leading: InfoCard.leadingIcon(
+                    icon: Octicons.repo,
+                    context: context,
+                  ),
+                  title: '${widget.number}',
                   titleTextStyle: TextStyle(
                     color: context.palette.faded3,
                   ),
@@ -561,7 +567,6 @@ class _AboutTab extends StatelessWidget {
                       ProfileTile.avatar(
                         avatarUrl: widget.repoInfo.owner.avatarUrl.toString(),
                         size: 16,
-                        padding: const EdgeInsets.all(8),
                       ),
                       Flexible(
                         child: Text(
@@ -590,168 +595,67 @@ class _AboutTab extends StatelessWidget {
                             <AssigneeInfoMixin$Edges?>[];
                     return MinRowEditWidget(
                       tools: tools,
-                      child: InfoCard(
-                        title: assignees.valuesOnLengthBasic(
-                          onNoItems: () => 'Assignees',
-                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
-                              'Assignee',
-                          defaultValue:
-                              (final List<AssigneeInfoMixin$Edges?> items) =>
-                                  '${items.length} Assignees',
+                      child: _ActorsInfoCard(
+                        availableList: MultiItemInfoCardList<ActorMixin>(
+                          limitedAvailableList: assignees
+                              .map(
+                                (final AssigneeInfoMixin$Edges? e) => e!.node!,
+                              )
+                              .toList(),
                         ),
-                        trailingIcon: assignees.valuesOnLengthBasic(
-                          onNoItems: () => null,
-                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
-                              null,
-                          defaultValue:
-                              (final List<AssigneeInfoMixin$Edges?> items) =>
-                                  const Icon(
-                            Icons.arrow_drop_down_rounded,
-                          ),
-                        ),
-                        onTap: assignees.valuesOnLengthBasic(
-                          onNoItems: () => null,
-                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
-                              () {
-                            navigateToProfile(
-                              login: item!.node!.login,
-                              context: context,
-                            );
-                          },
-                          defaultValue:
-                              (final List<AssigneeInfoMixin$Edges?> items) =>
-                                  () async {
-                            Future<List<AssigneeUserListMixin$Assignees$Edges?>>
-                                getAssignees(final String? cursor) async =>
-                                    context
-                                        .issueProvider(listen: false)
-                                        .getAssignees(after: cursor);
-                            await showScrollableBottomSheet(
-                              context,
-                              headerBuilder: (
-                                final BuildContext context,
-                                final StateSetter setState,
-                              ) =>
-                                  const BottomSheetHeaderText(
-                                headerText: 'Assignees',
-                              ),
-                              scrollableBodyBuilder: (
-                                final BuildContext context,
-                                final StateSetter setState,
-                                final ScrollController scrollController,
-                              ) =>
-                                  InfiniteScrollWrapper<
-                                      AssigneeUserListMixin$Assignees$Edges?>(
-                                future: (
-                                  final ({
-                                    AssigneeUserListMixin$Assignees$Edges? lastItem,
-                                    int pageNumber,
-                                    int pageSize,
-                                    bool refresh
-                                  }) data,
-                                ) =>
-                                    getAssignees(data.lastItem?.cursor),
-                                scrollController: scrollController,
-                                builder: (
-                                  final ({
-                                    BuildContext context,
-                                    int index,
-                                    AssigneeUserListMixin$Assignees$Edges? item,
-                                    bool refresh
-                                  }) data,
-                                ) {
-                                  final AssigneeUserListMixin$Assignees$Edges$Node
-                                      node = data.item!.node!;
-                                  return ProfileTile.login(
-                                    avatarUrl: node.avatarUrl.toString(),
-                                    userLogin: node.login,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                        child: assignees.valuesOnLengthBasic<Widget>(
-                          onNoItems: () => const Text('None'),
-                          onOneItem: (final AssigneeInfoMixin$Edges? item) =>
-                              ProfileTile.login(
-                            avatarUrl: item!.node!.avatarUrl.toString(),
-                            userLogin: item.node!.login,
-                            disableTap: true,
-                          ),
-                          defaultValue:
-                              (final List<AssigneeInfoMixin$Edges?> items) =>
-                                  ImageStack.widgets(
-                            totalCount: items.length,
-                            backgroundColor: context.palette.secondary,
-                            widgetBorderColor: context.palette.secondary,
-                            extraCountTextStyle: TextStyle(
-                              color: context.palette.faded3,
-                            ),
-                            widgetRadius: 29,
-                            children: items
-                                .map(
-                                  (final AssigneeInfoMixin$Edges? e) =>
-                                      ProfileTile.avatar(
-                                    avatarUrl: e!.node!.avatarUrl.toString(),
-                                    padding: EdgeInsets.zero,
-                                  ),
+                        titleBuilder: (
+                          final MultiItemInfoCardList<ActorMixin> availableList,
+                        ) =>
+                            switch (availableList.totalCount) {
+                          1 => 'Assignee',
+                          _ => 'Assignees',
+                        },
+                        fetchActorsList: (
+                          final ({
+                            NodeWithPaginationInfo<ActorMixin>? lastItem,
+                            int pageNumber,
+                            int pageSize,
+                            bool refresh
+                          }) data,
+                        ) async =>
+                            (await context
+                                    .issueProvider(listen: false)
+                                    .getAssignees(
+                                      after: data.lastItem?.cursor,
+                                    ))
+                                .map<NodeWithPaginationInfo<ActorMixin>>(
+                                  (
+                                    final AssigneeUserListMixin$Assignees$Edges?
+                                        e,
+                                  ) =>
+                                      NodeWithPaginationInfo<
+                                          ActorMixin>.fromEdge(e!),
                                 )
                                 .toList(),
-                          ),
-                        ),
                       ),
                     );
                   },
                 ),
-                InfoCard(
-                  title: 'Participants',
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ImageStack.widgets(
-                        totalCount: widget.participantsInfo.count,
-                        backgroundColor: context.palette.secondary,
-                        widgetBorderColor: context.palette.secondary,
-                        extraCountTextStyle: TextStyle(
-                          color: context.palette.faded3,
-                        ),
-                        widgetRadius: 29,
-                        children: widget.participantsInfo.avatarURLs
-                            .map(
-                              (final String e) => ProfileTile.avatar(
-                                avatarUrl: e,
-                                padding: EdgeInsets.zero,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    // showScrollableBottomSheet(
-                    //   context,
-                    //   headerBuilder: (context, setState) =>
-                    //       const BottomSheetHeaderText(
-                    //     headerText: 'Assignees',
-                    //   ),
-                    //   scrollableBodyBuilder:
-                    //       (context, setState, scrollController) =>
-                    //           InfiniteScrollWrapper<
-                    //               AssigneeUserListMixin$Assignees$Edges?>(
-                    //     future: (pageNumber, pageSize, refresh, lastItem) =>
-                    //         getAssignees(lastItem?.cursor),
-                    //     scrollController: scrollController,
-                    //     builder: (context, item, index, refresh) {
-                    //       final node = item!.node!;
-                    //       return ProfileTile.login(
-                    //         avatarUrl: node.avatarUrl.toString(),
-                    //         userLogin: node.login,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
+                _ActorsInfoCard(
+                  titleBuilder: (
+                    final MultiItemInfoCardList<ActorMixin> availableList,
+                  ) =>
+                      switch (availableList.totalCount) {
+                    1 => 'Participant',
+                    _ => 'Participants',
                   },
+                  availableList: widget.participantsInfo,
+                  fetchActorsList: (
+                    final ({
+                      NodeWithPaginationInfo<ActorMixin>? lastItem,
+                      int pageNumber,
+                      int pageSize,
+                      bool refresh
+                    }) data,
+                  ) async =>
+                      context.issueProvider(listen: false).getParticipants(
+                            after: data.lastItem?.cursor,
+                          ),
                 ),
               ],
             ),
@@ -955,11 +859,162 @@ class IssuePullState {
   }
 }
 
-class ParticipantsInfo {
-  ParticipantsInfo({
-    required this.count,
-    required this.avatarURLs,
+class _ActorsInfoCard extends StatelessWidget {
+  const _ActorsInfoCard({
+    required this.availableList,
+    required this.titleBuilder,
+    required this.fetchActorsList,
+    super.key,
   });
-  final int count;
-  final List<String> avatarURLs;
+  final MultiItemInfoCardList<ActorMixin> availableList;
+  final String Function(MultiItemInfoCardList<ActorMixin> availableList)
+      titleBuilder;
+  final ScrollWrapperFuture<NodeWithPaginationInfo<ActorMixin>> fetchActorsList;
+
+  @override
+  Widget build(final BuildContext context) => MultiItemInfoCard<ActorMixin>(
+        availableList: availableList,
+        bottomSheetPagination:
+            BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
+          paginatedListItemBuilder: paginatedListItemBuilder,
+          paginationFuture: fetchActorsList,
+          title: titleBuilder.call(availableList),
+        ),
+        title: titleBuilder.call(availableList),
+        builder: (
+          final BuildContext context,
+          final MultiItemInfoCardList<ActorMixin> items,
+        ) =>
+            switch (items.totalCount) {
+          0 => const Text('None'),
+          1 => ProfileTile.login(
+              padding: EdgeInsets.zero,
+              avatarUrl: items.limitedAvailableList.first.avatarUrl.toString(),
+              userLogin: items.limitedAvailableList.first.login,
+              disableTap: true,
+            ),
+          _ => ImageStack.widgets(
+              totalCount: availableList.totalCount,
+              backgroundColor: context.palette.secondary,
+              widgetBorderColor: context.palette.secondary,
+              extraCountTextStyle: TextStyle(
+                color: context.palette.faded3,
+              ),
+              widgetRadius: 29,
+              children: items.limitedAvailableList
+                  .map(
+                    (final ActorMixin e) => ProfileTile.avatar(
+                      avatarUrl: e.avatarUrl.toString(),
+                      padding: EdgeInsets.zero,
+                    ),
+                  )
+                  .toList(),
+            ),
+        },
+        singleItemBehavior: SingleItemConfigForMultiListAdapter(
+          onTap: (final BuildContext context) => () => navigateToProfile(
+                login: availableList.limitedAvailableList.first.login,
+                context: context,
+              ),
+          icon: null,
+        ),
+      );
+
+  ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
+      get paginatedListItemBuilder => (
+            final BuildContext context,
+            final ({
+              int index,
+              NodeWithPaginationInfo<ActorMixin> item,
+              bool refresh
+            }) data,
+          ) =>
+              Card(
+                child: ProfileTile.login(
+                  avatarUrl: data.item.node.avatarUrl.toString(),
+                  userLogin: data.item.node.login,
+                  wrapperBuilder: (final Widget child) => Row(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          '${data.index + 1}',
+                          style: TextStyle(
+                            color: context.palette.faded3,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: child,
+                      ),
+                    ],
+                  ),
+                  // wrapperBuilder: ,
+                ),
+              );
 }
+
+// class ActorMultiListAdapter extends PaginatedInfoCardAdapter<ActorMixin> {
+//   ActorMultiListAdapter({
+//     required super.availableList,
+//     required this.titleBuilder,
+//     required this.fetchActorsList,
+//   }) : super(
+//           singleItemBehavior: SingleItemConfigForMultiListAdapter(
+//             onTap: (final BuildContext context) => () => navigateToProfile(
+//                   login: availableList.limitedAvailableList.first.login,
+//                   context: context,
+//                 ),
+//             icon: null,
+//           ),
+//         );
+//   final String Function(MultiItemInfoCardList<ActorMixin> availableList)
+//       titleBuilder;
+//   final ScrollWrapperFuture<NodeWithPaginationInfo<ActorMixin>> fetchActorsList;
+//
+//   @override
+//   BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>
+//       get paginatedSheet =>
+//           BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
+//             paginatedListItemBuilder: paginatedListItemBuilder,
+//             paginationFuture: fetchActorsList,
+//             title: title,
+//           );
+//
+//   @override
+//   bool get isExpanded => false;
+//
+//   @override
+//   WidgetBuilder get viewBuilder => switch (listLength) {
+//         0 => (final BuildContext context) => const Text('None'),
+//         1 => (final BuildContext context) => ProfileTile.login(
+//               padding: EdgeInsets.zero,
+//               avatarUrl: items.first.avatarUrl.toString(),
+//               userLogin: items.first.login,
+//               disableTap: true,
+//             ),
+//         _ => (final BuildContext context) => ImageStack.widgets(
+//               totalCount: availableList.totalCount,
+//               backgroundColor: context.palette.secondary,
+//               widgetBorderColor: context.palette.secondary,
+//               extraCountTextStyle: TextStyle(
+//                 color: context.palette.faded3,
+//               ),
+//               widgetRadius: 29,
+//               children: items
+//                   .map(
+//                     (final ActorMixin e) => ProfileTile.avatar(
+//                       avatarUrl: e.avatarUrl.toString(),
+//                       padding: EdgeInsets.zero,
+//                     ),
+//                   )
+//                   .toList(),
+//             ),
+//       };
+//
+//   @override
+//   String get title => titleBuilder.call(availableList);
+// }

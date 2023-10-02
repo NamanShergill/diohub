@@ -234,8 +234,8 @@ class NotificationsScreenState extends State<NotificationsScreen>
                     return filtered;
                   },
                   builder: (
+                    final BuildContext context,
                     final ({
-                      BuildContext context,
                       int index,
                       NotificationModel item,
                       bool refresh

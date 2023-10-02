@@ -2,15 +2,11 @@ import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/user_follow.dart';
-import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/view/profile/about/about_user.dart';
 import 'package:dio_hub/view/profile/overview/user_overview_screen.dart';
 import 'package:dio_hub/view/profile/repositories/user_repositories.dart';
-import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -119,27 +115,29 @@ class UserProfileScreenState<T extends UserInfoModel>
                       ],
                     )
                   else if (data.type == Type.user)
-                    UserFollow(
-                      data.login!,
-                      fadeIntoView: false,
-                      inkWellRadius: medBorderRadius,
-                      child: (
-                        final BuildContext context,
-                        final FollowStatusInfo$Query$User? followingData,
-                        final VoidCallback? onPress,
-                      ) =>
-                          ActionButton(
-                        action: 'Followers',
-                        count: followingData?.followers.totalCount,
-                        isDone: followingData?.viewerIsFollowing,
-                        onTap: onPress,
-                        doneColor: context.palette.accent,
-                        icon: Icons.add,
-                      ),
+                    // UserFollow(
+                    //   data.login!,
+                    //   fadeIntoView: false,
+                    //   inkWellRadius: medBorderRadius,
+                    //   child: (
+                    //     final BuildContext context,
+                    //     final FollowStatusInfo$Query$User? followingData,
+                    //     final VoidCallback? onPress,
+                    //   ) =>
+                    //       ActionButton(
+                    //     action: 'Followers',
+                    //     count: followingData?.followers.totalCount,
+                    //     isDone: followingData?.viewerIsFollowing,
+                    //     onTap: onPress,
+                    //     doneColor: context.palette.accent,
+                    //     icon: followingData?.viewerIsFollowing ?? false
+                    //         ? Icons.check
+                    //         : Icons.add,
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      width: 16,
                     ),
-                  const SizedBox(
-                    width: 16,
-                  ),
                   if (data.type == Type.user)
                     RichText(
                       text: TextSpan(

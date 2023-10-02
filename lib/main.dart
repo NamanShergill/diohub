@@ -25,7 +25,7 @@ Future<void> debugURLLauncher() async {
   String? url;
   // https://github.com/flutter/flutter/issues/120732
   // https://github.com/flutter/flutter/issues/128696
-  url = 'https://github.com/flutter/flutter/issues/120732';
+  url = 'https://github.com/NamanShergill/git/issues/21';
   if (kDebugMode) {
     await deepLinkNavigate(
       Uri.parse(url ?? ''),

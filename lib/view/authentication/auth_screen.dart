@@ -46,7 +46,10 @@ class AuthScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
                     child:
                         BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                      listener: (final BuildContext context, final AuthenticationState state) async {
+                      listener: (
+                        final BuildContext context,
+                        final AuthenticationState state,
+                      ) async {
                         if (state is AuthenticationSuccessful) {
                           if (onAuthenticated != null) {
                             onAuthenticated!();
@@ -56,7 +59,10 @@ class AuthScreen extends StatelessWidget {
                           }
                         }
                       },
-                      builder: (final BuildContext context, final AuthenticationState state) {
+                      builder: (
+                        final BuildContext context,
+                        final AuthenticationState state,
+                      ) {
                         if (state is AuthenticationUnauthenticated) {
                           return const LoginPopup();
                         } else if (state is AuthenticationInitialized) {

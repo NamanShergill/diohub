@@ -24,8 +24,8 @@ typedef ScrollWrapperFuture<T> = Future<List<T>> Function(
   }) data,
 );
 typedef ScrollWrapperBuilder<T> = Widget Function(
+  BuildContext context,
   ({
-    BuildContext context,
     T item,
     int index,
     bool refresh,
@@ -368,7 +368,11 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       rethrow;
     } catch (error) {
       {
-        log.e(error.toString());
+        log.e(
+          'Pagination future error',
+          stackTrace: (error is Error) ? error.stackTrace : null,
+          error: error,
+        );
         if (mounted) {
           _pagingController.error = error;
         }
@@ -396,8 +400,8 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                   height: widget.topSpacing,
                 ),
               widget.builder(
+                context,
                 (
-                  context: context,
                   item: item.item,
                   index: index,
                   refresh: item.refreshChildren,

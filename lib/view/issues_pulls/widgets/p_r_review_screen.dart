@@ -58,8 +58,8 @@ class PRReviewScreen extends StatelessWidget {
                 height: 32,
               ),
               builder: (
+                final BuildContext context,
                 final ({
-                  BuildContext context,
                   int index,
                   PRReviewCommentsMixin$Comments$Edges? item,
                   bool refresh
@@ -353,8 +353,8 @@ class PRReviewScreen extends StatelessWidget {
                     return temp;
                   },
                   builder: (
+                    final BuildContext context,
                     final ({
-                      BuildContext context,
                       int index,
                       ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? item,
                       bool refresh

@@ -2,7 +2,7 @@ part of 'bottom_sheets.dart';
 
 Future<T?> showActionsSheet<T>(
   final BuildContext context, {
-  required final List<BottomSheetAction> actions,
+  required final List<BottomSheetAction> Function(BuildContext context) actions,
   final Widget? title,
   final Widget? message,
   final Widget? cancelButton,
@@ -17,6 +17,7 @@ Future<T?> showActionsSheet<T>(
         message: message,
         cancelButton: cancelButton,
         actions: actions
+            .call(context)
             .map(
               (final BottomSheetAction e) => CupertinoActionSheetAction(
                 onPressed: e.onPressed,
@@ -67,6 +68,7 @@ Future<T?> showActionsSheet<T>(
       builder: (final BuildContext context, final StateSetter setState) =>
           BottomSheetBodyList(
         children: actions
+            .call(context)
             .map(
               (final BottomSheetAction e) => ListTile(
                 title: e.title,
@@ -129,7 +131,7 @@ Future<T?> showURLActions<T>(
         uri.toString(),
       ),
       // message: Text('URL Actions'),
-      actions: <BottomSheetAction>[
+      actions: (final BuildContext context) => <BottomSheetAction>[
         if (showOpenAction &&
             !isDeepLink(
               uri.toString(),
@@ -142,16 +144,17 @@ Future<T?> showURLActions<T>(
             isDefaultAction: true,
             onPressed: () {
               canLaunchUrl(uri).then(
-                (final bool value) {
-                  Navigator.pop(context);
+                (final bool value) async {
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                   if (value) {
-                    launchUrl(uri);
+                    await launchUrl(uri);
                   } else {
                     ResponseHandler.setErrorMessage(
                       AppPopupData(title: 'Unable to open URL'),
                     );
                   }
-                  Navigator.pop(context);
                 },
               );
             },
@@ -165,7 +168,9 @@ Future<T?> showURLActions<T>(
             trailing: const AppLogoWidget(size: 25),
             isDefaultAction: true,
             onPressed: () {
-              Navigator.pop(context);
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
 
               deepLinkNavigate(
                 uri,
@@ -181,7 +186,9 @@ Future<T?> showURLActions<T>(
             onPressed: () {
               canLaunchUrl(uri).then(
                 (final bool value) {
-                  Navigator.pop(context);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                   if (value) {
                     launchUrl(uri);
                   } else {
@@ -200,7 +207,9 @@ Future<T?> showURLActions<T>(
             Icons.copy,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            if (context.mounted) {
+              Navigator.pop(context);
+            }
             copyToClipboard(
               uri.toString(),
             );
@@ -211,7 +220,7 @@ Future<T?> showURLActions<T>(
           trailing: Icon(
             Icons.adaptive.share,
           ),
-          onPressed: () {
+          onPressed: () async {
             String shareText;
             if (shareDescription != null) {
               shareText = '$shareDescription\n$uri';
@@ -219,11 +228,13 @@ Future<T?> showURLActions<T>(
               shareText = uri.toString();
             }
             final RenderBox? box = context.findRenderObject() as RenderBox?;
-            Share.share(
+            await Share.share(
               shareText,
               sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
             );
-            Navigator.pop(context);
+            if (context.mounted) {
+              Navigator.pop(context);
+            }
           },
         ),
       ],

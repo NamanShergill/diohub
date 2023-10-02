@@ -216,12 +216,14 @@ class DiscussionState extends State<Discussion> {
           children: <Widget>[
             Expanded(
               child: InfiniteScrollWrapper<dynamic>(
-                future: (final ({
-                          dynamic lastItem,
-                          int pageNumber,
-                          int pageSize,
-                          bool refresh
-                        }) data,) async =>
+                future: (
+                  final ({
+                    dynamic lastItem,
+                    int pageNumber,
+                    int pageSize,
+                    bool refresh
+                  }) data,
+                ) async =>
                     IssuesService.getTimeline(
                   repo: widget.repoName,
                   after: data.lastItem?.cursor,
@@ -249,12 +251,10 @@ class DiscussionState extends State<Discussion> {
                         const SizedBox(
                   height: 8,
                 ),
-                builder: (final ({
-                          BuildContext context,
-                          int index,
-                          dynamic item,
-                          bool refresh
-                        }) data,) =>
+                builder: (
+                  final BuildContext context,
+                  final ({int index, dynamic item, bool refresh}) data,
+                ) =>
                     GetTimelineItem(
                   data.item.node,
                   pullNodeID: widget.pullNodeID,

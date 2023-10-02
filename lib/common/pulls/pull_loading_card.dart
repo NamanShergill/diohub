@@ -127,7 +127,9 @@ class PullLoadingCard extends StatelessWidget {
                 ),
               );
             },
-            responseBuilder: (final BuildContext context, final PullRequestModel data) => PullListCard(
+            responseBuilder:
+                (final BuildContext context, final PullRequestModel data) =>
+                    PullListCard(
               data,
               compact: compact,
               disableMaterial: true,

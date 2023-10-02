@@ -308,8 +308,10 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
           child: SelectableText(
             widget.data,
             style: Theme.of(context).textTheme.bodyMedium,
-            onSelectionChanged: (final TextSelection selection,
-                final SelectionChangedCause? cause,) {
+            onSelectionChanged: (
+              final TextSelection selection,
+              final SelectionChangedCause? cause,
+            ) {
               setState(() {
                 selectedText = selection.textInside(widget.data);
               });

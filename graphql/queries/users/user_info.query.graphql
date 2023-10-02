@@ -61,6 +61,7 @@ mutation  followUser($user:ID!){
             login
         }
     }
+
 }
 
 mutation  unfollowUser($user:ID!){

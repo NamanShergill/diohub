@@ -183,7 +183,8 @@ class GraphqlHandler extends BaseAPIHandler {
         );
 
   Future<GQLResponse> mutation(
-          final GraphQLQuery<dynamic, JsonSerializable> query,) =>
+    final GraphQLQuery<dynamic, JsonSerializable> query,
+  ) =>
       _query(
         query,
         overrideAPICache: APICache.noCache(),

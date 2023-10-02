@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/api_handler/dio.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/issues/issue_comments_model.dart';
 import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
@@ -77,6 +78,33 @@ class IssuesService {
           .repository!
           .issueOrPullRequest,
     ).assignees.edges!;
+  }
+
+  Future<List<NodeWithPaginationInfo<ActorMixin>>> getParticipants({
+    required final String? after,
+  }) async {
+    final GQLResponse response = await _gqlHandler.query(
+      IssuePullParticipantsQuery(
+        variables: IssuePullParticipantsArguments(
+          number: number,
+          repo: repo,
+          user: user,
+          after: after,
+        ),
+      ),
+    );
+    // ignore: avoid_dynamic_calls
+    return typeCast<dynamic>(
+      IssuePullParticipants$Query.fromJson(response.data!)
+          .repository!
+          .issueOrPullRequest,
+    )
+        .participants
+        .edges!
+        .map<NodeWithPaginationInfo<ActorMixin>>(
+          (final dynamic e) => NodeWithPaginationInfo<ActorMixin>.fromEdge(e!),
+        )
+        .toList();
   }
 
   static Future<void> addReaction(
@@ -396,8 +424,9 @@ class IssuesService {
     final String body,
   ) async {
     final Response<dynamic> response = await _restHandler.post<dynamic>(
-        '$issueURL/comments',
-        data: <String, String>{'body': body});
+      '$issueURL/comments',
+      data: <String, String>{'body': body},
+    );
     if (response.statusCode == 201) {
       return true;
     }

@@ -102,7 +102,9 @@ class LandingScreenState extends State<LandingScreen>
                       .faded3
                       .withOpacity(0.3),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 16.5,),
+                    horizontal: 12,
+                    vertical: 16.5,
+                  ),
                   duration: const Duration(milliseconds: 250),
                   tabs: const <GButton>[
                     GButton(

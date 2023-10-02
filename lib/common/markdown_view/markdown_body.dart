@@ -179,8 +179,11 @@ class MarkdownBodyState extends State<MarkdownBody> {
           //   ),
           // )
         },
-        onLinkTap: (final String? url, final Map<String, String> attributes,
-                final dom.Element? element,) async =>
+        onLinkTap: (
+          final String? url,
+          final Map<String, String> attributes,
+          final dom.Element? element,
+        ) async =>
             linkHandler(context, url),
 //         customRender:  {
 //           // 'a': (final renderContext, final child) {

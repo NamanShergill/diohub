@@ -10,7 +10,7 @@ fragment issueInfo on Issue{
     participants(first: 5){
         totalCount
         nodes {
-            avatarUrl
+            ...actor
         }
     }
     authorAssociation
@@ -23,31 +23,8 @@ fragment issueInfo on Issue{
         description
         dueOn
     }
-
-    linkedBranches(first: 1){
-        totalCount
-        edges {
-            cursor
-            node {
-                ref {
-                    associatedPullRequests{
-                        totalCount
-                        edges {
-                            cursor
-                            node {
-                                number
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     createdAt
     comments{
-        totalCount
-    }
-    userContentEdits{
         totalCount
     }
     includesCreatedEdit
@@ -58,6 +35,48 @@ fragment issueInfo on Issue{
         }
     }
     locked
+    trackedIssuesCount
+
+    trackedInIssues(first: 10){
+        totalCount
+        edges {
+            node {
+                title
+            }
+        }
+    }    trackedIssues(first: 10){
+        totalCount
+        edges {
+            node {
+                title
+            }
+        }
+    }
+    linkedBranches(first: 10){
+        totalCount
+        edges {
+            cursor
+            node {
+                id
+                __typename
+                ref {
+                    id
+                    prefix
+                    name
+                    associatedPullRequests(first: 1){
+                        totalCount
+                        edges {
+                            cursor
+                            node {
+                                number
+                                titleHTML
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     number
     projectCards{
         totalCount
@@ -78,8 +97,13 @@ fragment issueInfo on Issue{
     }
 
     url
+    userContentEdits{
+        totalCount
+    }
     viewerCanReact
     viewerCanUpdate
+    viewerCanSubscribe
+    viewerSubscription
 }
 
 fragment pullInfo on PullRequest{
@@ -93,7 +117,6 @@ fragment pullInfo on PullRequest{
     authorAssociation
     bodyHTML
     body
-
     closed
     closedAt
     createdAt

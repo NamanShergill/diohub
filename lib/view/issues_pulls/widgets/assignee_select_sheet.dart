@@ -136,12 +136,8 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
               scrollController: widget.controller,
               listEndIndicator: false,
               builder: (
-                final ({
-                  BuildContext context,
-                  int index,
-                  UserInfoModel item,
-                  bool refresh
-                }) data,
+                final BuildContext context,
+                final ({int index, UserInfoModel item, bool refresh}) data,
               ) =>
                   CheckboxListTile(
                 activeColor:

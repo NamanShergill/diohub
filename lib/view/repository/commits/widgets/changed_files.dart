@@ -16,7 +16,8 @@ class ChangedFilesState extends State<ChangedFiles> {
   @override
   Widget build(final BuildContext context) {
     final CommitModel commit = Provider.of<CommitProvider>(context).data;
-    final List<FileElement> files = Provider.of<CommitProvider>(context).data.files!;
+    final List<FileElement> files =
+        Provider.of<CommitProvider>(context).data.files!;
     return ListView(
       children: <Widget>[
         Padding(
@@ -30,7 +31,8 @@ class ChangedFilesState extends State<ChangedFiles> {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: files.length,
-          separatorBuilder: (final BuildContext context, final int index) => const SizedBox(
+          separatorBuilder: (final BuildContext context, final int index) =>
+              const SizedBox(
             height: 12,
           ),
           itemBuilder: (final BuildContext context, final int index) =>

@@ -15,12 +15,12 @@ dependencies:
   another_flushbar: ^1.12.31-dev.1
   artemis: '>=7.13.0-beta.2 <8.0.0'
   auto_route: ^7.8.3
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   collection: ^1.18.0
   connectivity_plus: ^4.0.2
   curl_logger_dio_interceptor: ^1.0.0
-  dio: ^5.3.2
-  dio_cache_interceptor: ^3.4.2
+  dio: ^5.3.3
+  dio_cache_interceptor: ^3.4.4
   # https://github.com/tekartik/sqflite/issues/1008
   # When fixed, remove the change in ios/Podfile
   dio_cache_interceptor_db_store: ^5.1.0
@@ -32,6 +32,7 @@ dependencies:
     path:
       dependencies/extended_text_field
 
+  flex_list: ^1.0.0
   flutter:
     sdk: flutter
 
@@ -39,7 +40,7 @@ dependencies:
   flutter_bloc: ^8.1.3
   flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
-  flutter_datetime_picker_plus: ^2.0.1
+  flutter_datetime_picker_plus: ^2.1.0
   flutter_displaymode: ^0.6.0
 
   flutter_dynamic_tabs:
@@ -56,10 +57,17 @@ dependencies:
     path: dependencies/flutter_html
 
   flutter_html_table: ^3.0.0-beta.2
-  flutter_inappwebview: ^6.0.0-beta.24+1
+
+  # Temporary dependency until the following is fixed: https://github.com/pichillilorenzo/flutter_inappwebview/issues/1735#issuecomment-1725248033
+  flutter_inappwebview:
+    git:
+      url: https://github.com/Estrelio/flutter_inappwebview.git
+      ref: fix-xcode-17
+
   flutter_keyboard_visibility: ^5.4.1
   flutter_portal: ^1.1.4
   flutter_reaction_button: ^2.0.1+2
+  flutter_riverpod: ^2.4.1
   flutter_scroll_to_top: ^2.3.0
   flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.0
@@ -80,7 +88,7 @@ dependencies:
   intl: ^0.18.1
   json_annotation: ^4.8.1
   line_icons: ^2.0.3
-  logger: ^2.0.1
+  logger: ^2.0.2+1
   markdown: ^7.1.1
 
   # Modified for additional markdown options.
@@ -91,12 +99,12 @@ dependencies:
   package_info_plus: ^4.1.0
   path_provider: ^2.1.1
   pretty_dio_logger: ^1.3.1
-  provider: ^6.0.5
+  provider: ^6.1.0-dev.1
   share_plus: ^7.1.0
   shared_preferences: ^2.2.1
   shimmer: ^3.0.0
   sliver_tools: ^0.2.12
-  sqlite3_flutter_libs: ^0.5.16
+  sqlite3_flutter_libs: ^0.5.17
   uni_links: ^0.5.1
   url_launcher: ^6.1.14
   uuid: ^3.0.4
@@ -105,7 +113,7 @@ dev_dependencies:
   auto_route_generator: ^7.3.1
   build_runner: ^2.4.6
   # pub run dependency_validator
-  dependency_validator: ^3.2.2
+  dependency_validator: ^3.2.3
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.3
   flutter_native_splash: ^2.3.2
@@ -115,15 +123,15 @@ dev_dependencies:
 
 dependency_overrides:
   # flutter_html 2.1.2 uses a version not compatible with flutter >3.
-  chewie_audio: ^1.5.0
+#  chewie_audio: ^1.5.0
   # Override for conflict between artemis and flutter_test.
   collection: ^1.18.0
   # flutter_html 2.1.2 uses a version not compatible with flutter >3.
   flutter_html:
     path: dependencies/flutter_html
-  flutter_layout_grid: ^2.0.4
-  flutter_math_fork: ^0.7.1
-  flutter_svg: ^2.0.7
+#  flutter_layout_grid: ^2.0.4
+#  flutter_math_fork: ^0.7.1
+#  flutter_svg: ^2.0.7
   # Override until https://github.com/comigor/artemis/pull/415 is merged.
   gql: 1.0.0
   gql_dio_link: 1.0.1

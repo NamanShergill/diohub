@@ -48,7 +48,9 @@ class AuthProgressNotification extends StatelessWidget {
                                 .add(ResetStates());
                           }
                         },
-                        widgetBuilder: (final _, final CurrentRemainingTime? time) => Column(
+                        widgetBuilder:
+                            (final _, final CurrentRemainingTime? time) =>
+                                Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Padding(

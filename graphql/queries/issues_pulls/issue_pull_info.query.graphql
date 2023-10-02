@@ -58,8 +58,45 @@ query issuePullAssignees($user: String!, $repo: String!, $number: Int!, $after:S
     }
 }
 
+query issuePullParticipants($user: String!, $repo: String!, $number: Int!, $after:String){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...issueParticipantUserList
+            }... on PullRequest{
+                ...pullParticipantUserList
+            }
+        }
+    }
+}
+
 fragment assigneeUserList on Assignable{
     assignees(after: $after, first: 10){
+        edges {
+            cursor
+            node {
+                ...actor
+            }
+        }
+    }
+}
+
+fragment issueParticipantUserList on Issue{
+
+    participants(after: $after, first: 10){
+        edges {
+            cursor
+            node {
+                ...actor
+            }
+        }
+    }
+}
+
+fragment pullParticipantUserList on PullRequest{
+
+    participants(after: $after, first: 10){
         edges {
             cursor
             node {

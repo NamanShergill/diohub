@@ -24,7 +24,8 @@ class PullProvider extends BaseDataProvider<PullInfoMixin> {
   }
 
   @override
-  Future<PullInfoMixin> setInitData(
-          {final bool isInitialisation = false,}) async =>
+  Future<PullInfoMixin> setInitData({
+    final bool isInitialisation = false,
+  }) async =>
       pullInfo;
 }

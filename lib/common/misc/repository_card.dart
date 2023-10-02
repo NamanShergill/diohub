@@ -205,11 +205,11 @@ class RepositoryCardState extends State<RepositoryCard> {
                     child: RepoStar(
                       widget.repo!.owner!.login!,
                       widget.repo!.name!,
-                      onStarsChange: (final int value) {
-                        setState(() {
-                          widget.repo!.stargazersCount = value;
-                        });
-                      },
+                      // onStarsChange: (final int value) {
+                      //   setState(() {
+                      //     widget.repo!.stargazersCount = value;
+                      //   });
+                      // },
                     ),
                   ),
                 ),

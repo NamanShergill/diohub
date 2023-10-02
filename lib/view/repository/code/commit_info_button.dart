@@ -10,7 +10,9 @@ class CommitInfoButton extends StatelessWidget {
   const CommitInfoButton({super.key});
   @override
   Widget build(final BuildContext context) => Consumer<CodeProvider>(
-        builder: (final BuildContext context, final CodeProvider value, final _) => Row(
+        builder:
+            (final BuildContext context, final CodeProvider value, final _) =>
+                Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const SizedBox(

@@ -67,8 +67,11 @@ class PullScreenState extends State<PullScreen>
         ],
         builder: (final BuildContext context, final Widget? child) => SafeArea(
           child: Consumer<PullProvider>(
-            builder: (final BuildContext context, final PullProvider value,
-                    final _,) =>
+            builder: (
+              final BuildContext context,
+              final PullProvider value,
+              final _,
+            ) =>
                 Scaffold(
               appBar: value.status != Status.loaded
                   ? AppBar(

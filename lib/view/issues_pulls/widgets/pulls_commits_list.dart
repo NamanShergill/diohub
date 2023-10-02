@@ -30,12 +30,8 @@ class PullsCommitsList extends StatelessWidget {
           height: 16,
         ),
         builder: (
-          final ({
-            BuildContext context,
-            int index,
-            CommitListModel item,
-            bool refresh
-          }) data,
+          final BuildContext context,
+          final ({int index, CommitListModel item, bool refresh}) data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

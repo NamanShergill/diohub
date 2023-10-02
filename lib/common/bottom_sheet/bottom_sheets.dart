@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/const/app_info.dart';
+import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
@@ -106,6 +107,42 @@ class DHBottomSheet extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      );
+}
+
+class BottomSheetPagination<T> {
+  BottomSheetPagination({
+    required this.paginatedListItemBuilder,
+    required this.paginationFuture,
+    required this.title,
+  });
+
+  final ScrollWrapperBuilder<T> paginatedListItemBuilder;
+  final ScrollWrapperFuture<T> paginationFuture;
+  final String title;
+
+  Future<T?> openSheet(
+    final BuildContext context,
+  ) =>
+      showScrollableBottomSheet<T>(
+        context,
+        headerBuilder: (
+          final BuildContext context,
+          final StateSetter setState,
+        ) =>
+            BottomSheetHeaderText(
+          headerText: title,
+        ),
+        scrollableBodyBuilder: (
+          final BuildContext context,
+          final StateSetter setState,
+          final ScrollController scrollController,
+        ) =>
+            InfiniteScrollWrapper<T>(
+          future: paginationFuture,
+          scrollController: scrollController,
+          builder: paginatedListItemBuilder,
         ),
       );
 }

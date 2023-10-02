@@ -47,10 +47,8 @@ class UserFollowState extends State<UserFollow> {
                 setState(() {
                   changing = true;
                   data.viewerIsFollowing
-                      ? data.followers.totalCount =
-                          data.followers.totalCount - 1
-                      : data.followers.totalCount =
-                          data.followers.totalCount + 1;
+                      ? data.followers.totalCount -= 1
+                      : data.followers.totalCount += 1;
                 });
                 if (!data.viewerIsFollowing) {
                   ResponseHandler.setSuccessMessage(
@@ -63,7 +61,7 @@ class UserFollowState extends State<UserFollow> {
                 widget.onFollowersChange?.call(data.followers.totalCount);
 
                 final bool isFollowing = data.viewerIsFollowing;
-                controller.changeData(
+                controller.overrideData(
                   data..viewerIsFollowing = !data.viewerIsFollowing,
                 );
                 await UserInfoService.changeFollowStatus(

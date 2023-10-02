@@ -66,109 +66,24 @@ class GetTimelineItem extends StatelessWidget {
     return PaddingWrap(
       child: Builder(
         builder: (final BuildContext context) {
+          return switch (item) {
+            final AssignedMixin item => _buildBasicEventAssignedCard(item),
+            final BaseRefChangedMixin item => _buildBaseRefChangedCard(item),
+            final BaseRefDeletedMixin item => _buildRefDeletedCard(item),
+            final BaseRefForcePushedMixin item => _buildForcePushedCard(item),
+            final ClosedMixin item => _buildClosedCard(item),
+            final ConvertedToDraftMixin item =>
+              _buildConvertedToDraftCard(item),
+            final CrossReferenceMixin item => _buildCrossReferenceCard(item),
+            final DeMileStonedMixin item => _buildDemilestonedCard(item),
+            final HeadRefDeletedMixin item => _buildHeadRefDeletedCard(item),
+            final HeadRefForcePushedMixin item =>
+              _buildHeadRefForcePushedCard(item),
+            final HeadRefRestoredMixin item => _buildHeadRefRestoredCard(item),
+            final IssueCommentMixin item => _buildBaseComment(item),
+            _ => const Text('Temp'),
+          };
           if (item is AddedToProjectMixin) {
-          } else if (item is AssignedMixin) {
-            return BasicEventAssignedCard(
-              actor: item.actor,
-              assignee: item.assignee! as ActorMixin,
-              createdAt: item.createdAt,
-              isAssigned: true,
-            );
-          } else if (item is BaseRefChangedMixin) {
-            return BasicEventTextCard(
-              textContent:
-                  'Changed base ref from ${item.previousRefName} to ${item.currentRefName}.',
-              user: item.actor,
-              leading: Octicons.repo_push,
-              date: item.createdAt,
-            );
-          } else if (item is BaseRefDeletedMixin) {
-            return BasicEventTextCard(
-              textContent: 'Deleted base ref ${item.baseRefName}.',
-              user: item.actor,
-              leading: Octicons.repo_push,
-              date: item.createdAt,
-            );
-          } else if (item is BaseRefForcePushedMixin) {
-            return BasicEventTextCard(
-              textContent:
-                  'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
-              user: item.actor,
-              leading: Octicons.repo_push,
-              date: item.createdAt,
-            );
-          } else if (item is ClosedMixin) {
-            return BasicEventTextCard(
-              textContent: 'Closed this.',
-              user: item.actor,
-              leading: Octicons.issue_closed,
-              iconColor:
-                  Provider.of<PaletteSettings>(context).currentSetting.red,
-              date: item.createdAt,
-            );
-          } else if (item is ConvertedToDraftMixin) {
-            return BasicEventTextCard(
-              textContent: 'Marked this as draft.',
-              user: item.actor,
-              leading: LineIcons.alternatePencil,
-              date: item.createdAt,
-            );
-          } else if (item is CrossReferenceMixin) {
-            String str;
-            str = item.isCrossRepository
-                ? 'Referenced this in ${(item.source as dynamic).repository.nameWithOwner}.'
-                : 'Referenced this.';
-
-            return BasicEventTextCard(
-              textContent: str,
-              footer: Builder(
-                builder: (final BuildContext context) {
-                  final CrossReferenceMixin$Source source = item.source;
-                  if (source is IssueMixin) {
-                    return IssueLoadingCard(
-                      toRepoAPIResource((source as IssueMixin).url.toString()),
-                      padding: EdgeInsets.zero,
-                      compact: true,
-                    );
-                  } else {
-                    return PullLoadingCard(
-                      toRepoAPIResource(
-                        (source as PullRequestMixin).url.toString(),
-                        isPull: true,
-                      ),
-                      padding: EdgeInsets.zero,
-                      compact: true,
-                    );
-                  }
-                },
-              ),
-              user: item.actor,
-              leading: Octicons.link_external,
-              date: item.createdAt,
-            );
-          } else if (item is DeMileStonedMixin) {
-            return BasicEventTextCard(
-              textContent:
-                  'Removed this from milestone ${item.milestoneTitle}.',
-              user: item.actor,
-              leading: Icons.delete_rounded,
-              date: item.createdAt,
-            );
-          } else if (item is HeadRefDeletedMixin) {
-            return BasicEventTextCard(
-              textContent: 'Deleted head ref ${item.headRefName}.',
-              user: item.actor,
-              leading: Icons.delete_rounded,
-              date: item.createdAt,
-            );
-          } else if (item is HeadRefForcePushedMixin) {
-            return BasicEventTextCard(
-              textContent:
-                  'Force pushed to head ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
-              user: item.actor,
-              leading: Octicons.repo_push,
-              date: item.createdAt,
-            );
           } else if (item is HeadRefRestoredMixin) {
             return BasicEventTextCard(
               textContent: 'Restored head ref.',
@@ -453,5 +368,150 @@ class GetTimelineItem extends StatelessWidget {
         },
       ),
     );
+  }
+
+  BasicEventTextCard _buildHeadRefRestoredCard(
+          final HeadRefRestoredMixin item) =>
+      BasicEventTextCard(
+        textContent: 'Restored head ref.',
+        user: item.actor,
+        leading: Icons.delete_rounded,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildHeadRefForcePushedCard(
+          final HeadRefForcePushedMixin item) =>
+      BasicEventTextCard(
+        textContent:
+            'Force pushed to head ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
+        user: item.actor,
+        leading: Octicons.repo_push,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildHeadRefDeletedCard(final HeadRefDeletedMixin item) =>
+      BasicEventTextCard(
+        textContent: 'Deleted head ref ${item.headRefName}.',
+        user: item.actor,
+        leading: Icons.delete_rounded,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildDemilestonedCard(final DeMileStonedMixin item) =>
+      BasicEventTextCard(
+        textContent: 'Removed this from milestone ${item.milestoneTitle}.',
+        user: item.actor,
+        leading: Icons.delete_rounded,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildConvertedToDraftCard(
+          final ConvertedToDraftMixin item) =>
+      BasicEventTextCard(
+        textContent: 'Marked this as draft.',
+        user: item.actor,
+        leading: LineIcons.alternatePencil,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildClosedCard(final ClosedMixin item) =>
+      BasicEventTextCard(
+        textContent: 'Closed this.',
+        user: item.actor,
+        leading: Octicons.issue_closed,
+        iconColor: Colors.red,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildForcePushedCard(
+          final BaseRefForcePushedMixin item) =>
+      BasicEventTextCard(
+        textContent:
+            'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
+        user: item.actor,
+        leading: Octicons.repo_push,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildRefDeletedCard(final BaseRefDeletedMixin item) =>
+      BasicEventTextCard(
+        textContent: 'Deleted base ref ${item.baseRefName}.',
+        user: item.actor,
+        leading: Octicons.repo_push,
+        date: item.createdAt,
+      );
+
+  BasicEventTextCard _buildBaseRefChangedCard(final BaseRefChangedMixin item) =>
+      BasicEventTextCard(
+        textContent:
+            'Changed base ref from ${item.previousRefName} to ${item.currentRefName}.',
+        user: item.actor,
+        leading: Octicons.repo_push,
+        date: item.createdAt,
+      );
+
+  BasicEventAssignedCard _buildBasicEventAssignedCard(
+          final AssignedMixin item) =>
+      BasicEventAssignedCard(
+        actor: item.actor,
+        assignee: item.assignee! as ActorMixin,
+        createdAt: item.createdAt,
+        isAssigned: true,
+      );
+
+  BaseComment _buildBaseComment(final IssueCommentMixin item) => BaseComment(
+        isMinimized: item.isMinimized,
+        onQuote: onQuote,
+        reactions: item.reactionGroups!,
+        minimizedReason: item.minimizedReason,
+        viewerCanDelete: item.viewerCanDelete,
+        viewerCanMinimize: item.viewerCanMinimize,
+        viewerCannotUpdateReasons: item.viewerCannotUpdateReasons,
+        viewerCanReact: item.viewerCanReact,
+        viewerCanUpdate: item.viewerCanUpdate,
+        viewerDidAuthor: item.viewerDidAuthor,
+        author: item.author,
+        authorAssociation: item.authorAssociation,
+        body: item.body,
+        bodyHTML: item.bodyHTML,
+        createdAt: item.createdAt,
+        lastEditedAt: item.lastEditedAt,
+      );
+
+  BasicEventTextCard _buildCrossReferenceCard(final CrossReferenceMixin item) {
+    {
+      String str;
+      str = item.isCrossRepository
+          ? 'Referenced this in ${(item.source as dynamic).repository.nameWithOwner}.'
+          : 'Referenced this.';
+
+      return BasicEventTextCard(
+        textContent: str,
+        footer: Builder(
+          builder: (final BuildContext context) {
+            final CrossReferenceMixin$Source source = item.source;
+            if (source is IssueMixin) {
+              return IssueLoadingCard(
+                toRepoAPIResource((source as IssueMixin).url.toString()),
+                padding: EdgeInsets.zero,
+                compact: true,
+              );
+            } else {
+              return PullLoadingCard(
+                toRepoAPIResource(
+                  (source as PullRequestMixin).url.toString(),
+                  isPull: true,
+                ),
+                padding: EdgeInsets.zero,
+                compact: true,
+              );
+            }
+          },
+        ),
+        user: item.actor,
+        leading: Octicons.link_external,
+        date: item.createdAt,
+      );
+    }
   }
 }

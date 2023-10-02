@@ -81,12 +81,8 @@ class Events extends StatelessWidget {
         }
       },
       builder: (
-        final ({
-          BuildContext context,
-          int index,
-          EventsModel item,
-          bool refresh
-        }) data,
+        final BuildContext context,
+        final ({int index, EventsModel item, bool refresh}) data,
       ) {
         final EventsModel item = data.item;
         return Padding(

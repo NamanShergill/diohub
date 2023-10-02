@@ -30,12 +30,8 @@ class PullChangedFilesList extends StatelessWidget {
           height: 16,
         ),
         builder: (
-          final ({
-            BuildContext context,
-            int index,
-            FileElement item,
-            bool refresh
-          }) data,
+          final BuildContext context,
+          final ({int index, FileElement item, bool refresh}) data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),

@@ -22,11 +22,13 @@ class PullsTabState extends State<PullsTab> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(final BuildContext context) {
     super.build(context);
-    final CurrentUserInfoModel user = Provider.of<CurrentUserProvider>(context).data;
+    final CurrentUserInfoModel user =
+        Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
-        searchFilters:
-            SearchFilters.issuesPulls(blacklist: <String>[SearchQueryStrings.type]),
+        searchFilters: SearchFilters.issuesPulls(
+          blacklist: <String>[SearchQueryStrings.type],
+        ),
         defaultHiddenFilters: <String>[
           SearchQueries().involves.toQueryString(user.login!),
           SearchQueries().type.toQueryString('pr'),

@@ -75,12 +75,14 @@ class CommitDetails extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: commit.data.parents!.length,
-                    separatorBuilder: (final BuildContext context, final int index) =>
-                        const SizedBox(
+                    separatorBuilder:
+                        (final BuildContext context, final int index) =>
+                            const SizedBox(
                       height: 8,
                     ),
-                    itemBuilder: (final BuildContext context, final int index) =>
-                        CommitSHAButton(
+                    itemBuilder:
+                        (final BuildContext context, final int index) =>
+                            CommitSHAButton(
                       commit.data.parents![index].sha,
                       commit.data.parents![index].url,
                     ),

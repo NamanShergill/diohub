@@ -56,8 +56,10 @@ class HomeScreenState extends State<HomeScreen>
 
     super.build(context);
     return NestedScroll(
-      header: (final BuildContext context,
-              {required final bool isInnerBoxScrolled,}) =>
+      header: (
+        final BuildContext context, {
+        required final bool isInnerBoxScrolled,
+      }) =>
           <Widget>[
         SliverAppBar(
           expandedHeight: 300,
@@ -78,8 +80,10 @@ class HomeScreenState extends State<HomeScreen>
                     widget.parentTabController.animateTo(3);
                   },
                   child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                    childBuilder: (final BuildContext context,
-                            final CurrentUserProvider value,) =>
+                    childBuilder: (
+                      final BuildContext context,
+                      final CurrentUserProvider value,
+                    ) =>
                         CachedNetworkImage(
                       imageUrl: value.data.avatarUrl!,
                       placeholder: (final BuildContext context, final _) =>
@@ -160,12 +164,14 @@ class HomeScreenState extends State<HomeScreen>
                   ),
                   InfiniteScrollWrapper<
                       GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
-                    future: (final ({
-                              GetViewerOrgs$Query$Viewer$Organizations$Edges? lastItem,
-                              int pageNumber,
-                              int pageSize,
-                              bool refresh
-                            }) data,) async =>
+                    future: (
+                      final ({
+                        GetViewerOrgs$Query$Viewer$Organizations$Edges? lastItem,
+                        int pageNumber,
+                        int pageSize,
+                        bool refresh
+                      }) data,
+                    ) async =>
                         UserInfoService.getViewerOrgs(
                       refresh: data.refresh,
                       after: data.lastItem?.cursor,
@@ -178,12 +184,14 @@ class HomeScreenState extends State<HomeScreen>
                     topSpacing: 8,
                     listEndIndicator: false,
                     // divider: false,
-                    builder: (final ({
-                              BuildContext context,
-                              int index,
-                              GetViewerOrgs$Query$Viewer$Organizations$Edges? item,
-                              bool refresh
-                            }) data,) =>
+                    builder: (
+                      final BuildContext context,
+                      final ({
+                        int index,
+                        GetViewerOrgs$Query$Viewer$Organizations$Edges? item,
+                        bool refresh
+                      }) data,
+                    ) =>
                         Row(
                       children: <Widget>[
                         Expanded(

@@ -63,8 +63,8 @@ class UserSearchDropdown extends StatelessWidget {
                       cursor: data.lastItem?.cursor,
                     ),
                     builder: (
+                      final BuildContext context,
                       final ({
-                        BuildContext context,
                         int index,
                         SearchMentionUsers$Query$Search$Edges? item,
                         bool refresh

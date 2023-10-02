@@ -259,7 +259,7 @@ class BasicIssueCrossReferencedCard extends StatelessWidget {
 
   // GitHub API sends the wrong links to the issue where the reference was in.
   // This is here to fix them.
-  // Ref: https://github.com/NamanShergill/dio_hub/issues/7
+  // Ref: https://github.com/NamanShergill/diohub/issues/7
   // String fixURL(String url) {
   //   final components = url.split('/');
   //   components[4] = _correctRepo.split('/').first;

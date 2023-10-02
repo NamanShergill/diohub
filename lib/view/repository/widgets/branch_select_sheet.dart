@@ -46,12 +46,8 @@ class BranchSelectSheet extends StatelessWidget {
         ),
         scrollController: controller,
         builder: (
-          final ({
-            BuildContext context,
-            int index,
-            RepoBranchListItemModel item,
-            bool refresh
-          }) data,
+          final BuildContext context,
+          final ({int index, RepoBranchListItemModel item, bool refresh}) data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

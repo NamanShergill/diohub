@@ -231,7 +231,9 @@ class MinRowEditWidget extends StatelessWidget {
   Widget build(final BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          child,
+          Expanded(
+            child: child,
+          ),
           tools,
         ],
       );

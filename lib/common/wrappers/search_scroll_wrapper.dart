@@ -165,12 +165,8 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
               header: (final BuildContext context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
               builder: (
-                final ({
-                  BuildContext context,
-                  int index,
-                  RepositoryModel item,
-                  bool refresh
-                }) data,
+                final BuildContext context,
+                final ({int index, RepositoryModel item, bool refresh}) data,
               ) =>
                   Padding(
                 padding: widget.padding,
@@ -205,12 +201,8 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
               header: (final BuildContext context) => header(context, null),
               pinnedHeader: searchData.isActive ? header : null,
               builder: (
-                final ({
-                  BuildContext context,
-                  int index,
-                  IssueModel item,
-                  bool refresh
-                }) data,
+                final BuildContext context,
+                final ({int index, IssueModel item, bool refresh}) data,
               ) =>
                   Padding(
                 padding: widget.padding,
@@ -245,8 +237,8 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
                 refresh: data.refresh,
               ),
               builder: (
+                final BuildContext context,
                 final ({
-                  BuildContext context,
                   int index,
                   UserInfoModel item,
                   bool refresh,

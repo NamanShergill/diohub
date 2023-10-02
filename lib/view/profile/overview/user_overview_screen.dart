@@ -21,104 +21,107 @@ class UserOverviewScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => ColoredBox(
         color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-        child: Column(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           children: <Widget>[
-            Flexible(
-              child: WrappedCollection(
-                children: <Widget>[
-                  InfoCard(
-                    title: 'Pinned Repos',
-                    mode: InfoCardMode.expanded,
-                    child: APIWrapper<
-                        List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
-                      apiCall: ({required final bool refresh}) async =>
-                          UserInfoService.getUserPinnedRepos(
-                        userInfoModel!.login!,
-                      ),
-                      responseBuilder: (final BuildContext context,
-                              final List<
-                                      GetUserPinnedRepos$Query$User$PinnedItems$Edges?>
-                                  data,) =>
-                          data.isEmpty
-                              ? const Text('No Pinned items.')
-                              : SizeExpandedSection(
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: data.length,
-                                    itemBuilder: (final BuildContext context,
-                                        final int index,) {
-                                      final GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
-                                          node = data[index]!.node!
-                                              as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
-                                      return RepositoryCard(
-                                        RepositoryModel(
-                                          stargazersCount: node.stargazerCount,
-                                          description: node.description,
-                                          language:
-                                              node.languages!.edges!.isNotEmpty
-                                                  ? node.languages?.edges
-                                                          ?.first!.node.name ??
-                                                      'N/A'
-                                                  : 'N/A',
-                                          owner: Owner(login: node.owner.login),
-                                          name: node.name,
-                                          private: false,
-                                          url: node.url.toString().replaceFirst(
-                                                'https://github.com',
-                                                'https://api.github.com/repos',
-                                              ),
-                                          updatedAt: node.updatedAt,
-                                        ),
-                                      );
-                                    },
+            InfoCard(
+              title: 'Pinned Repos',
+              mode: InfoCardMode.expanded,
+              child: APIWrapper<
+                  List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
+                apiCall: ({required final bool refresh}) async =>
+                    UserInfoService.getUserPinnedRepos(
+                  userInfoModel!.login!,
+                ),
+                responseBuilder: (
+                  final BuildContext context,
+                  final List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>
+                      data,
+                ) =>
+                    data.isEmpty
+                        ? const Text('No Pinned items.')
+                        : SizeExpandedSection(
+                            child: Column(
+                              children: List<Widget>.generate(data.length,
+                                  (final int index) {
+                                final GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
+                                    node = data[index]!.node!
+                                        as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
+                                return RepositoryCard(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 8,
                                   ),
-                                ),
-                      loadingBuilder: (final BuildContext context) =>
-                          const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 24),
-                        child: LoadingIndicator(),
-                      ),
-                    ),
-                  ),
-                  InfoCard(
-                    title: 'Contribution Graph',
-                    mode: InfoCardMode.expanded,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        children: <Widget>[
-                          SvgPicture.network(
-                            'http://ghchart.rshah.org/${toHexString(Provider.of<PaletteSettings>(context).currentSetting.accent).substring(2)}/${userInfoModel!.login}',
-                            placeholderBuilder: (final BuildContext context) =>
-                                ShimmerWidget(
-                              baseColor: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .secondary,
-                              highlightColor: Colors.grey.shade800,
-                              borderRadius: medBorderRadius,
-                              child: Container(
-                                height: 70,
-                                color: Colors.grey,
-                              ),
+                                  RepositoryModel(
+                                    stargazersCount: node.stargazerCount,
+                                    description: node.description,
+                                    language: node.languages!.edges!.isNotEmpty
+                                        ? node.languages?.edges?.first!.node
+                                                .name ??
+                                            'N/A'
+                                        : 'N/A',
+                                    owner: Owner(login: node.owner.login),
+                                    name: node.name,
+                                    private: false,
+                                    url: node.url.toString().replaceFirst(
+                                          'https://github.com',
+                                          'https://api.github.com/repos',
+                                        ),
+                                    updatedAt: node.updatedAt,
+                                  ),
+                                );
+                              }),
                             ),
                           ),
-                          // Row(
-                          //   children: [
-                          //     LinkText(
-                          //       'https://ghchart.rshah.org/',
-                          //       style: TextStyle(color: faded3(context)),
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                loadingBuilder: (final BuildContext context) => const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: LoadingIndicator(),
+                ),
               ),
             ),
+            const SizedBox(
+              height: 8,
+            ),
+            InfoCard(
+              title: 'Contribution Graph',
+              mode: InfoCardMode.expanded,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SvgPicture.network(
+                      'http://ghchart.rshah.org/${toHexString(Provider.of<PaletteSettings>(context).currentSetting.accent).substring(2)}/${userInfoModel!.login}',
+                      placeholderBuilder: (final BuildContext context) =>
+                          ShimmerWidget(
+                        baseColor: Provider.of<PaletteSettings>(context)
+                            .currentSetting
+                            .secondary,
+                        highlightColor: Colors.grey.shade800,
+                        borderRadius: medBorderRadius,
+                        child: Container(
+                          height: 70,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    // Row(
+                    //   children: [
+                    //     LinkText(
+                    //       'https://ghchart.rshah.org/',
+                    //       style: TextStyle(color: faded3(context)),
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+//             WrappedCollection(
+//               children: <Widget>[
+// ,
+// ,
+//               ],
+//             ),
           ],
         ),
       );

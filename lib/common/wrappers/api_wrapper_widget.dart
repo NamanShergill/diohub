@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class APIWrapperController<T> {
   late void Function() refresh;
-  late void Function(T data) changeData;
+  late void Function(T data) overrideData;
 }
 
 typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
@@ -88,7 +88,7 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
   @override
   void initState() {
     widget.apiWrapperController?.refresh = fetchData;
-    widget.apiWrapperController?.changeData = changeData;
+    widget.apiWrapperController?.overrideData = changeData;
     unawaited(setupWidget());
     super.initState();
   }

@@ -36,8 +36,10 @@ class RepositoryReadmeState extends State<RepositoryReadme>
         childBuilder:
             (final BuildContext context, final RepoReadmeProvider value) =>
                 ScrollToTopWrapper(
-          builder: (final BuildContext context,
-                  final ScrollViewProperties properties,) =>
+          builder: (
+            final BuildContext context,
+            final ScrollViewProperties properties,
+          ) =>
               SingleChildScrollView(
             child: MarkdownRenderAPI(
               value.data!.content!,

@@ -1,3 +1,4 @@
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
 import 'package:dio_hub/models/issues/issue_model.dart';
@@ -57,14 +58,11 @@ class IssueScreenState extends State<IssueScreen>
       createdAt: data.createdAt,
       createdBy: data.author,
       apiWrapperController: widget.apiWrapperController,
-      participantsInfo: ParticipantsInfo(
-        count: data.participants.totalCount,
-        avatarURLs: data.participants.nodes!
-            .map(
-              (final IssueInfoMixin$Participants$Nodes? e) =>
-                  e!.avatarUrl.toString(),
-            )
+      participantsInfo: MultiItemInfoCardList<ActorMixin>(
+        limitedAvailableList: data.participants.nodes!
+            .map((final IssueInfoMixin$Participants$Nodes? e) => e!)
             .toList(),
+        totalCount: data.participants.totalCount,
       ),
       uri: data.url,
     );

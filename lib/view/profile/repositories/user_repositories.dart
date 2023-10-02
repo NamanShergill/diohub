@@ -21,7 +21,10 @@ class UserRepositories extends StatelessWidget {
         child: SearchScrollWrapper(
           SearchData(
             searchFilters: SearchFilters.repositories(
-              blacklist: <String>[SearchQueryStrings.user, SearchQueryStrings.org],
+              blacklist: <String>[
+                SearchQueryStrings.user,
+                SearchQueryStrings.org,
+              ],
             ),
             defaultHiddenFilters: <String>[
               SearchQueries().user.toQueryString(userInfoModel.login!),
