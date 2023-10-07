@@ -33,9 +33,10 @@ class EditingController<T> extends ChangeNotifier {
   });
   final T initialValue;
   T? newValue;
+  T get currentValue => newValue ?? initialValue;
   EditingHandler<T>? editingHandler;
   bool _currentlyEditing = false;
-  final Future<T>? Function()? onEditTap;
+  final Future<T>? Function(BuildContext context)? onEditTap;
   final bool Function(T newValue, T oldValue)? compare;
 
   T get value => newValue ?? initialValue;
@@ -47,9 +48,10 @@ class EditingController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> edit() async {
-    final T? tempValue = await onEditTap?.call();
-    if (tempValue != null) {
+  Future<void> edit(final BuildContext context) async {
+    if (onEditTap != null) {
+      final T? tempValue = await onEditTap?.call(context);
+
       newValue = tempValue;
     } else {
       _currentlyEditing = true;
@@ -91,6 +93,23 @@ class EditingHandler<T> extends ChangeNotifier {
   // final T Function() currentValue;
 }
 
+class EditingData<T> {
+  EditingData({
+    // required this.newValue,
+    required this.tools,
+    required this.editingController,
+    // required this.currentlyEditing,
+    required this.currentState,
+  });
+
+  T? get newValue => editingController.newValue;
+  final Widget tools;
+  bool get currentlyEditing => editingController.currentlyEditing;
+  final EditingController<T> editingController;
+  final EditingState currentState;
+  bool get editModeActive => currentState == EditingState.editMode;
+}
+
 class EditWidget<T> extends StatefulWidget {
   const EditWidget({
     required this.editingController,
@@ -100,13 +119,7 @@ class EditWidget<T> extends StatefulWidget {
     this.buttonColors,
   });
   final EditingController<T> editingController;
-  final Widget Function({
-    required BuildContext context,
-    required T? newValue,
-    required Widget tools,
-    required bool currentlyEditing,
-    required EditingState currentState,
-  }) builder;
+  final Widget Function(BuildContext context, EditingData<T> data) builder;
   final Axis toolsAxis;
   final Color? buttonColors;
   @override
@@ -146,12 +159,13 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
                   !controller.currentlyEditing,
               // axis: widget.toolsAxis,
               child: RoundButton(
-                onPressed: widget.editingController.edit,
+                onPressed: () async =>
+                    widget.editingController.edit.call(context),
                 icon: const Icon(
                   Icons.edit,
                   size: 12,
                 ),
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.zero,
                 color: _buttonColor,
               ),
             ),
@@ -164,9 +178,9 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
                 onPressed: widget.editingController.revertEdit,
                 icon: const Icon(
                   Icons.restore,
-                  size: 15,
+                  size: 12,
                 ),
-                padding: const EdgeInsets.all(8),
+                // margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 color: _buttonColor,
               ),
             ),
@@ -178,9 +192,9 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
                 onPressed: controller.editingHandler?.onSave,
                 icon: const Icon(
                   Icons.save,
-                  size: 15,
+                  size: 12,
                 ),
-                padding: const EdgeInsets.all(8),
+                // margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 color: _buttonColor,
               ),
             ),
@@ -192,52 +206,47 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
                 onPressed: widget.editingController.stopEdit,
                 icon: const Icon(
                   Icons.cancel,
-                  size: 15,
+                  size: 12,
                 ),
-                padding: const EdgeInsets.all(8),
+                // margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 color: _buttonColor,
               ),
             ),
           ];
           return widget.builder(
-            context: context,
-            newValue: widget.editingController.newValue,
-            tools: ScaleSwitch(
-              visible: editing == EditingState.editMode,
-              child: widget.toolsAxis == Axis.horizontal
-                  ? Row(
-                      children: items,
-                    )
-                  : Column(
-                      children: items,
-                    ),
+            context,
+            EditingData<T>(
+              // newValue: widget.editingController.newValue,
+              tools: ScaleSwitch(
+                visible: editing == EditingState.editMode,
+                child: widget.toolsAxis == Axis.horizontal
+                    ? Row(
+                        children: items,
+                      )
+                    : Column(
+                        children: items,
+                      ),
+              ),
+              editingController: widget.editingController,
+              // currentlyEditing: widget.editingController.currentlyEditing,
+              currentState: editing,
             ),
-            currentlyEditing: widget.editingController.currentlyEditing,
-            currentState: editing,
           );
         },
       );
 }
 
-class MinRowEditWidget extends StatelessWidget {
-  const MinRowEditWidget({
-    required this.tools,
-    required this.child,
-    super.key,
-  });
-  final Widget tools;
-  final Widget child;
-  @override
-  Widget build(final BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: child,
-          ),
-          tools,
-        ],
-      );
-}
+// class MinRowEditWidget<T> extends StatelessWidget {
+//   const MinRowEditWidget({
+//     required this.data,
+//     required this.child,
+//     super.key,
+//   });
+//   final EditingData<T> data;
+//   final Widget child;
+//   @override
+//   Widget build(final BuildContext context) => child;
+// }
 
 class EditingProvider extends ChangeNotifier {
   EditingProvider(this.controllers);

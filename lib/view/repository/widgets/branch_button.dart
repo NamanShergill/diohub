@@ -31,7 +31,7 @@ class BranchButton extends StatelessWidget {
           icon: Octicons.git_branch,
           context: context,
         ),
-        trailingIcon: InfoCard.dropdownTrailingIcon,
+        trailing: InfoCard.dropdownTrailingIcon,
         onTap: () async {
           try {
             final String currentBranch =
@@ -209,8 +209,8 @@ class BranchButton extends StatelessWidget {
   }
 
   Padding _buildListBranchItem(
-      ({int index, RepoBranchListItemModel item, bool refresh}) data,
-      String currentBranch) {
+      final ({int index, RepoBranchListItemModel item, bool refresh}) data,
+      final String currentBranch) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(

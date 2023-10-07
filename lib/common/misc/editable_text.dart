@@ -34,19 +34,13 @@ class _EditableTextItemState extends State<EditableTextItem> {
   Widget build(final BuildContext context) => EditWidget<String>(
         editingController: widget.editingController,
         toolsAxis: Axis.vertical,
-        builder: ({
-          required final BuildContext context,
-          required final EditingState currentState,
-          required final bool currentlyEditing,
-          required final Object? newValue,
-          required final Widget tools,
-        }) =>
+        builder: (final BuildContext context, final EditingData<String> data) =>
             Row(
           children: <Widget>[
             Expanded(
               child: FadeSwitch(
                 duration: defaultAnimDuration,
-                child: currentlyEditing
+                child: data.currentlyEditing
                     ? TextFormField(
                         controller: textEditingController,
                         maxLines: null,
@@ -61,7 +55,7 @@ class _EditableTextItemState extends State<EditableTextItem> {
                         ),
               ),
             ),
-            tools,
+            data.tools,
           ],
         ),
       );

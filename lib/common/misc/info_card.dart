@@ -27,26 +27,26 @@ class InfoCard extends StatelessWidget {
   const InfoCard({
     required this.child,
     this.onTap,
-    this.trailingIcon,
+    this.trailing,
     super.key,
     this.mode = InfoCardMode.basic,
     this.title,
     this.leading,
     this.childPadding,
     this.titleTextStyle,
-    this.leadingIconColor,
+    // this.leadingIconColor,
   }) : assert(
           title != null || leading != null,
           'Provide at least one descriptor.',
         );
   final Widget child;
   final VoidCallback? onTap;
-  final Icon? trailingIcon;
+  final Widget? trailing;
   final InfoCardMode mode;
   final EdgeInsets? childPadding;
   final String? title;
   final Widget? leading;
-  final Color? leadingIconColor;
+  // final Color? leadingIconColor;
   final TextStyle? titleTextStyle;
 
   static Icon get dropdownTrailingIcon => const Icon(
@@ -56,7 +56,7 @@ class InfoCard extends StatelessWidget {
   static Icon leadingIcon({
     required final IconData icon,
     required final BuildContext context,
-    Color? color,
+    final Color? color,
   }) =>
       Icon(
         icon,
@@ -80,7 +80,7 @@ class InfoCard extends StatelessWidget {
                       width: 4,
                     ),
                     const VerticalDivider(
-                      thickness: 0.1,
+                      thickness: 0.125,
                     ),
                     Flexible(
                       child: Padding(
@@ -147,7 +147,7 @@ class InfoCard extends StatelessWidget {
   Widget _buildTrailingWidget() => onTap != null
       ? Padding(
           padding: const EdgeInsets.only(left: 4),
-          child: trailingIcon ??
+          child: trailing ??
               Icon(
                 Icons.adaptive.arrow_forward_rounded,
                 size: 15,
@@ -177,7 +177,9 @@ class MultiItemInfoCard<T> extends StatelessWidget {
     this.childPadding,
     this.leading,
     this.titleTextStyle,
-    this.singleItemBehavior,
+    this.multiListSingleItemBehaviour,
+    this.onTapOverride,
+    this.trailingWidgetOverride,
     // this.onTap,
   });
   final BottomSheetPagination<NodeWithPaginationInfo<T>> bottomSheetPagination;
@@ -197,15 +199,21 @@ class MultiItemInfoCard<T> extends StatelessWidget {
   /// Overrides the cards onTap behaviour for specific list lengths.
   final Map<int, Icon?> iconOnLengthOverrides;
 
-  final SingleItemConfigForMultiListAdapter? singleItemBehavior;
+  final MultiListSingleItemBehaviour? multiListSingleItemBehaviour;
+
+  final VoidCallback? onTapOverride;
+  final Widget? trailingWidgetOverride;
+
   List<T> get items => availableList.limitedAvailableList;
 
   int get listLength => availableList.totalCount;
-  Icon? get _trailingIcon {
-    if (onTapOnLengthOverrides.containsKey(listLength)) {
+  Widget? get _trailingIcon {
+    if (trailingWidgetOverride != null) {
+      return trailingWidgetOverride;
+    } else if (onTapOnLengthOverrides.containsKey(listLength)) {
       return iconOnLengthOverrides[listLength];
-    } else if (singleItemBehavior != null && listLength == 1) {
-      return singleItemBehavior!.icon;
+    } else if (multiListSingleItemBehaviour != null && listLength == 1) {
+      return multiListSingleItemBehaviour!.icon;
     }
     return switch (listLength) {
       0 => null,
@@ -215,11 +223,13 @@ class MultiItemInfoCard<T> extends StatelessWidget {
     };
   }
 
-  VoidCallback? onTap(final BuildContext context) {
-    if (onTapOnLengthOverrides.containsKey(listLength)) {
+  VoidCallback? _defaultOnTap(final BuildContext context) {
+    if (onTapOverride != null) {
+      return onTapOverride;
+    } else if (onTapOnLengthOverrides.containsKey(listLength)) {
       return onTapOnLengthOverrides[listLength];
-    } else if (singleItemBehavior != null && listLength == 1) {
-      return singleItemBehavior!.onTap?.call(context);
+    } else if (multiListSingleItemBehaviour != null && listLength == 1) {
+      return multiListSingleItemBehaviour!.onTap?.call(context);
     }
     return switch (listLength) {
       0 => null,
@@ -230,8 +240,8 @@ class MultiItemInfoCard<T> extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => InfoCard(
         mode: infoCardMode,
-        trailingIcon: _trailingIcon,
-        onTap: onTap(context),
+        trailing: _trailingIcon,
+        onTap: _defaultOnTap(context),
         title: title,
         leading: leading,
         childPadding: childPadding,
@@ -240,15 +250,15 @@ class MultiItemInfoCard<T> extends StatelessWidget {
       );
 }
 
-abstract class InfoCardAdapter {
-  String get title;
-
-  bool get isExpanded;
-
-  WidgetBuilder get viewBuilder;
-
-  VoidCallback? onTap(final BuildContext context);
-}
+// abstract class InfoCardAdapter {
+//   String get title;
+//
+//   bool get isExpanded;
+//
+//   WidgetBuilder get viewBuilder;
+//
+//   VoidCallback? onTap(final BuildContext context);
+// }
 
 // abstract class PaginatedInfoCardAdapter<T> extends InfoCardAdapter {
 //   PaginatedInfoCardAdapter({
@@ -342,8 +352,8 @@ class NodeWithPaginationInfo<T> {
   int? get cursorAsPageKey => int.tryParse(cursor);
 }
 
-class SingleItemConfigForMultiListAdapter {
-  SingleItemConfigForMultiListAdapter({
+class MultiListSingleItemBehaviour {
+  MultiListSingleItemBehaviour({
     required this.onTap,
     required this.icon,
   });

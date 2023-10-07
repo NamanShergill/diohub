@@ -371,7 +371,8 @@ class GetTimelineItem extends StatelessWidget {
   }
 
   BasicEventTextCard _buildHeadRefRestoredCard(
-          final HeadRefRestoredMixin item) =>
+    final HeadRefRestoredMixin item,
+  ) =>
       BasicEventTextCard(
         textContent: 'Restored head ref.',
         user: item.actor,
@@ -380,7 +381,8 @@ class GetTimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildHeadRefForcePushedCard(
-          final HeadRefForcePushedMixin item) =>
+    final HeadRefForcePushedMixin item,
+  ) =>
       BasicEventTextCard(
         textContent:
             'Force pushed to head ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
@@ -406,7 +408,8 @@ class GetTimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildConvertedToDraftCard(
-          final ConvertedToDraftMixin item) =>
+    final ConvertedToDraftMixin item,
+  ) =>
       BasicEventTextCard(
         textContent: 'Marked this as draft.',
         user: item.actor,
@@ -423,15 +426,15 @@ class GetTimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildForcePushedCard(
-          final BaseRefForcePushedMixin item) =>
-      BasicEventTextCard(
-        textContent:
-            'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
-        user: item.actor,
-        leading: Octicons.repo_push,
-        date: item.createdAt,
-      );
+  BasicEventTextCard _buildForcePushedCard(final BaseRefForcePushedMixin item) {
+    return BasicEventTextCard(
+      textContent:
+          'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',
+      user: item.actor,
+      leading: Octicons.repo_push,
+      date: item.createdAt,
+    );
+  }
 
   BasicEventTextCard _buildRefDeletedCard(final BaseRefDeletedMixin item) =>
       BasicEventTextCard(
@@ -451,7 +454,8 @@ class GetTimelineItem extends StatelessWidget {
       );
 
   BasicEventAssignedCard _buildBasicEventAssignedCard(
-          final AssignedMixin item) =>
+    final AssignedMixin item,
+  ) =>
       BasicEventAssignedCard(
         actor: item.actor,
         assignee: item.assignee! as ActorMixin,

@@ -200,15 +200,15 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
     titleEditingController = EditingController<String>(widget.title);
     labelsEditingController = EditingController<List<LabelMixin?>>(
       widget.labels,
-      onEditTap: () => null,
+      onEditTap: (final BuildContext context) => null,
     );
     descEditingController = EditingController<String>(
       widget.body,
-      onEditTap: () => null,
+      onEditTap: (final BuildContext context) => null,
     );
     assigneeEditingController = EditingController<Object>(
-      widget.body,
-      onEditTap: () => null,
+      widget.assigneesInfo,
+      onEditTap: (final BuildContext context) => null,
     );
     super.initState();
   }
@@ -438,13 +438,8 @@ class _AboutTab extends StatelessWidget {
                   ),
                   EditWidget<String>(
                     editingController: descEditingController,
-                    builder: ({
-                      required final BuildContext context,
-                      required final EditingState currentState,
-                      required final bool currentlyEditing,
-                      required final String? newValue,
-                      required final Widget tools,
-                    }) =>
+                    builder: (final BuildContext context,
+                            final EditingData<String> data) =>
                         Row(
                       children: <Widget>[
                         if (widget.bodyHTML.isNotEmpty)
@@ -468,7 +463,7 @@ class _AboutTab extends StatelessWidget {
                           ),
                         ScaleSwitch(
                           child: widget.bodyHTML.isEmpty &&
-                                  currentState == EditingState.editMode
+                                  data.currentState == EditingState.editMode
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 16,
@@ -483,7 +478,7 @@ class _AboutTab extends StatelessWidget {
                                 )
                               : Container(),
                         ),
-                        tools,
+                        data.tools,
                       ],
                     ),
                   ),
@@ -581,61 +576,62 @@ class _AboutTab extends StatelessWidget {
                 //   height: 30,
                 //   color: Colors.red,
                 // ),
+
                 EditWidget<Object>(
                   editingController: assigneeEditingController,
-                  builder: ({
-                    required final BuildContext context,
-                    required final EditingState currentState,
-                    required final bool currentlyEditing,
-                    required final Object? newValue,
-                    required final Widget tools,
-                  }) {
+                  builder: (
+                    final BuildContext context,
+                    final EditingData<Object> data,
+                  ) {
                     final List<AssigneeInfoMixin$Edges?> assignees =
                         widget.assigneesInfo.edges ??
                             <AssigneeInfoMixin$Edges?>[];
-                    return MinRowEditWidget(
-                      tools: tools,
-                      child: _ActorsInfoCard(
-                        availableList: MultiItemInfoCardList<ActorMixin>(
-                          limitedAvailableList: assignees
-                              .map(
-                                (final AssigneeInfoMixin$Edges? e) => e!.node!,
+                    return _ActorsInfoCard(
+                      onTap: data.editModeActive
+                          ? () async =>
+                              data.editingController.edit.call(context)
+                          : null,
+                      trailing: data.editModeActive ? data.tools : null,
+                      availableList: MultiItemInfoCardList<ActorMixin>(
+                        limitedAvailableList: assignees
+                            .map(
+                              (final AssigneeInfoMixin$Edges? e) => e!.node!,
+                            )
+                            .toList(),
+                      ),
+                      titleBuilder: (
+                        final MultiItemInfoCardList<ActorMixin> availableList,
+                      ) =>
+                          switch (availableList.totalCount) {
+                        1 => 'Assignee',
+                        _ => 'Assignees',
+                      },
+                      fetchActorsList: (
+                        final ({
+                          NodeWithPaginationInfo<ActorMixin>? lastItem,
+                          int pageNumber,
+                          int pageSize,
+                          bool refresh
+                        }) data,
+                      ) async =>
+                          (await context
+                                  .issueProvider(listen: false)
+                                  .getAssignees(
+                                    after: data.lastItem?.cursor,
+                                  ))
+                              .map<NodeWithPaginationInfo<ActorMixin>>(
+                                (
+                                  final AssigneeUserListMixin$Assignees$Edges?
+                                      e,
+                                ) =>
+                                    NodeWithPaginationInfo<ActorMixin>.fromEdge(
+                                        e!),
                               )
                               .toList(),
-                        ),
-                        titleBuilder: (
-                          final MultiItemInfoCardList<ActorMixin> availableList,
-                        ) =>
-                            switch (availableList.totalCount) {
-                          1 => 'Assignee',
-                          _ => 'Assignees',
-                        },
-                        fetchActorsList: (
-                          final ({
-                            NodeWithPaginationInfo<ActorMixin>? lastItem,
-                            int pageNumber,
-                            int pageSize,
-                            bool refresh
-                          }) data,
-                        ) async =>
-                            (await context
-                                    .issueProvider(listen: false)
-                                    .getAssignees(
-                                      after: data.lastItem?.cursor,
-                                    ))
-                                .map<NodeWithPaginationInfo<ActorMixin>>(
-                                  (
-                                    final AssigneeUserListMixin$Assignees$Edges?
-                                        e,
-                                  ) =>
-                                      NodeWithPaginationInfo<
-                                          ActorMixin>.fromEdge(e!),
-                                )
-                                .toList(),
-                      ),
                     );
                   },
                 ),
+
                 _ActorsInfoCard(
                   titleBuilder: (
                     final MultiItemInfoCardList<ActorMixin> availableList,
@@ -742,30 +738,30 @@ class _ScreenHeader extends StatelessWidget {
   EditWidget<List<LabelMixin?>> buildLabelsWidget() =>
       EditWidget<List<LabelMixin?>>(
         editingController: labelsEditingController,
-        builder: ({
-          required final BuildContext context,
-          required final EditingState currentState,
-          required final bool currentlyEditing,
-          required final Object? newValue,
-          required final Widget tools,
-        }) {
+        builder: (
+          final BuildContext context,
+          final EditingData<List<LabelMixin?>> data,
+        ) {
           return Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Row(
               children: <Widget>[
-                Flexible(
-                  child: Wrap(
-                    children: widget.labels
-                        .map(
-                          (final LabelMixin? e) => Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: IssueLabel.gql(e!),
-                          ),
-                        )
-                        .toList(),
+                if (data.editingController.currentValue.isEmpty)
+                  const Text('No Labels')
+                else
+                  Flexible(
+                    child: Wrap(
+                      children: data.editingController.currentValue
+                          .map(
+                            (final LabelMixin? e) => Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: IssueLabel.gql(e!),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
-                ),
-                tools,
+                data.tools,
               ],
             ),
           );
@@ -774,7 +770,7 @@ class _ScreenHeader extends StatelessWidget {
             return Row(
               children: <Widget>[
                 ScaleSwitch(
-                  child: currentState == EditingState.editMode
+                  child: data.currentState == EditingState.editMode
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
@@ -787,7 +783,7 @@ class _ScreenHeader extends StatelessWidget {
                         )
                       : Container(),
                 ),
-                tools,
+                data.tools,
               ],
             );
           }
@@ -865,12 +861,15 @@ class _ActorsInfoCard extends StatelessWidget {
     required this.titleBuilder,
     required this.fetchActorsList,
     super.key,
+    this.onTap,
+    this.trailing,
   });
   final MultiItemInfoCardList<ActorMixin> availableList;
   final String Function(MultiItemInfoCardList<ActorMixin> availableList)
       titleBuilder;
   final ScrollWrapperFuture<NodeWithPaginationInfo<ActorMixin>> fetchActorsList;
-
+  final VoidCallback? onTap;
+  final Widget? trailing;
   @override
   Widget build(final BuildContext context) => MultiItemInfoCard<ActorMixin>(
         availableList: availableList,
@@ -880,6 +879,8 @@ class _ActorsInfoCard extends StatelessWidget {
           paginationFuture: fetchActorsList,
           title: titleBuilder.call(availableList),
         ),
+        onTapOverride: onTap,
+        trailingWidgetOverride: trailing,
         title: titleBuilder.call(availableList),
         builder: (
           final BuildContext context,
@@ -911,7 +912,7 @@ class _ActorsInfoCard extends StatelessWidget {
                   .toList(),
             ),
         },
-        singleItemBehavior: SingleItemConfigForMultiListAdapter(
+        multiListSingleItemBehaviour: MultiListSingleItemBehaviour(
           onTap: (final BuildContext context) => () => navigateToProfile(
                 login: availableList.limitedAvailableList.first.login,
                 context: context,
@@ -926,35 +927,49 @@ class _ActorsInfoCard extends StatelessWidget {
             final ({
               int index,
               NodeWithPaginationInfo<ActorMixin> item,
-              bool refresh
+              bool refresh,
             }) data,
           ) =>
-              Card(
-                child: ProfileTile.login(
-                  avatarUrl: data.item.node.avatarUrl.toString(),
-                  userLogin: data.item.node.login,
-                  wrapperBuilder: (final Widget child) => Row(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          '${data.index + 1}',
-                          style: TextStyle(
-                            color: context.palette.faded3,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: child,
-                      ),
-                    ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Card(
+                  child: ProfileTile.login(
+                    avatarUrl: data.item.node.avatarUrl.toString(),
+                    userLogin: data.item.node.login,
+                    wrapperBuilder: (final Widget child) => Row(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: _buildListItemChildren(data, context, child),
+                    ),
+                    // wrapperBuilder: ,
                   ),
-                  // wrapperBuilder: ,
                 ),
               );
+
+  List<Widget> _buildListItemChildren(
+    final ({
+      int index,
+      NodeWithPaginationInfo<ActorMixin> item,
+      bool refresh
+    }) data,
+    final BuildContext context,
+    final Widget child,
+  ) =>
+      <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            '${data.index + 1}',
+            style: TextStyle(
+              color: context.palette.faded3,
+              fontSize: 12,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: child,
+        ),
+      ];
 }
 
 // class ActorMultiListAdapter extends PaginatedInfoCardAdapter<ActorMixin> {

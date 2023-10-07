@@ -22,7 +22,7 @@ class ColorSettingCardState extends State<ColorSettingCard> {
     return InfoCard(
       title: 'App Theme',
       mode: InfoCardMode.expanded,
-      trailingIcon: const Icon(Icons.more_vert_rounded),
+      trailing: const Icon(Icons.more_vert_rounded),
       onTap: () async {
         await showDHBottomSheet(
           context,

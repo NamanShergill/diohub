@@ -7,29 +7,31 @@ class RoundButton extends StatelessWidget {
     super.key,
     this.color,
     this.onPressed,
-    this.padding,
+    this.padding = const EdgeInsets.all(8),
     this.onLongPress,
+    this.margin = const EdgeInsets.all(8),
   });
   final Icon icon;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final Color? color;
-  final EdgeInsets? padding;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
   @override
-  Widget build(final BuildContext context) => ElevatedButton(
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(const CircleBorder()),
-          minimumSize: MaterialStateProperty.all(const Size(6, 6)),
-          padding:
-              MaterialStateProperty.all(padding ?? const EdgeInsets.all(10)),
-          backgroundColor:
-              MaterialStateProperty.all(color ?? context.palette.accent),
-        ),
-        child: IconTheme(
-          data: IconThemeData(size: 18, color: context.palette.baseElements),
-          child: icon,
+  Widget build(final BuildContext context) => Padding(
+        padding: margin,
+        child: RawMaterialButton(
+          onPressed: onPressed,
+          onLongPress: onLongPress,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: const CircleBorder(),
+          constraints: const BoxConstraints(),
+          padding: padding,
+          fillColor: color ?? context.palette.accent,
+          child: IconTheme(
+            data: IconThemeData(size: 18, color: context.palette.baseElements),
+            child: icon,
+          ),
         ),
       );
 }

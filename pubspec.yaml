@@ -17,7 +17,11 @@ dependencies:
   auto_route: ^7.8.3
   cached_network_image: ^3.3.0
   collection: ^1.18.0
-  connectivity_plus: ^4.0.2
+  connectivity_plus:
+    git:
+      url: https://github.com/fluttercommunity/plus_plugins.git
+      path: packages/connectivity_plus/connectivity_plus
+      ref: cf7d93fbfc76830acf2db755543cf4235a49df60
   curl_logger_dio_interceptor: ^1.0.0
   dio: ^5.3.3
   dio_cache_interceptor: ^3.4.4
@@ -67,7 +71,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   flutter_portal: ^1.1.4
   flutter_reaction_button: ^2.0.1+2
-  flutter_riverpod: ^2.4.1
+  flutter_riverpod: ^2.4.2
   flutter_scroll_to_top: ^2.3.0
   flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.0
@@ -114,9 +118,10 @@ dev_dependencies:
   build_runner: ^2.4.6
   # pub run dependency_validator
   dependency_validator: ^3.2.3
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons:
+    git: https://github.com/fluttercommunity/flutter_launcher_icons.git
   flutter_lints: ^2.0.3
-  flutter_native_splash: ^2.3.2
+  flutter_native_splash: ^2.3.3
   flutter_test:
     sdk: flutter
   json_serializable: ^6.7.1
@@ -254,6 +259,9 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/logo.png"
+  remove_alpha_ios: true
+  background_color_ios: "#17181c"
+
 #  min_sdk_android: 21
 #  web:
 #    generate: true
