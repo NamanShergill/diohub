@@ -1,9 +1,9 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
@@ -95,9 +95,9 @@ class DiscussionState extends State<Discussion> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Button(
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .secondary,
+                  // color: Provider.of<PaletteSettings>(context)
+                  //     .currentSetting
+                  //     .secondary,
                   padding: const EdgeInsets.all(12),
                   onTap: () {
                     setState(() {
@@ -140,32 +140,31 @@ class DiscussionState extends State<Discussion> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Button(
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .secondary,
+                  // color: Provider.of<PaletteSettings>(context)
+                  //     .currentSetting
+                  //     .secondary,
                   onTap: () async {
                     await DatePicker.showDateTimePicker(
                       context,
-                      theme: DatePickerTheme(
-                        cancelStyle: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .baseElements,
-                        ),
-                        doneStyle: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .accent,
-                        ),
-                        itemStyle: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .baseElements,
-                        ),
-                        backgroundColor: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .primary,
-                      ),
+                      // theme: DatePickerTheme(
+                      //   cancelStyle: TextStyle(
+                      // color: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .baseElements,
+                      // ),
+                      // doneStyle: TextStyle(
+                      // color: context.colorScheme.
+                      //     .accent,
+                      // ),
+                      // itemStyle: TextStyle(
+                      //   color: Provider.of<PaletteSettings>(context)
+                      //       .currentSetting
+                      //       .baseElements,
+                      // ),
+                      // backgroundColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .primary,
+                      // ),
                       maxTime: DateTime.now(),
                       onConfirm: (final DateTime date) {
                         setState(() {
@@ -191,82 +190,52 @@ class DiscussionState extends State<Discussion> {
               ),
             ],
           );
-    return Stack(
+    return Column(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.1,
+        Expanded(
+          child: InfiniteScrollWrapper<dynamic>(
+            future: (
+              final ({
+                dynamic lastItem,
+                int pageNumber,
+                int pageSize,
+                bool refresh
+              }) data,
+            ) async =>
+                IssuesService.getTimeline(
+              repo: widget.repoName,
+              after: data.lastItem?.cursor,
+              number: widget.number,
+              owner: widget.owner,
+              refresh: data.refresh,
+              since:
+                  commentsSince?.toUtc().subtract(const Duration(seconds: 30)),
             ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                    width: 0.2,
-                  ),
-                ),
-              ),
+            // scrollController: widget.nestedScrollViewController,
+            controller: commentsSinceController,
+            firstPageLoadingBuilder: (final BuildContext context) =>
+                const LoadingIndicator(),
+            // scrollController: widget.nestedScrollViewController,
+            header: (final BuildContext context) => header,
+            // topSpacing: 8,
+            // separatorBuilder: (final BuildContext context, final int index) =>
+            //     const Divider(
+            //   height: 0,
+            // ),
+            builder: (
+              final BuildContext context,
+              final ({int index, dynamic item, bool refresh}) data,
+            ) =>
+                TimelineItem(
+              data.item.node,
+              pullNodeID: widget.pullNodeID,
+              onQuote: openCommentSheet,
             ),
-          ],
+          ),
         ),
-        Column(
-          children: <Widget>[
-            Expanded(
-              child: InfiniteScrollWrapper<dynamic>(
-                future: (
-                  final ({
-                    dynamic lastItem,
-                    int pageNumber,
-                    int pageSize,
-                    bool refresh
-                  }) data,
-                ) async =>
-                    IssuesService.getTimeline(
-                  repo: widget.repoName,
-                  after: data.lastItem?.cursor,
-                  number: widget.number,
-                  owner: widget.owner,
-                  refresh: data.refresh,
-                  since: commentsSince
-                      ?.toUtc()
-                      .subtract(const Duration(seconds: 30)),
-                ),
-                // scrollController: widget.nestedScrollViewController,
-                controller: commentsSinceController,
-                firstPageLoadingBuilder: (final BuildContext context) =>
-                    ColoredBox(
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .primary,
-                  child: const LoadingIndicator(),
-                ),
-                // scrollController: widget.nestedScrollViewController,
-                header: (final BuildContext context) => header,
-                topSpacing: 8,
-                separatorBuilder:
-                    (final BuildContext context, final int index) =>
-                        const SizedBox(
-                  height: 8,
-                ),
-                builder: (
-                  final BuildContext context,
-                  final ({int index, dynamic item, bool refresh}) data,
-                ) =>
-                    GetTimelineItem(
-                  data.item.node,
-                  pullNodeID: widget.pullNodeID,
-                  onQuote: openCommentSheet,
-                ),
-              ),
-            ),
-            _CommentButton(
-              onTap: openCommentSheet,
-              isLocked: widget.isLocked!,
-            ),
-          ],
+        _CommentButton(
+          onTap: openCommentSheet,
+          isLocked: widget.isLocked!,
         ),
       ],
     );
@@ -283,14 +252,14 @@ class _CommentButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final DioHubPalette theme =
-        Provider.of<PaletteSettings>(context).currentSetting;
+    // final DioHubPalette theme =
+    //     Provider.of<PaletteSettings>(context).currentSetting;
 
     return Material(
-      elevation: 2,
+      // elevation: 2,
       color: isLocked
-          ? Provider.of<PaletteSettings>(context).currentSetting.faded3
-          : Provider.of<PaletteSettings>(context).currentSetting.accent,
+          ? context.colorScheme.onSurface
+          : context.colorScheme.primary,
       child: InkWell(
         onTap: isLocked ? null : onTap,
         child: Padding(
@@ -302,7 +271,7 @@ class _CommentButton extends StatelessWidget {
                 'Add a comment',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: theme.elementsOnColors,
+                  color: context.colorScheme.onPrimary,
                 ),
               ),
               const SizedBox(
@@ -312,7 +281,7 @@ class _CommentButton extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Icon(
                   isLocked ? Octicons.lock : Icons.comment_rounded,
-                  color: theme.elementsOnColors,
+                  color: context.colorScheme.onPrimary,
                   size: 16,
                 ),
               ),

@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {
@@ -27,9 +27,12 @@ class RoundButton extends StatelessWidget {
           shape: const CircleBorder(),
           constraints: const BoxConstraints(),
           padding: padding,
-          fillColor: color ?? context.palette.accent,
+          fillColor: color ?? context.themeData.iconTheme.color,
           child: IconTheme(
-            data: IconThemeData(size: 18, color: context.palette.baseElements),
+            data: IconThemeData(
+              size: 18,
+              color: context.colorScheme.onPrimary,
+            ),
             child: icon,
           ),
         ),

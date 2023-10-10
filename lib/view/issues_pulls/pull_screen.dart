@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
@@ -84,9 +83,6 @@ class PullScreenState extends State<PullScreen>
                       (final BuildContext context, final PullProvider value) =>
                           AppScrollView(
                     // nestedScrollViewController: scrollController,
-                    childrenColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
                     scrollViewAppBar: ScrollViewAppBar(
                       tabController: tabController,
                       // url: value.data.htmlUrl,
@@ -116,14 +112,10 @@ class PullScreenState extends State<PullScreen>
                                     : 'Closed',
                             style: TextStyle(
                               color: value.data.state == PullRequestState.open
-                                  ? Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .green
+                                  ? Colors.green
                                   : value.data.merged
                                       ? Colors.deepPurpleAccent
-                                      : Provider.of<PaletteSettings>(
-                                          context,
-                                        ).currentSetting.red,
+                                      : Colors.red,
                               fontSize: 14,
                             ),
                           ),
@@ -133,9 +125,9 @@ class PullScreenState extends State<PullScreen>
                           Text(
                             '#${value.data.number}',
                             style: TextStyle(
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .faded3,
+                              // color: Provider.of<PaletteSettings>(context)
+                              //     .currentSetting
+                              //     .faded3,
                               fontSize: 14,
                             ),
                           ),
@@ -162,16 +154,16 @@ class PullScreenState extends State<PullScreen>
                                         ? 'Merged'
                                         : 'Closed',
                                 style: TextStyle(
-                                  color:
-                                      value.data.state == PullRequestState.open
-                                          ? Provider.of<PaletteSettings>(
-                                              context,
-                                            ).currentSetting.green
-                                          : value.data.merged
-                                              ? Colors.deepPurpleAccent
-                                              : Provider.of<PaletteSettings>(
-                                                  context,
-                                                ).currentSetting.red,
+                                  // color:
+                                  //     value.data.state == PullRequestState.open
+                                  // ? Provider.of<PaletteSettings>(
+                                  //     context,
+                                  //   ).currentSetting.green
+                                  // : value.data.merged
+                                  //     ? Colors.deepPurpleAccent
+                                  //     : Provider.of<PaletteSettings>(
+                                  //         context,
+                                  //       ).currentSetting.red,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -182,9 +174,9 @@ class PullScreenState extends State<PullScreen>
                               Text(
                                 '#${value.data.number}',
                                 style: TextStyle(
-                                  color: Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .faded3,
+                                  // color: Provider.of<PaletteSettings>(context)
+                                  //     .currentSetting
+                                  //     .faded3,
                                   fontSize: 16,
                                 ),
                               ),
@@ -193,9 +185,9 @@ class PullScreenState extends State<PullScreen>
                               ),
                               Icon(
                                 Octicons.comment,
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
+                                // color: Provider.of<PaletteSettings>(context)
+                                //     .currentSetting
+                                //     .faded3,
                                 size: 11,
                               ),
                               const SizedBox(
@@ -204,9 +196,9 @@ class PullScreenState extends State<PullScreen>
                               Text(
                                 '${value.data.comments} comments',
                                 style: TextStyle(
-                                  color: Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .faded3,
+                                  // color: Provider.of<PaletteSettings>(context)
+                                  //     .currentSetting
+                                  //     .faded3,
                                   fontSize: 12,
                                 ),
                               ),
@@ -300,7 +292,7 @@ class PullScreenState extends State<PullScreen>
                           author: value.data.author,
                           body: '',
                           lastEditedAt: null,
-                          description: '',
+                          // description: '',
                           bodyHTML: 'value.data.bodyHtml',
                           authorAssociation: CommentAuthorAssociation.none,
                         ),
@@ -332,7 +324,7 @@ class PullScreenState extends State<PullScreen>
         } else {
           return Icon(
             Octicons.git_pull_request,
-            color: Provider.of<PaletteSettings>(context).currentSetting.red,
+            color: Colors.red,
             size: size,
           );
         }
@@ -340,7 +332,7 @@ class PullScreenState extends State<PullScreen>
       case IssueState.OPEN:
         return Icon(
           Octicons.git_pull_request,
-          color: Provider.of<PaletteSettings>(context).currentSetting.green,
+          color: Colors.green,
           size: size,
         );
     }

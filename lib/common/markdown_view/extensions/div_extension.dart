@@ -17,7 +17,7 @@ class _DivWidget extends _ExtensionWidget {
       return DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(
-            color: context.palette.faded3,
+            // color: context.palette.faded3,
             width: 0.3,
           ),
           borderRadius: smallBorderRadius,

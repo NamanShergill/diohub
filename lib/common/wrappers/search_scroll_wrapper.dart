@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
@@ -11,9 +10,9 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart' hide Type;
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/search/search_service.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
-import 'package:provider/provider.dart';
 //
 // typedef SearchScrollWrapperFuture<T> = Future Function(({
 //       int pageNumber,
@@ -41,7 +40,7 @@ class SearchScrollWrapper extends StatefulWidget {
     this.onChanged,
     this.searchBarColor,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
-    this.searchHeroTag,
+    required this.searchHeroTag,
     this.filterFn,
     this.showRepoNameOnIssues = true,
     super.key,
@@ -57,7 +56,7 @@ class SearchScrollWrapper extends StatefulWidget {
   final String? searchBarMessage;
 
   /// Hero tag of the search bar.
-  final String? searchHeroTag;
+  final String searchHeroTag;
 
   /// Padding of wrapper.
   final EdgeInsets padding;
@@ -104,9 +103,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
           padding:
               function != null ? EdgeInsets.zero : widget._searchBarPadding,
           child: AppSearchBar(
-            heroTag: widget.searchHeroTag != null
-                ? widget.searchHeroTag! + (function != null).toString()
-                : null,
+            heroTag: widget.searchHeroTag,
             quickFilters: widget.quickFilters,
             quickOptions: widget.quickOptions,
             searchData: searchData,
@@ -116,16 +113,16 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
                     icon: Icon(
                       Icons.keyboard_arrow_up_rounded,
                       // size: 15,
-                      color: context.palette.accent,
+                      // color: context.palette.accent,
                     ),
                     padding: const EdgeInsets.all(4),
-                    color: context.palette.elementsOnColors,
+                    // color: context.palette.elementsOnColors,
                     onPressed: function,
                   )
                 : null,
             prompt: widget.searchBarMessage,
-            backgroundColor: widget.searchBarColor ??
-                Provider.of<PaletteSettings>(context).currentSetting.primary,
+            backgroundColor:
+                widget.searchBarColor ?? context.colorScheme.background,
             onSubmit: (final SearchData data) {
               setState(() {
                 searchData = data;
@@ -137,130 +134,127 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
           ),
         );
 
-    final Widget child = ColoredBox(
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: Builder(
-        builder: (final BuildContext context) {
-          if (searchData.searchFilters!.searchType == SearchType.repositories) {
-            return _InfiniteWrapper<RepositoryModel>(
-              controller: controller,
-              searchData: searchData,
-              filterFn: widget.filterFn,
-              searchFuture: (
-                final ({
-                  RepositoryModel? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
-              ) async =>
-                  SearchService.searchRepos(
-                searchData.toQuery,
-                perPage: data.pageSize,
-                page: data.pageNumber,
-                sort: searchData.getSort,
-                ascending: searchData.isSortAsc,
-                refresh: data.refresh,
+    final Widget child = Builder(
+      builder: (final BuildContext context) {
+        if (searchData.searchFilters!.searchType == SearchType.repositories) {
+          return _InfiniteWrapper<RepositoryModel>(
+            controller: controller,
+            searchData: searchData,
+            filterFn: widget.filterFn,
+            searchFuture: (
+              final ({
+                RepositoryModel? lastItem,
+                int pageNumber,
+                int pageSize,
+                bool refresh
+              }) data,
+            ) async =>
+                SearchService.searchRepos(
+              searchData.toQuery,
+              perPage: data.pageSize,
+              page: data.pageNumber,
+              sort: searchData.getSort,
+              ascending: searchData.isSortAsc,
+              refresh: data.refresh,
+            ),
+            header: (final BuildContext context) => header(context, null),
+            pinnedHeader: searchData.isActive ? header : null,
+            builder: (
+              final BuildContext context,
+              final ({int index, RepositoryModel item, bool refresh}) data,
+            ) =>
+                Padding(
+              padding: widget.padding,
+              child: RepositoryCard(
+                data.item,
+                // padding: EdgeInsets.zero,
               ),
-              header: (final BuildContext context) => header(context, null),
-              pinnedHeader: searchData.isActive ? header : null,
-              builder: (
-                final BuildContext context,
-                final ({int index, RepositoryModel item, bool refresh}) data,
-              ) =>
-                  Padding(
-                padding: widget.padding,
-                child: RepositoryCard(
-                  data.item,
-                  padding: EdgeInsets.zero,
-                ),
+            ),
+          );
+        } else if (searchData.searchFilters!.searchType ==
+            SearchType.issuesPulls) {
+          return _InfiniteWrapper<IssueModel>(
+            filterFn: widget.filterFn,
+            controller: controller,
+            searchData: searchData,
+            searchFuture: (
+              final ({
+                IssueModel? lastItem,
+                int pageNumber,
+                int pageSize,
+                bool refresh
+              }) data,
+            ) async =>
+                SearchService.searchIssues(
+              searchData.toQuery,
+              perPage: data.pageSize,
+              page: data.pageNumber,
+              sort: searchData.getSort,
+              ascending: searchData.isSortAsc,
+              refresh: data.refresh,
+            ),
+            header: (final BuildContext context) => header(context, null),
+            pinnedHeader: searchData.isActive ? header : null,
+            builder: (
+              final BuildContext context,
+              final ({int index, IssueModel item, bool refresh}) data,
+            ) =>
+                Padding(
+              padding: widget.padding,
+              child: IssueListCard(
+                data.item,
+                padding: EdgeInsets.zero,
+                showRepoName: widget.showRepoNameOnIssues,
               ),
-            );
-          } else if (searchData.searchFilters!.searchType ==
-              SearchType.issuesPulls) {
-            return _InfiniteWrapper<IssueModel>(
-              filterFn: widget.filterFn,
-              controller: controller,
-              searchData: searchData,
-              searchFuture: (
-                final ({
-                  IssueModel? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
-              ) async =>
-                  SearchService.searchIssues(
-                searchData.toQuery,
-                perPage: data.pageSize,
-                page: data.pageNumber,
-                sort: searchData.getSort,
-                ascending: searchData.isSortAsc,
-                refresh: data.refresh,
-              ),
-              header: (final BuildContext context) => header(context, null),
-              pinnedHeader: searchData.isActive ? header : null,
-              builder: (
-                final BuildContext context,
-                final ({int index, IssueModel item, bool refresh}) data,
-              ) =>
-                  Padding(
-                padding: widget.padding,
-                child: IssueListCard(
-                  data.item,
-                  padding: EdgeInsets.zero,
-                  showRepoName: widget.showRepoNameOnIssues,
-                ),
-              ),
-            );
-          } else if (searchData.searchFilters!.searchType == SearchType.users) {
-            return _InfiniteWrapper<UserInfoModel>(
-              filterFn: widget.filterFn,
-              controller: controller,
-              searchData: searchData,
-              header: (final BuildContext context) => header(context, null),
-              pinnedHeader: searchData.isActive ? header : null,
-              searchFuture: (
-                final ({
-                  UserInfoModel? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
-              ) async =>
-                  SearchService.searchUsers(
-                searchData.toQuery,
-                perPage: data.pageSize,
-                page: data.pageNumber,
-                sort: searchData.getSort,
-                ascending: searchData.isSortAsc,
-                refresh: data.refresh,
-              ),
-              builder: (
-                final BuildContext context,
-                final ({
-                  int index,
-                  UserInfoModel item,
-                  bool refresh,
-                }) data,
-              ) =>
-                  Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: widget.padding,
-                      child: ProfileCard(
-                        data.item,
-                      ),
+            ),
+          );
+        } else if (searchData.searchFilters!.searchType == SearchType.users) {
+          return _InfiniteWrapper<UserInfoModel>(
+            filterFn: widget.filterFn,
+            controller: controller,
+            searchData: searchData,
+            header: (final BuildContext context) => header(context, null),
+            pinnedHeader: searchData.isActive ? header : null,
+            searchFuture: (
+              final ({
+                UserInfoModel? lastItem,
+                int pageNumber,
+                int pageSize,
+                bool refresh
+              }) data,
+            ) async =>
+                SearchService.searchUsers(
+              searchData.toQuery,
+              perPage: data.pageSize,
+              page: data.pageNumber,
+              sort: searchData.getSort,
+              ascending: searchData.isSortAsc,
+              refresh: data.refresh,
+            ),
+            builder: (
+              final BuildContext context,
+              final ({
+                int index,
+                UserInfoModel item,
+                bool refresh,
+              }) data,
+            ) =>
+                Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: widget.padding,
+                    child: ProfileCard(
+                      data.item,
                     ),
                   ),
-                ],
-              ),
-            );
-          }
-          return Container();
-        },
-      ),
+                ),
+              ],
+            ),
+          );
+        }
+        return Container();
+      },
     );
     if (widget.replacementBuilder != null) {
       return widget.replacementBuilder!(searchData, header, child);

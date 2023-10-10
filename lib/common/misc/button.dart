@@ -1,7 +1,6 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
   const Button({
@@ -39,19 +38,17 @@ class Button extends StatefulWidget {
 class ButtonState extends State<Button> {
   @override
   Widget build(final BuildContext context) => MaterialButton(
-        disabledColor: (widget.color ??
-                Provider.of<PaletteSettings>(context).currentSetting.accent)
-            .withOpacity(0.7),
+        disabledColor:
+            (widget.color ?? context.colorScheme.primary).withOpacity(0.7),
         elevation: widget.elevation,
         padding: widget.padding,
-        disabledTextColor:
-            Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+        // disabledTextColor:
+        //     Provider.of<PaletteSettings>(context).currentSetting.baseElements,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         onPressed: widget.enabled && !widget.loading ? widget.onTap : null,
-        color: widget.color ??
-            Provider.of<PaletteSettings>(context).currentSetting.accent,
+        color: widget.color,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

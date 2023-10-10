@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -7,9 +6,9 @@ import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:provider/provider.dart';
 
 String getReaction(final ReactionContent reaction) {
   switch (reaction) {
@@ -104,18 +103,16 @@ class _ReactionBarState extends State<ReactionBar> {
                           borderRadius: bigBorderRadius,
                           child: Material(
                             // elevation: 2,
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .primary,
+                            // color: Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .primary,
                             borderRadius: bigBorderRadius,
                             child: ReactionButton<ReactionGroupsMixin>(
                               // splashColor: Colors.transparent,
                               boxPadding: const EdgeInsets.all(16),
                               shouldChangeReaction: false,
                               boxPosition: VerticalPosition.BOTTOM,
-                              boxColor: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .primary,
+                              boxColor: context.colorScheme.primary,
                               onReactionChanged:
                                   (final ReactionGroupsMixin? value) async {
                                 await updateReaction(value!);
@@ -131,9 +128,9 @@ class _ReactionBarState extends State<ReactionBar> {
                                       child: _shimmer(
                                         Icon(
                                           Icons.emoji_emotions_rounded,
-                                          color: Provider.of<PaletteSettings>(
-                                            context,
-                                          ).currentSetting.faded3,
+                                          // color: Provider.of<PaletteSettings>(
+                                          //   context,
+                                          // ).currentSetting.faded3,
                                           size: 18,
                                         ),
                                         loading,
@@ -230,8 +227,8 @@ class ReactionItemState extends State<ReactionItem> {
         child: Material(
           elevation: 2,
           color: widget.reactionGroup.viewerHasReacted
-              ? Provider.of<PaletteSettings>(context).currentSetting.accent
-              : Provider.of<PaletteSettings>(context).currentSetting.primary,
+              ? context.colorScheme.primary
+              : context.colorScheme.surface.asHint(),
           borderRadius: bigBorderRadius,
           child: InkWell(
             onTap: widget.onTap != null ? changeReaction : null,
@@ -295,7 +292,6 @@ class ReactionItemState extends State<ReactionItem> {
                             padding: const EdgeInsets.all(8),
                             child: Text(
                               '+ ${widget.reactionGroup.reactors.totalCount - data.length} more',
-                              style: TextStyle(color: context.palette.faded3),
                             ),
                           ),
                       ],

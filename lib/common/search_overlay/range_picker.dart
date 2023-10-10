@@ -1,12 +1,9 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class RangePicker extends StatefulWidget {
   const RangePicker({required this.onAdded, required this.queryType, super.key})
@@ -110,9 +107,9 @@ class RangePickerState extends State<RangePicker> {
 
   @override
   Widget build(final BuildContext context) => SizeExpandedSection(
-        child: Material(
-          borderRadius: medBorderRadius,
-          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        child: Card(
+          // borderRadius: medBorderRadius,
+          // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -131,10 +128,10 @@ class RangePickerState extends State<RangePicker> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (final BuildContext context, final int index) =>
-                      RadioListTile<String>(
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
+                      RadioListTile<String>.adaptive(
+                    // activeColor: Provider.of<PaletteSettings>(context)
+                    //     .currentSetting
+                    //     .accent,
                     groupValue: currentType,
                     value: types[index],
                     onChanged: (final String? value) {
@@ -177,10 +174,10 @@ class RangePickerState extends State<RangePicker> {
                           decoration: inputDecoration(
                             hintText: '00',
                             context: context,
-                            enabledBorderColor:
-                                Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
+                            // enabledBorderColor:
+                            //     Provider.of<PaletteSettings>(context)
+                            //         .currentSetting
+                            //         .faded3,
                           ),
                         ),
                       ),
@@ -206,10 +203,10 @@ class RangePickerState extends State<RangePicker> {
                               decoration: inputDecoration(
                                 hintText: '00',
                                 context: context,
-                                enabledBorderColor:
-                                    Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .faded3,
+                                // enabledBorderColor:
+                                // Provider.of<PaletteSettings>(context)
+                                //     .currentSetting
+                                //     .faded3,
                               ),
                             ),
                           ),
@@ -246,10 +243,10 @@ class RangePickerState extends State<RangePicker> {
                               },
                               decoration: inputDecoration(
                                 context: context,
-                                enabledBorderColor:
-                                    Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .faded3,
+                                // enabledBorderColor:
+                                // Provider.of<PaletteSettings>(context)
+                                //     .currentSetting
+                                //     .faded3,
                               ),
                             ),
                           ),
@@ -276,10 +273,10 @@ class RangePickerState extends State<RangePicker> {
                           },
                           decoration: inputDecoration(
                             context: context,
-                            enabledBorderColor:
-                                Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
+                            // enabledBorderColor:
+                            // Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .faded3,
                           ),
                         ),
                       ),
@@ -292,9 +289,9 @@ class RangePickerState extends State<RangePicker> {
                   child: CheckboxListTile(
                     value: inclusive,
                     title: const Text('Inclusive'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
+                    // activeColor: Provider.of<PaletteSettings>(context)
+                    //     .currentSetting
+                    //     .accent,
                     onChanged: (final bool? value) {
                       setState(() {
                         inclusive = value!;

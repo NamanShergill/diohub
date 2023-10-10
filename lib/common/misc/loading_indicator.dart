@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoadingIndicator extends StatefulWidget {
   const LoadingIndicator({
@@ -57,10 +56,7 @@ class LoadingIndicatorState extends State<LoadingIndicator>
             width: widget.size,
             child: Image.asset(
               'assets/loading.png',
-              color: widget.color ??
-                  Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .baseElements,
+              color: widget.color ?? context.colorScheme.onBackground,
               // .withOpacity(0.8),
             ),
           ),

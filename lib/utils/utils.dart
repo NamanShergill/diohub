@@ -36,6 +36,33 @@ class Utils {
 
 extension ThemeExtension on BuildContext {
   ThemeData get themeData => Theme.of(this);
+  ColorScheme get colorScheme => themeData.colorScheme;
 
   TextTheme get textTheme => themeData.textTheme;
+}
+
+extension TextStyles on TextStyle {
+  TextStyle asHint() => copyWith(
+        color: color?.withOpacity(0.60),
+      );
+
+  TextStyle asBold() => copyWith(
+        fontWeight: FontWeight.bold,
+      );
+  TextStyle asDisabled() => copyWith(
+        color: color?.withOpacity(0.38),
+      );
+}
+
+extension OpacityColors on Color {
+  Color asHint() => Color(value).withOpacity(0.60);
+
+  Color asDisabled() => Color(value).withOpacity(0.38);
+}
+
+extension IconSize on TextStyle {
+  double get contextIconSize => switch (fontSize) {
+        null => 25,
+        _ => fontSize! * 0.9,
+      };
 }

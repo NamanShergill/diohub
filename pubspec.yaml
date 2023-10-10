@@ -28,6 +28,8 @@ dependencies:
   # https://github.com/tekartik/sqflite/issues/1008
   # When fixed, remove the change in ios/Podfile
   dio_cache_interceptor_db_store: ^5.1.0
+  draggable_home: ^1.0.5
+  dynamic_color: ^1.6.7
   equatable: ^2.0.5
   expand_widget: ^3.1.1
 
@@ -72,7 +74,8 @@ dependencies:
   flutter_portal: ^1.1.4
   flutter_reaction_button: ^2.0.1+2
   flutter_riverpod: ^2.4.2
-  flutter_scroll_to_top: ^2.3.0
+  flutter_scroll_to_top:
+    path: dependencies/flutter_scroll_to_top
   flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.0
   flutter_svg: ^2.0.7
@@ -99,16 +102,20 @@ dependencies:
   markdown_editable_textinput:
     path: dependencies/markdown-editable-textinput
 
+  material_design_icons_flutter: ^7.0.7296
   mime: ^1.0.4
   package_info_plus: ^4.1.0
   path_provider: ^2.1.1
   pretty_dio_logger: ^1.3.1
   provider: ^6.1.0-dev.1
+  pull_down_button:
+    path: dependencies/pull_down_button
   share_plus: ^7.1.0
   shared_preferences: ^2.2.1
   shimmer: ^3.0.0
   sliver_tools: ^0.2.12
   sqlite3_flutter_libs: ^0.5.17
+  tabbed_view: ^1.18.0
   uni_links: ^0.5.1
   url_launcher: ^6.1.14
   uuid: ^3.0.4
@@ -256,7 +263,7 @@ flutter:
           weight: 700
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+#  android: "launcher_icon"
   ios: true
   image_path: "assets/logo.png"
   remove_alpha_ios: true

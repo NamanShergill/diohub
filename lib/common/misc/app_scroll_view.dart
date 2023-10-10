@@ -1,11 +1,8 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
-import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AppScrollView extends StatefulWidget {
   const AppScrollView({
@@ -14,7 +11,7 @@ class AppScrollView extends StatefulWidget {
     this.tabViews,
     // required this.nestedScrollViewController,
     this.child,
-    this.childrenColor,
+    // this.childrenColor,
     this.loading = false,
     super.key,
   });
@@ -23,7 +20,7 @@ class AppScrollView extends StatefulWidget {
   final Widget? child;
   final bool loading;
   final TabController? tabController;
-  final Color? childrenColor;
+  // final Color? childrenColor;
   // final ScrollController nestedScrollViewController;
 
   @override
@@ -34,41 +31,25 @@ class AppScrollViewState extends State<AppScrollView> {
   @override
   Widget build(final BuildContext context) => NestedScroll(
         // controller: widget.nestedScrollViewController,
-        header: (
-          final BuildContext context, {
-          required final bool isInnerBoxScrolled,
-        }) =>
-            <Widget>[
+        header: (data) => <Widget>[
           widget.scrollViewAppBar,
         ],
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 50),
           child: widget.loading
-              ? ColoredBox(
-                  color: widget.childrenColor ??
-                      Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .secondary,
-                  child: const Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 48),
-                        child: LoadingIndicator(),
-                      ),
-                    ],
-                  ),
+              ? const Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 48),
+                      child: LoadingIndicator(),
+                    ),
+                  ],
                 )
-              : ColoredBox(
-                  color: widget.childrenColor ??
-                      Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .secondary,
-                  child: widget.child ??
-                      TabBarView(
-                        controller: widget.tabController,
-                        children: widget.tabViews!,
-                      ),
-                ),
+              : widget.child ??
+                  TabBarView(
+                    controller: widget.tabController,
+                    children: widget.tabViews!,
+                  ),
         ),
       );
 }
@@ -137,29 +118,25 @@ class ScrollViewAppBar extends StatelessWidget {
       bottom: hasTabs
           ? PreferredSize(
               preferredSize: Size.fromHeight(bottomPadding ?? 0),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: bottomHeader ?? Container(),
-                    ),
-                    if (tabBar != null)
-                      tabBar!
-                    else
-                      AppTabBar(
-                        controller: tabController,
-                        tabs: List<String>.generate(
-                          tabs!.length,
-                          (final int index) => tabs![index],
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: bottomHeader ?? Container(),
+                  ),
+                  if (tabBar != null)
+                    tabBar!
+                  else
+                    TabBar(
+                      controller: tabController,
+                      tabs: List<Tab>.generate(
+                        tabs!.length,
+                        (final int index) => Tab(
+                          text: tabs![index],
                         ),
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             )
           : null,

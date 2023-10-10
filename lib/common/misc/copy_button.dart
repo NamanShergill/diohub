@@ -1,8 +1,7 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CopyButton extends StatefulWidget {
   const CopyButton(this.data, {super.key, this.size = 24});
@@ -36,11 +35,7 @@ class CopyButtonState extends State<CopyButton> {
           child: Icon(
             copied ? Icons.check_rounded : Icons.copy_rounded,
             size: widget.size,
-            color: copied
-                ? Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .baseElements
-                : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            color: context.colorScheme.onSurface.withOpacity(copied ? 1 : 0.5),
           ),
         ),
       );

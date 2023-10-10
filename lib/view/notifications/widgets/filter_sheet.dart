@@ -1,13 +1,12 @@
 import 'package:collection/collection.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/type_cast.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 typedef FilterChange = Function(TypeMap, TypeMap);
 
@@ -87,11 +86,9 @@ class FilterSheetState extends State<FilterSheet> {
                     function: () {
                       apiFilters['all'] = !apiFilters['all'];
                     },
-                    child: SwitchListTile(
+                    child: SwitchListTile.adaptive(
                       value: !apiFilters['all'],
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      activeColor: context.colorScheme.primary,
                       title: Text(
                         'Only unread notifications',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -113,13 +110,12 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.bullseye,
+                      secondary: Icon(
+                        MdiIcons.bullseye,
                       ),
                       value: clientFilters['show_only'].contains('assign'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: context.colorScheme
+                      //     .primary,
                       title: Text(
                         'Assigned',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -136,13 +132,13 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.pen,
+                      secondary: Icon(
+                        MdiIcons.pen,
                       ),
                       value: clientFilters['show_only'].contains('author'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Author',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -159,13 +155,11 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.comment,
+                      secondary: Icon(
+                        MdiIcons.comment,
                       ),
                       value: clientFilters['show_only'].contains('comment'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      activeColor: context.colorScheme.primary,
                       title: Text(
                         'Comment',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -182,13 +176,11 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.envelopeOpen,
+                      secondary: Icon(
+                        Octicons.mail,
                       ),
                       value: clientFilters['show_only'].contains('invitation'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor:context.colorScheme.primary,
                       title: Text(
                         'Invitation',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -205,13 +197,13 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.exclamationCircle,
+                      secondary: Icon(
+                        MdiIcons.information,
                       ),
                       value: clientFilters['show_only'].contains('manual'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Following',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -228,13 +220,13 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.at,
+                      secondary: Icon(
+                        MdiIcons.at,
                       ),
                       value: clientFilters['show_only'].contains('mention'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Mentioned',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -252,14 +244,12 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.search,
+                      secondary: Icon(
+                        Icons.search_rounded,
                       ),
                       value: clientFilters['show_only']
                           .contains('review_requested'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      activeColor: context.colorScheme.primary,
                       title: Text(
                         'Review Requested',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -277,14 +267,14 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.userSecret,
+                      secondary: Icon(
+                        MdiIcons.security,
                       ),
                       value:
                           clientFilters['show_only'].contains('security_alert'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Security Alert',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -306,9 +296,9 @@ class FilterSheetState extends State<FilterSheet> {
                       ),
                       value:
                           clientFilters['show_only'].contains('state_change'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Actions',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -325,13 +315,13 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.envelope,
+                      secondary: Icon(
+                        MdiIcons.information,
                       ),
                       value: clientFilters['show_only'].contains('subscribed'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Subscribed',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -348,14 +338,14 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: const Icon(
-                        LineIcons.teamspeak,
+                      secondary: Icon(
+                        MdiIcons.message,
                       ),
                       value:
                           clientFilters['show_only'].contains('team_mention'),
-                      activeColor: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .accent,
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
                       title: Text(
                         'Team Mention',
                         style: Theme.of(context).textTheme.bodyLarge,
@@ -374,36 +364,31 @@ class FilterSheetState extends State<FilterSheet> {
               children: <Widget>[
                 SizeExpandedSection(
                   expand: isModified(),
-                  child: ColoredBox(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 8,
-                          ),
-                          child: Button(
-                            onTap: () {
-                              sendFilters();
-                              if (mounted) {
-                                Navigator.pop(context);
-                              }
-                            },
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .secondary,
-                            child: Text(
-                              'Apply Filters',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
+                        child: Button(
+                          onTap: () {
+                            sendFilters();
+                            if (mounted) {
+                              Navigator.pop(context);
+                            }
+                          },
+                          // color: Provider.of<PaletteSettings>(context)
+                          //     .currentSetting
+                          //     .secondary,
+                          child: Text(
+                            'Apply Filters',
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -441,18 +426,16 @@ class FilterSheetState extends State<FilterSheet> {
         ),
       );
 
-  Widget tileWrapper({final Widget? child, final Function? function}) =>
+  Widget tileWrapper({final Widget? child, final Function()? function}) =>
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Material(
-          elevation: 2,
-          borderRadius: medBorderRadius,
-          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        child: Card(
+          // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
           child: InkWell(
             borderRadius: medBorderRadius,
             onTap: () {
               setState(() {
-                function!();
+                function?.call();
               });
             },
             child: IgnorePointer(

@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/utils/utils.dart';
@@ -33,7 +32,8 @@ class InfoCard extends StatelessWidget {
     this.title,
     this.leading,
     this.childPadding,
-    this.titleTextStyle,
+    this.backgroundColor,
+    // this.titleTextStyle,
     // this.leadingIconColor,
   }) : assert(
           title != null || leading != null,
@@ -45,9 +45,10 @@ class InfoCard extends StatelessWidget {
   final InfoCardMode mode;
   final EdgeInsets? childPadding;
   final String? title;
+  final Color? backgroundColor;
   final Widget? leading;
   // final Color? leadingIconColor;
-  final TextStyle? titleTextStyle;
+  // final TextStyle? titleTextStyle;
 
   static Icon get dropdownTrailingIcon => const Icon(
         Icons.arrow_drop_down_rounded,
@@ -60,8 +61,8 @@ class InfoCard extends StatelessWidget {
   }) =>
       Icon(
         icon,
-        size: 20,
-        color: color ?? context.palette.faded3,
+        size: 18,
+        color: color,
       );
   Widget _buildUI(final BuildContext context) {
     switch (mode) {
@@ -71,26 +72,21 @@ class InfoCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Flexible(
-              child: IntrinsicHeight(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    _buildDescriptors(context),
-                    const SizedBox(
-                      width: 4,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _buildDescriptors(context),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: childPadding ??
+                          const EdgeInsets.symmetric(horizontal: 4),
+                      child: child,
                     ),
-                    const VerticalDivider(
-                      thickness: 0.125,
-                    ),
-                    Flexible(
-                      child: Padding(
-                        padding: childPadding ??
-                            const EdgeInsets.symmetric(horizontal: 4),
-                        child: child,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             _buildTrailingWidget(),
@@ -129,18 +125,29 @@ class InfoCard extends StatelessWidget {
 
   Row _buildDescriptors(final BuildContext context) => Row(
         children: <Widget>[
-          if (leading != null) leading!,
+          if (leading != null)
+            Theme(
+              data: context.themeData.copyWith(
+                iconTheme: context.themeData.iconTheme.copyWith(
+                  // size: 18,
+                  color: context.colorScheme.onSurface.asHint(),
+                ),
+              ),
+              child: DefaultTextStyle(
+                style: context.textTheme.bodyMedium!.asHint().copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                child: leading!,
+              ),
+            ),
           if (title != null && leading != null)
             const SizedBox(
               width: 8,
             ),
           if (title != null)
-            Text(
-              title!,
-              style: context.textTheme.bodyLarge
-                  ?.merge(titleTextStyle)
-                  .copyWith(color: context.palette.faded3),
-            ),
+            Text(title!, style: context.textTheme.bodyMedium?.asHint()
+                // .copyWith(fontWeight: FontWeight.bold),
+                ),
         ],
       );
 
@@ -158,6 +165,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => InkWellCard(
         onTap: onTap,
+        color: backgroundColor,
         child: _buildUI(context),
       );
 }
@@ -176,7 +184,7 @@ class MultiItemInfoCard<T> extends StatelessWidget {
     super.key,
     this.childPadding,
     this.leading,
-    this.titleTextStyle,
+    // this.titleTextStyle,
     this.multiListSingleItemBehaviour,
     this.onTapOverride,
     this.trailingWidgetOverride,
@@ -186,7 +194,7 @@ class MultiItemInfoCard<T> extends StatelessWidget {
   final EdgeInsets? childPadding;
   final InfoCardMode infoCardMode;
   final Widget? leading;
-  final TextStyle? titleTextStyle;
+  // final TextStyle? titleTextStyle;
   // final VoidCallback? onTap;
   final MultiItemInfoCardList<T> availableList;
   final String title;
@@ -245,7 +253,7 @@ class MultiItemInfoCard<T> extends StatelessWidget {
         title: title,
         leading: leading,
         childPadding: childPadding,
-        titleTextStyle: titleTextStyle,
+        // titleTextStyle: titleTextStyle,
         child: builder.call(context, availableList),
       );
 }

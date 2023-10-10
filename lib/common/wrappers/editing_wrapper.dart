@@ -1,6 +1,6 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/round_button.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -142,7 +142,7 @@ class _EditWidgetState<T> extends State<EditWidget<T>> {
     }
   }
 
-  Color get _buttonColor => widget.buttonColors ?? context.palette.accent;
+  Color get _buttonColor => widget.buttonColors ?? context.colorScheme.primary;
 
   @override
   Widget build(final BuildContext context) =>

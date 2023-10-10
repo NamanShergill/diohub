@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/events.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -8,7 +7,7 @@ import 'package:dio_hub/view/profile/about/about_user.dart';
 import 'package:dio_hub/view/profile/overview/user_overview_screen.dart';
 import 'package:dio_hub/view/profile/repositories/user_repositories.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class UserProfileScreen<T extends UserInfoModel> extends StatefulWidget {
@@ -36,8 +35,8 @@ class UserProfileScreenState<T extends UserInfoModel>
 
   @override
   Widget build(final BuildContext context) => AppScrollView(
-        childrenColor:
-            Provider.of<PaletteSettings>(context).currentSetting.primary,
+        // childrenColor:
+        //     Provider.of<PaletteSettings>(context).currentSetting.primary,
         scrollViewAppBar: ScrollViewAppBar(
           tabController: tabController,
           bottomPadding: 0,
@@ -91,12 +90,12 @@ class UserProfileScreenState<T extends UserInfoModel>
                       Provider.of<CurrentUserProvider>(context).data.login)
                     Row(
                       children: <Widget>[
-                        const Icon(LineIcons.users),
+                        Icon(MdiIcons.accountGroup),
                         const SizedBox(
                           width: 8,
                         ),
-                        RichText(
-                          text: TextSpan(
+                        Text.rich(
+                          TextSpan(
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
@@ -139,8 +138,8 @@ class UserProfileScreenState<T extends UserInfoModel>
                       width: 16,
                     ),
                   if (data.type == Type.user)
-                    RichText(
-                      text: TextSpan(
+                    Text.rich(
+                      TextSpan(
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -197,13 +196,8 @@ class UserProfileScreenState<T extends UserInfoModel>
             currentUser: widget.isCurrentUser,
           ),
           if (data.type == Type.user)
-            ColoredBox(
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
-              child: Events(
-                specificUser: data.login,
-              ),
+            Events(
+              specificUser: data.login,
             ),
         ],
       );

@@ -2,16 +2,15 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/models/repositories/blob_model.dart';
 import 'package:dio_hub/services/git_database/git_database_service.dart';
 import 'package:dio_hub/utils/parse_base64.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
-import 'package:provider/provider.dart';
 
 @RoutePage()
 class FileViewerAPI extends StatefulWidget {
@@ -61,8 +60,8 @@ class FileViewerAPIState extends State<FileViewerAPI> {
 
   @override
   Widget build(final BuildContext context) => Scaffold(
-        backgroundColor:
-            Provider.of<PaletteSettings>(context).currentSetting.primary,
+        // backgroundColor:
+        // Provider.of<PaletteSettings>(context).currentSetting.primary,
         appBar: AppBar(
           title: Text(
             widget.fileName!,
@@ -85,13 +84,8 @@ class FileViewerAPIState extends State<FileViewerAPI> {
               child: IconButton(
                 icon: Icon(
                   Icons.wrap_text,
-                  color: wrapText
-                      ? Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .baseElements
-                      : Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .faded3,
+                  color: context.colorScheme.onSurface
+                      .withOpacity(wrapText ? 1 : 0.3),
                 ),
                 onPressed: () {
                   setState(() {
@@ -228,12 +222,8 @@ class TextViewerState extends State<TextViewer> {
                   itemBuilder: (final BuildContext context, final int index) =>
                       ColoredBox(
                     color: index.isEven
-                        ? Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .primary
-                        : Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
+                        ? context.colorScheme.surface
+                        : context.colorScheme.background,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(

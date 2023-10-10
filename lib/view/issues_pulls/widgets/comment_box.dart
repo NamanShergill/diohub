@@ -1,11 +1,9 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
-import 'package:provider/provider.dart';
 
 typedef LoadingFuture = Future<void> Function();
 
@@ -37,9 +35,9 @@ Future<void> showCommentSheet(
               );
             },
             icon: const Icon(Icons.remove_red_eye_rounded),
-            color: markdownView
-                ? context.palette.baseElements
-                : context.palette.faded3,
+            // color: markdownView
+            //     ? context.palette.baseElements
+            //     : context.palette.faded3,
           ),
           Expanded(
             child: InkWell(
@@ -80,7 +78,7 @@ Future<void> showCommentSheet(
                       Navigator.pop(context);
                     });
                   },
-            disabledColor: context.palette.faded3.withOpacity(0.5),
+            // disabledColor: context.palette.faded3.withOpacity(0.5),
             icon: loading
                 ? const LoadingIndicator()
                 : const Icon(
@@ -148,27 +146,22 @@ class CommentBoxState extends State<CommentBox> {
                 }
               : null,
           maxLines: null,
-          toolbarDecoration: BoxDecoration(
-            color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-          ),
+          // toolbarDecoration: BoxDecoration(
+          //   color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+          // ),
           inkwellBorderRadius: medBorderRadius,
-          boxDecoration: BoxDecoration(
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
-          ),
+          // boxDecoration: BoxDecoration(
+          //   color:
+          //       Provider.of<PaletteSettings>(context).currentSetting.secondary,
+          // ),
         );
 
-    return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: widget.markdownView
-          ? MarkdownRenderAPI(
-              data,
-              repoContext: widget.repoName,
-            )
-          : textBox(),
-    );
+    return widget.markdownView
+        ? MarkdownRenderAPI(
+            data,
+            repoContext: widget.repoName,
+          )
+        : textBox();
   }
 }
 

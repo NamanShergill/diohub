@@ -1,10 +1,10 @@
 import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -81,8 +81,8 @@ class UserFollowState extends State<UserFollow> {
             Icons.add,
             size: 18,
             color: data != null && data.viewerIsFollowing
-                ? context.palette.accent
-                : context.palette.faded3,
+                ? context.colorScheme.primary
+                : context.colorScheme.onSurface,
           ),
         );
 

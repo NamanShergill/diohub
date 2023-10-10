@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/models/repositories/code_tree_model.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
@@ -22,17 +21,17 @@ class BrowserListTile extends StatelessWidget {
         case Type.TREE:
           return Icon(
             Icons.folder,
-            color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           );
         case Type.BLOB:
           return Icon(
-            LineIcons.file,
-            color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            MdiIcons.file,
+            // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           );
         case null:
           return Icon(
-            LineIcons.question,
-            color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            MdiIcons.emoticonConfused,
+            // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           );
       }
     }

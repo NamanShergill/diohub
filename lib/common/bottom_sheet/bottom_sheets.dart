@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -11,7 +10,7 @@ import 'package:dio_hub/utils/extensions.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,6 +25,7 @@ Future<T?> showDHBottomSheet<T>(
   final bool isScrollControlled = false,
 }) =>
     showModalBottomSheet<T>(
+      backgroundColor: context.colorScheme.background,
       enableDrag: enableDrag,
       // Notch obstructs sheet, https://github.com/flutter/flutter/issues/39205
       isScrollControlled: isScrollControlled,
@@ -80,7 +80,7 @@ class DHBottomSheet extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: context.palette.faded1,
+                    // color: context.palette.faded1,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   height: 4,

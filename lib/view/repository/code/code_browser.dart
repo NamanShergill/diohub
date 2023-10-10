@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
@@ -11,6 +10,7 @@ import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/repository/code/browser_list_tiles.dart';
 import 'package:dio_hub/view/repository/code/commit_browser.dart';
 import 'package:dio_hub/view/repository/code/commit_info_button.dart';
@@ -72,9 +72,7 @@ class CodeBrowserState extends State<CodeBrowser>
                       vertical: 16,
                       horizontal: 8,
                     ),
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
+                    color: context.colorScheme.primary,
                     onTap: value.status == Status.loaded
                         ? () {
                             showCommitHistory(
@@ -136,12 +134,8 @@ class CodeBrowserState extends State<CodeBrowser>
                                     ' ${index == 0 ? Provider.of<RepositoryProvider>(context).data.name! : value.tree[index - 1].tree![value.pathIndex[index - 1]].path!}',
                                     style: TextStyle(
                                       color: index == value.tree.length - 1
-                                          ? Provider.of<PaletteSettings>(
-                                              context,
-                                            ).currentSetting.accent
-                                          : Provider.of<PaletteSettings>(
-                                              context,
-                                            ).currentSetting.baseElements,
+                                          ? context.colorScheme.primary
+                                          : null,
                                       fontWeight: index == value.tree.length - 1
                                           ? FontWeight.bold
                                           : FontWeight.w500,
@@ -164,13 +158,13 @@ class CodeBrowserState extends State<CodeBrowser>
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: medBorderRadius,
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .secondary,
+                          // color: Provider.of<PaletteSettings>(context)
+                          //     .currentSetting
+                          //     .secondary,
                           border: Border.all(
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .faded1,
+                            // color: Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .faded1,
                             width: 0.5,
                           ),
                         ),

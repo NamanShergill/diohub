@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/issues/issue_model.dart';
@@ -9,7 +8,6 @@ import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class PullListCard extends StatelessWidget {
   const PullListCard(
@@ -29,12 +27,12 @@ class PullListCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Padding(
         padding: disableMaterial ? EdgeInsets.zero : padding,
-        child: Material(
+        child: Card(
           elevation: disableMaterial ? 0 : 2,
-          color: disableMaterial
-              ? Colors.transparent
-              : Provider.of<PaletteSettings>(context).currentSetting.primary,
-          borderRadius: medBorderRadius,
+          // color: disableMaterial
+          //     ? Colors.transparent
+          //     : Provider.of<PaletteSettings>(context).currentSetting.primary,
+          // borderRadius: medBorderRadius,
           child: InkWell(
             borderRadius: medBorderRadius,
             onTap: () async {
@@ -67,20 +65,20 @@ class PullListCard extends StatelessWidget {
                                   .join('/'),
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
-                              ),
+                                  // color: Provider.of<PaletteSettings>(context)
+                                  //     .currentSetting
+                                  //     .faded3,
+                                  ),
                             ),
                           ),
                         ),
                       Text(
                         '#${item.number}',
                         style: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                        ),
+                            // color: Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .faded3,
+                            ),
                       ),
                     ],
                   ),
@@ -108,9 +106,9 @@ class PullListCard extends StatelessWidget {
                                   : 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                               : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
                           style: TextStyle(
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .faded3,
+                            // color: Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .faded3,
                             fontSize: 12,
                           ),
                         ),

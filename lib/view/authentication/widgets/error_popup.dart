@@ -1,9 +1,7 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class ErrorPopup extends StatelessWidget {
   const ErrorPopup(this.error, {super.key});
@@ -42,10 +40,10 @@ class ErrorPopup extends StatelessWidget {
                 child: Text(
                   'Retry',
                   style: TextStyle(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .baseElements,
-                  ),
+                      // color: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .baseElements,
+                      ),
                 ),
               ),
             ),

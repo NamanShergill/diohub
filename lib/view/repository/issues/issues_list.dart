@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/slide_expanded_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/issues/issue_list_card.dart';
@@ -17,11 +16,9 @@ import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
@@ -113,8 +110,8 @@ class IssuesList extends StatelessWidget {
                                         value.data.nodes![index]!.issue.url
                                             .toString(),
                                       ),
-                                      backgroundColor:
-                                          context.palette.secondary,
+                                      // backgroundColor:
+                                      //     context.palette.secondary,
                                     ),
                                     separatorBuilder: (
                                       final BuildContext context,
@@ -126,7 +123,7 @@ class IssuesList extends StatelessWidget {
                                 );
                               },
                               label: Text('${value.data.totalCount} Pinned'),
-                              icon: const Icon(LineIcons.thumbtack),
+                              icon: Icon(MdiIcons.pin),
                             ),
                           ),
                         ],
@@ -224,8 +221,6 @@ class IssueTemplateCard extends StatelessWidget {
   Widget build(final BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Card(
-          color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-          shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
           child: InkWell(
             onTap: () async {
               final RepositoryModel repo =
@@ -245,7 +240,7 @@ class IssueTemplateCard extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     template.name,
-                    style: AppThemeTextStyles.eventCardChildTitle(context),
+                    // style: AppThemeTextStyles.eventCardChildTitle(context),
                   ),
                   if (template.about != null)
                     Padding(

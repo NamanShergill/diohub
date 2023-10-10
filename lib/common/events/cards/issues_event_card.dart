@@ -30,7 +30,7 @@ class IssuesEventCard extends StatelessWidget {
         child: IssueListCard(
           event.payload!.issue!,
           commentsSince: time,
-          disableMaterial: true,
+          // disableMaterial: true,
           compact: true,
           padding: EdgeInsets.zero,
         ),

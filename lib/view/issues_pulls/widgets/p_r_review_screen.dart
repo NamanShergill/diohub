@@ -1,5 +1,4 @@
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/link_text.dart';
@@ -10,6 +9,7 @@ import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
@@ -148,9 +148,9 @@ class PRReviewScreen extends StatelessWidget {
                                   await openCommentSheet();
                                 }
                               },
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .primary,
+                              // color: Provider.of<PaletteSettings>(context)
+                              //     .currentSetting
+                              //     .primary,
                               stretch: false,
                               child: const Icon(Icons.reply),
                             ),
@@ -164,9 +164,7 @@ class PRReviewScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Material(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .accent,
+                          color: context.colorScheme.primary,
                           // shape: RoundedRectangleBorder(
                           //     borderRadius: BorderRadius.vertical(
                           //         top: AppThemeBorderRadius.medBorderRadius.topLeft)),
@@ -241,10 +239,10 @@ class PRReviewScreen extends StatelessWidget {
                                     child: StringButton(
                                       onTap: null,
                                       loading: true,
-                                      color:
-                                          Provider.of<PaletteSettings>(context)
-                                              .currentSetting
-                                              .primary,
+                                      // color:
+                                      // Provider.of<PaletteSettings>(context)
+                                      //     .currentSetting
+                                      //     .primary,
                                       title: 'Replies',
                                       trailingIcon:
                                           const Icon(Icons.arrow_right_rounded),
@@ -390,7 +388,7 @@ class PRReviewScreen extends StatelessWidget {
               ),
             );
           },
-          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+          // color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           title:
               '${edgeData.node!.comments.totalCount > 1 ? (edgeData.node!.comments.totalCount - 1).toString() : 'No'} Replies',
           trailingIcon: edgeData.node!.comments.totalCount > 1

@@ -1,15 +1,13 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/issues/issue_label.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BasicEventCard extends StatelessWidget {
   const BasicEventCard({
@@ -17,89 +15,67 @@ class BasicEventCard extends StatelessWidget {
     required this.content,
     required this.date,
     required this.leading,
-    this.iconColor,
+    // this.iconColor,
     this.name,
     super.key,
   });
   final ActorMixin? user;
-  final IconData leading;
+  final Widget leading;
   final String? name;
-  final Color? iconColor;
+  // final Color? iconColor;
   final DateTime date;
   final Widget content;
   @override
-  Widget build(final BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(
-                  leading,
+  Widget build(final BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              IconTheme(
+                data: IconThemeData(
                   size: 16,
-                  color: iconColor ??
-                      Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .faded3,
+                  color: context.colorScheme.onSurface.asHint(),
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
-                ProfileTile.login(
-                  avatarUrl: user?.avatarUrl.toString(),
-                  size: 20,
-                  textStyle: TextStyle(
-                    fontSize: 12,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  padding: const EdgeInsets.all(4),
-                  userLogin: user?.login,
-                ),
-                if (name != null)
-                  Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                      name!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .faded3,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                Text(
-                  'on ${getDate(date.toString(), shorten: false)}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                ),
-              ],
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 4,
-            ),
-            Flexible(
-              child: DefaultTextStyle(
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
-                child: content,
+
+                child: leading,
+                // color: iconColor,
               ),
+              const SizedBox(
+                width: 4,
+              ),
+              ProfileTile.login(
+                avatarUrl: user?.avatarUrl.toString(),
+                size: 20,
+                textStyle: context.textTheme.bodyMedium?.asHint(),
+                padding: const EdgeInsets.all(4),
+                userLogin: user?.login,
+              ),
+              if (name != null)
+                Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Text(
+                    name!,
+                    // style: context.textTheme.titleSmall?.asHint(),
+                  ),
+                ),
+              Text(
+                getDate(date.toString()),
+                style: context.textTheme.bodyMedium?.asHint(),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Flexible(
+            child: DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyMedium!.asHint(),
+              // .merge(AppThemeTextStyles.basicIssueEventCardText(context)),
+              child: content,
             ),
-          ],
-        ),
+          ),
+        ],
       );
 }
 
@@ -110,28 +86,28 @@ class BasicEventTextCard extends StatelessWidget {
     required this.date,
     required this.leading,
     this.footer,
-    this.iconColor,
+    // this.iconColor,
     super.key,
   });
   final ActorMixin? user;
-  final IconData leading;
-  final Color? iconColor;
+  final Widget leading;
+  // final Color? iconColor;
   final DateTime date;
   final Widget? footer;
   final String textContent;
   @override
   Widget build(final BuildContext context) => BasicEventCard(
-        iconColor: iconColor,
+        // iconColor: iconColor,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               textContent,
-              style: AppThemeTextStyles.basicIssueEventCardText(context),
+              style: context.textTheme.bodyMedium?.asHint(),
             ),
             if (footer != null)
               Padding(
-                padding: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: 4),
                 child: footer,
               ),
           ],
@@ -160,7 +136,7 @@ class BasicEventAssignedCard extends StatelessWidget {
           children: <Widget>[
             Text(
               isAssigned ? 'Assigned' : 'Unassigned',
-              style: AppThemeTextStyles.basicIssueEventCardText(context),
+              // style: AppThemeTextStyles.basicIssueEventCardText(context),
             ),
             const SizedBox(
               width: 4,
@@ -168,32 +144,26 @@ class BasicEventAssignedCard extends StatelessWidget {
             if (actor?.login != null && actor?.login != assignee?.login)
               ProfileTile.login(
                 avatarUrl: assignee?.avatarUrl.toString(),
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .faded3,
-                ),
                 padding: const EdgeInsets.all(4),
                 userLogin: assignee?.login,
               )
             else
               Text(
                 'themselves',
-                style: AppThemeTextStyles.basicIssueEventCardText(context),
+                // style: AppThemeTextStyles.basicIssueEventCardText(context),
               ),
             const SizedBox(
               width: 4,
             ),
             Text(
               '${isAssigned ? 'to' : 'from'} the issue.',
-              style: AppThemeTextStyles.basicIssueEventCardText(context),
+              // style: AppThemeTextStyles.basicIssueEventCardText(context),
             ),
           ],
         ),
         date: createdAt,
         user: actor,
-        leading: LineIcons.user,
+        leading: Icon(MdiIcons.account),
       );
 }
 
@@ -203,23 +173,23 @@ class BasicEventLabeledCard extends StatelessWidget {
     required this.content,
     required this.added,
     required this.date,
-    this.iconColor,
+    // this.iconColor,
     super.key,
   });
   final ActorMixin? actor;
-  final Color? iconColor;
+  // final Color? iconColor;
   final DateTime date;
   final LabelMixin content;
   final bool added;
   @override
   Widget build(final BuildContext context) => BasicEventCard(
-        iconColor: iconColor,
+        // iconColor: iconColor,
         content: Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
             Text(
               '${added ? 'Added' : 'Removed'} the',
-              style: AppThemeTextStyles.basicIssueEventCardText(context),
+              // style: AppThemeTextStyles.basicIssueEventCardText(context),
             ),
             const SizedBox(
               width: 8,
@@ -230,14 +200,14 @@ class BasicEventLabeledCard extends StatelessWidget {
             ),
             Text(
               'label ${added ? 'to' : 'from'} this.',
-              style: AppThemeTextStyles.basicIssueEventCardText(context),
+              // style: AppThemeTextStyles.basicIssueEventCardText(context),
             ),
           ],
         ),
         user: actor,
         date: date,
         // user: user,
-        leading: added ? Icons.label_rounded : Icons.label_off_rounded,
+        leading: Icon(added ? Icons.label_rounded : Icons.label_off_rounded),
       );
 }
 

@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
@@ -9,6 +8,7 @@ import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:dio_hub/providers/repository/branch_provider.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/repository/widgets/branch_select_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -57,11 +57,11 @@ class BranchButton extends StatelessWidget {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Material(
-                  borderRadius: medBorderRadius,
+                child: Card(
+                  // borderRadius: medBorderRadius,
                   color: data.item.name == currentBranch
-                      ? context.palette.accent
-                      : context.palette.secondary,
+                      ? context.colorScheme.primary
+                      : context.colorScheme.surface,
                   child: InkWell(
                     borderRadius: medBorderRadius,
                     onTap: () async {
@@ -108,7 +108,7 @@ class BranchButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Material(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         elevation: 2,
         borderRadius: medBorderRadius,
         child: DecoratedBox(
@@ -116,14 +116,14 @@ class BranchButton extends StatelessWidget {
           child: ProviderLoadingProgressWrapper<RepoBranchProvider>(
             loadingBuilder: (final BuildContext context) => ShimmerWidget(
               borderRadius: medBorderRadius,
-              baseColor: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
+              // baseColor: Provider.of<PaletteSettings>(context)
+              //     .currentSetting
+              //     .secondary,
               highlightColor: Colors.grey.shade800,
               child: Container(
-                color: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .secondary,
+                // color: Provider.of<PaletteSettings>(context)
+                //     .currentSetting
+                //     .secondary,
                 width: double.infinity,
                 height: height,
               ),
@@ -209,8 +209,9 @@ class BranchButton extends StatelessWidget {
   }
 
   Padding _buildListBranchItem(
-      final ({int index, RepoBranchListItemModel item, bool refresh}) data,
-      final String currentBranch) {
+    final ({int index, RepoBranchListItemModel item, bool refresh}) data,
+    final String currentBranch,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(

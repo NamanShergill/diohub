@@ -1,9 +1,8 @@
 import 'package:dio_hub/app/settings/font.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class FontSettingCard extends StatefulWidget {
@@ -26,7 +25,7 @@ class FontSettingCardState extends State<FontSettingCard> {
   Widget build(final BuildContext context) => InfoCard(
         title: 'App Font',
         mode: InfoCardMode.expanded,
-        trailing: const Icon(LineIcons.edit),
+        trailing: Icon(Icons.edit_rounded),
         onTap: () async {
           await showDialog(
             context: context,
@@ -42,7 +41,7 @@ class FontSettingCardState extends State<FontSettingCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Divider(),
-                      RadioListTile<String>(
+                      RadioListTile<String>.adaptive(
                         value: settings.keys.toList()[index],
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 8),
@@ -62,9 +61,7 @@ class FontSettingCardState extends State<FontSettingCard> {
                             : null,
                         groupValue:
                             Provider.of<FontSettings>(context).currentSetting,
-                        activeColor: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .accent,
+                        activeColor: context.colorScheme.primary,
                         onChanged: (final String? value) {
                           context.read<FontSettings>().updateData(value!);
                           Navigator.pop(context);

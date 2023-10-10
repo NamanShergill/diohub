@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
@@ -79,8 +78,7 @@ class RepoStarState extends State<RepoStar> {
           } else if (data.item != null) {
             final HasStarred$Query$Repository item = data.item!;
             return _buildIcon(
-              color:
-                  item.viewerHasStarred ? Colors.amber : context.palette.faded3,
+              color: item.viewerHasStarred ? Colors.amber : null,
               onPressed: data.updater,
             );
           } else {
@@ -96,7 +94,7 @@ class RepoStarState extends State<RepoStar> {
         constraints: const BoxConstraints(),
         icon: Icon(
           Octicons.star_fill,
-          size: 18,
+          size: 14,
           color: color,
         ),
       );

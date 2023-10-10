@@ -19,10 +19,10 @@ class Events extends StatelessWidget {
   Widget build(final BuildContext context) {
     final CurrentUserProvider user = Provider.of<CurrentUserProvider>(context);
     return InfiniteScrollWrapper<EventsModel>(
-      topSpacing: 24,
+      topSpacing: 8,
       separatorBuilder: (final BuildContext context, final int index) =>
-          const Divider(
-        height: 32,
+          const SizedBox(
+        height: 16,
       ),
       filterFn: (final List<EventsModel> items) {
         final List<EventsModel> temp = <EventsModel>[];

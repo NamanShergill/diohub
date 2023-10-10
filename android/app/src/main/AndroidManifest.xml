@@ -29,7 +29,7 @@
         android:name="${applicationName}"
         android:label="DioHub"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name=".MainActivity"

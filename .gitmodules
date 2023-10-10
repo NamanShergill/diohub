@@ -13,3 +13,9 @@
 [submodule "dependencies/flutter_html"]
 	path = dependencies/flutter_html
 	url = git@github.com:NamanShergill/flutter_html.git
+[submodule "dependencies/flutter_scroll_to_top"]
+	path = dependencies/flutter_scroll_to_top
+	url = git@github.com:NamanShergill/flutter_scroll_to_top.git
+[submodule "dependencies/pull_down_button"]
+	path = dependencies/pull_down_button
+	url = git@github.com:NamanShergill/pull_down_button.git

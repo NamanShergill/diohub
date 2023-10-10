@@ -3,7 +3,7 @@ import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AboutUser extends StatelessWidget {
   const AboutUser(this.userInfoModel, {super.key});
@@ -13,7 +13,7 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.bio != null)
           InfoCard(
             title: 'Bio',
-            // leadingIcon: LineIcons.paragraph,
+            // leadingIcon: MdiIcons.paragraph,
             mode: userInfoModel!.bio!.length > 80
                 ? InfoCardMode.expanded
                 : InfoCardMode.basic,
@@ -23,7 +23,7 @@ class AboutUser extends StatelessWidget {
           InfoCard(
             title: 'Twitter',
             leading: InfoCard.leadingIcon(
-              icon: LineIcons.twitter,
+              icon: MdiIcons.twitter,
               context: context,
             ),
             onTap: () async {
@@ -41,7 +41,7 @@ class AboutUser extends StatelessWidget {
               await linkHandler(context, 'mailto:${userInfoModel!.email}');
             },
             leading: InfoCard.leadingIcon(
-              icon: LineIcons.at,
+              icon: MdiIcons.at,
               context: context,
             ),
             child: Text(userInfoModel!.email!),
@@ -49,7 +49,7 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.blog?.isNotEmpty ?? false)
           InfoCard(
             leading: InfoCard.leadingIcon(
-              icon: LineIcons.blog,
+              icon: MdiIcons.bio,
               context: context,
             ),
             title: 'Blog',
@@ -62,7 +62,7 @@ class AboutUser extends StatelessWidget {
           InfoCard(
             title: 'Company',
             leading: InfoCard.leadingIcon(
-              icon: LineIcons.building,
+              icon: MdiIcons.officeBuilding,
               context: context,
             ),
             child: Text(userInfoModel!.company!),
@@ -71,7 +71,7 @@ class AboutUser extends StatelessWidget {
           InfoCard(
             title: 'Location',
             leading: InfoCard.leadingIcon(
-              icon: LineIcons.locationArrow,
+              icon: MdiIcons.mapMarker,
               context: context,
             ),
             child: Text(userInfoModel!.location!),
@@ -79,7 +79,7 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.createdAt != null)
           InfoCard(
             leading: InfoCard.leadingIcon(
-              icon: LineIcons.calendar,
+              icon: MdiIcons.calendar,
               context: context,
             ),
             title: 'Joined',

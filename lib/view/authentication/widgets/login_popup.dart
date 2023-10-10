@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
@@ -8,7 +7,6 @@ import 'package:dio_hub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class LoginPopup extends StatefulWidget {
   const LoginPopup({super.key});
@@ -21,8 +19,8 @@ class LoginPopupState extends State<LoginPopup> {
   bool loading = false;
   @override
   Widget build(final BuildContext context) {
-    final DioHubPalette theme =
-        Provider.of<PaletteSettings>(context).currentSetting;
+    // final DioHubPalette theme =
+    //     Provider.of<PaletteSettings>(context).currentSetting;
 
     return ScaleExpandedSection(
       child: StringButton(
@@ -30,10 +28,10 @@ class LoginPopupState extends State<LoginPopup> {
         loading: loading,
         leadingIcon: Icon(
           Octicons.mark_github,
-          color:
-              Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+          // color:
+          // Provider.of<PaletteSettings>(context).currentSetting.baseElements,
         ),
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         onTap: () async {
           await showDialog(
             context: context,
@@ -43,7 +41,7 @@ class LoginPopupState extends State<LoginPopup> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   StringButton(
-                    color: theme.secondary,
+                    // color: theme.secondary,
                     onTap: () async {
                       Navigator.pop(context);
                       try {
@@ -74,7 +72,7 @@ class LoginPopupState extends State<LoginPopup> {
                     height: 8,
                   ),
                   StringButton(
-                    color: theme.secondary,
+                    // color: theme.secondary,
                     onTap: () {
                       Navigator.pop(context);
                       BlocProvider.of<AuthenticationBloc>(context)

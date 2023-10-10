@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/copy_button.dart';
 import 'package:dio_hub/common/misc/image_loader.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:highlight/languages/all.dart';
-import 'package:provider/provider.dart';
 
 part 'a_extension.dart';
 part 'code_extension.dart';
@@ -70,15 +68,18 @@ List<TagExtension> _tagWrapExtensions(final BuildContext context) =>
         builder: (final ExtensionContext p0) => DecoratedBox(
           // padding: const EdgeInsets.only(bottom: 40),
           decoration: BoxDecoration(
-            color: context.palette.faded3.withOpacity(0.2),
+            // color: context.colorScheme.surface.,
             border: Border(
               left: BorderSide(
-                color: context.palette.accent.withOpacity(0.4),
+                color: context.colorScheme.primary,
                 width: 2,
               ),
             ),
           ),
-          child: p0.child,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: p0.child,
+          ),
         ),
       ),
       TagExtension(
@@ -89,7 +90,7 @@ List<TagExtension> _tagWrapExtensions(final BuildContext context) =>
           padding: const EdgeInsets.symmetric(vertical: 1),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: context.palette.faded1,
+              // color: context.palette.faded1,
               borderRadius: smallBorderRadius,
             ),
             child: Padding(
@@ -126,15 +127,10 @@ class _CodeViewState extends State<_CodeView> {
         language: widget.language,
       ),
     );
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color:
-                  Provider.of<PaletteSettings>(context).currentSetting.primary,
-              borderRadius: smallBorderRadius,
-            ),
+    return Card(
+      child: Row(
+        children: <Widget>[
+          Expanded(
             child: Stack(
               children: <Widget>[
                 if (!wrapText)
@@ -153,7 +149,7 @@ class _CodeViewState extends State<_CodeView> {
                     child: Text(
                       widget.language!,
                       style: context.textTheme.labelSmall?.copyWith(
-                        color: context.palette.faded3,
+                        // color: context.palette.faded3,
                         letterSpacing: 0,
                       ),
                     ),
@@ -186,8 +182,8 @@ class _CodeViewState extends State<_CodeView> {
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,5 @@
-import 'package:dio_hub/app/settings/palette.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
@@ -19,10 +18,8 @@ class ShimmerWidget extends StatelessWidget {
   Widget build(final BuildContext context) => ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.circular(0),
         child: Shimmer.fromColors(
-          baseColor: baseColor ??
-              Provider.of<PaletteSettings>(context).currentSetting.faded1,
-          highlightColor: highlightColor ??
-              Provider.of<PaletteSettings>(context).currentSetting.faded2,
+          baseColor: baseColor ?? context.colorScheme.surface,
+          highlightColor: highlightColor ?? context.colorScheme.background,
           child: child,
         ),
       );

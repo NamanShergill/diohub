@@ -1,6 +1,5 @@
 import 'package:auto_route/annotations.dart';
 import 'package:dio_hub/common/misc/app_bar.dart';
-import 'package:dio_hub/common/misc/app_tab_bar.dart';
 import 'package:dio_hub/common/misc/scaffold_body.dart';
 import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/providers/base_provider.dart';
@@ -57,12 +56,12 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                   ProviderLoadingProgressWrapper<CommitProvider>(
                 childBuilder:
                     (final BuildContext context, final CommitProvider value) =>
-                        const ScaffoldBody(
+                        ScaffoldBody(
                   child: DefaultTabController(
                     length: 2,
                     child: Column(
                       children: <Widget>[
-                        AppTabBar(
+                        TabBar(
                           tabs: <String>[
                             'Commit Information',
 
@@ -71,9 +70,9 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                             // AppTab(
                             //   title: 'Comments',
                             // ),
-                          ],
+                          ].map((String e) => Tab(text: e)).toList(),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: TabBarView(
                             children: <Widget>[
                               CommitDetails(),

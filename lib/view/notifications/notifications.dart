@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
@@ -12,8 +11,7 @@ import 'package:dio_hub/view/notifications/widgets/filter_sheet.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/issue_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/pull_request_notification_card.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -86,18 +84,14 @@ class NotificationsScreenState extends State<NotificationsScreen>
   Widget build(final BuildContext context) {
     super.build(context);
     return NestedScroll(
-      header: (
-        final BuildContext context, {
-        required final bool isInnerBoxScrolled,
-      }) =>
-          <Widget>[
+      header: (data) => <Widget>[
         SliverAppBar(
           expandedHeight: 150,
           collapsedHeight: 100,
           pinned: true,
           elevation: 2,
-          backgroundColor:
-              Provider.of<PaletteSettings>(context).currentSetting.primary,
+          // backgroundColor:
+          //     Provider.of<PaletteSettings>(context).currentSetting.primary,
           flexibleSpace: GestureDetector(
             onTap: () {
               setState(() {
@@ -152,9 +146,9 @@ class NotificationsScreenState extends State<NotificationsScreen>
                           _controller.refresh();
                         },
                         enabled: !loadingButton,
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
+                        // color: Provider.of<PaletteSettings>(context)
+                        //     .currentSetting
+                        //     .secondary,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -162,8 +156,8 @@ class NotificationsScreenState extends State<NotificationsScreen>
                               'Mark all as read',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            const Icon(
-                              LineIcons.checkCircle,
+                            Icon(
+                              MdiIcons.checkCircle,
                             ),
                           ],
                         ),
@@ -180,9 +174,9 @@ class NotificationsScreenState extends State<NotificationsScreen>
                           horizontal: 24,
                         ),
                         onTap: showFilterSheet,
-                        color: Provider.of<PaletteSettings>(context)
-                            .currentSetting
-                            .secondary,
+                        // color: Provider.of<PaletteSettings>(context)
+                        //     .currentSetting
+                        //     .secondary,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -190,8 +184,8 @@ class NotificationsScreenState extends State<NotificationsScreen>
                               'Filter Inbox',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            const Icon(
-                              LineIcons.filter,
+                            Icon(
+                              MdiIcons.filter,
                             ),
                           ],
                         ),

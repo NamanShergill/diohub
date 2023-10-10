@@ -1,6 +1,4 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 InputDecoration inputDecoration({
   required final BuildContext context,
@@ -21,12 +19,6 @@ InputDecoration inputDecoration({
         child: suffixIcon ??
             Icon(
               icon,
-              color: focusNode?.hasFocus ?? false
-                  ? Provider.of<PaletteSettings>(context).currentSetting.faded3
-                  : Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .faded3
-                      .withOpacity(0.7),
             ),
       ),
       enabledBorder: OutlineInputBorder(

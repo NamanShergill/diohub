@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BasePopupNotification extends StatelessWidget {
   const BasePopupNotification({
@@ -28,8 +26,7 @@ class BasePopupNotification extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: StringButton(
-            color: color ??
-                Provider.of<PaletteSettings>(context).currentSetting.red,
+            color: color,
             onTap: onTap != null
                 ? () async {
                     await onTap!(context);

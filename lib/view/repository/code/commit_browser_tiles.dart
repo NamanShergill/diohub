@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/graphql/graphql.dart';
@@ -10,11 +9,11 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class _CommitTiles extends StatefulWidget {
   const _CommitTiles({
@@ -27,7 +26,7 @@ class _CommitTiles extends StatefulWidget {
     this.compact = false,
     this.highlighted = false,
     this.onSelected,
-    this.backgroundColor,
+    // this.backgroundColor,
   });
   final bool highlighted;
   final ValueChanged<String>? onSelected;
@@ -38,7 +37,7 @@ class _CommitTiles extends StatefulWidget {
   final DateTime date;
   final String url;
   final bool compact;
-  final Color? backgroundColor;
+  // final Color? backgroundColor;
 
   @override
   _CommitTilesState createState() => _CommitTilesState();
@@ -55,13 +54,10 @@ class _CommitTilesState extends State<_CommitTiles> {
   }
 
   @override
-  Widget build(final BuildContext context) => Material(
+  Widget build(final BuildContext context) => Card(
         elevation: 2,
-        borderRadius: medBorderRadius,
-        color: widget.highlighted
-            ? Provider.of<PaletteSettings>(context).currentSetting.accent
-            : widget.backgroundColor ??
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        // borderRadius: medBorderRadius,
+        color: widget.highlighted ? context.colorScheme.primary : null,
         child: InkWell(
           borderRadius: medBorderRadius,
           onTap: () {
@@ -141,12 +137,8 @@ class _CommitTilesState extends State<_CommitTiles> {
                               Octicons.git_commit,
                               size: 11,
                               color: widget.highlighted
-                                  ? Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .elementsOnColors
-                                  : Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .faded3,
+                                  ? context.colorScheme.onPrimary
+                                  : context.colorScheme.onSurface,
                             ),
                             const SizedBox(
                               width: 5,
@@ -156,12 +148,8 @@ class _CommitTilesState extends State<_CommitTiles> {
                               style: TextStyle(
                                 fontSize: 11,
                                 color: widget.highlighted
-                                    ? Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .elementsOnColors
-                                    : Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .faded3,
+                                    ? context.colorScheme.onPrimary
+                                    : null,
                               ),
                             ),
                             Icon(
@@ -170,12 +158,8 @@ class _CommitTilesState extends State<_CommitTiles> {
                                   : Icons.arrow_drop_down,
                               size: 13,
                               color: widget.highlighted
-                                  ? Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .elementsOnColors
-                                  : Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .faded3,
+                                  ? context.colorScheme.onPrimary
+                                  : null,
                             ),
                           ],
                         ),
@@ -192,12 +176,8 @@ class _CommitTilesState extends State<_CommitTiles> {
                                     Icons.timelapse_outlined,
                                     size: 11,
                                     color: widget.highlighted
-                                        ? Provider.of<PaletteSettings>(context)
-                                            .currentSetting
-                                            .elementsOnColors
-                                        : Provider.of<PaletteSettings>(context)
-                                            .currentSetting
-                                            .faded3,
+                                        ? context.colorScheme.onPrimary
+                                        : context.colorScheme.onSurface,
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -210,12 +190,8 @@ class _CommitTilesState extends State<_CommitTiles> {
                                     style: TextStyle(
                                       fontSize: 11,
                                       color: widget.highlighted
-                                          ? Provider.of<PaletteSettings>(
-                                              context,
-                                            ).currentSetting.elementsOnColors
-                                          : Provider.of<PaletteSettings>(
-                                              context,
-                                            ).currentSetting.faded3,
+                                          ? context.colorScheme.onPrimary
+                                          : null,
                                     ),
                                   ),
                                 ],
@@ -305,7 +281,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                     ),
                     InkWell(
                       onTap: copySha,
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -317,7 +293,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                             SizedBox(
                               width: 8,
                             ),
-                            Icon(LineIcons.copy),
+                            Icon(MdiIcons.contentCopy),
                           ],
                         ),
                       ),
@@ -374,8 +350,8 @@ class CommitTilesGQL extends StatelessWidget {
   Widget build(final BuildContext context) => _CommitTiles(
         highlighted: highlighted,
         onSelected: onSelected,
-        backgroundColor: backgroundColor ??
-            Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        // backgroundColor: backgroundColor ??
+        //     Provider.of<PaletteSettings>(context).currentSetting.secondary,
         compact: compact,
         message: item.messageHeadline,
         url: toApiURL,

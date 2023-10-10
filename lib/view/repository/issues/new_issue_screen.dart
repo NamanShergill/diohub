@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/markdown_view/markdown_body.dart';
 import 'package:dio_hub/common/misc/custom_expand_tile.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
@@ -11,11 +10,9 @@ import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
-import 'package:dio_hub/style/text_styles.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
-import 'package:provider/provider.dart';
 
 @RoutePage()
 class NewIssueScreen extends StatefulWidget {
@@ -101,15 +98,15 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                     }
                   : null,
               icon: const Icon(Icons.remove_red_eye_rounded),
-              disabledColor: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .faded3
-                  .withOpacity(0.5),
-              color: markdownView
-                  ? Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .baseElements
-                  : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+              // disabledColor: Provider.of<PaletteSettings>(context)
+              //     .currentSetting
+              //     .faded3
+              //     .withOpacity(0.5),
+              // color: markdownView
+              //     ? Provider.of<PaletteSettings>(context)
+              //         .currentSetting
+              //         .baseElements
+              //     : Provider.of<PaletteSettings>(context).currentSetting.faded3,
             ),
             IconButton(
               onPressed: status == PageStatus.loaded
@@ -119,10 +116,10 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                       }
                     }
                   : null,
-              disabledColor: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .faded3
-                  .withOpacity(0.5),
+              // disabledColor: Provider.of<PaletteSettings>(context)
+              //     .currentSetting
+              //     .faded3
+              //     .withOpacity(0.5),
               icon: const Icon(
                 Icons.add,
               ),
@@ -161,9 +158,9 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                                   widget.template!.name,
                                   overflow:
                                       expanded ? null : TextOverflow.ellipsis,
-                                  style: AppThemeTextStyles.eventCardChildTitle(
-                                    context,
-                                  ),
+                                  // style: AppThemeTextStyles.eventCardChildTitle(
+                                  //   context,
+                                  // ),
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -214,11 +211,11 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                             },
                             label: 'Leave a comment',
                             boxDecoration: BoxDecoration(
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .secondary,
-                              borderRadius: medBorderRadius,
-                            ),
+                                // color: Provider.of<PaletteSettings>(context)
+                                //     .currentSetting
+                                //     .secondary,
+                                // borderRadius: medBorderRadius,
+                                ),
                           ),
                         ),
                       ],
@@ -235,16 +232,16 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                             controller.text.isNotEmpty
                                 ? controller.text
                                 : 'No title yet.',
-                            style: AppThemeTextStyles.appBarTitle(context),
+                            // style: AppThemeTextStyles.appBarTitle(context),
                           ),
                         ),
                         const Divider(),
                         Expanded(
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .secondary,
+                              // color: Provider.of<PaletteSettings>(context)
+                              //     .currentSetting
+                              //     .secondary,
                               borderRadius: medBorderRadius,
                             ),
                             child: Padding(

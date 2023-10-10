@@ -8,7 +8,6 @@ import 'package:dio_hub/utils/open_in_app_browser.dart';
 import 'package:dio_hub/utils/regex.dart';
 import 'package:dio_hub/utils/string_compare.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
-import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -50,10 +49,10 @@ Future<void> deepLinkNavigate(final Uri link) async {
           ),
           MaterialButton(
             onPressed: () {
-              loadTheme(
-                context,
-                link.queryParameters,
-              );
+              // loadTheme(
+              //   context,
+              //   link.queryParameters,
+              // );
               Navigator.pop(context);
             },
             child: const Text('Confirm'),

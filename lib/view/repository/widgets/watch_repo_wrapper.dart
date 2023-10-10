@@ -1,13 +1,12 @@
 import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/graphql/graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 bool? isSubscribedToRepo(final SubscriptionState? state) {
   if (state != null) {
@@ -49,8 +48,8 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
   bool changing = false;
   @override
   Widget build(final BuildContext context) {
-    final DioHubPalette theme =
-        Provider.of<PaletteSettings>(context, listen: false).currentSetting;
+    // final DioHubPalette theme =
+    //     Provider.of<PaletteSettings>(context, listen: false).currentSetting;
     Future<void> updateWatchStatus(
       final HasWatched$Query$Repository data, {
       required final bool isSubscribing,
@@ -118,7 +117,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                               color: data.viewerSubscription !=
                                       SubscriptionState.unsubscribed
                                   ? Colors.white
-                                  : theme.accent,
+                                  : context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -139,7 +138,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                               color: data.viewerSubscription !=
                                       SubscriptionState.subscribed
                                   ? Colors.white
-                                  : theme.accent,
+                                  : context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -160,7 +159,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                               color: data.viewerSubscription !=
                                       SubscriptionState.ignored
                                   ? Colors.white
-                                  : theme.accent,
+                                  : context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

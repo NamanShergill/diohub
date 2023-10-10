@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/events/notifications_model.dart';
@@ -14,7 +13,6 @@ import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_noti
 import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
   const PullRequestNotificationCard(
@@ -105,14 +103,14 @@ class PullRequestNotificationCardState
         } else {
           return Icon(
             Octicons.git_pull_request,
-            color: Provider.of<PaletteSettings>(context).currentSetting.red,
+            color: Colors.red,
             size: iconSize,
           );
         }
       } else if (pullRequest.state == IssueState.OPEN) {
         return Icon(
           Octicons.git_pull_request,
-          color: Provider.of<PaletteSettings>(context).currentSetting.green,
+          color: Colors.green,
           size: iconSize,
         );
       } else {

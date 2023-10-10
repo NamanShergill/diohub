@@ -1,5 +1,6 @@
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
+import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/models/repositories/repository_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,10 +27,6 @@ class RepoEventCard extends StatelessWidget {
         actor: event.actor!.login,
         headerText: <TextSpan>[
           TextSpan(text: ' $eventTextMiddle '),
-          TextSpan(
-            text: event.repo!.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
           if (eventTextEnd != null) TextSpan(text: ' $eventTextEnd'),
         ],
         userLogin: event.actor!.login,
@@ -39,7 +36,8 @@ class RepoEventCard extends StatelessWidget {
         child: RepoCardLoading(
           repo != null ? repo!.url : event.repo!.url,
           repo != null ? repo!.name : event.repo!.name,
-          elevation: 0,
+          // elevation: 0,
+          cardLinkType: CardLinkType.atTop,
           branch: branch,
           refresh: refresh,
         ),

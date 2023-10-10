@@ -1,5 +1,4 @@
 import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/common/const/version_info.dart';
@@ -15,7 +14,6 @@ import 'package:dio_hub/view/settings/widgets/language_setting_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -75,8 +73,8 @@ class SettingsScreenState extends State<SettingsScreen>
           ],
         ),
         tabController: controller,
-        childrenColor:
-            Provider.of<PaletteSettings>(context).currentSetting.primary,
+        // childrenColor:
+        //     Provider.of<PaletteSettings>(context).currentSetting.primary,
         tabViews: const <Widget>[
           _GeneralSettings(),
           _About(),
@@ -100,9 +98,6 @@ class _GeneralSettings extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: StringButton(
-                color: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .secondary,
                 onTap: () async {
                   await showDialog(
                     context: context,
@@ -138,9 +133,9 @@ class _GeneralSettings extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: StringButton(
-                color: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .secondary,
+                // color: Provider.of<PaletteSettings>(context)
+                //     .currentSetting
+                //     .secondary,
                 onTap: BaseAPIHandler.clearCache,
                 title: 'Clear Cache',
               ),
@@ -183,14 +178,12 @@ class _About extends StatelessWidget {
                     padding: EdgeInsets.all(8),
                     child: Text('Let me know at'),
                   ),
-                  Material(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
-                    elevation: 2,
+                  Card(
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(10),
+                    // ),
+                    // color: ,
+                    // elevation: 2,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () async {
@@ -225,9 +218,9 @@ class _About extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: StringButton(
-                color: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .secondary,
+                // color: Provider.of<PaletteSettings>(context)
+                //     .currentSetting
+                //     .secondary,
                 onTap: () async {
                   final PackageInfo packageInfo =
                       await PackageInfo.fromPlatform();

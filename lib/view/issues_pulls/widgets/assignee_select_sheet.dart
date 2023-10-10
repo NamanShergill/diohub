@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
@@ -6,7 +5,6 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AssigneeSelectSheet extends StatefulWidget {
   const AssigneeSelectSheet({
@@ -70,9 +68,9 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Button(
-              color: Provider.of<PaletteSettings>(context)
-                  .currentSetting
-                  .secondary,
+              // color: Provider.of<PaletteSettings>(context)
+              //     .currentSetting
+              //     .secondary,
               onTap: () async {
                 try {
                   final List<UserInfoModel>? newAssignees =
@@ -91,27 +89,24 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
           const SizedBox(
             height: 8,
           ),
-          Theme(
-            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-            child: ExpansionTile(
-              title: const Text('Note'),
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'Organizations on the free plan can only have one active assignee on an issue at a time.',
-                    style: TextStyle(
-                      color: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .faded3,
-                    ),
-                  ),
+          ExpansionTile(
+            title: const Text('Note'),
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Organizations on the free plan can only have one active assignee on an issue at a time.',
+                  style: TextStyle(
+                      // color: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .faded3,
+                      ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+            ],
           ),
           const Divider(),
           Expanded(
@@ -140,8 +135,8 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                 final ({int index, UserInfoModel item, bool refresh}) data,
               ) =>
                   CheckboxListTile(
-                activeColor:
-                    Provider.of<PaletteSettings>(context).currentSetting.accent,
+                // activeColor:
+                //     Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: assignees.contains(data.item.login),
                 onChanged: (final bool? value) {
                   setState(() {

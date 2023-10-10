@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/markdown_view/extensions/markdown_extensions.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
@@ -148,20 +147,20 @@ class MarkdownBodyState extends State<MarkdownBody> {
           ),
           'table': Style(
             border: Border.all(
-              color: context.palette.faded3,
+              // color: context.palette.faded3,
               width: 0.2,
             ),
           ),
           'td': Style(
             border: Border.all(
-              color: context.palette.faded3,
+              // color: context.palette.faded3,
               width: 0.2,
             ),
             padding: HtmlPaddings.symmetric(horizontal: 8, vertical: 4),
           ),
           'th': Style(
             border: Border.all(
-              color: context.palette.faded3,
+              // color: context.palette.faded3,
               width: 0.2,
             ),
             padding: HtmlPaddings.symmetric(horizontal: 8, vertical: 4),

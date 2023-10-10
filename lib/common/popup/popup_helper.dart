@@ -1,9 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class DialogHelper {
   // static exit(context) => showDialog(
@@ -23,12 +22,8 @@ class DialogHelper {
         boxShadows: <BoxShadow>[
           BoxShadow(
             color: appPopup.popupType == PopupType.failed
-                ? Provider.of<PaletteSettings>(context, listen: false)
-                    .currentSetting
-                    .red
-                : Provider.of<PaletteSettings>(context, listen: false)
-                    .currentSetting
-                    .green,
+                ? context.colorScheme.error
+                : Colors.green,
             offset: const Offset(0, 1),
             blurRadius: 1,
           ),
@@ -50,8 +45,8 @@ class DialogHelper {
         icon: Icon(
           appPopup.icon ??
               (appPopup.popupType == PopupType.failed
-                  ? LineIcons.exclamationCircle
-                  : LineIcons.checkCircle),
+                  ? MdiIcons.information
+                  : MdiIcons.checkCircle),
           size: 30,
         ),
         messageText: Text(

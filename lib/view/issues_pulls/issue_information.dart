@@ -1,4 +1,3 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
@@ -7,7 +6,6 @@ import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
   IssueInformation({super.key});
@@ -278,9 +276,8 @@ class __IssueButtonState extends State<_IssueButton> {
             ),
           );
         },
-        color: widget.issue.state != IssueState.CLOSED
-            ? Provider.of<PaletteSettings>(context).currentSetting.red
-            : Provider.of<PaletteSettings>(context).currentSetting.green,
+        color:
+            widget.issue.state != IssueState.CLOSED ? Colors.red : Colors.green,
         child: widget.issue.state != IssueState.CLOSED
             ? const Row(
                 mainAxisAlignment: MainAxisAlignment.center,

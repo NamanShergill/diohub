@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
@@ -10,9 +9,8 @@ import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -30,12 +28,12 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Padding(
         padding: isThemed ? padding : EdgeInsets.zero,
-        child: Material(
+        child: Card(
           elevation: isThemed ? 2 : 0,
-          color: isThemed
-              ? Provider.of<PaletteSettings>(context).currentSetting.primary
-              : Colors.transparent,
-          borderRadius: medBorderRadius,
+          // color: isThemed
+          //     ? Provider.of<PaletteSettings>(context).currentSetting.primary
+          //     : Colors.transparent,
+          // borderRadius: medBorderRadius,
           child: InkWell(
             borderRadius: medBorderRadius,
             onTap: () async {
@@ -69,10 +67,10 @@ class ProfileCard extends StatelessWidget {
                                   child: Text(
                                     user.bio!,
                                     overflow: TextOverflow.ellipsis,
-                                    style: AppThemeTextStyles
-                                        .eventCardChildSubtitle(
-                                      context,
-                                    ),
+                                    // style: AppThemeTextStyles
+                                    //     .eventCardChildSubtitle(
+                                    //   context,
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -88,8 +86,8 @@ class ProfileCard extends StatelessWidget {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                const Icon(
-                                  LineIcons.users,
+                                Icon(
+                                  MdiIcons.accountGroup,
                                   size: 12,
                                 ),
                                 const SizedBox(
@@ -99,10 +97,10 @@ class ProfileCard extends StatelessWidget {
                                   user.followers != null
                                       ? user.followers.toString()
                                       : 'None',
-                                  style:
-                                      AppThemeTextStyles.eventCardChildFooter(
-                                    context,
-                                  ),
+                                  // style:
+                                  // AppThemeTextStyles.eventCardChildFooter(
+                                  // context,
+                                  // ),
                                 ),
                               ],
                             ),
@@ -135,10 +133,10 @@ class ProfileCardLoading extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Padding(
         padding: padding,
-        child: Material(
-          elevation: 2,
-          color: Provider.of<PaletteSettings>(context).currentSetting.primary,
-          borderRadius: medBorderRadius,
+        child: Card(
+          // elevation: 2,
+          // color: Provider.of<PaletteSettings>(context).currentSetting.primary,
+          // borderRadius: medBorderRadius,
           child: APIWrapper<UserInfoModel>(
             apiCall: ({required final bool refresh}) async =>
                 UserInfoService.getUserInfo(login),

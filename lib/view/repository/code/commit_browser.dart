@@ -1,12 +1,11 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/repositories/commit_list_model.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CommitBrowser extends StatefulWidget {
   const CommitBrowser({
@@ -104,12 +103,8 @@ class CommitBrowserState extends State<CommitBrowser> {
                               ' ${index == 0 ? widget.repoURL!.split('/').last : path[index - 1]}',
                               style: TextStyle(
                                 color: index == path.length
-                                    ? Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .accent
-                                    : Provider.of<PaletteSettings>(context)
-                                        .currentSetting
-                                        .baseElements,
+                                    ? context.colorScheme.primary
+                                    : context.colorScheme.onBackground,
                                 fontWeight: index == path.length
                                     ? FontWeight.bold
                                     : FontWeight.w500,

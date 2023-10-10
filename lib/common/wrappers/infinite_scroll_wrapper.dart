@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/scroll_to_top_wrapper.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 /// Controller for [InfiniteScrollWrapper].
@@ -188,8 +187,8 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
     Widget refreshIndicator({final ScrollViewProperties? properties}) {
       if (!widget.disableRefresh) {
         return RefreshIndicator(
-          color:
-              Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+          // color:
+          //     Provider.of<PaletteSettings>(context).currentSetting.baseElements,
           onRefresh: () => Future<void>.sync(() async {
             controller.refresh();
           }),
@@ -206,7 +205,7 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
           alwaysVisibleAtOffset: widget.pinnedHeader != null,
           scrollController: widget.scrollController,
           promptTheme: PromptButtonTheme(
-            color: Provider.of<PaletteSettings>(context).currentSetting.accent,
+            color: context.colorScheme.primary,
           ),
           promptReplacementBuilder: widget.pinnedHeader,
           builder: (
@@ -433,10 +432,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                       child: Text(
                         'Nothing to see here.',
                         style: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                        ),
+                            // color: Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .faded3,
+                            ),
                       ),
                     ),
                   ),
@@ -454,10 +453,10 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                             Text(
                               'Nothing more.',
                               style: TextStyle(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded3,
-                              ),
+                                  // color: Provider.of<PaletteSettings>(context)
+                                  //     .currentSetting
+                                  //     .faded3,
+                                  ),
                             ),
                             SizedBox(
                               height: widget.bottomSpacing,

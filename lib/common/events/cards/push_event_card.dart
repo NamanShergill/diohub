@@ -1,14 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/events/cards/base_card.dart';
 import 'package:dio_hub/common/misc/branch_label.dart';
 import 'package:dio_hub/common/misc/custom_expansion_tile.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/text_styles.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PushEventCard extends StatelessWidget {
   const PushEventCard(this.event, this.data, {super.key});
@@ -32,11 +30,11 @@ class PushEventCard extends StatelessWidget {
         headerText: <TextSpan>[
           TextSpan(
             text: ' pushed to ',
-            style: AppThemeTextStyles.eventCardHeaderMed(context),
+            // style: AppThemeTextStyles.eventCardHeaderMed(context),
           ),
           TextSpan(
             text: event.repo!.name,
-            style: AppThemeTextStyles.eventCardHeaderBold(context),
+            // style: AppThemeTextStyles.eventCardHeaderBold(context),
           ),
         ],
         avatarUrl: event.actor!.avatarUrl,
@@ -46,7 +44,7 @@ class PushEventCard extends StatelessWidget {
             children: <Widget>[
               Text(
                 '${data.size} commit${data.size! > 1 ? 's' : ''} to',
-                style: AppThemeTextStyles.eventCardChildTitleSmall(context),
+                // style: AppThemeTextStyles.eventCardChildTitleSmall(context),
               ),
               Flexible(
                 child: BranchLabel(
@@ -93,17 +91,15 @@ class PushEventCard extends StatelessWidget {
                       horizontal: 4,
                       vertical: 8,
                     ),
-                    child: RichText(
-                      text: TextSpan(
+                    child: Text.rich(
+                      TextSpan(
                         style: Theme.of(context).textTheme.bodyMedium,
                         children: <InlineSpan>[
                           TextSpan(
                             text:
                                 '#${data.commits![index].sha!.substring(0, 6)}',
                             style: TextStyle(
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .accent,
+                              color: context.colorScheme.primary,
                             ),
                           ),
                           TextSpan(text: '  ${data.commits![index].message!}'),

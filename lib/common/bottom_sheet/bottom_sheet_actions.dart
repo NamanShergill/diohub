@@ -23,31 +23,19 @@ Future<T?> showActionsSheet<T>(
                 onPressed: e.onPressed,
                 isDefaultAction: e.isDefaultAction,
                 isDestructiveAction: e.isDestructiveAction,
-                child: Theme(
-                  data: context.themeData.copyWith(
-                    iconTheme: IconThemeData(
-                      color: e.isDestructiveAction
-                          ? CupertinoDynamicColor.resolve(
-                              CupertinoColors.systemRed,
-                              context,
-                            )
-                          : CupertinoTheme.of(context).primaryColor,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      if (e.leading != null) ...<Widget>[
-                        e.leading!,
-                        const SizedBox(width: 15),
-                      ],
-                      e.title,
-                      if (e.trailing != null) ...<Widget>[
-                        const SizedBox(width: 10),
-                        e.trailing!,
-                      ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    if (e.leading != null) ...<Widget>[
+                      e.leading!,
+                      const SizedBox(width: 15),
                     ],
-                  ),
+                    e.title,
+                    if (e.trailing != null) ...<Widget>[
+                      const SizedBox(width: 10),
+                      e.trailing!,
+                    ],
+                  ],
                 ),
               ),
             )
@@ -138,8 +126,8 @@ Future<T?> showURLActions<T>(
             ))
           BottomSheetAction(
             title: const Text('Open'),
-            trailing: const Icon(
-              LineIcons.link,
+            trailing: Icon(
+              MdiIcons.link,
             ),
             isDefaultAction: true,
             onPressed: () {
@@ -179,8 +167,8 @@ Future<T?> showURLActions<T>(
           ),
           BottomSheetAction(
             title: const Text('Open in Browser'),
-            trailing: const Icon(
-              LineIcons.link,
+            trailing: Icon(
+              MdiIcons.link,
             ),
             // isDefaultAction: true,
             onPressed: () {

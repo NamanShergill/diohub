@@ -1,8 +1,6 @@
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ScaffoldBody extends StatefulWidget {
   const ScaffoldBody({
@@ -62,9 +60,9 @@ class ScaffoldBodyState extends State<ScaffoldBody> {
                             expand: snapshot.data == NetworkStatus.restored,
                             child: Container(
                               width: double.infinity,
-                              color: Provider.of<PaletteSettings>(context)
-                                  .currentSetting
-                                  .green,
+                              // color: Provider.of<PaletteSettings>(context)
+                              //     .currentSetting
+                              //     .green,
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Center(

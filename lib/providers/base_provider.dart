@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 abstract class BaseDataProvider<T> extends BaseProvider {
   BaseDataProvider({final Status? status, final bool loadDataOnInit = true})
@@ -81,3 +82,16 @@ abstract class BaseProvider extends ChangeNotifier {
 }
 
 enum Status { initialized, loading, loaded, error }
+
+extension BaseProviderExtension on BuildContext {
+  T provider<T extends BaseProvider>({final bool listen = true}) =>
+      Provider.of<T>(
+        this,
+        listen: listen,
+      );
+  Status providerStatus<T extends BaseProvider>({final bool listen = true}) =>
+      Provider.of<T>(
+        this,
+        listen: listen,
+      ).status;
+}

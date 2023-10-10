@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
@@ -10,9 +9,9 @@ import 'package:dio_hub/common/misc/deep_link_widget.dart';
 import 'package:dio_hub/common/misc/editable_text.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/nested_scroll.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/reaction_bar.dart';
+import 'package:dio_hub/common/misc/scroll_scaffold.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
@@ -41,7 +40,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:image_stack/image_stack.dart';
 import 'package:provider/provider.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 IssuePullRoute issuePullScreenRoute(final PathData path) =>
     getRoute<IssuePullRoute>(
@@ -282,36 +280,25 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               descEditingController,
               assigneeEditingController,
             ],
-            builder: (final BuildContext context) => Scaffold(
+            builder: (final BuildContext context) => ScrollScaffold(
+              subHeader: SizeExpandedSection(
+                expand: dynamicTabsController.activeLength > 1,
+                child: buildTabsView(tabBar),
+              ),
               appBar: buildAppBar(context),
-              body: RefreshIndicator(
+              wrapperBuilder: (context, child) => RefreshIndicator(
+                child: child,
                 onRefresh: () => Future<void>.sync(
                   () => widget.apiWrapperController.refresh(),
                 ),
                 triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                child: NestedScroll(
-                  header: (
-                    final BuildContext context, {
-                    required final bool isInnerBoxScrolled,
-                  }) =>
-                      <Widget>[
-                    SliverToBoxAdapter(
-                      child: _ScreenHeader(
-                        widget: widget,
-                        titleEditingController: titleEditingController,
-                        labelsEditingController: labelsEditingController,
-                      ),
-                    ),
-                    SliverPinnedHeader(
-                      child: SizeExpandedSection(
-                        expand: dynamicTabsController.activeLength > 1,
-                        child: buildTabsView(tabBar),
-                      ),
-                    ),
-                  ],
-                  body: tabView,
-                ),
               ),
+              header: _ScreenHeader(
+                widget: widget,
+                titleEditingController: titleEditingController,
+                labelsEditingController: labelsEditingController,
+              ),
+              body: tabView,
             ),
           ),
         ),
@@ -333,7 +320,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                     text: widget.repoInfo.name,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      color: context.palette.faded3,
+                      // color: context.palette.faded3,
                     ),
                   ),
                 ],
@@ -351,9 +338,6 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
           tabBar,
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(
-              height: 0,
-            ),
           ),
           // const SizedBox(
           //   height: 8,
@@ -396,8 +380,8 @@ class _AboutTab extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         widget.state.icon(
-                          color: context.palette.elementsOnColors,
-                        ),
+                            // color: context.palette.elementsOnColors,
+                            ),
                         const SizedBox(
                           width: 4,
                         ),
@@ -417,7 +401,7 @@ class _AboutTab extends StatelessWidget {
                   ),
                 Text(
                   getDate(widget.createdAt.toString(), shorten: false),
-                  style: TextStyle(color: context.palette.faded3),
+                  // style: TextStyle(color: context.palette.faded3),
                 ),
               ],
             ),
@@ -471,7 +455,7 @@ class _AboutTab extends StatelessWidget {
                                   child: Text(
                                     'No Description',
                                     style: TextStyle(
-                                      color: context.palette.faded3,
+                                      // color: context.palette.faded3,
                                       fontStyle: FontStyle.italic,
                                     ),
                                   ),
@@ -486,7 +470,7 @@ class _AboutTab extends StatelessWidget {
                     height: 8,
                   ),
                   Material(
-                    color: context.palette.accent,
+                    color: context.colorScheme.primary,
                     borderRadius: BorderRadius.only(
                       bottomLeft: medBorderRadius.bottomLeft,
                       bottomRight: medBorderRadius.bottomRight,
@@ -513,20 +497,26 @@ class _AboutTab extends StatelessWidget {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  const Padding(
-                                    padding: EdgeInsets.all(8),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
                                     child: Icon(
                                       Octicons.comment_discussion,
                                       size: 15,
+                                      color: context.colorScheme.onPrimary,
                                     ),
                                   ),
                                   Text(
                                     '${widget.commentCount} replies',
+                                    style:
+                                        context.textTheme.labelSmall?.copyWith(
+                                      color: context.colorScheme.onPrimary,
+                                    ),
                                   ),
                                 ],
                               ),
-                              const Icon(
+                              Icon(
                                 Icons.arrow_right_rounded,
+                                color: context.colorScheme.onPrimary,
                               ),
                             ],
                           ),
@@ -553,9 +543,7 @@ class _AboutTab extends StatelessWidget {
                     context: context,
                   ),
                   title: '${widget.number}',
-                  titleTextStyle: TextStyle(
-                    color: context.palette.faded3,
-                  ),
+
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -691,7 +679,7 @@ class _ScreenHeader extends StatelessWidget {
                         Icon(
                           Octicons.pin,
                           size: 15,
-                          color: context.palette.faded3,
+                          // color: context.palette.faded3,
                         ),
                         const SizedBox(
                           width: 4,
@@ -699,7 +687,7 @@ class _ScreenHeader extends StatelessWidget {
                         Text(
                           'Pinned',
                           style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.palette.faded3,
+                            // color: context.palette.faded3,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -776,7 +764,7 @@ class _ScreenHeader extends StatelessWidget {
                           child: Text(
                             'No labels',
                             style: TextStyle(
-                              color: context.palette.faded3,
+                              // color: context.palette.faded3,
                               fontStyle: FontStyle.italic,
                             ),
                           ),
@@ -896,11 +884,11 @@ class _ActorsInfoCard extends StatelessWidget {
             ),
           _ => ImageStack.widgets(
               totalCount: availableList.totalCount,
-              backgroundColor: context.palette.secondary,
-              widgetBorderColor: context.palette.secondary,
+              // backgroundColor: context.palette.secondary,
+              // widgetBorderColor: context.palette.secondary,
               extraCountTextStyle: TextStyle(
-                color: context.palette.faded3,
-              ),
+                  // color: context.palette.faded3,
+                  ),
               widgetRadius: 29,
               children: items.limitedAvailableList
                   .map(
@@ -960,7 +948,7 @@ class _ActorsInfoCard extends StatelessWidget {
           child: Text(
             '${data.index + 1}',
             style: TextStyle(
-              color: context.palette.faded3,
+              // color: context.palette.faded3,
               fontSize: 12,
             ),
           ),
