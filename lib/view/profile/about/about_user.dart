@@ -13,10 +13,6 @@ class AboutUser extends StatelessWidget {
         if (userInfoModel!.bio != null)
           InfoCard(
             title: 'Bio',
-            // leadingIcon: MdiIcons.paragraph,
-            mode: userInfoModel!.bio!.length > 80
-                ? InfoCardMode.expanded
-                : InfoCardMode.basic,
             child: Text(userInfoModel!.bio!),
           ),
         if (userInfoModel!.twitterUsername != null)

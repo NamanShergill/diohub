@@ -58,7 +58,7 @@ class IssueScreenState extends State<IssueScreen>
       createdAt: data.createdAt,
       createdBy: data.author,
       apiWrapperController: widget.apiWrapperController,
-      participantsInfo: MultiItemInfoCardList<ActorMixin>(
+      participantsInfo: UnfinishedList<ActorMixin>(
         limitedAvailableList: data.participants.nodes!
             .map((final IssueInfoMixin$Participants$Nodes? e) => e!)
             .toList(),

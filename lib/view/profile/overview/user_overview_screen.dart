@@ -23,7 +23,6 @@ class UserOverviewScreen extends StatelessWidget {
         children: <Widget>[
           InfoCard(
             title: 'Pinned Repos',
-            mode: InfoCardMode.expanded,
             child: APIWrapper<
                 List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
               apiCall: ({required final bool refresh}) async =>
@@ -80,7 +79,6 @@ class UserOverviewScreen extends StatelessWidget {
           ),
           InfoCard(
             title: 'Contribution Graph',
-            mode: InfoCardMode.expanded,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Column(

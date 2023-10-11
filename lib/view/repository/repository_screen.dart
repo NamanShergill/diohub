@@ -255,42 +255,43 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                     return DynamicTabsParent(
                       controller: tabController,
                       tabBuilder:
-                          (final BuildContext context, final DynamicTab tab) =>
-                              Tab(
-                        // text: tab.tab?.label ?? tab.identifier,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: tab.isDismissible ? 24.0 : 0),
-                              child: Text(tab.identifier),
-                            ),
-                            if (tab.isDismissible)
-                              MenuButton(
-                                buttonBuilder: (context, showMenu) =>
-                                    IconButton(
-                                  icon: Icon(
-                                    Icons.adaptive.more_rounded,
-                                  ),
-                                  // padding: EdgeInsets.zero,
-                                  constraints: BoxConstraints(),
+                          (final BuildContext context, final DynamicTab tab) {
+                        return Tab(
+                          // text: tab.tab?.label ?? tab.identifier,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: tab.isDismissible ? 24.0 : 0),
+                                child: Text(tab.identifier),
+                              ),
+                              if (tab.isDismissible)
+                                MenuButton(
+                                  buttonBuilder: (context, showMenu) =>
+                                      IconButton(
+                                    icon: Icon(
+                                      Icons.adaptive.more_rounded,
+                                    ),
+                                    // padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(),
 
-                                  onPressed: showMenu,
-                                ),
-                                itemBuilder: (context) => [
-                                  PullDownMenuItem(
-                                    onTap: () {
-                                      tabController.closeTab(tab.identifier);
-                                    },
-                                    title: 'Close Tab',
-                                    icon: Icons.close_rounded,
-                                  )
-                                ],
-                              )
-                          ],
-                        ),
-                      ),
+                                    onPressed: showMenu,
+                                  ),
+                                  itemBuilder: (context) => [
+                                    PullDownMenuItem(
+                                      onTap: () {
+                                        tabController.closeTab(tab.identifier);
+                                      },
+                                      title: 'Close Tab',
+                                      icon: Icons.close_rounded,
+                                    )
+                                  ],
+                                )
+                            ],
+                          ),
+                        );
+                      },
                       tabs: tabs,
                       builder: (
                         final BuildContext context,

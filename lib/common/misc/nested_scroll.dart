@@ -8,22 +8,27 @@ class NestedScroll extends StatelessWidget {
     super.key,
   });
   final List<Widget> Function(
-    BuildContext context, {
-    required bool isInnerBoxScrolled,
-  }) header;
+    (
+      BuildContext context, {
+      bool isInnerBoxScrolled,
+    }) data,
+  ) header;
   final Widget body;
 
   @override
   Widget build(final BuildContext context) => NestedScrollView(
-        headerSliverBuilder: (final BuildContext context, final bool value) => <Widget>[
+        headerSliverBuilder: (final BuildContext context, final bool value) =>
+            <Widget>[
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverSafeArea(
               bottom: false,
               sliver: MultiSliver(
                 children: header(
-                  context,
-                  isInnerBoxScrolled: value,
+                  (
+                    context,
+                    isInnerBoxScrolled: value,
+                  ),
                 ),
               ),
             ),

@@ -189,7 +189,7 @@ class PatchViewerState extends State<PatchViewer> {
         child: Row(
           children: <Widget>[
             const SizedBox(
-              width: 10,
+              width: 8,
             ),
             SizedBox(
               width: 35,

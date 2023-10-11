@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_hub/common/markdown_view/markdown_body.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/menu_button.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/common/misc/reaction_bar.dart';
@@ -182,9 +183,7 @@ class BaseCommentState extends State<BaseComment> {
             Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            BasicCard.linked(
-              cardLinkType: CardLinkType.atBottom,
-              color: context.colorScheme.surface.asHint(),
+            CardHeader(
               child: _buildHeader(context, button),
             ),
             // const SizedBox(height: 8),
@@ -232,7 +231,8 @@ class BaseCommentState extends State<BaseComment> {
 
             if (_reactionsNotEmpty())
               BasicCard.linked(
-                color: context.colorScheme.surface.asHint(),
+                color: context.colorScheme.surfaceVariant,
+                // elevation: 0,
                 cardLinkType: CardLinkType.atTop,
                 child: Padding(
                   padding: const EdgeInsets.all(4),
@@ -312,7 +312,7 @@ class BaseCommentState extends State<BaseComment> {
                           }
                           return Text(
                             str ?? '',
-                            style: context.textTheme.bodySmall?.asHint(),
+                            // style: context.textTheme.bodySmall?.asHint(),
                           );
                         },
                       ),
@@ -326,18 +326,18 @@ class BaseCommentState extends State<BaseComment> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      getDate(widget.createdAt.toString(), shorten: false),
-                      style: context.textTheme.bodySmall?.asHint(),
+                      getDate(widget.createdAt.toString()),
+                      style: context.textTheme.labelMedium?.asHint(),
                     ),
                     if (widget.lastEditedAt != null)
-                      Text(
-                        'Edited ${getDate(widget.lastEditedAt.toString(), shorten: false)}',
-                        style: const TextStyle(
-                          // color: Provider.of<PaletteSettings>(context)
-                          //     .currentSetting
-                          //     .faded3,
-                          fontSize: 10,
-                        ),
+                      Row(
+                        children: [
+                          Icon(MdiIcons.update),
+                          Text(
+                            '${getDate(widget.lastEditedAt.toString())}',
+                            style: context.textTheme.labelSmall?.asHint(),
+                          ),
+                        ],
                       ),
                   ],
                 ),

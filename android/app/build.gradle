@@ -43,10 +43,29 @@ android {
         disable 'InvalidPackage'
     }
 
+    flavorDimensions "build-type"
+
+    productFlavors {
+        dev {
+            dimension "build-type"
+            resValue "string", "app_name", "DioHub - Dev"
+            applicationIdSuffix ".dev"
+        }
+        beta {
+            dimension "build-type"
+            resValue "string", "app_name", "DioHub - Beta"
+            applicationIdSuffix ".beta"
+        }
+        rel {
+            dimension "build-type"
+            resValue "string", "app_name", "DioHub"
+        }
+    }
+
     defaultConfig {
         applicationId "com.felix.diohub"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdkVersion flutter.compileSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

@@ -24,8 +24,7 @@ class FontSettingCardState extends State<FontSettingCard> {
   @override
   Widget build(final BuildContext context) => InfoCard(
         title: 'App Font',
-        mode: InfoCardMode.expanded,
-        trailing: Icon(Icons.edit_rounded),
+        trailing: const Icon(Icons.edit_rounded),
         onTap: () async {
           await showDialog(
             context: context,

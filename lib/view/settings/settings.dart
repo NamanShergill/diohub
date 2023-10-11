@@ -153,7 +153,6 @@ class _About extends StatelessWidget {
         child: Column(
           children: <Widget>[
             InfoCard(
-              mode: InfoCardMode.expanded,
               title: 'Repository',
               child: RepoCardLoading(
                 toRepoAPIResource('https://github.com/NamanShergill/diohub'),
@@ -162,7 +161,6 @@ class _About extends StatelessWidget {
             ),
             const InfoCard(
               title: 'Maintained By',
-              mode: InfoCardMode.expanded,
               child: ProfileCardLoading(
                 'NamanShergill',
                 compact: true,
@@ -170,7 +168,6 @@ class _About extends StatelessWidget {
             ),
             InfoCard(
               title: 'Bugs or Suggestions?',
-              mode: InfoCardMode.expanded,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

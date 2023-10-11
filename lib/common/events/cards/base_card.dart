@@ -34,7 +34,8 @@ class BaseEventCard extends StatelessWidget {
           // ),
           BasicCard.linked(
             cardLinkType: CardLinkType.atBottom,
-            elevation: 0.6,
+            color: context.colorScheme.surfaceVariant, elevation: 0,
+            // elevation: 0.6,
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
@@ -56,12 +57,13 @@ class BaseEventCard extends StatelessWidget {
                             TextSpan(
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyMedium!
-                                  .asHint()
-                                  .asBold(),
+                                  .bodySmall!
+                                  .asHint(),
+                              // .asBold(),
                               children: <TextSpan>[
                                     TextSpan(
                                       text: actor,
+
                                       // style: AppThemeTextStyles.eventCardHeaderMed(
                                       //   context,
                                       // ),

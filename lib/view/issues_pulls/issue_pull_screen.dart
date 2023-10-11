@@ -177,7 +177,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final String title;
   final Uri uri;
   final bool viewerCanReact;
-  final MultiItemInfoCardList<ActorMixin> participantsInfo;
+  final UnfinishedList<ActorMixin> participantsInfo;
   final bool isPinned;
 
   @override
@@ -286,7 +286,9 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                 child: buildTabsView(tabBar),
               ),
               appBar: buildAppBar(context),
-              wrapperBuilder: (context, child) => RefreshIndicator(
+              wrapperBuilder:
+                  (final BuildContext context, final Widget child) =>
+                      RefreshIndicator(
                 child: child,
                 onRefresh: () => Future<void>.sync(
                   () => widget.apiWrapperController.refresh(),
@@ -574,13 +576,13 @@ class _AboutTab extends StatelessWidget {
                     final List<AssigneeInfoMixin$Edges?> assignees =
                         widget.assigneesInfo.edges ??
                             <AssigneeInfoMixin$Edges?>[];
-                    return _ActorsInfoCard(
+                    return _AssigneeInfoCard(
                       onTap: data.editModeActive
                           ? () async =>
                               data.editingController.edit.call(context)
                           : null,
                       trailing: data.editModeActive ? data.tools : null,
-                      availableList: MultiItemInfoCardList<ActorMixin>(
+                      availableList: UnfinishedList<ActorMixin>(
                         limitedAvailableList: assignees
                             .map(
                               (final AssigneeInfoMixin$Edges? e) => e!.node!,
@@ -588,7 +590,7 @@ class _AboutTab extends StatelessWidget {
                             .toList(),
                       ),
                       titleBuilder: (
-                        final MultiItemInfoCardList<ActorMixin> availableList,
+                        final UnfinishedList<ActorMixin> availableList,
                       ) =>
                           switch (availableList.totalCount) {
                         1 => 'Assignee',
@@ -620,26 +622,31 @@ class _AboutTab extends StatelessWidget {
                   },
                 ),
 
-                _ActorsInfoCard(
-                  titleBuilder: (
-                    final MultiItemInfoCardList<ActorMixin> availableList,
-                  ) =>
-                      switch (availableList.totalCount) {
+                InfoCard(
+                  title: switch (widget.participantsInfo.totalCount) {
                     1 => 'Participant',
                     _ => 'Participants',
                   },
-                  availableList: widget.participantsInfo,
-                  fetchActorsList: (
-                    final ({
-                      NodeWithPaginationInfo<ActorMixin>? lastItem,
-                      int pageNumber,
-                      int pageSize,
-                      bool refresh
-                    }) data,
-                  ) async =>
-                      context.issueProvider(listen: false).getParticipants(
-                            after: data.lastItem?.cursor,
-                          ),
+                  trailing: _getIcon(widget.participantsInfo.totalCount),
+                  child: _buildChild(widget.participantsInfo),
+                  onTap: () async {
+                    await BottomSheetPagination<
+                        NodeWithPaginationInfo<ActorMixin>>(
+                      paginatedListItemBuilder: _paginatedListItemBuilder,
+                      paginationFuture: (
+                        final ({
+                          NodeWithPaginationInfo<ActorMixin>? lastItem,
+                          int pageNumber,
+                          int pageSize,
+                          bool refresh
+                        }) data,
+                      ) async =>
+                          context.issueProvider(listen: false).getParticipants(
+                                after: data.lastItem?.cursor,
+                              ),
+                      title: 'Participants',
+                    ).openSheet(context);
+                  },
                 ),
               ],
             ),
@@ -843,8 +850,8 @@ class IssuePullState {
   }
 }
 
-class _ActorsInfoCard extends StatelessWidget {
-  const _ActorsInfoCard({
+class _AssigneeInfoCard extends StatelessWidget {
+  const _AssigneeInfoCard({
     required this.availableList,
     required this.titleBuilder,
     required this.fetchActorsList,
@@ -852,113 +859,145 @@ class _ActorsInfoCard extends StatelessWidget {
     this.onTap,
     this.trailing,
   });
-  final MultiItemInfoCardList<ActorMixin> availableList;
-  final String Function(MultiItemInfoCardList<ActorMixin> availableList)
-      titleBuilder;
+  final UnfinishedList<ActorMixin> availableList;
+  final String Function(UnfinishedList<ActorMixin> availableList) titleBuilder;
   final ScrollWrapperFuture<NodeWithPaginationInfo<ActorMixin>> fetchActorsList;
   final VoidCallback? onTap;
   final Widget? trailing;
   @override
-  Widget build(final BuildContext context) => MultiItemInfoCard<ActorMixin>(
-        availableList: availableList,
-        bottomSheetPagination:
-            BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
-          paginatedListItemBuilder: paginatedListItemBuilder,
-          paginationFuture: fetchActorsList,
-          title: titleBuilder.call(availableList),
-        ),
-        onTapOverride: onTap,
-        trailingWidgetOverride: trailing,
-        title: titleBuilder.call(availableList),
-        builder: (
-          final BuildContext context,
-          final MultiItemInfoCardList<ActorMixin> items,
-        ) =>
-            switch (items.totalCount) {
-          0 => const Text('None'),
-          1 => ProfileTile.login(
-              padding: EdgeInsets.zero,
-              avatarUrl: items.limitedAvailableList.first.avatarUrl.toString(),
-              userLogin: items.limitedAvailableList.first.login,
-              disableTap: true,
-            ),
-          _ => ImageStack.widgets(
-              totalCount: availableList.totalCount,
-              // backgroundColor: context.palette.secondary,
-              // widgetBorderColor: context.palette.secondary,
-              extraCountTextStyle: TextStyle(
-                  // color: context.palette.faded3,
-                  ),
-              widgetRadius: 29,
-              children: items.limitedAvailableList
-                  .map(
-                    (final ActorMixin e) => ProfileTile.avatar(
-                      avatarUrl: e.avatarUrl.toString(),
-                      padding: EdgeInsets.zero,
-                    ),
-                  )
-                  .toList(),
-            ),
+  Widget build(final BuildContext context) => InfoCard(
+        onTap: () async {
+          if (availableList.totalCount > 1) {
+            await BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
+              paginatedListItemBuilder: _paginatedListItemBuilder,
+              paginationFuture: fetchActorsList,
+              title: titleBuilder.call(availableList),
+            ).openSheet(context);
+          } else {
+            navigateToProfile(
+              login: availableList.limitedAvailableList.first.login,
+              context: context,
+            );
+          }
         },
-        multiListSingleItemBehaviour: MultiListSingleItemBehaviour(
-          onTap: (final BuildContext context) => () => navigateToProfile(
-                login: availableList.limitedAvailableList.first.login,
-                context: context,
-              ),
-          icon: null,
-        ),
+        trailing: _getIcon(availableList.totalCount),
+        title: titleBuilder.call(availableList),
+        child: _buildChild(),
       );
 
-  ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
-      get paginatedListItemBuilder => (
-            final BuildContext context,
-            final ({
-              int index,
-              NodeWithPaginationInfo<ActorMixin> item,
-              bool refresh,
-            }) data,
-          ) =>
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Card(
-                  child: ProfileTile.login(
-                    avatarUrl: data.item.node.avatarUrl.toString(),
-                    userLogin: data.item.node.login,
-                    wrapperBuilder: (final Widget child) => Row(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: _buildListItemChildren(data, context, child),
-                    ),
-                    // wrapperBuilder: ,
-                  ),
+  StatelessWidget _buildChild() => switch (availableList.totalCount) {
+        0 => const Text('None'),
+        1 => ProfileTile.login(
+            padding: EdgeInsets.zero,
+            avatarUrl:
+                availableList.limitedAvailableList.first.avatarUrl.toString(),
+            userLogin: availableList.limitedAvailableList.first.login,
+            disableTap: true,
+          ),
+        _ => ImageStack.widgets(
+            totalCount: availableList.totalCount,
+            // backgroundColor: context.palette.secondary,
+            // widgetBorderColor: context.palette.secondary,
+            extraCountTextStyle: TextStyle(
+                // color: context.palette.faded3,
                 ),
-              );
+            widgetRadius: 29,
+            children: availableList.limitedAvailableList
+                .map(
+                  (final ActorMixin e) => ProfileTile.avatar(
+                    avatarUrl: e.avatarUrl.toString(),
+                    padding: EdgeInsets.zero,
+                  ),
+                )
+                .toList(),
+          ),
+      };
+}
 
-  List<Widget> _buildListItemChildren(
-    final ({
-      int index,
-      NodeWithPaginationInfo<ActorMixin> item,
-      bool refresh
-    }) data,
-    final BuildContext context,
-    final Widget child,
-  ) =>
-      <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: Text(
-            '${data.index + 1}',
-            style: TextStyle(
+StatelessWidget _buildChild(final UnfinishedList<ActorMixin> availableList) =>
+    switch (availableList.totalCount) {
+      0 => const Text('None'),
+      1 => ProfileTile.login(
+          padding: EdgeInsets.zero,
+          avatarUrl:
+              availableList.limitedAvailableList.first.avatarUrl.toString(),
+          userLogin: availableList.limitedAvailableList.first.login,
+          disableTap: true,
+        ),
+      _ => ImageStack.widgets(
+          totalCount: availableList.totalCount,
+          // backgroundColor: context.palette.secondary,
+          // widgetBorderColor: context.palette.secondary,
+          extraCountTextStyle: TextStyle(
               // color: context.palette.faded3,
-              fontSize: 12,
-            ),
+              ),
+          widgetRadius: 29,
+          children: availableList.limitedAvailableList
+              .map(
+                (final ActorMixin e) => ProfileTile.avatar(
+                  avatarUrl: e.avatarUrl.toString(),
+                  padding: EdgeInsets.zero,
+                ),
+              )
+              .toList(),
+        ),
+    };
+
+ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
+    get _paginatedListItemBuilder => (
+          final BuildContext context,
+          final ({
+            int index,
+            NodeWithPaginationInfo<ActorMixin> item,
+            bool refresh,
+          }) data,
+        ) =>
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Card(
+                child: ProfileTile.login(
+                  avatarUrl: data.item.node.avatarUrl.toString(),
+                  userLogin: data.item.node.login,
+                  wrapperBuilder: (final Widget child) => Row(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: _buildListItemChildren(data, context, child),
+                  ),
+                  // wrapperBuilder: ,
+                ),
+              ),
+            );
+Icon? _getIcon(int listLength) => switch (listLength) {
+      0 => null,
+      1 => Icon(Icons.adaptive.arrow_forward_rounded),
+      _ => const Icon(
+          Icons.arrow_drop_down_rounded,
+        ),
+    };
+List<Widget> _buildListItemChildren(
+  final ({
+    int index,
+    NodeWithPaginationInfo<ActorMixin> item,
+    bool refresh
+  }) data,
+  final BuildContext context,
+  final Widget child,
+) =>
+    <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(left: 16),
+        child: Text(
+          '${data.index + 1}',
+          style: TextStyle(
+            // color: context.palette.faded3,
+            fontSize: 12,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: child,
-        ),
-      ];
-}
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8),
+        child: child,
+      ),
+    ];
 
 // class ActorMultiListAdapter extends PaginatedInfoCardAdapter<ActorMixin> {
 //   ActorMultiListAdapter({

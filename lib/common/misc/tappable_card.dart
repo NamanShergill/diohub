@@ -1,40 +1,5 @@
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/extensions.dart';
-import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-class InkWellCard extends StatelessWidget {
-  const InkWellCard({
-    required this.onTap,
-    required this.child,
-    super.key,
-    this.padding = const EdgeInsets.all(16),
-    this.color,
-    this.borderRadius,
-    this.elevation,
-  });
-  final VoidCallback? onTap;
-  final Widget child;
-  final EdgeInsets padding;
-  final Color? color;
-  final BorderRadius? borderRadius;
-  final double? elevation;
-  @override
-  Widget build(final BuildContext context) => BasicCard(
-        margin: EdgeInsets.zero,
-        color: color ?? context.colorScheme.surface,
-        shape: context.themeData.cardTheme.shape,
-        elevation: elevation ??
-            onTap
-                ?.returnIfNotNull(context.themeData.cardTheme.elevation ?? 1) ??
-            0.6,
-        child: InkWell(
-          // customBorder: context.themeData.cardTheme.shape,
-          onTap: onTap,
-          child: Padding(padding: padding, child: child),
-        ),
-      );
-}
 
 enum CardLinkType {
   atTop,
@@ -56,6 +21,7 @@ class BasicCard extends StatelessWidget {
     this.clipBehavior,
     this.child,
     this.semanticContainer = true,
+    this.onTap,
   }) : cardLinkType = CardLinkType.none;
   const BasicCard.linked({
     required this.cardLinkType,
@@ -70,9 +36,11 @@ class BasicCard extends StatelessWidget {
     this.clipBehavior,
     this.child,
     this.semanticContainer = true,
+    this.onTap,
   });
 
   final CardLinkType cardLinkType;
+  final VoidCallback? onTap;
 
   /// The card's background color.
   ///
@@ -188,6 +156,6 @@ class BasicCard extends StatelessWidget {
         semanticContainer: semanticContainer,
         shadowColor: shadowColor,
         surfaceTintColor: surfaceTintColor,
-        child: child,
+        child: InkWell(onTap: onTap, child: child),
       );
 }
