@@ -9,7 +9,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 class IssueScreen extends StatefulWidget {
   const IssueScreen(
     this.issueInfo, {
-    required this.apiWrapperController,
+    required this.apiWrapperKey,
     this.initialIndex = 0,
     this.commentsSince,
     super.key,
@@ -17,8 +17,9 @@ class IssueScreen extends StatefulWidget {
   final IssueInfoMixin issueInfo;
   final DateTime? commentsSince;
   final int initialIndex;
-  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
-      apiWrapperController;
+  final GlobalKey<
+          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>
+      apiWrapperKey;
 
   @override
   IssueScreenState createState() => IssueScreenState();
@@ -57,7 +58,7 @@ class IssueScreenState extends State<IssueScreen>
       labels: data.labels!.nodes!,
       createdAt: data.createdAt,
       createdBy: data.author,
-      apiWrapperController: widget.apiWrapperController,
+      apiWrapperKey: widget.apiWrapperKey,
       participantsInfo: UnfinishedList<ActorMixin>(
         limitedAvailableList: data.participants.nodes!
             .map((final IssueInfoMixin$Participants$Nodes? e) => e!)

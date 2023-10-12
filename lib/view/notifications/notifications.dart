@@ -11,7 +11,7 @@ import 'package:dio_hub/view/notifications/widgets/filter_sheet.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/issue_notification_card.dart';
 import 'package:dio_hub/view/notifications/widgets/notification_cards/pull_request_notification_card.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -286,7 +286,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
 //                         trailing: IconButton(
 //                           icon: Icon(
 //                             Icons.sort,
-//                             color: Colors.white,
+//                             color: white,
 //                           ),
 //                           onPressed: null,
 //                         ),

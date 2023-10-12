@@ -71,7 +71,7 @@ class FileViewerAPIState extends State<FileViewerAPI> {
             // IconButton(
             //   icon: Icon(
             //     Icons.edit,
-            //     color: editing ? Provider.of<PaletteSettings>(context).currentSetting.accent : Colors.white,
+            //     color: editing ? Provider.of<PaletteSettings>(context).currentSetting.accent : white,
             //   ),
             //   onPressed: () {
             //     setState(() {
@@ -96,24 +96,21 @@ class FileViewerAPIState extends State<FileViewerAPI> {
             ),
           ],
         ),
-        body: APIWrapper<BlobModel>(
+        body: APIWrapper<BlobModel>.deferred(
           apiCall: ({required final bool refresh}) async =>
               GitDatabaseService.getBlob(
             sha: widget.sha,
             repoURL: widget.repoURL,
           ),
-          responseBuilder: (final BuildContext context, final BlobModel blob) {
+          builder: (final BuildContext context, final BlobModel blob) {
             if (fileType != null && fileType!.startsWith('image')) {
               return Column(
                 children: <Widget>[
                   Expanded(
-                    child: ColoredBox(
-                      color: Colors.white,
-                      child: InteractiveViewer(
-                        child: Image.memory(
-                          Uint8List.fromList(
-                            base64Decode(blob.content!.split('\n').join()),
-                          ),
+                    child: InteractiveViewer(
+                      child: Image.memory(
+                        Uint8List.fromList(
+                          base64Decode(blob.content!.split('\n').join()),
                         ),
                       ),
                     ),

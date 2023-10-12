@@ -11,6 +11,7 @@ import 'package:dio_hub/providers/base_provider.dart';
 import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/home/widgets/issues_tab.dart';
 import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class HomeScreenState extends State<HomeScreen>
                           placeholder: (final BuildContext context, final _) =>
                               ShimmerWidget(
                             child: Container(
-                              color: Colors.grey,
+                              color: context.colorScheme.surface,
                             ),
                           ),
                         ),
@@ -92,11 +93,7 @@ class HomeScreenState extends State<HomeScreen>
                           size: 40,
                         ),
                         loadingBuilder: (final BuildContext context) =>
-                            ShimmerWidget(
-                          child: Container(
-                            color: Colors.grey,
-                          ),
-                        ),
+                            ShimmerWidget(),
                       ),
                     ),
                   ),
@@ -220,7 +217,7 @@ class HomeScreenState extends State<HomeScreen>
     //                   placeholder: (final BuildContext context, final _) =>
     //                       ShimmerWidget(
     //                     child: Container(
-    //                       color: Colors.grey,
+    //                       color: grey,
     //                     ),
     //                   ),
     //                 ),
@@ -233,7 +230,7 @@ class HomeScreenState extends State<HomeScreen>
     //                 loadingBuilder: (final BuildContext context) =>
     //                     ShimmerWidget(
     //                   child: Container(
-    //                     color: Colors.grey,
+    //                     color: grey,
     //                   ),
     //                 ),
     //               ),
@@ -357,7 +354,7 @@ class HomeScreenState extends State<HomeScreen>
 //                     Text(
 //                       'Home',
 //                       style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-//                           color: Colors.white, fontWeight: FontWeight.bold),
+//                           color: white, fontWeight: FontWeight.bold),
 //                     ),
 //                     const SizedBox(
 //                       height: 60,

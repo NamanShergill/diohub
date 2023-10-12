@@ -40,71 +40,68 @@ class DropDownInfoCardState extends State<DropDownInfoCard>
   @override
   Widget build(final BuildContext context) => Card(
         margin: EdgeInsets.zero,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: medBorderRadius,
-            onTap: !widget.enabled
-                ? null
-                : () {
-                    if (!expand) {
-                      _controller.forward();
-                    } else {
-                      _controller.reverse();
-                    }
-                    setState(() {
-                      expand = !expand;
-                    });
-                  },
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                // border: Border.all(color: faded2(context), width: 1),
-                borderRadius: medBorderRadius,
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 16,
-                              bottom: 16,
-                              left: 16,
-                              right: 4,
-                            ),
-                            child: Text(
-                              widget.title,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
+        child: InkWell(
+          // borderRadius: medBorderRadius,
+          onTap: !widget.enabled
+              ? null
+              : () {
+                  if (!expand) {
+                    _controller.forward();
+                  } else {
+                    _controller.reverse();
+                  }
+                  setState(() {
+                    expand = !expand;
+                  });
+                },
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              // border: Border.all(color: faded2(context), width: 1),
+              borderRadius: medBorderRadius,
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            bottom: 16,
+                            left: 16,
+                            right: 4,
                           ),
-                          if (widget.trailing != null)
-                            FadeAnimationSection(
-                              expand: !expand,
-                              duration: defaultAnimDuration,
-                              child: widget.trailing,
+                          child: Text(
+                            widget.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
-                        ],
-                      ),
-                      if (widget.enabled)
-                        RotationTransition(
-                          turns: Tween<double>(begin: 0, end: 0.5)
-                              .animate(_controller),
-                          child: const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Icon(Icons.arrow_drop_down_rounded),
                           ),
                         ),
-                    ],
-                  ),
-                  SizeExpandedSection(expand: expand, child: widget.child),
-                ],
-              ),
+                        if (widget.trailing != null)
+                          FadeAnimationSection(
+                            expand: !expand,
+                            duration: defaultAnimDuration,
+                            child: widget.trailing,
+                          ),
+                      ],
+                    ),
+                    if (widget.enabled)
+                      RotationTransition(
+                        turns: Tween<double>(begin: 0, end: 0.5)
+                            .animate(_controller),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Icon(Icons.arrow_drop_down_rounded),
+                        ),
+                      ),
+                  ],
+                ),
+                SizeExpandedSection(expand: expand, child: widget.child),
+              ],
             ),
           ),
         ),

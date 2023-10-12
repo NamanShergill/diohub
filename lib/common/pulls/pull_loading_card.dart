@@ -8,6 +8,7 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
 import 'package:dio_hub/services/pulls/pulls_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class PullLoadingCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Padding(
         padding: padding,
-        child: APIWrapper<PullRequestModel>(
+        child: APIWrapper<PullRequestModel>.deferred(
           apiCall: ({required final bool refresh}) async =>
               PullsService.getPullInformation(fullUrl: url, refresh: refresh),
           loadingBuilder: (final BuildContext context) {
@@ -104,7 +105,7 @@ class PullLoadingCard extends StatelessWidget {
                               child: Container(
                                 height: 20,
                                 width: double.infinity,
-                                color: Colors.grey,
+                                color: context.colorScheme.onSurface,
                               ),
                             ),
                           ],
@@ -121,9 +122,8 @@ class PullLoadingCard extends StatelessWidget {
               ),
             );
           },
-          responseBuilder:
-              (final BuildContext context, final PullRequestModel data) =>
-                  PullListCard(
+          builder: (final BuildContext context, final PullRequestModel data) =>
+              PullListCard(
             data,
             compact: compact,
             disableMaterial: true,

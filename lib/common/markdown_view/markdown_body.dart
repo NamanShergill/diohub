@@ -1,8 +1,8 @@
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/markdown_view/extensions/markdown_extensions.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/services/markdown/markdown_service.dart';
-import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html_table/flutter_html_table.dart';
@@ -39,7 +39,7 @@ class MarkdownRenderAPI extends StatelessWidget {
       ];
 
   @override
-  Widget build(final BuildContext context) => APIWrapper<String>(
+  Widget build(final BuildContext context) => APIWrapper<String>.deferred(
         apiCall: ({
           required final bool refresh,
         }) async =>
@@ -48,7 +48,7 @@ class MarkdownRenderAPI extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 48),
           child: LoadingIndicator(),
         ),
-        responseBuilder: (final BuildContext context, final String data) =>
+        builder: (final BuildContext context, final String data) =>
             MarkdownBody(
           data,
           imgSrcModifiers: _repoMarkdownImgSrcModifiers,
@@ -183,7 +183,9 @@ class MarkdownBodyState extends State<MarkdownBody> {
           final Map<String, String> attributes,
           final dom.Element? element,
         ) async =>
-            linkHandler(context, url),
+            URLActions(
+          uri: Uri.parse(url!),
+        ).showMenu(context),
 //         customRender:  {
 //           // 'a': (final renderContext, final child) {
 //           //   if (renderContext.tree.attributes['href']?.startsWith('#') ==
@@ -209,7 +211,7 @@ class MarkdownBodyState extends State<MarkdownBody> {
 //           //       padding: const EdgeInsets.only(left: 12),
 //           //       decoration: BoxDecoration(
 //           //         border: Border(
-//           //           left: BorderSide(color: Colors.grey.shade400, width: 2),
+//           //           left: BorderSide(color: grey.shade400, width: 2),
 //           //         ),
 //           //       ),
 //           //       child: child,

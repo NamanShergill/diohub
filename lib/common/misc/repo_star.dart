@@ -2,6 +2,7 @@ import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/repository/widgets/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -78,7 +79,7 @@ class RepoStarState extends State<RepoStar> {
           } else if (data.item != null) {
             final HasStarred$Query$Repository item = data.item!;
             return _buildIcon(
-              color: item.viewerHasStarred ? Colors.amber : null,
+              color: item.viewerHasStarred ? context.colorScheme.primary : null,
               onPressed: data.updater,
             );
           } else {

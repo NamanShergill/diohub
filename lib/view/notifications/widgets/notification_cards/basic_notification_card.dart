@@ -7,8 +7,8 @@ import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BasicNotificationCard extends StatefulWidget {
   const BasicNotificationCard({
@@ -83,8 +83,8 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
         child: Material(
           key: key,
           color: widget.notification.unread!
-              ? context.colorScheme.surface
-              : Colors.transparent,
+              ? context.colorScheme.surfaceVariant
+              : context.colorScheme.surface,
           child: InkWell(
             onTap: () async {
               if (widget.notification.unread ?? false) {
@@ -192,7 +192,6 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
               child: Container(
                 height: 20,
                 width: 20,
-                color: Colors.grey,
               ),
             ),
           ),

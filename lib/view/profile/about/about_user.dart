@@ -1,41 +1,46 @@
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class AboutUser extends StatelessWidget {
   const AboutUser(this.userInfoModel, {super.key});
   final UserInfoModel? userInfoModel;
 
-  List<InfoCard> items(final BuildContext context) => <InfoCard>[
+  List<Widget> items(final BuildContext context) => <Widget>[
         if (userInfoModel!.bio != null)
           InfoCard(
             title: 'Bio',
             child: Text(userInfoModel!.bio!),
           ),
         if (userInfoModel!.twitterUsername != null)
-          InfoCard(
+          MenuInfoCard(
             title: 'Twitter',
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.twitter,
               context: context,
             ),
-            onTap: () async {
-              await linkHandler(
-                context,
-                'https://twitter.com/${userInfoModel!.twitterUsername}',
-              );
-            },
+            onTap: () => URLActions(
+                    uri: Uri.parse(
+                        'https://twitter.com/${userInfoModel!.twitterUsername}'))
+                .launchURL(),
+            menuBuilder: (final BuildContext context) => URLActions(
+                    uri: Uri.parse(
+                        'https://twitter.com/${userInfoModel!.twitterUsername}'))
+                .menuItems,
             child: Text('@${userInfoModel!.twitterUsername}'),
           ),
         if (userInfoModel!.email != null)
-          InfoCard(
+          MenuInfoCard(
             title: 'Email',
-            onTap: () async {
-              await linkHandler(context, 'mailto:${userInfoModel!.email}');
-            },
+            onTap: () async =>
+                URLActions(uri: Uri.parse('mailto:${userInfoModel!.email}'))
+                    .launchURL(),
+            menuBuilder: (final BuildContext context) =>
+                URLActions(uri: Uri.parse('mailto:${userInfoModel!.email}'))
+                    .menuItems,
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.at,
               context: context,
@@ -43,15 +48,15 @@ class AboutUser extends StatelessWidget {
             child: Text(userInfoModel!.email!),
           ),
         if (userInfoModel!.blog?.isNotEmpty ?? false)
-          InfoCard(
+          MenuInfoCard(
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.bio,
               context: context,
             ),
             title: 'Blog',
-            onTap: () async {
-              await linkHandler(context, userInfoModel!.blog);
-            },
+            onTap: URLActions(uri: Uri.parse(userInfoModel!.blog!)).launchURL,
+            menuBuilder: (BuildContext context) =>
+                URLActions(uri: Uri.parse(userInfoModel!.blog!)).menuItems,
             child: Text(userInfoModel!.blog!),
           ),
         if (userInfoModel!.company != null)

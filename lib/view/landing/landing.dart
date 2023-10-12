@@ -8,7 +8,7 @@ import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
 import 'package:dio_hub/view/search/search.dart';
 import 'package:dio_hub/view/settings/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 @RoutePage()
 class LandingScreen extends StatefulWidget {

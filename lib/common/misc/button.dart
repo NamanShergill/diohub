@@ -1,5 +1,4 @@
 import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatefulWidget {
@@ -37,58 +36,61 @@ class Button extends StatefulWidget {
 
 class ButtonState extends State<Button> {
   @override
-  Widget build(final BuildContext context) => MaterialButton(
-        disabledColor:
-            (widget.color ?? context.colorScheme.primary).withOpacity(0.7),
-        elevation: widget.elevation,
-        padding: widget.padding,
-        // disabledTextColor:
-        //     Provider.of<PaletteSettings>(context).currentSetting.baseElements,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-        ),
+  Widget build(final BuildContext context) => ElevatedButton(
+        // disabledColor:
+        //     (widget.color ?? context.colorScheme.primary).withOpacity(0.7),
+        // elevation: widget.elevation,
+        // padding: widget.padding,
+        // // disabledTextColor:
+        // //     Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(widget.borderRadius),
+        // ),
         onPressed: widget.enabled && !widget.loading ? widget.onTap : null,
-        color: widget.color,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            if (!widget.loading)
-              Row(
-                mainAxisSize:
-                    widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Visibility(
-                    visible: widget.leadingIcon != null,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: widget.leadingIcon ?? Container(),
+        // color: widget.color,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (!widget.loading)
+                Row(
+                  mainAxisSize:
+                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Visibility(
+                      visible: widget.leadingIcon != null,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: widget.leadingIcon ?? Container(),
+                      ),
                     ),
-                  ),
-                  Flexible(child: widget.child),
-                  Visibility(
-                    visible: widget.trailingIcon != null,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: widget.trailingIcon ?? Container(),
+                    Flexible(child: widget.child),
+                    Visibility(
+                      visible: widget.trailingIcon != null,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: widget.trailingIcon ?? Container(),
+                      ),
                     ),
-                  ),
-                ],
-              )
-            else
-              Row(
-                mainAxisSize:
-                    widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Visibility(
-                    visible: widget.loadingWidget != null,
-                    child: widget.loadingWidget ?? Container(),
-                  ),
-                  const LoadingIndicator(),
-                ],
-              ),
-          ],
+                  ],
+                )
+              else
+                Row(
+                  mainAxisSize:
+                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Visibility(
+                      visible: widget.loadingWidget != null,
+                      child: widget.loadingWidget ?? Container(),
+                    ),
+                    const LoadingIndicator(),
+                  ],
+                ),
+            ],
+          ),
         ),
       );
 }

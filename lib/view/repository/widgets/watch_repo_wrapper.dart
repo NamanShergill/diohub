@@ -43,8 +43,8 @@ class WatchRepoWrapper extends StatefulWidget {
 }
 
 class WatchRepoWrapperState extends State<WatchRepoWrapper> {
-  final APIWrapperController<HasWatched$Query$Repository> controller =
-      APIWrapperController<HasWatched$Query$Repository>();
+  final GlobalKey<APIWrapperState<HasWatched$Query$Repository>> apiWrapperKey =
+      GlobalKey<APIWrapperState<HasWatched$Query$Repository>>();
   bool changing = false;
   @override
   Widget build(final BuildContext context) {
@@ -116,7 +116,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                             style: TextStyle(
                               color: data.viewerSubscription !=
                                       SubscriptionState.unsubscribed
-                                  ? Colors.white
+                                  ? context.colorScheme.onSurface
                                   : context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
@@ -137,7 +137,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                             style: TextStyle(
                               color: data.viewerSubscription !=
                                       SubscriptionState.subscribed
-                                  ? Colors.white
+                                  ? context.colorScheme.surface
                                   : context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
@@ -158,7 +158,7 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                             style: TextStyle(
                               color: data.viewerSubscription !=
                                       SubscriptionState.ignored
-                                  ? Colors.white
+                                  ? context.colorScheme.surface
                                   : context.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
@@ -180,11 +180,11 @@ class WatchRepoWrapperState extends State<WatchRepoWrapper> {
                   ),
                 );
               };
-    return APIWrapper<HasWatched$Query$Repository>(
+    return APIWrapper<HasWatched$Query$Repository>.deferred(
       apiCall: ({required final bool refresh}) async =>
           RepositoryServices.isSubscribed(widget.owner, widget.name),
-      apiWrapperController: controller,
-      responseBuilder: (
+      key: apiWrapperKey,
+      builder: (
         final BuildContext context,
         final HasWatched$Query$Repository data,
       ) =>

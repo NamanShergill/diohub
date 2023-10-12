@@ -29,13 +29,13 @@ class PRReviewScreen extends StatelessWidget {
           ),
           // Check if user has pending reviews to disable reply button accordingly.
           // See https://github.com/NamanShergill/diohub/issues/18 for info.
-          body: APIWrapper<bool>(
+          body: APIWrapper<bool>.deferred(
             apiCall: ({required final bool refresh}) async =>
                 PullsService.hasPendingReviews(
               pullNodeID,
               context.read<CurrentUserProvider>().data.login!,
             ),
-            responseBuilder: (
+            builder: (
               final BuildContext context,
               final bool repliesEnabled,
             ) =>
@@ -220,7 +220,7 @@ class PRReviewScreen extends StatelessWidget {
                             footerPadding:
                                 const EdgeInsets.only(left: 8, right: 8),
                             footer: APIWrapper<
-                                ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>(
+                                ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>.deferred(
                               apiCall: ({required final bool refresh}) async =>
                                   PullsService.getPRReviewThreadID(
                                 comment.id,
@@ -230,7 +230,6 @@ class PRReviewScreen extends StatelessWidget {
                                 refresh: refresh,
                                 cursor: null,
                               ),
-                              fadeIntoView: false,
                               loadingBuilder: (final BuildContext context) =>
                                   Row(
                                 children: <Widget>[
@@ -250,7 +249,7 @@ class PRReviewScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              responseBuilder: (
+                              builder: (
                                 final BuildContext context,
                                 final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?
                                     data,

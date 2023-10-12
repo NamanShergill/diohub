@@ -23,14 +23,6 @@ class ImageLoader extends StatelessWidget {
         errorWidget: (final BuildContext context, final _, final __) =>
             errorBuilder != null ? errorBuilder!(context) : Container(),
         placeholder: (final BuildContext context, final String string) =>
-            (height != null || width != null)
-                ? ShimmerWidget(
-                    child: Container(
-                      height: height,
-                      width: width,
-                      color: Colors.grey,
-                    ),
-                  )
-                : Container(),
+            (height != null || width != null) ? ShimmerWidget() : Container(),
       );
 }

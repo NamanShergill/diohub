@@ -78,9 +78,10 @@ class IssuePullScreen extends DeepLinkWidget {
 }
 
 class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
-  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
-      apiWrapperController =
-      APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>();
+  final GlobalKey<
+          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>
+      key = GlobalKey<
+          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>();
 
   @override
   void handleDeepLink(final PathData deepLinkData) {
@@ -89,7 +90,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
 
   @override
   Widget build(final BuildContext context) =>
-      APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>(
+      APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>.deferred(
         apiCall: ({required final bool refresh}) async =>
             IssuesService.getIssuePullInfo(
           widget.number,
@@ -97,14 +98,14 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
           user: widget.ownerName,
           refresh: refresh,
         ),
-        apiWrapperController: apiWrapperController,
+        key: key,
         loadingBuilder: (final BuildContext context) => Scaffold(
           appBar: AppBar(
             elevation: 0,
           ),
           body: const LoadingIndicator(),
         ),
-        responseBuilder: (
+        builder: (
           final BuildContext context,
           final IssuePullInfo$Query$Repository$IssueOrPullRequest data,
         ) {
@@ -116,7 +117,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
               builder: (final BuildContext context, final Widget? child) =>
                   IssueScreen(
                 data as IssueInfoMixin,
-                apiWrapperController: apiWrapperController,
+                apiWrapperKey: key,
               ),
             );
           } else if (data is PullInfoMixin) {
@@ -147,7 +148,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.labels,
     required this.createdAt,
     required this.createdBy,
-    required this.apiWrapperController,
+    required this.apiWrapperKey,
     required this.body,
     required this.commentCount,
     required this.reactionGroups,
@@ -160,8 +161,9 @@ class IssuePullInfoTemplate extends StatefulWidget {
     this.dynamicTabs = const <DynamicTab>[],
   });
 
-  final APIWrapperController<IssuePullInfo$Query$Repository$IssueOrPullRequest>
-      apiWrapperController;
+  final GlobalKey<
+          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>
+      apiWrapperKey;
   final AssigneeInfoMixin assigneesInfo;
   final String body;
   final String bodyHTML;
@@ -212,99 +214,99 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   }
 
   @override
-  Widget build(final BuildContext context) => SafeArea(
-        child: DynamicTabsParent(
-          controller: dynamicTabsController,
-          tabs: List<DynamicTab>.from(widget.dynamicTabs)
-            ..addAll(
-              <DynamicTab>[
-                DynamicTab(
-                  identifier: 'About',
-                  isDismissible: false,
-                  tabViewBuilder: (final BuildContext context) => _AboutTab(
-                    widget: widget,
-                    descEditingController: descEditingController,
-                    assigneeEditingController: assigneeEditingController,
-                    dynamicTabsController: dynamicTabsController,
-                  ),
+  Widget build(final BuildContext context) {
+    return SafeArea(
+      child: DynamicTabsParent(
+        controller: dynamicTabsController,
+        tabs: List<DynamicTab>.from(widget.dynamicTabs)
+          ..addAll(
+            <DynamicTab>[
+              DynamicTab(
+                identifier: 'About',
+                isDismissible: false,
+                tabViewBuilder: (final BuildContext context) => _AboutTab(
+                  widget: widget,
+                  descEditingController: descEditingController,
+                  assigneeEditingController: assigneeEditingController,
+                  dynamicTabsController: dynamicTabsController,
                 ),
-                DynamicTab(
-                  identifier: 'Conversation',
-                  keepViewAlive: true,
-                  tabViewBuilder: (final BuildContext context) =>
-                      ChangeNotifierProvider<CommentProvider>(
-                    create: (final _) => CommentProvider(),
-                    builder:
-                        (final BuildContext context, final Widget? child) =>
-                            Discussion(
-                      number: widget.number,
-                      isLocked: false,
+              ),
+              DynamicTab(
+                identifier: 'Conversation',
+                keepViewAlive: true,
+                tabViewBuilder: (final BuildContext context) =>
+                    ChangeNotifierProvider<CommentProvider>(
+                  create: (final _) => CommentProvider(),
+                  builder: (final BuildContext context, final Widget? child) =>
+                      Discussion(
+                    number: widget.number,
+                    isLocked: false,
+                    createdAt: widget.createdAt,
+                    owner: widget.repoInfo.owner.login,
+                    repoName: widget.repoInfo.name,
+                    initComment: BaseComment(
+                      onQuote: () {},
+                      isMinimized: false,
+                      reactions: widget.reactionGroups,
+                      viewerCanDelete: false,
+                      viewerCanMinimize: false,
+                      viewerCannotUpdateReasons: null,
+                      viewerCanReact: widget.viewerCanReact,
+                      viewerCanUpdate: false,
+                      viewerDidAuthor: false,
                       createdAt: widget.createdAt,
-                      owner: widget.repoInfo.owner.login,
-                      repoName: widget.repoInfo.name,
-                      initComment: BaseComment(
-                        onQuote: () {},
-                        isMinimized: false,
-                        reactions: widget.reactionGroups,
-                        viewerCanDelete: false,
-                        viewerCanMinimize: false,
-                        viewerCannotUpdateReasons: null,
-                        viewerCanReact: widget.viewerCanReact,
-                        viewerCanUpdate: false,
-                        viewerDidAuthor: false,
-                        createdAt: widget.createdAt,
-                        author: widget.createdBy,
-                        body: widget.body,
-                        lastEditedAt: null,
-                        bodyHTML: widget.bodyHTML,
-                        authorAssociation: CommentAuthorAssociation.none,
-                      ),
-                      issueUrl: widget.uri,
-                      isPull: false,
-                      // nestedScrollViewController: scrollController,
+                      author: widget.createdBy,
+                      body: widget.body,
+                      lastEditedAt: null,
+                      bodyHTML: widget.bodyHTML,
+                      authorAssociation: CommentAuthorAssociation.none,
                     ),
+                    issueUrl: widget.uri,
+                    isPull: false,
+                    // nestedScrollViewController: scrollController,
                   ),
                 ),
-              ],
-            ),
-          builder: (
-            final BuildContext context,
-            final PreferredSizeWidget tabBar,
-            final Widget tabView,
-          ) =>
-              EditingWrapper(
-            onSave: () {},
-            editingControllers: <EditingController<dynamic>>[
-              titleEditingController,
-              labelsEditingController,
-              descEditingController,
-              assigneeEditingController,
+              ),
             ],
-            builder: (final BuildContext context) => ScrollScaffold(
-              subHeader: SizeExpandedSection(
-                expand: dynamicTabsController.activeLength > 1,
-                child: buildTabsView(tabBar),
-              ),
-              appBar: buildAppBar(context),
-              wrapperBuilder:
-                  (final BuildContext context, final Widget child) =>
-                      RefreshIndicator(
-                child: child,
-                onRefresh: () => Future<void>.sync(
-                  () => widget.apiWrapperController.refresh(),
-                ),
-                triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              ),
-              header: _ScreenHeader(
-                widget: widget,
-                titleEditingController: titleEditingController,
-                labelsEditingController: labelsEditingController,
-              ),
-              body: tabView,
+          ),
+        builder: (
+          final BuildContext context,
+          final PreferredSizeWidget tabBar,
+          final Widget tabView,
+        ) =>
+            EditingWrapper(
+          onSave: () {},
+          editingControllers: <EditingController<dynamic>>[
+            titleEditingController,
+            labelsEditingController,
+            descEditingController,
+            assigneeEditingController,
+          ],
+          builder: (final BuildContext context) => ScrollScaffold(
+            subHeader: SizeExpandedSection(
+              expand: dynamicTabsController.activeLength > 1,
+              child: buildTabsView(tabBar),
             ),
+            appBar: buildAppBar(context),
+            wrapperBuilder: (final BuildContext context, final Widget child) =>
+                RefreshIndicator(
+              child: child,
+              onRefresh: () => Future<void>.sync(
+                () async => widget.apiWrapperKey.currentState?.refreshData(),
+              ),
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+            ),
+            header: _ScreenHeader(
+              widget: widget,
+              titleEditingController: titleEditingController,
+              labelsEditingController: labelsEditingController,
+            ),
+            body: tabView,
           ),
         ),
-      );
+      ),
+    );
+  }
 
   DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
         hasEditableChildren: true,
@@ -564,7 +566,7 @@ class _AboutTab extends StatelessWidget {
                 // Container(
                 //   width: 100,
                 //   height: 30,
-                //   color: Colors.red,
+                //   color: red,
                 // ),
 
                 EditWidget<Object>(
@@ -865,30 +867,34 @@ class _AssigneeInfoCard extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget? trailing;
   @override
-  Widget build(final BuildContext context) => InfoCard(
-        onTap: () async {
-          if (availableList.totalCount > 1) {
-            await BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
-              paginatedListItemBuilder: _paginatedListItemBuilder,
-              paginationFuture: fetchActorsList,
-              title: titleBuilder.call(availableList),
-            ).openSheet(context);
-          } else {
-            navigateToProfile(
-              login: availableList.limitedAvailableList.first.login,
-              context: context,
-            );
-          }
-        },
-        trailing: _getIcon(availableList.totalCount),
-        title: titleBuilder.call(availableList),
-        child: _buildChild(),
-      );
+  Widget build(final BuildContext context) {
+    return InfoCard(
+      onTap: availableList.limitedAvailableList.isEmpty
+          ? null
+          : () async {
+              if (availableList.totalCount > 1) {
+                await BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
+                  paginatedListItemBuilder: _paginatedListItemBuilder,
+                  paginationFuture: fetchActorsList,
+                  title: titleBuilder.call(availableList),
+                ).openSheet(context);
+              } else {
+                navigateToProfile(
+                  login: availableList.limitedAvailableList.first.login,
+                  context: context,
+                );
+              }
+            },
+      trailing: _getIcon(availableList.totalCount),
+      title: titleBuilder.call(availableList),
+      child: _buildChild(),
+    );
+  }
 
-  StatelessWidget _buildChild() => switch (availableList.totalCount) {
+  Widget _buildChild() => switch (availableList.totalCount) {
         0 => const Text('None'),
         1 => ProfileTile.login(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.all(4),
             avatarUrl:
                 availableList.limitedAvailableList.first.avatarUrl.toString(),
             userLogin: availableList.limitedAvailableList.first.login,
@@ -918,7 +924,7 @@ StatelessWidget _buildChild(final UnfinishedList<ActorMixin> availableList) =>
     switch (availableList.totalCount) {
       0 => const Text('None'),
       1 => ProfileTile.login(
-          padding: EdgeInsets.zero,
+          // padding: EdgeInsets.all(16),
           avatarUrl:
               availableList.limitedAvailableList.first.avatarUrl.toString(),
           userLogin: availableList.limitedAvailableList.first.login,
@@ -951,21 +957,23 @@ ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
             NodeWithPaginationInfo<ActorMixin> item,
             bool refresh,
           }) data,
-        ) =>
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Card(
-                child: ProfileTile.login(
-                  avatarUrl: data.item.node.avatarUrl.toString(),
-                  userLogin: data.item.node.login,
-                  wrapperBuilder: (final Widget child) => Row(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: _buildListItemChildren(data, context, child),
-                  ),
-                  // wrapperBuilder: ,
+        ) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Card(
+              color: context.colorScheme.surface,
+              child: ProfileTile.login(
+                avatarUrl: data.item.node.avatarUrl.toString(),
+                userLogin: data.item.node.login,
+                wrapperBuilder: (final Widget child) => Row(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  children: _buildListItemChildren(data, context, child),
                 ),
+                // wrapperBuilder: ,
               ),
-            );
+            ),
+          );
+        };
 Icon? _getIcon(int listLength) => switch (listLength) {
       0 => null,
       1 => Icon(Icons.adaptive.arrow_forward_rounded),

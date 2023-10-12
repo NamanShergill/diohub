@@ -147,7 +147,7 @@ class WikiViewerState extends State<WikiViewer> {
     //                       child: Visibility(
     //                         visible: loading,
     //                         child: Container(
-    //                           color: Colors.white,
+    //                           color: white,
     //                           child: LoadingIndicator(
     //                             color: Provider.of<PaletteSettings>(context)
     //                                 .currentSetting

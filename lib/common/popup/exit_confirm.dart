@@ -9,7 +9,7 @@
 //     return Dialog(
 //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
 //       elevation: 0,
-//       backgroundColor: Colors.transparent,
+//       backgroundColor: transparent,
 //       child: _buildChild(context),
 //     );
 //   }
@@ -49,7 +49,7 @@
 //               alignment: Alignment.bottomCenter,
 //               heightFactor: 0.54,
 //               child: Container(
-//                 color: Colors.redAccent,
+//                 color: redAccent,
 //                 child: Column(
 //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //                   children: <Widget>[
@@ -77,7 +77,7 @@
 //                         //     Navigator.of(context).pop();
 //                         //   },
 //                         //   child: Text('No'),
-//                         //   textColor: Colors.white,
+//                         //   textColor: white,
 //                         // ),
 //                         SizedBox(
 //                           width: 16,
@@ -87,8 +87,8 @@
 //                         //     return Navigator.of(context).pop(true);
 //                         //   },
 //                         //   child: Text('Yes'),
-//                         //   color: Colors.white,
-//                         //   textColor: Colors.redAccent,
+//                         //   color: white,
+//                         //   textColor: redAccent,
 //                         // ),
 //                       ],
 //                     )

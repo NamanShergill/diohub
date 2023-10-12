@@ -1,11 +1,11 @@
 import 'dart:collection';
 
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
 import 'package:dio_hub/common/misc/copy_button.dart';
 import 'package:dio_hub/common/misc/image_loader.dart';
 import 'package:dio_hub/common/misc/patch_viewer.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -158,7 +158,6 @@ class _CodeViewState extends State<_CodeView> {
                   top: 0,
                   right: 0,
                   child: Material(
-                    color: Colors.transparent,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[

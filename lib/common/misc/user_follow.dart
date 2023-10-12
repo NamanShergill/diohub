@@ -21,11 +21,9 @@ class UserFollow extends StatefulWidget {
     this.child,
     this.onFollowersChange,
     this.inkWellRadius,
-    this.fadeIntoView = true,
   });
   final String login;
   final BorderRadius? inkWellRadius;
-  final bool fadeIntoView;
   final FollowBuilder? child;
   final ValueChanged<int>? onFollowersChange;
 
@@ -34,8 +32,8 @@ class UserFollow extends StatefulWidget {
 }
 
 class UserFollowState extends State<UserFollow> {
-  final APIWrapperController<FollowStatusInfo$Query$User> controller =
-      APIWrapperController<FollowStatusInfo$Query$User>();
+  final GlobalKey<APIWrapperState<FollowStatusInfo$Query$User>> key =
+      GlobalKey<APIWrapperState<FollowStatusInfo$Query$User>>();
   bool changing = false;
 
   @override
@@ -61,7 +59,7 @@ class UserFollowState extends State<UserFollow> {
                 widget.onFollowersChange?.call(data.followers.totalCount);
 
                 final bool isFollowing = data.viewerIsFollowing;
-                controller.overrideData(
+                key.currentState?.changeData(
                   data..viewerIsFollowing = !data.viewerIsFollowing,
                 );
                 await UserInfoService.changeFollowStatus(
@@ -86,17 +84,16 @@ class UserFollowState extends State<UserFollow> {
           ),
         );
 
-    return APIWrapper<FollowStatusInfo$Query$User>(
+    return APIWrapper<FollowStatusInfo$Query$User>.deferred(
       apiCall: ({required final bool refresh}) async =>
           UserInfoService.getFollowInfo(widget.login),
-      apiWrapperController: controller,
+      key: key,
       loadingBuilder: (final BuildContext context) => widget.child != null
           ? widget.child!(context, null, null)
           : ShimmerWidget(
               child: iconButton(null),
             ),
-      fadeIntoView: widget.fadeIntoView,
-      responseBuilder: (
+      builder: (
         final BuildContext context,
         final FollowStatusInfo$Query$User data,
       ) =>

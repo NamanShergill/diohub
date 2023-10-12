@@ -20,8 +20,8 @@ class RepositoryServices {
 
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
   static final RESTHandler _restHandler = RESTHandler(
-    apiLogSettings: APILoggingSettings.comprehensive(),
-  );
+      // apiLogSettings: APILoggingSettings.comprehensive(),
+      );
 
   Future<PinnedIssues$Query$Repository$PinnedIssues> getPinnedIssues() async {
     final GQLResponse response = await _gqlHandler.query(

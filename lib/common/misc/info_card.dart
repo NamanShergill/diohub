@@ -86,7 +86,7 @@ class InfoCard extends StatelessWidget {
                 padding: childPadding ?? const EdgeInsets.all(8),
                 child: Row(
                   children: <Widget>[
-                    child,
+                    Flexible(child: child),
                   ],
                 ),
               ),

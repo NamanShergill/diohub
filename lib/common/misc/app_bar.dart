@@ -1,5 +1,6 @@
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/misc/menu_button.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
-import 'package:dio_hub/utils/link_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,18 +45,10 @@ class ShareButton extends StatelessWidget {
   final String url;
 
   @override
-  Widget build(final BuildContext context) => IconButton(
-        iconSize: 20,
-        onPressed: () async {
-          await linkHandler(
-            context,
-            url,
-            showSheetOnDeepLink: true,
-            showOpenActions: false,
-          );
-        },
-        icon: Icon(
-          Icons.adaptive.share,
-        ),
+  Widget build(final BuildContext context) => MenuButton(
+        itemBuilder: (final BuildContext context) => URLActions(
+          uri: Uri.parse(url),
+          showOpenAction: false,
+        ).menuItems,
       );
 }

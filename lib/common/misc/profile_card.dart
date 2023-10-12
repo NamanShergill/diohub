@@ -10,7 +10,7 @@ import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -32,7 +32,7 @@ class ProfileCard extends StatelessWidget {
           elevation: isThemed ? 2 : 0,
           // color: isThemed
           //     ? Provider.of<PaletteSettings>(context).currentSetting.primary
-          //     : Colors.transparent,
+          //     : transparent,
           // borderRadius: medBorderRadius,
           child: InkWell(
             borderRadius: medBorderRadius,
@@ -137,12 +137,11 @@ class ProfileCardLoading extends StatelessWidget {
           // elevation: 2,
           // color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           // borderRadius: medBorderRadius,
-          child: APIWrapper<UserInfoModel>(
+          child: APIWrapper<UserInfoModel>.deferred(
             apiCall: ({required final bool refresh}) async =>
                 UserInfoService.getUserInfo(login),
-            responseBuilder:
-                (final BuildContext context, final UserInfoModel data) =>
-                    SizeExpandedSection(
+            builder: (final BuildContext context, final UserInfoModel data) =>
+                SizeExpandedSection(
               child: Row(
                 children: <Widget>[
                   Expanded(

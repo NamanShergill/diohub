@@ -2,7 +2,6 @@ import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/language_indicator.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/utils/markdown_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -123,26 +122,23 @@ class AboutRepositoryState extends State<AboutRepository> {
                 ),
               if (widget.repo.homepage != null &&
                   widget.repo.homepage!.isNotEmpty)
-                InfoCard(
-                  title: 'Homepage',
-                  onTap: () async {
-                    await linkHandler(context, widget.repo.homepage);
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(child: Text(widget.repo.homepage!)),
-                    ],
+                // InfoCard(
+                //   title: 'Homepage',
+                //   child: Row(
+                //     children: <Widget>[
+                //       Flexible(child: Text(widget.repo.homepage!)),
+                //     ],
+                //   ),
+                // ),
+                if (widget.repo.license != null)
+                  InfoCard(
+                    title: 'License',
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(child: Text(widget.repo.license!.name!)),
+                      ],
+                    ),
                   ),
-                ),
-              if (widget.repo.license != null)
-                InfoCard(
-                  title: 'License',
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(child: Text(widget.repo.license!.name!)),
-                    ],
-                  ),
-                ),
               InfoCard(
                 title: 'Stats',
                 child: Row(

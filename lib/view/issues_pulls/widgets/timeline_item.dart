@@ -10,8 +10,8 @@ import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class PaddingWrap extends StatelessWidget {
   const PaddingWrap({
@@ -314,7 +314,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
 
         leading: const Icon(Octicons.git_merge, color: Colors.green),
-        // iconColor: Colors.deepPurple,
+        // iconColor: deepPurple,
         textContent: 'Merged this.',
       );
 

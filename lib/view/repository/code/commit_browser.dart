@@ -84,31 +84,28 @@ class CommitBrowserState extends State<CommitBrowser> {
                               const Center(child: Text(' /')),
                       itemBuilder:
                           (final BuildContext context, final int index) =>
-                              Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: smallBorderRadius,
-                          onTap: () {
-                            setState(() {
-                              if (index == 0) {
-                                path = <String>[];
-                              } else {
-                                path = path.sublist(0, index);
-                              }
-                            });
-                            controller.refresh();
-                          },
-                          child: Center(
-                            child: Text(
-                              ' ${index == 0 ? widget.repoURL!.split('/').last : path[index - 1]}',
-                              style: TextStyle(
-                                color: index == path.length
-                                    ? context.colorScheme.primary
-                                    : context.colorScheme.onBackground,
-                                fontWeight: index == path.length
-                                    ? FontWeight.bold
-                                    : FontWeight.w500,
-                              ),
+                              InkWell(
+                        borderRadius: smallBorderRadius,
+                        onTap: () {
+                          setState(() {
+                            if (index == 0) {
+                              path = <String>[];
+                            } else {
+                              path = path.sublist(0, index);
+                            }
+                          });
+                          controller.refresh();
+                        },
+                        child: Center(
+                          child: Text(
+                            ' ${index == 0 ? widget.repoURL!.split('/').last : path[index - 1]}',
+                            style: TextStyle(
+                              color: index == path.length
+                                  ? context.colorScheme.primary
+                                  : context.colorScheme.onBackground,
+                              fontWeight: index == path.length
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
                             ),
                           ),
                         ),

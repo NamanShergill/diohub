@@ -33,12 +33,13 @@ class ActionButton<T> extends StatefulWidget {
 }
 
 class _ActionButtonState<T> extends State<ActionButton<T>> {
-  final APIWrapperController<T> _apiController = APIWrapperController<T>();
+  final GlobalKey<APIWrapperState<T>> _apiWrapperKey =
+      GlobalKey<APIWrapperState<T>>();
 
   bool changing = false;
   @override
-  Widget build(final BuildContext context) => APIWrapper<T>(
-        apiWrapperController: _apiController,
+  Widget build(final BuildContext context) => APIWrapper<T>.deferred(
+        key: _apiWrapperKey,
         loadingBuilder: (final BuildContext context) => widget.builder.call(
           context,
           (
@@ -61,7 +62,7 @@ class _ActionButtonState<T> extends State<ActionButton<T>> {
             ),
         apiCall: ({required final bool refresh}) async =>
             widget.currentData.call(),
-        responseBuilder: (
+        builder: (
           final BuildContext context,
           final T data,
         ) =>
@@ -89,14 +90,14 @@ class _ActionButtonState<T> extends State<ActionButton<T>> {
               popupData,
             );
           }
-          _apiController.overrideData.call(
+          _apiWrapperKey.currentState?.changeData(
             widget.temporaryDataWhileUpdating.call(data),
           );
 
           try {
             final T? newData = await widget.updateData.call(data);
             if (newData != null) {
-              _apiController.overrideData.call(newData);
+              _apiWrapperKey.currentState?.changeData.call(newData);
             }
           } finally {
             setState(() {

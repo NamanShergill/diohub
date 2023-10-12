@@ -24,12 +24,13 @@ class UserOverviewScreen extends StatelessWidget {
           InfoCard(
             title: 'Pinned Repos',
             child: APIWrapper<
-                List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>(
+                List<
+                    GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>.deferred(
               apiCall: ({required final bool refresh}) async =>
                   UserInfoService.getUserPinnedRepos(
                 userInfoModel!.login!,
               ),
-              responseBuilder: (
+              builder: (
                 final BuildContext context,
                 final List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>
                     data,
@@ -91,12 +92,8 @@ class UserOverviewScreen extends StatelessWidget {
                       // baseColor: Provider.of<PaletteSettings>(context)
                       //     .currentSetting
                       //     .secondary,
-                      // highlightColor: Colors.grey.shade800,
+                      // highlightColor: grey.shade800,
                       borderRadius: medBorderRadius,
-                      child: Container(
-                        height: 70,
-                        color: Colors.grey,
-                      ),
                     ),
                   ),
                   // Row(

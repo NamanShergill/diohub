@@ -15,9 +15,9 @@ import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:intl/intl.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 @RoutePage()
 class SearchOverlayScreen extends StatefulWidget {
@@ -998,7 +998,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
             ),
           ),
           searchFilters.blacklistRegExp: TextStyle(
-            color: Colors.red,
+            color: context.colorScheme.error,
             decoration: TextDecoration.combine(
               <TextDecoration>[TextDecoration.lineThrough],
             ),
@@ -1046,10 +1046,11 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
               TextStyle baseTextStyle = textStyle!;
               if (SearchFilters.notOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
-                  color: Colors.red,
+                  color: context.colorScheme.error,
                 );
               } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
-                baseTextStyle = baseTextStyle.copyWith(color: Colors.amber);
+                baseTextStyle = baseTextStyle.copyWith(
+                    color: context.colorScheme.secondary);
               } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
                   color: context.colorScheme.primary,

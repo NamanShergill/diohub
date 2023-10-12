@@ -160,7 +160,7 @@ class PullScreenState extends State<PullScreen>
                                   //     context,
                                   //   ).currentSetting.green
                                   // : value.data.merged
-                                  //     ? Colors.deepPurpleAccent
+                                  //     ? deepPurpleAccent
                                   //     : Provider.of<PaletteSettings>(
                                   //         context,
                                   //       ).currentSetting.red,
@@ -216,7 +216,7 @@ class PullScreenState extends State<PullScreen>
                             ),
                           ),
                           Material(
-                            color: Colors.transparent,
+                            // color: transparent,
                             child: InkWell(
                               borderRadius: medBorderRadius,
                               onTap: () async {

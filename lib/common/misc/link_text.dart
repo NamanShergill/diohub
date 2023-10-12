@@ -1,5 +1,4 @@
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/link_handler.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:flutter/material.dart';
 
 class LinkText extends StatelessWidget {
@@ -8,20 +7,17 @@ class LinkText extends StatelessWidget {
   final String? text;
   final String link;
   @override
-  Widget build(final BuildContext context) => Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: smallBorderRadius,
-          onTap: () async {
-            await linkHandler(context, link);
-          },
-          onLongPress: () async {
-            await linkHandler(context, link, showSheetOnDeepLink: true);
-          },
-          child: Text(
-            text ?? link,
-            style: const TextStyle(color: Colors.blue).merge(style),
-          ),
-        ),
-      );
+  Widget build(final BuildContext context) {
+    final URLActions urlActions = URLActions(uri: Uri.parse(link));
+    return GestureDetector(
+      onTap: urlActions.launchURL,
+      onLongPress: () async {
+        await urlActions.showMenu(context);
+      },
+      child: Text(
+        text ?? link,
+        style: const TextStyle(color: Colors.blue).merge(style),
+      ),
+    );
+  }
 }

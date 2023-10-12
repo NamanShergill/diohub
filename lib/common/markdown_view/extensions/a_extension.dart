@@ -18,17 +18,17 @@ class _AWidget extends _ExtensionWidget {
         ),
       );
     }
-    return GestureDetector(
-      onTap: () async => linkHandler(
-        context,
-        attributes!['href'],
+    final URLActions urlActions = URLActions(
+      uri: Uri.parse(
+        attributes!['href']!,
       ),
-      onLongPress: () async => linkHandler(
-        context,
-        attributes!['href'],
-        showSheetOnDeepLink: true,
+    );
+    return Builder(
+      builder: (final BuildContext context) => GestureDetector(
+        onTap: () async => urlActions.launchURL(),
+        onLongPress: () async => urlActions.showMenu(context),
+        child: defaultChild,
       ),
-      child: defaultChild,
     );
   }
 }

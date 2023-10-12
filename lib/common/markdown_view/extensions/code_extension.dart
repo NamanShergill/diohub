@@ -11,7 +11,7 @@ class _CodeWidget extends _ExtensionWidget {
 
   @override
   Widget build(final BuildContext context) => Card(
-        // color: Colors.red,
+        // color: red,
         // decoration: BoxDecoration(
         //   // color: context.palette.faded1,
         //   borderRadius: smallBorderRadius,

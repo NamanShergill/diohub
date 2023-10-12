@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
@@ -10,7 +9,8 @@ import 'package:dio_hub/utils/extensions.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -98,9 +98,6 @@ class DHBottomSheet extends StatelessWidget {
                   height: 4,
                 ),
               ],
-              const Divider(
-                height: 0,
-              ),
               Flexible(child: builder.call(context, setState)),
               const SizedBox(
                 height: 8,

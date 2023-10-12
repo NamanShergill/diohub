@@ -379,7 +379,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                   //     count: data?.stargazerCount,
                                   //     icon: Octicons.star_fill,
                                   //     onTap: onPress,
-                                  //     doneColor: Colors.amber,
+                                  //     doneColor: amber,
                                   //     isDone: data?.viewerHasStarred,
                                   //   ),
                                   // ),
@@ -398,7 +398,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                   //       ActionButton(
                                   //     count: watchData?.watchers.totalCount,
                                   //     onTap: onPress,
-                                  //     doneColor: Colors.greenAccent,
+                                  //     doneColor: greenAccent,
                                   //     icon: Octicons.eye,
                                   //     isDone: isSubscribedToRepo(
                                   //       watchData?.viewerSubscription,

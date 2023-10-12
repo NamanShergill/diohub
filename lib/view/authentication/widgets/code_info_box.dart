@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:dio_hub/app/api_handler/response_handler.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/misc/button.dart';
 import 'package:dio_hub/models/authentication/device_code_model.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/utils/link_handler.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -148,12 +149,12 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                           visible: !copied,
                           replacement: const Icon(
                             Icons.check,
-                            color: Colors.grey,
+                            // color: grey,
                             size: 13,
                           ),
                           child: const Icon(
                             Icons.copy,
-                            color: Colors.grey,
+                            // color: grey,
                             size: 13,
                           ),
                         ),
@@ -205,42 +206,38 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                 //     .currentSetting
                 //     .secondary,
                 // elevation: 2,
-                child: InkWell(
-                  // borderRadius: BorderRadius.circular(10),
-                  onTap: () async {
-                    await linkHandler(
-                      context,
-                      widget.deviceCodeModel.verificationUri,
+                child: Builder(
+                  builder: (BuildContext context) {
+                    final urlActions = URLActions(
+                      uri: Uri.parse(widget.deviceCodeModel.verificationUri!),
                       shareDescription:
                           'Enter the code ${widget.deviceCodeModel.userCode} on:',
                     );
-                  },
-                  onLongPress: () async {
-                    await linkHandler(
-                      context,
-                      widget.deviceCodeModel.verificationUri,
-                      showSheetOnDeepLink: true,
-                      shareDescription:
-                          'Enter the code ${widget.deviceCodeModel.userCode} on:',
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Flexible(
-                          child: Text(
-                            widget.deviceCodeModel.verificationUri!,
-                            style: const TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
+                    return GestureDetector(
+                      // borderRadius: BorderRadius.circular(10),
+                      onTap: urlActions.launchURL,
+                      onLongPress: () async {
+                        await urlActions.showMenu(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Flexible(
+                              child: Text(
+                                widget.deviceCodeModel.verificationUri!,
+                                style: TextStyle(
+                                  color: context.colorScheme.primary,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

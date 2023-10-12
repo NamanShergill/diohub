@@ -118,9 +118,9 @@ class CodeBrowserState extends State<CodeBrowser>
                             itemBuilder:
                                 (final BuildContext context, final int index) =>
                                     Material(
-                              color: Colors.transparent,
+                              // color: transparent,
                               child: InkWell(
-                                borderRadius: smallBorderRadius,
+                                // borderRadius: smallBorderRadius,
                                 onTap: () {
                                   if (index != value.tree.length - 1) {
                                     Provider.of<CodeProvider>(

@@ -1,5 +1,6 @@
 import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/common/const/version_info.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';
@@ -8,7 +9,6 @@ import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/misc/profile_card.dart';
 import 'package:dio_hub/common/misc/repository_card.dart';
 import 'package:dio_hub/utils/http_to_api.dart';
-import 'package:dio_hub/utils/link_handler.dart';
 import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
 import 'package:dio_hub/view/settings/widgets/language_setting_card.dart';
 import 'package:flutter/material.dart';
@@ -130,8 +130,8 @@ class _GeneralSettings extends StatelessWidget {
                 title: 'Log Out',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
               child: StringButton(
                 // color: Provider.of<PaletteSettings>(context)
                 //     .currentSetting
@@ -166,46 +166,35 @@ class _About extends StatelessWidget {
                 compact: true,
               ),
             ),
-            InfoCard(
+            MenuInfoCard(
               title: 'Bugs or Suggestions?',
-              child: Column(
+              menuBuilder: (final BuildContext context) => URLActions(
+                      uri: Uri.parse(
+                          'https://github.com/NamanShergill/diohub/issues'))
+                  .menuItems,
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(8),
                     child: Text('Let me know at'),
                   ),
-                  Card(
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.circular(10),
-                    // ),
-                    // color: ,
-                    // elevation: 2,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () async {
-                        await linkHandler(
-                          context,
-                          'https://github.com/NamanShergill/diohub/issues',
-                        );
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Flexible(
-                              child: Text(
-                                'https://github.com/NamanShergill/diohub/issues',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
+                  Divider(),
+                  Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            'https://github.com/NamanShergill/diohub/issues',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ],

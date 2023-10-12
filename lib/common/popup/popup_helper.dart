@@ -2,7 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:dio_hub/models/popup/popup_type.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class DialogHelper {
   // static exit(context) => showDialog(
@@ -23,7 +23,7 @@ class DialogHelper {
           BoxShadow(
             color: appPopup.popupType == PopupType.failed
                 ? context.colorScheme.error
-                : Colors.green,
+                : context.colorScheme.surface,
             offset: const Offset(0, 1),
             blurRadius: 1,
           ),

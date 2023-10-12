@@ -13,7 +13,7 @@ import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/get_date.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
@@ -257,7 +257,7 @@ class BaseCommentState extends State<BaseComment> {
     final Widget button,
   ) =>
       Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -312,7 +312,7 @@ class BaseCommentState extends State<BaseComment> {
                           }
                           return Text(
                             str ?? '',
-                            // style: context.textTheme.bodySmall?.asHint(),
+                            style: context.textTheme.bodySmall?.asHint(),
                           );
                         },
                       ),
@@ -322,23 +322,22 @@ class BaseCommentState extends State<BaseComment> {
             ),
             Row(
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Row(
                   children: <Widget>[
-                    Text(
-                      getDate(widget.createdAt.toString()),
-                      style: context.textTheme.labelMedium?.asHint(),
-                    ),
-                    if (widget.lastEditedAt != null)
-                      Row(
-                        children: [
-                          Icon(MdiIcons.update),
-                          Text(
-                            '${getDate(widget.lastEditedAt.toString())}',
-                            style: context.textTheme.labelSmall?.asHint(),
-                          ),
+                    Text.rich(
+                      TextSpan(
+                        text: getDate(widget.createdAt.toString()),
+                        style: context.textTheme.bodySmall?.asHint(),
+                        children: <InlineSpan>[
+                          if (widget.lastEditedAt != null)
+                            TextSpan(
+                              text:
+                                  ' • Edited ${getDate(widget.lastEditedAt.toString())}',
+                              // style: context.textTheme.bodySmall?.asHint(),
+                            ),
                         ],
                       ),
+                    ),
                   ],
                 ),
                 button,

@@ -285,7 +285,7 @@ class PatchViewerState extends State<PatchViewer> {
                                   onPressed: null,
                                   icon: Icon(
                                     Icons.copy,
-                                    color: Colors.transparent,
+                                    // color: transparent,
                                   ),
                                 ),
                                 const Text(
@@ -384,9 +384,9 @@ class PatchViewerState extends State<PatchViewer> {
     str.isNotEmpty ? str = str[0] : str = '';
     switch (str) {
       case '+':
-        return Colors.green.withOpacity(0.2);
+        return context.colorScheme.surface;
       case '-':
-        return Colors.red.withOpacity(0.2);
+        return context.colorScheme.surfaceVariant;
       default:
         if (index.isEven) {
           return context.colorScheme.background;

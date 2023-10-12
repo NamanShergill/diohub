@@ -30,7 +30,7 @@ class PullListCard extends StatelessWidget {
         child: Card(
           elevation: disableMaterial ? 0 : 2,
           // color: disableMaterial
-          //     ? Colors.transparent
+          //     ? transparent
           //     : Provider.of<PaletteSettings>(context).currentSetting.primary,
           // borderRadius: medBorderRadius,
           child: InkWell(
@@ -150,13 +150,13 @@ class GetPullIcon extends StatelessWidget {
         if (mergedAt == null) {
           return const Icon(
             Octicons.git_pull_request,
-            color: Colors.red,
+            // color: red,
             size: 15,
           );
         } else {
           return const Icon(
             Octicons.git_merge,
-            color: Colors.deepPurple,
+            // color: deepPurple,
             size: 15,
           );
         }
@@ -164,7 +164,7 @@ class GetPullIcon extends StatelessWidget {
       case IssueState.REOPENED:
         return const Icon(
           Octicons.git_pull_request,
-          color: Colors.green,
+          // color: green,
           size: 15,
         );
     }

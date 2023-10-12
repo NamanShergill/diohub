@@ -9,8 +9,8 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class IssueInformation extends StatelessWidget {
   IssueInformation({super.key});
-  final APIWrapperController<dynamic> labelController =
-      APIWrapperController<dynamic>();
+  final GlobalKey<APIWrapperState<dynamic>> labelController =
+      GlobalKey<APIWrapperState<dynamic>>();
   @override
   Widget build(final BuildContext context) {
     // final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;

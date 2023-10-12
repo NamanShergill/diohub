@@ -39,7 +39,7 @@ class RepositoryCardState extends State<RepositoryCard> {
         // elevation: widget.isThemed ? 2 : 0,
         // color: widget.isThemed
         //     ? Provider.of<PaletteSettings>(context).currentSetting.primary
-        //     : Colors.transparent,
+        //     : transparent,
         // borderRadius: medBorderRadius,
         child: InkWell(
           // borderRadius: medBorderRadius,
@@ -232,14 +232,14 @@ class RepoCardLoading extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Padding(
         padding: padding,
-        child: APIWrapper<RepositoryModel>(
-          fadeIntoView: false,
+        child: APIWrapper<RepositoryModel>.deferred(
+          // fadeIntoView: false,
           apiCall: ({required final bool refresh}) async =>
               RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
           loadingBuilder: (final BuildContext context) => BasicCard.linked(
             cardLinkType: cardLinkType,
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -255,7 +255,7 @@ class RepoCardLoading extends StatelessWidget {
                     child: Container(
                       height: 20,
                       width: double.infinity,
-                      color: Colors.grey,
+                      color: context.colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(
@@ -266,16 +266,15 @@ class RepoCardLoading extends StatelessWidget {
                     child: Container(
                       height: 20,
                       width: 200,
-                      color: Colors.grey,
+                      color: context.colorScheme.onSurface,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          responseBuilder:
-              (final BuildContext context, final RepositoryModel repo) =>
-                  RepositoryCard(
+          builder: (final BuildContext context, final RepositoryModel repo) =>
+              RepositoryCard(
             repo,
             cardLinkType: cardLinkType,
             branch: branch,

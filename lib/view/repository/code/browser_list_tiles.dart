@@ -5,7 +5,7 @@ import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
@@ -37,7 +37,7 @@ class BrowserListTile extends StatelessWidget {
     }
 
     return Material(
-      color: Colors.transparent,
+      // color: transparent,
       child: InkWell(
         onTap: () async {
           if (tree.type == Type.TREE) {

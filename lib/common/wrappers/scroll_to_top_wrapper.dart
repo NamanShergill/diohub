@@ -40,7 +40,7 @@ class ScrollToTopWrapper extends StatelessWidget {
   /// Whether this is wrapped around a primary scroll view associated with the parent
   /// [PrimaryScrollController].
   /// Defaults to true when [scrollDirection] is [Axis.vertical] and
-  /// [controller] is null.
+  /// [apiWrapperKey] is null.
   final bool? primary;
 
   /// Whether the scroll view scrolls in the reading direction.

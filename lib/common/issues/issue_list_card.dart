@@ -44,7 +44,7 @@ class IssueListCard extends StatelessWidget {
       child: Card(
         // elevation: disableMaterial ? 0 : 2,
         // color: disableMaterial
-        //     ? Colors.transparent
+        //     ? transparent
         //     : Provider.of<PaletteSettings>(context).currentSetting.primary,
         // borderRadius: medBorderRadius,
         child: InkWell(
@@ -179,19 +179,16 @@ Widget getIcon(final IssueState state) {
     case IssueState.CLOSED:
       return const Icon(
         Octicons.issue_closed,
-        color: Colors.red,
         size: 15,
       );
     case IssueState.OPEN:
       return const Icon(
         Octicons.issue_opened,
-        color: Colors.green,
         size: 15,
       );
     case IssueState.REOPENED:
       return const Icon(
         Octicons.issue_reopened,
-        color: Colors.green,
         size: 15,
       );
   }
@@ -212,20 +209,19 @@ class IssueLoadingCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Padding(
         padding: padding,
-        child: APIWrapper<IssueModel>(
+        child: APIWrapper<IssueModel>.deferred(
           apiCall: ({required final bool refresh}) async =>
               IssuesService.getIssueInfo(fullUrl: url, refresh: refresh),
-          loadingBuilder: (final BuildContext context) => const SizedBox(
-            height: 80,
-            child: Center(child: LoadingIndicator()),
-          ),
-          responseBuilder:
-              (final BuildContext context, final IssueModel data) =>
-                  IssueListCard(
+          builder: (final BuildContext context, final IssueModel data) =>
+              IssueListCard(
             data,
             compact: compact,
             // disableMaterial: true,
             padding: EdgeInsets.zero,
+          ),
+          loadingBuilder: (final BuildContext context) => const SizedBox(
+            height: 80,
+            child: Center(child: LoadingIndicator()),
           ),
         ),
       );

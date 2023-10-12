@@ -108,7 +108,7 @@ class _ReactionBarState extends State<ReactionBar> {
                             //     .primary,
                             borderRadius: bigBorderRadius,
                             child: ReactionButton<ReactionGroupsMixin>(
-                              // splashColor: Colors.transparent,
+                              // splashColor: transparent,
                               boxPadding: const EdgeInsets.all(16),
                               shouldChangeReaction: false,
                               boxPosition: VerticalPosition.BOTTOM,
@@ -245,13 +245,14 @@ class ReactionItemState extends State<ReactionItem> {
                   final StateSetter setState,
                   final ScrollController scrollController,
                 ) =>
-                    APIWrapper<List<ReactorsGroupMixin$Reactors$Edges?>>(
+                    APIWrapper<
+                        List<ReactorsGroupMixin$Reactors$Edges?>>.deferred(
                   apiCall: ({required final bool refresh}) =>
                       IssuesService.getReactors(
                     widget.reactionGroup.subject.id,
                     widget.reactionGroup.content,
                   ),
-                  responseBuilder: (
+                  builder: (
                     final BuildContext context,
                     final List<ReactorsGroupMixin$Reactors$Edges?> data,
                   ) =>

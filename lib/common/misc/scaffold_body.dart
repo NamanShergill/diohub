@@ -1,5 +1,6 @@
 import 'package:dio_hub/common/animations/size_expanded_widget.dart';
 import 'package:dio_hub/controller/internet_connectivity.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ScaffoldBody extends StatefulWidget {
@@ -43,7 +44,7 @@ class ScaffoldBodyState extends State<ScaffoldBody> {
                             expand: snapshot.data == NetworkStatus.offline,
                             child: Container(
                               width: double.infinity,
-                              color: Colors.redAccent,
+                              color: context.colorScheme.error,
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Center(

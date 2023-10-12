@@ -4,13 +4,13 @@ import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
   const ShimmerWidget({
-    required this.child,
+    this.child,
     this.borderRadius,
     this.baseColor,
     this.highlightColor,
     super.key,
   });
-  final Widget child;
+  final Widget? child;
   final BorderRadius? borderRadius;
   final Color? baseColor;
   final Color? highlightColor;
@@ -19,8 +19,9 @@ class ShimmerWidget extends StatelessWidget {
         borderRadius: borderRadius ?? BorderRadius.circular(0),
         child: Shimmer.fromColors(
           baseColor: baseColor ?? context.colorScheme.surface,
-          highlightColor: highlightColor ?? context.colorScheme.background,
-          child: child,
+          highlightColor:
+              highlightColor ?? context.colorScheme.surface.asDisabled(),
+          child: child ?? Container(),
         ),
       );
 }

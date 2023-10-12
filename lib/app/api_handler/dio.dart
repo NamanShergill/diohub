@@ -60,7 +60,7 @@ class RESTHandler extends BaseAPIHandler {
         onReceiveProgress: onReceiveProgress,
       );
       return response;
-    } catch (e) {
+    } on Exception {
       rethrow;
     }
   }
@@ -88,7 +88,7 @@ class RESTHandler extends BaseAPIHandler {
         onReceiveProgress: onReceiveProgress,
       );
       return response;
-    } catch (e) {
+    } on Exception {
       rethrow;
     }
   }
@@ -116,7 +116,7 @@ class RESTHandler extends BaseAPIHandler {
         onReceiveProgress: onReceiveProgress,
       );
       return response;
-    } catch (e) {
+    } on Exception {
       rethrow;
     }
   }
@@ -140,7 +140,7 @@ class RESTHandler extends BaseAPIHandler {
         cancelToken: cancelToken,
       );
       return response;
-    } catch (e) {
+    } on Exception {
       rethrow;
     }
   }

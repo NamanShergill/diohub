@@ -70,7 +70,7 @@ class SearchScreenState extends State<SearchScreen>
                       // color: Provider.of<PaletteSettings>(context)
                       //     .currentSetting
                       //     .primary,
-                      child: APIWrapper<List<RepositoryModel>>(
+                      child: APIWrapper<List<RepositoryModel>>.deferred(
                         apiCall: ({required final bool refresh}) async =>
                             SearchService.searchRepos(
                           SearchQueries().pushed.toQueryString(
@@ -84,7 +84,7 @@ class SearchScreenState extends State<SearchScreen>
                           padding: EdgeInsets.all(48),
                           child: LoadingIndicator(),
                         ),
-                        responseBuilder: (
+                        builder: (
                           final BuildContext context,
                           final List<RepositoryModel> data,
                         ) =>

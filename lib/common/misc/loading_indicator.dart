@@ -71,7 +71,7 @@ class LoadingIndicatorState extends State<LoadingIndicator>
 //   final Color color;
 //   final double lineWidth;
 //   LoadingIndicator(
-//       {this.color = Colors.white, this.size = 20, this.lineWidth = 3});
+//       {this.color = white, this.size = 20, this.lineWidth = 3});
 //   @override
 //   Widget build(BuildContext context) {
 //     return SpinKitRing(

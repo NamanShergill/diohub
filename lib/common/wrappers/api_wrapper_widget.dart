@@ -1,164 +1,190 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:dio_hub/common/animations/fade_animation_widget.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class APIWrapperController<T> {
-  late void Function() refresh;
-  late void Function(T data) overrideData;
-}
-
-typedef ResponseBuilder<T> = Widget Function(BuildContext context, T data);
+typedef ResponseBuilder<T> = Widget Function(
+    BuildContext context, APISnapshot<T> snapshot);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 typedef APICall<T> = Future<T> Function({required bool refresh});
+typedef DeferredBuilder<T> = Widget Function(BuildContext context, T data);
 
 class APIWrapper<T> extends StatefulWidget {
   const APIWrapper({
     required this.apiCall,
-    required this.responseBuilder,
+    required this.builder,
     super.key,
-    this.fadeIntoView = true,
-    this.apiWrapperController,
     this.initialData,
-    this.errorBuilder,
-    this.loadingBuilder,
   });
+  APIWrapper.deferred({
+    required this.apiCall,
+    required final DeferredBuilder<T> builder,
+    final DeferredBuilder<Object?>? errorBuilder,
+    final WidgetBuilder? loadingBuilder,
+    super.key,
+    this.initialData,
+  }) : builder = deferredBuilder(
+          builder: builder,
+          errorBuilder: errorBuilder,
+          loadingBuilder: loadingBuilder,
+        );
+
+  static ResponseBuilder<T> deferredBuilder<T>({
+    required final DeferredBuilder<T> builder,
+    final DeferredBuilder<Object?>? errorBuilder,
+    final WidgetBuilder? loadingBuilder,
+  }) =>
+      (final BuildContext context, final APISnapshot<T> snapshot) =>
+          switch (snapshot) {
+            APISnapshotLoaded<T>() => builder.call(context, snapshot.data),
+            APISnapshotLoading<T>() =>
+              loadingBuilder?.call(context) ?? const LoadingIndicator(),
+            APISnapshotError<T>() =>
+              errorBuilder?.call(context, snapshot.error) ??
+                  _buildError(snapshot.error),
+          };
+
   final APICall<T> apiCall;
-  final ResponseBuilder<T> responseBuilder;
-  final WidgetBuilder? loadingBuilder;
-  final ErrorBuilder? errorBuilder;
+  final ResponseBuilder<T> builder;
   final T? initialData;
-  final APIWrapperController<T>? apiWrapperController;
-  final bool fadeIntoView;
 
   @override
   APIWrapperState<T> createState() => APIWrapperState<T>();
 }
 
 class APIWrapperState<T> extends State<APIWrapper<T>> {
-  late T data;
-  bool loading = true;
-  Object? error;
-
+  late APISnapshot<T> _snapshot;
   Future<void> setupWidget() async {
     if (widget.initialData == null) {
-      await fetchData(refresh: false);
+      await refreshData(forceRefresh: false);
     } else {
-      data = widget.initialData as T;
-      if (mounted) {
-        setState(() {
-          loading = false;
-        });
-      }
+      _snapshot = APISnapshotLoaded<T>(
+        widget.initialData as T,
+        onRefresh: refreshData,
+      );
     }
   }
 
-  Future<void> fetchData({final bool refresh = true}) async {
-    if (mounted) {
-      setState(() {
-        loading = true;
-      });
-    }
+  Future<void> refreshData({final bool forceRefresh = true}) async {
     try {
-      error = null;
-      data = await widget.apiCall(refresh: refresh);
+      _snapshot = APISnapshotLoading<T>(
+        // widget.initialData as T,
+        onRefresh: refreshData,
+      );
+      final T data = await widget.apiCall(refresh: forceRefresh);
+
       if (mounted) {
-        setState(() {});
+        setState(() {
+          _snapshot = APISnapshotLoaded<T>(
+            data,
+            onRefresh: refreshData,
+          );
+        });
       }
-    } catch (e) {
-      debugPrint(e.toString());
-      error = e;
-    }
-    if (mounted) {
-      setState(() {
-        loading = false;
-      });
+    } on Exception catch (e) {
+      log('API Snapshot Error', error: e);
+      _snapshot = APISnapshotError<T>(
+        e,
+        onRefresh: refreshData,
+      );
     }
   }
 
   void changeData(final T data) {
     setState(() {
-      this.data = data;
+      _snapshot = APISnapshotLoaded<T>(data, onRefresh: refreshData);
     });
   }
 
   @override
   void initState() {
-    widget.apiWrapperController?.refresh = fetchData;
-    widget.apiWrapperController?.overrideData = changeData;
+    // widget.apiWrapperController?.refresh = fetchData;
+    // widget.apiWrapperController?.overrideData = changeData;
     unawaited(setupWidget());
     super.initState();
   }
 
   @override
-  Widget build(final BuildContext context) {
-    if (loading) {
-      return widget.loadingBuilder != null
-          ? widget.loadingBuilder!(context)
-          : const LoadingIndicator();
-    } else if (error != null) {
-      return widget.errorBuilder != null
-          ? widget.errorBuilder!(context, error)
-          // : Text(error!);
-          : Builder(
-              builder: (final BuildContext context) {
-                if (error is DioException) {
-                  final DioException err = error! as DioException;
-                  if (err.type == DioExceptionType.badResponse) {
-                    return Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Text(
-                        '${err.response!.statusCode}. ${err.response!.statusMessage}.',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  } else if (err.type == DioExceptionType.unknown) {
-                    return Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Text(
-                        err.message ?? 'Something went wrong.',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  }
-                }
-                return Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(
-                    kReleaseMode ? 'Something went wrong.' : error.toString(),
-                  ),
-                );
-              },
-            );
-    }
-
-    if (widget.fadeIntoView) {
-      return FadeAnimationSection(
-        child: widget.responseBuilder(context, data),
+  Widget build(final BuildContext context) => widget.builder.call(
+        context,
+        _snapshot,
       );
-    }
-    return widget.responseBuilder(context, data);
-  }
 }
+
+Builder _buildError(final Object? error) => Builder(
+      builder: (final BuildContext context) {
+        if (error is DioException) {
+          if (error.type == DioExceptionType.badResponse) {
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                '${error.response!.statusCode}. ${error.response!.statusMessage}.',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            );
+          } else if (error.type == DioExceptionType.unknown) {
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                error.message ?? 'Something went wrong.',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            );
+          }
+        }
+        return Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            kReleaseMode ? 'Something went wrong.' : error.toString(),
+          ),
+        );
+      },
+    );
 
 class PullToRefreshWrapper<T> extends StatelessWidget {
   const PullToRefreshWrapper({
-    required this.apiWrapperController,
+    required this.wrapperKey,
     required this.child,
     super.key,
   });
-  final APIWrapperController<T> apiWrapperController;
+  final GlobalKey<APIWrapperState<T>> wrapperKey;
   final Widget child;
 
   @override
   Widget build(final BuildContext context) => RefreshIndicator(
         onRefresh: () => Future<void>.sync(() async {
-          apiWrapperController.refresh();
+          await wrapperKey.currentState?.refreshData();
         }),
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         child: child,
       );
+}
+
+sealed class APISnapshot<T> {
+  APISnapshot({
+    required final VoidCallback onRefresh,
+  }) : _onRefresh = onRefresh;
+
+  final VoidCallback _onRefresh;
+
+  void refresh() {
+    _onRefresh.call();
+  }
+}
+
+class APISnapshotLoaded<T> extends APISnapshot<T> {
+  APISnapshotLoaded(this.data, {required super.onRefresh});
+  final T data;
+}
+
+class APISnapshotLoading<T> extends APISnapshot<T> {
+  APISnapshotLoading({required super.onRefresh});
+}
+
+class APISnapshotError<T> extends APISnapshot<T> {
+  APISnapshotError(this.error, {required super.onRefresh});
+  final Object? error;
 }

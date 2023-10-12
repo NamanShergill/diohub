@@ -4,9 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
 import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class ProfileTile extends StatelessWidget {
   const ProfileTile.avatar({
@@ -52,21 +52,17 @@ class ProfileTile extends StatelessWidget {
   final _UserCardType _type;
   final Widget Function(Widget child)? wrapperBuilder;
   @override
-  Widget build(final BuildContext context) => Material(
-        borderRadius: smallBorderRadius,
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: smallBorderRadius,
-          onTap: userLogin != null && !disableTap
-              ? () {
-                  navigateToProfile(login: userLogin!, context: context);
-                }
-              : null,
-          child: wrapperBuilder?.call(
-                _buildChild(context),
-              ) ??
+  Widget build(final BuildContext context) => InkWell(
+        // borderRadius: smallBorderRadius,
+        onTap: userLogin != null && !disableTap
+            ? () {
+                navigateToProfile(login: userLogin!, context: context);
+              }
+            : null,
+        child: wrapperBuilder?.call(
               _buildChild(context),
-        ),
+            ) ??
+            _buildChild(context),
       );
 
   Padding _buildChild(final BuildContext context) => Padding(
@@ -85,7 +81,7 @@ class ProfileTile extends StatelessWidget {
                   child: Container(
                     height: size,
                     width: size,
-                    color: Colors.grey,
+                    color: context.colorScheme.surfaceVariant,
                   ),
                 ),
                 errorWidget: (final BuildContext context, final _, final __) =>

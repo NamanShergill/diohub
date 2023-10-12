@@ -71,11 +71,13 @@ dependencies:
       ref: fix-xcode-17
 
   flutter_keyboard_visibility: ^5.4.1
+#  flutter_material_design_icons: ^1.1.7296
   flutter_portal: ^1.1.4
   flutter_reaction_button: ^2.0.1+2
   flutter_riverpod: ^2.4.2
   flutter_scroll_to_top:
     path: dependencies/flutter_scroll_to_top
+
   flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.0
   flutter_svg: ^2.0.7
@@ -102,7 +104,6 @@ dependencies:
   markdown_editable_textinput:
     path: dependencies/markdown-editable-textinput
 
-  material_design_icons_flutter: ^7.0.7296
   mime: ^1.0.4
   package_info_plus: ^4.1.0
   path_provider: ^2.1.1
