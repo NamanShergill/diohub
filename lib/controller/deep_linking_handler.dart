@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/app/global.dart';
+import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/misc/app_dialog.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/utils/open_in_app_browser.dart';
@@ -149,6 +150,28 @@ List<PageRouteInfo>? _getRoutes(final Uri uri) {
     unawaited(openInAppBrowser(link));
   }
   return temp;
+}
+
+class AppLinkHandler {
+  AppLinkHandler({required this.uri});
+  AppLinkHandler.fromString({
+    required final String uri,
+  }) : uri = Uri.parse(
+          uri,
+        );
+
+  URLActions urlActions({
+    final String? shareDescription,
+    final bool showOpenAction = true,
+  }) =>
+      URLActions(
+        uri: uri,
+        shareDescription: shareDescription,
+        showOpenAction: showOpenAction,
+      );
+  final Uri uri;
+
+  Future<void> openInBrowser() async => urlActions().launchURLInBrowser();
 }
 
 String _urlWithPrefix(final String url) => 'https://api.github.com/$url';

@@ -1,6 +1,6 @@
 import 'package:dio_hub/app/api_handler/dio.dart';
 import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/const/app_info.dart';
 import 'package:dio_hub/common/const/version_info.dart';
 import 'package:dio_hub/common/misc/app_scroll_view.dart';

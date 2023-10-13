@@ -55,9 +55,9 @@ extension TextStyles on TextStyle {
 }
 
 extension OpacityColors on Color {
-  Color asHint() => Color(value).withOpacity(0.60);
+  Color asHint() => Color(value).fadeBrightness(-0.1);
 
-  Color asDisabled() => Color(value).withOpacity(0.38);
+  Color asDisabled() => Color(value).fadeBrightness(-0.2);
 }
 
 extension IconSize on TextStyle {
@@ -65,4 +65,17 @@ extension IconSize on TextStyle {
         null => 25,
         _ => fontSize! * 0.9,
       };
+}
+
+extension ColorFader on Color {
+  Color fadeBrightness(double factor) {
+    assert(factor >= -1.0 && factor <= 1.0,
+        'Factor value must be between -1.0 and 1.0');
+
+    final hslColor = HSLColor.fromColor(this);
+    final newHslColor = hslColor.withLightness(
+      (hslColor.lightness + factor).clamp(0.0, 1.0),
+    );
+    return newHslColor.toColor();
+  }
 }

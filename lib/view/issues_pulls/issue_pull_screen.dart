@@ -33,6 +33,7 @@ import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
 import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:dio_hub/view/repository/repository_screen.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
@@ -218,6 +219,11 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
     return SafeArea(
       child: DynamicTabsParent(
         controller: dynamicTabsController,
+        tabBuilder: (final BuildContext context, final DynamicTab tab) =>
+            buildDynamicTabMenuButton(
+          tab: tab,
+          tabController: dynamicTabsController,
+        ),
         tabs: List<DynamicTab>.from(widget.dynamicTabs)
           ..addAll(
             <DynamicTab>[
@@ -339,7 +345,12 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
           const SizedBox(
             height: 8,
           ),
-          tabBar,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              tabBar,
+            ],
+          ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
           ),
@@ -722,9 +733,6 @@ class _ScreenHeader extends StatelessWidget {
                 buildLabelsWidget(),
                 const SizedBox(
                   height: 8,
-                ),
-                const Divider(
-                  height: 0,
                 ),
               ],
             ),

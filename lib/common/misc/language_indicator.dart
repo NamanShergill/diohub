@@ -19,9 +19,7 @@ class LanguageIndicator extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: Color(
-                int.parse(
-                  getLangColor(language).replaceFirst('#', '0xFF'),
-                ),
+                getLangColor(language),
               ),
               shape: BoxShape.circle,
             ),

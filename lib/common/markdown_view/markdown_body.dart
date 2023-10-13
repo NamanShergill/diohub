@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/markdown_view/extensions/markdown_extensions.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';

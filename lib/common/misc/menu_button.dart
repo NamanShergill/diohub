@@ -21,6 +21,7 @@ class MenuButton extends StatelessWidget {
   final Widget Function(
     BuildContext context,
     Widget button,
+    Future<void> Function() showMenu,
   )? builder;
 
   /// Called when the button is pressed to create the items to show in the menu.

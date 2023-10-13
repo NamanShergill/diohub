@@ -71,7 +71,7 @@ dependencies:
       ref: fix-xcode-17
 
   flutter_keyboard_visibility: ^5.4.1
-#  flutter_material_design_icons: ^1.1.7296
+  flutter_material_design_icons: ^1.1.7296
   flutter_portal: ^1.1.4
   flutter_reaction_button: ^2.0.1+2
   flutter_riverpod: ^2.4.2

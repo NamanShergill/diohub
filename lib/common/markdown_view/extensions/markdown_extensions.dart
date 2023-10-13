@@ -1,16 +1,19 @@
 import 'dart:collection';
 
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
-import 'package:dio_hub/common/misc/copy_button.dart';
 import 'package:dio_hub/common/misc/image_loader.dart';
-import 'package:dio_hub/common/misc/patch_viewer.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/copy_to_clipboard.dart';
+import 'package:dio_hub/utils/lang_colors/get_language_color.dart';
 import 'package:dio_hub/utils/utils.dart';
+import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:highlight/languages/all.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 part 'a_extension.dart';
 part 'code_extension.dart';
@@ -106,6 +109,7 @@ class _CodeView extends StatefulWidget {
   const _CodeView(
     this.data, {
     this.language,
+    super.key,
   });
 
   final String data;
@@ -121,76 +125,80 @@ class _CodeViewState extends State<_CodeView> {
   @override
   Widget build(final BuildContext context) {
     final Widget child = Padding(
-      padding: const EdgeInsets.only(top: 32, right: 16, left: 16, bottom: 8),
+      padding: const EdgeInsets.all(8),
       child: CodeBlockView(
         widget.data,
         language: widget.language,
       ),
     );
-    return Card(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                if (!wrapText)
-                  Scrollbar(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: child,
-                    ),
-                  ),
-                if (wrapText) child,
-                if (widget.language != null &&
-                    allLanguages.containsKey(widget.language))
-                  Positioned(
-                    left: 8,
-                    top: 8,
-                    child: Text(
-                      widget.language!,
-                      style: context.textTheme.labelSmall?.copyWith(
-                        // color: context.palette.faded3,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Material(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        CopyButton(
-                          widget.data,
-                          size: 14,
-                        ),
-                        WrapIconButton(
-                          wrap: wrapText,
-                          size: 14,
-                          onWrap: (final bool value) {
-                            setState(() {
-                              wrapText = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+
+    return MenuInfoCard(
+      title: widget.language ?? 'Code',
+      headerPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+      leading: Container(
+        decoration: BoxDecoration(
+          color: Color(
+            getLangColor(widget.language),
           ),
-        ],
+          shape: BoxShape.circle,
+        ),
+        height: 10,
+        width: 10,
       ),
+      menuBuilder: (final BuildContext context) => <PullDownMenuEntry>[
+        PullDownMenuItem.selectable(
+          onTap: () {
+            setState(() {
+              wrapText = !wrapText;
+            });
+          },
+          selected: wrapText,
+          title: 'Wrap',
+          icon: MdiIcons.wrap,
+        ),
+        PullDownMenuActionsRow.medium(
+          items: [
+            PullDownMenuItem(
+              onTap: () async {
+                await copyToClipboard(widget.data);
+              },
+              title: 'Copy',
+              icon: MdiIcons.contentCopy,
+            ),
+            PullDownMenuItem(
+              onTap: () async {
+                await showDialog(
+                  context: context,
+                  builder: (final BuildContext cxt) => SelectAndCopy(
+                    widget.data,
+                    // onQuote: widget.onQuote,
+                  ),
+                );
+              },
+              title: 'Select',
+              icon: MdiIcons.cursorText,
+            ),
+          ],
+        ),
+      ],
+      childPadding: EdgeInsets.zero,
+      child: wrapText
+          ? child
+          : Scrollbar(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: child,
+              ),
+            ),
     );
   }
 }
 
 abstract class _ExtensionWidget extends StatelessWidget {
   const _ExtensionWidget(
-    this.extensionContext,
-  );
+    this.extensionContext, {
+    super.key,
+  });
 
   final ExtensionContext extensionContext;
 

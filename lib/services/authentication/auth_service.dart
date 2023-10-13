@@ -16,9 +16,9 @@ class AuthRepository {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   final RESTHandler _restHandler = RESTHandler.external(
-    baseURL: 'https://github.com/login/',
-    cacheOptions: APICache.noCache(),
-  );
+      baseURL: 'https://github.com/login/',
+      cacheOptions: APICache.noCache(),
+      apiLogSettings: APILoggingSettings.comprehensive());
 
   Future<bool> get isAuthenticated async {
     final String? token = await getAccessTokenFromDevice();

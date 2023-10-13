@@ -32,7 +32,9 @@ class InfoCard extends StatelessWidget {
     this.title,
     this.leading,
     this.childPadding,
-    this.headerPadding = const EdgeInsets.all(8),
+    this.headerPadding =
+        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+    this.onHeaderTap,
     // this.titleTextStyle,
     // this.leadingIconColor,
   }) : assert(
@@ -41,6 +43,7 @@ class InfoCard extends StatelessWidget {
         );
   final Widget child;
   final VoidCallback? onTap;
+  final VoidCallback? onHeaderTap;
   final Widget? trailing;
   final EdgeInsets? childPadding;
   final String? title;
@@ -66,7 +69,7 @@ class InfoCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             CardHeader(
-              onTap: onTap,
+              onTap: onHeaderTap ?? onTap,
               child: Padding(
                 padding: headerPadding,
                 child: Row(
@@ -83,7 +86,7 @@ class InfoCard extends StatelessWidget {
               cardLinkType: CardLinkType.atTop,
               onTap: onTap,
               child: Padding(
-                padding: childPadding ?? const EdgeInsets.all(8),
+                padding: childPadding ?? const EdgeInsets.all(12),
                 child: Row(
                   children: <Widget>[
                     Flexible(child: child),
@@ -137,11 +140,14 @@ class MenuInfoCard extends StatelessWidget {
     super.key,
     this.childPadding,
     this.leading,
+    this.headerPadding =
+        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
     // this.titleTextStyle,
     // this.onTap,
   });
   final VoidCallback? onTap;
   final EdgeInsets? childPadding;
+  final EdgeInsets headerPadding;
   final Widget? leading;
   // final TextStyle? titleTextStyle;
   // final VoidCallback? onTap;
@@ -151,35 +157,44 @@ class MenuInfoCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final menuItems = menuBuilder.call(context);
+    final List<PullDownMenuEntry> menuItems = menuBuilder.call(context);
     if (menuItems.isNotEmpty) {
       return MenuButton(
         itemBuilder: menuBuilder,
-        // buttonBuilder: (context, showMenu) => IconButton(
-        //   onPressed: showMenu,
-        //   icon: Icon(
-        //     Icons.adaptive.more_rounded,
-        //   ),
-        //   padding: EdgeInsets.zero,
-        //   constraints: const BoxConstraints(),
-        // ),
-        builder: (final BuildContext context, final Widget button) => InfoCard(
-          trailing: button, headerPadding: const EdgeInsets.only(left: 8),
-          onTap: onTap,
-          title: title,
-          leading: leading,
-          childPadding: childPadding,
-          // titleTextStyle: titleTextStyle,
-          child: child,
+        buttonBuilder: (context, showMenu) => Container(
+          height: 25,
+          width: 25,
+          child: IconButton(
+            onPressed: showMenu,
+            icon: Icon(
+              Icons.adaptive.more_rounded,
+            ),
+            padding: const EdgeInsets.all(4),
+            // constraints: const BoxConstraints(),
+          ),
+        ),
+        builder:
+            (final BuildContext context, final Widget button, final showMenu) =>
+                GestureDetector(
+          onLongPress: showMenu,
+          child: InfoCard(
+            trailing: button,
+            onTap: onTap, onHeaderTap: showMenu,
+            title: title,
+            leading: leading, headerPadding: headerPadding,
+            childPadding: childPadding,
+            // titleTextStyle: titleTextStyle,
+            child: child,
+          ),
         ),
       );
     }
     return InfoCard(
-      child: child,
       onTap: onTap,
       title: title,
       childPadding: childPadding,
       leading: leading,
+      child: child,
     );
   }
 }
@@ -201,7 +216,7 @@ class CardHeader extends StatelessWidget {
   Widget build(final BuildContext context) => BasicCard.linked(
         cardLinkType: cardLinkType,
         color: context.colorScheme.surfaceVariant,
-        elevation: 0,
+        // elevation: 0,
         onTap: onTap,
         child: DefaultTextStyle(
           style: context.textTheme.bodySmall!.copyWith(

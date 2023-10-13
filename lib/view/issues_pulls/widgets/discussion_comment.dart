@@ -151,7 +151,7 @@ class BaseCommentState extends State<BaseComment> {
                     value: Provider.of<CommentProvider>(context),
                     builder:
                         (final BuildContext context, final Widget? child) =>
-                            _SelectAndCopy(
+                            SelectAndCopy(
                       widget.body,
                       onQuote: widget.onQuote,
                     ),
@@ -179,6 +179,7 @@ class BaseCommentState extends State<BaseComment> {
         builder: (
           final BuildContext context,
           final Widget button,
+          final Future<void> Function() showMenu,
         ) =>
             Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,8 +209,21 @@ class BaseCommentState extends State<BaseComment> {
                       Row(
                         children: <Widget>[
                           Flexible(
-                            child: MarkdownBody(
-                              widget.bodyHTML!,
+                            child: Theme(
+                              data: context.themeData.copyWith(
+                                cardTheme: context.themeData.cardTheme
+                                    .copyWith(elevation: 3),
+                                colorScheme: context.colorScheme.copyWith(
+                                  surfaceVariant: context
+                                      .colorScheme.surfaceVariant
+                                      .asHint(),
+                                  background:
+                                      context.colorScheme.background.asHint(),
+                                ),
+                              ),
+                              child: MarkdownBody(
+                                widget.bodyHTML!,
+                              ),
                             ),
                           ),
                         ],
@@ -257,7 +271,7 @@ class BaseCommentState extends State<BaseComment> {
     final Widget button,
   ) =>
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -348,16 +362,16 @@ class BaseCommentState extends State<BaseComment> {
       );
 }
 
-class _SelectAndCopy extends StatefulWidget {
-  const _SelectAndCopy(this.data, {required this.onQuote});
+class SelectAndCopy extends StatefulWidget {
+  const SelectAndCopy(this.data, {this.onQuote});
   final String data;
-  final VoidCallback onQuote;
+  final VoidCallback? onQuote;
 
   @override
-  __SelectAndCopyState createState() => __SelectAndCopyState();
+  _SelectAndCopyState createState() => _SelectAndCopyState();
 }
 
-class __SelectAndCopyState extends State<_SelectAndCopy> {
+class _SelectAndCopyState extends State<SelectAndCopy> {
   String selectedText = '';
   @override
   Widget build(final BuildContext context) => AlertDialog(
@@ -403,20 +417,21 @@ class __SelectAndCopyState extends State<_SelectAndCopy> {
               child: Text('Copy'),
             ),
           ),
-          MaterialButton(
-            onPressed: selectedText.isNotEmpty
-                ? () {
-                    context.read<CommentProvider>().addQuote(selectedText);
-                    Navigator.pop(context);
+          if (widget.onQuote != null)
+            MaterialButton(
+              onPressed: selectedText.isNotEmpty
+                  ? () {
+                      context.read<CommentProvider>().addQuote(selectedText);
+                      Navigator.pop(context);
 
-                    widget.onQuote();
-                  }
-                : null,
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: Text('Quote'),
+                      widget.onQuote!();
+                    }
+                  : null,
+              child: const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('Quote'),
+              ),
             ),
-          ),
         ],
       );
 }

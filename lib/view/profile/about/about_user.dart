@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/utils/get_date.dart';
@@ -22,7 +22,7 @@ class AboutUser extends StatelessWidget {
               icon: MdiIcons.twitter,
               context: context,
             ),
-            onTap: () => URLActions(
+            onTap: () async => URLActions(
                     uri: Uri.parse(
                         'https://twitter.com/${userInfoModel!.twitterUsername}'))
                 .launchURL(),

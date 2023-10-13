@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/misc/menu_button.dart';
 import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
 import 'package:flutter/material.dart';

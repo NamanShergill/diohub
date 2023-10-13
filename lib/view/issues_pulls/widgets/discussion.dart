@@ -3,13 +3,12 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -190,105 +189,59 @@ class DiscussionState extends State<Discussion> {
               ),
             ],
           );
-    return Column(
+    return Stack(
       children: <Widget>[
-        Expanded(
-          child: InfiniteScrollWrapper<dynamic>(
-            future: (
-              final ({
-                dynamic lastItem,
-                int pageNumber,
-                int pageSize,
-                bool refresh
-              }) data,
-            ) async =>
-                IssuesService.getTimeline(
-              repo: widget.repoName,
-              after: data.lastItem?.cursor,
-              number: widget.number,
-              owner: widget.owner,
-              refresh: data.refresh,
-              since:
-                  commentsSince?.toUtc().subtract(const Duration(seconds: 30)),
-            ),
-            // scrollController: widget.nestedScrollViewController,
-            controller: commentsSinceController,
-            firstPageLoadingBuilder: (final BuildContext context) =>
-                const LoadingIndicator(),
-            // scrollController: widget.nestedScrollViewController,
-            header: (final BuildContext context) => header,
-            // topSpacing: 8,
-            // separatorBuilder: (final BuildContext context, final int index) =>
-            //     const Divider(
-            //   height: 0,
-            // ),
-            builder: (
-              final BuildContext context,
-              final ({int index, dynamic item, bool refresh}) data,
-            ) =>
-                TimelineItem(
-              data.item.node,
-              pullNodeID: widget.pullNodeID,
-              onQuote: openCommentSheet,
-            ),
+        InfiniteScrollWrapper<dynamic>(
+          future: (
+            final ({
+              dynamic lastItem,
+              int pageNumber,
+              int pageSize,
+              bool refresh
+            }) data,
+          ) async =>
+              IssuesService.getTimeline(
+            repo: widget.repoName,
+            after: data.lastItem?.cursor,
+            number: widget.number,
+            owner: widget.owner,
+            refresh: data.refresh,
+            since: commentsSince?.toUtc().subtract(const Duration(seconds: 30)),
+          ),
+          // scrollController: widget.nestedScrollViewController,
+          controller: commentsSinceController,
+          firstPageLoadingBuilder: (final BuildContext context) =>
+              const LoadingIndicator(),
+          // scrollController: widget.nestedScrollViewController,
+          header: (final BuildContext context) => header,
+          // topSpacing: 8,
+          // separatorBuilder: (final BuildContext context, final int index) =>
+          //     const Divider(
+          //   height: 0,
+          // ),
+          builder: (
+            final BuildContext context,
+            final ({int index, dynamic item, bool refresh}) data,
+          ) =>
+              TimelineItem(
+            data.item.node,
+            pullNodeID: widget.pullNodeID,
+            onQuote: openCommentSheet,
           ),
         ),
-        _CommentButton(
-          onTap: openCommentSheet,
-          isLocked: widget.isLocked!,
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: FloatingActionButton(
+              onPressed: () async {
+                await openCommentSheet();
+              },
+              child: const Icon(MdiIcons.commentPlus),
+            ),
+          ),
         ),
       ],
-    );
-  }
-}
-
-class _CommentButton extends StatelessWidget {
-  const _CommentButton({
-    required this.onTap,
-    this.isLocked = false,
-  });
-  final bool isLocked;
-  final GestureTapCallback onTap;
-
-  @override
-  Widget build(final BuildContext context) {
-    // final DioHubPalette theme =
-    //     Provider.of<PaletteSettings>(context).currentSetting;
-
-    return Material(
-      // elevation: 2,
-      color: isLocked
-          ? context.colorScheme.onSurface
-          : context.colorScheme.primary,
-      child: InkWell(
-        onTap: isLocked ? null : onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Add a comment',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: context.colorScheme.onPrimary,
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  isLocked ? Octicons.lock : Icons.comment_rounded,
-                  color: context.colorScheme.onPrimary,
-                  size: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

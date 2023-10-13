@@ -255,43 +255,11 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                     return DynamicTabsParent(
                       controller: tabController,
                       tabBuilder:
-                          (final BuildContext context, final DynamicTab tab) {
-                        return Tab(
-                          // text: tab.tab?.label ?? tab.identifier,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: tab.isDismissible ? 24.0 : 0),
-                                child: Text(tab.identifier),
-                              ),
-                              if (tab.isDismissible)
-                                MenuButton(
-                                  buttonBuilder: (context, showMenu) =>
-                                      IconButton(
-                                    icon: Icon(
-                                      Icons.adaptive.more_rounded,
-                                    ),
-                                    // padding: EdgeInsets.zero,
-                                    constraints: BoxConstraints(),
-
-                                    onPressed: showMenu,
-                                  ),
-                                  itemBuilder: (context) => [
-                                    PullDownMenuItem(
-                                      onTap: () {
-                                        tabController.closeTab(tab.identifier);
-                                      },
-                                      title: 'Close Tab',
-                                      icon: Icons.close_rounded,
-                                    )
-                                  ],
-                                )
-                            ],
-                          ),
-                        );
-                      },
+                          (final BuildContext context, final DynamicTab tab) =>
+                              buildDynamicTabMenuButton(
+                        tab: tab,
+                        tabController: tabController,
+                      ),
                       tabs: tabs,
                       builder: (
                         final BuildContext context,
@@ -412,7 +380,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                     padding: const EdgeInsets.all(8),
                                     child: Row(
                                       children: <Widget>[
-                                        Icon(
+                                        const Icon(
                                           Octicons.repo_forked,
                                           // color: Provider.of<PaletteSettings>(
                                           //   context,
@@ -424,7 +392,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                         ),
                                         Text(
                                           repo.forksCount.toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 13,
                                             // color: theme.faded3,
                                           ),
@@ -461,3 +429,42 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
         ),
       );
 }
+
+Tab buildDynamicTabMenuButton({
+  required final DynamicTab tab,
+  required final DynamicTabsController tabController,
+}) =>
+    Tab(
+      // text: tab.tab?.label ?? tab.identifier,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: tab.isDismissible ? 24.0 : 0),
+            child: Text(tab.identifier),
+          ),
+          if (tab.isDismissible)
+            MenuButton(
+              buttonBuilder: (final BuildContext context, final showMenu) =>
+                  IconButton(
+                icon: Icon(
+                  Icons.adaptive.more_rounded,
+                ),
+                // padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+
+                onPressed: showMenu,
+              ),
+              itemBuilder: (final BuildContext context) => <PullDownMenuEntry>[
+                PullDownMenuItem(
+                  onTap: () {
+                    tabController.closeTab(tab.identifier);
+                  },
+                  title: 'Close Tab',
+                  icon: Icons.close_rounded,
+                )
+              ],
+            ),
+        ],
+      ),
+    );
