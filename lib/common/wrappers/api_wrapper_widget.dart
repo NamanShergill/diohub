@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 typedef ResponseBuilder<T> = Widget Function(
-    BuildContext context, APISnapshot<T> snapshot);
+    BuildContext context, APISnapshot<T> snapshot,);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 typedef APICall<T> = Future<T> Function({required bool refresh});
 typedef DeferredBuilder<T> = Widget Function(BuildContext context, T data);

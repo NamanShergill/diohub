@@ -109,7 +109,6 @@ class _CodeView extends StatefulWidget {
   const _CodeView(
     this.data, {
     this.language,
-    super.key,
   });
 
   final String data;
@@ -157,7 +156,7 @@ class _CodeViewState extends State<_CodeView> {
           icon: MdiIcons.wrap,
         ),
         PullDownMenuActionsRow.medium(
-          items: [
+          items: <PullDownMenuItem>[
             PullDownMenuItem(
               onTap: () async {
                 await copyToClipboard(widget.data);
@@ -196,9 +195,7 @@ class _CodeViewState extends State<_CodeView> {
 
 abstract class _ExtensionWidget extends StatelessWidget {
   const _ExtensionWidget(
-    this.extensionContext, {
-    super.key,
-  });
+    this.extensionContext,);
 
   final ExtensionContext extensionContext;
 

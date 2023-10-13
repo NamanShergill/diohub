@@ -66,7 +66,7 @@ class PullLoadingCard extends StatelessWidget {
                                     .sublist(0, 2)
                                     .join('/'),
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     // color: Provider.of<PaletteSettings>(context)
                                     //     .currentSetting
                                     //     .faded3,
@@ -76,7 +76,7 @@ class PullLoadingCard extends StatelessWidget {
                           ),
                           Text(
                             '#${issueModel!.number}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 // color: Provider.of<PaletteSettings>(context)
                                 //     .currentSetting
                                 //     .faded3,

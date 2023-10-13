@@ -64,7 +64,7 @@ class PullListCard extends StatelessWidget {
                                   .sublist(0, 2)
                                   .join('/'),
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   // color: Provider.of<PaletteSettings>(context)
                                   //     .currentSetting
                                   //     .faded3,
@@ -74,7 +74,7 @@ class PullListCard extends StatelessWidget {
                         ),
                       Text(
                         '#${item.number}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             // color: Provider.of<PaletteSettings>(context)
                             //     .currentSetting
                             //     .faded3,
@@ -105,7 +105,7 @@ class PullListCard extends StatelessWidget {
                                   ? 'By ${item.user!.login}, merged ${getDate(item.mergedAt.toString(), shorten: false)}.'
                                   : 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                               : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             // color: Provider.of<PaletteSettings>(context)
                             //     .currentSetting
                             //     .faded3,

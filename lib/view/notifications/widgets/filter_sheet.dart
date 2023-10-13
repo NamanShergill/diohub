@@ -110,7 +110,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.bullseye,
                       ),
                       value: clientFilters['show_only'].contains('assign'),
@@ -132,7 +132,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.pen,
                       ),
                       value: clientFilters['show_only'].contains('author'),
@@ -155,7 +155,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.comment,
                       ),
                       value: clientFilters['show_only'].contains('comment'),
@@ -176,7 +176,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         Octicons.mail,
                       ),
                       value: clientFilters['show_only'].contains('invitation'),
@@ -197,7 +197,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.information,
                       ),
                       value: clientFilters['show_only'].contains('manual'),
@@ -220,7 +220,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.at,
                       ),
                       value: clientFilters['show_only'].contains('mention'),
@@ -244,7 +244,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         Icons.search_rounded,
                       ),
                       value: clientFilters['show_only']
@@ -267,7 +267,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.security,
                       ),
                       value:
@@ -315,7 +315,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.information,
                       ),
                       value: clientFilters['show_only'].contains('subscribed'),
@@ -338,7 +338,7 @@ class FilterSheetState extends State<FilterSheet> {
                       }
                     },
                     child: CheckboxListTile(
-                      secondary: Icon(
+                      secondary: const Icon(
                         MdiIcons.message,
                       ),
                       value:

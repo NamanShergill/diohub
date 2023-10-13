@@ -389,7 +389,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       onPressed: () {
                                         infoOverlay.tapped();
                                       },
-                                      icon: Icon(MdiIcons.information),
+                                      icon: const Icon(MdiIcons.information),
                                     ),
                                   ),
                                 ),
@@ -1050,7 +1050,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
                 );
               } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
-                    color: context.colorScheme.secondary);
+                    color: context.colorScheme.secondary,);
               } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
                   color: context.colorScheme.primary,

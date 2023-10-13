@@ -348,7 +348,7 @@ class PatchViewerState extends State<PatchViewer> {
                               text: displayHeader[index] + displayCode[0],
                             ),
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'monospace',
                               fontSize: 12,
                               // color: Provider.of<PaletteSettings>(context)

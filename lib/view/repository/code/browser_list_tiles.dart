@@ -19,17 +19,17 @@ class BrowserListTile extends StatelessWidget {
     Icon? getIcon() {
       switch (tree.type) {
         case Type.TREE:
-          return Icon(
+          return const Icon(
             Icons.folder,
             // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           );
         case Type.BLOB:
-          return Icon(
+          return const Icon(
             MdiIcons.file,
             // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           );
         case null:
-          return Icon(
+          return const Icon(
             MdiIcons.emoticonConfused,
             // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
           );

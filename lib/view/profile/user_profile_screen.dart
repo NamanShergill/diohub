@@ -90,7 +90,7 @@ class UserProfileScreenState<T extends UserInfoModel>
                       Provider.of<CurrentUserProvider>(context).data.login)
                     Row(
                       children: <Widget>[
-                        Icon(MdiIcons.accountGroup),
+                        const Icon(MdiIcons.accountGroup),
                         const SizedBox(
                           width: 8,
                         ),

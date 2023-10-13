@@ -5,9 +5,8 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 class ScrollScaffold extends StatelessWidget {
   const ScrollScaffold({
-    this.header,
+    required this.body, this.header,
     this.subHeader,
-    required this.body,
     super.key,
     this.appBar,
     this.wrapperBuilder,
@@ -19,7 +18,7 @@ class ScrollScaffold extends StatelessWidget {
   final Widget Function(BuildContext context, Widget child)? wrapperBuilder;
   @override
   Widget build(final BuildContext context) {
-    final child = Scaffold(
+    final Scaffold child = Scaffold(
       appBar: appBar,
       body: NestedScroll(
         header: (final (BuildContext, {bool isInnerBoxScrolled}) data) =>
@@ -38,13 +37,13 @@ class ScrollScaffold extends StatelessWidget {
               ),
               // tabBarTheme: context.themeData.tabBarTheme.copyWith(col)),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 100),
+                duration: const Duration(milliseconds: 100),
                 color: data.isInnerBoxScrolled
                     ? context.colorScheme.surface
                     : context.colorScheme.background,
                 child: subHeader,
               ),
-            )),
+            ),),
         ],
         body: body,
       ),

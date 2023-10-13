@@ -32,7 +32,7 @@ typedef WrapperReplacementBuilder = Widget Function(
 class SearchScrollWrapper extends StatefulWidget {
   SearchScrollWrapper(
     this.searchData, {
-    this.searchBarMessage,
+    required this.searchHeroTag, this.searchBarMessage,
     this.quickFilters,
     this.replacementBuilder,
     this.quickOptions,
@@ -40,7 +40,6 @@ class SearchScrollWrapper extends StatefulWidget {
     this.onChanged,
     this.searchBarColor,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
-    required this.searchHeroTag,
     this.filterFn,
     this.showRepoNameOnIssues = true,
     super.key,
@@ -110,7 +109,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             isPinned: function != null,
             trailing: function != null
                 ? RoundButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.keyboard_arrow_up_rounded,
                       // size: 15,
                       // color: context.palette.accent,

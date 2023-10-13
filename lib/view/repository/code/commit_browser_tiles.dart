@@ -281,7 +281,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                     ),
                     InkWell(
                       onTap: copySha,
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

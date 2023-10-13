@@ -210,7 +210,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                               });
                             },
                             label: 'Leave a comment',
-                            boxDecoration: BoxDecoration(
+                            boxDecoration: const BoxDecoration(
                                 // color: Provider.of<PaletteSettings>(context)
                                 //     .currentSetting
                                 //     .secondary,

@@ -68,12 +68,12 @@ extension IconSize on TextStyle {
 }
 
 extension ColorFader on Color {
-  Color fadeBrightness(double factor) {
+  Color fadeBrightness(final double factor) {
     assert(factor >= -1.0 && factor <= 1.0,
-        'Factor value must be between -1.0 and 1.0');
+        'Factor value must be between -1.0 and 1.0',);
 
-    final hslColor = HSLColor.fromColor(this);
-    final newHslColor = hslColor.withLightness(
+    final HSLColor hslColor = HSLColor.fromColor(this);
+    final HSLColor newHslColor = hslColor.withLightness(
       (hslColor.lightness + factor).clamp(0.0, 1.0),
     );
     return newHslColor.toColor();

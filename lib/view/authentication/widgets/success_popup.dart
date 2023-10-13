@@ -33,7 +33,7 @@ class SuccessPopup extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'Tap here to close',
                     style: TextStyle(
                         // color: Provider.of<PaletteSettings>(context)

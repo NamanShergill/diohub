@@ -178,7 +178,7 @@ class RepositoryCardState extends State<RepositoryCard> {
                           width: 4,
                         ),
                         Text(
-                          '${getDate(widget.repo!.updatedAt.toString(), shorten: true)}',
+                          getDate(widget.repo!.updatedAt.toString()),
                           style: context.textTheme.bodySmall?.asHint(),
                           // style: AppThemeTextStyles.eventCardChildFooter(
                           //   context,

@@ -95,7 +95,7 @@ class BranchButton extends StatelessWidget {
           }
         },
         child: Row(
-          children: [
+          children: <Widget>[
             Text(
               value.currentSHA,
               overflow: TextOverflow.ellipsis,
@@ -120,7 +120,7 @@ class BranchButton extends StatelessWidget {
               //     .currentSetting
               //     .secondary,
               highlightColor: Colors.grey.shade800,
-              child: Container(
+              child: SizedBox(
                 // color: Provider.of<PaletteSettings>(context)
                 //     .currentSetting
                 //     .secondary,
@@ -211,8 +211,7 @@ class BranchButton extends StatelessWidget {
   Padding _buildListBranchItem(
     final ({int index, RepoBranchListItemModel item, bool refresh}) data,
     final String currentBranch,
-  ) {
-    return Padding(
+  ) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -251,7 +250,6 @@ class BranchButton extends StatelessWidget {
         ],
       ),
     );
-  }
 }
 
 // class BranchMultiItemAdapter extends PaginatedInfoCardAdapter<BranchModel> {

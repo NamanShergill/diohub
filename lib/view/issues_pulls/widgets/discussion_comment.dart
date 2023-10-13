@@ -363,7 +363,7 @@ class BaseCommentState extends State<BaseComment> {
 }
 
 class SelectAndCopy extends StatefulWidget {
-  const SelectAndCopy(this.data, {this.onQuote});
+  const SelectAndCopy(this.data, {super.key, this.onQuote});
   final String data;
   final VoidCallback? onQuote;
 

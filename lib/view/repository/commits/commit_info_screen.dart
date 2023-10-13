@@ -70,7 +70,7 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                             // AppTab(
                             //   title: 'Comments',
                             // ),
-                          ].map((String e) => Tab(text: e)).toList(),
+                          ].map((final String e) => Tab(text: e)).toList(),
                         ),
                         const Expanded(
                           child: TabBarView(

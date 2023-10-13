@@ -8,7 +8,7 @@ _MarkdownExtension _imgExtension(
 }) =>
     _MarkdownExtension(
       tag: 'img',
-      builder: (final extensionContext) => _ImgWidget(
+      builder: (final ExtensionContext extensionContext) => _ImgWidget(
         extensionContext,
         imgSrcModifiers: imgSrcModifiers,
       ),
@@ -57,7 +57,7 @@ class _ImgRenderState extends State<_ImgRender> {
   late String src = widget.attributes['src']!;
   @override
   Widget build(final BuildContext context) {
-    for (final modifier in widget.imgSrcModifiers) {
+    for (final MarkdownImgSrcModifiers modifier in widget.imgSrcModifiers) {
       src = modifier.call(
         MarkdownImgSrcData(src),
       );
@@ -80,7 +80,7 @@ class _ImgRenderState extends State<_ImgRender> {
         // Some SVGs don't have svg in their URL so will miss the
         // if check above. They will fail in the image loader
         // so will build here.
-        errorBuilder: (final context) => SvgPicture.network(
+        errorBuilder: (final BuildContext context) => SvgPicture.network(
           src,
         ),
       ),

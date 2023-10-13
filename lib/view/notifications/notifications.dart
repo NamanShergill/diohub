@@ -84,7 +84,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
   Widget build(final BuildContext context) {
     super.build(context);
     return NestedScroll(
-      header: (data) => <Widget>[
+      header: (final (BuildContext, {bool isInnerBoxScrolled}) data) => <Widget>[
         SliverAppBar(
           expandedHeight: 150,
           collapsedHeight: 100,
@@ -156,7 +156,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                               'Mark all as read',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            Icon(
+                            const Icon(
                               MdiIcons.checkCircle,
                             ),
                           ],
@@ -184,7 +184,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                               'Filter Inbox',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            Icon(
+                            const Icon(
                               MdiIcons.filter,
                             ),
                           ],

@@ -91,7 +91,7 @@ class ColorSettingCardState extends State<ColorSettingCard> {
           //   ),
           // );
         },
-        child: Column(
+        child: const Column(
             // children: <Widget>[
             //   _ColorTab(
             //     type: 'Accent',
@@ -197,7 +197,7 @@ class __ColorTabState extends State<_ColorTab> {
     //     Provider.of<PaletteSettings>(context).currentSetting;
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.edit_rounded,
         // color: theme.faded3,
         size: 15,

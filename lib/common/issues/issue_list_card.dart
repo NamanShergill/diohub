@@ -75,7 +75,7 @@ class IssueListCard extends StatelessWidget {
                                 .sublist(0, 2)
                                 .join('/'),
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 // color: Provider.of<PaletteSettings>(context)
                                 //     .currentSetting
                                 //     .faded3,
@@ -85,7 +85,7 @@ class IssueListCard extends StatelessWidget {
                       ),
                     Text(
                       '#${item.number}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           // color: Provider.of<PaletteSettings>(context)
                           //     .currentSetting
                           //     .faded3,
@@ -97,7 +97,7 @@ class IssueListCard extends StatelessWidget {
                           const SizedBox(
                             width: 16,
                           ),
-                          Icon(
+                          const Icon(
                             Octicons.comment,
                             // color: Provider.of<PaletteSettings>(context)
                             //     .currentSetting
@@ -109,7 +109,7 @@ class IssueListCard extends StatelessWidget {
                           ),
                           Text(
                             '${item.comments} comments',
-                            style: TextStyle(
+                            style: const TextStyle(
                               // color: Provider.of<PaletteSettings>(context)
                               //     .currentSetting
                               //     .faded3,
@@ -141,7 +141,7 @@ class IssueListCard extends StatelessWidget {
                         item.state == IssueState.CLOSED
                             ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           // color: Provider.of<PaletteSettings>(context)
                           //     .currentSetting
                           //     .faded3,

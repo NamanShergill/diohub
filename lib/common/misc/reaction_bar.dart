@@ -126,7 +126,7 @@ class _ReactionBarState extends State<ReactionBar> {
                                     height: 36,
                                     child: Center(
                                       child: _shimmer(
-                                        Icon(
+                                        const Icon(
                                           Icons.emoji_emotions_rounded,
                                           // color: Provider.of<PaletteSettings>(
                                           //   context,

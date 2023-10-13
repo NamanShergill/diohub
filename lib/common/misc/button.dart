@@ -49,7 +49,7 @@ class ButtonState extends State<Button> {
         onPressed: widget.enabled && !widget.loading ? widget.onTap : null,
         // color: widget.color,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[

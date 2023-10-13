@@ -234,7 +234,7 @@ class PRReviewScreen extends StatelessWidget {
                                   Row(
                                 children: <Widget>[
                                   replyButton(repliesEnabled: repliesEnabled),
-                                  Expanded(
+                                  const Expanded(
                                     child: StringButton(
                                       onTap: null,
                                       loading: true,
@@ -244,7 +244,7 @@ class PRReviewScreen extends StatelessWidget {
                                       //     .primary,
                                       title: 'Replies',
                                       trailingIcon:
-                                          const Icon(Icons.arrow_right_rounded),
+                                          Icon(Icons.arrow_right_rounded),
                                     ),
                                   ),
                                 ],

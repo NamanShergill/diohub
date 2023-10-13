@@ -56,7 +56,7 @@ class AuthProgressNotification extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(MdiIcons.information),
+                                  const Icon(MdiIcons.information),
                                   const SizedBox(
                                     width: 5,
                                   ),

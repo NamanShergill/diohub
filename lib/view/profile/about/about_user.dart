@@ -24,11 +24,11 @@ class AboutUser extends StatelessWidget {
             ),
             onTap: () async => URLActions(
                     uri: Uri.parse(
-                        'https://twitter.com/${userInfoModel!.twitterUsername}'))
+                        'https://twitter.com/${userInfoModel!.twitterUsername}',),)
                 .launchURL(),
             menuBuilder: (final BuildContext context) => URLActions(
                     uri: Uri.parse(
-                        'https://twitter.com/${userInfoModel!.twitterUsername}'))
+                        'https://twitter.com/${userInfoModel!.twitterUsername}',),)
                 .menuItems,
             child: Text('@${userInfoModel!.twitterUsername}'),
           ),
@@ -55,7 +55,7 @@ class AboutUser extends StatelessWidget {
             ),
             title: 'Blog',
             onTap: URLActions(uri: Uri.parse(userInfoModel!.blog!)).launchURL,
-            menuBuilder: (BuildContext context) =>
+            menuBuilder: (final BuildContext context) =>
                 URLActions(uri: Uri.parse(userInfoModel!.blog!)).menuItems,
             child: Text(userInfoModel!.blog!),
           ),

@@ -31,7 +31,7 @@ class AppScrollViewState extends State<AppScrollView> {
   @override
   Widget build(final BuildContext context) => NestedScroll(
         // controller: widget.nestedScrollViewController,
-        header: (data) => <Widget>[
+        header: (final (BuildContext, {bool isInnerBoxScrolled}) data) => <Widget>[
           widget.scrollViewAppBar,
         ],
         body: AnimatedSwitcher(

@@ -30,7 +30,7 @@ class CardFooter extends StatelessWidget {
             Flexible(
               child: Text(
                 text ?? 'No dexcription',
-                style: TextStyle(
+                style: const TextStyle(
                     // color: unread!
                     //     ? context.palette.baseElements
                     //     : context.palette.faded3,

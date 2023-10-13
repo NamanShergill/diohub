@@ -49,13 +49,13 @@ class LandingScreenState extends State<LandingScreen>
         child: Scaffold(
           body: ScaffoldBody(
             child: PageTransitionSwitcher(
-              transitionBuilder: (Widget child,
-                      Animation<double> primaryAnimation,
-                      Animation<double> secondaryAnimation) =>
+              transitionBuilder: (final Widget child,
+                      final Animation<double> primaryAnimation,
+                      final Animation<double> secondaryAnimation,) =>
                   FadeThroughTransition(
                       animation: primaryAnimation,
                       secondaryAnimation: secondaryAnimation,
-                      child: child),
+                      child: child,),
               child: switch (currentIndex) {
                 0 => HomeScreen(
                     deepLinkData: widget.deepLinkData,
@@ -122,7 +122,7 @@ class LandingScreenState extends State<LandingScreen>
             //   vertical: 16.5,
             // ),
             // duration: const Duration(milliseconds: 250),
-            destinations: <Widget>[
+            destinations: const <Widget>[
               NavigationDestination(
                 icon: Icon(MdiIcons.home),
                 label: 'Home',

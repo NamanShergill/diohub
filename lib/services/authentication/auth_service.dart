@@ -18,7 +18,7 @@ class AuthRepository {
   final RESTHandler _restHandler = RESTHandler.external(
       baseURL: 'https://github.com/login/',
       cacheOptions: APICache.noCache(),
-      apiLogSettings: APILoggingSettings.comprehensive());
+      apiLogSettings: APILoggingSettings.comprehensive(),);
 
   Future<bool> get isAuthenticated async {
     final String? token = await getAccessTokenFromDevice();

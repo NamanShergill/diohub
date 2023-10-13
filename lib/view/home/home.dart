@@ -61,9 +61,9 @@ class HomeScreenState extends State<HomeScreen>
               ),
             _ => null,
           },
-          actions: [
+          actions: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: switch (context.providerStatus<CurrentUserProvider>()) {
                 Status.loaded => ClipOval(
                     child: InkWell(
@@ -93,14 +93,14 @@ class HomeScreenState extends State<HomeScreen>
                           size: 40,
                         ),
                         loadingBuilder: (final BuildContext context) =>
-                            ShimmerWidget(),
+                            const ShimmerWidget(),
                       ),
                     ),
                   ),
                 _ => Container(),
               },
-            )
-          ]),
+            ),
+          ],),
       subHeader: TabBar(
         isScrollable: true,
         controller: _tabController,
@@ -112,7 +112,7 @@ class HomeScreenState extends State<HomeScreen>
           'Public Activity',
         ]
             .map(
-              (e) => Tab(
+              (final String e) => Tab(
                 text: e,
               ),
             )

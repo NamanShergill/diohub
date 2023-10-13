@@ -124,7 +124,7 @@ class PullScreenState extends State<PullScreen>
                           ),
                           Text(
                             '#${value.data.number}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               // color: Provider.of<PaletteSettings>(context)
                               //     .currentSetting
                               //     .faded3,
@@ -153,7 +153,7 @@ class PullScreenState extends State<PullScreen>
                                     : value.data.merged
                                         ? 'Merged'
                                         : 'Closed',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   // color:
                                   //     value.data.state == PullRequestState.open
                                   // ? Provider.of<PaletteSettings>(
@@ -173,7 +173,7 @@ class PullScreenState extends State<PullScreen>
                               ),
                               Text(
                                 '#${value.data.number}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   // color: Provider.of<PaletteSettings>(context)
                                   //     .currentSetting
                                   //     .faded3,
@@ -183,7 +183,7 @@ class PullScreenState extends State<PullScreen>
                               const SizedBox(
                                 width: 24,
                               ),
-                              Icon(
+                              const Icon(
                                 Octicons.comment,
                                 // color: Provider.of<PaletteSettings>(context)
                                 //     .currentSetting
@@ -195,7 +195,7 @@ class PullScreenState extends State<PullScreen>
                               ),
                               Text(
                                 '${value.data.comments} comments',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   // color: Provider.of<PaletteSettings>(context)
                                   //     .currentSetting
                                   //     .faded3,

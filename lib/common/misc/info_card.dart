@@ -161,7 +161,7 @@ class MenuInfoCard extends StatelessWidget {
     if (menuItems.isNotEmpty) {
       return MenuButton(
         itemBuilder: menuBuilder,
-        buttonBuilder: (context, showMenu) => Container(
+        buttonBuilder: (final BuildContext context, final showMenu) => SizedBox(
           height: 25,
           width: 25,
           child: IconButton(

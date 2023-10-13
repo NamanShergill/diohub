@@ -37,7 +37,7 @@ class ErrorPopup extends StatelessWidget {
                   BlocProvider.of<AuthenticationBloc>(context)
                       .add(ResetStates());
                 },
-                child: Text(
+                child: const Text(
                   'Retry',
                   style: TextStyle(
                       // color: Provider.of<PaletteSettings>(context)

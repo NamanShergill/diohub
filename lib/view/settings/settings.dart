@@ -170,7 +170,7 @@ class _About extends StatelessWidget {
               title: 'Bugs or Suggestions?',
               menuBuilder: (final BuildContext context) => URLActions(
                       uri: Uri.parse(
-                          'https://github.com/NamanShergill/diohub/issues'))
+                          'https://github.com/NamanShergill/diohub/issues',),)
                   .menuItems,
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

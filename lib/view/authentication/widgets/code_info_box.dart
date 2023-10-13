@@ -207,8 +207,8 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                 //     .secondary,
                 // elevation: 2,
                 child: Builder(
-                  builder: (BuildContext context) {
-                    final urlActions = URLActions(
+                  builder: (final BuildContext context) {
+                    final URLActions urlActions = URLActions(
                       uri: Uri.parse(widget.deviceCodeModel.verificationUri!),
                       shareDescription:
                           'Enter the code ${widget.deviceCodeModel.userCode} on:',

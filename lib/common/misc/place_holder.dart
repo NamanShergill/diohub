@@ -8,7 +8,7 @@ class TextPlaceHolder extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
               // color: Provider.of<PaletteSettings>(context).currentSetting.faded3,
               ),
         ),

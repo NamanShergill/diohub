@@ -54,7 +54,7 @@ class DynamicTabsParent extends StatelessWidget {
                         onLongPress: () {
                           controller.closeTab(tab.identifier);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.close_rounded,
                           size: 12,
                           // color: context.colorScheme.accent,

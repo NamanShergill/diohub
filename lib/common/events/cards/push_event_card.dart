@@ -28,7 +28,7 @@ class PushEventCard extends StatelessWidget {
         childPadding: const EdgeInsets.all(8),
         actor: event.actor!.login,
         headerText: <TextSpan>[
-          TextSpan(
+          const TextSpan(
             text: ' pushed to ',
             // style: AppThemeTextStyles.eventCardHeaderMed(context),
           ),

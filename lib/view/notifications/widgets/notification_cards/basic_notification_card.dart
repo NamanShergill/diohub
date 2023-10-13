@@ -134,7 +134,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
                                     const EdgeInsets.symmetric(vertical: 8),
                                 child: Text(
                                   widget.notification.repository!.fullName!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       // color: Provider.of<PaletteSettings>(context)
                                       //     .currentSetting
                                       //     .faded3,
@@ -144,7 +144,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
                             ),
                             Text(
                               getDate(widget.notification.updatedAt.toString()),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   // color: Provider.of<PaletteSettings>(context)
                                   //     .currentSetting
                                   //     .faded3,
@@ -187,9 +187,9 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
 
   Widget footerLoading() => Row(
         children: <Widget>[
-          ShimmerWidget(
+          const ShimmerWidget(
             child: ClipOval(
-              child: Container(
+              child: SizedBox(
                 height: 20,
                 width: 20,
               ),
@@ -202,7 +202,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
             child: ShimmerWidget(
               borderRadius: medBorderRadius,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     // color: Provider.of<PaletteSettings>(context)
                     //     .currentSetting
                     //     .faded1,

@@ -462,7 +462,7 @@ Tab buildDynamicTabMenuButton({
                   },
                   title: 'Close Tab',
                   icon: Icons.close_rounded,
-                )
+                ),
               ],
             ),
         ],

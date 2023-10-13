@@ -26,7 +26,7 @@ class LoginPopupState extends State<LoginPopup> {
       child: StringButton(
         title: 'Login with GitHub',
         loading: loading,
-        leadingIcon: Icon(
+        leadingIcon: const Icon(
           Octicons.mark_github,
           // color:
           // Provider.of<PaletteSettings>(context).currentSetting.baseElements,

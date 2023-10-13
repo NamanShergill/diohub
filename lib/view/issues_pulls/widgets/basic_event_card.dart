@@ -148,7 +148,7 @@ class BasicEventAssignedCard extends StatelessWidget {
                 userLogin: assignee?.login,
               )
             else
-              Text(
+              const Text(
                 'themselves',
                 // style: AppThemeTextStyles.basicIssueEventCardText(context),
               ),
@@ -163,7 +163,7 @@ class BasicEventAssignedCard extends StatelessWidget {
         ),
         date: createdAt,
         user: actor,
-        leading: Icon(MdiIcons.account),
+        leading: const Icon(MdiIcons.account),
       );
 }
 

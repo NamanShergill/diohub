@@ -89,11 +89,11 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
           const SizedBox(
             height: 8,
           ),
-          ExpansionTile(
-            title: const Text('Note'),
+          const ExpansionTile(
+            title: Text('Note'),
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
                   style: TextStyle(
@@ -103,7 +103,7 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
                       ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 8,
               ),
             ],

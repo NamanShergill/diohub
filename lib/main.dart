@@ -224,7 +224,7 @@ ThemeData getTheme(
     bottomSheetTheme: BottomSheetThemeData(
         surfaceTintColor: Colors.transparent,
         modalBackgroundColor: cs.background,
-        backgroundColor: cs.background),
+        backgroundColor: cs.background,),
     inputDecorationTheme: InputDecorationTheme(
       // contentPadding: const EdgeInsets.all(16),
       // hintStyle: TextStyle(fontSize: 12),

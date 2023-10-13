@@ -59,7 +59,7 @@ class ScaffoldBodyState extends State<ScaffoldBody> {
                           ),
                           SizeExpandedSection(
                             expand: snapshot.data == NetworkStatus.restored,
-                            child: Container(
+                            child: SizedBox(
                               width: double.infinity,
                               // color: Provider.of<PaletteSettings>(context)
                               //     .currentSetting

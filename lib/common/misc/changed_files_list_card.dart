@@ -43,9 +43,9 @@ class ChangedFilesListCard extends StatelessWidget {
             ),
             TextSpan(
               text: '+${file.additions} ',
-              style: TextStyle(),
+              style: const TextStyle(),
             ),
-            TextSpan(
+            const TextSpan(
               text: '| ',
               style: TextStyle(
                   // color:
@@ -77,7 +77,7 @@ class ChangedFilesListCard extends StatelessWidget {
           child: getSubtitle(file),
         ),
         children: <Widget>[
-          Divider(
+          const Divider(
             // color: Provider.of<PaletteSettings>(context)
             //     .currentSetting
             //     .baseElements,
@@ -95,8 +95,8 @@ class ChangedFilesListCard extends StatelessWidget {
                     );
                   }
                 : null,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
+            child: const Padding(
+              padding: EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -112,7 +112,7 @@ class ChangedFilesListCard extends StatelessWidget {
                         //         .faded3,
                         ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 8,
                   ),
                   Icon(

@@ -215,8 +215,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   }
 
   @override
-  Widget build(final BuildContext context) {
-    return SafeArea(
+  Widget build(final BuildContext context) => SafeArea(
       child: DynamicTabsParent(
         controller: dynamicTabsController,
         tabBuilder: (final BuildContext context, final DynamicTab tab) =>
@@ -296,11 +295,11 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
             appBar: buildAppBar(context),
             wrapperBuilder: (final BuildContext context, final Widget child) =>
                 RefreshIndicator(
-              child: child,
               onRefresh: () => Future<void>.sync(
                 () async => widget.apiWrapperKey.currentState?.refreshData(),
               ),
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              child: child,
             ),
             header: _ScreenHeader(
               widget: widget,
@@ -312,7 +311,6 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
         ),
       ),
     );
-  }
 
   DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
         hasEditableChildren: true,
@@ -328,7 +326,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
                   TextSpan(text: ' #${widget.number} '),
                   TextSpan(
                     text: widget.repoInfo.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       // color: context.palette.faded3,
                     ),
@@ -347,7 +345,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               tabBar,
             ],
           ),
@@ -438,7 +436,7 @@ class _AboutTab extends StatelessWidget {
                   EditWidget<String>(
                     editingController: descEditingController,
                     builder: (final BuildContext context,
-                            final EditingData<String> data) =>
+                            final EditingData<String> data,) =>
                         Row(
                       children: <Widget>[
                         if (widget.bodyHTML.isNotEmpty)
@@ -463,8 +461,8 @@ class _AboutTab extends StatelessWidget {
                         ScaleSwitch(
                           child: widget.bodyHTML.isEmpty &&
                                   data.currentState == EditingState.editMode
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(
+                              ? const Padding(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 16,
                                   ),
                                   child: Text(
@@ -628,7 +626,7 @@ class _AboutTab extends StatelessWidget {
                                       e,
                                 ) =>
                                     NodeWithPaginationInfo<ActorMixin>.fromEdge(
-                                        e!),
+                                        e!,),
                               )
                               .toList(),
                     );
@@ -696,7 +694,7 @@ class _ScreenHeader extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           Octicons.pin,
                           size: 15,
                           // color: context.palette.faded3,
@@ -776,8 +774,8 @@ class _ScreenHeader extends StatelessWidget {
               children: <Widget>[
                 ScaleSwitch(
                   child: data.currentState == EditingState.editMode
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             'No labels',
                             style: TextStyle(
@@ -865,7 +863,6 @@ class _AssigneeInfoCard extends StatelessWidget {
     required this.availableList,
     required this.titleBuilder,
     required this.fetchActorsList,
-    super.key,
     this.onTap,
     this.trailing,
   });
@@ -875,8 +872,7 @@ class _AssigneeInfoCard extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget? trailing;
   @override
-  Widget build(final BuildContext context) {
-    return InfoCard(
+  Widget build(final BuildContext context) => InfoCard(
       onTap: availableList.limitedAvailableList.isEmpty
           ? null
           : () async {
@@ -897,12 +893,11 @@ class _AssigneeInfoCard extends StatelessWidget {
       title: titleBuilder.call(availableList),
       child: _buildChild(),
     );
-  }
 
   Widget _buildChild() => switch (availableList.totalCount) {
         0 => const Text('None'),
         1 => ProfileTile.login(
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
             avatarUrl:
                 availableList.limitedAvailableList.first.avatarUrl.toString(),
             userLogin: availableList.limitedAvailableList.first.login,
@@ -912,7 +907,7 @@ class _AssigneeInfoCard extends StatelessWidget {
             totalCount: availableList.totalCount,
             // backgroundColor: context.palette.secondary,
             // widgetBorderColor: context.palette.secondary,
-            extraCountTextStyle: TextStyle(
+            extraCountTextStyle: const TextStyle(
                 // color: context.palette.faded3,
                 ),
             widgetRadius: 29,
@@ -942,7 +937,7 @@ StatelessWidget _buildChild(final UnfinishedList<ActorMixin> availableList) =>
           totalCount: availableList.totalCount,
           // backgroundColor: context.palette.secondary,
           // widgetBorderColor: context.palette.secondary,
-          extraCountTextStyle: TextStyle(
+          extraCountTextStyle: const TextStyle(
               // color: context.palette.faded3,
               ),
           widgetRadius: 29,
@@ -965,8 +960,7 @@ ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
             NodeWithPaginationInfo<ActorMixin> item,
             bool refresh,
           }) data,
-        ) {
-          return Padding(
+        ) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Card(
               color: context.colorScheme.surface,
@@ -981,8 +975,7 @@ ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
               ),
             ),
           );
-        };
-Icon? _getIcon(int listLength) => switch (listLength) {
+Icon? _getIcon(final int listLength) => switch (listLength) {
       0 => null,
       1 => Icon(Icons.adaptive.arrow_forward_rounded),
       _ => const Icon(
@@ -1003,7 +996,7 @@ List<Widget> _buildListItemChildren(
         padding: const EdgeInsets.only(left: 16),
         child: Text(
           '${data.index + 1}',
-          style: TextStyle(
+          style: const TextStyle(
             // color: context.palette.faded3,
             fontSize: 12,
           ),

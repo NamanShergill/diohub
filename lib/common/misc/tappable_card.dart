@@ -131,7 +131,7 @@ class BasicCard extends StatelessWidget {
         CardLinkType.atTop =>
           medBorderRadius.copyWith(topLeft: Radius.zero, topRight: Radius.zero),
         CardLinkType.atBottom => medBorderRadius.copyWith(
-            bottomLeft: Radius.zero, bottomRight: Radius.zero),
+            bottomLeft: Radius.zero, bottomRight: Radius.zero,),
         CardLinkType.both => BorderRadius.zero,
         CardLinkType.none => medBorderRadius,
       };

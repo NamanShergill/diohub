@@ -159,7 +159,7 @@ class AppSearchBarState extends State<AppSearchBar> {
                     quickActionsVisible = true;
                   });
                 },
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.arrow_drop_down,
                   // color: Provider.of<PaletteSettings>(context)
                   //     .currentSetting
@@ -576,7 +576,7 @@ class _ActiveSearch extends StatelessWidget {
                   Flexible(
                     child: Row(
                       children: <Widget>[
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Icon(
                             Icons.search_rounded,

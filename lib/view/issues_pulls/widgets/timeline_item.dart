@@ -112,13 +112,13 @@ class TimelineItem extends StatelessWidget {
   BasicEventTextCard _buildUnpinnedCard(final UnpinnedMixin item) =>
       BasicEventTextCard(
         user: item.actor,
-        leading: Icon(MdiIcons.pinOff),
+        leading: const Icon(MdiIcons.pinOff),
         date: item.createdAt,
         textContent: 'Unpinned this.',
       );
 
   BasicEventTextCard _buildUnmarkedAsDuplicateCard(
-          final UnmarkedAsDuplicateMixin item) =>
+          final UnmarkedAsDuplicateMixin item,) =>
       BasicEventTextCard(
         textContent: 'Marked this as not a duplicate of',
         footer: Builder(
@@ -155,7 +155,7 @@ class TimelineItem extends StatelessWidget {
         textContent: 'Unlocked this.',
         user: item.actor,
         date: item.createdAt,
-        leading: Icon(MdiIcons.lockOff),
+        leading: const Icon(MdiIcons.lockOff),
       );
 
   BasicEventLabeledCard _buildUnlabeledCard(final UnlabeledMixin item) =>
@@ -208,7 +208,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventCard _buildRenamedTitleCard(
-          final RenamedTitleMixin item, final BuildContext context) =>
+          final RenamedTitleMixin item, final BuildContext context,) =>
       BasicEventCard(
         user: item.actor,
         leading: const Icon(Octicons.pencil),
@@ -239,7 +239,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BaseComment _buildPullRequestReviewCard(
-          final PullRequestReviewMixin item, final BuildContext context) =>
+          final PullRequestReviewMixin item, final BuildContext context,) =>
       BaseComment(
         description: getReviewState(item.state),
         onQuote: onQuote,
@@ -278,7 +278,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildPullRequestCommitCard(
-          final PullRequestCommitMixin item) =>
+          final PullRequestCommitMixin item,) =>
       BasicEventTextCard(
         user: item.commit.author?.user,
         date: item.commit.authoredDate,
@@ -295,7 +295,7 @@ class TimelineItem extends StatelessWidget {
   BasicEventTextCard _buildPinnedMixin(final PinnedMixin item) =>
       BasicEventTextCard(
         user: item.actor,
-        leading: Icon(MdiIcons.pin),
+        leading: const Icon(MdiIcons.pin),
         date: item.createdAt,
         textContent: 'Pinned this.',
       );
@@ -319,7 +319,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildMarkedAsDuplicateCard(
-          final MarkedAsDuplicateMixin item) =>
+          final MarkedAsDuplicateMixin item,) =>
       BasicEventTextCard(
         textContent: 'Marked this as a duplicate of',
         footer: Builder(
@@ -356,7 +356,7 @@ class TimelineItem extends StatelessWidget {
             'Locked this ${item.lockReason != null ? 'as ${item.lockReason} ' : ''}and limited conversation to collaborators',
         user: item.actor,
         date: item.createdAt,
-        leading: Icon(MdiIcons.lock),
+        leading: const Icon(MdiIcons.lock),
       );
 
   BasicEventLabeledCard _buildLabeledMixinItem(final LabeledMixin item) =>
@@ -410,7 +410,7 @@ class TimelineItem extends StatelessWidget {
       BasicEventTextCard(
         textContent: 'Marked this as draft.',
         user: item.actor,
-        leading: Icon(MdiIcons.pencilCircle),
+        leading: const Icon(MdiIcons.pencilCircle),
         date: item.createdAt,
       );
 
@@ -426,7 +426,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildForcePushedCard(
-          final BaseRefForcePushedMixin item) =>
+          final BaseRefForcePushedMixin item,) =>
       BasicEventTextCard(
         textContent:
             'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',

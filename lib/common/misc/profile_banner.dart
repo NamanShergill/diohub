@@ -103,7 +103,7 @@ class ProfileTile extends StatelessWidget {
                         child: Text(
                           fullName!,
                           style: (textStyle ??
-                                  TextStyle(
+                                  const TextStyle(
                                       // color: Provider.of<PaletteSettings>(
                                       //   context,
                                       // ).currentSetting.baseElements,

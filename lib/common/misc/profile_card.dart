@@ -86,7 +86,7 @@ class ProfileCard extends StatelessWidget {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Icon(
+                                const Icon(
                                   MdiIcons.accountGroup,
                                   size: 12,
                                 ),

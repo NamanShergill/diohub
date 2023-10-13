@@ -123,7 +123,7 @@ class IssuesList extends StatelessWidget {
                                 );
                               },
                               label: Text('${value.data.totalCount} Pinned'),
-                              icon: Icon(MdiIcons.pin),
+                              icon: const Icon(MdiIcons.pin),
                             ),
                           ),
                         ],

@@ -162,9 +162,9 @@ extension RectExtension on BuildContext {
 /// Apply some additional adjustments on [Rect] from [RectExtension._getRect] if
 /// [rect] is bigger than [size].
 Rect _normalizeLargeRect(
-  Rect rect,
-  Size size,
-  EdgeInsets padding,
+  final Rect rect,
+  final Size size,
+  final EdgeInsets padding,
 ) {
   const double minimumAllowedSize = kMinInteractiveDimensionCupertino * 2;
 
